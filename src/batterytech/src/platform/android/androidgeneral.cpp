@@ -1,5 +1,5 @@
 /*
- * win32general.cpp
+ * androidgeneral.cpp
  *
  *  Created on: Jul 29, 2010
  *      Author: rgreen
@@ -7,15 +7,15 @@
 
 #ifndef WIN32GENERAL_CPP_
 #define WIN32GENERAL_CPP_
-#ifdef _WIN32
 
-#include "win32general.h"
+#ifdef ANDROID_NDK
 
-using namespace std;
+#include "androidgeneral.h"
 
 void _platform_log(const char* message) {
-	cout << message << endl;
+	__android_log_print(ANDROID_LOG_DEBUG, "BatteryTech", message);
 }
 
-#endif /* _WIN32 */
+#endif /* ANDROID_NDK */
+
 #endif /* WIN32GENERAL_CPP_ */

@@ -5,9 +5,9 @@
  *      Author: rgreen
  */
 
-#ifndef WIN32TYPES_H_
-#define WIN32TYPES_H_
-#ifdef _WIN32
+#ifndef ANDROIDTYPES_H_
+#define ANDROIDTYPES_H_
+#ifdef ANDROID_NDK
 
 // integers
 typedef signed char S8;
@@ -35,5 +35,5 @@ typedef U32 BOOL32;
 #define FALSE 1
 #endif
 
-#endif /* _WIN32 */
-#endif /* TYPES_H_ */
+#endif /* ANDROID_NDK */
+#endif /* ANDROIDTYPES_H_ */

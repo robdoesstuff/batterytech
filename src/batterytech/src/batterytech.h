@@ -10,6 +10,12 @@
 
 #define DEBUG 0
 
+#ifdef ANDROID_NDK
+	#include "platform/android/importgl.h"
+	#include "platform/android/androidtypes.h"
+	#include "platform/android/androidgeneral.h"
+#endif /* ANDROID_NDK */
+
 #ifdef _WIN32
 	#include <gl/gl.h>
 	#include <gl/glu.h>
@@ -17,9 +23,9 @@
 	#include "platform/win32/win32general.h"
 #endif /* _WIN32 */
 
-#define log(message) logger::log(message)
-
 #include "logger.h"
+
+#define log(message) logger::log(message)
 
 void btInit();
 void btUpdate(float delta);

@@ -1,4 +1,6 @@
 
+#ifdef _WIN32
+
 #include <iostream>
 #include <windows.h>
 #include <gl/gl.h>
@@ -163,3 +165,5 @@ void DisableOpenGL(HWND hWnd, HDC hDC, HGLRC hRC)
 	wglDeleteContext( hRC );
 	ReleaseDC( hWnd, hDC );
 }
+
+#endif /* _WIN32 */

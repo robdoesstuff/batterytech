@@ -37,7 +37,7 @@ void btDraw() {
 	glMatrixMode(GL_PROJECTION);
 	glViewport(0,0,800,480);
 	glLoadIdentity();
-	glOrtho(-1.6f, 1.6f, -.96f, .96f, -1, 1);
+	glOrthof(-1.6f, 1.6f, -.96f, .96f, -1, 1);
 
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
