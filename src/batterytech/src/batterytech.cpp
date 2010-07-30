@@ -22,12 +22,26 @@ int main() {
 
 void btInit() {
 	log("BatteryTech 1.0 Initializing...");
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_COLOR_ARRAY);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	glDisableClientState(GL_NORMAL_ARRAY);
+	glEnable(GL_CULL_FACE);
+	glDisable(GL_DEPTH_TEST);
+	glDisable(GL_DITHER);
+	glDisable(GL_TEXTURE_2D);
+	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+	glShadeModel(GL_SMOOTH);
+	log("Ready");
 }
 
 void btUpdate(F32 delta) {
-	// cout << "update " << delta << endl;
 	theta += delta * 60;
+	//char buf[32];
+	//sprintf(buf, "update %3.5g theta is %3.5g", delta, theta);
+	//log(buf);
 }
+
 
 void btDraw() {
 	// OpenGL animation code goes here
@@ -40,22 +54,22 @@ void btDraw() {
 	glOrthof(-1.6f, 1.6f, -.96f, .96f, -1, 1);
 
 	glMatrixMode(GL_MODELVIEW);
+	glColor4f(1, 1, 1, 1);
 	glPushMatrix();
 	glRotatef( theta, 0.0f, 0.0f, 1.0f );
+	glFrontFace(GL_CW);
 	float colors[] = {
-			1.0f, 0.0f, 0.0f,
-			0.0f, 1.0f, 0.0f,
-			0.0f, 0.0f, 1.0f
+			1.0f, 0.0f, 0.0f, 1.0f,
+			0.0f, 1.0f, 0.0f, 1.0f,
+			0.0f, 0.0f, 1.0f, 1.0f
 	};
 	float verts[] = {
-			0.0f, 1.0f,
-			0.87f, -0.5f,
-			-0.87f, -0.5f
+			0.0f, 1.0f, 0.0f,
+			0.87f, -0.5f, 0.0f,
+			-0.87f, -0.5f, 0.0f,
 	};
-	glEnable(GL_COLOR_ARRAY);
-	glEnable(GL_VERTEX_ARRAY);
-	glColorPointer(3, GL_FLOAT, 0, colors);
-	glVertexPointer(2, GL_FLOAT, 0, verts);
+	glColorPointer(4, GL_FLOAT, 0, &colors);
+	glVertexPointer(3, GL_FLOAT, 0, &verts);
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 	glPopMatrix();
 }

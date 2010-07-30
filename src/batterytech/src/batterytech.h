@@ -23,6 +23,7 @@
 	#include "platform/win32/win32general.h"
 #endif /* _WIN32 */
 
+#include <stdio.h>
 #include "logger.h"
 
 #define log(message) logger::log(message)
