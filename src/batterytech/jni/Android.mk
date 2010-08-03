@@ -20,7 +20,7 @@ LOCAL_CFLAGS := -DANDROID_NDK \
                 -DDISABLE_IMPORTGL
 
 LOCAL_MODULE    := batterytech
-LOCAL_SRC_FILES := ../src/platform/android/importgl.c ../src/platform/android/androidgeneral.cpp ../src/platform/android/boot.cpp ../src/batterytech.cpp ../src/logger.cpp
+LOCAL_SRC_FILES := ../src/stb_image.c ../src/platform/android/importgl.c ../src/platform/android/androidgeneral.cpp ../src/platform/android/boot.cpp ../src/batterytech.cpp ../src/logger.cpp
 
 LOCAL_LDLIBS := -lGLESv1_CM -ldl -llog
 

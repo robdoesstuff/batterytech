@@ -9,30 +9,51 @@
 #include "batterytech.h"
 
 F32 theta = 0.0f;
+GLuint textureId;
 
-/*
-int main() {
-	cout << "!!!Hello World!!!" << endl;
-	if (DEBUG) {
-		cout << "Debugging is enabled" << endl;
-	}
-	return 0;
-}
-*/
+void loadTexture();
 
 void btInit() {
 	log("BatteryTech 1.0 Initializing...");
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_COLOR_ARRAY);
-	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState(GL_NORMAL_ARRAY);
 	glEnable(GL_CULL_FACE);
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_DITHER);
-	glDisable(GL_TEXTURE_2D);
+	glEnable(GL_TEXTURE_2D);
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 	glShadeModel(GL_SMOOTH);
 	log("Ready");
+	loadTexture();
+}
+
+void loadTexture() {
+	log("Loading texture");
+	int x,y,n;
+	unsigned char *data = stbi_load("assets\\text_bg_tex.jpg", &x, &y, &n, 0);
+	if (data) {
+		int bytes = x * y * n * sizeof(unsigned char);
+		char buf[50];
+		sprintf(buf, "Image is %ix%i color components=%i bytes=%i",x,y,n, bytes);
+		log(buf);
+		GLuint textureIds[1];
+		glGenTextures(1, textureIds);
+		textureId = textureIds[0];
+		glBindTexture(GL_TEXTURE_2D, textureId);
+		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, x, y, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+		GLenum error = glGetError();
+		if (error) {
+			log("GL Error");
+		}
+		stbi_image_free(data);
+	}
 }
 
 void btUpdate(F32 delta) {
@@ -68,8 +89,15 @@ void btDraw() {
 			0.87f, -0.5f, 0.0f,
 			-0.87f, -0.5f, 0.0f,
 	};
+	float uvs[] = {
+			0.0f, 1.0f,
+			1.0f, 0.5f,
+			0.0f, 0.0f
+	};
+	glBindTexture(GL_TEXTURE_2D, textureId);
 	glColorPointer(4, GL_FLOAT, 0, &colors);
 	glVertexPointer(3, GL_FLOAT, 0, &verts);
+	glTexCoordPointer(2, GL_FLOAT, 0, &uvs);
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 	glPopMatrix();
 }

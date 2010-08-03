@@ -25,6 +25,7 @@
 
 #include <stdio.h>
 #include "logger.h"
+#include "stb_image.h"
 
 #define log(message) logger::log(message)
 
