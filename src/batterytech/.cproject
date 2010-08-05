@@ -172,6 +172,11 @@
 </tool>
 <tool id="cdt.managedbuild.tool.gnu.c.linker.mingw.exe.release.29248742" name="MinGW C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.mingw.exe.release"/>
 <tool id="cdt.managedbuild.tool.gnu.cpp.linker.mingw.exe.release.1869730071" name="MinGW C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.mingw.exe.release">
+<option id="gnu.cpp.link.option.libs.458416241" superClass="gnu.cpp.link.option.libs" valueType="libs">
+<listOptionValue builtIn="false" value="gdi32"/>
+<listOptionValue builtIn="false" value="opengl32"/>
+<listOptionValue builtIn="false" value="winmm"/>
+</option>
 <inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.1441702812" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 <additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 <additionalInput kind="additionalinput" paths="$(LIBS)"/>
