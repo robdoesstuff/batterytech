@@ -9,7 +9,7 @@ public class BatteryTechView extends GLSurfaceView {
 
 	public BatteryTechView(Context context) {
 		super(context);
-		renderer = new BatteryTechRenderer();
+		renderer = new BatteryTechRenderer(context);
 		setRenderer(renderer);
 		setRenderMode(RENDERMODE_CONTINUOUSLY);
 	}

@@ -1,13 +1,44 @@
 package com.batterypoweredgames.batterytech;
 
-public class Boot {
+import java.io.IOException;
+import java.io.InputStream;
 
-	public static native void init();
-	public static native void update(float delta);
-	public static native void draw();
+import android.content.Context;
+import android.util.Log;
+
+public class Boot {
+	private static final String TAG = "Boot";
+	
+	private Context context;
+	
+	public Boot(Context context) {
+		this.context = context;
+	}
+	
+	public byte[] loadAsset(String name) {
+		Log.d(TAG, "Loading Asset " + name);
+		byte[] data = null;
+		try {
+			InputStream iStream = context.getAssets().open(name);
+			int size = iStream.available();
+			data = new byte[size];
+			iStream.read(data);
+			iStream.close();
+		} catch (IOException e) {
+			Log.e(TAG, e.getMessage() + " assetname=" + name, e);
+		}
+		return data;
+	}
+
+	public void release() {
+		this.context = null;
+	}
+	
+	public native void init();
+	public native void update(float delta);
+	public native void draw();
 	
 	static { 
 		System.loadLibrary("batterytech");
 	}
-
 }

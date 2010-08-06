@@ -11,7 +11,9 @@
 
 #include <iostream>
 
-void _platform_log(const char* message);
+void _platform_log(const char *message);
+unsigned char* _platform_load_asset(const char *filename, int *size);
+void _platform_free_asset(unsigned char *ptr);
 
 #define glOrthof(left,right,bottom,top,near,far) glOrtho(left,right,bottom,top,near,far)
 

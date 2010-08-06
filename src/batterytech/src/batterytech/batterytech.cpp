@@ -32,11 +32,19 @@ void btInit() {
 void loadTexture() {
 	log("Loading texture");
 	int x,y,n;
-	unsigned char *data = stbi_load("assets\\text_bg_tex.jpg", &x, &y, &n, 0);
+	int assetSize = 0;
+	unsigned char *fileData = _platform_load_asset("text_bg_tex.jpg", &assetSize);
+	if (fileData) {
+		char buf[50];
+		sprintf(buf, "Loaded %i bytes of raw image data", assetSize);
+		log(buf);
+	}
+	unsigned char *data = stbi_load_from_memory(fileData, assetSize, &x, &y, &n, 0);
+	//unsigned char *data = stbi_load("assets\\text_bg_tex.jpg", &x, &y, &n, 0);
 	if (data) {
 		int bytes = x * y * n * sizeof(unsigned char);
 		char buf[50];
-		sprintf(buf, "Image is %ix%i color components=%i bytes=%i",x,y,n, bytes);
+		sprintf(buf, "Bitmap is %ix%i color components=%i bytes=%i",x,y,n, bytes);
 		log(buf);
 		GLuint textureIds[1];
 		glGenTextures(1, textureIds);
@@ -54,6 +62,7 @@ void loadTexture() {
 		}
 		stbi_image_free(data);
 	}
+	_platform_free_asset(fileData);
 }
 
 void btUpdate(F32 delta) {

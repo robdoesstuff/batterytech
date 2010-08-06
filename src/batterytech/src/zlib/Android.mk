@@ -34,5 +34,5 @@ LOCAL_SRC_FILES :=\
 	uncompr.c \
 	zutil.c 
 
-#include $(BUILD_SHARED_LIBRARY)
-include $(BUILD_SHARED_LIBRARY)
+#include $(BUILD_STATIC_LIBRARY)
+include $(BUILD_STATIC_LIBRARY)
