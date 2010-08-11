@@ -8,6 +8,7 @@
 #ifndef LOGGER_H_
 #define LOGGER_H_
 
+#define log(message) logger::log(message)
 
 class logger {
 public:

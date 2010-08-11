@@ -6,12 +6,21 @@
 // Description : Hello World in C++, Ansi-style
 //============================================================================
 
+#include <stdio.h>
 #include "batterytech.h"
+#include "logger.h"
+#include "sound/SoundManager.h"
+#include "decoders/stb_image.h"
+#include "platform/platformgeneral.h"
+#include "primitives.h"
+
+static SoundManager *soundManager;
 
 F32 theta = 0.0f;
 GLuint textureId;
 
 void loadTexture();
+void loadSound();
 
 void btInit() {
 	log("BatteryTech 1.0 Initializing...");
@@ -27,6 +36,7 @@ void btInit() {
 	glShadeModel(GL_SMOOTH);
 	log("Ready");
 	loadTexture();
+	loadSound();
 }
 
 void loadTexture() {
@@ -63,6 +73,18 @@ void loadTexture() {
 		stbi_image_free(data);
 	}
 	_platform_free_asset(fileData);
+}
+
+void loadSound() {
+	log("Loading sound");
+	soundManager = new SoundManager;
+	soundManager->init(10);
+	U16 sndId = soundManager->loadSound("level_1_song.ogg");
+	//U16 sndId2 = soundManager->loadSound("battery_powered_splash.ogg");
+	U16 sndId3 = soundManager->loadSound("score_session_end_big.ogg");
+	soundManager->playSound(sndId, -1, 1.0f);
+	//soundManager->playSound(sndId2, -1, 1.0f);
+	soundManager->playSound(sndId3, -1, 1.0f);
 }
 
 void btUpdate(F32 delta) {
@@ -109,4 +131,12 @@ void btDraw() {
 	glTexCoordPointer(2, GL_FLOAT, 0, &uvs);
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 	glPopMatrix();
+}
+
+void btRelease() {
+	if (soundManager) {
+		soundManager->release();
+		delete soundManager;
+	}
+	soundManager = NULL;
 }

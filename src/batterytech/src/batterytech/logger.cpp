@@ -5,8 +5,8 @@
  *      Author: rgreen
  */
 
-#include "batterytech.h"
 #include "logger.h"
+#include "platform/platformgeneral.h"
 
 logger::logger() {
 }

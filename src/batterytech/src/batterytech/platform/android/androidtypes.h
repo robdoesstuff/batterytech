@@ -32,7 +32,7 @@ typedef U32 BOOL32;
 #endif
 
 #ifndef FALSE
-#define FALSE 1
+#define FALSE 0
 #endif
 
 #endif /* ANDROID_NDK */

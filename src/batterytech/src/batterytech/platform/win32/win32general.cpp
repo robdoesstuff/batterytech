@@ -10,8 +10,12 @@
 #ifdef _WIN32
 
 #include "win32general.h"
+#include "SoundServer.h"
+#include "../../sound/SoundManager.h"
 
 using namespace std;
+
+static SoundManager *sndMgr;
 
 void _convert_filename(char *filename);
 
@@ -66,6 +70,28 @@ void _convert_filename(char *filename) {
 		if (filename[i] == '/') {
 			filename[i] = '\\';
 		}
+	}
+}
+
+#define	WND_CLASSNAME	"SoundWindow"
+#define	TWO_PI			(3.1415926f * 2.f)
+#define	SIN_STEP		((TWO_PI * 440.f) / 44100.f)
+static	float			sinPos = 0.f;
+
+void mySoundProc(void *pSoundBuffer,long bufferLen)
+{
+	if (sndMgr) {
+		sndMgr->fillBuffer(pSoundBuffer, bufferLen);
+	}
+	//cout << "Buffering " << bufferLen << " bytes" << endl;
+	// Convert params, assuming we create a 16bits, mono waveform.
+}
+
+void _platform_init_sound(SoundManager *soundManager) {
+	sndMgr = soundManager;
+	CSoundServer *pServer = new CSoundServer;
+	if (pServer->open(mySoundProc)) {
+		cout << "Windows Sound Started" << endl;
 	}
 }
 
