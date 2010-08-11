@@ -6,6 +6,8 @@
  */
 
 #ifdef ANDROID_NDK
+#include "androidtypes.h"
+#include "androidgeneral.h"
 #include "../../batterytech.h"
 #include "importgl.h"
 #include <jni.h>
@@ -16,8 +18,9 @@ extern "C" {
 #endif
 
 // the current env for the call
-JNIEnv* jnienv;
+JNIEnv *jnienv;
 jobject javaBoot;
+extern SoundManager *_andSndMgr; // from androidgeneral
 
 void Java_com_batterypoweredgames_batterytech_Boot_init(JNIEnv* env, jobject thiz) {
 	jnienv = env;
@@ -42,6 +45,15 @@ void Java_com_batterypoweredgames_batterytech_Boot_draw(JNIEnv* env, jobject thi
 	btDraw();
 	jnienv = 0;
 	javaBoot = 0;
+}
+
+void Java_com_batterypoweredgames_batterytech_Boot_fillAudioBuffer(JNIEnv* env, jobject thiz, jshortArray jPCMData, jint length) {
+	if (_andSndMgr) {
+		signed short *buf = new signed short[length / 2];
+		_andSndMgr->fillBuffer(buf, length);
+		env->SetShortArrayRegion(jPCMData, 0, length / 2, buf);
+		delete [] buf;
+	}
 }
 
 #ifdef __cplusplus

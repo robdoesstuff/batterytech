@@ -23,7 +23,11 @@ LOCAL_MODULE    := batterytech
 LOCAL_SRC_FILES :=\
 	batterytech.cpp \
 	logger.cpp \
-	stb_image.c \
+	decoders/stb_image.c \
+	decoders/stb_vorbis.c \
+	sound/PCMSound.cpp \
+	sound/PCMStream.cpp \
+	sound/SoundManager.cpp \
 	platform/android/androidgeneral.cpp \
 	platform/android/boot.cpp \
 	platform/android/importgl.c

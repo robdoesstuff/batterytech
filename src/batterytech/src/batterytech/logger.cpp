@@ -11,7 +11,7 @@
 logger::logger() {
 }
 
-void logger::log(const char* msg) {
+void logger::logMsg(const char* msg) {
 	_platform_log(msg);
 }
 

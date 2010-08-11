@@ -12,6 +12,8 @@
 
 #include "androidgeneral.h"
 
+SoundManager *_andSndMgr;
+
 void _platform_log(const char* message) {
 	__android_log_print(ANDROID_LOG_DEBUG, "BatteryTech", message);
 }
@@ -55,6 +57,10 @@ void _platform_free_asset(unsigned char *ptr) {
 	if (ptr) {
 		free(ptr);
 	}
+}
+
+void _platform_init_sound(SoundManager *soundManager) {
+	_andSndMgr = soundManager;
 }
 
 #endif /* ANDROID_NDK */

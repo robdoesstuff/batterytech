@@ -8,13 +8,14 @@
 #ifndef LOGGER_H_
 #define LOGGER_H_
 
-#define log(message) logger::log(message)
 
 class logger {
 public:
 	logger();
-	static void log(const char* msg);
+	static void logMsg(const char* msg);
 	virtual ~logger();
 };
+
+#define log(message) logger::logMsg(message)
 
 #endif /* LOGGER_H_ */

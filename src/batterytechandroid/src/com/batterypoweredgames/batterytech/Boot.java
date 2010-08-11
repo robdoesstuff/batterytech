@@ -29,7 +29,7 @@ public class Boot {
 		}
 		return data;
 	}
-
+	
 	public void release() {
 		this.context = null;
 	}
@@ -37,6 +37,7 @@ public class Boot {
 	public native void init();
 	public native void update(float delta);
 	public native void draw();
+	public native void fillAudioBuffer(short[] pcmData, int count);
 	
 	static { 
 		System.loadLibrary("batterytech");
