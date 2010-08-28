@@ -53,34 +53,24 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	DWORD oldTime = time;
 
 	// program main loop
-	while ( !quit )
-	{
-
+	while ( !quit ) {
 		// check for messages
-		if ( PeekMessage( &msg, NULL, 0, 0, PM_REMOVE )  )
-		{
-
+		if ( PeekMessage( &msg, NULL, 0, 0, PM_REMOVE )  ) {
 			// handle or dispatch messages
-			if ( msg.message == WM_QUIT )
-			{
+			if ( msg.message == WM_QUIT ) {
 				quit = TRUE;
-			}
-			else
-			{
+			} else {
 				TranslateMessage( &msg );
 				DispatchMessage( &msg );
 			}
-
 		}
-		else
-		{
+		if (!quit) {
 			oldTime = time;
 			time = timeGetTime();
 			btUpdate((time - oldTime) / 1000.0f);
 			btDraw();
 			SwapBuffers( hDC );
 		}
-
 	}
 
 	// shutdown OpenGL

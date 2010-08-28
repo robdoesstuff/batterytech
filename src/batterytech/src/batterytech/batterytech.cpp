@@ -13,14 +13,17 @@
 #include "decoders/stb_image.h"
 #include "platform/platformgeneral.h"
 #include "primitives.h"
+#include "render/TextRasterRenderer.h"
 
 static SoundManager *soundManager;
+static TextRasterRenderer *textRenderer;
 
 F32 theta = 0.0f;
 GLuint textureId;
 
 void loadTexture();
 void loadSound();
+void initTextRenderer();
 
 void btInit() {
 	log("BatteryTech 1.0 Initializing...");
@@ -37,6 +40,7 @@ void btInit() {
 	log("Ready");
 	loadTexture();
 	loadSound();
+	initTextRenderer();
 }
 
 void loadTexture() {
@@ -81,10 +85,15 @@ void loadSound() {
 	soundManager->init(10);
 	U16 sndId = soundManager->loadSound("level_1_song.ogg");
 	//U16 sndId2 = soundManager->loadSound("battery_powered_splash.ogg");
-	U16 sndId3 = soundManager->loadSound("score_session_end_big.ogg");
-	soundManager->playSound(sndId, -1, 1.0f);
+	//U16 sndId3 = soundManager->loadSound("score_session_end_big.ogg");
+	//soundManager->playSound(sndId, -1, 1.0f);
 	//soundManager->playSound(sndId2, -1, 1.0f);
-	soundManager->playSound(sndId3, -1, 1.0f);
+	//soundManager->playSound(sndId3, -1, 1.0f);
+}
+
+void initTextRenderer() {
+	textRenderer = new TextRasterRenderer("lcdmn.ttf", 12.0f);
+	textRenderer->init();
 }
 
 void btUpdate(F32 delta) {
@@ -131,6 +140,7 @@ void btDraw() {
 	glTexCoordPointer(2, GL_FLOAT, 0, &uvs);
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 	glPopMatrix();
+	textRenderer->render();
 }
 
 void btRelease() {
