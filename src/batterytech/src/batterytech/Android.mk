@@ -28,6 +28,8 @@ LOCAL_SRC_FILES :=\
 	sound/PCMSound.cpp \
 	sound/PCMStream.cpp \
 	sound/SoundManager.cpp \
+	render/Renderer.cpp \
+	render/TextRasterRenderer.cpp \
 	platform/android/androidgeneral.cpp \
 	platform/android/boot.cpp \
 	platform/android/importgl.c

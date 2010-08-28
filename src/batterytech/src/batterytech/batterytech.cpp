@@ -10,10 +10,11 @@
 #include "batterytech.h"
 #include "logger.h"
 #include "sound/SoundManager.h"
+#include "render/TextRasterRenderer.h"
 #include "decoders/stb_image.h"
 #include "platform/platformgeneral.h"
+#include "platform/platformgl.h"
 #include "primitives.h"
-#include "render/TextRasterRenderer.h"
 
 static SoundManager *soundManager;
 static TextRasterRenderer *textRenderer;

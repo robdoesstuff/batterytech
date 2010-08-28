@@ -9,6 +9,8 @@
 #define TEXTRASTERRENDERER_H_
 
 #include "Renderer.h"
+#include "../decoders/stb_truetype.h"
+#include "../platform/platformgl.h"
 
 class TextRasterRenderer: public Renderer {
 public:
@@ -18,6 +20,10 @@ public:
 	virtual void init();
 	virtual void render();
 	virtual ~TextRasterRenderer();
+private:
+	stbtt_bakedchar cdata[96]; // ASCII 32..126 is 95 glyphs
+	GLuint ftex;
+	const char *aName;
 };
 
 #endif /* TEXTRASTERRENDERER_H_ */

@@ -7,34 +7,30 @@
 
 #include "TextRasterRenderer.h"
 #include "../platform/platformgeneral.h"
+#include "../platform/platformgl.h"
+#include "../primitives.h"
 
 #define STB_TRUETYPE_IMPLEMENTATION
 #include "../decoders/stb_truetype.h"
 #include "../logger.h"
-#include "../batterytech.h"
-
-unsigned char temp_bitmap[512*512];
-unsigned char temp_bitmap_rgba[512*512*4];
-
-stbtt_bakedchar cdata[96]; // ASCII 32..126 is 95 glyphs
-stbtt_uint32 ftex;
-const char *aName;
-unsigned char *data;
 
 TextRasterRenderer::TextRasterRenderer(const char *assetName, float fontSize) {
 	aName = assetName;
 }
 
 void TextRasterRenderer::init() {
-	int size = 0;
+	S32 size = 0;
+	BYTE8 *data;
 	data = _platform_load_asset(aName, &size);
+	BYTE8 *temp_bitmap = (unsigned char*) malloc(sizeof(unsigned char) * 512*512);
+	BYTE8 *temp_bitmap_rgba = (unsigned char*) malloc(sizeof(unsigned char) * 512*512*4);
 	if (data) {
 		stbtt_BakeFontBitmap(data, 0, 32.0, temp_bitmap, 512, 512, 32,96, cdata); // no guarantee this fits!
-		int i,j;
+		S32 i,j;
 		for (i = 0; i < 512; i++) {
 			for (j = 0; j < 512; j++) {
-				int rowStart = i * 512 * 4;
-				char alpha = temp_bitmap[i * 512 + j];
+				S32 rowStart = i * 512 * 4;
+				BYTE8 alpha = temp_bitmap[i * 512 + j];
 				// will give a nice b&w gradient
 				temp_bitmap_rgba[rowStart + j * 4] = alpha;
 				temp_bitmap_rgba[rowStart + j * 4 + 1] = alpha;
@@ -43,10 +39,12 @@ void TextRasterRenderer::init() {
 			}
 		}
 		// can free ttf_buffer at this point
+		free(temp_bitmap);
 		glGenTextures(1, &ftex);
 		glBindTexture(GL_TEXTURE_2D, ftex);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 512, 512, 0, GL_RGBA, GL_UNSIGNED_BYTE, temp_bitmap_rgba);
+		free(temp_bitmap_rgba);
 		GLenum error = glGetError();
 		if (error) {
 			logger::logMsg("GL Error");
@@ -67,16 +65,16 @@ void TextRasterRenderer::unloadLevel() {
 }
 
 void TextRasterRenderer::render() {
-	char *text = "THIS IS SOME TEXT";
+	const char *text = "THIS IS SOME TEXT";
 	//logger::logMsg("rendering text()");
 	// assume orthographic projection with units = screen pixels, origin at top left
-	float x = 300;
-	float y = 200;
-	int length = strlen(text);
-	float verts[length * 6 * 3];
-	float uvs[length * 6 * 2];
-	float colors[length * 6 * 4];
-	int i = 0;
+	F32 x = 300;
+	F32 y = 200;
+	S32 length = strlen(text);
+	F32 verts[length * 6 * 3];
+	F32 uvs[length * 6 * 2];
+	F32 colors[length * 6 * 4];
+	S32 i = 0;
 	for (i = 0; i < length * 6 * 4; i++) {
 		colors[i] = 1.0f;
 	}
@@ -85,7 +83,7 @@ void TextRasterRenderer::render() {
 		if (*text >= 32 && *text < 128) {
 			stbtt_aligned_quad q;
 			stbtt_GetBakedQuad(cdata, 512,512, *text-32, &x,&y,&q,1);//1=opengl,0=old d3d
-			int pos = i * 18;
+			S32 pos = i * 18;
 			// 0
 			verts[pos] = q.x0;
 			verts[pos + 1] = q.y0;
