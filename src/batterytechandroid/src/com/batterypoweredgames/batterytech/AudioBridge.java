@@ -9,7 +9,6 @@ public class AudioBridge {
 	private static final String TAG = "AudioBridge";
 	
 	private static final int RATE = 44100;
-	private static final int BUF_SIZE = 10000;
 	private Boot boot;
 	private AudioTrack audioTrack;
 	private boolean run = false;
@@ -22,21 +21,21 @@ public class AudioBridge {
 	}
 
 	public void startAudio() {
-		audioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, RATE, AudioFormat.CHANNEL_OUT_MONO,
-				AudioFormat.ENCODING_PCM_16BIT, BUF_SIZE, AudioTrack.MODE_STREAM);
 		final int minBufSize = AudioTrack.getMinBufferSize(RATE, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT);
-		Log.d(TAG, "Using a " + minBufSize + " byte buffer");
+		Log.d(TAG, "Using a " + minBufSize + " frame buffer");
+		audioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, RATE, AudioFormat.CHANNEL_OUT_MONO,
+				AudioFormat.ENCODING_PCM_16BIT, minBufSize, AudioTrack.MODE_STREAM);
 		run = true;
-		buf = new short[minBufSize / 2];
+		buf = new short[minBufSize];
 		thread = new Thread("AudioThread") {
 			public void run() {
 				while(run) {
 					//Log.d(TAG, "Filling audio buffer from native");
 					// get audio from native side (specify in bytes)
-					boot.fillAudioBuffer(buf, minBufSize);
+					boot.fillAudioBuffer(buf, minBufSize * 2);
 					//Log.d(TAG, "Writing audio buffer to audioTrack");
 					// write audio to android track (specify in shorts)
-					audioTrack.write(buf, 0, minBufSize / 2);
+					audioTrack.write(buf, 0, minBufSize);
 				}
 			}
 		};
