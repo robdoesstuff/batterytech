@@ -3,6 +3,8 @@ package com.batterypoweredgames.batterytech;
 import java.io.IOException;
 import java.io.InputStream;
 
+import com.batterypoweredgames.input.InputObject;
+
 import android.content.Context;
 import android.util.Log;
 
@@ -38,6 +40,7 @@ public class Boot {
 	public native void update(float delta);
 	public native void draw();
 	public native void fillAudioBuffer(short[] pcmData, int count);
+	public native void setPointerState(int pointerId, boolean down, int x, int y);
 	
 	static { 
 		System.loadLibrary("batterytech");

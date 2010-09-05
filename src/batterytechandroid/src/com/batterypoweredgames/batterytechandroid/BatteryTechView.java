@@ -14,6 +14,10 @@ public class BatteryTechView extends GLSurfaceView {
 		setRenderMode(RENDERMODE_CONTINUOUSLY);
 	}
 	
+	public BatteryTechRenderer getRenderer() {
+		return renderer;
+	}
+	
 	public void release() {
 		if (renderer != null) {
 			renderer.release();

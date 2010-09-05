@@ -47,6 +47,14 @@ void Java_com_batterypoweredgames_batterytech_Boot_draw(JNIEnv* env, jobject thi
 	javaBoot = 0;
 }
 
+void Java_com_batterypoweredgames_batterytech_Boot_setPointerState(JNIEnv* env, jobject thiz, jint pointerId, jboolean down, jint x, jint y) {
+	jnienv = env;
+	javaBoot = thiz;
+	btSetPointerState(pointerId, down, x, y);
+	jnienv = 0;
+	javaBoot = 0;
+}
+
 void Java_com_batterypoweredgames_batterytech_Boot_fillAudioBuffer(JNIEnv* env, jobject thiz, jshortArray jPCMData, jint length) {
 	if (_andSndMgr) {
 		signed short *buf = new signed short[length / 2];

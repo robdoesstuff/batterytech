@@ -10,22 +10,29 @@
 #ifndef BATTERYTECH_H_
 #define BATTERYTECH_H_
 
+#include "primitives.h"
+
 /*
  * Called once to initialize the engine
  */
-void btInit(int width, int height);
+void btInit(S32 width, S32 height);
 
 /*
  * Called when the screen size has changed
  */
-void btSetScreenSize(int width, int height);
+void btSetScreenSize(S32 width, S32 height);
+
+/*
+ * Sets the state of a pointer
+ */
+void btSetPointerState(S32 pointerId, BOOL32 down, S32 x, S32 y);
 
 /*
  * Called as often as possible to update the state of the engine
  *
  * delta is in seconds
  */
-void btUpdate(float delta);
+void btUpdate(F32 delta);
 
 /**
  * Draws the world

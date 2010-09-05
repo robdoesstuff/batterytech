@@ -64,6 +64,16 @@ void btSuspend() {
 void btResume() {
 }
 
+void btSetPointerState(S32 pointerId, BOOL32 down, S32 x, S32 y) {
+	char buf[32];
+	if (down) {
+		sprintf(buf, "pointer %d down at %d %d", pointerId, x, y);
+	} else {
+		sprintf(buf, "pointer %d up", pointerId);
+	}
+	log(buf);
+}
+
 void btRelease() {
 	if (soundManager) {
 		soundManager->release();

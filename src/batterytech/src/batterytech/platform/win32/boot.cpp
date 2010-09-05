@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <windows.h>
+#include <windowsx.h>
 #include <gl/gl.h>
 #include <gl/glu.h>
 #include "../../batterytech.h"
@@ -12,7 +13,7 @@ using namespace std;
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 void EnableOpenGL(HWND hWnd, HDC * hDC, HGLRC * hRC);
 void DisableOpenGL(HWND hWnd, HDC hDC, HGLRC hRC);
-
+BOOL leftButtonDown = FALSE;
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 				   LPSTR lpCmdLine, int iCmdShow)
@@ -58,6 +59,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 		if ( PeekMessage( &msg, NULL, 0, 0, PM_REMOVE )  ) {
 			// handle or dispatch messages
 			if ( msg.message == WM_QUIT ) {
+
 				quit = TRUE;
 			} else {
 				TranslateMessage( &msg );
@@ -91,6 +93,23 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	switch (message)
 	{
 
+	case WM_LBUTTONDOWN:
+		leftButtonDown = TRUE;
+		int x = GET_X_LPARAM(lParam);
+		int y = GET_Y_LPARAM(lParam);
+		btSetPointerState(0, true, x, y);
+		return 0;
+	case WM_LBUTTONUP:
+		leftButtonDown = FALSE;
+		btSetPointerState(0, false, 0, 0);
+		return 0;
+	case WM_MOUSEMOVE:
+		if (leftButtonDown) {
+			int x = GET_X_LPARAM(lParam);
+			int y = GET_Y_LPARAM(lParam);
+			btSetPointerState(0, true, x, y);
+		}
+		return 0;
 	case WM_CREATE:
 		return 0;
 
