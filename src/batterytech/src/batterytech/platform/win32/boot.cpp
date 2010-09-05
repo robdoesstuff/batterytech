@@ -10,20 +10,19 @@
 using namespace std;
 
 // WinMain
+DWORD WINAPI StartThread(LPVOID iValue);
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 void EnableOpenGL(HWND hWnd, HDC * hDC, HGLRC * hRC);
 void DisableOpenGL(HWND hWnd, HDC hDC, HGLRC hRC);
 BOOL leftButtonDown = FALSE;
+BOOL quit = FALSE;
+HWND hWnd;
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 				   LPSTR lpCmdLine, int iCmdShow)
 {
 	WNDCLASS wc;
-	HWND hWnd;
-	HDC hDC;
-	HGLRC hRC;
 	MSG msg;
-	BOOL quit = FALSE;
 
 	// register window class
 	wc.style = CS_OWNDC;
@@ -45,44 +44,53 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 		0, 0, 800, 480,
 		NULL, NULL, hInstance, NULL );
 
-	// enable OpenGL for the window
-	EnableOpenGL( hWnd, &hDC, &hRC );
 
-	btInit(800, 480);
-
-	DWORD time = timeGetTime();
-	DWORD oldTime = time;
-
+	HANDLE hThread1;
+	DWORD dwGenericThread;
+	hThread1 = CreateThread(NULL,0,StartThread,NULL,0,&dwGenericThread);
+	if (!hThread1) {
+		cout << "Error creating thread" << endl;
+	}
 	// program main loop
 	while ( !quit ) {
 		// check for messages
 		if ( PeekMessage( &msg, NULL, 0, 0, PM_REMOVE )  ) {
 			// handle or dispatch messages
 			if ( msg.message == WM_QUIT ) {
-
 				quit = TRUE;
 			} else {
 				TranslateMessage( &msg );
 				DispatchMessage( &msg );
 			}
 		}
-		if (!quit) {
-			oldTime = time;
-			time = timeGetTime();
-			btUpdate((time - oldTime) / 1000.0f);
-			btDraw();
-			SwapBuffers( hDC );
-		}
 	}
-
-	// shutdown OpenGL
-	DisableOpenGL( hWnd, hDC, hRC );
-
+	WaitForSingleObject(hThread1,INFINITE);
 	// destroy the window explicitly
 	DestroyWindow( hWnd );
-
 	return msg.wParam;
+}
 
+DWORD WINAPI StartThread(LPVOID iValue) {
+	cout << "Starting Game Thread" << endl;
+	HGLRC hRC;
+	HDC hDC;
+	// enable OpenGL for the window
+	cout << "Enabling OpenGL" << endl;
+	EnableOpenGL( hWnd, &hDC, &hRC );
+	btInit(800, 480);
+	DWORD time = timeGetTime();
+	DWORD oldTime = time;
+	while (!quit) {
+		//cout << "Ticking" << endl;
+		oldTime = time;
+		time = timeGetTime();
+		btUpdate((time - oldTime) / 1000.0f);
+		btDraw();
+		SwapBuffers( hDC );
+	}
+	// shutdown OpenGL
+	DisableOpenGL( hWnd, hDC, hRC );
+	return 0;
 }
 
 // Window Procedure
