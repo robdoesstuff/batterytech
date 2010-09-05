@@ -34,7 +34,7 @@ public class Boot {
 		this.context = null;
 	}
 	
-	public native void init();
+	public native void init(int width, int height);
 	public native void update(float delta);
 	public native void draw();
 	public native void fillAudioBuffer(short[] pcmData, int count);

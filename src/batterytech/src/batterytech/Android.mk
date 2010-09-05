@@ -32,7 +32,9 @@ LOCAL_SRC_FILES :=\
 	render/TextRasterRenderer.cpp \
 	platform/android/androidgeneral.cpp \
 	platform/android/boot.cpp \
-	platform/android/importgl.c
+	platform/android/importgl.c \
+	game/World.cpp \
+	render/WorldRenderer.cpp
 
 LOCAL_LDLIBS := -lGLESv1_CM -ldl -llog
 

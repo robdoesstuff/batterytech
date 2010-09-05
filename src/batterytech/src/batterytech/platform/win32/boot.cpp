@@ -47,7 +47,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	// enable OpenGL for the window
 	EnableOpenGL( hWnd, &hDC, &hRC );
 
-	btInit();
+	btInit(800, 480);
 
 	DWORD time = timeGetTime();
 	DWORD oldTime = time;

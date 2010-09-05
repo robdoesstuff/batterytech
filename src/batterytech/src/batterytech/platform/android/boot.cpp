@@ -22,10 +22,10 @@ JNIEnv *jnienv;
 jobject javaBoot;
 extern SoundManager *_andSndMgr; // from androidgeneral
 
-void Java_com_batterypoweredgames_batterytech_Boot_init(JNIEnv* env, jobject thiz) {
+void Java_com_batterypoweredgames_batterytech_Boot_init(JNIEnv* env, jobject thiz, jint width, jint height) {
 	jnienv = env;
 	javaBoot = thiz;
-	btInit();
+	btInit(width, height);
 	jnienv = 0;
 	javaBoot = 0;
 }

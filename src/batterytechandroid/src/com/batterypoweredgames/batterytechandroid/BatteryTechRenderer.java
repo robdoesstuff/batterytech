@@ -27,7 +27,7 @@ public class BatteryTechRenderer implements Renderer {
 	}
 
 	public void onSurfaceChanged(GL10 gl, int width, int height) {
-		boot.init();
+		boot.init(width, height);
 		audioBridge.startAudio();
 	}
 

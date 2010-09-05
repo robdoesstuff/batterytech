@@ -21,9 +21,9 @@ public class AudioBridge {
 	}
 
 	public void startAudio() {
-		final int minBufSize = AudioTrack.getMinBufferSize(RATE, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT);
+		final int minBufSize = AudioTrack.getMinBufferSize(RATE, AudioFormat.CHANNEL_CONFIGURATION_MONO, AudioFormat.ENCODING_PCM_16BIT);
 		Log.d(TAG, "Using a " + minBufSize + " frame buffer");
-		audioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, RATE, AudioFormat.CHANNEL_OUT_MONO,
+		audioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, RATE, AudioFormat.CHANNEL_CONFIGURATION_MONO,
 				AudioFormat.ENCODING_PCM_16BIT, minBufSize, AudioTrack.MODE_STREAM);
 		run = true;
 		buf = new short[minBufSize];

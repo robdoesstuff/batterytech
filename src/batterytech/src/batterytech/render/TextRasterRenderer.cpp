@@ -18,7 +18,7 @@ TextRasterRenderer::TextRasterRenderer(const char *assetName, float fontSize) {
 	aName = assetName;
 }
 
-void TextRasterRenderer::init() {
+void TextRasterRenderer::init(S32 width, S32 height) {
 	S32 size = 0;
 	BYTE8 *data;
 	data = _platform_load_asset(aName, &size);
@@ -64,7 +64,7 @@ void TextRasterRenderer::loadLevel() {
 void TextRasterRenderer::unloadLevel() {
 }
 
-void TextRasterRenderer::render() {
+void TextRasterRenderer::render(World *world) {
 	const char *text = "THIS IS SOME TEXT";
 	//logger::logMsg("rendering text()");
 	// assume orthographic projection with units = screen pixels, origin at top left
