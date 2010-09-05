@@ -65,13 +65,27 @@ void btResume() {
 }
 
 void btSetPointerState(S32 pointerId, BOOL32 down, S32 x, S32 y) {
-	char buf[32];
+	//char buf[32];
 	if (down) {
-		sprintf(buf, "pointer %d down at %d %d", pointerId, x, y);
+		if (pointerId == 0) {
+			world->down1 = TRUE;
+			world->x1 = x;
+			world->y1 = y;
+		} else if (pointerId == 1) {
+			world->down2 = TRUE;
+			world->x2 = x;
+			world->y2 = y;
+		}
+		//sprintf(buf, "pointer %d down at %d %d", pointerId, x, y);
 	} else {
-		sprintf(buf, "pointer %d up", pointerId);
+		if (pointerId == 0) {
+			world->down1 = FALSE;
+		} else if (pointerId == 1) {
+			world->down2 = FALSE;
+		}
+		//sprintf(buf, "pointer %d up", pointerId);
 	}
-	log(buf);
+	//log(buf);
 }
 
 void btRelease() {

@@ -59,13 +59,11 @@ void WorldRenderer::render(World *world) {
 	glMatrixMode(GL_PROJECTION);
 	glViewport(0,0,screenWidth,screenHeight);
 	glLoadIdentity();
-	glOrthof(-1.6f, 1.6f, -.96f, .96f, -1, 1);
+	glOrthof(0, screenWidth, screenHeight, 0, -1, 1);
 
 	glMatrixMode(GL_MODELVIEW);
 	glColor4f(1, 1, 1, 1);
-	glPushMatrix();
-	glRotatef( theta, 0.0f, 0.0f, 1.0f );
-	glFrontFace(GL_CW);
+
 	float colors[] = {
 			1.0f, 0.0f, 0.0f, 1.0f,
 			0.0f, 1.0f, 0.0f, 1.0f,
@@ -81,12 +79,27 @@ void WorldRenderer::render(World *world) {
 			1.0f, 0.5f,
 			0.0f, 0.0f
 	};
+	glFrontFace(GL_CCW);
 	glBindTexture(GL_TEXTURE_2D, textureId);
 	glColorPointer(4, GL_FLOAT, 0, &colors);
 	glVertexPointer(3, GL_FLOAT, 0, &verts);
 	glTexCoordPointer(2, GL_FLOAT, 0, &uvs);
-	glDrawArrays(GL_TRIANGLES, 0, 3);
-	glPopMatrix();
+	if (world->down1) {
+		glPushMatrix();
+		glTranslatef(world->x1, world->y1, 0);
+		glRotatef( theta, 0.0f, 0.0f, 1.0f );
+		glScalef(100, 100, 1);
+		glDrawArrays(GL_TRIANGLES, 0, 3);
+		glPopMatrix();
+	}
+	if (world->down2) {
+		glPushMatrix();
+		glTranslatef(world->x2, world->y2, 0);
+		glRotatef( theta, 0.0f, 0.0f, 1.0f );
+		glScalef(100, 100, 1);
+		glDrawArrays(GL_TRIANGLES, 0, 3);
+		glPopMatrix();
+	}
 	textRenderer->render(world);
 }
 
