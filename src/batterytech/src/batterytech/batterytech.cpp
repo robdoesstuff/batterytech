@@ -18,13 +18,16 @@
 static SoundManager *soundManager;
 static World *world;
 static WorldRenderer *worldRenderer;
+static GraphicsConfiguration *gConfig;
 
 void loadSound();
 
 void btInit(S32 width, S32 height) {
 	log("BatteryTech 1.0 Initializing...");
 	world = new World;
-	worldRenderer = new WorldRenderer;
+	gConfig = new GraphicsConfiguration;
+	// TODO - read in preferences and load into GraphicsConfiguration
+	worldRenderer = new WorldRenderer(gConfig);
 	worldRenderer->init(width, height);
 	log("Ready");
 	loadSound();
@@ -94,4 +97,7 @@ void btRelease() {
 		delete soundManager;
 	}
 	soundManager = NULL;
+	delete worldRenderer;
+	delete world;
+	delete gConfig;
 }

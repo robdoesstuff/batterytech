@@ -34,7 +34,8 @@ LOCAL_SRC_FILES :=\
 	platform/android/boot.cpp \
 	platform/android/importgl.c \
 	game/World.cpp \
-	render/WorldRenderer.cpp
+	render/WorldRenderer.cpp \
+	render/GraphicsConfiguration.cpp
 
 LOCAL_LDLIBS := -lGLESv1_CM -ldl -llog
 

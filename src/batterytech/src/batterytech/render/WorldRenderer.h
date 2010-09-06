@@ -10,11 +10,15 @@
 
 #include "Renderer.h"
 #include "TextRasterRenderer.h"
+#include "GraphicsConfiguration.h"
 #include "../primitives.h"
+
+#define REFERENCE_WIDTH 480
+#define REFERENCE_HEIGHT 320
 
 class WorldRenderer: public Renderer {
 public:
-	WorldRenderer();
+	WorldRenderer(GraphicsConfiguration *gConfig);
 	virtual void unloadLevel();
 	virtual void loadLevel();
 	virtual void init(S32 width, S32 height);
@@ -22,7 +26,9 @@ public:
 	void setScreenSize(S32 width, S32 height);
 	virtual ~WorldRenderer();
 private:
+	void determineGPUCapabilities();
 	TextRasterRenderer *textRenderer;
+	GraphicsConfiguration *gConfig;
 };
 
 #endif /* WORLDRENDERER_H_ */

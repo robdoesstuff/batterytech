@@ -7,6 +7,7 @@
 
 #include "WorldRenderer.h"
 #include "TextRasterRenderer.h"
+#include "GraphicsConfiguration.h"
 #include "../decoders/stb_image.h"
 #include "../platform/platformgl.h"
 #include "../platform/platformgeneral.h"
@@ -15,21 +16,22 @@
 void loadTexture();
 GLuint textureId;
 F32 theta = 0.0f;
-S32 screenWidth = 0;
-S32 screenHeight = 0;
 
-
-WorldRenderer::WorldRenderer() {
+WorldRenderer::WorldRenderer(GraphicsConfiguration *gConfig) {
+	this->gConfig = gConfig;
 }
 
-void setScreenSize(S32 width, S32 height) {
-	screenWidth = width;
-	screenHeight = height;
+void WorldRenderer::setScreenSize(S32 width, S32 height) {
+	gConfig->viewportWidth = width;
+	gConfig->viewportHeight = height;
+	gConfig->scaleX2d = width / REFERENCE_WIDTH;
+	gConfig->scaleY2d = height / REFERENCE_HEIGHT;
+	gConfig->uiScale = gConfig->scaleY2d;
 }
 
 void WorldRenderer::init(S32 width, S32 height) {
-	screenWidth = width;
-	screenHeight = height;
+	setScreenSize(width, height);
+	determineGPUCapabilities();
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_COLOR_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -45,6 +47,10 @@ void WorldRenderer::init(S32 width, S32 height) {
 	loadTexture();
 }
 
+void WorldRenderer::determineGPUCapabilities() {
+
+}
+
 void WorldRenderer::unloadLevel() {}
 void WorldRenderer::loadLevel() {}
 
@@ -57,9 +63,9 @@ void WorldRenderer::render(World *world) {
 	glClear( GL_COLOR_BUFFER_BIT );
 
 	glMatrixMode(GL_PROJECTION);
-	glViewport(0,0,screenWidth,screenHeight);
+	glViewport(0, 0, gConfig->viewportWidth, gConfig->viewportHeight);
 	glLoadIdentity();
-	glOrthof(0, screenWidth, screenHeight, 0, -1, 1);
+	glOrthof(0, gConfig->viewportWidth, gConfig->viewportHeight, 0, -1, 1);
 
 	glMatrixMode(GL_MODELVIEW);
 	glColor4f(1, 1, 1, 1);
@@ -104,7 +110,9 @@ void WorldRenderer::render(World *world) {
 }
 
 WorldRenderer::~WorldRenderer() {
+	delete textRenderer;
 }
+
 
 void loadTexture() {
 	log("Loading texture");
