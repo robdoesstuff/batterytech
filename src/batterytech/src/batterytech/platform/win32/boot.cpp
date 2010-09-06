@@ -7,6 +7,7 @@
 #include <gl/gl.h>
 #include <gl/glu.h>
 #include "../../batterytech.h"
+#include "../../render/GraphicsConfiguration.h"
 using namespace std;
 
 // WinMain
@@ -72,12 +73,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
 DWORD WINAPI StartThread(LPVOID iValue) {
 	cout << "Starting Game Thread" << endl;
+	GraphicsConfiguration *gConfig;
 	HGLRC hRC;
 	HDC hDC;
 	// enable OpenGL for the window
 	cout << "Enabling OpenGL" << endl;
 	EnableOpenGL( hWnd, &hDC, &hRC );
-	btInit(800, 480);
+	gConfig = new GraphicsConfiguration;
+	gConfig->supportsHWmipmapgen = true;
+	gConfig->supportsUVTransform = true;
+	gConfig->supportsVBOs = true;
+	btInit(gConfig, 800, 480);
 	DWORD time = timeGetTime();
 	DWORD oldTime = time;
 	while (!quit) {
@@ -90,6 +96,7 @@ DWORD WINAPI StartThread(LPVOID iValue) {
 	}
 	// shutdown OpenGL
 	DisableOpenGL( hWnd, hDC, hRC );
+	delete gConfig;
 	return 0;
 }
 

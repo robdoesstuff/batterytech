@@ -10,8 +10,8 @@
 #include "batterytech.h"
 #include "logger.h"
 #include "sound/SoundManager.h"
+#include "platform/platformgl.h"
 #include "platform/platformgeneral.h"
-#include "primitives.h"
 #include "game/World.h"
 #include "render/WorldRenderer.h"
 
@@ -22,10 +22,11 @@ static GraphicsConfiguration *gConfig;
 
 void loadSound();
 
-void btInit(S32 width, S32 height) {
+void btInit(GraphicsConfiguration *graphicsConfig, S32 width, S32 height) {
 	log("BatteryTech 1.0 Initializing...");
 	world = new World;
-	gConfig = new GraphicsConfiguration;
+	// platform will have determined gpu capabilities and set into gConfig
+	gConfig = graphicsConfig;
 	// TODO - read in preferences and load into GraphicsConfiguration
 	worldRenderer = new WorldRenderer(gConfig);
 	worldRenderer->init(width, height);
@@ -33,7 +34,10 @@ void btInit(S32 width, S32 height) {
 	loadSound();
 }
 
-void btSetScreenSize(int width, int height) {
+void btSetScreenSize(S32 width, S32 height) {
+	if (worldRenderer) {
+		worldRenderer->setScreenSize(width, height);
+	}
 }
 
 void loadSound() {
@@ -99,5 +103,4 @@ void btRelease() {
 	soundManager = NULL;
 	delete worldRenderer;
 	delete world;
-	delete gConfig;
 }

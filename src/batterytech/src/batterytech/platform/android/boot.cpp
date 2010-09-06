@@ -9,9 +9,12 @@
 #include "androidtypes.h"
 #include "androidgeneral.h"
 #include "../../batterytech.h"
+#include "../../render/GraphicsConfiguration.h"
 #include "importgl.h"
 #include <jni.h>
 #include <android/log.h>
+#include "../../strx.h"
+#include "../opengles.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -21,11 +24,16 @@ extern "C" {
 JNIEnv *jnienv;
 jobject javaBoot;
 extern SoundManager *_andSndMgr; // from androidgeneral
+GraphicsConfiguration *gConfig;
+
+void determineGPUCapabilities();
 
 void Java_com_batterypoweredgames_batterytech_Boot_init(JNIEnv* env, jobject thiz, jint width, jint height) {
 	jnienv = env;
 	javaBoot = thiz;
-	btInit(width, height);
+	gConfig = new GraphicsConfiguration;
+	determineGPUCapabilities();
+	btInit(gConfig, width, height);
 	jnienv = 0;
 	javaBoot = 0;
 }
@@ -61,6 +69,45 @@ void Java_com_batterypoweredgames_batterytech_Boot_fillAudioBuffer(JNIEnv* env, 
 		_andSndMgr->fillBuffer(buf, length);
 		env->SetShortArrayRegion(jPCMData, 0, length / 2, buf);
 		delete [] buf;
+	}
+}
+
+void determineGPUCapabilities() {
+	const char *vendor = (const char*)glGetString(GL_VENDOR);
+	const char *renderer = (const char*)glGetString(GL_RENDERER);
+	const char *version = (const char*)glGetString(GL_VERSION);
+	const char *extensions = (const char*)glGetString(GL_EXTENSIONS);
+	// 1.0 = 0, 1.1 = 1, 2.0 = 2
+	int ver = 0;
+	if (strStartsWith(version, GLES_VERSION_CONSTANT)) {
+		if (strstr(version, "2.0")) {
+			__android_log_print(ANDROID_LOG_DEBUG, "BatteryTech", "OpenGL ES Version 2.0 found");
+			ver = 2;
+		} else if (strstr(version, "1.1")) {
+			__android_log_print(ANDROID_LOG_DEBUG, "BatteryTech", "OpenGL ES Version 1.1 found");
+			ver = 1;
+		}
+	}
+	if (ver == 0) {
+		__android_log_print(ANDROID_LOG_DEBUG, "BatteryTech", "OpenGL ES Version 1.0 found");
+	}
+	if ((ver > 0) || gles_checkExtension(GLES_EXT_GENERATE_MIPMAP)) {
+		__android_log_print(ANDROID_LOG_DEBUG, "BatteryTech", "HW MipMap Gen Supported");
+		gConfig->supportsHWmipmapgen = TRUE;
+	}
+	if ((ver > 0) || gles_checkExtension(GLES_EXT_VERTEX_BUFFER_OBJECT)) {
+		__android_log_print(ANDROID_LOG_DEBUG, "BatteryTech", "VBOs Supported");
+		gConfig->supportsVBOs = TRUE;
+	}
+	if (strstr(renderer, "MSM7500")) {
+		__android_log_print(ANDROID_LOG_DEBUG, "BatteryTech", "HW UV Transform not supported");
+		gConfig->supportsUVTransform = FALSE;
+	} else {
+		__android_log_print(ANDROID_LOG_DEBUG, "BatteryTech", "HW UV Transform supported");
+		gConfig->supportsUVTransform = TRUE;
+	}
+	if (strstr(renderer, ANDROID_RENDERER_PIXELFLINGER)) {
+		gConfig->softGPU = TRUE;
 	}
 }
 

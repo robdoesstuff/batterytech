@@ -26,7 +26,6 @@ public:
 	void setScreenSize(S32 width, S32 height);
 	virtual ~WorldRenderer();
 private:
-	void determineGPUCapabilities();
 	TextRasterRenderer *textRenderer;
 	GraphicsConfiguration *gConfig;
 };

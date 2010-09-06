@@ -11,6 +11,7 @@ GraphicsConfiguration::GraphicsConfiguration() {
 	textureRes = HIGH;
 	textureFilter = LINEAR;
 	showFPS = FALSE;
+	softGPU = FALSE;
 }
 
 GraphicsConfiguration::~GraphicsConfiguration() {

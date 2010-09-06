@@ -38,6 +38,7 @@ public:
 	BOOL32 supportsVBOs;
 	BOOL32 supportsHWmipmapgen;
 	BOOL32 supportsUVTransform;
+	BOOL32 softGPU;
 };
 
 #endif /* GRAPHICSCONFIGURATION_H_ */

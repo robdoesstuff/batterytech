@@ -31,7 +31,6 @@ void WorldRenderer::setScreenSize(S32 width, S32 height) {
 
 void WorldRenderer::init(S32 width, S32 height) {
 	setScreenSize(width, height);
-	determineGPUCapabilities();
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_COLOR_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -45,10 +44,6 @@ void WorldRenderer::init(S32 width, S32 height) {
 	textRenderer = new TextRasterRenderer("lcdmn.ttf", 12.0f);
 	textRenderer->init(width, height);
 	loadTexture();
-}
-
-void WorldRenderer::determineGPUCapabilities() {
-
 }
 
 void WorldRenderer::unloadLevel() {}

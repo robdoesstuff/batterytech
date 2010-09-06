@@ -10,12 +10,13 @@
 #ifndef BATTERYTECH_H_
 #define BATTERYTECH_H_
 
+#include "render/GraphicsConfiguration.h"
 #include "primitives.h"
 
 /*
  * Called once to initialize the engine
  */
-void btInit(S32 width, S32 height);
+void btInit(GraphicsConfiguration *graphicsConfig, S32 width, S32 height);
 
 /*
  * Called when the screen size has changed
