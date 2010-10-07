@@ -6,12 +6,29 @@
  */
 
 #include "LinearLayout.h"
+#include "../logger.h"
+#include <stdio.h>
 
-LinearLayout::LinearLayout() {
-	// TODO Auto-generated constructor stub
-
+LinearLayout::LinearLayout() : Layout() {
 }
 
 LinearLayout::~LinearLayout() {
-	// TODO Auto-generated destructor stub
+}
+
+void LinearLayout::layout() {
+	char buf[32];
+	sprintf(buf, "Laying out %d UI Components", components->getSize());
+	log(buf);
+}
+
+void LinearLayout::setDrawableBounds(S32 left, S32 top, S32 right, S32 bottom) {
+
+}
+
+void LinearLayout::update() {
+
+}
+
+void LinearLayout::draw() {
+
 }

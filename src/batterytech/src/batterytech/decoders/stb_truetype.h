@@ -651,20 +651,20 @@ static stbtt_uint32 stbtt__find_table(stbtt_uint8 *data, stbtt_uint32 fontstart,
    return 0;
 }
 
-int stbtt_GetFontOffsetForIndex(const unsigned char *font_collection, int index)
+int stbtt_GetFontOffsetForIndex(const unsigned char *font_collection, int lastItemIndex)
 {
    // if it's just a font, there's only one valid index
    if (stbtt__isfont(font_collection))
-      return index == 0 ? 0 : -1;
+      return lastItemIndex == 0 ? 0 : -1;
 
    // check if it's a TTC
    if (stbtt_tag(font_collection, "ttcf")) {
       // version 1?
       if (ttULONG(font_collection+4) == 0x00010000 || ttULONG(font_collection+4) == 0x00020000) {
          stbtt_int32 n = ttLONG(font_collection+8);
-         if (index >= n)
+         if (lastItemIndex >= n)
             return -1;
-         return ttULONG(font_collection+12+index*14);
+         return ttULONG(font_collection+12+lastItemIndex*14);
       }
    }
    return -1;

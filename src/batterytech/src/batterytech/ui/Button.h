@@ -14,6 +14,11 @@ class Button: public UIComponent {
 public:
 	Button();
 	virtual ~Button();
+	virtual void layout();
+	virtual void setDrawableBounds(S32 left, S32 top, S32 right, S32 bottom);
+	virtual void update();
+	virtual void draw();
+
 };
 
 #endif /* BUTTON_H_ */

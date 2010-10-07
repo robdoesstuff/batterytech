@@ -6,12 +6,16 @@
  */
 
 #include "Layout.h"
+#include "../util/ManagedArray.h"
 
 Layout::Layout() {
-	// TODO Auto-generated constructor stub
+	components = new ManagedArray<UIComponent>(10);
+}
 
+void Layout::addComponent(UIComponent *component) {
+	components->add(component);
 }
 
 Layout::~Layout() {
-	// TODO Auto-generated destructor stub
+	delete components;
 }

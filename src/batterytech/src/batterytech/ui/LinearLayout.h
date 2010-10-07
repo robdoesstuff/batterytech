@@ -14,6 +14,10 @@ class LinearLayout: public Layout {
 public:
 	LinearLayout();
 	virtual ~LinearLayout();
+	virtual void layout();
+	virtual void setDrawableBounds(S32 left, S32 top, S32 right, S32 bottom);
+	virtual void update();
+	virtual void draw();
 };
 
 #endif /* LINEARLAYOUT_H_ */

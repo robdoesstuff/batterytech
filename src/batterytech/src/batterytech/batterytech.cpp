@@ -14,6 +14,8 @@
 #include "platform/platformgeneral.h"
 #include "game/World.h"
 #include "render/WorldRenderer.h"
+#include "ui/Button.h"
+#include "ui/LinearLayout.h"
 
 static SoundManager *soundManager;
 static World *world;
@@ -21,6 +23,7 @@ static WorldRenderer *worldRenderer;
 static GraphicsConfiguration *gConfig;
 
 void loadSound();
+void createMenu();
 
 void btInit(GraphicsConfiguration *graphicsConfig, S32 width, S32 height) {
 	log("BatteryTech 1.0 Initializing...");
@@ -32,6 +35,7 @@ void btInit(GraphicsConfiguration *graphicsConfig, S32 width, S32 height) {
 	worldRenderer->init(width, height);
 	log("Ready");
 	loadSound();
+	createMenu();
 }
 
 void btSetScreenSize(S32 width, S32 height) {
@@ -47,11 +51,20 @@ void loadSound() {
 	U16 sndId = soundManager->loadSound("level_1_song.ogg");
 	//U16 sndId2 = soundManager->loadSound("battery_powered_splash.ogg");
 	//U16 sndId3 = soundManager->loadSound("score_session_end_big.ogg");
-	soundManager->playSound(sndId, -1, 1.0f);
+	//soundManager->playSound(sndId, -1, 1.0f);
 	//soundManager->playSound(sndId2, -1, 1.0f);
 	//soundManager->playSound(sndId3, -1, 1.0f);
 }
 
+void createMenu() {
+	LinearLayout *buttonLayout = new LinearLayout();
+	Button *button1 = new Button();
+	Button *button2 = new Button();
+	buttonLayout->addComponent(button1);
+	buttonLayout->addComponent(button2);
+	buttonLayout->layout();
+	// TODO - dealloc this stuff
+}
 
 void btUpdate(F32 delta) {
 	world->tickDelta = delta;
