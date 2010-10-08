@@ -14,11 +14,11 @@
 #include "../decoders/stb_truetype.h"
 #include "../logger.h"
 
-TextRasterRenderer::TextRasterRenderer(const char *assetName, float fontSize) {
+TextRasterRenderer::TextRasterRenderer(GraphicsConfiguration *gConfig, const char *assetName, float fontSize) {
 	aName = assetName;
 }
 
-void TextRasterRenderer::init(S32 width, S32 height) {
+void TextRasterRenderer::init() {
 	S32 size = 0;
 	BYTE8 *data;
 	data = _platform_load_asset(aName, &size);

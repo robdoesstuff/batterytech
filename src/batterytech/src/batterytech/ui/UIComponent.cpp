@@ -19,6 +19,8 @@ UIComponent::UIComponent() {
 	top = 0;
 	right = 0;
 	bottom = 0;
+	backgroundMenuResourceId = NO_RESOURCE;
+	text = NULL;
 }
 
 UIComponent::~UIComponent() {

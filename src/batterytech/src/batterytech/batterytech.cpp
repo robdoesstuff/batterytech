@@ -1,9 +1,9 @@
 //============================================================================
 // Name        : batterytech.cpp
-// Author      : 
-// Version     :
-// Copyright   : Your copyright notice
-// Description : Hello World in C++, Ansi-style
+// Author      : Robert Green
+// Version     : 1.0
+// Copyright   : Copyright 2010 Battery Powered Games, LLC
+// Description : main hooks for battery tech mobile game platform
 //============================================================================
 
 #include <stdio.h>
@@ -17,10 +17,15 @@
 #include "ui/Button.h"
 #include "ui/LinearLayout.h"
 #include "ui/LinearLayoutParameters.h"
+#include "render/MenuRenderer.h"
+
+#define REFERENCE_WIDTH 480
+#define REFERENCE_HEIGHT 320
 
 static SoundManager *soundManager;
 static World *world;
 static WorldRenderer *worldRenderer;
+static MenuRenderer *menuRenderer;
 static GraphicsConfiguration *gConfig;
 
 void loadSound();
@@ -31,17 +36,25 @@ void btInit(GraphicsConfiguration *graphicsConfig, S32 width, S32 height) {
 	world = new World;
 	// platform will have determined gpu capabilities and set into gConfig
 	gConfig = graphicsConfig;
+	btSetScreenSize(width, height);
 	// TODO - read in preferences and load into GraphicsConfiguration
 	worldRenderer = new WorldRenderer(gConfig);
-	worldRenderer->init(width, height);
+	worldRenderer->init();
+	menuRenderer = new MenuRenderer(gConfig);
 	log("Ready");
 	loadSound();
 	createMenu(width, height);
 }
 
 void btSetScreenSize(S32 width, S32 height) {
-	if (worldRenderer) {
-		worldRenderer->setScreenSize(width, height);
+	gConfig->viewportWidth = width;
+	gConfig->viewportHeight = height;
+	gConfig->scaleX2d = width / (F32)REFERENCE_WIDTH;
+	gConfig->scaleY2d = height / (F32)REFERENCE_HEIGHT;
+	if (width > height) {
+		gConfig->uiScale = gConfig->scaleY2d;
+	} else {
+		gConfig->uiScale = gConfig->scaleX2d;
 	}
 }
 
@@ -58,21 +71,23 @@ void loadSound() {
 }
 
 void createMenu(S32 width, S32 height) {
+	S32 buttonBgId = menuRenderer->addTextureAsset("text_bg_tex.jpg");
 	LinearLayout *buttonLayout = new LinearLayout(LinearLayout::VERTICAL);
 	Button *button1 = new Button();
 	button1->setLayoutParameters(new LinearLayoutParameters(LinearLayoutParameters::LEFT, LinearLayoutParameters::TOP));
 	button1->setSize(120, 40);
+	button1->setBackgroundMenuResource(buttonBgId);
 	Button *button2 = new Button();
 	button2->setLayoutParameters(new LinearLayoutParameters(LinearLayoutParameters::LEFT, LinearLayoutParameters::TOP));
 	button2->setSize(120, 40);
+	button2->setBackgroundMenuResource(buttonBgId);
 	buttonLayout->addComponent(button1);
 	buttonLayout->addComponent(button2);
 	// this part should happen in the setUI() method
 	buttonLayout->setDrawableBounds(0, 0, width, height);
 	//buttonLayout->layout(gConfig->uiScale);
 	log("starting layout");
-	buttonLayout->layout(1.0f);
-	// TODO - dealloc this stuff
+	buttonLayout->layout(gConfig->uiScale);
 }
 
 void btUpdate(F32 delta) {
@@ -85,6 +100,7 @@ void btUpdate(F32 delta) {
 
 void btDraw() {
 	worldRenderer->render(world);
+	// TODO - render current menu
 }
 
 void btSuspend() {
@@ -94,6 +110,7 @@ void btResume() {
 }
 
 void btSetPointerState(S32 pointerId, BOOL32 down, S32 x, S32 y) {
+	// TODO - move this all to app context - entire app needs it
 	//char buf[32];
 	if (down) {
 		if (pointerId == 0) {

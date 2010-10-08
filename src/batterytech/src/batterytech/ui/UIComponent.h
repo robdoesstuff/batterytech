@@ -15,6 +15,7 @@
 
 #define FILL -1
 #define WRAP 0
+#define NO_RESOURCE -1
 
 class UIComponent {
 public:
@@ -27,7 +28,8 @@ public:
 	virtual void setPadding(S32 paddingDips) {this->paddingDips = paddingDips;};
 	virtual void setMargins(S32 marginDips) {this->marginLeftDips = this->marginTopDips = this->marginRightDips = this->marginBottomDips = marginDips;};
 	virtual void setLayoutParameters(LayoutParameters *layoutParameters) {this->layoutParameters = layoutParameters;};
-
+	virtual void setBackgroundMenuResource(S32 menuResourceId) {this->backgroundMenuResourceId = menuResourceId;};
+	virtual void setText(const char *text) {this->text = text;};
 	// framework methods
 	virtual S32 getDesiredWidth() {return widthDips;};
 	virtual S32 getDesiredHeight() {return heightDips;};
@@ -47,6 +49,8 @@ public:
 	virtual void draw()=0;
 	S32 paddingDips;
 	S32 marginLeftDips, marginTopDips, marginRightDips, marginBottomDips;
+	S32 backgroundMenuResourceId;
+	const char *text;
 protected:
 	S32 widthDips;
 	S32 heightDips;

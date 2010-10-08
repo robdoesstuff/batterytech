@@ -46,7 +46,7 @@ LinearLayout::~LinearLayout() {
 void LinearLayout::layout(F32 scale) {
 	log("LinearLayout::layout starting");
 	char buf[32];
-	sprintf(buf, "Laying out %d UI Components", components->getSize());
+	sprintf(buf, "Laying out %d UI Components at scale %g", components->getSize(), scale);
 	log(buf);
 	S32 horizRemain = right - left;
 	S32 vertRemain = bottom - top;

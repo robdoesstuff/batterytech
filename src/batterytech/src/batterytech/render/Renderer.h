@@ -14,7 +14,7 @@ class Renderer {
 public:
 	virtual void unloadLevel() = 0;
 	virtual void loadLevel() = 0;
-	virtual void init(S32 width, S32 height) = 0;
+	virtual void init() = 0;
 	virtual void render(World *world) = 0;
 	virtual ~Renderer();
 };
