@@ -26,7 +26,11 @@ void WorldRenderer::setScreenSize(S32 width, S32 height) {
 	gConfig->viewportHeight = height;
 	gConfig->scaleX2d = width / REFERENCE_WIDTH;
 	gConfig->scaleY2d = height / REFERENCE_HEIGHT;
-	gConfig->uiScale = gConfig->scaleY2d;
+	if (width > height) {
+		gConfig->uiScale = gConfig->scaleY2d;
+	} else {
+		gConfig->uiScale = gConfig->scaleX2d;
+	}
 }
 
 void WorldRenderer::init(S32 width, S32 height) {

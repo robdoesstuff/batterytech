@@ -8,10 +8,19 @@
 #include "UIComponent.h"
 
 UIComponent::UIComponent() {
-	// TODO Auto-generated constructor stub
-
+	widthDips = 0;
+	heightDips = 0;
+	paddingDips = 0;
+	marginBottomDips = 0;
+	marginLeftDips = 0;
+	marginRightDips = 0;
+	marginTopDips = 0;
+	left = 0;
+	top = 0;
+	right = 0;
+	bottom = 0;
 }
 
 UIComponent::~UIComponent() {
-	// TODO Auto-generated destructor stub
+	delete layoutParameters;
 }

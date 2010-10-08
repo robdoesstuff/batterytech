@@ -16,6 +16,7 @@
 #include "render/WorldRenderer.h"
 #include "ui/Button.h"
 #include "ui/LinearLayout.h"
+#include "ui/LinearLayoutParameters.h"
 
 static SoundManager *soundManager;
 static World *world;
@@ -23,7 +24,7 @@ static WorldRenderer *worldRenderer;
 static GraphicsConfiguration *gConfig;
 
 void loadSound();
-void createMenu();
+void createMenu(S32 width, S32 height);
 
 void btInit(GraphicsConfiguration *graphicsConfig, S32 width, S32 height) {
 	log("BatteryTech 1.0 Initializing...");
@@ -35,7 +36,7 @@ void btInit(GraphicsConfiguration *graphicsConfig, S32 width, S32 height) {
 	worldRenderer->init(width, height);
 	log("Ready");
 	loadSound();
-	createMenu();
+	createMenu(width, height);
 }
 
 void btSetScreenSize(S32 width, S32 height) {
@@ -56,13 +57,21 @@ void loadSound() {
 	//soundManager->playSound(sndId3, -1, 1.0f);
 }
 
-void createMenu() {
-	LinearLayout *buttonLayout = new LinearLayout();
+void createMenu(S32 width, S32 height) {
+	LinearLayout *buttonLayout = new LinearLayout(LinearLayout::VERTICAL);
 	Button *button1 = new Button();
+	button1->setLayoutParameters(new LinearLayoutParameters(LinearLayoutParameters::LEFT, LinearLayoutParameters::TOP));
+	button1->setSize(120, 40);
 	Button *button2 = new Button();
+	button2->setLayoutParameters(new LinearLayoutParameters(LinearLayoutParameters::LEFT, LinearLayoutParameters::TOP));
+	button2->setSize(120, 40);
 	buttonLayout->addComponent(button1);
 	buttonLayout->addComponent(button2);
-	buttonLayout->layout();
+	// this part should happen in the setUI() method
+	buttonLayout->setDrawableBounds(0, 0, width, height);
+	//buttonLayout->layout(gConfig->uiScale);
+	log("starting layout");
+	buttonLayout->layout(1.0f);
 	// TODO - dealloc this stuff
 }
 

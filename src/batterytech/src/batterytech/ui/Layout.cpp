@@ -8,7 +8,7 @@
 #include "Layout.h"
 #include "../util/ManagedArray.h"
 
-Layout::Layout() {
+Layout::Layout() : UIComponent() {
 	components = new ManagedArray<UIComponent>(10);
 }
 

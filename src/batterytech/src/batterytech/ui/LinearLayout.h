@@ -8,16 +8,22 @@
 #ifndef LINEARLAYOUT_H_
 #define LINEARLAYOUT_H_
 
+#include "../primitives.h"
 #include "Layout.h"
 
 class LinearLayout: public Layout {
 public:
+	enum LayoutDirection { VERTICAL, HORIZONTAL };
 	LinearLayout();
+	LinearLayout(LayoutDirection direction);
 	virtual ~LinearLayout();
-	virtual void layout();
-	virtual void setDrawableBounds(S32 left, S32 top, S32 right, S32 bottom);
+	virtual void layout(F32 scale);
 	virtual void update();
 	virtual void draw();
+	virtual S32 getDesiredWidth();
+	virtual S32 getDesiredHeight();
+private:
+	LayoutDirection layoutDirection;
 };
 
 #endif /* LINEARLAYOUT_H_ */
