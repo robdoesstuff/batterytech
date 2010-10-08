@@ -8,6 +8,8 @@
 #ifndef CONTEXT_H_
 #define CONTEXT_H_
 
+#include "game/World.h"
+
 class Context {
 public:
 	Context();
