@@ -7,11 +7,27 @@
 
 #include "Context.h"
 
-Context::Context() {
-	// TODO Auto-generated constructor stub
-
+Context::Context(GraphicsConfiguration *gConfig) {
+	this->gConfig = gConfig;
+	world = new World;
+	// TODO - read in preferences and load into GraphicsConfiguration
+	worldRenderer = new WorldRenderer(gConfig);
+	worldRenderer->init();
+	menuRenderer = new MenuRenderer(gConfig);
+	soundManager = new SoundManager;
+	soundManager->init(10);
+	uiManager = new UIManager(gConfig);
 }
 
 Context::~Context() {
-	// TODO Auto-generated destructor stub
+	if (soundManager) {
+		soundManager->release();
+		delete soundManager;
+	}
+	soundManager = NULL;
+	delete worldRenderer;
+	delete world;
+	// TODO - release uimanager
+	delete uiManager;
+
 }

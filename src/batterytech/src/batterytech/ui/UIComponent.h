@@ -10,7 +10,7 @@
 
 #include "../primitives.h"
 #include "LayoutParameters.h"
-#include "../logger.h"
+#include "../Logger.h"
 #include <stdio.h>
 
 #define FILL -1

@@ -11,11 +11,14 @@
 #include "GraphicsConfiguration.h"
 #include "../primitives.h"
 #include "../platform/platformgl.h"
+#include "../ui/UIManager.h"
+
 
 class MenuRenderer {
 public:
 	MenuRenderer(GraphicsConfiguration *gConfig);
 	S32 addTextureAsset(const char *asset);
+	void render(UIManager *uiManager);
 	virtual ~MenuRenderer();
 private:
 	GraphicsConfiguration *gConfig;

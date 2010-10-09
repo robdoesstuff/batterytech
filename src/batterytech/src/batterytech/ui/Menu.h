@@ -13,6 +13,9 @@
 class Menu {
 public:
 	Menu();
+	Menu(UIComponent *component) {
+		this->rootComponent = component;
+	}
 	virtual void setRootComponent(UIComponent *component) {
 		this->rootComponent = component;
 	}
@@ -20,6 +23,7 @@ public:
 		return rootComponent;
 	}
 	virtual ~Menu();
+	S32 menuId;
 private:
 	UIComponent *rootComponent;
 };

@@ -15,5 +15,11 @@ S32 MenuRenderer::addTextureAsset(const char *asset) {
 
 }
 
+void MenuRenderer::render(UIManager *uiManager) {
+	if (!texturesLoaded) {
+		// load textures
+	}
+}
+
 MenuRenderer::~MenuRenderer() {
 }

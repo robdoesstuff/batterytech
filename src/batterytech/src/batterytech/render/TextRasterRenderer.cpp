@@ -12,7 +12,7 @@
 
 #define STB_TRUETYPE_IMPLEMENTATION
 #include "../decoders/stb_truetype.h"
-#include "../logger.h"
+#include "../Logger.h"
 
 TextRasterRenderer::TextRasterRenderer(GraphicsConfiguration *gConfig, const char *assetName, float fontSize) {
 	aName = assetName;
@@ -47,12 +47,12 @@ void TextRasterRenderer::init() {
 		free(temp_bitmap_rgba);
 		GLenum error = glGetError();
 		if (error) {
-			logger::logMsg("GL Error");
+			Logger::logMsg("GL Error");
 		}
 		// can free temp_bitmap at this point
 		_platform_free_asset(data);
 	} else {
-		logger::logMsg("error loading font");
+		Logger::logMsg("error loading font");
 	}
 
 }

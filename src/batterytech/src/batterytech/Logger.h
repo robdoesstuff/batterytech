@@ -1,5 +1,5 @@
 /*
- * logger.h
+ * Logger.h
  *
  *  Created on: Jul 29, 2010
  *      Author: rgreen
@@ -9,13 +9,13 @@
 #define LOGGER_H_
 
 
-class logger {
+class Logger {
 public:
-	logger();
+	Logger();
 	static void logMsg(const char* msg);
-	virtual ~logger();
+	virtual ~Logger();
 };
 
-#define log(message) logger::logMsg(message)
+#define log(message) Logger::logMsg(message)
 
 #endif /* LOGGER_H_ */

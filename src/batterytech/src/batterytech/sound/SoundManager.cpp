@@ -6,7 +6,7 @@
  */
 
 #include "SoundManager.h"
-#include "../logger.h"
+#include "../Logger.h"
 #include "../decoders/stb_vorbis.h"
 #include "../platform/platformgeneral.h"
 

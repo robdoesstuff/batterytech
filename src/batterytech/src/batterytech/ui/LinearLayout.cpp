@@ -6,7 +6,7 @@
  */
 
 #include "LinearLayout.h"
-#include "../logger.h"
+#include "../Logger.h"
 #include <stdio.h>
 #include "LinearLayoutParameters.h"
 

@@ -8,7 +8,7 @@
 
 #include <stdio.h>
 #include "batterytech.h"
-#include "logger.h"
+#include "Logger.h"
 #include "sound/SoundManager.h"
 #include "platform/platformgl.h"
 #include "platform/platformgeneral.h"
@@ -18,14 +18,12 @@
 #include "ui/LinearLayout.h"
 #include "ui/LinearLayoutParameters.h"
 #include "render/MenuRenderer.h"
+#include "Context.h"
 
-#define REFERENCE_WIDTH 480
-#define REFERENCE_HEIGHT 320
+#define REFERENCE_WIDTH 800
+#define REFERENCE_HEIGHT 480
 
-static SoundManager *soundManager;
-static World *world;
-static WorldRenderer *worldRenderer;
-static MenuRenderer *menuRenderer;
+static Context *context;
 static GraphicsConfiguration *gConfig;
 
 void loadSound();
@@ -33,17 +31,13 @@ void createMenu(S32 width, S32 height);
 
 void btInit(GraphicsConfiguration *graphicsConfig, S32 width, S32 height) {
 	log("BatteryTech 1.0 Initializing...");
-	world = new World;
-	// platform will have determined gpu capabilities and set into gConfig
 	gConfig = graphicsConfig;
+	// platform will have determined gpu capabilities and set into gConfig
 	btSetScreenSize(width, height);
-	// TODO - read in preferences and load into GraphicsConfiguration
-	worldRenderer = new WorldRenderer(gConfig);
-	worldRenderer->init();
-	menuRenderer = new MenuRenderer(gConfig);
-	log("Ready");
+	context = new Context(gConfig);
 	loadSound();
 	createMenu(width, height);
+	log("Ready");
 }
 
 void btSetScreenSize(S32 width, S32 height) {
@@ -60,9 +54,7 @@ void btSetScreenSize(S32 width, S32 height) {
 
 void loadSound() {
 	log("Loading sound");
-	soundManager = new SoundManager;
-	soundManager->init(10);
-	U16 sndId = soundManager->loadSound("level_1_song.ogg");
+	U16 sndId = context->soundManager->loadSound("level_1_song.ogg");
 	//U16 sndId2 = soundManager->loadSound("battery_powered_splash.ogg");
 	//U16 sndId3 = soundManager->loadSound("score_session_end_big.ogg");
 	//soundManager->playSound(sndId, -1, 1.0f);
@@ -71,7 +63,7 @@ void loadSound() {
 }
 
 void createMenu(S32 width, S32 height) {
-	S32 buttonBgId = menuRenderer->addTextureAsset("text_bg_tex.jpg");
+	S32 buttonBgId = context->menuRenderer->addTextureAsset("text_bg_tex.jpg");
 	LinearLayout *buttonLayout = new LinearLayout(LinearLayout::VERTICAL);
 	Button *button1 = new Button();
 	button1->setLayoutParameters(new LinearLayoutParameters(LinearLayoutParameters::LEFT, LinearLayoutParameters::TOP));
@@ -83,15 +75,15 @@ void createMenu(S32 width, S32 height) {
 	button2->setBackgroundMenuResource(buttonBgId);
 	buttonLayout->addComponent(button1);
 	buttonLayout->addComponent(button2);
-	// this part should happen in the setUI() method
-	buttonLayout->setDrawableBounds(0, 0, width, height);
-	//buttonLayout->layout(gConfig->uiScale);
-	log("starting layout");
-	buttonLayout->layout(gConfig->uiScale);
+	Menu *mainMenu = new Menu(buttonLayout);
+	S32 mainMenuId = context->uiManager->addMenu(mainMenu);
+	context->uiManager->showMenu(mainMenuId);
 }
 
 void btUpdate(F32 delta) {
-	world->tickDelta = delta;
+	// todo - just tick the game engine with the delta
+	context->world->tickDelta = delta;
+	context->uiManager->updateMenus(delta);
 	//char buf[32];
 	//sprintf(buf, "update %3.5g theta is %3.5g", delta, theta);
 	//log(buf);
@@ -99,8 +91,8 @@ void btUpdate(F32 delta) {
 
 
 void btDraw() {
-	worldRenderer->render(world);
-	// TODO - render current menu
+	context->worldRenderer->render(context->world);
+	context->menuRenderer->render(context->uiManager);
 }
 
 void btSuspend() {
@@ -112,6 +104,7 @@ void btResume() {
 void btSetPointerState(S32 pointerId, BOOL32 down, S32 x, S32 y) {
 	// TODO - move this all to app context - entire app needs it
 	//char buf[32];
+	World *world = context->world;
 	if (down) {
 		if (pointerId == 0) {
 			world->down1 = TRUE;
@@ -135,11 +128,7 @@ void btSetPointerState(S32 pointerId, BOOL32 down, S32 x, S32 y) {
 }
 
 void btRelease() {
-	if (soundManager) {
-		soundManager->release();
-		delete soundManager;
-	}
-	soundManager = NULL;
-	delete worldRenderer;
-	delete world;
+	gConfig = NULL;
+	delete context;
+	context = NULL;
 }

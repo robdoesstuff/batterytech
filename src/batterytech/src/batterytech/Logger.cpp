@@ -5,15 +5,15 @@
  *      Author: rgreen
  */
 
-#include "logger.h"
+#include "Logger.h"
 #include "platform/platformgeneral.h"
 
-logger::logger() {
+Logger::Logger() {
 }
 
-void logger::logMsg(const char* msg) {
+void Logger::logMsg(const char* msg) {
 	_platform_log(msg);
 }
 
-logger::~logger() {
+Logger::~Logger() {
 }

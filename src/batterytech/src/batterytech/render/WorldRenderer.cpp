@@ -11,7 +11,7 @@
 #include "../decoders/stb_image.h"
 #include "../platform/platformgl.h"
 #include "../platform/platformgeneral.h"
-#include "../logger.h"
+#include "../Logger.h"
 
 void loadTexture();
 GLuint textureId;
