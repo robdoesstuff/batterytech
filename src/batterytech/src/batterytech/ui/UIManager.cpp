@@ -14,8 +14,7 @@ UIManager::UIManager(GraphicsConfiguration *gConfig) {
 }
 
 S32 UIManager::addMenu(Menu *menu) {
-	menus->add(menu);
-	return menus->lastItemIndex;
+	return menus->add(menu);
 }
 
 void UIManager::showMenu(S32 menuId) {

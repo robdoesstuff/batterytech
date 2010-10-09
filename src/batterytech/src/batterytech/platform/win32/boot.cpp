@@ -10,6 +10,9 @@
 #include "../../render/GraphicsConfiguration.h"
 using namespace std;
 
+#define DEFAULT_WIDTH 800
+#define DEFAULT_HEIGHT 480
+
 // WinMain
 DWORD WINAPI StartThread(LPVOID iValue);
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
@@ -24,6 +27,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 {
 	WNDCLASS wc;
 	MSG msg;
+	DWORD		dwExStyle;						// Window Extended Style
+	DWORD		dwStyle;				// Window Style
 
 	// register window class
 	wc.style = CS_OWNDC;
@@ -38,13 +43,35 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	wc.lpszClassName = "BatteryTech";
 	RegisterClass( &wc );
 
+
+	dwExStyle=WS_EX_APPWINDOW | WS_EX_WINDOWEDGE;
+	dwStyle=WS_OVERLAPPEDWINDOW;
+	RECT WindowRect;
+	WindowRect.left=(long)0;
+	WindowRect.right=(long)DEFAULT_WIDTH;
+	WindowRect.top=(long)0;
+	WindowRect.bottom=(long)DEFAULT_HEIGHT;
+	AdjustWindowRectEx(&WindowRect, dwStyle, FALSE, dwExStyle);		// Adjust Window To True Requested Size
 	// create main window
-	hWnd = CreateWindow(
+	/*hWnd = CreateWindow(
 		"BatteryTech", "BatteryTech",
 		WS_CAPTION | WS_POPUPWINDOW | WS_VISIBLE,
-		0, 0, 800, 480,
-		NULL, NULL, hInstance, NULL );
-
+		0, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT,
+		NULL, NULL, hInstance, NULL );*/
+	hWnd=CreateWindowEx(	dwExStyle,				// Extended Style For The Window
+						"BatteryTech",				// Class Name
+						"BatteryTech",					// Window Title
+						WS_CLIPSIBLINGS |			// Required Window Style
+						WS_CLIPCHILDREN |			// Required Window Style
+						WS_VISIBLE |
+						dwStyle,				// Selected Window Style
+						0, 0,					// Window Position
+						WindowRect.right-WindowRect.left,	// Calculate Adjusted Window Width
+						WindowRect.bottom-WindowRect.top,	// Calculate Adjusted Window Height
+						NULL,					// No Parent Window
+						NULL,					// No Menu
+						hInstance,				// Instance
+						NULL);
 
 	HANDLE hThread1;
 	DWORD dwGenericThread;

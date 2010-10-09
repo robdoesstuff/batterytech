@@ -51,10 +51,10 @@ public:
 	S32 marginLeftDips, marginTopDips, marginRightDips, marginBottomDips;
 	S32 backgroundMenuResourceId;
 	const char *text;
+	S32 left, top, right, bottom;
 protected:
 	S32 widthDips;
 	S32 heightDips;
-	S32 left, top, right, bottom;
 	LayoutParameters *layoutParameters;
 };
 

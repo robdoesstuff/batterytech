@@ -21,10 +21,10 @@ public:
 	void popMenu();
 	void updateMenus(F32 delta);
 	virtual ~UIManager();
+	ManagedArray<Menu> *activeMenuStack;
 private:
 	ManagedArray<Menu> *menus;
 	GraphicsConfiguration *gConfig;
-	ManagedArray<Menu> *activeMenuStack;
 };
 
 #endif /* UIMANAGER_H_ */

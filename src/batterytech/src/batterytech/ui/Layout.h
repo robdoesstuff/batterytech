@@ -16,7 +16,6 @@ public:
 	Layout();
 	virtual void addComponent(UIComponent *component);
 	virtual ~Layout();
-protected:
 	ManagedArray<UIComponent> *components;
 };
 

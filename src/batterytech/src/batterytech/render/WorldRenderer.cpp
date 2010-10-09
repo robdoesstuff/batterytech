@@ -23,7 +23,7 @@ WorldRenderer::WorldRenderer(GraphicsConfiguration *gConfig) {
 
 void WorldRenderer::init() {
 	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_COLOR_ARRAY);
+	glDisableClientState(GL_COLOR_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState(GL_NORMAL_ARRAY);
 	glEnable(GL_CULL_FACE);
@@ -56,6 +56,7 @@ void WorldRenderer::render(World *world) {
 	glMatrixMode(GL_MODELVIEW);
 	glColor4f(1, 1, 1, 1);
 
+	glEnableClientState(GL_COLOR_ARRAY);
 	float colors[] = {
 			1.0f, 0.0f, 0.0f, 1.0f,
 			0.0f, 1.0f, 0.0f, 1.0f,
@@ -92,6 +93,7 @@ void WorldRenderer::render(World *world) {
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 		glPopMatrix();
 	}
+	glDisableClientState(GL_COLOR_ARRAY);
 	textRenderer->render(world);
 }
 

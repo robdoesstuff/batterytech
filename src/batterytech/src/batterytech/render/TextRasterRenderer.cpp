@@ -73,12 +73,7 @@ void TextRasterRenderer::render(World *world) {
 	S32 length = strlen(text);
 	F32 verts[length * 6 * 3];
 	F32 uvs[length * 6 * 2];
-	F32 colors[length * 6 * 4];
 	S32 i = 0;
-	for (i = 0; i < length * 6 * 4; i++) {
-		colors[i] = 1.0f;
-	}
-	i = 0;
 	while (*text) {
 		if (*text >= 32 && *text < 128) {
 			stbtt_aligned_quad q;
@@ -135,9 +130,9 @@ void TextRasterRenderer::render(World *world) {
 	glLoadIdentity();
 	glOrthof(0, 800, 480, 0, -1, 1);
 	glMatrixMode(GL_MODELVIEW);
+	glColor4f(1, 1, 1, 1);
 	glFrontFace(GL_CW);
 	glBindTexture(GL_TEXTURE_2D, ftex);
-	glColorPointer(4, GL_FLOAT, 0, &colors);
 	glVertexPointer(3, GL_FLOAT, 0, &verts);
 	glTexCoordPointer(2, GL_FLOAT, 0, &uvs);
 	glEnable(GL_BLEND);

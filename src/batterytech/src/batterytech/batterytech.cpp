@@ -37,6 +37,7 @@ void btInit(GraphicsConfiguration *graphicsConfig, S32 width, S32 height) {
 	context = new Context(gConfig);
 	loadSound();
 	createMenu(width, height);
+	context->menuRenderer->init(context->uiManager);
 	log("Ready");
 }
 
@@ -63,15 +64,17 @@ void loadSound() {
 }
 
 void createMenu(S32 width, S32 height) {
-	S32 buttonBgId = context->menuRenderer->addTextureAsset("text_bg_tex.jpg");
+	S32 buttonBgId = context->menuRenderer->addTextureAsset("button1_tex.png");
 	LinearLayout *buttonLayout = new LinearLayout(LinearLayout::VERTICAL);
 	Button *button1 = new Button();
 	button1->setLayoutParameters(new LinearLayoutParameters(LinearLayoutParameters::LEFT, LinearLayoutParameters::TOP));
-	button1->setSize(120, 40);
+	button1->setSize(160, 60);
+	button1->setMargins(10);
 	button1->setBackgroundMenuResource(buttonBgId);
 	Button *button2 = new Button();
 	button2->setLayoutParameters(new LinearLayoutParameters(LinearLayoutParameters::LEFT, LinearLayoutParameters::TOP));
-	button2->setSize(120, 40);
+	button2->setSize(160, 60);
+	button2->setMargins(10);
 	button2->setBackgroundMenuResource(buttonBgId);
 	buttonLayout->addComponent(button1);
 	buttonLayout->addComponent(button2);
@@ -103,6 +106,8 @@ void btResume() {
 
 void btSetPointerState(S32 pointerId, BOOL32 down, S32 x, S32 y) {
 	// TODO - move this all to app context - entire app needs it
+	// TODO - use simple isFocused to let a menu or the game know it is foreground in layers
+	// TODO - everything should just use poll model with isFocused to determine clicks, etc
 	//char buf[32];
 	World *world = context->world;
 	if (down) {
