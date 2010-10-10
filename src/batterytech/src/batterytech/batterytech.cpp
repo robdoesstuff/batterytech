@@ -69,13 +69,15 @@ void createMenu(S32 width, S32 height) {
 	Button *button1 = new Button();
 	button1->setLayoutParameters(new LinearLayoutParameters(LinearLayoutParameters::LEFT, LinearLayoutParameters::TOP));
 	button1->setSize(160, 60);
-	button1->setMargins(10);
+	button1->setMargins(5);
 	button1->setBackgroundMenuResource(buttonBgId);
+	button1->setText("Button 1");
 	Button *button2 = new Button();
 	button2->setLayoutParameters(new LinearLayoutParameters(LinearLayoutParameters::LEFT, LinearLayoutParameters::TOP));
 	button2->setSize(160, 60);
-	button2->setMargins(10);
+	button2->setMargins(5);
 	button2->setBackgroundMenuResource(buttonBgId);
+	button2->setText("Button 2");
 	buttonLayout->addComponent(button1);
 	buttonLayout->addComponent(button2);
 	Menu *mainMenu = new Menu(buttonLayout);

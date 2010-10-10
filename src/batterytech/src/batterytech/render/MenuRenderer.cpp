@@ -14,6 +14,7 @@
 MenuRenderer::MenuRenderer(GraphicsConfiguration *gConfig) {
 	this->gConfig = gConfig;
 	assetNames = new ManagedArray<const char>(100);
+	textRenderer = new TextRasterRenderer(gConfig, "digital.ttf", 12.0f);
 }
 
 S32 MenuRenderer::addTextureAsset(const char *asset) {
@@ -21,6 +22,7 @@ S32 MenuRenderer::addTextureAsset(const char *asset) {
 }
 
 void MenuRenderer::init(UIManager *uiManager) {
+	textRenderer->init();
 	textureIds = new GLuint[assetNames->getSize()];
 	glGenTextures(assetNames->getSize(), textureIds);
 	S32 i;
@@ -61,7 +63,30 @@ void MenuRenderer::render(UIComponent *component) {
 		drawTexturedQuad(component->top, component->right, component->bottom, component->left);
 	}
 	if (component->text) {
-		// TODO - render text
+		activeResourceId = -1;
+		// TODO - text align
+		// TODO - optimize for 1 pass text
+		F32 textWidth = textRenderer->measureWidth(component->text);
+		F32 textHeight = textRenderer->getHeight();
+		F32 componentWidth = component->right - component->left;
+		F32 componentHeight = component->bottom - component->top;
+		F32 textLeft = component->left;
+		F32 textBottom = component->bottom;
+		if (component->textHorizontalAlignment == UIComponent::LEFT) {
+			textLeft += component->paddingLeftDips * gConfig->uiScale;
+		} else if (component->textHorizontalAlignment == UIComponent::HORIZONTAL_CENTER) {
+			textLeft += (componentWidth / 2 - textWidth / 2);
+		} else if (component->textHorizontalAlignment == UIComponent::RIGHT) {
+			textLeft += (componentWidth - textWidth) - component->paddingRightDips * gConfig->uiScale;
+		}
+		if (component->textVerticalAlignment == UIComponent::BOTTOM) {
+			textBottom -= component->paddingBottomDips * gConfig->uiScale;
+		} else if (component->textVerticalAlignment == UIComponent::VERTICAL_CENTER) {
+			textBottom -= (componentHeight / 2 - textHeight / 2);
+		} else if (component->textVerticalAlignment == UIComponent::TOP) {
+			textBottom -= (componentHeight - textHeight) - component->paddingTopDips * gConfig->uiScale;
+		}
+		textRenderer->render(component->text, textLeft, textBottom);
 	}
 	Layout *layout = dynamic_cast<Layout*>(component);
 	if (layout) {

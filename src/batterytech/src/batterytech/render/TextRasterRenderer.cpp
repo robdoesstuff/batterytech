@@ -64,6 +64,102 @@ void TextRasterRenderer::loadLevel() {
 void TextRasterRenderer::unloadLevel() {
 }
 
+F32 TextRasterRenderer::getHeight() {
+	F32 x = 0;
+	F32 y = 0;
+	stbtt_aligned_quad q;
+	stbtt_GetBakedQuad(cdata, 512,512, 'A'-32, &x,&y,&q,1);//1=opengl,0=old d3d
+	return q.y1 - q.y0;
+}
+
+F32 TextRasterRenderer::measureWidth(const char *text) {
+	F32 x = 0;
+	F32 y = 0;
+	// high/low diff is the way to go since text often overlaps with non-fixed-width fonts
+	F32 lowestX = 999999;
+	F32 highestX = 0;
+	while (*text) {
+		if (*text >= 32 && *text < 128) {
+			stbtt_aligned_quad q;
+			stbtt_GetBakedQuad(cdata, 512,512, *text-32, &x,&y,&q,1);//1=opengl,0=old d3d
+			if (q.x0 < lowestX) {
+				lowestX = q.x0;
+			}
+			if (q.x1 > highestX) {
+				highestX = q.x1;
+			}
+			++text;
+		}
+	}
+	return highestX - lowestX;
+}
+
+void TextRasterRenderer::render(const char *text, F32 x, F32 y) {
+	glColor4f(1, 1, 1, 1);
+	glFrontFace(GL_CW);
+	glBindTexture(GL_TEXTURE_2D, ftex);
+	S32 length = strlen(text);
+	F32 verts[length * 6 * 3];
+	F32 uvs[length * 6 * 2];
+	S32 i = 0;
+	while (*text) {
+		if (*text >= 32 && *text < 128) {
+			stbtt_aligned_quad q;
+			stbtt_GetBakedQuad(cdata, 512,512, *text-32, &x,&y,&q,1);//1=opengl,0=old d3d
+			S32 pos = i * 18;
+			// 0
+			verts[pos] = q.x0;
+			verts[pos + 1] = q.y0;
+			verts[pos + 2] = 0;
+			// 1
+			verts[pos + 3] = q.x1;
+			verts[pos + 4] = q.y0;
+			verts[pos + 5] = 0;
+			// 2
+			verts[pos + 6] = q.x1;
+			verts[pos + 7] = q.y1;
+			verts[pos + 8] = 0;
+			// 0
+			verts[pos + 9] = q.x0;
+			verts[pos + 10] = q.y0;
+			verts[pos + 11] = 0;
+			// 2
+			verts[pos + 12] = q.x1;
+			verts[pos + 13] = q.y1;
+			verts[pos + 14] = 0;
+			// 3
+			verts[pos + 15] = q.x0;
+			verts[pos + 16] = q.y1;
+			verts[pos + 17] = 0;
+			pos = i * 12;
+			// 0
+			uvs[pos] = q.s0;
+			uvs[pos + 1] = q.t0;
+			// 1
+			uvs[pos + 2] = q.s1;
+			uvs[pos + 3] = q.t0;
+			// 2
+			uvs[pos + 4] = q.s1;
+			uvs[pos + 5] = q.t1;
+			// 0
+			uvs[pos + 6] = q.s0;
+			uvs[pos + 7] = q.t0;
+			// 2
+			uvs[pos + 8] = q.s1;
+			uvs[pos + 9] = q.t1;
+			// 3
+			uvs[pos + 10] = q.s0;
+			uvs[pos + 11] = q.t1;
+		}
+		++text;
+		++i;
+	}
+	glVertexPointer(3, GL_FLOAT, 0, &verts);
+	glTexCoordPointer(2, GL_FLOAT, 0, &uvs);
+	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glDrawArrays(GL_TRIANGLES, 0, length * 6);
+}
+
 void TextRasterRenderer::render(World *world) {
 	const char *text = "THIS IS SOME TEXT";
 	//logger::logMsg("rendering text()");

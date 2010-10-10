@@ -10,7 +10,7 @@
 UIComponent::UIComponent() {
 	widthDips = 0;
 	heightDips = 0;
-	paddingDips = 0;
+	paddingLeftDips = paddingTopDips = paddingRightDips = paddingBottomDips = 0;
 	marginBottomDips = 0;
 	marginLeftDips = 0;
 	marginRightDips = 0;
@@ -21,6 +21,8 @@ UIComponent::UIComponent() {
 	bottom = 0;
 	backgroundMenuResourceId = NO_RESOURCE;
 	text = NULL;
+	textHorizontalAlignment = HORIZONTAL_CENTER;
+	textVerticalAlignment = VERTICAL_CENTER;
 }
 
 UIComponent::~UIComponent() {

@@ -20,6 +20,9 @@ public:
 	virtual void loadLevel();
 	virtual void init();
 	virtual void render(World *world);
+	void render(const char *text, F32 x, F32 y);
+	F32 getHeight();
+	F32 measureWidth(const char *text);
 	virtual ~TextRasterRenderer();
 private:
 	GraphicsConfiguration *gConfig;

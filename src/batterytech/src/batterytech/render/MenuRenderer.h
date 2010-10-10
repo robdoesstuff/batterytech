@@ -30,6 +30,7 @@ private:
 	ManagedArray<const char> *assetNames;
 	GLuint *textureIds;
 	S32 activeResourceId;
+	TextRasterRenderer *textRenderer;
 };
 
 #endif /* MENURENDERER_H_ */
