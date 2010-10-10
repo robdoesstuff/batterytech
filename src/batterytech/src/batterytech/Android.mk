@@ -22,7 +22,8 @@ LOCAL_CFLAGS := -DANDROID_NDK \
 LOCAL_MODULE    := batterytech
 LOCAL_SRC_FILES :=\
 	batterytech.cpp \
-	logger.cpp \
+	Logger.cpp \
+	Context.cpp \
 	decoders/stb_image.c \
 	decoders/stb_vorbis.c \
 	sound/PCMSound.cpp \
@@ -30,12 +31,22 @@ LOCAL_SRC_FILES :=\
 	sound/SoundManager.cpp \
 	render/Renderer.cpp \
 	render/TextRasterRenderer.cpp \
+	render/WorldRenderer.cpp \
+	render/GraphicsConfiguration.cpp \
+	render/MenuRenderer.cpp \
 	platform/android/androidgeneral.cpp \
 	platform/android/boot.cpp \
 	platform/android/importgl.c \
 	game/World.cpp \
-	render/WorldRenderer.cpp \
-	render/GraphicsConfiguration.cpp
+	ui/Button.cpp \
+	ui/Checkbox.cpp \
+	ui/Label.cpp \
+	ui/Layout.cpp \
+	ui/LinearLayout.cpp \
+	ui/Menu.cpp \
+	ui/UIComponent.cpp \
+	ui/UIManager.cpp 
+	
 
 LOCAL_LDLIBS := -lGLESv1_CM -ldl -llog
 

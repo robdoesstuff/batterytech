@@ -16,8 +16,6 @@
 #include "render/WorldRenderer.h"
 #include "ui/Button.h"
 #include "ui/LinearLayout.h"
-#include "ui/LinearLayoutParameters.h"
-#include "ui/MenuLayoutParameters.h"
 #include "render/MenuRenderer.h"
 #include "Context.h"
 
@@ -69,19 +67,19 @@ void createMenu(S32 width, S32 height) {
 	S32 panelBgId = context->menuRenderer->addTextureAsset("panel1_tex.png");
 	LinearLayout *buttonLayout = new LinearLayout(LinearLayout::VERTICAL);
 	Button *button1 = new Button();
-	button1->setLayoutParameters(new LinearLayoutParameters(LinearLayoutParameters::HORIZONTAL_CENTER, LinearLayoutParameters::TOP));
+	button1->setLayoutParameters(new LayoutParameters(LayoutParameters::HORIZONTAL_CENTER, LayoutParameters::TOP));
 	button1->setSize(160, 60);
 	button1->setMargins(5);
 	button1->setBackgroundMenuResource(buttonBgId);
 	button1->setText("Button 1");
 	Button *button2 = new Button();
-	button2->setLayoutParameters(new LinearLayoutParameters(LinearLayoutParameters::HORIZONTAL_CENTER, LinearLayoutParameters::TOP));
+	button2->setLayoutParameters(new LayoutParameters(LayoutParameters::HORIZONTAL_CENTER, LayoutParameters::TOP));
 	button2->setSize(160, 60);
 	button2->setMargins(5);
 	button2->setBackgroundMenuResource(buttonBgId);
 	button2->setText("Button 2");
 	Button *button3 = new Button();
-	button3->setLayoutParameters(new LinearLayoutParameters(LinearLayoutParameters::HORIZONTAL_CENTER, LinearLayoutParameters::TOP));
+	button3->setLayoutParameters(new LayoutParameters(LayoutParameters::HORIZONTAL_CENTER, LayoutParameters::TOP));
 	button3->setSize(160, 60);
 	button3->setMargins(5);
 	button3->setBackgroundMenuResource(buttonBgId);
@@ -92,7 +90,26 @@ void createMenu(S32 width, S32 height) {
 	buttonLayout->setHeight(FILL);
 	buttonLayout->setWidth(WRAP);
 	buttonLayout->setBackgroundMenuResource(panelBgId);
-	buttonLayout->setLayoutParameters(new MenuLayoutParameters(MenuLayoutParameters::LEFT, MenuLayoutParameters::TOP));
+	buttonLayout->setLayoutParameters(new LayoutParameters(LayoutParameters::LEFT, LayoutParameters::TOP));
+	LinearLayout *bottomLayout = new LinearLayout(LinearLayout::HORIZONTAL);
+	Button *button4 = new Button();
+	button4->setLayoutParameters(new LayoutParameters(LayoutParameters::HORIZONTAL_CENTER, LayoutParameters::TOP));
+	button4->setSize(90, 60);
+	button4->setMargins(5);
+	button4->setBackgroundMenuResource(buttonBgId);
+	button4->setText("A");
+	Button *button5 = new Button();
+	button5->setLayoutParameters(new LayoutParameters(LayoutParameters::HORIZONTAL_CENTER, LayoutParameters::TOP));
+	button5->setSize(90, 60);
+	button5->setMargins(5);
+	button5->setBackgroundMenuResource(buttonBgId);
+	button5->setText("B");
+	bottomLayout->addComponent(button4);
+	bottomLayout->addComponent(button5);
+	bottomLayout->setWidth(WRAP);
+	bottomLayout->setHeight(WRAP);
+	bottomLayout->setLayoutParameters(new LayoutParameters(LayoutParameters::HORIZONTAL_CENTER, LayoutParameters::BOTTOM));
+	buttonLayout->addComponent(bottomLayout);
 	Menu *mainMenu = new Menu(buttonLayout);
 	S32 mainMenuId = context->uiManager->addMenu(mainMenu);
 	context->uiManager->showMenu(mainMenuId);

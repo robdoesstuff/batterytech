@@ -45,7 +45,7 @@ public:
 	virtual void layout(F32 scale)=0;
 	// in actual screen coordinates
 	virtual void setDrawableBounds(S32 left, S32 top, S32 right, S32 bottom) {
-		char buf[40];
+		char buf[60];
 		sprintf(buf, "Component Bounds set to [%d, %d, %d, %d]", left, top, right, bottom);
 		log(buf);
 		this->left = left;

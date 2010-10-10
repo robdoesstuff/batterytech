@@ -6,7 +6,7 @@
  */
 
 #include "UIManager.h"
-#include "MenuLayoutParameters.h"
+#include "LayoutParameters.h"
 
 UIManager::UIManager(GraphicsConfiguration *gConfig) {
 	this->gConfig = gConfig;
@@ -35,30 +35,27 @@ void UIManager::showMenu(S32 menuId) {
 		} else {
 			height = (S32) (height * gConfig->uiScale);
 		}
-		MenuLayoutParameters::HorizontalAlignment horizAlign = MenuLayoutParameters::LEFT;
-		MenuLayoutParameters::VerticalAlignment vertAlign = MenuLayoutParameters::TOP;
+		LayoutParameters::HorizontalAlignment horizAlign = LayoutParameters::LEFT;
+		LayoutParameters::VerticalAlignment vertAlign = LayoutParameters::TOP;
 		// check layout parameters
 		if (menu->getRootComponent()->getLayoutParameters()) {
-			MenuLayoutParameters *menuParams = dynamic_cast<MenuLayoutParameters*>(menu->getRootComponent()->getLayoutParameters());
-			if (menuParams) {
-				horizAlign = menuParams->getHorizontalAlignment();
-				vertAlign = menuParams->getVerticalAlignment();
-			}
+			horizAlign = menu->getRootComponent()->getLayoutParameters()->getHorizontalAlignment();
+			vertAlign = menu->getRootComponent()->getLayoutParameters()->getVerticalAlignment();
 		}
 		S32 top, right, bottom, left;
-		if (vertAlign == MenuLayoutParameters::TOP) {
+		if (vertAlign == LayoutParameters::TOP) {
 			top = 0;
-		} else if (vertAlign == MenuLayoutParameters::VERTICAL_CENTER) {
+		} else if (vertAlign == LayoutParameters::VERTICAL_CENTER) {
 			top = gConfig->viewportHeight / 2 - height / 2;
-		} else if (vertAlign == MenuLayoutParameters::BOTTOM) {
+		} else if (vertAlign == LayoutParameters::BOTTOM) {
 			top = gConfig->viewportHeight - height;
 		}
 		bottom = top + height;
-		if (horizAlign == MenuLayoutParameters::LEFT) {
+		if (horizAlign == LayoutParameters::LEFT) {
 			left = 0;
-		} else if (horizAlign == MenuLayoutParameters::HORIZONTAL_CENTER) {
+		} else if (horizAlign == LayoutParameters::HORIZONTAL_CENTER) {
 			left = gConfig->viewportWidth / 2 - width / 2;
-		} else if (horizAlign == MenuLayoutParameters::RIGHT) {
+		} else if (horizAlign == LayoutParameters::RIGHT) {
 			left = gConfig->viewportWidth - width;
 		}
 		right = left + width;
