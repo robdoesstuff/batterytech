@@ -86,7 +86,6 @@ void createMenu(S32 width, S32 height) {
 	button3->setMargins(5);
 	button3->setBackgroundMenuResource(buttonBgId);
 	button3->setText("Button 3");
-
 	buttonLayout->addComponent(button1);
 	buttonLayout->addComponent(button2);
 	buttonLayout->addComponent(button3);
