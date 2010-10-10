@@ -254,10 +254,7 @@ void LinearLayout::calcSpaceRequired(F32 scale, S32 *width, S32 *height, S32 *ho
 	}
 }
 
-void LinearLayout::update() {
+void LinearLayout::update(F32 delta) {
 
 }
 
-void LinearLayout::draw() {
-
-}

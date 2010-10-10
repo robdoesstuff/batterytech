@@ -55,6 +55,11 @@ void MenuRenderer::render(UIManager *uiManager) {
 void MenuRenderer::render(UIComponent *component) {
 	// draw this component first then recurse children
 	S32 menuResourceId = component->backgroundMenuResourceId;
+	if (component->isPressed) {
+		if (component->pressedBackgroundMenuResourceId != NO_RESOURCE) {
+			menuResourceId = component->pressedBackgroundMenuResourceId;
+		}
+	}
 	if (menuResourceId != NO_RESOURCE) {
 		if (menuResourceId != activeResourceId) {
 			glBindTexture(GL_TEXTURE_2D, textureIds[menuResourceId]);

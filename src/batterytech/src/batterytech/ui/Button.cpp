@@ -7,23 +7,16 @@
 
 #include "Button.h"
 
-Button::Button() {
-	// TODO Auto-generated constructor stub
-
+Button::Button() : UIComponent() {
 }
 
 Button::~Button() {
-	// TODO Auto-generated destructor stub
 }
 
 void Button::layout(F32 scale) {
-
 }
 
-void Button::update() {
-
+void Button::update(F32 delta) {
 }
 
-void Button::draw() {
 
-}

@@ -27,8 +27,13 @@ public:
 	virtual ~UIManager();
 	ManagedArray<Menu> *activeMenuStack;
 private:
+	// true if component consumed click
+	BOOL32 traverseClickState(UIComponent *component, BOOL32 down, S32 x, S32 y);
+	void traverseUpdate(UIComponent *component);
 	ManagedArray<Menu> *menus;
 	Context *context;
+	BOOL32 clickDownChecked;
+	BOOL32 clickDownActive;
 };
 
 #endif /* UIMANAGER_H_ */

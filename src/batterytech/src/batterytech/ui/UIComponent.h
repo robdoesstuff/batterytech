@@ -32,6 +32,8 @@ public:
 	virtual void setMargins(S32 marginDips) {this->marginLeftDips = this->marginTopDips = this->marginRightDips = this->marginBottomDips = marginDips;};
 	virtual void setLayoutParameters(LayoutParameters *layoutParameters) {this->layoutParameters = layoutParameters;};
 	virtual void setBackgroundMenuResource(S32 menuResourceId) {this->backgroundMenuResourceId = menuResourceId;};
+	virtual void setPressedBackgroundMenuResource(S32 menuResourceId) {this->pressedBackgroundMenuResourceId = menuResourceId;};
+	virtual void setSelectedBackgroundMenuResource(S32 menuResourceId) {this->selectedBackgroundMenuResourceId = menuResourceId;};
 	virtual void setText(const char *text) {this->text = text;};
 	virtual void setTextAlignment(HorizontalAlignment horizAlignment, VerticalAlignment vertAlignment) {
 		this->textHorizontalAlignment = horizAlignment;
@@ -53,17 +55,26 @@ public:
 		this->right = right;
 		this->bottom = bottom;
 	}
-	virtual void update()=0;
-	virtual void draw()=0;
+	virtual void update(F32 delta)=0;
+	virtual void dispatchClickDown();
+	virtual void dispatchClickUp();
 	S32 paddingLeftDips, paddingTopDips, paddingRightDips, paddingBottomDips;
 	S32 marginLeftDips, marginTopDips, marginRightDips, marginBottomDips;
 	S32 backgroundMenuResourceId;
+	S32 pressedBackgroundMenuResourceId;
+	S32 selectedBackgroundMenuResourceId;
 	const char *text;
 	S32 left, top, right, bottom;
 	HorizontalAlignment textHorizontalAlignment;
 	VerticalAlignment textVerticalAlignment;
 	ManagedArray<UIComponent> *components;
+	BOOL32 isClickable;
+	BOOL32 isSelectable;
+	BOOL32 isEnabled;
+	BOOL32 isPressed;
 protected:
+	virtual void onClickDown(){};
+	virtual void onClickUp(){};
 	S32 widthDips;
 	S32 heightDips;
 	LayoutParameters *layoutParameters;

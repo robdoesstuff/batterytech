@@ -12,6 +12,8 @@ UIManager::UIManager(Context *context) {
 	this->context = context;
 	menus = new ManagedArray<Menu>(10);
 	activeMenuStack = new ManagedArray<Menu>(10);
+	clickDownActive = FALSE;
+	clickDownChecked = FALSE;
 }
 
 S32 UIManager::addMenu(Menu *menu) {
@@ -73,6 +75,66 @@ void UIManager::popMenu() {
 }
 
 void UIManager::update() {
+	if (activeMenuStack->lastItemIndex > -1) {
+		Menu *menu = activeMenuStack->array[activeMenuStack->lastItemIndex];
+		//traverse menu components
+		// try to deliver click state to deepest clickable component
+		if (context->down1 && !clickDownChecked) {
+			if (traverseClickState(menu->getRootComponent(), TRUE, context->x1, context->y1)) {
+				clickDownActive = TRUE;
+			}
+			clickDownChecked = TRUE;
+		}
+		if (!context->down1) {
+			if (clickDownActive) {
+				// need to unclick
+				traverseClickState(menu->getRootComponent(), FALSE, context->x1, context->y1);
+			}
+			clickDownChecked = FALSE;
+			clickDownActive = FALSE;
+		}
+		traverseUpdate(menu->getRootComponent());
+	}
+}
+
+void UIManager::traverseUpdate(UIComponent *component) {
+	component->update(context->tickDelta);
+	ManagedArray<UIComponent> *subComps = component->components;
+	if (subComps) {
+		S32 i;
+		for (i = 0; i < subComps->getSize(); i++) {
+			UIComponent *subComp = subComps->array[i];
+			traverseUpdate(subComp);
+		}
+	}
+}
+
+BOOL32 UIManager::traverseClickState(UIComponent *component, BOOL32 down, S32 x, S32 y) {
+	ManagedArray<UIComponent> *subComps = component->components;
+	if (subComps) {
+		S32 i;
+		for (i = 0; i < subComps->getSize(); i++) {
+			UIComponent *subComp = subComps->array[i];
+			if (traverseClickState(subComp, down, x, y)) {
+				return TRUE;
+			}
+		}
+	}
+	if (down && component->isClickable) {
+		if (x < component->left || x > component->right || y < component->top || y > component->bottom) {
+			// do nothing, fast out check
+		} else {
+			component->isPressed = TRUE;
+			component->dispatchClickDown();
+			return TRUE;
+		}
+	}
+	if (!down && component->isPressed) {
+		component->isPressed = FALSE;
+		component->dispatchClickUp();
+		return FALSE;
+	}
+	return FALSE;
 }
 
 UIManager::~UIManager() {

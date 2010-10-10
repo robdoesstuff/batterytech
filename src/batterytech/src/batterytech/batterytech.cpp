@@ -64,6 +64,7 @@ void loadSound() {
 
 void createMenu(S32 width, S32 height) {
 	S32 buttonBgId = context->menuRenderer->addTextureAsset("button1_tex.png");
+	S32 buttonPressedBgId = context->menuRenderer->addTextureAsset("button1_pressed_tex.png");
 	S32 panelBgId = context->menuRenderer->addTextureAsset("panel1_tex.png");
 	LinearLayout *buttonLayout = new LinearLayout(LinearLayout::VERTICAL);
 	Button *button1 = new Button();
@@ -71,18 +72,21 @@ void createMenu(S32 width, S32 height) {
 	button1->setSize(160, 60);
 	button1->setMargins(5);
 	button1->setBackgroundMenuResource(buttonBgId);
+	button1->setPressedBackgroundMenuResource(buttonPressedBgId);
 	button1->setText("Button 1");
 	Button *button2 = new Button();
 	button2->setLayoutParameters(new LayoutParameters(LayoutParameters::HORIZONTAL_CENTER, LayoutParameters::TOP));
 	button2->setSize(160, 60);
 	button2->setMargins(5);
 	button2->setBackgroundMenuResource(buttonBgId);
+	button2->setPressedBackgroundMenuResource(buttonPressedBgId);
 	button2->setText("Button 2");
 	Button *button3 = new Button();
 	button3->setLayoutParameters(new LayoutParameters(LayoutParameters::HORIZONTAL_CENTER, LayoutParameters::TOP));
 	button3->setSize(160, 60);
 	button3->setMargins(5);
 	button3->setBackgroundMenuResource(buttonBgId);
+	button3->setPressedBackgroundMenuResource(buttonPressedBgId);
 	button3->setText("Button 3");
 	buttonLayout->addComponent(button1);
 	buttonLayout->addComponent(button2);
@@ -97,12 +101,14 @@ void createMenu(S32 width, S32 height) {
 	button4->setSize(90, 60);
 	button4->setMargins(5);
 	button4->setBackgroundMenuResource(buttonBgId);
+	button4->setPressedBackgroundMenuResource(buttonPressedBgId);
 	button4->setText("A");
 	Button *button5 = new Button();
 	button5->setLayoutParameters(new LayoutParameters(LayoutParameters::HORIZONTAL_CENTER, LayoutParameters::TOP));
 	button5->setSize(90, 60);
 	button5->setMargins(5);
 	button5->setBackgroundMenuResource(buttonBgId);
+	button5->setPressedBackgroundMenuResource(buttonPressedBgId);
 	button5->setText("B");
 	bottomLayout->addComponent(button4);
 	bottomLayout->addComponent(button5);

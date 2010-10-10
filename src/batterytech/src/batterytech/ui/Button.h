@@ -14,8 +14,7 @@ class Button: public UIComponent {
 public:
 	Button();
 	virtual ~Button();
-	virtual void update();
-	virtual void draw();
+	virtual void update(F32 delta);
 	virtual void layout(F32 scale);
 
 };

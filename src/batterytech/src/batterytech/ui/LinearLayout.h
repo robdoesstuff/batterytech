@@ -18,8 +18,7 @@ public:
 	LinearLayout(LayoutDirection direction);
 	virtual ~LinearLayout();
 	virtual void layout(F32 scale);
-	virtual void update();
-	virtual void draw();
+	virtual void update(F32 delta);
 	virtual S32 getDesiredWidth();
 	virtual S32 getDesiredHeight();
 private:

@@ -9,6 +9,7 @@
 #define GAME_H_
 
 #include "../Context.h"
+#include "../primitives.h"
 
 // cross-references
 class Context;
@@ -20,6 +21,7 @@ public:
 	virtual void update();
 private:
 	Context *context;
+	BOOL32 isFocused;
 };
 
 #endif /* GAME_H_ */

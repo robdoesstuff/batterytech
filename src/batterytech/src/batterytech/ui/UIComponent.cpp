@@ -20,14 +20,28 @@ UIComponent::UIComponent() {
 	right = 0;
 	bottom = 0;
 	backgroundMenuResourceId = NO_RESOURCE;
+	pressedBackgroundMenuResourceId = NO_RESOURCE;
+	selectedBackgroundMenuResourceId = NO_RESOURCE;
 	text = NULL;
 	textHorizontalAlignment = HORIZONTAL_CENTER;
 	textVerticalAlignment = VERTICAL_CENTER;
 	components = new ManagedArray<UIComponent>(10);
+	isClickable = TRUE;
+	isSelectable = TRUE;
+	isEnabled = TRUE;
+	isPressed = FALSE;
 }
 
 void UIComponent::addComponent(UIComponent *component) {
 	components->add(component);
+}
+
+void UIComponent::dispatchClickDown() {
+	onClickDown();
+}
+
+void UIComponent::dispatchClickUp() {
+	onClickUp();
 }
 
 UIComponent::~UIComponent() {
