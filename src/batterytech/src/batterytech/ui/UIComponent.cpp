@@ -23,8 +23,14 @@ UIComponent::UIComponent() {
 	text = NULL;
 	textHorizontalAlignment = HORIZONTAL_CENTER;
 	textVerticalAlignment = VERTICAL_CENTER;
+	components = new ManagedArray<UIComponent>(10);
+}
+
+void UIComponent::addComponent(UIComponent *component) {
+	components->add(component);
 }
 
 UIComponent::~UIComponent() {
 	delete layoutParameters;
+	delete components;
 }

@@ -23,6 +23,7 @@ public:
 	virtual S32 getDesiredWidth();
 	virtual S32 getDesiredHeight();
 private:
+	void calcSpaceRequired(F32 scale, S32 *width, S32 *height, S32 *horizFillCount, S32 *vertFillCount, S32 *center);
 	LayoutDirection layoutDirection;
 };
 

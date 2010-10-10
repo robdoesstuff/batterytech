@@ -22,8 +22,14 @@ S32 LinearLayout::getDesiredWidth() {
 	if (widthDips == FILL) {
 		return FILL;
 	} else if (widthDips == WRAP) {
-		// TODO - get wrap content width
-		return WRAP;
+		S32 widthNeeded = 0;
+		S32 heightNeeded = 0;
+		S32 vertFillCount = 0;
+		S32 horizFillCount = 0;
+		S32 centerNeeded = 0;
+		// scale at 1.0 for dips
+		calcSpaceRequired(1.0f, &widthNeeded, &heightNeeded, &horizFillCount, &vertFillCount, &centerNeeded);
+		return widthNeeded;
 	} else {
 		return widthDips;
 	}
@@ -33,8 +39,14 @@ S32 LinearLayout::getDesiredHeight() {
 	if (heightDips == FILL) {
 		return FILL;
 	} else if (heightDips == WRAP) {
-		// TODO - get wrap content width
-		return WRAP;
+		S32 widthNeeded = 0;
+		S32 heightNeeded = 0;
+		S32 vertFillCount = 0;
+		S32 horizFillCount = 0;
+		S32 centerNeeded = 0;
+		// scale at 1.0 for dips
+		calcSpaceRequired(1.0f, &widthNeeded, &heightNeeded, &horizFillCount, &vertFillCount, &centerNeeded);
+		return heightNeeded;
 	} else {
 		return heightDips;
 	}
@@ -58,30 +70,11 @@ void LinearLayout::layout(F32 scale) {
 	S32 vertFillCount = 0;
 	S32 totalWidthNeeded = 0;
 	S32 totalHeightNeeded = 0;
+	S32 centerNeeded = 0;
+	S32 centerUsed = 0;
 	S32 compLeft, compRight, compTop, compBottom;
 	S32 i;
-	log("calcing space dist 1");
-	for (i = 0; i < components->getSize(); i++) {
-		UIComponent *component = components->array[i];
-		if (layoutDirection == VERTICAL) {
-			if (component->getDesiredHeight() == FILL) {
-				++vertFillCount;
-			} else if (component->getDesiredHeight() == WRAP) {
-				// TODO - handle wrap
-			} else {
-				totalHeightNeeded += (S32)(component->getDesiredHeight() * scale + component->marginTopDips * scale + component->marginBottomDips * scale);
-			}
-		} else {
-			// horizontal
-			if (component->getDesiredWidth() == FILL) {
-				++horizFillCount;
-			} else if (component->getDesiredWidth() == WRAP) {
-				// TODO - handle wrap
-			} else {
-				totalWidthNeeded += (S32)(component->getDesiredWidth() * scale + component->marginLeftDips * scale + component->marginRightDips * scale);
-			}
-		}
-	}
+	calcSpaceRequired(scale, &totalWidthNeeded, &totalHeightNeeded, &horizFillCount, &vertFillCount, &centerNeeded);
 	log("calcing space dist 2");
 	// this distributes remaining space to components which require fill
 	S32 vertFillPerComponentSize = 0;
@@ -129,11 +122,16 @@ void LinearLayout::layout(F32 scale) {
 				curLeft += horizFillPerComponentSize;
 			}
 		} else if (component->getDesiredWidth() == WRAP) {
-			// TODO - handle wrap
+			// Is there anything to do about a wrap result?
 		} else {
 			// fixed-width component
 			if (layoutDirection == VERTICAL) {
 				// TODO - check alignment, handle left (Default) center and right
+				if (horizAlign == LinearLayoutParameters::HORIZONTAL_CENTER) {
+
+				} else if (horizAlign == LinearLayoutParameters::RIGHT) {
+
+				}
 				compLeft = curLeft + (S32)(component->marginLeftDips * scale);
 				compRight = compLeft + (S32)(component->getDesiredWidth() * scale);
 			} else {
@@ -154,20 +152,80 @@ void LinearLayout::layout(F32 scale) {
 				compBottom = curBottom - (S32)(component->marginBottomDips * scale);
 			}
 		} else if (component->getDesiredHeight() == WRAP) {
-			// TODO - handle wrap
+			// Is there anything to do about a wrap result?
 		} else {
 			// fixed-height component
 			if (layoutDirection == VERTICAL) {
 				compTop = curTop + (S32)(component->marginTopDips * scale);
 				compBottom = compTop + (S32)(component->getDesiredHeight() * scale);
-				curTop += compBottom + (S32)(component->marginBottomDips * scale);
+				curTop = compBottom + (S32)(component->marginBottomDips * scale);
 			} else {
-				// TODO - check alignment, handle top (Default) center and bottom
+				// TODO - check alignment, handle top center and bottom
+				if (vertAlign == LinearLayoutParameters::VERTICAL_CENTER) {
+
+				} else if (vertAlign == LinearLayoutParameters::BOTTOM) {
+
+				}
 				compTop = curTop + (S32)(component->marginTopDips * scale);
 				compBottom = compTop + (S32)(component->getDesiredHeight() * scale);
 			}
 		}
 		component->setDrawableBounds(compLeft, compTop, compRight, compBottom);
+	}
+}
+
+void LinearLayout::calcSpaceRequired(F32 scale, S32 *width, S32 *height, S32 *horizFillCount, S32 *vertFillCount, S32 *center) {
+	S32 i;
+	for (i = 0; i < components->getSize(); i++) {
+		UIComponent *component = components->array[i];
+		LinearLayoutParameters::HorizontalAlignment horizAlign = LinearLayoutParameters::LEFT;
+		LinearLayoutParameters::VerticalAlignment vertAlign = LinearLayoutParameters::TOP;
+		// check layout parameters
+		if (component->getLayoutParameters()) {
+			LinearLayoutParameters *linearParams = dynamic_cast<LinearLayoutParameters*>(component->getLayoutParameters());
+			if (linearParams) {
+				horizAlign = linearParams->getHorizontalAlignment();
+				vertAlign = linearParams->getVerticalAlignment();
+			}
+		}
+		if (layoutDirection == VERTICAL) {
+			if (component->getDesiredHeight() == FILL) {
+				++*vertFillCount;
+			} else if (component->getDesiredHeight() == WRAP) {
+				// Is there anything to do about a wrap result?
+			} else {
+				*height += (S32)(component->getDesiredHeight() * scale + component->marginTopDips * scale + component->marginBottomDips * scale);
+				if (vertAlign == LinearLayoutParameters::VERTICAL_CENTER) {
+					*center += (S32)(component->getDesiredHeight() * scale + component->marginTopDips * scale + component->marginBottomDips * scale);
+				}
+				// just return the widest fixed-width component
+				if (component->getDesiredWidth() != FILL && component->getDesiredWidth() != WRAP) {
+					S32 componentTotalWidthPx = (S32)((component->getDesiredWidth() + component->marginLeftDips + component->marginRightDips) * scale);
+					if (componentTotalWidthPx > *width) {
+						*width = componentTotalWidthPx;
+					}
+				}
+			}
+		} else {
+			// horizontal
+			if (component->getDesiredWidth() == FILL) {
+				++*horizFillCount;
+			} else if (component->getDesiredWidth() == WRAP) {
+				// Is there anything to do about a wrap result?
+			} else {
+				*width += (S32)(component->getDesiredWidth() * scale + component->marginLeftDips * scale + component->marginRightDips * scale);
+				if (horizAlign == LinearLayoutParameters::HORIZONTAL_CENTER) {
+					*center += (S32)(component->getDesiredWidth() * scale + component->marginLeftDips * scale + component->marginRightDips * scale);
+				}
+				// just return the tallest fixed-height component
+				if (component->getDesiredHeight() != FILL && component->getDesiredHeight() != WRAP) {
+					S32 componentTotalHeightPx = (S32)((component->getDesiredHeight() + component->marginTopDips + component->marginBottomDips) * scale);
+					if (componentTotalHeightPx > *height) {
+						*height = componentTotalHeightPx;
+					}
+				}
+			}
+		}
 	}
 }
 

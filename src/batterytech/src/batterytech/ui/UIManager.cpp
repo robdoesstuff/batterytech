@@ -6,6 +6,7 @@
  */
 
 #include "UIManager.h"
+#include "MenuLayoutParameters.h"
 
 UIManager::UIManager(GraphicsConfiguration *gConfig) {
 	this->gConfig = gConfig;
@@ -21,7 +22,47 @@ void UIManager::showMenu(S32 menuId) {
 	// get menu by id, layout, push on stack
 	if (menuId <= menus->lastItemIndex) {
 		Menu *menu = menus->array[menuId];
-		menu->getRootComponent()->setDrawableBounds(0, 0, gConfig->viewportWidth, gConfig->viewportHeight);
+		// do frame layout
+		S32 width = menu->getRootComponent()->getDesiredWidth();
+		S32 height = menu->getRootComponent()->getDesiredHeight();
+		if (width == FILL) {
+			width = gConfig->viewportWidth;
+		} else {
+			width = (S32) (width * gConfig->uiScale);
+		}
+		if (height == FILL) {
+			height = gConfig->viewportHeight;
+		} else {
+			height = (S32) (height * gConfig->uiScale);
+		}
+		MenuLayoutParameters::HorizontalAlignment horizAlign = MenuLayoutParameters::LEFT;
+		MenuLayoutParameters::VerticalAlignment vertAlign = MenuLayoutParameters::TOP;
+		// check layout parameters
+		if (menu->getRootComponent()->getLayoutParameters()) {
+			MenuLayoutParameters *menuParams = dynamic_cast<MenuLayoutParameters*>(menu->getRootComponent()->getLayoutParameters());
+			if (menuParams) {
+				horizAlign = menuParams->getHorizontalAlignment();
+				vertAlign = menuParams->getVerticalAlignment();
+			}
+		}
+		S32 top, right, bottom, left;
+		if (vertAlign == MenuLayoutParameters::TOP) {
+			top = 0;
+		} else if (vertAlign == MenuLayoutParameters::VERTICAL_CENTER) {
+			top = gConfig->viewportHeight / 2 - height / 2;
+		} else if (vertAlign == MenuLayoutParameters::BOTTOM) {
+			top = gConfig->viewportHeight - height;
+		}
+		bottom = top + height;
+		if (horizAlign == MenuLayoutParameters::LEFT) {
+			left = 0;
+		} else if (horizAlign == MenuLayoutParameters::HORIZONTAL_CENTER) {
+			left = gConfig->viewportWidth / 2 - width / 2;
+		} else if (horizAlign == MenuLayoutParameters::RIGHT) {
+			left = gConfig->viewportWidth - width;
+		}
+		right = left + width;
+		menu->getRootComponent()->setDrawableBounds(left, top, right, bottom);
 		menu->getRootComponent()->layout(gConfig->uiScale);
 		activeMenuStack->add(menu);
 	}

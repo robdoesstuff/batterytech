@@ -17,6 +17,7 @@
 #include "ui/Button.h"
 #include "ui/LinearLayout.h"
 #include "ui/LinearLayoutParameters.h"
+#include "ui/MenuLayoutParameters.h"
 #include "render/MenuRenderer.h"
 #include "Context.h"
 
@@ -65,6 +66,7 @@ void loadSound() {
 
 void createMenu(S32 width, S32 height) {
 	S32 buttonBgId = context->menuRenderer->addTextureAsset("button1_tex.png");
+	S32 panelBgId = context->menuRenderer->addTextureAsset("panel1_tex.png");
 	LinearLayout *buttonLayout = new LinearLayout(LinearLayout::VERTICAL);
 	Button *button1 = new Button();
 	button1->setLayoutParameters(new LinearLayoutParameters(LinearLayoutParameters::LEFT, LinearLayoutParameters::TOP));
@@ -80,6 +82,10 @@ void createMenu(S32 width, S32 height) {
 	button2->setText("Button 2");
 	buttonLayout->addComponent(button1);
 	buttonLayout->addComponent(button2);
+	buttonLayout->setHeight(FILL);
+	buttonLayout->setWidth(WRAP);
+	buttonLayout->setBackgroundMenuResource(panelBgId);
+	buttonLayout->setLayoutParameters(new MenuLayoutParameters(MenuLayoutParameters::LEFT, MenuLayoutParameters::VERTICAL_CENTER));
 	Menu *mainMenu = new Menu(buttonLayout);
 	S32 mainMenuId = context->uiManager->addMenu(mainMenu);
 	context->uiManager->showMenu(mainMenuId);

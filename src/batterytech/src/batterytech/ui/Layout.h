@@ -9,14 +9,11 @@
 #define LAYOUT_H_
 
 #include "UIComponent.h"
-#include "../util/ManagedArray.h"
 
 class Layout: public UIComponent {
 public:
 	Layout();
-	virtual void addComponent(UIComponent *component);
 	virtual ~Layout();
-	ManagedArray<UIComponent> *components;
 };
 
 #endif /* LAYOUT_H_ */

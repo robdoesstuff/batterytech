@@ -12,6 +12,7 @@
 #include "LayoutParameters.h"
 #include "../Logger.h"
 #include <stdio.h>
+#include "../util/ManagedArray.h"
 
 #define FILL -1
 #define WRAP 0
@@ -36,6 +37,7 @@ public:
 		this->textHorizontalAlignment = horizAlignment;
 		this->textVerticalAlignment = vertAlignment;
 	}
+	virtual void addComponent(UIComponent *component);
 	// framework methods
 	virtual S32 getDesiredWidth() {return widthDips;};
 	virtual S32 getDesiredHeight() {return heightDips;};
@@ -60,6 +62,7 @@ public:
 	S32 left, top, right, bottom;
 	HorizontalAlignment textHorizontalAlignment;
 	VerticalAlignment textVerticalAlignment;
+	ManagedArray<UIComponent> *components;
 protected:
 	S32 widthDips;
 	S32 heightDips;

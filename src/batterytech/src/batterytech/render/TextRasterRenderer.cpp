@@ -161,7 +161,7 @@ void TextRasterRenderer::render(const char *text, F32 x, F32 y) {
 }
 
 void TextRasterRenderer::render(World *world) {
-	const char *text = "THIS IS SOME TEXT";
+	const char *text = "BATTERYTECH v1.0";
 	//logger::logMsg("rendering text()");
 	// assume orthographic projection with units = screen pixels, origin at top left
 	F32 x = 300;
