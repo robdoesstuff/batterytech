@@ -64,7 +64,6 @@ void MenuRenderer::render(UIComponent *component) {
 	}
 	if (component->text) {
 		activeResourceId = -1;
-		// TODO - text align
 		// TODO - optimize for 1 pass text
 		F32 textWidth = textRenderer->measureWidth(component->text);
 		F32 textHeight = textRenderer->getHeight();
@@ -88,16 +87,14 @@ void MenuRenderer::render(UIComponent *component) {
 		}
 		textRenderer->render(component->text, textLeft, textBottom);
 	}
-	Layout *layout = dynamic_cast<Layout*>(component);
-	if (layout) {
+	if (component->components->getSize() > 0) {
 		// recurse through layout's components
-		UIComponent **components = layout->components->array;
+		UIComponent **components = component->components->array;
 		int i;
-		for (i = 0; i < layout->components->getSize(); i++) {
+		for (i = 0; i < component->components->getSize(); i++) {
 			render(components[i]);
 		}
 	}
-
 }
 
 void MenuRenderer::drawTexturedQuad(S32 top, S32 right, S32 bottom, S32 left) {
