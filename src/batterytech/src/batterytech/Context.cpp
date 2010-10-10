@@ -16,7 +16,8 @@ Context::Context(GraphicsConfiguration *gConfig) {
 	menuRenderer = new MenuRenderer(gConfig);
 	soundManager = new SoundManager;
 	soundManager->init(10);
-	uiManager = new UIManager(gConfig);
+	game = new Game(this);
+	uiManager = new UIManager(this);
 }
 
 Context::~Context() {

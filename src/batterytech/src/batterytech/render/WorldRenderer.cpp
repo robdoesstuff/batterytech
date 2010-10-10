@@ -15,7 +15,6 @@
 
 void loadTexture();
 GLuint textureId;
-F32 theta = 0.0f;
 
 WorldRenderer::WorldRenderer(GraphicsConfiguration *gConfig) {
 	this->gConfig = gConfig;
@@ -41,8 +40,6 @@ void WorldRenderer::unloadLevel() {}
 void WorldRenderer::loadLevel() {}
 
 void WorldRenderer::render(World *world) {
-
-	theta += world->tickDelta * 60;
 
 	// OpenGL animation code goes here
 	glClearColor( 0.0f, 0.0f, 0.0f, 0.0f );
@@ -80,7 +77,7 @@ void WorldRenderer::render(World *world) {
 	if (world->down1) {
 		glPushMatrix();
 		glTranslatef(world->x1, world->y1, 0);
-		glRotatef( theta, 0.0f, 0.0f, 1.0f );
+		glRotatef( world->theta, 0.0f, 0.0f, 1.0f );
 		glScalef(100, 100, 1);
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 		glPopMatrix();
@@ -88,7 +85,7 @@ void WorldRenderer::render(World *world) {
 	if (world->down2) {
 		glPushMatrix();
 		glTranslatef(world->x2, world->y2, 0);
-		glRotatef( theta, 0.0f, 0.0f, 1.0f );
+		glRotatef( world->theta, 0.0f, 0.0f, 1.0f );
 		glScalef(100, 100, 1);
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 		glPopMatrix();

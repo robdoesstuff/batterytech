@@ -8,8 +8,9 @@
 #include "World.h"
 
 World::World() {
-	// TODO Auto-generated constructor stub
-
+	theta = 0.0f;
+	down1 = FALSE;
+	down2 = FALSE;
 }
 
 World::~World() {

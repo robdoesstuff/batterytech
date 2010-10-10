@@ -8,8 +8,8 @@
 #include "UIManager.h"
 #include "LayoutParameters.h"
 
-UIManager::UIManager(GraphicsConfiguration *gConfig) {
-	this->gConfig = gConfig;
+UIManager::UIManager(Context *context) {
+	this->context = context;
 	menus = new ManagedArray<Menu>(10);
 	activeMenuStack = new ManagedArray<Menu>(10);
 }
@@ -21,6 +21,7 @@ S32 UIManager::addMenu(Menu *menu) {
 void UIManager::showMenu(S32 menuId) {
 	// get menu by id, layout, push on stack
 	if (menuId <= menus->lastItemIndex) {
+		GraphicsConfiguration *gConfig = context->gConfig;
 		Menu *menu = menus->array[menuId];
 		// do frame layout
 		S32 width = menu->getRootComponent()->getDesiredWidth();
@@ -71,12 +72,11 @@ void UIManager::popMenu() {
 	}
 }
 
-void UIManager::updateMenus(F32 delta) {
-	// TODO - update every component of every active menu
+void UIManager::update() {
 }
 
 UIManager::~UIManager() {
-	gConfig = NULL;
+	context = NULL;
 	// TODO - also delete each menu
 	delete menus;
 	delete activeMenuStack;

@@ -7,9 +7,5 @@
 
 #include "Menu.h"
 
-Menu::Menu() {
-}
-
 Menu::~Menu() {
-	// TODO - release all menu allocations
 }

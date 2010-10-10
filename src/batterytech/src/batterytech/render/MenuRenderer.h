@@ -15,6 +15,9 @@
 #include "../ui/UIManager.h"
 #include "../util/ManagedArray.h"
 
+// cross-references
+class UIManager;
+
 class MenuRenderer {
 public:
 	MenuRenderer(GraphicsConfiguration *gConfig);

@@ -117,8 +117,9 @@ void createMenu(S32 width, S32 height) {
 
 void btUpdate(F32 delta) {
 	// todo - just tick the game engine with the delta
-	context->world->tickDelta = delta;
-	context->uiManager->updateMenus(delta);
+	context->tickDelta = delta;
+	context->uiManager->update();
+	context->game->update();
 	//char buf[32];
 	//sprintf(buf, "update %3.5g theta is %3.5g", delta, theta);
 	//log(buf);
@@ -141,23 +142,22 @@ void btSetPointerState(S32 pointerId, BOOL32 down, S32 x, S32 y) {
 	// TODO - use simple isFocused to let a menu or the game know it is foreground in layers
 	// TODO - everything should just use poll model with isFocused to determine clicks, etc
 	//char buf[32];
-	World *world = context->world;
 	if (down) {
 		if (pointerId == 0) {
-			world->down1 = TRUE;
-			world->x1 = x;
-			world->y1 = y;
+			context->down1 = TRUE;
+			context->x1 = x;
+			context->y1 = y;
 		} else if (pointerId == 1) {
-			world->down2 = TRUE;
-			world->x2 = x;
-			world->y2 = y;
+			context->down2 = TRUE;
+			context->x2 = x;
+			context->y2 = y;
 		}
 		//sprintf(buf, "pointer %d down at %d %d", pointerId, x, y);
 	} else {
 		if (pointerId == 0) {
-			world->down1 = FALSE;
+			context->down1 = FALSE;
 		} else if (pointerId == 1) {
-			world->down2 = FALSE;
+			context->down2 = FALSE;
 		}
 		//sprintf(buf, "pointer %d up", pointerId);
 	}

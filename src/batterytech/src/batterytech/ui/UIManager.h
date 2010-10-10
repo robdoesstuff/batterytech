@@ -12,19 +12,23 @@
 #include "Menu.h"
 #include "../util/ManagedArray.h"
 #include "../render/GraphicsConfiguration.h"
+#include "../Context.h"
+
+// cross-references
+class Context;
 
 class UIManager {
 public:
-	UIManager(GraphicsConfiguration *gConfig);
+	UIManager(Context *context);
 	S32 addMenu(Menu *menu);
 	void showMenu(S32 menuId);
 	void popMenu();
-	void updateMenus(F32 delta);
+	void update();
 	virtual ~UIManager();
 	ManagedArray<Menu> *activeMenuStack;
 private:
 	ManagedArray<Menu> *menus;
-	GraphicsConfiguration *gConfig;
+	Context *context;
 };
 
 #endif /* UIMANAGER_H_ */

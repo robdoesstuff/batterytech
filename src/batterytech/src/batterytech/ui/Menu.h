@@ -12,9 +12,12 @@
 
 class Menu {
 public:
-	Menu();
+	Menu() {
+		isFocused = FALSE;
+	}
 	Menu(UIComponent *component) {
 		this->rootComponent = component;
+		isFocused = FALSE;
 	}
 	virtual void setRootComponent(UIComponent *component) {
 		this->rootComponent = component;
@@ -24,6 +27,7 @@ public:
 	}
 	virtual ~Menu();
 	S32 menuId;
+	BOOL32 isFocused;
 private:
 	UIComponent *rootComponent;
 };
