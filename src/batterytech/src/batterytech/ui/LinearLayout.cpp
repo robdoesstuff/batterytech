@@ -223,12 +223,12 @@ void LinearLayout::calcSpaceRequired(F32 scale, S32 *width, S32 *height, S32 *ho
 				if (vertAlign == LayoutParameters::VERTICAL_CENTER) {
 					*center += (S32)(component->getDesiredHeight() * scale + component->marginTopDips * scale + component->marginBottomDips * scale);
 				}
-				// just return the widest fixed-width component
-				if (component->getDesiredWidth() != FILL && component->getDesiredWidth() != WRAP) {
-					S32 componentTotalWidthPx = (S32)((component->getDesiredWidth() + component->marginLeftDips + component->marginRightDips) * scale);
-					if (componentTotalWidthPx > *width) {
-						*width = componentTotalWidthPx;
-					}
+			}
+			// just return the widest fixed-width component
+			if (component->getDesiredWidth() != FILL && component->getDesiredWidth() != WRAP) {
+				S32 componentTotalWidthPx = (S32)((component->getDesiredWidth() + component->marginLeftDips + component->marginRightDips) * scale);
+				if (componentTotalWidthPx > *width) {
+					*width = componentTotalWidthPx;
 				}
 			}
 		} else {
@@ -242,14 +242,15 @@ void LinearLayout::calcSpaceRequired(F32 scale, S32 *width, S32 *height, S32 *ho
 				if (horizAlign == LayoutParameters::HORIZONTAL_CENTER) {
 					*center += (S32)(component->getDesiredWidth() * scale + component->marginLeftDips * scale + component->marginRightDips * scale);
 				}
-				// just return the tallest fixed-height component
-				if (component->getDesiredHeight() != FILL && component->getDesiredHeight() != WRAP) {
-					S32 componentTotalHeightPx = (S32)((component->getDesiredHeight() + component->marginTopDips + component->marginBottomDips) * scale);
-					if (componentTotalHeightPx > *height) {
-						*height = componentTotalHeightPx;
-					}
+			}
+			// just return the tallest fixed-height component
+			if (component->getDesiredHeight() != FILL && component->getDesiredHeight() != WRAP) {
+				S32 componentTotalHeightPx = (S32)((component->getDesiredHeight() + component->marginTopDips + component->marginBottomDips) * scale);
+				if (componentTotalHeightPx > *height) {
+					*height = componentTotalHeightPx;
 				}
 			}
+
 		}
 	}
 }

@@ -12,6 +12,7 @@
 #include "win32general.h"
 #include "SoundServer.h"
 #include "../../sound/SoundManager.h"
+#include <stdio.h>
 
 using namespace std;
 

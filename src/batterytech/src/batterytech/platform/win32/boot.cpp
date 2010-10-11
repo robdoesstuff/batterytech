@@ -129,12 +129,13 @@ DWORD WINAPI StartThread(LPVOID iValue) {
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
 
+	int x,y;
 	switch (message) {
 
 	case WM_LBUTTONDOWN:
 		leftButtonDown = TRUE;
-		int x = GET_X_LPARAM(lParam);
-		int y = GET_Y_LPARAM(lParam);
+		x = GET_X_LPARAM(lParam);
+		y = GET_Y_LPARAM(lParam);
 		btSetPointerState(0, true, x, y);
 		return 0;
 	case WM_LBUTTONUP:
@@ -143,8 +144,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 		return 0;
 	case WM_MOUSEMOVE:
 		if (leftButtonDown) {
-			int x = GET_X_LPARAM(lParam);
-			int y = GET_Y_LPARAM(lParam);
+			x = GET_X_LPARAM(lParam);
+			y = GET_Y_LPARAM(lParam);
 			btSetPointerState(0, true, x, y);
 		}
 		return 0;
