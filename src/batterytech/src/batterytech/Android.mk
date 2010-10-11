@@ -47,7 +47,9 @@ LOCAL_SRC_FILES :=\
 	ui/LinearLayout.cpp \
 	ui/Menu.cpp \
 	ui/UIComponent.cpp \
-	ui/UIManager.cpp 
+	ui/UIManager.cpp \
+	menus/MainMenu.cpp \
+	menus/OptionsMenu.cpp
 	
 
 LOCAL_LDLIBS := -lGLESv1_CM -ldl -llog

@@ -22,6 +22,8 @@ public:
 	UIManager(Context *context);
 	S32 addMenu(Menu *menu);
 	void showMenu(S32 menuId);
+	void showMenu(const char *name);
+	S32 findMenu(const char *name);
 	void popMenu();
 	void update();
 	virtual ~UIManager();

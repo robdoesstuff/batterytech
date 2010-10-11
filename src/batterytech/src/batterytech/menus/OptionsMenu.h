@@ -5,22 +5,22 @@
  *      Author: rgreen
  */
 
-#ifndef MAINMENU_H_
-#define MAINMENU_H_
+#ifndef OPTIONSMENU_H_
+#define OPTIONSMENU_H_
 
 #include "../ui/Menu.h"
 #include "../Context.h"
 
-#define MAIN_MENU_NAME "MainMenu"
+#define OPTIONS_MENU_NAME "OptionsMenu"
 
-class MainMenu: public Menu {
+class OptionsMenu: public Menu {
 public:
-	MainMenu(Context *context);
-	virtual ~MainMenu();
+	OptionsMenu(Context *context);
+	virtual ~OptionsMenu();
 	virtual void onClickDown(UIComponent *component);
 	virtual void onClickUp(UIComponent *component);
 private:
 	Context *context;
 };
 
-#endif /* MAINMENU_H_ */
+#endif /* OPTIONSMENU_H_ */

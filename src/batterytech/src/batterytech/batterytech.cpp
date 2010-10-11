@@ -19,6 +19,7 @@
 #include "render/MenuRenderer.h"
 #include "Context.h"
 #include "menus/MainMenu.h"
+#include "menus/OptionsMenu.h"
 
 #define REFERENCE_WIDTH 800
 #define REFERENCE_HEIGHT 480
@@ -65,9 +66,10 @@ void loadSound() {
 
 void createMenu(S32 width, S32 height) {
 	Menu *mainMenu = new MainMenu(context);
-	// TODO - add menus by name so we can just bring up by name later
+	Menu *optionsMenu = new OptionsMenu(context);
 	S32 mainMenuId = context->uiManager->addMenu(mainMenu);
-	context->uiManager->showMenu(mainMenuId);
+	context->uiManager->addMenu(optionsMenu);
+	context->uiManager->showMenu(OPTIONS_MENU_NAME);
 }
 
 void btUpdate(F32 delta) {

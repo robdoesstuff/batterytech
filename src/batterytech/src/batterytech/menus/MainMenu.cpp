@@ -6,11 +6,12 @@
  */
 
 #include "MainMenu.h"
+#include "OptionsMenu.h"
 #include "../primitives.h"
 #include "../ui/LinearLayout.h"
 #include "../ui/Button.h"
 
-MainMenu::MainMenu(Context *context) : Menu() {
+MainMenu::MainMenu(Context *context) : Menu(MAIN_MENU_NAME) {
 	this->context = context;
 	S32 buttonBgId = context->menuRenderer->addTextureAsset("button1_tex.png");
 	S32 buttonPressedBgId = context->menuRenderer->addTextureAsset("button1_pressed_tex.png");
@@ -64,11 +65,11 @@ MainMenu::MainMenu(Context *context) : Menu() {
 }
 
 void MainMenu::onClickDown(UIComponent *component){
-	//this->context->uiManager->popMenu();
 }
 
 void MainMenu::onClickUp(UIComponent *component){
-
+	this->context->uiManager->popMenu();
+	this->context->uiManager->showMenu(OPTIONS_MENU_NAME);
 }
 
 MainMenu::~MainMenu() {

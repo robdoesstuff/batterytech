@@ -7,6 +7,8 @@
 
 #include "UIManager.h"
 #include "LayoutParameters.h"
+#include <string.h>
+#include "../Logger.h"
 
 UIManager::UIManager(Context *context) {
 	this->context = context;
@@ -18,6 +20,26 @@ UIManager::UIManager(Context *context) {
 
 S32 UIManager::addMenu(Menu *menu) {
 	return menus->add(menu);
+}
+
+void UIManager::showMenu(const char *name) {
+	S32 menuId = findMenu(name);
+	if (menuId != -1) {
+		showMenu(menuId);
+	} else {
+		logmsg("No menu found:");
+		logmsg(name);
+	}
+}
+
+S32 UIManager::findMenu(const char *name) {
+	S32 i;
+	for (i = 0; i < menus->getSize(); i++) {
+		if (strcmp(name, menus->array[i]->name) == 0) {
+			return i;
+		}
+	}
+	return -1;
 }
 
 void UIManager::showMenu(S32 menuId) {

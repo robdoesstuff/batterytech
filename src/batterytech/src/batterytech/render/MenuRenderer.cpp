@@ -10,7 +10,7 @@
 #include "../platform/platformgeneral.h"
 #include "../Logger.h"
 #include "../ui/Layout.h"
-#include <stdlib.h>
+#include <string.h>
 
 MenuRenderer::MenuRenderer(GraphicsConfiguration *gConfig) {
 	this->gConfig = gConfig;

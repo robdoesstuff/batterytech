@@ -12,10 +12,12 @@
 
 class Menu {
 public:
-	Menu() {
+	Menu(const char *name) {
+		this->name = name;
 		isFocused = FALSE;
 	}
-	Menu(UIComponent *component) {
+	Menu(const char *name, UIComponent *component) {
+		this->name = name;
 		this->rootComponent = component;
 		isFocused = FALSE;
 	}
@@ -29,6 +31,7 @@ public:
 	virtual void onClickDown(UIComponent *component){};
 	virtual void onClickUp(UIComponent *component){};
 	S32 menuId;
+	const char *name;
 	BOOL32 isFocused;
 private:
 	UIComponent *rootComponent;
