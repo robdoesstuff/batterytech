@@ -10,6 +10,7 @@
 #include "../platform/platformgeneral.h"
 #include "../Logger.h"
 #include "../ui/Layout.h"
+#include <stdlib.h>
 
 MenuRenderer::MenuRenderer(GraphicsConfiguration *gConfig) {
 	this->gConfig = gConfig;
@@ -17,8 +18,23 @@ MenuRenderer::MenuRenderer(GraphicsConfiguration *gConfig) {
 	textRenderer = new TextRasterRenderer(gConfig, "digital.ttf", 12.0f);
 }
 
+/** Adds a texture asset or returns the ID of the one already added if equal */
 S32 MenuRenderer::addTextureAsset(const char *asset) {
-	return assetNames->add(asset);
+	S32 id = findTextureAsset(asset);
+	if (id == -1) {
+		return assetNames->add(asset);
+	}
+	return id;
+}
+
+S32 MenuRenderer::findTextureAsset(const char *asset) {
+	S32 i;
+	for (i = 0; i < assetNames->getSize(); i++) {
+		if (strcmp(asset, assetNames->array[i]) == 0) {
+			return i;
+		}
+	}
+	return -1;
 }
 
 void MenuRenderer::init(UIManager *uiManager) {

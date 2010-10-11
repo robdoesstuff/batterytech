@@ -80,7 +80,7 @@ void UIManager::update() {
 		//traverse menu components
 		// try to deliver click state to deepest clickable component
 		if (context->down1 && !clickDownChecked) {
-			if (traverseClickState(menu->getRootComponent(), TRUE, context->x1, context->y1)) {
+			if (traverseClickState(menu, menu->getRootComponent(), TRUE, context->x1, context->y1)) {
 				clickDownActive = TRUE;
 			}
 			clickDownChecked = TRUE;
@@ -88,7 +88,7 @@ void UIManager::update() {
 		if (!context->down1) {
 			if (clickDownActive) {
 				// need to unclick
-				traverseClickState(menu->getRootComponent(), FALSE, context->x1, context->y1);
+				traverseClickState(menu, menu->getRootComponent(), FALSE, context->x1, context->y1);
 			}
 			clickDownChecked = FALSE;
 			clickDownActive = FALSE;
@@ -109,13 +109,13 @@ void UIManager::traverseUpdate(UIComponent *component) {
 	}
 }
 
-BOOL32 UIManager::traverseClickState(UIComponent *component, BOOL32 down, S32 x, S32 y) {
+BOOL32 UIManager::traverseClickState(Menu *menu, UIComponent *component, BOOL32 down, S32 x, S32 y) {
 	ManagedArray<UIComponent> *subComps = component->components;
 	if (subComps) {
 		S32 i;
 		for (i = 0; i < subComps->getSize(); i++) {
 			UIComponent *subComp = subComps->array[i];
-			if (traverseClickState(subComp, down, x, y)) {
+			if (traverseClickState(menu, subComp, down, x, y)) {
 				return TRUE;
 			}
 		}
@@ -126,12 +126,14 @@ BOOL32 UIManager::traverseClickState(UIComponent *component, BOOL32 down, S32 x,
 		} else {
 			component->isPressed = TRUE;
 			component->dispatchClickDown();
+			menu->onClickDown(component);
 			return TRUE;
 		}
 	}
 	if (!down && component->isPressed) {
 		component->isPressed = FALSE;
 		component->dispatchClickUp();
+		menu->onClickUp(component);
 		return FALSE;
 	}
 	return FALSE;

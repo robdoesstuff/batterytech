@@ -22,7 +22,7 @@ class UIComponent {
 public:
 	enum HorizontalAlignment { LEFT, HORIZONTAL_CENTER, RIGHT };
 	enum VerticalAlignment { TOP, VERTICAL_CENTER, BOTTOM };
-	UIComponent();
+	UIComponent(const char *text = NULL);
 	virtual ~UIComponent();
 	// user methods, default unit is density-independent pixels
 	virtual void setWidth(S32 widthDips) {this->widthDips = widthDips;};

@@ -7,7 +7,7 @@
 
 #include "Button.h"
 
-Button::Button() : UIComponent() {
+Button::Button(const char *text) : UIComponent(text) {
 }
 
 Button::~Button() {

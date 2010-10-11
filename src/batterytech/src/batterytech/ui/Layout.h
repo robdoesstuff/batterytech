@@ -12,7 +12,6 @@
 
 class Layout: public UIComponent {
 public:
-	Layout();
 	virtual ~Layout();
 };
 

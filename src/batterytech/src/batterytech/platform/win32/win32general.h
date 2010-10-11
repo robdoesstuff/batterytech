@@ -9,7 +9,7 @@
 #define WIN32GENERAL_H_
 #ifdef _WIN32
 
-#include <iostream.h>
+#include <iostream>
 #include <windows.h>
 #include "../../sound/SoundManager.h"
 

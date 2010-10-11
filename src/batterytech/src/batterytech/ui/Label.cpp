@@ -7,10 +7,6 @@
 
 #include "Label.h"
 
-Label::Label() {
-	// TODO Auto-generated constructor stub
-
-}
 
 Label::~Label() {
 	// TODO Auto-generated destructor stub

@@ -26,6 +26,8 @@ public:
 		return rootComponent;
 	}
 	virtual ~Menu();
+	virtual void onClickDown(UIComponent *component){};
+	virtual void onClickUp(UIComponent *component){};
 	S32 menuId;
 	BOOL32 isFocused;
 private:

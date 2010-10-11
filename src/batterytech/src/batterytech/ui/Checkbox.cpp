@@ -7,10 +7,6 @@
 
 #include "Checkbox.h"
 
-Checkbox::Checkbox() {
-	// TODO Auto-generated constructor stub
-
-}
 
 Checkbox::~Checkbox() {
 	// TODO Auto-generated destructor stub

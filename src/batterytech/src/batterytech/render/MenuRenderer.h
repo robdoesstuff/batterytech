@@ -21,7 +21,9 @@ class UIManager;
 class MenuRenderer {
 public:
 	MenuRenderer(GraphicsConfiguration *gConfig);
+	/** Adds a texture asset or returns the ID of the one already added if equal */
 	S32 addTextureAsset(const char *asset);
+	S32 findTextureAsset(const char *asset);
 	void init(UIManager *uiManager);
 	void render(UIManager *uiManager);
 	void render(UIComponent *component);

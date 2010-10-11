@@ -8,8 +8,5 @@
 #include "Layout.h"
 #include "../util/ManagedArray.h"
 
-Layout::Layout() : UIComponent() {
-}
-
 Layout::~Layout() {
 }

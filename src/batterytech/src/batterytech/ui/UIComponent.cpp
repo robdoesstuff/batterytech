@@ -7,7 +7,7 @@
 
 #include "UIComponent.h"
 
-UIComponent::UIComponent() {
+UIComponent::UIComponent(const char *text) {
 	widthDips = 0;
 	heightDips = 0;
 	paddingLeftDips = paddingTopDips = paddingRightDips = paddingBottomDips = 0;
@@ -22,7 +22,7 @@ UIComponent::UIComponent() {
 	backgroundMenuResourceId = NO_RESOURCE;
 	pressedBackgroundMenuResourceId = NO_RESOURCE;
 	selectedBackgroundMenuResourceId = NO_RESOURCE;
-	text = NULL;
+	this->text = text;
 	textHorizontalAlignment = HORIZONTAL_CENTER;
 	textVerticalAlignment = VERTICAL_CENTER;
 	components = new ManagedArray<UIComponent>(10);

@@ -28,7 +28,7 @@ public:
 	ManagedArray<Menu> *activeMenuStack;
 private:
 	// true if component consumed click
-	BOOL32 traverseClickState(UIComponent *component, BOOL32 down, S32 x, S32 y);
+	BOOL32 traverseClickState(Menu *menu, UIComponent *component, BOOL32 down, S32 x, S32 y);
 	void traverseUpdate(UIComponent *component);
 	ManagedArray<Menu> *menus;
 	Context *context;
