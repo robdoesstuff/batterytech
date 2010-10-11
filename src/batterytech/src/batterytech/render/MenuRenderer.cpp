@@ -116,14 +116,14 @@ void MenuRenderer::drawTexturedQuad(S32 top, S32 right, S32 bottom, S32 left) {
 }
 
 void MenuRenderer::loadTexture(const char *assetName) {
-	log("Loading texture");
+	logmsg("Loading texture");
 	int x,y,n;
 	int assetSize = 0;
 	unsigned char *fileData = _platform_load_asset(assetName, &assetSize);
 	if (fileData) {
 		char buf[50];
 		sprintf(buf, "Loaded %i bytes of raw image data", assetSize);
-		log(buf);
+		logmsg(buf);
 	}
 	unsigned char *data = stbi_load_from_memory(fileData, assetSize, &x, &y, &n, 0);
 	//unsigned char *data = stbi_load("assets\\text_bg_tex.jpg", &x, &y, &n, 0);
@@ -131,7 +131,7 @@ void MenuRenderer::loadTexture(const char *assetName) {
 		int bytes = x * y * n * sizeof(unsigned char);
 		char buf[50];
 		sprintf(buf, "Bitmap is %ix%i color components=%i bytes=%i",x,y,n, bytes);
-		log(buf);
+		logmsg(buf);
 		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -140,7 +140,7 @@ void MenuRenderer::loadTexture(const char *assetName) {
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, x, y, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 		GLenum error = glGetError();
 		if (error) {
-			log("GL Error");
+			logmsg("GL Error");
 		}
 		stbi_image_free(data);
 	}

@@ -56,10 +56,10 @@ LinearLayout::~LinearLayout() {
 }
 
 void LinearLayout::layout(F32 scale) {
-	log("LinearLayout::layout starting");
+	logmsg("LinearLayout::layout starting");
 	char buf[70];
 	sprintf(buf, "Laying out %d UI Components at scale %g", components->getSize(), scale);
-	log(buf);
+	logmsg(buf);
 	S32 curLeft = (S32)(left + paddingLeftDips * scale);
 	S32 curRight = (S32)(right - paddingRightDips * scale);
 	S32 curTop = (S32)(top + paddingTopDips * scale);
@@ -75,7 +75,7 @@ void LinearLayout::layout(F32 scale) {
 	S32 compLeft, compRight, compTop, compBottom;
 	S32 i;
 	calcSpaceRequired(scale, &totalWidthNeeded, &totalHeightNeeded, &horizFillCount, &vertFillCount, &centerNeeded);
-	log("calcing space dist 2");
+	logmsg("calcing space dist 2");
 	// this distributes remaining space to components which require fill
 	S32 vertFillPerComponentSize = 0;
 	S32 horizFillPerComponentSize = 0;
@@ -95,7 +95,7 @@ void LinearLayout::layout(F32 scale) {
 	// take things with requested size and set their drawable bounds until we're out of space
 	// do 2 passes to figure out stretching, first pass calcs how much space is available in each direction
 	// second pass divides the space up and assigns the portion to each
-	log("doing components");
+	logmsg("doing components");
 	for (i = 0; i < components->getSize(); i++) {
 		UIComponent *component = components->array[i];
 		LayoutParameters::HorizontalAlignment horizAlign = LayoutParameters::LEFT;

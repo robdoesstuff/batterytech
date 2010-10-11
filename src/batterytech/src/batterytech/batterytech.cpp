@@ -29,7 +29,7 @@ void loadSound();
 void createMenu(S32 width, S32 height);
 
 void btInit(GraphicsConfiguration *graphicsConfig, S32 width, S32 height) {
-	log("BatteryTech 1.0 Initializing...");
+	logmsg("BatteryTech 1.0 Initializing...");
 	gConfig = graphicsConfig;
 	// platform will have determined gpu capabilities and set into gConfig
 	btSetScreenSize(width, height);
@@ -37,7 +37,7 @@ void btInit(GraphicsConfiguration *graphicsConfig, S32 width, S32 height) {
 	loadSound();
 	createMenu(width, height);
 	context->menuRenderer->init(context->uiManager);
-	log("Ready");
+	logmsg("Ready");
 }
 
 void btSetScreenSize(S32 width, S32 height) {
@@ -53,7 +53,7 @@ void btSetScreenSize(S32 width, S32 height) {
 }
 
 void loadSound() {
-	log("Loading sound");
+	logmsg("Loading sound");
 	U16 sndId = context->soundManager->loadSound("level_1_song.ogg");
 	//U16 sndId2 = soundManager->loadSound("battery_powered_splash.ogg");
 	//U16 sndId3 = soundManager->loadSound("score_session_end_big.ogg");

@@ -16,6 +16,6 @@ public:
 	virtual ~Logger();
 };
 
-#define log(message) Logger::logMsg(message)
+#define logmsg(message) Logger::logMsg(message)
 
 #endif /* LOGGER_H_ */

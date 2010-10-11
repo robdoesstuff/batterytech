@@ -17,5 +17,6 @@
 	#include <gl/glu.h>
 #endif /* _WIN32 */
 
+#include "opengles.h"
 
 #endif /* PLATFORMGENERAL_H_ */

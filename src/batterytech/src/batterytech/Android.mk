@@ -37,7 +37,9 @@ LOCAL_SRC_FILES :=\
 	platform/android/androidgeneral.cpp \
 	platform/android/boot.cpp \
 	platform/android/importgl.c \
+	platform/opengles.cpp \
 	game/World.cpp \
+	game/Game.cpp \
 	ui/Button.cpp \
 	ui/Checkbox.cpp \
 	ui/Label.cpp \

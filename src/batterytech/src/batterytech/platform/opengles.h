@@ -7,8 +7,9 @@
 
 #ifndef OPENGLES_H_
 #define OPENGLES_H_
-#include "platformgl.h"
 #include "../primitives.h"
+#include <Math.h>
+#include <stdlib.h>
 
 #define GLES_VERSION_CONSTANT "OpenGL ES-"
 #define GLES_PROFILE_COMMON "CM"
@@ -17,8 +18,8 @@
 #define GLES_EXT_VERTEX_BUFFER_OBJECT "vertex_buffer_object"
 #define ANDROID_RENDERER_PIXELFLINGER "PixelFlinger"
 
-BOOL32 gles_checkExtension(const char *extension) {
-	return (strstr((const char*)glGetString(GL_EXTENSIONS), extension) != NULL);
-}
+BOOL32 gles_checkExtension(const char *extension);
+
+void gles_gluPerspective(float fovy, float aspect, float zNear, float zFar);
 
 #endif /* OPENGLES_H_ */

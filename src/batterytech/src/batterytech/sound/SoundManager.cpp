@@ -26,13 +26,13 @@ S16 SoundManager::loadSound(const char *assetName) {
 	if (fileData) {
 		char buf[50];
 		sprintf(buf, "Loaded %i bytes of ogg data", assetSize);
-		log(buf);
+		logmsg(buf);
 		signed short *decoded;
 		int channels, len;
 		unsigned int sampleRate = 0;
 		len = stb_vorbis_decode_memory(fileData, assetSize, &channels, &sampleRate, &decoded);
 		sprintf(buf, "OGG length=%i channels=%i rate=%i", len, channels, sampleRate);
-		log(buf);
+		logmsg(buf);
 		sndId = loadSound(decoded, len, sampleRate, channels);
 	}
 	_platform_free_asset(fileData);
@@ -50,14 +50,14 @@ S16 SoundManager::loadSound(S16 *pcmData, U32 length, U32 rate, U8 channels) {
 void SoundManager::playSound(U16 soundId, S16 loops, F32 rate) {
 	char buf[50];
 	sprintf(buf, "Playing sound %i", soundId);
-	log(buf);
+	logmsg(buf);
 	// create a stream
 	BOOL32 success = FALSE;
 	for (int i = 0; i < streamCount; i++) {
 		PCMStream *stream = &pcmStreams[i];
 		if (!stream->isPlaying) {
 			sprintf(buf, "Using Stream %i", i);
-			log(buf);
+			logmsg(buf);
 			// use this stream;
 			PCMSound *sound = pcmSounds[soundId];
 			stream->pcmSound = sound;
@@ -66,13 +66,13 @@ void SoundManager::playSound(U16 soundId, S16 loops, F32 rate) {
 			stream->position = 0;
 			stream->isPlaying = TRUE;
 			sprintf(buf, "stream->isPlaying=%i", stream->isPlaying);
-			log(buf);
+			logmsg(buf);
 			success = TRUE;
 			break;
 		}
 	}
 	if (!success) {
-		log("No streams left to play on");
+		logmsg("No streams left to play on");
 	}
 }
 
