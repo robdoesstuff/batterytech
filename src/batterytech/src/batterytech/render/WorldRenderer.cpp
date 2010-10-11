@@ -74,22 +74,28 @@ void WorldRenderer::render(World *world) {
 	glColorPointer(4, GL_FLOAT, 0, &colors);
 	glVertexPointer(3, GL_FLOAT, 0, &verts);
 	glTexCoordPointer(2, GL_FLOAT, 0, &uvs);
-	if (world->down1) {
-		glPushMatrix();
-		glTranslatef(world->x1, world->y1, 0);
-		glRotatef( world->theta, 0.0f, 0.0f, 1.0f );
-		glScalef(100, 100, 1);
-		glDrawArrays(GL_TRIANGLES, 0, 3);
-		glPopMatrix();
-	}
-	if (world->down2) {
-		glPushMatrix();
-		glTranslatef(world->x2, world->y2, 0);
-		glRotatef( world->theta, 0.0f, 0.0f, 1.0f );
-		glScalef(100, 100, 1);
-		glDrawArrays(GL_TRIANGLES, 0, 3);
-		glPopMatrix();
-	}
+	// t1
+	glPushMatrix();
+	glTranslatef(200, 250, 0);
+	glRotatef( world->theta, 0.0f, 0.0f, 1.0f );
+	glScalef(150, 150, 1);
+	glDrawArrays(GL_TRIANGLES, 0, 3);
+	glPopMatrix();
+	// t2
+	glPushMatrix();
+	glTranslatef(400, 250, 0);
+	glRotatef( world->theta, 0.0f, 0.0f, 1.0f );
+	glScalef(150, 150, 1);
+	glDrawArrays(GL_TRIANGLES, 0, 3);
+	glPopMatrix();
+	// t3
+	glPushMatrix();
+	glTranslatef(600, 250, 0);
+	glRotatef( world->theta, 0.0f, 0.0f, 1.0f );
+	glScalef(150, 150, 1);
+	glDrawArrays(GL_TRIANGLES, 0, 3);
+	glPopMatrix();
+
 	glDisableClientState(GL_COLOR_ARRAY);
 	textRenderer->render(world);
 }

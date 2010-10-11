@@ -164,8 +164,8 @@ void TextRasterRenderer::render(World *world) {
 	const char *text = "BATTERYTECH v1.0";
 	//logger::logMsg("rendering text()");
 	// assume orthographic projection with units = screen pixels, origin at top left
-	F32 x = 300;
-	F32 y = 200;
+	F32 x = 350;
+	F32 y = 50;
 	S32 length = strlen(text);
 	F32 verts[length * 6 * 3];
 	F32 uvs[length * 6 * 2];

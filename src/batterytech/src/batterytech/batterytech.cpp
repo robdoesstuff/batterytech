@@ -65,7 +65,7 @@ void loadSound() {
 void createMenu(S32 width, S32 height) {
 	S32 buttonBgId = context->menuRenderer->addTextureAsset("button1_tex.png");
 	S32 buttonPressedBgId = context->menuRenderer->addTextureAsset("button1_pressed_tex.png");
-	S32 panelBgId = context->menuRenderer->addTextureAsset("panel1_tex.png");
+	S32 panelBgId = context->menuRenderer->addTextureAsset("panel2_tex.png");
 	LinearLayout *buttonLayout = new LinearLayout(LinearLayout::VERTICAL);
 	Button *button1 = new Button();
 	button1->setLayoutParameters(new LayoutParameters(LayoutParameters::HORIZONTAL_CENTER, LayoutParameters::TOP));
