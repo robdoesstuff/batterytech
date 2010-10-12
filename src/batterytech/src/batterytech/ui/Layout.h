@@ -12,6 +12,7 @@
 
 class Layout: public UIComponent {
 public:
+	Layout(const char *text = NULL) : UIComponent(text){};
 	virtual ~Layout();
 };
 

@@ -48,12 +48,16 @@ public:
 	virtual S32 getDesiredWidth() {return widthDips;};
 	virtual S32 getDesiredHeight() {return heightDips;};
 	virtual LayoutParameters* getLayoutParameters() {return layoutParameters;};
-	virtual void layout(F32 scale)=0;
+	virtual void layout(F32 scale){};
 	// in actual screen coordinates
 	virtual void setDrawableBounds(S32 left, S32 top, S32 right, S32 bottom) {
-		//char buf[60];
-		//sprintf(buf, "Component Bounds set to [%d, %d, %d, %d]", left, top, right, bottom);
-		//logmsg(buf);
+		char buf[100];
+		if (text) {
+			sprintf(buf, "Component %s Bounds set to [%d, %d, %d, %d]", text, left, top, right, bottom);
+		} else {
+			sprintf(buf, "Component '' Bounds set to [%d, %d, %d, %d]", left, top, right, bottom);
+		}
+		logmsg(buf);
 		this->left = left;
 		this->top = top;
 		this->right = right;

@@ -9,5 +9,4 @@
 
 
 Label::~Label() {
-	// TODO Auto-generated destructor stub
 }

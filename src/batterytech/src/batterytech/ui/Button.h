@@ -15,8 +15,6 @@ public:
 	Button(const char *text = NULL);
 	virtual ~Button();
 	virtual void update(F32 delta);
-	virtual void layout(F32 scale);
-
 };
 
 #endif /* BUTTON_H_ */

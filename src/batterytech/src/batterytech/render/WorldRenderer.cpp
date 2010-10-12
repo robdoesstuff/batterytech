@@ -18,8 +18,9 @@
 #define ZNEAR 0.1f
 #define ZFAR 50.0f
 
-void loadTexture();
-GLuint textureId;
+GLuint loadTexture(const char *name);
+GLuint bgTextureId;
+GLuint cubeTextureId;
 void createCube(S32 detail);
 
 WorldRenderer::WorldRenderer(GraphicsConfiguration *gConfig) {
@@ -39,7 +40,8 @@ void WorldRenderer::init() {
 	glShadeModel(GL_SMOOTH);
 	textRenderer = new TextRasterRenderer(gConfig, "lcdmn.ttf", 12.0f);
 	textRenderer->init();
-	loadTexture();
+	cubeTextureId = loadTexture("bpg_256_tex.jpg");
+	bgTextureId = loadTexture("earth_horizon_tex.jpg");
 }
 
 void WorldRenderer::unloadLevel() {
@@ -52,8 +54,34 @@ void WorldRenderer::render(World *world) {
 	// OpenGL animation code goes here
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glEnable(GL_DEPTH_TEST);
+	glColor4f(1, 1, 1, 1);
+	// draw background
 	// projection
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glOrthof(0, gConfig->viewportWidth, gConfig->viewportHeight, 0, -1, 1);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	float bgVerts[] = {
+			// top left
+			0,0,0,
+			// top right
+			gConfig->viewportWidth, 0, 0,
+			// bottom right
+			gConfig->viewportWidth, gConfig->viewportHeight, 0,
+			// bottom left
+			0, gConfig->viewportHeight, 0
+	};
+	float bgUvs[] = { 0, 0, 1, 0, 1, 1, 0, 1 };
+	glDisable(GL_DEPTH_TEST);
+	glFrontFace(GL_CW);
+	glBindTexture(GL_TEXTURE_2D, bgTextureId);
+	glVertexPointer(3, GL_FLOAT, 0, &bgVerts);
+	glTexCoordPointer(2, GL_FLOAT, 0, &bgUvs);
+	glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+
+	// do cube
+	glEnable(GL_DEPTH_TEST);
 	glMatrixMode(GL_PROJECTION);
 	glViewport(0, 0, gConfig->viewportWidth, gConfig->viewportHeight);
 	glLoadIdentity();
@@ -63,7 +91,6 @@ void WorldRenderer::render(World *world) {
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	glColor4f(1, 1, 1, 1);
 
 	// lights
 
@@ -84,7 +111,7 @@ void WorldRenderer::render(World *world) {
 	GLfloat spot_direction[] = { 0.0, 0.0, -1.0 };
 	glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, spot_direction);
 	//glLightf(GL_LIGHT0, GL_QUADRATIC_ATTENUATION, 0.001);
-	//glLightf(GL_LIGHT0, GL_SPOT_CUTOFF, 20.0);
+	glLightf(GL_LIGHT0, GL_SPOT_CUTOFF, 25.0);
 
 	float mcolor[] = { 1.0f, 1.0f, 1.0f, 1.0f };
 	glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, mcolor);
@@ -127,7 +154,7 @@ void WorldRenderer::render(World *world) {
 			0, -1, 0, 	0, -1, 0, 	0, -1, 0, 	0, -1, 0,  };
 
 	glFrontFace(GL_CW);
-	glBindTexture(GL_TEXTURE_2D, textureId);
+	glBindTexture(GL_TEXTURE_2D, cubeTextureId);
 	//glColorPointer(4, GL_FLOAT, 0, &colors);
 	glNormalPointer(GL_FLOAT, 0, &normals);
 	glVertexPointer(3, GL_FLOAT, 0, &verts);
@@ -153,11 +180,13 @@ WorldRenderer::~WorldRenderer() {
 	delete textRenderer;
 }
 
-void loadTexture() {
-	logmsg("Loading texture");
+GLuint loadTexture(const char *name) {
+	GLuint textureId;
+	logmsg("Loading texture:");
+	logmsg(name);
 	int x, y, n;
 	int assetSize = 0;
-	unsigned char *fileData = _platform_load_asset("bpg_256_tex.jpg",
+	unsigned char *fileData = _platform_load_asset(name,
 			&assetSize);
 	if (fileData) {
 		char buf[50];
@@ -182,8 +211,13 @@ void loadTexture() {
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, x, y, 0, GL_RGB,
-				GL_UNSIGNED_BYTE, data);
+		if (n == 3) {
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, x, y, 0, GL_RGB,
+					GL_UNSIGNED_BYTE, data);
+		} else if (n == 4) {
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, x, y, 0, GL_RGBA,
+					GL_UNSIGNED_BYTE, data);
+		}
 		GLenum error = glGetError();
 		if (error) {
 			logmsg("GL Error");
@@ -191,6 +225,7 @@ void loadTexture() {
 		stbi_image_free(data);
 	}
 	_platform_free_asset(fileData);
+	return textureId;
 }
 
 void createCube(S32 detail) {

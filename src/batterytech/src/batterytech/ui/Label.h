@@ -12,7 +12,7 @@
 
 class Label: public UIComponent {
 public:
-	Label();
+	Label(const char *text = NULL) : UIComponent(text){};
 	virtual ~Label();
 };
 

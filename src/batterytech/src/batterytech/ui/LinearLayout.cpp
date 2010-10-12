@@ -10,7 +10,7 @@
 #include <stdio.h>
 #include "LayoutParameters.h"
 
-LinearLayout::LinearLayout() : Layout() {
+LinearLayout::LinearLayout(const char *text) : Layout(text) {
 	this->layoutDirection = VERTICAL;
 }
 
@@ -56,7 +56,7 @@ LinearLayout::~LinearLayout() {
 }
 
 void LinearLayout::layout(F32 scale) {
-	//logmsg("LinearLayout::layout starting");
+	logmsg("LinearLayout::layout starting");
 	//char buf[70];
 	//sprintf(buf, "Laying out %d UI Components at scale %g", components->getSize(), scale);
 	//logmsg(buf);
@@ -128,7 +128,7 @@ void LinearLayout::layout(F32 scale) {
 					compRight = compLeft + (S32)(component->getDesiredWidth() * scale);
 				} if (horizAlign == LayoutParameters::HORIZONTAL_CENTER) {
 					// use the difference of the left and right margins
-					compLeft = (right - left) / 2 - (S32)(component->getDesiredWidth() * scale) / 2 + (S32)(component->marginLeftDips * scale - component->marginRightDips * scale);
+					compLeft = left + (right - left) / 2 - (S32)(component->getDesiredWidth() * scale) / 2 + (S32)(component->marginLeftDips * scale - component->marginRightDips * scale);
 					compRight = compLeft + (S32)(component->getDesiredWidth() * scale);
 				} else if (horizAlign == LayoutParameters::RIGHT) {
 					compRight = right - (S32)(component->marginRightDips * scale);
@@ -141,7 +141,7 @@ void LinearLayout::layout(F32 scale) {
 					compRight = compLeft + (S32)(component->getDesiredWidth() * scale);
 					curLeft = compRight + (S32)(component->marginRightDips * scale);
 				} if (horizAlign == LayoutParameters::HORIZONTAL_CENTER) {
-					compLeft = (right - left) / 2 + - centerNeeded / 2 + centerUsed + (S32)(component->marginLeftDips * scale);
+					compLeft = left + (right - left) / 2 + - centerNeeded / 2 + centerUsed + (S32)(component->marginLeftDips * scale);
 					compRight = compLeft + (S32)(component->getDesiredWidth() * scale);
 					curLeft = compRight + (S32)(component->marginRightDips * scale);
 					centerUsed += (S32)(component->getDesiredWidth() * scale) + (S32)(component->marginLeftDips * scale) + (S32)(component->marginRightDips * scale);
@@ -173,7 +173,7 @@ void LinearLayout::layout(F32 scale) {
 					compBottom = compTop + (S32)(component->getDesiredHeight() * scale);
 					curTop = compBottom + (S32)(component->marginBottomDips * scale);
 				} else if (vertAlign == LayoutParameters::VERTICAL_CENTER) {
-					compTop = (bottom - top) / 2 - (centerNeeded / 2) + centerUsed + (S32)(component->marginTopDips * scale);
+					compTop = top + (bottom - top) / 2 - (centerNeeded / 2) + centerUsed + (S32)(component->marginTopDips * scale);
 					S32 compTotalVertSize = (S32)((component->getDesiredHeight() + component->marginTopDips + component->marginBottomDips) * scale);
 					compBottom = compTop + (S32)(component->getDesiredHeight() * scale);
 					centerUsed += compTotalVertSize;
@@ -189,7 +189,7 @@ void LinearLayout::layout(F32 scale) {
 					compBottom = compTop + (S32)(component->getDesiredHeight() * scale);
 				} else if (vertAlign == LayoutParameters::VERTICAL_CENTER) {
 					// use the difference of the top and bottom margins
-					compTop = (bottom - top) / 2 - (S32)(component->getDesiredHeight() * scale) / 2 + (S32)(component->marginTopDips * scale  - component->marginBottomDips * scale);
+					compTop = top + (bottom - top) / 2 - (S32)(component->getDesiredHeight() * scale) / 2 + (S32)(component->marginTopDips * scale  - component->marginBottomDips * scale);
 					compBottom = compTop + (S32)(component->getDesiredHeight() * scale);
 				} else if (vertAlign == LayoutParameters::BOTTOM) {
 					compBottom = bottom - (S32)(component->marginBottomDips * scale);

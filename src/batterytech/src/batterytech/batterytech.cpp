@@ -67,9 +67,9 @@ void loadSound() {
 void createMenu(S32 width, S32 height) {
 	Menu *mainMenu = new MainMenu(context);
 	Menu *optionsMenu = new OptionsMenu(context);
-	S32 mainMenuId = context->uiManager->addMenu(mainMenu);
+	context->uiManager->addMenu(mainMenu);
 	context->uiManager->addMenu(optionsMenu);
-	context->uiManager->showMenu(OPTIONS_MENU_NAME);
+	context->uiManager->showMenu(MAIN_MENU_NAME);
 }
 
 void btUpdate(F32 delta) {

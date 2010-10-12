@@ -11,14 +11,25 @@
 #include "../ui/LinearLayout.h"
 #include "../ui/Button.h"
 #include "../ui/SlideAnimator.h"
+#include "../ui/Label.h"
+#include "../ui/Checkbox.h"
+
+Button *button1;
 
 MainMenu::MainMenu(Context *context) : Menu(MAIN_MENU_NAME) {
 	this->context = context;
 	S32 buttonBgId = context->menuRenderer->addTextureAsset("button1_tex.png");
 	S32 buttonPressedBgId = context->menuRenderer->addTextureAsset("button1_pressed_tex.png");
 	S32 panelBgId = context->menuRenderer->addTextureAsset("panel2_tex.png");
+	S32 glowBgId = context->menuRenderer->addTextureAsset("glow_tex.png");
+	S32 checkBoxId = context->menuRenderer->addTextureAsset("checkbox_tex.png");
+	S32 checkedBoxId = context->menuRenderer->addTextureAsset("checkbox_checked_tex.png");
 	LinearLayout *buttonLayout = new LinearLayout(LinearLayout::VERTICAL);
-	Button *button1 = new Button("Button 1");
+	Label *label = new Label("Main Menu");
+	label->setSize(FILL, 60);
+	label->setBackgroundMenuResource(glowBgId);
+	label->setLayoutParameters(new LayoutParameters(LayoutParameters::HORIZONTAL_CENTER, LayoutParameters::TOP));
+	button1 = new Button("Button 1");
 	button1->setLayoutParameters(new LayoutParameters(LayoutParameters::HORIZONTAL_CENTER, LayoutParameters::TOP));
 	button1->setSize(160, 60);
 	button1->setMargins(5);
@@ -36,9 +47,18 @@ MainMenu::MainMenu(Context *context) : Menu(MAIN_MENU_NAME) {
 	button3->setMargins(5);
 	button3->setBackgroundMenuResource(buttonBgId);
 	button3->setPressedBackgroundMenuResource(buttonPressedBgId);
+	Checkbox *cbox = new Checkbox("Test");
+	cbox->setSize(160, 60);
+	cbox->setBoxResourceId(checkBoxId);
+	cbox->setCheckedResourceId(checkedBoxId);
+	cbox->setLayoutParameters(new LayoutParameters(LayoutParameters::HORIZONTAL_CENTER, LayoutParameters::TOP));
+
+	buttonLayout->addComponent(label);
 	buttonLayout->addComponent(button1);
 	buttonLayout->addComponent(button2);
 	buttonLayout->addComponent(button3);
+	buttonLayout->addComponent(cbox);
+
 	buttonLayout->setHeight(FILL);
 	buttonLayout->setWidth(WRAP);
 	buttonLayout->setBackgroundMenuResource(panelBgId);
@@ -72,8 +92,10 @@ void MainMenu::onClickDown(UIComponent *component){
 }
 
 void MainMenu::onClickUp(UIComponent *component){
-	this->context->uiManager->popMenu();
-	this->context->uiManager->showMenu(OPTIONS_MENU_NAME);
+	if (component == button1) {
+		this->context->uiManager->popMenu();
+		this->context->uiManager->showMenu(OPTIONS_MENU_NAME);
+	}
 }
 
 MainMenu::~MainMenu() {
