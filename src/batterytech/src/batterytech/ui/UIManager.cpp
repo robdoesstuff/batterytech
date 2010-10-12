@@ -16,6 +16,7 @@ UIManager::UIManager(Context *context) {
 	activeMenuStack = new ManagedArray<Menu>(10);
 	clickDownActive = FALSE;
 	clickDownChecked = FALSE;
+	queuedShowMenuId = -1;
 }
 
 S32 UIManager::addMenu(Menu *menu) {
@@ -45,6 +46,14 @@ S32 UIManager::findMenu(const char *name) {
 void UIManager::showMenu(S32 menuId) {
 	// get menu by id, layout, push on stack
 	if (menuId <= menus->lastItemIndex) {
+		if (activeMenuStack->getSize() > 0) {
+			Menu *topMenu = activeMenuStack->array[activeMenuStack->lastItemIndex];
+			if (topMenu->getRootComponent()->isExitPending()) {
+				queuedShowMenuId = menuId;
+				return;
+			}
+		}
+		queuedShowMenuId = -1;
 		GraphicsConfiguration *gConfig = context->gConfig;
 		Menu *menu = menus->array[menuId];
 		// do frame layout
@@ -86,17 +95,19 @@ void UIManager::showMenu(S32 menuId) {
 		right = left + width;
 		menu->getRootComponent()->setDrawableBounds(left, top, right, bottom);
 		menu->getRootComponent()->layout(gConfig->uiScale);
+		menu->getRootComponent()->enter();
 		activeMenuStack->add(menu);
 	}
 }
 
 void UIManager::popMenu() {
 	if (activeMenuStack->lastItemIndex > -1) {
-		activeMenuStack->remove(activeMenuStack->lastItemIndex);
+		activeMenuStack->array[activeMenuStack->lastItemIndex]->getRootComponent()->exit();
 	}
 }
 
 void UIManager::update() {
+	// top menu receives clicks
 	if (activeMenuStack->lastItemIndex > -1) {
 		Menu *menu = activeMenuStack->array[activeMenuStack->lastItemIndex];
 		//traverse menu components
@@ -115,6 +126,18 @@ void UIManager::update() {
 			clickDownChecked = FALSE;
 			clickDownActive = FALSE;
 		}
+	}
+	// update all menus
+	S32 i;
+	for (i = 0; i < activeMenuStack->getSize(); i++) {
+		Menu *menu = activeMenuStack->array[i];
+		if (menu->getRootComponent()->isExitDone()) {
+			activeMenuStack->remove(activeMenuStack->lastItemIndex);
+			if (queuedShowMenuId != -1) {
+				showMenu(queuedShowMenuId);
+			}
+			continue;
+		}
 		traverseUpdate(menu->getRootComponent());
 	}
 }
@@ -132,6 +155,10 @@ void UIManager::traverseUpdate(UIComponent *component) {
 }
 
 BOOL32 UIManager::traverseClickState(Menu *menu, UIComponent *component, BOOL32 down, S32 x, S32 y) {
+	// don't be clickable until animated in (this is first to catch parents first)
+	if (component->isEnterPending()) {
+		return FALSE;
+	}
 	ManagedArray<UIComponent> *subComps = component->components;
 	if (subComps) {
 		S32 i;

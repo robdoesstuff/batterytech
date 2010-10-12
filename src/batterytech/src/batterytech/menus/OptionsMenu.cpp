@@ -10,6 +10,7 @@
 #include "../primitives.h"
 #include "../ui/LinearLayout.h"
 #include "../ui/Button.h"
+#include "../ui/SlideAnimator.h"
 
 OptionsMenu::OptionsMenu(Context *context) : Menu(OPTIONS_MENU_NAME) {
 	this->context = context;
@@ -42,6 +43,8 @@ OptionsMenu::OptionsMenu(Context *context) : Menu(OPTIONS_MENU_NAME) {
 	buttonLayout->setWidth(FILL);
 	buttonLayout->setBackgroundMenuResource(panelBgId);
 	buttonLayout->setLayoutParameters(new LayoutParameters(LayoutParameters::HORIZONTAL_CENTER, LayoutParameters::BOTTOM));
+	buttonLayout->setEnterAnimator(new SlideAnimator(SlideAnimator::BOTTOM, SlideAnimator::IN, 0.5f));
+	buttonLayout->setExitAnimator(new SlideAnimator(SlideAnimator::BOTTOM, SlideAnimator::OUT, 0.5f));
 	setRootComponent(buttonLayout);
 }
 

@@ -69,6 +69,10 @@ void MenuRenderer::render(UIManager *uiManager) {
 }
 
 void MenuRenderer::render(UIComponent *component) {
+	UIAnimator *animator = component->getActiveAnimator();
+	if (animator) {
+		animator->drawPreComponent(gConfig);
+	}
 	// draw this component first then recurse children
 	S32 menuResourceId = component->backgroundMenuResourceId;
 	if (component->isPressed) {
@@ -115,6 +119,9 @@ void MenuRenderer::render(UIComponent *component) {
 		for (i = 0; i < component->components->getSize(); i++) {
 			render(components[i]);
 		}
+	}
+	if (animator) {
+		animator->drawPostComponent(gConfig);
 	}
 }
 

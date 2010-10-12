@@ -36,6 +36,7 @@ private:
 	Context *context;
 	BOOL32 clickDownChecked;
 	BOOL32 clickDownActive;
+	S32 queuedShowMenuId;
 };
 
 #endif /* UIMANAGER_H_ */

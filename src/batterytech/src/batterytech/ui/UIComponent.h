@@ -13,10 +13,14 @@
 #include "../Logger.h"
 #include <stdio.h>
 #include "../util/ManagedArray.h"
+#include "UIAnimator.h"
 
 #define FILL -1
 #define WRAP 0
 #define NO_RESOURCE -1
+
+// cross-ref
+class UIAnimator;
 
 class UIComponent {
 public:
@@ -47,17 +51,26 @@ public:
 	virtual void layout(F32 scale)=0;
 	// in actual screen coordinates
 	virtual void setDrawableBounds(S32 left, S32 top, S32 right, S32 bottom) {
-		char buf[60];
-		sprintf(buf, "Component Bounds set to [%d, %d, %d, %d]", left, top, right, bottom);
-		logmsg(buf);
+		//char buf[60];
+		//sprintf(buf, "Component Bounds set to [%d, %d, %d, %d]", left, top, right, bottom);
+		//logmsg(buf);
 		this->left = left;
 		this->top = top;
 		this->right = right;
 		this->bottom = bottom;
 	}
-	virtual void update(F32 delta)=0;
+	virtual void enter();
+	virtual void exit();
+	virtual BOOL32 isEnterPending() { return isEntering; };
+	virtual BOOL32 isExitPending() { return (isExiting || removeFromView); };
+	virtual BOOL32 isExitDone();
+	virtual void update(F32 delta);
 	virtual void dispatchClickDown();
 	virtual void dispatchClickUp();
+	virtual void setEnterAnimator(UIAnimator *animator);
+	virtual void setMainAnimator(UIAnimator *animator);
+	virtual void setExitAnimator(UIAnimator *animator);
+	virtual UIAnimator* getActiveAnimator();
 	S32 paddingLeftDips, paddingTopDips, paddingRightDips, paddingBottomDips;
 	S32 marginLeftDips, marginTopDips, marginRightDips, marginBottomDips;
 	S32 backgroundMenuResourceId;
@@ -72,12 +85,19 @@ public:
 	BOOL32 isSelectable;
 	BOOL32 isEnabled;
 	BOOL32 isPressed;
+	BOOL32 removeFromView;
 protected:
 	virtual void onClickDown(){};
 	virtual void onClickUp(){};
 	S32 widthDips;
 	S32 heightDips;
 	LayoutParameters *layoutParameters;
+private:
+	UIAnimator *enterAnimator;
+	UIAnimator *mainAnimator;
+	UIAnimator *exitAnimator;
+	BOOL32 isEntering;
+	BOOL32 isExiting;
 };
 
 #endif /* UICOMPONENT_H_ */
