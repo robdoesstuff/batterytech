@@ -3,7 +3,6 @@
 	<name>batterytech-win32</name>
 	<comment></comment>
 	<projects>
-		<project>batterytech</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
