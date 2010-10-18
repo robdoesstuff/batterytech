@@ -9,7 +9,7 @@
 #define PLATFORMGL_H_
 
 #ifdef ANDROID_NDK
-	#include "platform/android/importgl.h"
+	#include "android/importgl.h"
 #endif /* ANDROID_NDK */
 
 #ifdef _WIN32
