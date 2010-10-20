@@ -91,10 +91,10 @@ public:
 	BOOL32 isPressed;
 	BOOL32 removeFromView;
 protected:
-	virtual void onClickDown(){};
-	virtual void onClickUp(){};
 	S32 widthDips;
 	S32 heightDips;
+	virtual void onClickDown(){};
+	virtual void onClickUp(){};
 	LayoutParameters *layoutParameters;
 private:
 	UIAnimator *enterAnimator;

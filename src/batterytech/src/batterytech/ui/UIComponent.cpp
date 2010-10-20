@@ -131,6 +131,7 @@ UIAnimator* UIComponent::getActiveAnimator() {
 	} else if (mainAnimator) {
 		return mainAnimator;
 	}
+	return NULL;
 }
 
 void UIComponent::setEnterAnimator(UIAnimator *animator) {

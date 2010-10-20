@@ -59,7 +59,7 @@ void loadSound() {
 	U16 sndId = context->soundManager->loadSound("level_1_song.ogg");
 	//U16 sndId2 = soundManager->loadSound("battery_powered_splash.ogg");
 	//U16 sndId3 = soundManager->loadSound("score_session_end_big.ogg");
-	//soundManager->playSound(sndId, -1, 1.0f);
+	//context->soundManager->playSound(sndId, -1, 1.0f);
 	//soundManager->playSound(sndId2, -1, 1.0f);
 	//soundManager->playSound(sndId3, -1, 1.0f);
 }

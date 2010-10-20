@@ -84,7 +84,7 @@ MainMenu::MainMenu(Context *context) : Menu(MAIN_MENU_NAME) {
 	buttonLayout->addComponent(bottomLayout);
 	buttonLayout->setEnterAnimator(new SlideAnimator(SlideAnimator::LEFT, SlideAnimator::IN, 0.5f));
 	buttonLayout->setExitAnimator(new SlideAnimator(SlideAnimator::LEFT, SlideAnimator::OUT, 0.5f));
-
+	buttonLayout->setText("buttons");
 	setRootComponent(buttonLayout);
 }
 
