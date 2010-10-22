@@ -14,7 +14,7 @@
 		2514C27B10084DCA00A42282 /* Shader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 2514C27910084DCA00A42282 /* Shader.fsh */; };
 		2514C27C10084DCA00A42282 /* Shader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 2514C27A10084DCA00A42282 /* Shader.vsh */; };
 		28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD733E0D9D9553002E5188 /* MainWindow.xib */; };
-		28EC4C5911D54ECE0027AA9F /* batterytech_iosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28EC4C5711D54ECE0027AA9F /* batterytech_iosViewController.m */; };
+		28EC4C5911D54ECE0027AA9F /* batterytech_iosViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 28EC4C5711D54ECE0027AA9F /* batterytech_iosViewController.mm */; };
 		28EC4C5A11D54ECE0027AA9F /* batterytech_iosViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28EC4C5811D54ECE0027AA9F /* batterytech_iosViewController.xib */; };
 		28FD14FE0DC6FC130079059D /* EAGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 28FD14FD0DC6FC130079059D /* EAGLView.m */; };
 		28FD15000DC6FC520079059D /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28FD14FF0DC6FC520079059D /* OpenGLES.framework */; };
@@ -54,8 +54,24 @@
 		3DD634DF126E11C300D13421 /* UIAnimator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DD634B7126E11C300D13421 /* UIAnimator.cpp */; };
 		3DD634E0126E11C300D13421 /* UIComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DD634B9126E11C300D13421 /* UIComponent.cpp */; };
 		3DD634E1126E11C300D13421 /* UIManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DD634BB126E11C300D13421 /* UIManager.cpp */; };
-		3DD635FE12712F1C00D13421 /* boot.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DD635FB12712F1C00D13421 /* boot.cpp */; };
-		3DD635FF12712F1C00D13421 /* iosgeneral.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DD635FD12712F1C00D13421 /* iosgeneral.cpp */; };
+		3DD635FE12712F1C00D13421 /* boot.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3DD635FB12712F1C00D13421 /* boot.mm */; };
+		3DD635FF12712F1C00D13421 /* iosgeneral.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3DD635FD12712F1C00D13421 /* iosgeneral.mm */; };
+		3DD6371C127241CE00D13421 /* battery_powered_splash.ogg in Resources */ = {isa = PBXBuildFile; fileRef = 3DD6370C127241CD00D13421 /* battery_powered_splash.ogg */; };
+		3DD6371D127241CE00D13421 /* bpg_256_tex.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3DD6370D127241CD00D13421 /* bpg_256_tex.jpg */; };
+		3DD6371E127241CE00D13421 /* button1_pressed_tex.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DD6370E127241CD00D13421 /* button1_pressed_tex.png */; };
+		3DD6371F127241CE00D13421 /* button1_tex.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DD6370F127241CD00D13421 /* button1_tex.png */; };
+		3DD63720127241CE00D13421 /* checkbox_checked_tex.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DD63710127241CD00D13421 /* checkbox_checked_tex.png */; };
+		3DD63721127241CE00D13421 /* checkbox_tex.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DD63711127241CD00D13421 /* checkbox_tex.png */; };
+		3DD63722127241CE00D13421 /* digital.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3DD63712127241CD00D13421 /* digital.ttf */; };
+		3DD63723127241CE00D13421 /* earth_horizon_tex.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3DD63713127241CD00D13421 /* earth_horizon_tex.jpg */; };
+		3DD63724127241CE00D13421 /* glow_tex.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DD63714127241CD00D13421 /* glow_tex.png */; };
+		3DD63725127241CE00D13421 /* icon.ico in Resources */ = {isa = PBXBuildFile; fileRef = 3DD63715127241CE00D13421 /* icon.ico */; };
+		3DD63726127241CE00D13421 /* lcdmn.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3DD63716127241CE00D13421 /* lcdmn.ttf */; };
+		3DD63727127241CE00D13421 /* level_1_song.ogg in Resources */ = {isa = PBXBuildFile; fileRef = 3DD63717127241CE00D13421 /* level_1_song.ogg */; };
+		3DD63728127241CE00D13421 /* panel1_tex.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DD63718127241CE00D13421 /* panel1_tex.png */; };
+		3DD63729127241CE00D13421 /* panel2_tex.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DD63719127241CE00D13421 /* panel2_tex.png */; };
+		3DD6372A127241CE00D13421 /* score_session_end_big.ogg in Resources */ = {isa = PBXBuildFile; fileRef = 3DD6371A127241CE00D13421 /* score_session_end_big.ogg */; };
+		3DD6372B127241CE00D13421 /* text_bg_tex.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3DD6371B127241CE00D13421 /* text_bg_tex.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -68,7 +84,7 @@
 		2514C27A10084DCA00A42282 /* Shader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = Shader.vsh; path = Shaders/Shader.vsh; sourceTree = "<group>"; };
 		28AD733E0D9D9553002E5188 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		28EC4C5611D54ECE0027AA9F /* batterytech_iosViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = batterytech_iosViewController.h; sourceTree = "<group>"; };
-		28EC4C5711D54ECE0027AA9F /* batterytech_iosViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = batterytech_iosViewController.m; sourceTree = "<group>"; };
+		28EC4C5711D54ECE0027AA9F /* batterytech_iosViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = batterytech_iosViewController.mm; sourceTree = "<group>"; };
 		28EC4C5811D54ECE0027AA9F /* batterytech_iosViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = batterytech_iosViewController.xib; path = ../batterytech_iosViewController.xib; sourceTree = "<group>"; };
 		28FD14FC0DC6FC130079059D /* EAGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EAGLView.h; sourceTree = "<group>"; };
 		28FD14FD0DC6FC130079059D /* EAGLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EAGLView.m; sourceTree = "<group>"; };
@@ -155,9 +171,27 @@
 		3DD634BE126E11C300D13421 /* ManagedArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ManagedArray.h; sourceTree = "<group>"; };
 		3DD635BC1271039000D13421 /* iosgeneral.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = iosgeneral.h; path = ios/iosgeneral.h; sourceTree = "<group>"; };
 		3DD635BD1271039000D13421 /* iostypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = iostypes.h; path = ios/iostypes.h; sourceTree = "<group>"; };
-		3DD635FB12712F1C00D13421 /* boot.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = boot.cpp; path = ios/boot.cpp; sourceTree = "<group>"; };
+		3DD635FB12712F1C00D13421 /* boot.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = boot.mm; path = ios/boot.mm; sourceTree = "<group>"; };
 		3DD635FC12712F1C00D13421 /* boot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = boot.h; path = ios/boot.h; sourceTree = "<group>"; };
-		3DD635FD12712F1C00D13421 /* iosgeneral.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = iosgeneral.cpp; path = ios/iosgeneral.cpp; sourceTree = "<group>"; };
+		3DD635FD12712F1C00D13421 /* iosgeneral.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = iosgeneral.mm; path = ios/iosgeneral.mm; sourceTree = "<group>"; };
+		3DD6370C127241CD00D13421 /* battery_powered_splash.ogg */ = {isa = PBXFileReference; lastKnownFileType = file; path = battery_powered_splash.ogg; sourceTree = "<group>"; };
+		3DD6370D127241CD00D13421 /* bpg_256_tex.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bpg_256_tex.jpg; sourceTree = "<group>"; };
+		3DD6370E127241CD00D13421 /* button1_pressed_tex.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button1_pressed_tex.png; sourceTree = "<group>"; };
+		3DD6370F127241CD00D13421 /* button1_tex.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button1_tex.png; sourceTree = "<group>"; };
+		3DD63710127241CD00D13421 /* checkbox_checked_tex.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkbox_checked_tex.png; sourceTree = "<group>"; };
+		3DD63711127241CD00D13421 /* checkbox_tex.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkbox_tex.png; sourceTree = "<group>"; };
+		3DD63712127241CD00D13421 /* digital.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = digital.ttf; sourceTree = "<group>"; };
+		3DD63713127241CD00D13421 /* earth_horizon_tex.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = earth_horizon_tex.jpg; sourceTree = "<group>"; };
+		3DD63714127241CD00D13421 /* glow_tex.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = glow_tex.png; sourceTree = "<group>"; };
+		3DD63715127241CE00D13421 /* icon.ico */ = {isa = PBXFileReference; lastKnownFileType = image.ico; path = icon.ico; sourceTree = "<group>"; };
+		3DD63716127241CE00D13421 /* lcdmn.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = lcdmn.ttf; sourceTree = "<group>"; };
+		3DD63717127241CE00D13421 /* level_1_song.ogg */ = {isa = PBXFileReference; lastKnownFileType = file; path = level_1_song.ogg; sourceTree = "<group>"; };
+		3DD63718127241CE00D13421 /* panel1_tex.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = panel1_tex.png; sourceTree = "<group>"; };
+		3DD63719127241CE00D13421 /* panel2_tex.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = panel2_tex.png; sourceTree = "<group>"; };
+		3DD6371A127241CE00D13421 /* score_session_end_big.ogg */ = {isa = PBXFileReference; lastKnownFileType = file; path = score_session_end_big.ogg; sourceTree = "<group>"; };
+		3DD6371B127241CE00D13421 /* text_bg_tex.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = text_bg_tex.jpg; sourceTree = "<group>"; };
+		3DD6374C1272468600D13421 /* Simulator 3.2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Simulator 3.2.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3DD6374E1272468600D13421 /* Simulator 3.2-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Simulator 3.2-Info.plist"; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* batterytech_ios-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "batterytech_ios-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -173,6 +207,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		3DD6374A1272468600D13421 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -184,7 +225,7 @@
 				1D3623240D0F684500981E51 /* batterytech_iosAppDelegate.h */,
 				1D3623250D0F684500981E51 /* batterytech_iosAppDelegate.m */,
 				28EC4C5611D54ECE0027AA9F /* batterytech_iosViewController.h */,
-				28EC4C5711D54ECE0027AA9F /* batterytech_iosViewController.m */,
+				28EC4C5711D54ECE0027AA9F /* batterytech_iosViewController.mm */,
 				28EC4C5811D54ECE0027AA9F /* batterytech_iosViewController.xib */,
 			);
 			path = Classes;
@@ -194,6 +235,7 @@
 			isa = PBXGroup;
 			children = (
 				1D6058910D05DD3D006BFB54 /* batterytech-ios.app */,
+				3DD6374C1272468600D13421 /* Simulator 3.2.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -216,6 +258,7 @@
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
+				3DD6374E1272468600D13421 /* Simulator 3.2-Info.plist */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
@@ -233,6 +276,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3DD637051272419800D13421 /* assets */,
 				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
 				8D1107310486CEB800E47090 /* batterytech_ios-Info.plist */,
 			);
@@ -419,13 +463,36 @@
 		3DD634EB126E12A100D13421 /* ios */ = {
 			isa = PBXGroup;
 			children = (
-				3DD635FB12712F1C00D13421 /* boot.cpp */,
+				3DD635FB12712F1C00D13421 /* boot.mm */,
 				3DD635FC12712F1C00D13421 /* boot.h */,
-				3DD635FD12712F1C00D13421 /* iosgeneral.cpp */,
+				3DD635FD12712F1C00D13421 /* iosgeneral.mm */,
 				3DD635BC1271039000D13421 /* iosgeneral.h */,
 				3DD635BD1271039000D13421 /* iostypes.h */,
 			);
 			name = ios;
+			sourceTree = "<group>";
+		};
+		3DD637051272419800D13421 /* assets */ = {
+			isa = PBXGroup;
+			children = (
+				3DD6370C127241CD00D13421 /* battery_powered_splash.ogg */,
+				3DD6370D127241CD00D13421 /* bpg_256_tex.jpg */,
+				3DD6370E127241CD00D13421 /* button1_pressed_tex.png */,
+				3DD6370F127241CD00D13421 /* button1_tex.png */,
+				3DD63710127241CD00D13421 /* checkbox_checked_tex.png */,
+				3DD63711127241CD00D13421 /* checkbox_tex.png */,
+				3DD63712127241CD00D13421 /* digital.ttf */,
+				3DD63713127241CD00D13421 /* earth_horizon_tex.jpg */,
+				3DD63714127241CD00D13421 /* glow_tex.png */,
+				3DD63715127241CE00D13421 /* icon.ico */,
+				3DD63716127241CE00D13421 /* lcdmn.ttf */,
+				3DD63717127241CE00D13421 /* level_1_song.ogg */,
+				3DD63718127241CE00D13421 /* panel1_tex.png */,
+				3DD63719127241CE00D13421 /* panel2_tex.png */,
+				3DD6371A127241CE00D13421 /* score_session_end_big.ogg */,
+				3DD6371B127241CE00D13421 /* text_bg_tex.jpg */,
+			);
+			path = assets;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -448,6 +515,23 @@
 			productReference = 1D6058910D05DD3D006BFB54 /* batterytech-ios.app */;
 			productType = "com.apple.product-type.application";
 		};
+		3DD6374B1272468600D13421 /* Simulator 3.2 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3DD637511272468700D13421 /* Build configuration list for PBXNativeTarget "Simulator 3.2" */;
+			buildPhases = (
+				3DD637481272468600D13421 /* Resources */,
+				3DD637491272468600D13421 /* Sources */,
+				3DD6374A1272468600D13421 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Simulator 3.2";
+			productName = "Simulator 3.2";
+			productReference = 3DD6374C1272468600D13421 /* Simulator 3.2.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -468,6 +552,7 @@
 			projectRoot = "";
 			targets = (
 				1D6058900D05DD3D006BFB54 /* batterytech-ios */,
+				3DD6374B1272468600D13421 /* Simulator 3.2 */,
 			);
 		};
 /* End PBXProject section */
@@ -482,6 +567,29 @@
 				28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */,
 				28EC4C5A11D54ECE0027AA9F /* batterytech_iosViewController.xib in Resources */,
 				3DD634CD126E11C300D13421 /* resources.rc in Resources */,
+				3DD6371C127241CE00D13421 /* battery_powered_splash.ogg in Resources */,
+				3DD6371D127241CE00D13421 /* bpg_256_tex.jpg in Resources */,
+				3DD6371E127241CE00D13421 /* button1_pressed_tex.png in Resources */,
+				3DD6371F127241CE00D13421 /* button1_tex.png in Resources */,
+				3DD63720127241CE00D13421 /* checkbox_checked_tex.png in Resources */,
+				3DD63721127241CE00D13421 /* checkbox_tex.png in Resources */,
+				3DD63722127241CE00D13421 /* digital.ttf in Resources */,
+				3DD63723127241CE00D13421 /* earth_horizon_tex.jpg in Resources */,
+				3DD63724127241CE00D13421 /* glow_tex.png in Resources */,
+				3DD63725127241CE00D13421 /* icon.ico in Resources */,
+				3DD63726127241CE00D13421 /* lcdmn.ttf in Resources */,
+				3DD63727127241CE00D13421 /* level_1_song.ogg in Resources */,
+				3DD63728127241CE00D13421 /* panel1_tex.png in Resources */,
+				3DD63729127241CE00D13421 /* panel2_tex.png in Resources */,
+				3DD6372A127241CE00D13421 /* score_session_end_big.ogg in Resources */,
+				3DD6372B127241CE00D13421 /* text_bg_tex.jpg in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3DD637481272468600D13421 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -495,7 +603,7 @@
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* batterytech_iosAppDelegate.m in Sources */,
 				28FD14FE0DC6FC130079059D /* EAGLView.m in Sources */,
-				28EC4C5911D54ECE0027AA9F /* batterytech_iosViewController.m in Sources */,
+				28EC4C5911D54ECE0027AA9F /* batterytech_iosViewController.mm in Sources */,
 				3DD634BF126E11C300D13421 /* batterytech.cpp in Sources */,
 				3DD634C0126E11C300D13421 /* Context.cpp in Sources */,
 				3DD634C1126E11C300D13421 /* stb_image.c in Sources */,
@@ -530,8 +638,15 @@
 				3DD634DF126E11C300D13421 /* UIAnimator.cpp in Sources */,
 				3DD634E0126E11C300D13421 /* UIComponent.cpp in Sources */,
 				3DD634E1126E11C300D13421 /* UIManager.cpp in Sources */,
-				3DD635FE12712F1C00D13421 /* boot.cpp in Sources */,
-				3DD635FF12712F1C00D13421 /* iosgeneral.cpp in Sources */,
+				3DD635FE12712F1C00D13421 /* boot.mm in Sources */,
+				3DD635FF12712F1C00D13421 /* iosgeneral.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3DD637491272468600D13421 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -564,6 +679,55 @@
 				INFOPLIST_FILE = "batterytech_ios-Info.plist";
 				PRODUCT_NAME = "batterytech-ios";
 				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		3DD6374F1272468700D13421 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/UIKit.framework/Headers/UIKit.h";
+				INFOPLIST_FILE = "Simulator 3.2-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					UIKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = "Simulator 3.2";
+				SDKROOT = iphonesimulator3.2;
+			};
+			name = Debug;
+		};
+		3DD637501272468700D13421 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/UIKit.framework/Headers/UIKit.h";
+				INFOPLIST_FILE = "Simulator 3.2-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					UIKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = "Simulator 3.2";
+				SDKROOT = iphoneos4.1;
+				ZERO_LINK = NO;
 			};
 			name = Release;
 		};
@@ -604,6 +768,15 @@
 			buildConfigurations = (
 				1D6058940D05DD3E006BFB54 /* Debug */,
 				1D6058950D05DD3E006BFB54 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3DD637511272468700D13421 /* Build configuration list for PBXNativeTarget "Simulator 3.2" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3DD6374F1272468700D13421 /* Debug */,
+				3DD637501272468700D13421 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
