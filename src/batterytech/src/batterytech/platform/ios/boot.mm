@@ -1,5 +1,5 @@
 /*
- *  boot.h
+ *  boot.cpp
  *  batterytech-ios
  *
  *  Created by Apple on 10/21/10.
@@ -7,13 +7,11 @@
  *
  */
 
-#ifndef BOOT_H_
-#define BOOT_H_
-
 #ifdef __APPLE__
 #include <TargetConditionals.h>
 #endif
 #if TARGET_OS_IPHONE
 
-#endif /* TARGET_OS_IPHONE */
-#endif /* BOOT_H_ */
+#include "boot.h"
+
+#endif
