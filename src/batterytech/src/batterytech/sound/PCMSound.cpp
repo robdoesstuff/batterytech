@@ -7,6 +7,7 @@
 
 #include "PCMSound.h"
 #include "../platform/platformgeneral.h"
+#include <stdlib.h>
 
 PCMSound::PCMSound(S16 *pcmData, U32 length, U32 rate, U8 channels) {
 	this->pcmData = pcmData;

@@ -8,6 +8,7 @@
 #include "opengles.h"
 #include "platformgl.h"
 #include "platformgeneral.h"
+#include <string.h>
 
 BOOL32 gles_checkExtension(const char *extension) {
 	return (strstr((const char*) glGetString(GL_EXTENSIONS), extension) != NULL);

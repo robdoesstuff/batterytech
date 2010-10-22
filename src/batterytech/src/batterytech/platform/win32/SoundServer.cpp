@@ -15,6 +15,8 @@
 
 *********************************************************************************/
 
+#ifdef _WIN32
+
 #include <windows.h>
 #include "SoundServer.h"
 
@@ -121,3 +123,5 @@ void	CSoundServer::fillNextBuffer(void)
 		m_currentBuffer++;
 		if (m_currentBuffer >= REPLAY_NBSOUNDBUFFER) m_currentBuffer = 0;
 }
+
+#endif

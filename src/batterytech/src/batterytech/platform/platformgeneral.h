@@ -16,4 +16,12 @@
 	#include "win32/win32general.h"
 #endif /* _WIN32 */
 
+#ifdef __APPLE__
+	#include <TargetConditionals.h>
+#endif
+
+#if TARGET_OS_IPHONE
+	#include "ios/iosgeneral.h"
+#endif /* IOS */
+
 #endif /* PLATFORMGENERAL_H_ */

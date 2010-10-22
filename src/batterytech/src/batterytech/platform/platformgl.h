@@ -17,6 +17,15 @@
 	#include <gl/glu.h>
 #endif /* _WIN32 */
 
+#ifdef __APPLE__
+	#include <TargetConditionals.h>
+#endif
+
+#if TARGET_OS_IPHONE
+	#import <OpenGLES/ES1/gl.h>
+	#import <OpenGLES/ES1/glext.h>
+#endif /* IOS */
+
 #include "opengles.h"
 
 #endif /* PLATFORMGENERAL_H_ */
