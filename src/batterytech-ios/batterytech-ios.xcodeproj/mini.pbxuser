@@ -22,7 +22,7 @@
 	};
 	28EC4C5611D54ECE0027AA9F /* batterytech_iosViewController.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {939, 570}}";
+			sepNavIntBoundsRect = "{{0, 0}, {939, 533}}";
 			sepNavSelRange = "{1077, 0}";
 			sepNavVisRange = "{0, 1084}";
 			sepNavWindowFrame = "{{15, 615}, {750, 558}}";
@@ -30,9 +30,9 @@
 	};
 	28EC4C5711D54ECE0027AA9F /* batterytech_iosViewController.mm */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {2280, 2795}}";
-			sepNavSelRange = "{5462, 0}";
-			sepNavVisRange = "{4938, 1202}";
+			sepNavIntBoundsRect = "{{0, 0}, {2280, 3289}}";
+			sepNavSelRange = "{5075, 0}";
+			sepNavVisRange = "{4672, 830}";
 		};
 	};
 	28EC4C5811D54ECE0027AA9F /* batterytech_iosViewController.xib */ = {
@@ -190,6 +190,12 @@
 			3DD6385B12728F6800D13421 /* PBXTextBookmark */ = 3DD6385B12728F6800D13421 /* PBXTextBookmark */;
 			3DD6385C12728F6800D13421 /* PBXTextBookmark */ = 3DD6385C12728F6800D13421 /* PBXTextBookmark */;
 			3DD6385D12728FAF00D13421 /* PBXTextBookmark */ = 3DD6385D12728FAF00D13421 /* PBXTextBookmark */;
+			3DD6386F1272E3A100D13421 /* XCBuildMessageTextBookmark */ = 3DD6386F1272E3A100D13421 /* XCBuildMessageTextBookmark */;
+			3DD638711272E3A100D13421 /* PBXTextBookmark */ = 3DD638711272E3A100D13421 /* PBXTextBookmark */;
+			3DD6387F1272E63600D13421 /* PBXTextBookmark */ = 3DD6387F1272E63600D13421 /* PBXTextBookmark */;
+			3DD638801272E63600D13421 /* PBXTextBookmark */ = 3DD638801272E63600D13421 /* PBXTextBookmark */;
+			3DD638811272E63600D13421 /* PBXTextBookmark */ = 3DD638811272E63600D13421 /* PBXTextBookmark */;
+			3DD638821272E63600D13421 /* PBXTextBookmark */ = 3DD638821272E63600D13421 /* PBXTextBookmark */;
 		};
 		sourceControlManager = 3D65B4DD126BFA6F00CF4CFC /* Source Control */;
 		userBuildSettings = {
@@ -570,7 +576,7 @@
 		fRef = 28EC4C5711D54ECE0027AA9F /* batterytech_iosViewController.mm */;
 		name = "batterytech_iosViewController.mm: 58";
 		rLen = 0;
-		rLoc = 1852;
+		rLoc = 1979;
 		rType = 0;
 		vrLen = 1181;
 		vrLoc = 803;
@@ -649,7 +655,7 @@
 		fRef = 28EC4C5711D54ECE0027AA9F /* batterytech_iosViewController.mm */;
 		name = "batterytech_iosViewController.mm: 56";
 		rLen = 0;
-		rLoc = 1676;
+		rLoc = 1803;
 		rType = 0;
 		vrLen = 1089;
 		vrLoc = 0;
@@ -773,7 +779,7 @@
 		fRef = 28EC4C5711D54ECE0027AA9F /* batterytech_iosViewController.mm */;
 		name = "batterytech_iosViewController.mm: 195";
 		rLen = 0;
-		rLoc = 5464;
+		rLoc = 5698;
 		rType = 0;
 		vrLen = 739;
 		vrLoc = 4751;
@@ -783,7 +789,7 @@
 		fRef = 28EC4C5711D54ECE0027AA9F /* batterytech_iosViewController.mm */;
 		name = "batterytech_iosViewController.mm: 216";
 		rLen = 0;
-		rLoc = 6133;
+		rLoc = 6367;
 		rType = 0;
 		vrLen = 1087;
 		vrLoc = 4938;
@@ -793,9 +799,86 @@
 		fRef = 28EC4C5711D54ECE0027AA9F /* batterytech_iosViewController.mm */;
 		name = "batterytech_iosViewController.mm: 196";
 		rLen = 0;
-		rLoc = 5462;
+		rLoc = 5696;
 		rType = 0;
 		vrLen = 1202;
 		vrLoc = 4938;
+	};
+	3DD6386F1272E3A100D13421 /* XCBuildMessageTextBookmark */ = {
+		isa = PBXTextBookmark;
+		comments = "'CFXMLTreeRef' has not been declared";
+		fRef = 3DD638701272E3A100D13421 /* WSMethodInvocation.h */;
+		fallbackIsa = XCBuildMessageTextBookmark;
+		rLen = 1;
+		rLoc = 758;
+		rType = 1;
+	};
+	3DD638701272E3A100D13421 /* WSMethodInvocation.h */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.h;
+		name = WSMethodInvocation.h;
+		path = /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.1.sdk/System/Library/Frameworks/CoreServices.framework/Frameworks/WebServicesCore.framework/Headers/WSMethodInvocation.h;
+		sourceTree = "<absolute>";
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {978, 10686}}";
+			sepNavSelRange = "{23826, 0}";
+			sepNavVisRange = "{22213, 1303}";
+		};
+	};
+	3DD638711272E3A100D13421 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 3DD638721272E3A100D13421 /* WSMethodInvocation.h */;
+		name = "WSMethodInvocation.h: 759";
+		rLen = 0;
+		rLoc = 23826;
+		rType = 0;
+		vrLen = 1247;
+		vrLoc = 23219;
+	};
+	3DD638721272E3A100D13421 /* WSMethodInvocation.h */ = {
+		isa = PBXFileReference;
+		name = WSMethodInvocation.h;
+		path = /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.1.sdk/System/Library/Frameworks/CoreServices.framework/Frameworks/WebServicesCore.framework/Headers/WSMethodInvocation.h;
+		sourceTree = "<absolute>";
+	};
+	3DD6387F1272E63600D13421 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 3DD638701272E3A100D13421 /* WSMethodInvocation.h */;
+		name = "WSMethodInvocation.h: 759";
+		rLen = 0;
+		rLoc = 23826;
+		rType = 0;
+		vrLen = 1303;
+		vrLoc = 22213;
+	};
+	3DD638801272E63600D13421 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 28EC4C5611D54ECE0027AA9F /* batterytech_iosViewController.h */;
+		name = "batterytech_iosViewController.h: 38";
+		rLen = 0;
+		rLoc = 1077;
+		rType = 0;
+		vrLen = 1084;
+		vrLoc = 0;
+	};
+	3DD638811272E63600D13421 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 28EC4C5711D54ECE0027AA9F /* batterytech_iosViewController.mm */;
+		name = "batterytech_iosViewController.mm: 10";
+		rLen = 0;
+		rLoc = 244;
+		rType = 0;
+		vrLen = 1141;
+		vrLoc = 3;
+	};
+	3DD638821272E63600D13421 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 28EC4C5711D54ECE0027AA9F /* batterytech_iosViewController.mm */;
+		name = "batterytech_iosViewController.mm: 180";
+		rLen = 0;
+		rLoc = 5075;
+		rType = 0;
+		vrLen = 830;
+		vrLoc = 4672;
 	};
 }

@@ -7,6 +7,8 @@
 //
 
 #import <QuartzCore/QuartzCore.h>
+#include <mach/mach.h>
+#include <mach/mach_time.h>
 
 #import "batterytech_iosViewController.h"
 #import "EAGLView.h"
@@ -14,6 +16,9 @@
 #include "../../batterytech/src/batterytech/render/GraphicsConfiguration.h"
 
 static GraphicsConfiguration *gConfig;
+static double currentTime;
+static double lastTime;
+double getCurrentTime();
 
 @interface batterytech_iosViewController ()
 @property (nonatomic, retain) EAGLContext *context;
@@ -57,6 +62,7 @@ static GraphicsConfiguration *gConfig;
 	gConfig->supportsUVTransform = TRUE;
 	// TODO - why do we need to reverse these for landscape?? Should be width, height
 	btInit(gConfig, [(EAGLView *)self.view getFBHeight], [(EAGLView *)self.view getFBWidth]);
+	currentTime = getCurrentTime();
 }
 
 - (void)dealloc
@@ -167,7 +173,9 @@ static GraphicsConfiguration *gConfig;
 
 - (void)drawFrame
 {
-	btUpdate(0.033f);
+	lastTime = currentTime;
+	currentTime = getCurrentTime();
+	btUpdate(currentTime - lastTime);
     [(EAGLView *)self.view setFramebuffer];
     
 	btDraw();
@@ -217,3 +225,23 @@ static GraphicsConfiguration *gConfig;
 }
 
 @end
+
+double getCurrentTime()
+{
+	static mach_timebase_info_data_t sTimebaseInfo;
+	uint64_t time = mach_absolute_time();
+	uint64_t nanos;
+	
+	// If this is the first time we've run, get the timebase.
+	// We can use denom == 0 to indicate that sTimebaseInfo is
+	// uninitialised because it makes no sense to have a zero
+	// denominator is a fraction.
+	if ( sTimebaseInfo.denom == 0 ) {
+		(void) mach_timebase_info(&sTimebaseInfo);
+	}
+	
+	// Do the maths.  We hope that the multiplication doesn't
+	// overflow; the price you pay for working in fixed point.
+	nanos = time * sTimebaseInfo.numer / sTimebaseInfo.denom;
+	return ((double)nanos / 1000000000.0);
+}

@@ -298,7 +298,7 @@
 							<real>269</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>96 182 1291 954 0 0 1600 1178 </string>
+						<string>120 223 1291 954 0 0 1600 1178 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -309,6 +309,8 @@
 					<key>Dock</key>
 					<array>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -326,10 +328,9 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>3DD6385D12728FAF00D13421</string>
+										<string>3DD638821272E63600D13421</string>
 										<key>history</key>
 										<array>
-											<string>3DD637B812726BE600D13421</string>
 											<string>3DD637B912726BE600D13421</string>
 											<string>3DD637BA12726BE600D13421</string>
 											<string>3DD637BB12726BE600D13421</string>
@@ -338,7 +339,9 @@
 											<string>3DD637BF12726BE600D13421</string>
 											<string>3DD6385912728F6800D13421</string>
 											<string>3DD6385A12728F6800D13421</string>
-											<string>3DD6385B12728F6800D13421</string>
+											<string>3DD6387F1272E63600D13421</string>
+											<string>3DD638801272E63600D13421</string>
+											<string>3DD638811272E63600D13421</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -352,7 +355,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {1000, 602}}</string>
 								<key>RubberWindowFrame</key>
-								<string>96 182 1291 954 0 0 1600 1178 </string>
+								<string>120 223 1291 954 0 0 1600 1178 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -372,7 +375,7 @@
 								<key>Frame</key>
 								<string>{{0, 607}, {1000, 306}}</string>
 								<key>RubberWindowFrame</key>
-								<string>96 182 1291 954 0 0 1600 1178 </string>
+								<string>120 223 1291 954 0 0 1600 1178 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
@@ -542,7 +545,7 @@
 		<string>/Users/mini/Documents/xcode projects/batterytech-ios/batterytech-ios.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>96 182 1291 954 0 0 1600 1178 </string>
+	<string>120 223 1291 954 0 0 1600 1178 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>
@@ -563,7 +566,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CD0528F0623707200166675</string>
 								<key>PBXProjectModuleLabel</key>
-								<string></string>
+								<string>WSMethodInvocation.h</string>
 								<key>StatusBarVisibility</key>
 								<true/>
 							</dict>
@@ -580,6 +583,8 @@
 							<string>584pt</string>
 						</dict>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
