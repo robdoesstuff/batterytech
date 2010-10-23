@@ -144,6 +144,14 @@
     return success;
 }
 
+- (GLint)getFBWidth {
+	return framebufferWidth;
+}
+
+- (GLint)getFBHeight {
+	return framebufferHeight;
+}
+
 - (void)layoutSubviews
 {
     // The framebuffer will be re-created at the beginning of the next setFramebuffer method call.

@@ -55,7 +55,8 @@ static GraphicsConfiguration *gConfig;
 	gConfig->supportsHWmipmapgen = TRUE;
 	gConfig->supportsVBOs = TRUE;
 	gConfig->supportsUVTransform = TRUE;
-	btInit(gConfig, 480, 320);
+	// TODO - why do we need to reverse these for landscape?? Should be width, height
+	btInit(gConfig, [(EAGLView *)self.view getFBHeight], [(EAGLView *)self.view getFBWidth]);
 }
 
 - (void)dealloc
@@ -184,6 +185,35 @@ static GraphicsConfiguration *gConfig;
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
 {
 	return TRUE;
+}
+
+- (BOOL)canBecomeFirstResponder {
+	return TRUE;
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+	int i = 0;
+	// TODO - track individual touch points and update state appropriately.  This won't work correctly for multitouch
+	for (UITouch *touch in touches) {
+		CGPoint touchLocation = [touch locationInView: [touch view]];
+		btSetPointerState(i++, TRUE, touchLocation.x, touchLocation.y);
+	}
+}
+
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+	int i = 0;
+	for (UITouch *touch in touches) {
+		CGPoint touchLocation = [touch locationInView: [touch view]];
+		btSetPointerState(i++, TRUE, touchLocation.x, touchLocation.y);
+	}
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+	int i = 0;
+	for (UITouch *touch in touches) {
+		CGPoint touchLocation = [touch locationInView: [touch view]];
+		btSetPointerState(i++, FALSE, touchLocation.x, touchLocation.y);
+	}
 }
 
 @end

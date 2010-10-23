@@ -229,8 +229,6 @@
 			<key>Layout</key>
 			<array>
 				<dict>
-					<key>BecomeActive</key>
-					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -266,6 +264,9 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateExpansionKey</key>
 							<array>
 								<string>29B97314FDCFA39411CA2CEA</string>
+								<string>080E96DDFE201D6D7F000001</string>
+								<string>29B97315FDCFA39411CA2CEA</string>
+								<string>29B97317FDCFA39411CA2CEA</string>
 								<string>1C37FBAC04509CD000000102</string>
 								<string>1C37FABC05509CD000000102</string>
 								<string>E2644B35053B69B200211256</string>
@@ -273,6 +274,7 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
+									<integer>1</integer>
 									<integer>0</integer>
 								</array>
 							</array>
@@ -296,7 +298,7 @@
 							<real>269</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>144 178 1291 954 0 0 1600 1178 </string>
+						<string>96 182 1291 954 0 0 1600 1178 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -312,13 +314,32 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>&lt;No Editor&gt;</string>
+								<string>batterytech_iosViewController.mm</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
 									<dict>
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
+										<key>PBXProjectModuleLabel</key>
+										<string>batterytech_iosViewController.mm</string>
+										<key>_historyCapacity</key>
+										<integer>0</integer>
+										<key>bookmark</key>
+										<string>3DD6385D12728FAF00D13421</string>
+										<key>history</key>
+										<array>
+											<string>3DD637B812726BE600D13421</string>
+											<string>3DD637B912726BE600D13421</string>
+											<string>3DD637BA12726BE600D13421</string>
+											<string>3DD637BB12726BE600D13421</string>
+											<string>3DD637BC12726BE600D13421</string>
+											<string>3DD637BE12726BE600D13421</string>
+											<string>3DD637BF12726BE600D13421</string>
+											<string>3DD6385912728F6800D13421</string>
+											<string>3DD6385A12728F6800D13421</string>
+											<string>3DD6385B12728F6800D13421</string>
+										</array>
 									</dict>
 									<key>SplitCount</key>
 									<string>1</string>
@@ -329,14 +350,14 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 0}, {1000, 0}}</string>
+								<string>{{0, 0}, {1000, 602}}</string>
 								<key>RubberWindowFrame</key>
-								<string>144 178 1291 954 0 0 1600 1178 </string>
+								<string>96 182 1291 954 0 0 1600 1178 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
 							<key>Proportion</key>
-							<string>0pt</string>
+							<string>602pt</string>
 						</dict>
 						<dict>
 							<key>ContentConfiguration</key>
@@ -349,14 +370,14 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 5}, {1000, 908}}</string>
+								<string>{{0, 607}, {1000, 306}}</string>
 								<key>RubberWindowFrame</key>
-								<string>144 178 1291 954 0 0 1600 1178 </string>
+								<string>96 182 1291 954 0 0 1600 1178 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
 							<key>Proportion</key>
-							<string>908pt</string>
+							<string>306pt</string>
 						</dict>
 					</array>
 					<key>Proportion</key>
@@ -517,10 +538,11 @@
 	<array>
 		<string>1CD10A99069EF8BA00B06720</string>
 		<string>3D65B4DB126BFA6F00CF4CFC</string>
+		<string>1C78EAAD065D492600B07095</string>
 		<string>/Users/mini/Documents/xcode projects/batterytech-ios/batterytech-ios.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>144 178 1291 954 0 0 1600 1178 </string>
+	<string>96 182 1291 954 0 0 1600 1178 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>
@@ -852,6 +874,8 @@
 					<key>Dock</key>
 					<array>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -862,18 +886,18 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 0}, {650, 209}}</string>
+								<string>{{0, 0}, {1162, 761}}</string>
 								<key>RubberWindowFrame</key>
-								<string>201 855 650 250 0 0 1600 1178 </string>
+								<string>373 291 1162 802 0 0 1600 1178 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXDebugCLIModule</string>
 							<key>Proportion</key>
-							<string>209pt</string>
+							<string>761pt</string>
 						</dict>
 					</array>
 					<key>Proportion</key>
-					<string>209pt</string>
+					<string>761pt</string>
 				</dict>
 			</array>
 			<key>Name</key>
@@ -887,17 +911,17 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1C78EAAD065D492600B07095</string>
-				<string>3DD636FA12723F4400D13421</string>
+				<string>3DD637C212726BE600D13421</string>
 				<string>1C78EAAC065D492600B07095</string>
 			</array>
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.consoleV3</string>
 			<key>WindowString</key>
-			<string>201 855 650 250 0 0 1600 1178 </string>
+			<string>373 291 1162 802 0 0 1600 1178 </string>
 			<key>WindowToolGUID</key>
 			<string>1C78EAAD065D492600B07095</string>
 			<key>WindowToolIsVisible</key>
-			<false/>
+			<true/>
 		</dict>
 		<dict>
 			<key>Identifier</key>

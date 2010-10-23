@@ -72,6 +72,10 @@
 		3DD63729127241CE00D13421 /* panel2_tex.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DD63719127241CE00D13421 /* panel2_tex.png */; };
 		3DD6372A127241CE00D13421 /* score_session_end_big.ogg in Resources */ = {isa = PBXBuildFile; fileRef = 3DD6371A127241CE00D13421 /* score_session_end_big.ogg */; };
 		3DD6372B127241CE00D13421 /* text_bg_tex.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3DD6371B127241CE00D13421 /* text_bg_tex.jpg */; };
+		3DD637D612726D3D00D13421 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DD637D512726D3D00D13421 /* UIKit.framework */; };
+		3DD637D812726D4400D13421 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DD637D712726D4400D13421 /* OpenGLES.framework */; };
+		3DD637DA12726D4900D13421 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DD637D912726D4900D13421 /* QuartzCore.framework */; };
+		3DD637DC12726D5400D13421 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DD637DB12726D5400D13421 /* Foundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -192,6 +196,10 @@
 		3DD6371B127241CE00D13421 /* text_bg_tex.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = text_bg_tex.jpg; sourceTree = "<group>"; };
 		3DD6374C1272468600D13421 /* Simulator 3.2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Simulator 3.2.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3DD6374E1272468600D13421 /* Simulator 3.2-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Simulator 3.2-Info.plist"; sourceTree = "<group>"; };
+		3DD637D512726D3D00D13421 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		3DD637D712726D4400D13421 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		3DD637D912726D4900D13421 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		3DD637DB12726D5400D13421 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		8D1107310486CEB800E47090 /* batterytech_ios-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "batterytech_ios-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -211,6 +219,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3DD637D612726D3D00D13421 /* UIKit.framework in Frameworks */,
+				3DD637D812726D4400D13421 /* OpenGLES.framework in Frameworks */,
+				3DD637DA12726D4900D13421 /* QuartzCore.framework in Frameworks */,
+				3DD637DC12726D5400D13421 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -259,6 +271,10 @@
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				3DD6374E1272468600D13421 /* Simulator 3.2-Info.plist */,
+				3DD637D512726D3D00D13421 /* UIKit.framework */,
+				3DD637D712726D4400D13421 /* OpenGLES.framework */,
+				3DD637D912726D4900D13421 /* QuartzCore.framework */,
+				3DD637DB12726D5400D13421 /* Foundation.framework */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
@@ -702,7 +718,7 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = "Simulator 3.2";
-				SDKROOT = iphonesimulator3.2;
+				SDKROOT = iphoneos3.2;
 			};
 			name = Debug;
 		};

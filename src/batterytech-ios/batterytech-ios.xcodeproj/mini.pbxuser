@@ -2,16 +2,16 @@
 {
 	1D3623240D0F684500981E51 /* batterytech_iosAppDelegate.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {892, 524}}";
-			sepNavSelRange = "{0, 0}";
+			sepNavIntBoundsRect = "{{0, 0}, {939, 545}}";
+			sepNavSelRange = "{369, 0}";
 			sepNavVisRange = "{0, 521}";
 		};
 	};
 	1D3623250D0F684500981E51 /* batterytech_iosAppDelegate.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {939, 650}}";
-			sepNavSelRange = "{0, 0}";
-			sepNavVisRange = "{0, 981}";
+			sepNavIntBoundsRect = "{{0, 0}, {939, 663}}";
+			sepNavSelRange = "{785, 0}";
+			sepNavVisRange = "{0, 949}";
 		};
 	};
 	1D6058900D05DD3D006BFB54 /* batterytech-ios */ = {
@@ -30,9 +30,9 @@
 	};
 	28EC4C5711D54ECE0027AA9F /* batterytech_iosViewController.mm */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {939, 2613}}";
-			sepNavSelRange = "{1739, 0}";
-			sepNavVisRange = "{756, 1230}";
+			sepNavIntBoundsRect = "{{0, 0}, {2280, 2795}}";
+			sepNavSelRange = "{5462, 0}";
+			sepNavVisRange = "{4938, 1202}";
 		};
 	};
 	28EC4C5811D54ECE0027AA9F /* batterytech_iosViewController.xib */ = {
@@ -44,16 +44,16 @@
 	};
 	28FD14FC0DC6FC130079059D /* EAGLView.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {860, 741}}";
-			sepNavSelRange = "{163, 59}";
-			sepNavVisRange = "{0, 992}";
+			sepNavIntBoundsRect = "{{0, 0}, {939, 522}}";
+			sepNavSelRange = "{981, 43}";
+			sepNavVisRange = "{0, 1030}";
 		};
 	};
 	28FD14FD0DC6FC130079059D /* EAGLView.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {892, 2106}}";
-			sepNavSelRange = "{0, 0}";
-			sepNavVisRange = "{0, 1059}";
+			sepNavIntBoundsRect = "{{0, 0}, {939, 2067}}";
+			sepNavSelRange = "{3756, 0}";
+			sepNavVisRange = "{3108, 812}";
 		};
 	};
 	29B97313FDCFA39411CA2CEA /* Project object */ = {
@@ -169,9 +169,44 @@
 			3DD6376F127247DD00D13421 = 3DD6376F127247DD00D13421 /* PlistBookmark */;
 			3DD63770127247DD00D13421 = 3DD63770127247DD00D13421 /* PBXBookmark */;
 			3DD63771127247DD00D13421 = 3DD63771127247DD00D13421 /* PBXBookmark */;
+			3DD637B812726BE600D13421 /* PBXTextBookmark */ = 3DD637B812726BE600D13421 /* PBXTextBookmark */;
+			3DD637B912726BE600D13421 /* PBXTextBookmark */ = 3DD637B912726BE600D13421 /* PBXTextBookmark */;
+			3DD637BA12726BE600D13421 /* PBXTextBookmark */ = 3DD637BA12726BE600D13421 /* PBXTextBookmark */;
+			3DD637BB12726BE600D13421 /* PBXTextBookmark */ = 3DD637BB12726BE600D13421 /* PBXTextBookmark */;
+			3DD637BC12726BE600D13421 /* PBXTextBookmark */ = 3DD637BC12726BE600D13421 /* PBXTextBookmark */;
+			3DD637BD12726BE600D13421 /* PBXTextBookmark */ = 3DD637BD12726BE600D13421 /* PBXTextBookmark */;
+			3DD637BE12726BE600D13421 /* PBXTextBookmark */ = 3DD637BE12726BE600D13421 /* PBXTextBookmark */;
+			3DD637BF12726BE600D13421 /* PBXTextBookmark */ = 3DD637BF12726BE600D13421 /* PBXTextBookmark */;
+			3DD637C012726BE600D13421 /* PBXBookmark */ = 3DD637C012726BE600D13421 /* PBXBookmark */;
+			3DD637C112726BE600D13421 /* PBXTextBookmark */ = 3DD637C112726BE600D13421 /* PBXTextBookmark */;
+			3DD637C712726C2200D13421 /* PBXTextBookmark */ = 3DD637C712726C2200D13421 /* PBXTextBookmark */;
+			3DD637CE12726C9800D13421 /* PBXTextBookmark */ = 3DD637CE12726C9800D13421 /* PBXTextBookmark */;
+			3DD637E712726D8100D13421 /* PBXTextBookmark */ = 3DD637E712726D8100D13421 /* PBXTextBookmark */;
+			3DD6384012726E0700D13421 /* PBXTextBookmark */ = 3DD6384012726E0700D13421 /* PBXTextBookmark */;
+			3DD6384312726E1F00D13421 /* PBXTextBookmark */ = 3DD6384312726E1F00D13421 /* PBXTextBookmark */;
+			3DD6384612726E2700D13421 /* PBXTextBookmark */ = 3DD6384612726E2700D13421 /* PBXTextBookmark */;
+			3DD6385912728F6800D13421 /* PBXTextBookmark */ = 3DD6385912728F6800D13421 /* PBXTextBookmark */;
+			3DD6385A12728F6800D13421 /* PBXTextBookmark */ = 3DD6385A12728F6800D13421 /* PBXTextBookmark */;
+			3DD6385B12728F6800D13421 /* PBXTextBookmark */ = 3DD6385B12728F6800D13421 /* PBXTextBookmark */;
+			3DD6385C12728F6800D13421 /* PBXTextBookmark */ = 3DD6385C12728F6800D13421 /* PBXTextBookmark */;
+			3DD6385D12728FAF00D13421 /* PBXTextBookmark */ = 3DD6385D12728FAF00D13421 /* PBXTextBookmark */;
 		};
 		sourceControlManager = 3D65B4DD126BFA6F00CF4CFC /* Source Control */;
 		userBuildSettings = {
+		};
+	};
+	29B97316FDCFA39411CA2CEA /* main.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {939, 522}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 363}";
+		};
+	};
+	32CA4F630368D1EE00C91783 /* batterytech_ios_Prefix.pch */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {939, 522}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 328}";
 		};
 	};
 	3D65B4CC126BFA6700CF4CFC /* batterytech-ios */ = {
@@ -221,6 +256,13 @@
 			sepNavIntBoundsRect = "{{0, 0}, {904, 1560}}";
 			sepNavSelRange = "{0, 0}";
 			sepNavVisRange = "{367, 1743}";
+		};
+	};
+	3DD63469126E11C200D13421 /* batterytech.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {939, 754}}";
+			sepNavSelRange = "{524, 0}";
+			sepNavVisRange = "{227, 830}";
 		};
 	};
 	3DD6346F126E11C200D13421 /* stb_truetype.h */ = {
@@ -398,8 +440,8 @@
 	};
 	3DD635FB12712F1C00D13421 /* boot.mm */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {892, 524}}";
-			sepNavSelRange = "{236, 0}";
+			sepNavIntBoundsRect = "{{0, 0}, {939, 522}}";
+			sepNavSelRange = "{140, 0}";
 			sepNavVisRange = "{0, 243}";
 			sepNavWindowFrame = "{{176, 286}, {868, 740}}";
 		};
@@ -528,7 +570,7 @@
 		fRef = 28EC4C5711D54ECE0027AA9F /* batterytech_iosViewController.mm */;
 		name = "batterytech_iosViewController.mm: 58";
 		rLen = 0;
-		rLoc = 1739;
+		rLoc = 1852;
 		rType = 0;
 		vrLen = 1181;
 		vrLoc = 803;
@@ -551,5 +593,209 @@
 	3DD63771127247DD00D13421 /* PBXBookmark */ = {
 		isa = PBXBookmark;
 		fRef = 3DD63718127241CE00D13421 /* panel1_tex.png */;
+	};
+	3DD637B812726BE600D13421 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 28EC4C5611D54ECE0027AA9F /* batterytech_iosViewController.h */;
+		name = "batterytech_iosViewController.h: 38";
+		rLen = 0;
+		rLoc = 1077;
+		rType = 0;
+		vrLen = 1084;
+		vrLoc = 0;
+	};
+	3DD637B912726BE600D13421 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623240D0F684500981E51 /* batterytech_iosAppDelegate.h */;
+		name = "batterytech_iosAppDelegate.h: 16";
+		rLen = 0;
+		rLoc = 369;
+		rType = 0;
+		vrLen = 521;
+		vrLoc = 0;
+	};
+	3DD637BA12726BE600D13421 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* batterytech_iosAppDelegate.m */;
+		name = "batterytech_iosAppDelegate.m: 34";
+		rLen = 0;
+		rLoc = 785;
+		rType = 0;
+		vrLen = 949;
+		vrLoc = 0;
+	};
+	3DD637BB12726BE600D13421 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 28FD14FD0DC6FC130079059D /* EAGLView.m */;
+		name = "EAGLView.m: 153";
+		rLen = 0;
+		rLoc = 3756;
+		rType = 0;
+		vrLen = 812;
+		vrLoc = 3108;
+	};
+	3DD637BC12726BE600D13421 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 28FD14FC0DC6FC130079059D /* EAGLView.h */;
+		name = "EAGLView.h: 36";
+		rLen = 43;
+		rLoc = 981;
+		rType = 0;
+		vrLen = 1030;
+		vrLoc = 0;
+	};
+	3DD637BD12726BE600D13421 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 28EC4C5711D54ECE0027AA9F /* batterytech_iosViewController.mm */;
+		name = "batterytech_iosViewController.mm: 56";
+		rLen = 0;
+		rLoc = 1676;
+		rType = 0;
+		vrLen = 1089;
+		vrLoc = 0;
+	};
+	3DD637BE12726BE600D13421 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 29B97316FDCFA39411CA2CEA /* main.m */;
+		name = "main.m: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 363;
+		vrLoc = 0;
+	};
+	3DD637BF12726BE600D13421 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 32CA4F630368D1EE00C91783 /* batterytech_ios_Prefix.pch */;
+		name = "batterytech_ios_Prefix.pch: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 328;
+		vrLoc = 0;
+	};
+	3DD637C012726BE600D13421 /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = 3DD635FB12712F1C00D13421 /* boot.mm */;
+	};
+	3DD637C112726BE600D13421 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 3DD635FB12712F1C00D13421 /* boot.mm */;
+		name = "boot.mm: 16";
+		rLen = 0;
+		rLoc = 236;
+		rType = 0;
+		vrLen = 243;
+		vrLoc = 0;
+	};
+	3DD637C712726C2200D13421 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 3DD635FB12712F1C00D13421 /* boot.mm */;
+		name = "boot.mm: 16";
+		rLen = 0;
+		rLoc = 236;
+		rType = 0;
+		vrLen = 243;
+		vrLoc = 0;
+	};
+	3DD637CE12726C9800D13421 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 3DD635FB12712F1C00D13421 /* boot.mm */;
+		name = "boot.mm: 16";
+		rLen = 0;
+		rLoc = 236;
+		rType = 0;
+		vrLen = 243;
+		vrLoc = 0;
+	};
+	3DD637E712726D8100D13421 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 3DD635FB12712F1C00D13421 /* boot.mm */;
+		name = "boot.mm: 16";
+		rLen = 0;
+		rLoc = 236;
+		rType = 0;
+		vrLen = 243;
+		vrLoc = 0;
+	};
+	3DD6384012726E0700D13421 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 3DD635FB12712F1C00D13421 /* boot.mm */;
+		name = "boot.mm: 16";
+		rLen = 0;
+		rLoc = 236;
+		rType = 0;
+		vrLen = 243;
+		vrLoc = 0;
+	};
+	3DD6384312726E1F00D13421 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 3DD635FB12712F1C00D13421 /* boot.mm */;
+		name = "boot.mm: 16";
+		rLen = 0;
+		rLoc = 236;
+		rType = 0;
+		vrLen = 243;
+		vrLoc = 0;
+	};
+	3DD6384612726E2700D13421 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 3DD635FB12712F1C00D13421 /* boot.mm */;
+		name = "boot.mm: 16";
+		rLen = 0;
+		rLoc = 236;
+		rType = 0;
+		vrLen = 243;
+		vrLoc = 0;
+	};
+	3DD6385912728F6800D13421 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 3DD635FB12712F1C00D13421 /* boot.mm */;
+		name = "boot.mm: 10";
+		rLen = 0;
+		rLoc = 140;
+		rType = 0;
+		vrLen = 243;
+		vrLoc = 0;
+	};
+	3DD6385A12728F6800D13421 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 3DD63469126E11C200D13421 /* batterytech.h */;
+		name = "batterytech.h: 25";
+		rLen = 0;
+		rLoc = 524;
+		rType = 0;
+		vrLen = 830;
+		vrLoc = 227;
+	};
+	3DD6385B12728F6800D13421 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 28EC4C5711D54ECE0027AA9F /* batterytech_iosViewController.mm */;
+		name = "batterytech_iosViewController.mm: 195";
+		rLen = 0;
+		rLoc = 5464;
+		rType = 0;
+		vrLen = 739;
+		vrLoc = 4751;
+	};
+	3DD6385C12728F6800D13421 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 28EC4C5711D54ECE0027AA9F /* batterytech_iosViewController.mm */;
+		name = "batterytech_iosViewController.mm: 216";
+		rLen = 0;
+		rLoc = 6133;
+		rType = 0;
+		vrLen = 1087;
+		vrLoc = 4938;
+	};
+	3DD6385D12728FAF00D13421 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 28EC4C5711D54ECE0027AA9F /* batterytech_iosViewController.mm */;
+		name = "batterytech_iosViewController.mm: 196";
+		rLen = 0;
+		rLoc = 5462;
+		rType = 0;
+		vrLen = 1202;
+		vrLoc = 4938;
 	};
 }
