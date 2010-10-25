@@ -19,6 +19,9 @@
 		28FD14FE0DC6FC130079059D /* EAGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 28FD14FD0DC6FC130079059D /* EAGLView.m */; };
 		28FD15000DC6FC520079059D /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28FD14FF0DC6FC520079059D /* OpenGLES.framework */; };
 		28FD15080DC6FC5B0079059D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28FD15070DC6FC5B0079059D /* QuartzCore.framework */; };
+		3D1C1980127536B600A353B4 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D1C197F127536B600A353B4 /* AudioToolbox.framework */; };
+		3D1C19C012754BBF00A353B4 /* RemoteIOPlayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3D1C19BE12754BBF00A353B4 /* RemoteIOPlayer.mm */; };
+		3D1C19C212754BBF00A353B4 /* RemoteIOPlayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3D1C19BE12754BBF00A353B4 /* RemoteIOPlayer.mm */; };
 		3DD634BF126E11C300D13421 /* batterytech.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DD63468126E11C200D13421 /* batterytech.cpp */; };
 		3DD634C0126E11C300D13421 /* Context.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DD6346A126E11C200D13421 /* Context.cpp */; };
 		3DD634C1126E11C300D13421 /* stb_image.c in Sources */ = {isa = PBXBuildFile; fileRef = 3DD6346D126E11C200D13421 /* stb_image.c */; };
@@ -96,6 +99,9 @@
 		28FD15070DC6FC5B0079059D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* batterytech_ios_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = batterytech_ios_Prefix.pch; sourceTree = "<group>"; };
+		3D1C197F127536B600A353B4 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		3D1C19BD12754BBF00A353B4 /* RemoteIOPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemoteIOPlayer.h; sourceTree = "<group>"; };
+		3D1C19BE12754BBF00A353B4 /* RemoteIOPlayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RemoteIOPlayer.mm; sourceTree = "<group>"; };
 		3DD63468126E11C200D13421 /* batterytech.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = batterytech.cpp; sourceTree = "<group>"; };
 		3DD63469126E11C200D13421 /* batterytech.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = batterytech.h; sourceTree = "<group>"; };
 		3DD6346A126E11C200D13421 /* Context.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Context.cpp; sourceTree = "<group>"; };
@@ -212,6 +218,7 @@
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				28FD15000DC6FC520079059D /* OpenGLES.framework in Frameworks */,
 				28FD15080DC6FC5B0079059D /* QuartzCore.framework in Frameworks */,
+				3D1C1980127536B600A353B4 /* AudioToolbox.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -232,6 +239,8 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				3D1C19BD12754BBF00A353B4 /* RemoteIOPlayer.h */,
+				3D1C19BE12754BBF00A353B4 /* RemoteIOPlayer.mm */,
 				28FD14FC0DC6FC130079059D /* EAGLView.h */,
 				28FD14FD0DC6FC130079059D /* EAGLView.m */,
 				1D3623240D0F684500981E51 /* batterytech_iosAppDelegate.h */,
@@ -275,6 +284,7 @@
 				3DD637D712726D4400D13421 /* OpenGLES.framework */,
 				3DD637D912726D4900D13421 /* QuartzCore.framework */,
 				3DD637DB12726D5400D13421 /* Foundation.framework */,
+				3D1C197F127536B600A353B4 /* AudioToolbox.framework */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
@@ -656,6 +666,7 @@
 				3DD634E1126E11C300D13421 /* UIManager.cpp in Sources */,
 				3DD635FE12712F1C00D13421 /* boot.mm in Sources */,
 				3DD635FF12712F1C00D13421 /* iosgeneral.mm in Sources */,
+				3D1C19C012754BBF00A353B4 /* RemoteIOPlayer.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -663,6 +674,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3D1C19C212754BBF00A353B4 /* RemoteIOPlayer.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

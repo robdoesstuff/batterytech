@@ -14,6 +14,11 @@
 #import <OpenGLES/ES2/gl.h>
 #import <OpenGLES/ES2/glext.h>
 
+#include <CoreFoundation/CFURL.h>
+
+#import "RemoteIOPlayer.h"
+
+
 @interface batterytech_iosViewController : UIViewController
 {
     EAGLContext *context;
@@ -29,10 +34,12 @@
 	 */
     id displayLink;
     NSTimer *animationTimer;
+	RemoteIOPlayer *player;
 }
 
 @property (readonly, nonatomic, getter=isAnimating) BOOL animating;
 @property (nonatomic) NSInteger animationFrameInterval;
+@property (nonatomic, retain) RemoteIOPlayer *player;
 
 - (void)startAnimation;
 - (void)stopAnimation;

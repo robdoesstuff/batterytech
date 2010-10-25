@@ -15,10 +15,12 @@
 #include "../../batterytech/src/batterytech/batterytech.h"
 #include "../../batterytech/src/batterytech/render/GraphicsConfiguration.h"
 
+
 static GraphicsConfiguration *gConfig;
 static double currentTime;
 static double lastTime;
 double getCurrentTime();
+
 
 @interface batterytech_iosViewController ()
 @property (nonatomic, retain) EAGLContext *context;
@@ -63,6 +65,11 @@ double getCurrentTime();
 	// TODO - why do we need to reverse these for landscape?? Should be width, height
 	btInit(gConfig, [(EAGLView *)self.view getFBHeight], [(EAGLView *)self.view getFBWidth]);
 	currentTime = getCurrentTime();
+	//allocate the audio player
+	player = [[RemoteIOPlayer alloc]init];
+	//initialise the audio player
+	[player intialiseAudio];
+	[player start];
 }
 
 - (void)dealloc
@@ -74,6 +81,8 @@ double getCurrentTime();
     
     [context release];
     
+	[player cleanUp];
+	[player release]; 
     [super dealloc];
 }
 
@@ -104,7 +113,8 @@ double getCurrentTime();
     // Tear down context.
     if ([EAGLContext currentContext] == context)
         [EAGLContext setCurrentContext:nil];
-	self.context = nil;	
+	self.context = nil;
+	[player stop];
 }
 
 - (NSInteger)animationFrameInterval
