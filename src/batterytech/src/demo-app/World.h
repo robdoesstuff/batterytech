@@ -22,14 +22,7 @@ public:
 	virtual ~World();
 	void clear();
 
-	BOOL32 down1;
-	BOOL32 down2;
-	S32 x1,y1;
-	S32 x2,y2;
 	F32 physicsTimeRemainder;
-	F32 tickDelta;
-	BOOL32 leftFlipperPressed;
-	BOOL32 rightFlipperPressed;
 
 	b2World *boxWorld;
 	U8 gameState;

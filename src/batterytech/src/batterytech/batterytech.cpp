@@ -25,11 +25,15 @@
 
 #define REFERENCE_WIDTH 480
 #define REFERENCE_HEIGHT 800
+#define TICK_SMOOTHER_SAMPLES 15
 
 static Context *context;
 static GraphicsConfiguration *gConfig;
 
 void createMenu(S32 width, S32 height);
+
+static F32 updateTimes[TICK_SMOOTHER_SAMPLES];
+static S32 updateTimeIdx = 0;
 
 void btInit(GraphicsConfiguration *graphicsConfig, S32 width, S32 height) {
 	logmsg("BatteryTech 1.0 Initializing...");
@@ -43,6 +47,9 @@ void btInit(GraphicsConfiguration *graphicsConfig, S32 width, S32 height) {
 	createMenu(width, height);
 	// initialize random number generator
 	srand(time(NULL));
+	for (S32 i = 0; i < TICK_SMOOTHER_SAMPLES; i++) {
+		updateTimes[i] = -1;
+	}
 	logmsg("Ready");
 }
 
@@ -70,8 +77,27 @@ void createMenu(S32 width, S32 height) {
 }
 
 void btUpdate(F32 delta) {
+	updateTimes[updateTimeIdx++] = delta;
+	updateTimeIdx %= TICK_SMOOTHER_SAMPLES;
+	if (updateTimes[updateTimeIdx] != -1) {
+		// filled
+		F32 total = 0;
+		for (S32 i = 0; i < TICK_SMOOTHER_SAMPLES; i++) {
+			total += updateTimes[i];
+		}
+		F32 avg = total / TICK_SMOOTHER_SAMPLES;
+		//char buf[50];
+		//sprintf(buf, "avg %f", avg);
+		//logmsg(buf);
+		context->tickDelta = avg;
+	} else {
+		context->tickDelta = delta;
+	}
+	//char buf[50];
+	//sprintf(buf, "update %f", delta);
+	//logmsg(buf);
 	//logmsg("btUpdate");
-	context->tickDelta = delta;
+	//context->tickDelta = delta;
 	context->uiManager->update();
 	context->game->update();
 	// clear key pressed.
@@ -97,27 +123,11 @@ void btSetPointerState(S32 pointerId, BOOL32 down, S32 x, S32 y) {
 	if (!context) {
 		return;
 	}
-	//char buf[32];
-	if (down) {
-		if (pointerId == 0) {
-			context->down1 = TRUE;
-			context->x1 = x;
-			context->y1 = y;
-		} else if (pointerId == 1) {
-			context->down2 = TRUE;
-			context->x2 = x;
-			context->y2 = y;
-		}
-		//sprintf(buf, "pointer %d down at %d %d", pointerId, x, y);
-	} else {
-		if (pointerId == 0) {
-			context->down1 = FALSE;
-		} else if (pointerId == 1) {
-			context->down2 = FALSE;
-		}
-		//sprintf(buf, "pointer %d up", pointerId);
+	if (pointerId < 10 && pointerId > -1) {
+		context->pointerState[pointerId].isDown = down;
+		context->pointerState[pointerId].x = x;
+		context->pointerState[pointerId].y = y;
 	}
-	//log(buf);
 }
 
 void btKeyUp(U8 key) {

@@ -73,8 +73,11 @@ F32 Pinball::getLinearVelocity() {
 
 void Pinball::onTouchMove(F32 x, F32 y) {
 	b2Transform transform = boxBody->GetTransform();
+	// flick (20 is eyeballed multiplier)
+	boxBody->SetLinearVelocity(b2Vec2((x - transform.position.x) * 20, (y - transform.position.y) * 20) );
 	transform.position.x = x;
 	transform.position.y = y;
 	boxBody->SetTransform(transform.position, transform.GetAngle());
 	boxBody->SetAwake(true);
+
 }

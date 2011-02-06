@@ -23,7 +23,6 @@ class World;
 
 class Context {
 public:
-	enum NetState { NONE, HOST, CLIENT };
 	struct PointerState {
 		BOOL32 isDown;
 		S32 x;
@@ -38,13 +37,9 @@ public:
 	virtual ~Context();
 	PointerState *pointerState;
 	AccelerometerState accelerometerState;
-	F32 tickDelta;
-	BOOL32 down1;
-	BOOL32 down2;
-	S32 x1,y1;
-	S32 x2,y2;
-	BOOL32 isUIConsumingTouch;
 	U8 keyPressed;
+	BOOL32 isUIConsumingTouch;
+	F32 tickDelta;
 	BOOL32 showFPS;
 	BOOL32 wasSuspended;
 
@@ -57,7 +52,6 @@ public:
 	MenuRenderer *menuRenderer;
 	GraphicsConfiguration *gConfig;
 	UIManager *uiManager;
-	NetState netState;
 };
 
 #endif /* CONTEXT_H_ */

@@ -47,6 +47,7 @@ public class DemoAppRenderer implements Renderer, InputHandler, SensorEventListe
 				lastTickMs = curTickMs;
 			}
 			boot.update((curTickMs - lastTickMs) / 1000f);
+			//boot.update(0.018f);
 			boot.draw();
 			lastTickMs = curTickMs;
 		}
@@ -99,6 +100,7 @@ public class DemoAppRenderer implements Renderer, InputHandler, SensorEventListe
 			sensorMgr.unregisterListener(this);
 			sensorMgr = null;
 		}
+		//Thread.currentThread().setPriority(Thread.NORM_PRIORITY);
 		//vibrationManager.onPause();
 		//audioBridge.stopAudio();
 	}
@@ -114,6 +116,7 @@ public class DemoAppRenderer implements Renderer, InputHandler, SensorEventListe
 		} catch (UnsupportedOperationException e) {
 			Log.i(TAG, "Accelerometer is not available on this device.");
 		}
+		//Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
 		//vibrationManager.onResume();
 		//audioBridge.startAudio();
 	}

@@ -135,17 +135,18 @@ void UIManager::update() {
 		Menu *menu = activeMenuStack->array[activeMenuStack->lastItemIndex];
 		//traverse menu components
 		// try to deliver click state to deepest clickable component
-		if (context->down1 && !clickDownChecked) {
-			if (traverseClickState(menu, menu->getRootComponent(), TRUE, context->x1, context->y1)) {
+		Context::PointerState pointer = context->pointerState[0];
+		if (pointer.isDown && !clickDownChecked) {
+			if (traverseClickState(menu, menu->getRootComponent(), TRUE, pointer.x, pointer.y)) {
 				clickDownActive = TRUE;
 				context->isUIConsumingTouch = TRUE;
 			}
 			clickDownChecked = TRUE;
 		}
-		if (!context->down1) {
+		if (!pointer.isDown) {
 			if (clickDownActive) {
 				// need to unclick
-				traverseClickState(menu, menu->getRootComponent(), FALSE, context->x1, context->y1);
+				traverseClickState(menu, menu->getRootComponent(), FALSE, pointer.x, pointer.y);
 				context->isUIConsumingTouch = FALSE;
 			}
 			clickDownChecked = FALSE;

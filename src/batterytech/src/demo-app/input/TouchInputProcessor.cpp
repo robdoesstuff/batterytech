@@ -14,12 +14,14 @@
 #include "../GameConstants.h"
 
 TouchInputProcessor::TouchInputProcessor() {
-	lastTouchDown = new BOOL32[2];
-	lastTouchDown[0] = FALSE;
-	lastTouchDown[1] = FALSE;
-	touchedObj = new GameObject*[2];
-	touchedObj[0] = NULL;
-	touchedObj[1] = NULL;
+	lastTouchDown = new BOOL32[10];
+	for (S32 i = 0; i < 10; i++) {
+		lastTouchDown[i] = FALSE;
+	}
+	touchedObj = new GameObject*[10];
+	for (S32 i = 0; i < 10; i++) {
+		touchedObj[i] = NULL;
+	}
 }
 
 TouchInputProcessor::~TouchInputProcessor() {
@@ -33,27 +35,11 @@ void TouchInputProcessor::processInput(Context *context) {
 	}
 	World *world = context->world;
 	// handle object touch
-	world->down1 = context->down1;
-	world->down2 = context->down2;
-	world->x1 = context->x1;
-	world->x2 = context->x2;
-	world->y1 = context->y1;
-	world->y2 = context->y2;
 	S32 i;
-	BOOL32 touchOnLauncher[2];
-	for (i = 0; i < 2; i++) {
-		touchOnLauncher[i] = FALSE;
-		BOOL32 down;
-		F32 worldX, worldY;
-		if (i == 0) {
-			down = context->down1;
-			worldX = GameUtil::screenToWorldX(context->x1, context);
-			worldY = GameUtil::screenToWorldY(context->y1, context);
-		} else if (i == 1) {
-			down = context->down2;
-			worldX = GameUtil::screenToWorldX(context->x2, context);
-			worldY = GameUtil::screenToWorldY(context->y2, context);
-		}
+	for (i = 0; i < 10; i++) {
+		BOOL32 down = context->pointerState[i].isDown;
+		F32 worldX = GameUtil::screenToWorldX(context->pointerState[i].x, context);
+		F32 worldY = GameUtil::screenToWorldY(context->pointerState[i].y, context);
 		if (down && !lastTouchDown[i]) {
 			GameObject *obj = GameUtil::findObjectIntersection(worldX, worldY, world);
 			// is down and was up = TOUCH DOWN
@@ -74,33 +60,5 @@ void TouchInputProcessor::processInput(Context *context) {
 			touchedObj[i] = NULL;
 		}
 		lastTouchDown[i] = down;
-	}
-	world->leftFlipperPressed = FALSE;
-	world->rightFlipperPressed = FALSE;
-	if (context->down1) {
-		if (!touchOnLauncher[0]) {
-			if (context->x1 < context->gConfig->viewportWidth / 2) {
-				world->leftFlipperPressed = TRUE;
-			} else {
-				world->rightFlipperPressed = TRUE;
-			}
-			if (context->y1 > context->gConfig->viewportHeight - context->gConfig->viewportHeight / 10) {
-				world->leftFlipperPressed = TRUE;
-				world->rightFlipperPressed = TRUE;
-			}
-		}
-	}
-	if (context->down2) {
-		if (!touchOnLauncher[1]) {
-			if (context->x2 < context->gConfig->viewportWidth / 2) {
-				world->leftFlipperPressed = TRUE;
-			} else {
-				world->rightFlipperPressed = TRUE;
-			}
-			if (context->y2 > context->gConfig->viewportHeight - context->gConfig->viewportHeight / 10) {
-				world->leftFlipperPressed = TRUE;
-				world->rightFlipperPressed = TRUE;
-			}
-		}
 	}
 }

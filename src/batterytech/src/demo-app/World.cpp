@@ -11,13 +11,8 @@
 #include <batterytech/ui/UIComponent.h>
 
 World::World() {
-	tickDelta = 0;
-	down1 = FALSE;
-	down2 = FALSE;
 	boxWorld = NULL;
 	pinballs = new ManagedArray<GameObject>(MAX_PINBALLS);
-	leftFlipperPressed = FALSE;
-	rightFlipperPressed = FALSE;
 	physicsTimeRemainder = 0.0f;
 	score = 0;
 	ballsRemaining = 0;

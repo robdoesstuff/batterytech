@@ -28,14 +28,7 @@ Context::Context(GraphicsConfiguration *gConfig) {
 	game = new Game(this);
 	uiManager = new UIManager(this);
 	tickDelta = 0;
-	down1 = FALSE;
-	down2 = FALSE;
-	x1 = 0;
-	y1 = 0;
-	x2 = 0;
-	y2 = 0;
 	isUIConsumingTouch = FALSE;
-	netState = NONE;
 	keyPressed = 0;
 	showFPS = FALSE;
 	wasSuspended = TRUE;
@@ -43,6 +36,11 @@ Context::Context(GraphicsConfiguration *gConfig) {
 	accelerometerState.y = 0;
 	accelerometerState.z = 0;
 	pointerState = new PointerState[10];
+	for (S32 i = 0; i < 10; i++) {
+		pointerState[i].isDown = FALSE;
+		pointerState[i].x = 0;
+		pointerState[i].y = 0;
+	}
 }
 
 Context::~Context() {
@@ -65,5 +63,6 @@ Context::~Context() {
 	delete game;
 	logmsg("Context nulling game");
 	game = NULL;
+	delete [] pointerState;
 	logmsg("Done Releasing Context");
 }

@@ -90,7 +90,6 @@ void Game::loadPreferences() {
 }
 
 void Game::update() {
-	getWorld()->tickDelta = context->tickDelta;
 	updateInput();
 	updateState();
 	updateNetwork();
@@ -153,9 +152,18 @@ void Game::updatePhysics() {
 		world->boxWorld->SetGravity(b2Vec2(-context->accelerometerState.x * 3, -context->accelerometerState.y * 3));
 		world->physicsTimeRemainder += context->tickDelta;
 		b2World *boxWorld = getWorld()->boxWorld;
+		/*
+		boxWorld->Step(context->tickDelta, BOX2D_VELOCITY_ITERATIONS, BOX2D_POSITION_ITERATIONS);
+		char buf[50];
+		sprintf(buf, "stepping %f", context->tickDelta);
+		logmsg(buf);
+		*/
 		while (world->physicsTimeRemainder - PHYSICS_TIMESTEP > 0) {
 			world->physicsTimeRemainder -= PHYSICS_TIMESTEP;
 			boxWorld->Step(PHYSICS_TIMESTEP, BOX2D_VELOCITY_ITERATIONS, BOX2D_POSITION_ITERATIONS);
+			//char buf[50];
+			//sprintf(buf, "stepping %f", PHYSICS_TIMESTEP);
+			//logmsg(buf);
 		}
 		boxWorld->ClearForces();
 	}

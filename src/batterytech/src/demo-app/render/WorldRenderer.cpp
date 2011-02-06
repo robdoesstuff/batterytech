@@ -23,14 +23,14 @@ WorldRenderer::WorldRenderer(Context *context) {
 	textRenderer = new TextRasterRenderer(gConfig, UI_PINBALL_FONT, 12.0f);
 	b2DebugRenderer = new B2DebugRenderer(context);
 	pinballRenderer = new PinballRenderer(context);
-	uiBGRenderer = new SimpleSpriteRenderer(context, "ui/background.jpg");
+	//uiBGRenderer = new SimpleSpriteRenderer(context, "demo_app_bg_tex.jpg");
 }
 
 WorldRenderer::~WorldRenderer() {
 	logmsg("Releasing WorldRenderer");
 	delete textRenderer;
 	delete pinballRenderer;
-	delete uiBGRenderer;
+	//delete uiBGRenderer;
 }
 
 void WorldRenderer::init(BOOL32 newContext) {
@@ -46,7 +46,7 @@ void WorldRenderer::init(BOOL32 newContext) {
 	glShadeModel(GL_SMOOTH);
 	textRenderer->init(newContext);
 	b2DebugRenderer->init(newContext);
-	uiBGRenderer->init(newContext);
+	//uiBGRenderer->init(newContext);
 	glViewport(0, 0, gConfig->viewportWidth, gConfig->viewportHeight);
 }
 
@@ -60,7 +60,7 @@ void WorldRenderer::render(World *world) {
 		world->renderersReady = TRUE;
 	}
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT);
 	glColor4f(1, 1, 1, 1);
 	// set up world projection
 	glMatrixMode(GL_PROJECTION);
@@ -74,9 +74,9 @@ void WorldRenderer::render(World *world) {
 	BOOL32 renderDebug = false;
 	if (world->gameState == GAMESTATE_READY) {
 		// render the main menuing bg
-		uiBGRenderer->render(WORLD_TOP, WORLD_RIGHT, WORLD_BOTTOM, WORLD_LEFT);
+		//uiBGRenderer->render(WORLD_TOP, WORLD_RIGHT, WORLD_BOTTOM, WORLD_LEFT);
 	} else if (world->gameState == GAMESTATE_RUNNING) {
-		uiBGRenderer->render(WORLD_TOP, WORLD_RIGHT, WORLD_BOTTOM, WORLD_LEFT);
+		//uiBGRenderer->render(WORLD_TOP, WORLD_RIGHT, WORLD_BOTTOM, WORLD_LEFT);
 		glEnable(GL_BLEND);
 		glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		// pinball
@@ -87,7 +87,7 @@ void WorldRenderer::render(World *world) {
 			b2DebugRenderer->render(world);
 		}
 		// text overlay
-		frameSampleTimeTotal += world->tickDelta;
+		frameSampleTimeTotal += context->tickDelta;
 		frameSamplesCollected++;
 		if (frameSamplesCollected == 10) {
 			if (frameSampleTimeTotal == 0) {
