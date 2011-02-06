@@ -17,6 +17,7 @@
 
 // cross-references
 class UIManager;
+class TextRasterRenderer;
 
 class MenuRenderer {
 public:
@@ -26,7 +27,7 @@ public:
 	S32 findTextureAsset(const char *asset);
 	void init(UIManager *uiManager);
 	void render(UIManager *uiManager);
-	void render(UIComponent *component);
+	void render(UIComponent *component, UIManager *uiManager);
 	virtual ~MenuRenderer();
 private:
 	void loadTexture(const char *assetName);

@@ -16,7 +16,7 @@ BOOL32 gles_checkExtension(const char *extension) {
 
 void gles_gluPerspective(float fovy, float aspect, float zNear, float zFar) {
 	double xmin, xmax, ymin, ymax;
-	ymax = zNear * tan(fovy * M_PI / 360.0);
+	ymax = zNear * tan(fovy * 3.14159f / 360.0);
 	ymin = -ymax;
 	xmin = ymin * aspect;
 	xmax = ymax * aspect;

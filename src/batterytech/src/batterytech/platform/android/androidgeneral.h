@@ -10,15 +10,18 @@
 
 #ifdef ANDROID_NDK
 
-#include <android/log.h>
-#include <jni.h>
-#include <stdlib.h>
-#include "../../sound/SoundManager.h"
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <fcntl.h>
+#include <netdb.h>
+#include <unistd.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
 
-void _platform_log(const char* message);
-unsigned char* _platform_load_asset(const char *filename, int *size);
-void _platform_free_asset(unsigned char *ptr);
-void _platform_init_sound(SoundManager *soundManager);
+typedef int SOCKET;
+#define closesocket(socket) close(socket)
+
+// android specific functions here
 
 #endif /* ANDROID_NDK */
 

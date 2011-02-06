@@ -12,15 +12,18 @@
 #include "../decoders/stb_truetype.h"
 #include "../platform/platformgl.h"
 #include "GraphicsConfiguration.h"
+#include "../../demo-app/World.h"
 
 class TextRasterRenderer: public Renderer {
 public:
 	TextRasterRenderer(GraphicsConfiguration *gConfig, const char *assetName, float fontSize);
 	virtual void unloadLevel();
 	virtual void loadLevel();
-	virtual void init();
+	virtual void init(BOOL32 newContext);
 	virtual void render(World *world);
 	void render(const char *text, F32 x, F32 y);
+	void startText();
+	void finishText();
 	F32 getHeight();
 	F32 measureWidth(const char *text);
 	virtual ~TextRasterRenderer();

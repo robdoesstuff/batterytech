@@ -34,6 +34,10 @@ public class TouchProcessorMulti implements TouchProcessor {
 					// ignore pointer ids beyond 0 and 1
 					continue;
 				}
+				int maskedIndex = (event.getAction() & MotionEvent.ACTION_POINTER_ID_MASK) >> MotionEvent.ACTION_POINTER_ID_SHIFT;
+				if (maskedIndex != pointerIndex) {
+					continue;
+				}
 				// history first
 				int hist = event.getHistorySize();
 				if (hist > 0) {
@@ -51,6 +55,7 @@ public class TouchProcessorMulti implements TouchProcessor {
 				useEvent(input, event, pointerIndex, pointerId);
 				boot.feedInput(input);
 			}
+			/*
 			// send touch up events that were missed
 			if (pointerCount == 1) {
 				int pointerId = event.getPointerId(0);
@@ -79,6 +84,7 @@ public class TouchProcessorMulti implements TouchProcessor {
 					boot.feedInput(input);
 				}
 			}
+			*/
 
 		} catch (InterruptedException e) {
 		}
@@ -102,12 +108,13 @@ public class TouchProcessorMulti implements TouchProcessor {
 
 	public void useEvent(InputObject inputObject, MotionEvent event, int pointerIndex, int pointerId) {
 		inputObject.eventType = InputObject.EVENT_TYPE_TOUCH;
-		int a = event.getAction();
+		int a = event.getAction() & MotionEvent.ACTION_MASK;
 		int inX = (int) event.getX(pointerIndex);
 		int inY = (int) event.getY(pointerIndex);
 		//Log.d(TAG, "pointerId=" + pointerId + " a" + a + " " + inX + "," + inY);
 		switch (a) {
 		case MotionEvent.ACTION_DOWN:
+		case MotionEvent.ACTION_POINTER_DOWN:
 			inputObject.action = InputObject.ACTION_TOUCH_DOWN;
 			/*
 			if (Math.abs(lastKnownX[1 - pointerId] - inX) < BAD_POINT_THRESHOLD
@@ -144,6 +151,9 @@ public class TouchProcessorMulti implements TouchProcessor {
 			lastKnownY[pointerId] = inY;
 			break;
 		case MotionEvent.ACTION_UP:
+        case MotionEvent.ACTION_POINTER_UP:
+        case MotionEvent.ACTION_OUTSIDE:
+        case MotionEvent.ACTION_CANCEL:
 			inputObject.action = InputObject.ACTION_TOUCH_UP;
 			lastKnownX[pointerId] = -100;
 			lastKnownY[pointerId] = -100;

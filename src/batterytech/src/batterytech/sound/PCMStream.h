@@ -19,6 +19,10 @@ public:
 	S16 loops_remaining;
 	BOOL32 isPlaying;
 	F32 playback_rate;
+	S32 streamId;
+	S32 soundId;
+	F32 volume_left;
+	F32 volume_right;
 };
 
 #endif /* PCMSTREAM_H_ */

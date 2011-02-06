@@ -15,12 +15,17 @@
 #endif
 #if TARGET_OS_IPHONE
 
-#include "../../sound/SoundManager.h"
+// iphone specific functions here
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <fcntl.h>
+#include <netdb.h>
+#include <unistd.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
 
-void _platform_log(const char* message);
-unsigned char* _platform_load_asset(const char *filename, int *size);
-void _platform_free_asset(unsigned char *ptr);
-void _platform_init_sound(SoundManager *soundManager);
+typedef int SOCKET;
+#define closesocket(socket) close(socket)
 
 #endif /* TARGET_OS_IPHONE */
 

@@ -7,14 +7,15 @@
 
 #ifdef ANDROID_NDK
 #include "androidtypes.h"
-#include "androidgeneral.h"
+#include "../platformgeneral.h"
 #include "../../batterytech.h"
 #include "../../render/GraphicsConfiguration.h"
 #include "importgl.h"
 #include <jni.h>
 #include <android/log.h>
-#include "../../strx.h"
+#include "../../util/strx.h"
 #include "../opengles.h"
+#include "../../sound/SoundManager.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -38,6 +39,14 @@ void Java_com_batterypoweredgames_batterytech_Boot_init(JNIEnv* env, jobject thi
 	javaBoot = 0;
 }
 
+void Java_com_batterypoweredgames_batterytech_Boot_release(JNIEnv* env, jobject thiz) {
+	jnienv = env;
+	javaBoot = thiz;
+	btRelease();
+	delete gConfig;
+	jnienv = 0;
+	javaBoot = 0;
+}
 void Java_com_batterypoweredgames_batterytech_Boot_update(JNIEnv* env, jobject thiz, jfloat delta) {
 	//__android_log_print(ANDROID_LOG_DEBUG, "BatteryTech Boot", "delta is %f", delta);
 	jnienv = env;
@@ -55,10 +64,59 @@ void Java_com_batterypoweredgames_batterytech_Boot_draw(JNIEnv* env, jobject thi
 	javaBoot = 0;
 }
 
+void Java_com_batterypoweredgames_batterytech_Boot_suspend(JNIEnv* env, jobject thiz) {
+	jnienv = env;
+	javaBoot = thiz;
+	btSuspend();
+	jnienv = 0;
+	javaBoot = 0;
+}
+
+void Java_com_batterypoweredgames_batterytech_Boot_resume(JNIEnv* env, jobject thiz) {
+	jnienv = env;
+	javaBoot = thiz;
+	btResume();
+	jnienv = 0;
+	javaBoot = 0;
+}
+
 void Java_com_batterypoweredgames_batterytech_Boot_setPointerState(JNIEnv* env, jobject thiz, jint pointerId, jboolean down, jint x, jint y) {
 	jnienv = env;
 	javaBoot = thiz;
 	btSetPointerState(pointerId, down, x, y);
+	jnienv = 0;
+	javaBoot = 0;
+}
+
+void Java_com_batterypoweredgames_batterytech_Boot_keyUp(JNIEnv* env, jobject thiz, jint keyCode) {
+	jnienv = env;
+	javaBoot = thiz;
+	btKeyUp(keyCode);
+	jnienv = 0;
+	javaBoot = 0;
+}
+
+void Java_com_batterypoweredgames_batterytech_Boot_keyDown(JNIEnv* env, jobject thiz, jint keyCode) {
+	jnienv = env;
+	javaBoot = thiz;
+	btKeyDown(keyCode);
+	jnienv = 0;
+	javaBoot = 0;
+}
+
+void Java_com_batterypoweredgames_batterytech_Boot_keyPressed(JNIEnv* env, jobject thiz, jint keyCode) {
+	jnienv = env;
+	javaBoot = thiz;
+	btKeyPressed(keyCode);
+	jnienv = 0;
+	javaBoot = 0;
+}
+
+void Java_com_batterypoweredgames_batterytech_Boot_accelerometerChanged(JNIEnv* env, jobject thiz, jfloat x, jfloat y, jfloat z) {
+	//__android_log_print(ANDROID_LOG_DEBUG, "BatteryTech Boot", "delta is %f", delta);
+	jnienv = env;
+	javaBoot = thiz;
+	btAccelerometerChanged(x,y,z);
 	jnienv = 0;
 	javaBoot = 0;
 }

@@ -8,7 +8,7 @@
 #ifndef PRIMITIVES_H_
 #define PRIMITIVES_H_
 
-#define DEBUG 0
+#define BTDEBUG 0
 
 #ifndef NULL
 #define NULL 0

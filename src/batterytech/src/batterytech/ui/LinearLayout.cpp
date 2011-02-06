@@ -56,7 +56,7 @@ LinearLayout::~LinearLayout() {
 }
 
 void LinearLayout::layout(F32 scale) {
-	logmsg("LinearLayout::layout starting");
+	//logmsg("LinearLayout::layout starting");
 	//char buf[70];
 	//sprintf(buf, "Laying out %d UI Components at scale %g", components->getSize(), scale);
 	//logmsg(buf);

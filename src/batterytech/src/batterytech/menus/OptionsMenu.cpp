@@ -11,12 +11,13 @@
 #include "../ui/LinearLayout.h"
 #include "../ui/Button.h"
 #include "../ui/SlideAnimator.h"
+#include "../../demo-app/UIConstants.h"
 
 OptionsMenu::OptionsMenu(Context *context) : Menu(OPTIONS_MENU_NAME) {
 	this->context = context;
-	S32 buttonBgId = context->menuRenderer->addTextureAsset("button1_tex.png");
-	S32 buttonPressedBgId = context->menuRenderer->addTextureAsset("button1_pressed_tex.png");
-	S32 panelBgId = context->menuRenderer->addTextureAsset("panel2_tex.png");
+	S32 buttonBgId = context->menuRenderer->addTextureAsset(UI_BUTTON_1);
+	S32 buttonPressedBgId = context->menuRenderer->addTextureAsset(UI_BUTTON_1_PRESSED);
+	S32 panelBgId = context->menuRenderer->addTextureAsset(UI_PANEL_2);
 	LinearLayout *buttonLayout = new LinearLayout(LinearLayout::HORIZONTAL);
 	Button *button1 = new Button("Button 1");
 	button1->setLayoutParameters(new LayoutParameters(LayoutParameters::LEFT, LayoutParameters::BOTTOM));
@@ -43,8 +44,8 @@ OptionsMenu::OptionsMenu(Context *context) : Menu(OPTIONS_MENU_NAME) {
 	buttonLayout->setWidth(FILL);
 	buttonLayout->setBackgroundMenuResource(panelBgId);
 	buttonLayout->setLayoutParameters(new LayoutParameters(LayoutParameters::HORIZONTAL_CENTER, LayoutParameters::BOTTOM));
-	buttonLayout->setEnterAnimator(new SlideAnimator(SlideAnimator::BOTTOM, SlideAnimator::IN, 0.5f));
-	buttonLayout->setExitAnimator(new SlideAnimator(SlideAnimator::BOTTOM, SlideAnimator::OUT, 0.5f));
+	buttonLayout->setEnterAnimator(new SlideAnimator(SlideAnimator::BOTTOM, SlideAnimator::SLIDE_IN, 0.5f));
+	buttonLayout->setExitAnimator(new SlideAnimator(SlideAnimator::BOTTOM, SlideAnimator::SLIDE_OUT, 0.5f));
 	setRootComponent(buttonLayout);
 }
 

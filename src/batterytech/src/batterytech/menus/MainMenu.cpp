@@ -13,21 +13,20 @@
 #include "../ui/SlideAnimator.h"
 #include "../ui/Label.h"
 #include "../ui/Checkbox.h"
+#include "../../demo-app/UIConstants.h"
 
 Button *button1;
 
 MainMenu::MainMenu(Context *context) : Menu(MAIN_MENU_NAME) {
 	this->context = context;
-	S32 buttonBgId = context->menuRenderer->addTextureAsset("button1_tex.png");
-	S32 buttonPressedBgId = context->menuRenderer->addTextureAsset("button1_pressed_tex.png");
-	S32 panelBgId = context->menuRenderer->addTextureAsset("panel2_tex.png");
-	S32 glowBgId = context->menuRenderer->addTextureAsset("glow_tex.png");
-	S32 checkBoxId = context->menuRenderer->addTextureAsset("checkbox_tex.png");
-	S32 checkedBoxId = context->menuRenderer->addTextureAsset("checkbox_checked_tex.png");
+	S32 buttonBgId = context->menuRenderer->addTextureAsset(UI_BUTTON_1);
+	S32 buttonPressedBgId = context->menuRenderer->addTextureAsset(UI_BUTTON_1_PRESSED);
+	S32 panelBgId = context->menuRenderer->addTextureAsset(UI_PANEL_2);
+	S32 checkBoxId = context->menuRenderer->addTextureAsset(UI_CHECKBOX);
+	S32 checkedBoxId = context->menuRenderer->addTextureAsset(UI_CHECKBOX_CHECKED);
 	LinearLayout *buttonLayout = new LinearLayout(LinearLayout::VERTICAL);
 	Label *label = new Label("Main Menu");
 	label->setSize(FILL, 60);
-	label->setBackgroundMenuResource(glowBgId);
 	label->setLayoutParameters(new LayoutParameters(LayoutParameters::HORIZONTAL_CENTER, LayoutParameters::TOP));
 	button1 = new Button("Button 1");
 	button1->setLayoutParameters(new LayoutParameters(LayoutParameters::HORIZONTAL_CENTER, LayoutParameters::TOP));
@@ -82,8 +81,8 @@ MainMenu::MainMenu(Context *context) : Menu(MAIN_MENU_NAME) {
 	bottomLayout->setHeight(WRAP);
 	bottomLayout->setLayoutParameters(new LayoutParameters(LayoutParameters::HORIZONTAL_CENTER, LayoutParameters::BOTTOM));
 	buttonLayout->addComponent(bottomLayout);
-	buttonLayout->setEnterAnimator(new SlideAnimator(SlideAnimator::LEFT, SlideAnimator::IN, 0.5f));
-	buttonLayout->setExitAnimator(new SlideAnimator(SlideAnimator::LEFT, SlideAnimator::OUT, 0.5f));
+	buttonLayout->setEnterAnimator(new SlideAnimator(SlideAnimator::LEFT, SlideAnimator::SLIDE_IN, 0.5f));
+	buttonLayout->setExitAnimator(new SlideAnimator(SlideAnimator::LEFT, SlideAnimator::SLIDE_OUT, 0.5f));
 	buttonLayout->setText("buttons");
 	setRootComponent(buttonLayout);
 }

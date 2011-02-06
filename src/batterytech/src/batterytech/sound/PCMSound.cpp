@@ -9,11 +9,12 @@
 #include "../platform/platformgeneral.h"
 #include <stdlib.h>
 
-PCMSound::PCMSound(S16 *pcmData, U32 length, U32 rate, U8 channels) {
+PCMSound::PCMSound(S16 *pcmData, U32 length, U32 rate, U8 channels, const char *assetName) {
 	this->pcmData = pcmData;
 	this->length = length;
 	this->rate = rate;
 	this->channels = channels;
+	this->assetName = assetName;
 }
 
 PCMSound::~PCMSound() {

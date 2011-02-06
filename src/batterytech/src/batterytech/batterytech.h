@@ -29,11 +29,31 @@ void btSetScreenSize(S32 width, S32 height);
 void btSetPointerState(S32 pointerId, BOOL32 down, S32 x, S32 y);
 
 /*
+ * Sets that a key has gone up
+ */
+void btKeyUp(U8 key);
+
+/*
+ * Sets that a key is pressed down
+ */
+void btKeyDown(U8 key);
+
+/*
+ * Sets that a key has been pressed
+ */
+void btKeyPressed(U8 key);
+
+/*
  * Called as often as possible to update the state of the engine
  *
  * delta is in seconds
  */
 void btUpdate(F32 delta);
+
+/**
+ * Called when new accelerometer data has arrived
+ */
+void btAccelerometerChanged(F32 x, F32 y, F32 z);
 
 /**
  * Draws the world

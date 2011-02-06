@@ -9,10 +9,14 @@
 #define WIN32GENERAL_CPP_
 #ifdef _WIN32
 
-#include "win32general.h"
+#include "../platformgeneral.h"
 #include "SoundServer.h"
 #include "../../sound/SoundManager.h"
 #include <stdio.h>
+#include <direct.h>
+#include <iostream>
+#include "../../primitives.h"
+#include <string.h>
 
 using namespace std;
 
@@ -24,13 +28,14 @@ void _platform_log(const char* message) {
 	cout << message << endl;
 }
 
-unsigned char* _platform_load_asset(const char *filename, int *size) {
+unsigned char* _platform_load_asset(const char *filename, S32 *size) {
 	//char *myFilename;
 	//strcpy(myFilename, filename);
 	//_convert_filename(myFilename);
-	char myFilename[7 + strlen(filename)];
+	char myFilename[255];
 	strcpy(myFilename, "assets\\");
 	strcat(myFilename, filename);
+	_platform_convert_path(myFilename, myFilename);
 	cout << "trying " << myFilename << endl;
 	FILE *handle;
 	unsigned char *data = 0;
@@ -65,7 +70,7 @@ void _platform_free_asset(unsigned char *ptr) {
 }
 
 void _convert_filename(char *filename) {
-	int arrayLength = sizeof(filename);
+	int arrayLength = strlen(filename);
 	int i;
 	for (i = 0; i < arrayLength; i++) {
 		if (filename[i] == '/') {
@@ -77,9 +82,9 @@ void _convert_filename(char *filename) {
 #define	WND_CLASSNAME	"SoundWindow"
 #define	TWO_PI			(3.1415926f * 2.f)
 #define	SIN_STEP		((TWO_PI * 440.f) / 44100.f)
-static	float			sinPos = 0.f;
+CSoundServer *pServer;
 
-void mySoundProc(void *pSoundBuffer,long bufferLen)
+void mySoundProc(void *pSoundBuffer, long bufferLen)
 {
 	if (sndMgr) {
 		sndMgr->fillBuffer(pSoundBuffer, bufferLen);
@@ -90,10 +95,173 @@ void mySoundProc(void *pSoundBuffer,long bufferLen)
 
 void _platform_init_sound(SoundManager *soundManager) {
 	sndMgr = soundManager;
-	CSoundServer *pServer = new CSoundServer;
+	pServer = new CSoundServer;
 	if (pServer->open(mySoundProc)) {
 		cout << "Windows Sound Started" << endl;
 	}
+}
+
+void _platform_stop_sound() {
+	cout << "Stopping Windows Sound" << endl;
+	if (pServer) {
+		pServer->close();
+	}
+	pServer = NULL;
+	cout << "Windows Sound Stopped" << endl;
+}
+
+void _platform_get_external_storage_dir_name(char* buf, S32 buflen) {
+	getcwd(buf, buflen);
+}
+
+const char* _platform_get_path_separator() {
+	return "\\";
+}
+
+BOOL32 _platform_path_exists(const char* path) {
+	return (access(path, F_OK) != -1);
+}
+
+BOOL32 _platform_path_can_read(const char* path) {
+	return (access(path, R_OK) != -1);
+}
+
+BOOL32 _platform_path_can_write(const char* path) {
+	return (access(path, W_OK) != -1);
+}
+
+BOOL32 _platform_path_create(const char* path) {
+	return (mkdir(path) == 0);
+}
+
+void _platform_play_vibration_effect(S32 effectId, F32 intensity) {
+	//cout << "Playing vibration effect " << effectId << " at " << intensity << endl;
+}
+
+void _platform_start_vibration_effect(S32 effectId, F32 intensity) {
+	//cout << "Starting vibration effect " << effectId << " at " << intensity << endl;
+}
+
+void _platform_stop_vibration_effect(S32 effectId) {
+	//cout << "Stopping vibration effect " << effectId << endl;
+}
+
+void _platform_stop_all_vibration_effects() {
+	//cout << "Stopping all vibration effects" << endl;
+}
+
+BOOL32 _platform_implements_soundpool() {
+	return FALSE;
+}
+
+void _platform_init_soundpool(S32 streams){}
+void _platform_release_soundpool(){}
+void _platform_load_sound(const char* asset){}
+S32 _platform_play_sound(const char* asset, F32 leftVol, F32 rightVol, S32 loops, F32 rate){ return -1; }
+void _platform_stop_sound(S32 streamId){}
+void _platform_stop_sound(const char* asset){}
+void _platform_stop_all_sounds(){}
+void _platform_unload_sound(const char *asset){}
+void _platform_show_keyboard(){}
+void _platform_hide_keyboard(){}
+
+void _platform_init_network() {
+	WSADATA wsaData; // if this doesn't work
+	if (WSAStartup(MAKEWORD(1,1), &wsaData) != 0) {
+		fprintf(stderr, "WSAStartup failed.\n");
+		exit(1);
+	}
+}
+
+void _platform_release_network() {
+	WSACleanup();
+}
+
+void _platform_make_non_blocking(SOCKET socket) {
+	u_long iMode = 1;
+	//-------------------------
+	// Set the socket I/O mode: In this case FIONBIO
+	// enables or disables the blocking mode for the
+	// socket based on the numerical value of iMode.
+	// If iMode = 0, blocking is enabled;
+	// If iMode != 0, non-blocking mode is enabled.
+	ioctlsocket(socket, FIONBIO, &iMode);
+}
+
+S32 _platform_get_socket_last_error() {
+	return WSAGetLastError();
+}
+
+const char *inet_ntop(int af, const void *src, char *dst, socklen_t cnt)
+{
+        if (af == AF_INET)
+        {
+                struct sockaddr_in in;
+                memset(&in, 0, sizeof(in));
+                in.sin_family = AF_INET;
+                memcpy(&in.sin_addr, src, sizeof(struct in_addr));
+                getnameinfo((struct sockaddr *)&in, sizeof(struct
+sockaddr_in), dst, cnt, NULL, 0, NI_NUMERICHOST);
+                return dst;
+        }
+        else if (af == AF_INET6)
+        {
+                struct sockaddr_in6 in;
+                memset(&in, 0, sizeof(in));
+                in.sin6_family = AF_INET6;
+                memcpy(&in.sin6_addr, src, sizeof(struct in_addr6));
+                getnameinfo((struct sockaddr *)&in, sizeof(struct
+sockaddr_in6), dst, cnt, NULL, 0, NI_NUMERICHOST);
+                return dst;
+        }
+        return NULL;
+}
+
+#ifdef __MINGW32__
+int inet_pton(int af, const char *src, void *dst)
+{
+        struct addrinfo hints, *res, *ressave;
+
+        memset(&hints, 0, sizeof(struct addrinfo));
+        hints.ai_family = af;
+
+        if (getaddrinfo(src, NULL, &hints, &res) != 0)
+        {
+               	cout << "Error - Couldn't resolve host " << src << endl;
+                return -1;
+        }
+
+        ressave = res;
+
+        while (res)
+        {
+                memcpy(dst, res->ai_addr, res->ai_addrlen);
+                res = res->ai_next;
+        }
+
+        freeaddrinfo(ressave);
+        return 0;
+}
+#endif
+
+char** _platform_get_ifaddrs(int *count) {
+	char** hostnames = new char*[1];
+	hostnames[0] = new char[80];
+	gethostname(hostnames[0], 80);
+	struct hostent *phe = gethostbyname(hostnames[0]);
+	if (phe == 0) {
+		cout << "bad host lookup" << endl;
+	}
+	struct in_addr addr;
+	memcpy(&addr, phe->h_addr_list[0], sizeof(struct in_addr));
+	hostnames[0] = inet_ntoa(addr);
+	*count = 1;
+	return hostnames;
+}
+
+void _platform_free_ifaddrs(char** ifaddrs, int count) {
+	delete ifaddrs[0];
+	delete [] ifaddrs;
 }
 
 #endif /* _WIN32 */

@@ -640,7 +640,7 @@ static int stbtt__isfont(const stbtt_uint8 *font)
 }
 
 // @OPTIMIZE: binary search
-static stbtt_uint32 stbtt__find_table(stbtt_uint8 *data, stbtt_uint32 fontstart, char *tag)
+static stbtt_uint32 stbtt__find_table(stbtt_uint8 *data, stbtt_uint32 fontstart, const char *tag)
 {
    stbtt_int32 num_tables = ttUSHORT(data+fontstart+4);
    stbtt_uint32 tabledir = fontstart + 12;
@@ -793,8 +793,7 @@ int stbtt_FindGlyphIndex(const stbtt_fontinfo *info, int unicode_codepoint)
    } else if (format == 12) {
       stbtt_uint16 ngroups = ttUSHORT(data+index_map+6);
       stbtt_int32 low,high;
-      stbtt_uint16 g = 0;
-      low = 0; high = (stbtt_int32)ngroups;
+       low = 0; high = (stbtt_int32)ngroups;
       // Binary search the right group.
       while (low <= high) {
          stbtt_int32 mid = low + ((high-low) >> 1); // rounds down, so low <= mid < high

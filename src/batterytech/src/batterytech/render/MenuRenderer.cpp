@@ -11,11 +11,12 @@
 #include "../Logger.h"
 #include "../ui/Layout.h"
 #include <string.h>
+#include "../../demo-app/UIConstants.h"
 
 MenuRenderer::MenuRenderer(GraphicsConfiguration *gConfig) {
 	this->gConfig = gConfig;
 	assetNames = new ManagedArray<const char>(100);
-	textRenderer = new TextRasterRenderer(gConfig, "digital.ttf", 12.0f);
+	textRenderer = new TextRasterRenderer(gConfig, UI_MENU_FONT, 12.0f);
 }
 
 /** Adds a texture asset or returns the ID of the one already added if equal */
@@ -38,7 +39,7 @@ S32 MenuRenderer::findTextureAsset(const char *asset) {
 }
 
 void MenuRenderer::init(UIManager *uiManager) {
-	textRenderer->init();
+	textRenderer->init(TRUE);
 	textureIds = new GLuint[assetNames->getSize()];
 	glGenTextures(assetNames->getSize(), textureIds);
 	S32 i;
@@ -55,7 +56,7 @@ void MenuRenderer::render(UIManager *uiManager) {
 	glMatrixMode(GL_PROJECTION);
 	glViewport(0, 0, gConfig->viewportWidth, gConfig->viewportHeight);
 	glLoadIdentity();
-	glOrthof(0, gConfig->viewportWidth, gConfig->viewportHeight, 0, -1, 1);
+	glOrthof(0, gConfig->width, gConfig->height, 0, -1, 1);
 	glMatrixMode(GL_MODELVIEW);
 	glColor4f(1, 1, 1, 1);
 	S32 i = 0;
@@ -63,21 +64,32 @@ void MenuRenderer::render(UIManager *uiManager) {
 		Menu *menu = uiManager->activeMenuStack->array[i];
 		UIComponent *root = menu->getRootComponent();
 		activeResourceId = -1;
-		render(root);
+		render(root, uiManager);
 	}
 	glDisable(GL_BLEND);
 }
 
-void MenuRenderer::render(UIComponent *component) {
+void MenuRenderer::render(UIComponent *component, UIManager *uiManager) {
 	UIAnimator *animator = component->getActiveAnimator();
 	if (animator) {
 		animator->drawPreComponent(gConfig);
+	}
+	if (!component->isEnabled) {
+		glColor4f(0.5f,0.5f,0.5f,1.0f);
+	} else {
+		glColor4f(1,1,1,1);
 	}
 	// draw this component first then recurse children
 	S32 menuResourceId = component->backgroundMenuResourceId;
 	if (component->isPressed) {
 		if (component->pressedBackgroundMenuResourceId != NO_RESOURCE) {
 			menuResourceId = component->pressedBackgroundMenuResourceId;
+		}
+	} else {
+		if (uiManager->selectedComponent == component) {
+			if (component->selectedBackgroundMenuResourceId != NO_RESOURCE) {
+				menuResourceId = component->selectedBackgroundMenuResourceId;
+			}
 		}
 	}
 	if (menuResourceId != NO_RESOURCE) {
@@ -88,6 +100,12 @@ void MenuRenderer::render(UIComponent *component) {
 		drawTexturedQuad(component->top, component->right, component->bottom, component->left);
 	}
 	if (component->text) {
+		if (component->isEnabled) {
+			glColor4f(component->textR,component->textB,component->textG,component->textA);
+		} else {
+			glColor4f(component->textR*0.5f,component->textB*0.5f,component->textG*0.5f,component->textA);
+
+		}
 		activeResourceId = -1;
 		// TODO - optimize for 1 pass text
 		F32 textWidth = textRenderer->measureWidth(component->text);
@@ -110,16 +128,19 @@ void MenuRenderer::render(UIComponent *component) {
 		} else if (component->textVerticalAlignment == UIComponent::TOP) {
 			textBottom -= (componentHeight - textHeight) - component->paddingTopDips * gConfig->uiScale;
 		}
+		textRenderer->startText();
 		textRenderer->render(component->text, textLeft, textBottom);
+		textRenderer->finishText();
 	}
 	if (component->components->getSize() > 0) {
 		// recurse through layout's components
 		UIComponent **components = component->components->array;
 		int i;
 		for (i = 0; i < component->components->getSize(); i++) {
-			render(components[i]);
+			render(components[i], uiManager);
 		}
 	}
+	glColor4f(1,1,1,1);
 	if (animator) {
 		animator->drawPostComponent(gConfig);
 	}

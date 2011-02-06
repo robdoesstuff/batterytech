@@ -8,28 +8,29 @@
 #ifndef SOUNDMANAGER_H_
 #define SOUNDMANAGER_H_
 
-#define MAX_SOUNDS 200
+#include <batterytech/primitives.h>
 
-#include "../primitives.h"
-#include "PCMSound.h"
-#include "PCMStream.h"
+class PCMSoundManager;
 
 class SoundManager {
 public:
 	SoundManager();
 	virtual ~SoundManager();
-	S16 loadSound(S16 *pcmData, U32 length, U32 rate, U8 channels);
-	S16 loadSound(const char *assetName);
-	void playSound(U16 soundId, S16 loops, F32 rate);
-	void unloadSound(U16 soundId);
 	void init(U8 streams);
-	void release();
+	void loadSound(const char *assetName);
+	S32 playSound(const char *assetName, S16 loops, F32 leftVol, F32 rightVol, F32 rate);
+	void stopSound(S32 streamId);
+	void stopSound(const char *assetName);
+	void stopAllSounds();
+	void unloadSound(const char *assetName);
 	void fillBuffer(void *pSoundBuffer, long bufferLen);
+	void setEnabled(BOOL32 enabled);
+	BOOL32 isEnabled();
 private:
-	U8 streamCount;
-	U16 pcmSoundsLoaded;
-	PCMSound **pcmSounds;
-	PCMStream *pcmStreams;
+	S32 getSoundId(const char *assetName);
+	BOOL32 usingNativeSoundPool;
+	PCMSoundManager *pcmSoundMgr;
+	BOOL32 enabled;
 };
 
 #endif /* SOUNDMANAGER_H_ */

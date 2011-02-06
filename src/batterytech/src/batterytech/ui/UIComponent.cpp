@@ -6,6 +6,7 @@
  */
 
 #include "UIComponent.h"
+#include <string.h>
 
 UIComponent::UIComponent(const char *text) {
 	widthDips = 0;
@@ -22,7 +23,14 @@ UIComponent::UIComponent(const char *text) {
 	backgroundMenuResourceId = NO_RESOURCE;
 	pressedBackgroundMenuResourceId = NO_RESOURCE;
 	selectedBackgroundMenuResourceId = NO_RESOURCE;
-	this->text = text;
+	// use a copy of the text.
+	if (text) {
+		S32 textLength = strlen(text);
+		this->text = new char[textLength + 1];
+		strcpy(this->text, text);
+	} else {
+		this->text = NULL;
+	}
 	textHorizontalAlignment = HORIZONTAL_CENTER;
 	textVerticalAlignment = VERTICAL_CENTER;
 	components = new ManagedArray<UIComponent> (10);
@@ -36,7 +44,23 @@ UIComponent::UIComponent(const char *text) {
 	enterAnimator = NULL;
 	mainAnimator = NULL;
 	exitAnimator = NULL;
+	userId = NO_ID;
+	textR = textB = textG = textA = 1.0f;
 }
+
+void UIComponent::setText(const char *text) {
+	// use a copy of the text, delete previous if exists
+	if (this->text) {
+		delete [] this->text;
+	}
+	if (text) {
+		S32 textLength = strlen(text);
+		this->text = new char[textLength + 1];
+		strcpy(this->text, text);
+	} else {
+		this->text = NULL;
+	}
+};
 
 void UIComponent::addComponent(UIComponent *component) {
 	components->add(component);
@@ -48,6 +72,10 @@ void UIComponent::dispatchClickDown() {
 
 void UIComponent::dispatchClickUp() {
 	onClickUp();
+}
+
+void UIComponent::dispatchKeyPressed(U8 key) {
+	onKeyPressed(key);
 }
 
 void UIComponent::update(F32 delta) {
@@ -161,4 +189,5 @@ UIComponent::~UIComponent() {
 	delete exitAnimator;
 	delete layoutParameters;
 	delete components;
+	delete [] text;
 }

@@ -7,16 +7,17 @@
 
 #ifndef RENDERER_H_
 #define RENDERER_H_
-#include "../game/World.h"
+
+#include "../platform/platformgl.h"
 #include "../primitives.h"
+
 
 class Renderer {
 public:
-	virtual void unloadLevel() = 0;
-	virtual void loadLevel() = 0;
-	virtual void init() = 0;
-	virtual void render(World *world) = 0;
+	virtual void init(BOOL32 newContext) = 0;
 	virtual ~Renderer();
+protected:
+	virtual GLuint loadTexture(const char *name);
 };
 
 #endif /* RENDERER_H_ */

@@ -25,6 +25,7 @@
 #define	REPLAY_DEPTH			16
 #define	REPLAY_SAMPLELEN		(REPLAY_DEPTH/8)
 #define	REPLAY_NBSOUNDBUFFER	2
+#define REPLAY_CHANNELS			2
 
 typedef void (*USER_CALLBACK) (void *pBuffer,long bufferLen);
 
@@ -56,6 +57,7 @@ private:
 		WAVEHDR			m_waveHeader[REPLAY_NBSOUNDBUFFER];
 		void			*m_pSoundBuffer[REPLAY_NBSOUNDBUFFER];
 		USER_CALLBACK	m_pUserCallback;
+		BOOL	m_bIsFilling;
 };
 
 

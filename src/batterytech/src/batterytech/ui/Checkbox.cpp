@@ -63,6 +63,19 @@ void Checkbox::update(F32 delta) {
 	UIComponent::update(delta);
 }
 
+void Checkbox::setChecked(BOOL32 checked) {
+	this->checked = checked;
+	if (checked) {
+		button->setBackgroundMenuResource(checkedResourceId);
+	} else {
+		button->setBackgroundMenuResource(boxResourceId);
+	}
+}
+
+BOOL32 Checkbox::isChecked() {
+	return checked;
+}
+
 Checkbox::~Checkbox() {
 	delete button;
 	delete label;

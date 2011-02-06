@@ -12,11 +12,13 @@
 
 UIManager::UIManager(Context *context) {
 	this->context = context;
-	menus = new ManagedArray<Menu>(10);
+	menus = new ManagedArray<Menu>(100);
 	activeMenuStack = new ManagedArray<Menu>(10);
 	clickDownActive = FALSE;
 	clickDownChecked = FALSE;
 	queuedShowMenuId = -1;
+	queuedData = NULL;
+	selectedComponent = NULL;
 }
 
 S32 UIManager::addMenu(Menu *menu) {
@@ -24,9 +26,13 @@ S32 UIManager::addMenu(Menu *menu) {
 }
 
 void UIManager::showMenu(const char *name) {
+	showMenu(name, NULL);
+}
+
+void UIManager::showMenu(const char *name, void *data) {
 	S32 menuId = findMenu(name);
 	if (menuId != -1) {
-		showMenu(menuId);
+		showMenu(menuId, data);
 	} else {
 		logmsg("No menu found:");
 		logmsg(name);
@@ -44,66 +50,83 @@ S32 UIManager::findMenu(const char *name) {
 }
 
 void UIManager::showMenu(S32 menuId) {
+	showMenu(menuId, NULL);
+}
+
+void UIManager::showMenu(S32 menuId, void *data) {
 	// get menu by id, layout, push on stack
 	if (menuId <= menus->lastItemIndex) {
 		if (activeMenuStack->getSize() > 0) {
 			Menu *topMenu = activeMenuStack->array[activeMenuStack->lastItemIndex];
 			if (topMenu->getRootComponent()->isExitPending()) {
 				queuedShowMenuId = menuId;
+				queuedData = data;
 				return;
 			}
 		}
 		queuedShowMenuId = -1;
-		GraphicsConfiguration *gConfig = context->gConfig;
+		queuedData = NULL;
 		Menu *menu = menus->array[menuId];
-		// do frame layout
-		S32 width = menu->getRootComponent()->getDesiredWidth();
-		S32 height = menu->getRootComponent()->getDesiredHeight();
-		if (width == FILL) {
-			width = gConfig->viewportWidth;
-		} else {
-			width = (S32) (width * gConfig->uiScale);
-		}
-		if (height == FILL) {
-			height = gConfig->viewportHeight;
-		} else {
-			height = (S32) (height * gConfig->uiScale);
-		}
-		LayoutParameters::HorizontalAlignment horizAlign = LayoutParameters::LEFT;
-		LayoutParameters::VerticalAlignment vertAlign = LayoutParameters::TOP;
-		// check layout parameters
-		if (menu->getRootComponent()->getLayoutParameters()) {
-			horizAlign = menu->getRootComponent()->getLayoutParameters()->getHorizontalAlignment();
-			vertAlign = menu->getRootComponent()->getLayoutParameters()->getVerticalAlignment();
-		}
-		S32 top, right, bottom, left;
-		if (vertAlign == LayoutParameters::TOP) {
-			top = 0;
-		} else if (vertAlign == LayoutParameters::VERTICAL_CENTER) {
-			top = gConfig->viewportHeight / 2 - height / 2;
-		} else if (vertAlign == LayoutParameters::BOTTOM) {
-			top = gConfig->viewportHeight - height;
-		}
-		bottom = top + height;
-		if (horizAlign == LayoutParameters::LEFT) {
-			left = 0;
-		} else if (horizAlign == LayoutParameters::HORIZONTAL_CENTER) {
-			left = gConfig->viewportWidth / 2 - width / 2;
-		} else if (horizAlign == LayoutParameters::RIGHT) {
-			left = gConfig->viewportWidth - width;
-		}
-		right = left + width;
-		menu->getRootComponent()->setDrawableBounds(left, top, right, bottom);
-		menu->getRootComponent()->layout(gConfig->uiScale);
+		menu->setData(data);
+		// call the pre-show hook before we calculate anything (it may need to change out components)
+		menu->onPreShow();
+		layoutMenu(menu);
 		menu->getRootComponent()->enter();
 		activeMenuStack->add(menu);
 	}
+}
+
+void UIManager::layoutMenu(Menu *menu) {
+	GraphicsConfiguration *gConfig = context->gConfig;
+	// do frame layout
+	S32 width = menu->getRootComponent()->getDesiredWidth();
+	S32 height = menu->getRootComponent()->getDesiredHeight();
+	if (width == FILL) {
+		width = gConfig->width;
+	} else {
+		width = (S32) (width * gConfig->uiScale);
+	}
+	if (height == FILL) {
+		height = gConfig->height;
+	} else {
+		height = (S32) (height * gConfig->uiScale);
+	}
+	LayoutParameters::HorizontalAlignment horizAlign = LayoutParameters::LEFT;
+	LayoutParameters::VerticalAlignment vertAlign = LayoutParameters::TOP;
+	// check layout parameters
+	if (menu->getRootComponent()->getLayoutParameters()) {
+		horizAlign = menu->getRootComponent()->getLayoutParameters()->getHorizontalAlignment();
+		vertAlign = menu->getRootComponent()->getLayoutParameters()->getVerticalAlignment();
+	}
+	S32 top, right, bottom, left;
+	if (vertAlign == LayoutParameters::TOP) {
+		top = 0;
+	} else if (vertAlign == LayoutParameters::VERTICAL_CENTER) {
+		top = gConfig->height / 2 - height / 2;
+	} else if (vertAlign == LayoutParameters::BOTTOM) {
+		top = gConfig->height - height;
+	}
+	bottom = top + height;
+	if (horizAlign == LayoutParameters::LEFT) {
+		left = 0;
+	} else if (horizAlign == LayoutParameters::HORIZONTAL_CENTER) {
+		left = gConfig->width / 2 - width / 2;
+	} else if (horizAlign == LayoutParameters::RIGHT) {
+		left = gConfig->width - width;
+	}
+	right = left + width;
+	menu->getRootComponent()->setDrawableBounds(left, top, right, bottom);
+	menu->getRootComponent()->layout(gConfig->uiScale);
 }
 
 void UIManager::popMenu() {
 	if (activeMenuStack->lastItemIndex > -1) {
 		activeMenuStack->array[activeMenuStack->lastItemIndex]->getRootComponent()->exit();
 	}
+}
+
+void UIManager::clearMenuStack() {
+	activeMenuStack->clear();
 }
 
 void UIManager::update() {
@@ -115,6 +138,7 @@ void UIManager::update() {
 		if (context->down1 && !clickDownChecked) {
 			if (traverseClickState(menu, menu->getRootComponent(), TRUE, context->x1, context->y1)) {
 				clickDownActive = TRUE;
+				context->isUIConsumingTouch = TRUE;
 			}
 			clickDownChecked = TRUE;
 		}
@@ -122,6 +146,7 @@ void UIManager::update() {
 			if (clickDownActive) {
 				// need to unclick
 				traverseClickState(menu, menu->getRootComponent(), FALSE, context->x1, context->y1);
+				context->isUIConsumingTouch = FALSE;
 			}
 			clickDownChecked = FALSE;
 			clickDownActive = FALSE;
@@ -131,14 +156,22 @@ void UIManager::update() {
 	S32 i;
 	for (i = 0; i < activeMenuStack->getSize(); i++) {
 		Menu *menu = activeMenuStack->array[i];
+		// honor any layout requests
+		if (menu->layoutRequested) {
+			layoutMenu(menu);
+		}
+		// check for exit animation completion and queued menu pending show
 		if (menu->getRootComponent()->isExitDone()) {
 			activeMenuStack->remove(activeMenuStack->lastItemIndex);
 			if (queuedShowMenuId != -1) {
-				showMenu(queuedShowMenuId);
+				showMenu(queuedShowMenuId, queuedData);
 			}
 			continue;
 		}
 		traverseUpdate(menu->getRootComponent());
+	}
+	if (selectedComponent && context->keyPressed) {
+		selectedComponent->dispatchKeyPressed(context->keyPressed);
 	}
 }
 
@@ -169,10 +202,16 @@ BOOL32 UIManager::traverseClickState(Menu *menu, UIComponent *component, BOOL32 
 			}
 		}
 	}
-	if (down && component->isClickable) {
+	if (down && component->isClickable && component->isEnabled) {
 		if (x < component->left || x > component->right || y < component->top || y > component->bottom) {
 			// do nothing, fast out check
 		} else {
+			if (component->isSelectable) {
+				component->onSelected();
+				selectedComponent = component;
+			} else {
+				selectedComponent = NULL;
+			}
 			component->isPressed = TRUE;
 			component->dispatchClickDown();
 			menu->onClickDown(component);
@@ -189,8 +228,14 @@ BOOL32 UIManager::traverseClickState(Menu *menu, UIComponent *component, BOOL32 
 }
 
 UIManager::~UIManager() {
+	logmsg("Releasing UI Manager");
 	context = NULL;
-	// TODO - also delete each menu
+	if (menus) {
+		menus->deleteElements();
+	}
 	delete menus;
+	menus = NULL;
 	delete activeMenuStack;
+	activeMenuStack = NULL;
+	selectedComponent = NULL;
 }

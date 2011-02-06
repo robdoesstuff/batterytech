@@ -2036,7 +2036,8 @@ void dct_iv_slow(float *buffer, int n)
          //acc += x[j] * cos(M_PI / n * (i + 0.5) * (j + 0.5));
       buffer[i] = acc;
    }
-   free(x);
+   // x is a non-heap object!  why is this free here??
+   //free(x);
 }
 
 void inverse_mdct_slow(float *buffer, int n, vorb *f, int blocktype)
@@ -4732,7 +4733,7 @@ static int8 channel_position[7][6] =
    #define FASTDEF(x)
 #endif
 
-static void copy_samples(short *dest, float *src, int len)
+static void copy_samples(signed short *dest, float *src, int len)
 {
    int i;
    check_endianness();
@@ -4745,7 +4746,7 @@ static void copy_samples(short *dest, float *src, int len)
    }
 }
 
-static void compute_samples(int mask, short *output, int num_c, float **data, int d_offset, int len)
+static void compute_samples(int mask, signed short *output, int num_c, float **data, int d_offset, int len)
 {
    #define BUFFER_SIZE  32
    float buffer[BUFFER_SIZE];
@@ -4771,7 +4772,7 @@ static void compute_samples(int mask, short *output, int num_c, float **data, in
 }
 
 static int channel_selector[3][2] = { {0}, {PLAYBACK_MONO}, {PLAYBACK_LEFT, PLAYBACK_RIGHT} };
-static void compute_stereo_samples(short *output, int num_c, float **data, int d_offset, int len)
+static void compute_stereo_samples(signed short *output, int num_c, float **data, int d_offset, int len)
 {
    #define BUFFER_SIZE  32
    float buffer[BUFFER_SIZE];
@@ -4810,7 +4811,7 @@ static void compute_stereo_samples(short *output, int num_c, float **data, int d
    }
 }
 
-static void convert_samples_short(int buf_c, short **buffer, int b_offset, int data_c, float **data, int d_offset, int samples)
+static void convert_samples_short(int buf_c, signed short **buffer, int b_offset, int data_c, float **data, int d_offset, int samples)
 {
    int i;
    if (buf_c != data_c && buf_c <= 2 && data_c <= 6) {
@@ -4826,7 +4827,7 @@ static void convert_samples_short(int buf_c, short **buffer, int b_offset, int d
    }
 }
 
-int stb_vorbis_get_frame_short(stb_vorbis *f, int num_c, short **buffer, int num_samples)
+int stb_vorbis_get_frame_short(stb_vorbis *f, int num_c, signed short **buffer, int num_samples)
 {
    float **output;
    int len = stb_vorbis_get_frame_float(f, NULL, &output);
@@ -4953,10 +4954,10 @@ int stb_vorbis_decode_filename(char *filename, int *channels, short **output)
 }
 #endif // NO_STDIO
 
-int stb_vorbis_decode_memory(uint8 *mem, int len, int *channels, unsigned int *sample_rate, short **output)
+int stb_vorbis_decode_memory(uint8 *mem, int len, int *channels, unsigned int *sample_rate, signed short **output)
 {
    int data_len, offset, total, limit, error;
-   short *data;
+   signed short *data;
    stb_vorbis *v = stb_vorbis_open_memory(mem, len, &error, NULL);
    if (v == NULL) return -1;
    limit = v->channels * 4096;
@@ -4964,7 +4965,7 @@ int stb_vorbis_decode_memory(uint8 *mem, int len, int *channels, unsigned int *s
    *sample_rate = v->sample_rate;
    offset = data_len = 0;
    total = limit;
-   data = (short *) malloc(total * sizeof(*data));
+   data = (signed short *) malloc(total * sizeof(*data));
    if (data == NULL) {
       stb_vorbis_close(v);
       return -2;
@@ -4975,9 +4976,9 @@ int stb_vorbis_decode_memory(uint8 *mem, int len, int *channels, unsigned int *s
       data_len += n;
       offset += n * v->channels;
       if (offset + limit > total) {
-         short *data2;
+    	 signed short *data2;
          total *= 2;
-         data2 = (short *) realloc(data, total * sizeof(*data));
+         data2 = (signed short *) realloc(data, total * sizeof(*data));
          if (data2 == NULL) {
             free(data);
             stb_vorbis_close(v);

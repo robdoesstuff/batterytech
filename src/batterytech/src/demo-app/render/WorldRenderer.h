@@ -1,0 +1,49 @@
+/*
+ * WorldRenderer.h
+ *
+ *  Created on: Sep 4, 2010
+ *      Author: rgreen
+ */
+
+#ifndef WORLDRENDERER_H_
+#define WORLDRENDERER_H_
+
+#include <batterytech/render/Renderer.h>
+#include <batterytech/render/TextRasterRenderer.h>
+#include <batterytech/Context.h>
+#include <batterytech/render/GraphicsConfiguration.h>
+#include <batterytech/primitives.h>
+#include "../World.h"
+#include "B2DebugRenderer.h"
+#include "SimpleSpriteRenderer.h"
+#include "PinballRenderer.h"
+
+class B2DebugRenderer;
+class TextRasterRenderer;
+class SimpleSpriteRenderer;
+class PinballRenderer;
+
+class WorldRenderer: public Renderer {
+public:
+	WorldRenderer(Context *context);
+	virtual void init(BOOL32 newContext);
+	virtual void render(World *world);
+	virtual ~WorldRenderer();
+private:
+	void initLevel(BOOL32 newContext);
+	void renderDebugLabels(World *world);
+	TextRasterRenderer *textRenderer;
+	B2DebugRenderer *b2DebugRenderer;
+	SimpleSpriteRenderer *farBgRenderer;
+	SimpleSpriteRenderer *bgRenderer;
+	SimpleSpriteRenderer *fgRenderer;
+	SimpleSpriteRenderer *uiBGRenderer;
+	PinballRenderer *pinballRenderer;
+	GraphicsConfiguration *gConfig;
+	Context *context;
+	S32 frameSamplesCollected;
+	F32 frameSampleTimeTotal;
+	S32 fps;
+};
+
+#endif /* WORLDRENDERER_H_ */

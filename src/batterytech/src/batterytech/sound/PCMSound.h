@@ -12,12 +12,13 @@
 
 class PCMSound {
 public:
-	PCMSound(S16 *pcmData, U32 length, U32 rate, U8 channels);
+	PCMSound(S16 *pcmData, U32 length, U32 rate, U8 channels, const char *assetName);
 	virtual ~PCMSound();
 	S16 *pcmData;
 	U32 length;
 	U32 rate;
 	U8 channels;
+	const char *assetName;
 	void release();
 };
 

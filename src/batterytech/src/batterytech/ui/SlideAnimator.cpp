@@ -39,25 +39,25 @@ void SlideAnimator::drawPreComponent(GraphicsConfiguration *gConfig) {
 		S32 height = component->bottom - component->top;
 		F32 amount = time / animationTime;
 		if (side == BOTTOM) {
-			if (type == IN) {
+			if (type == SLIDE_IN) {
 				glTranslatef(0, (1 - amount) * height, 0);
 			} else {
 				glTranslatef(0, amount * height, 0);
 			}
 		} else if (side == TOP) {
-			if (type == IN) {
+			if (type == SLIDE_IN) {
 				glTranslatef(0, amount * -height, 0);
 			} else {
 				glTranslatef(0, (1 - amount) * -height, 0);
 			}
 		} else if (side == LEFT) {
-			if (type == IN) {
+			if (type == SLIDE_IN) {
 				glTranslatef((1 - amount) * -width, 0, 0);
 			} else {
 				glTranslatef(amount * -width, 0, 0);
 			}
 		} else if (side == RIGHT) {
-			if (type == IN) {
+			if (type == SLIDE_IN) {
 				glTranslatef((1 - amount) * width, 0, 0);
 			} else {
 				glTranslatef(amount * width, 0, 0);

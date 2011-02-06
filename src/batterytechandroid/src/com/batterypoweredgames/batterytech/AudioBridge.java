@@ -18,24 +18,25 @@ public class AudioBridge {
 	
 	public AudioBridge(Boot boot) {
 		this.boot = boot;
-	}
+	}  
 
 	public void startAudio() {
-		final int minBufSize = AudioTrack.getMinBufferSize(RATE, AudioFormat.CHANNEL_CONFIGURATION_MONO, AudioFormat.ENCODING_PCM_16BIT);
-		Log.d(TAG, "Using a " + minBufSize + " frame buffer");
-		audioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, RATE, AudioFormat.CHANNEL_CONFIGURATION_MONO,
+		final int minBufSize = AudioTrack.getMinBufferSize(RATE, AudioFormat.CHANNEL_CONFIGURATION_STEREO, AudioFormat.ENCODING_PCM_16BIT);
+		Log.d(TAG, "Using a " + minBufSize + " byte buffer");
+		audioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, RATE, AudioFormat.CHANNEL_CONFIGURATION_STEREO,
 				AudioFormat.ENCODING_PCM_16BIT, minBufSize, AudioTrack.MODE_STREAM);
 		run = true;
-		buf = new short[minBufSize];
+		// 17ms updates to an 8192 byte buffer (on galaxy s) which is 46ms?
+		buf = new short[768]; 
 		thread = new Thread("AudioThread") {
 			public void run() {
 				while(run) {
 					//Log.d(TAG, "Filling audio buffer from native");
 					// get audio from native side (specify in bytes)
-					boot.fillAudioBuffer(buf, minBufSize * 2);
+					boot.fillAudioBuffer(buf, 768 * 2);
 					//Log.d(TAG, "Writing audio buffer to audioTrack");
 					// write audio to android track (specify in shorts)
-					audioTrack.write(buf, 0, minBufSize);
+					audioTrack.write(buf, 0, 768);
 				}
 			}
 		};
@@ -44,9 +45,7 @@ public class AudioBridge {
 	}
 
 	public void stopAudio() {
-		if (audioTrack != null) {
-			audioTrack.stop();
-		}
+		Log.d(TAG, "Stopping Audio");
 		run = false;
 		if (thread != null) {
 			try {
@@ -54,8 +53,12 @@ public class AudioBridge {
 			} catch (InterruptedException e) {
 			}
 		}
+		if (audioTrack != null) {
+			audioTrack.stop();
+			audioTrack.release();
+		}
 		audioTrack = null;
 		buf = null;
+		boot = null;
 	}
-
 }

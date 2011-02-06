@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-      package="com.batterypoweredgames.batterytechandroid"
       android:versionCode="1"
-      android:versionName="1.0">
+      android:versionName="1.0" package="com.batterypoweredgames.demoapp">
     <application android:icon="@drawable/icon" android:label="@string/app_name">
-        <activity android:name=".BatteryTechActivity"
-                  android:label="@string/app_name" android:screenOrientation="landscape">
+        <activity android:label="@string/app_name" android:name=".DemoAppActivity" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

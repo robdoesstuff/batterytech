@@ -29,6 +29,8 @@ public:
 	F32 uiScale;
 	F32 scaleX2d;
 	F32 scaleY2d;
+	S32 width;
+	S32 height;
 	S32 viewportWidth;
 	S32 viewportHeight;
 	TextureRes textureRes;

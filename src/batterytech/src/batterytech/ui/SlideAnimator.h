@@ -14,7 +14,7 @@
 class SlideAnimator : public UIAnimator {
 public:
 	enum SlideSide { LEFT, TOP, RIGHT, BOTTOM };
-	enum SlideType { IN, OUT };
+	enum SlideType { SLIDE_IN, SLIDE_OUT };
 	SlideAnimator(SlideSide side, SlideType type, F32 time);
 	virtual ~SlideAnimator();
 	virtual void reset();

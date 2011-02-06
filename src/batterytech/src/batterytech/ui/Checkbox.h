@@ -23,6 +23,8 @@ public:
 	virtual void setText(const char *text);
 	virtual void update(F32 delta);
 	virtual ~Checkbox();
+	virtual void setChecked(BOOL32 checked);
+	virtual BOOL32 isChecked();
 private:
 	Button *button;
 	Label *label;
