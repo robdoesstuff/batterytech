@@ -76,6 +76,35 @@ void WorldRenderer::render(World *world) {
 		// render the main menuing bg
 		//uiBGRenderer->render(WORLD_TOP, WORLD_RIGHT, WORLD_BOTTOM, WORLD_LEFT);
 	} else if (world->gameState == GAMESTATE_RUNNING) {
+		// multitouch debugging
+		/*
+		if (context->pointerState[0].isDown) {
+			F32 verts[] = { WORLD_LEFT, WORLD_TOP, 0,
+					WORLD_LEFT, WORLD_BOTTOM, 0,
+					WORLD_RIGHT/2, WORLD_BOTTOM, 0,
+					WORLD_RIGHT/2, WORLD_TOP, 0 };
+			glDisable(GL_TEXTURE_2D);
+			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+			glFrontFace(GL_CCW);
+			glVertexPointer(3, GL_FLOAT, 0, &verts);
+			glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+			glEnable(GL_TEXTURE_2D);
+		}
+		if (context->pointerState[1].isDown) {
+			F32 verts[] = { WORLD_RIGHT/2, WORLD_TOP, 0,
+					WORLD_RIGHT/2, WORLD_BOTTOM, 0,
+					WORLD_RIGHT, WORLD_BOTTOM, 0,
+					WORLD_RIGHT, WORLD_TOP, 0 };
+			glDisable(GL_TEXTURE_2D);
+			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+			glFrontFace(GL_CCW);
+			glVertexPointer(3, GL_FLOAT, 0, &verts);
+			glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+			glEnable(GL_TEXTURE_2D);
+		}
+		*/
 		//uiBGRenderer->render(WORLD_TOP, WORLD_RIGHT, WORLD_BOTTOM, WORLD_LEFT);
 		glEnable(GL_BLEND);
 		glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

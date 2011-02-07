@@ -41,8 +41,8 @@ void TouchInputProcessor::processInput(Context *context) {
 		F32 worldX = GameUtil::screenToWorldX(context->pointerState[i].x, context);
 		F32 worldY = GameUtil::screenToWorldY(context->pointerState[i].y, context);
 		if (down && !lastTouchDown[i]) {
-			GameObject *obj = GameUtil::findObjectIntersection(worldX, worldY, world);
 			// is down and was up = TOUCH DOWN
+			GameObject *obj = GameUtil::findObjectIntersection(worldX, worldY, world);
 			if (obj) {
 				touchedObj[i] = obj;
 				obj->onTouchDown(worldX, worldY);

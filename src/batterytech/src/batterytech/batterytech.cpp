@@ -120,6 +120,16 @@ void btResume() {
 
 void btSetPointerState(S32 pointerId, BOOL32 down, S32 x, S32 y) {
 	//logmsg("btSetPointerState");
+	/*
+	// multitouch debugging
+	char buf[100];
+	if (down) {
+		sprintf(buf, "Pointer %d down at %d %d", pointerId, x, y);
+	} else {
+		sprintf(buf, "Pointer %d up at %d %d", pointerId, x, y);
+	}
+	logmsg(buf);
+	*/
 	if (!context) {
 		return;
 	}
