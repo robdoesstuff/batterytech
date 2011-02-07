@@ -16,7 +16,7 @@
 #include <batterytech/Context.h>
 #include "World.h"
 #include "gameobject/GameObject.h"
-#include "gameobjects/Pinball.h"
+#include "gameobjects/Ball.h"
 #include <batterytech/ui/Menu.h>
 #include "input/TouchInputProcessor.h"
 #include "menus/MenuButtonMenu.h"
@@ -171,7 +171,7 @@ void Game::updatePhysics() {
 
 void Game::updateGameObjects() {
 	World *world = context->world;
-	updateGameObjectArray(world->pinballs);
+	updateGameObjectArray(world->gameObjects);
 }
 
 void Game::updateGameObjectArray(ManagedArray<GameObject> *objects) {
@@ -207,8 +207,6 @@ void Game::updateInput() {
 void Game::initializeNewGame() {
 	World *world = getWorld();
 	logmsg("Initializing New Game");
-	world->score = 0;
-	world->ballsRemaining = 3;
 	// make an assumption before first update
 	context->accelerometerState.x = 0;
 	context->accelerometerState.y = -WORLD_GRAVITY;
@@ -233,7 +231,7 @@ void Game::loadLevel() {
 	world->boxWorld->SetDestructionListener(this);
 	for (S32 i = 1; i < WORLD_RIGHT / 3; i++) {
 		for (S32 j = 1; j < WORLD_TOP / 3; j++) {
-			world->pinballs->add(new Pinball(context, i * 3, j * 3, 0));
+			world->gameObjects->add(new Ball(context, i * 3, j * 3, 0));
 		}
 	}
 	b2BodyDef triDef;
@@ -313,8 +311,8 @@ void Game::PostSolve(b2Contact* contact, const b2ContactImpulse* impulse) {
 void Game::SayGoodbye(b2Joint* joint) {
 	if (context->world) {
 		World *world = context->world;
-		for (S32 i = 0; i < world->pinballs->getSize(); i++) {
-			world->pinballs->array[i]->SayGoodbye(joint);
+		for (S32 i = 0; i < world->gameObjects->getSize(); i++) {
+			world->gameObjects->array[i]->SayGoodbye(joint);
 		}
 	}
 }
@@ -322,8 +320,8 @@ void Game::SayGoodbye(b2Joint* joint) {
 void Game::SayGoodbye(b2Fixture* fixture) {
 	if (context->world) {
 		World *world = context->world;
-		for (S32 i = 0; i < world->pinballs->getSize(); i++) {
-			world->pinballs->array[i]->SayGoodbye(fixture);
+		for (S32 i = 0; i < world->gameObjects->getSize(); i++) {
+			world->gameObjects->array[i]->SayGoodbye(fixture);
 		}
 	}
 }

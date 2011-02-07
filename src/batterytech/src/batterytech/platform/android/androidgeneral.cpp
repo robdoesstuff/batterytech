@@ -27,7 +27,7 @@
 SoundManager *_andSndMgr;
 
 void _platform_log(const char* message) {
-	__android_log_print(ANDROID_LOG_DEBUG, "Imm Pinball", message);
+	__android_log_print(ANDROID_LOG_DEBUG, "Batterytech App", message);
 }
 
 unsigned char* _platform_load_asset(const char *filename, S32 *size) {
@@ -247,7 +247,7 @@ S32 _platform_get_socket_last_error() {
 }
 
 char** _platform_get_ifaddrs(int *count) {
-	__android_log_print(ANDROID_LOG_DEBUG, "Imm Pinball", "Getting host names");
+	__android_log_print(ANDROID_LOG_DEBUG, "Batterytech App", "Getting host names");
 	*count = 0;
 	char** hostnames = NULL;
 	struct ifreq *ifr;

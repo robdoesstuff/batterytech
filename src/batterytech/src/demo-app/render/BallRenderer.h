@@ -1,12 +1,12 @@
 /*
- * PinballRenderer.h
+ * BallRenderer.h
  *
  *  Created on: Dec 5, 2010
  *      Author: rgreen
  */
 
-#ifndef PINBALLRENDERER_H_
-#define PINBALLRENDERER_H_
+#ifndef BALLRENDERER_H_
+#define BALLRENDERER_H_
 
 #include <batterytech/render/Renderer.h>
 #include <batterytech/Context.h>
@@ -16,16 +16,15 @@
 
 class SimpleSpriteRenderer;
 
-class PinballRenderer: public Renderer {
+class BallRenderer: public Renderer {
 public:
-	PinballRenderer(Context *context);
-	virtual ~PinballRenderer();
+	BallRenderer(Context *context);
+	virtual ~BallRenderer();
 	virtual void init(BOOL32 newContext);
 	virtual void render(World *world);
-	virtual void renderBallsRemaining(World *world);
 private:
 	Context *context;
 	SimpleSpriteRenderer *spriteRenderer;
 };
 
-#endif /* PINBALLRENDERER_H_ */
+#endif /* BALLRENDERER_H_ */

@@ -86,14 +86,14 @@ void GameObject::contactPreSolve(b2Contact* contact, const b2Manifold* oldManifo
 	::PhysicsBodyObject *objB = (::PhysicsBodyObject*) contact->GetFixtureB()->GetBody()->GetUserData();
 	if (objA->bodyType == PHYSICS_BODY_TYPE_GAMEOBJECT) {
 		GameObject *gObjA = (GameObject*) objA;
-		if (gObjA->type == GAMEOBJECT_TYPE_PINBALL) {
+		if (gObjA->type == GAMEOBJECT_TYPE_BALL) {
 			preSolveVelocity = gObjA->getLinearVelocity();
 			processContact = TRUE;
 		}
 	}
 	if (objB->bodyType == PHYSICS_BODY_TYPE_GAMEOBJECT) {
 		GameObject *gObjB = (GameObject*) objB;
-		if (gObjB->type == GAMEOBJECT_TYPE_PINBALL) {
+		if (gObjB->type == GAMEOBJECT_TYPE_BALL) {
 			preSolveVelocity = gObjB->getLinearVelocity();
 			processContact = TRUE;
 		}
@@ -105,14 +105,14 @@ void GameObject::contactPostSolve(b2Contact* contact, const b2ContactImpulse* im
 	::PhysicsBodyObject *objB = (::PhysicsBodyObject*) contact->GetFixtureB()->GetBody()->GetUserData();
 	if (objA->bodyType == PHYSICS_BODY_TYPE_GAMEOBJECT) {
 		GameObject *gObjA = (GameObject*) objA;
-		if (gObjA->type == GAMEOBJECT_TYPE_PINBALL) {
+		if (gObjA->type == GAMEOBJECT_TYPE_BALL) {
 			postSolveVelocity = gObjA->getLinearVelocity();
 			impactVelocityDelta += preSolveVelocity - postSolveVelocity;
 		}
 	}
 	if (objB->bodyType == PHYSICS_BODY_TYPE_GAMEOBJECT) {
 		GameObject *gObjB = (GameObject*) objB;
-		if (gObjB->type == GAMEOBJECT_TYPE_PINBALL) {
+		if (gObjB->type == GAMEOBJECT_TYPE_BALL) {
 			postSolveVelocity = gObjB->getLinearVelocity();
 			impactVelocityDelta += preSolveVelocity - postSolveVelocity;
 		}

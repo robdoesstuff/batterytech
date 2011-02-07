@@ -78,8 +78,8 @@ LOCAL_SRC_FILES +=\
 	demo-app/render/WorldRenderer.cpp \
 	demo-app/render/B2DebugRenderer.cpp \
 	demo-app/render/SimpleSpriteRenderer.cpp \
-	demo-app/render/PinballRenderer.cpp \
-	demo-app/gameobjects/Pinball.cpp \
+	demo-app/render/BallRenderer.cpp \
+	demo-app/gameobjects/Ball.cpp \
 	demo-app/menus/GameOptionsMenu.cpp \
 	demo-app/menus/SettingsMenu.cpp \
 	demo-app/menus/MenuButtonMenu.cpp

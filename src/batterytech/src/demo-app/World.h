@@ -27,11 +27,8 @@ public:
 	b2World *boxWorld;
 	U8 gameState;
 	U8 lastGameState;
-	ManagedArray<GameObject> *pinballs;
+	ManagedArray<GameObject> *gameObjects;
 
-	U32 score;
-	S32 ballsRemaining;
-	S32 level;
 	BOOL32 levelLoaded;
 	BOOL32 renderersReady;
 };

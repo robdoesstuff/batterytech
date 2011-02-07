@@ -12,11 +12,8 @@
 
 World::World() {
 	boxWorld = NULL;
-	pinballs = new ManagedArray<GameObject>(MAX_PINBALLS);
+	gameObjects = new ManagedArray<GameObject>(MAX_GAMEOBJECTS);
 	physicsTimeRemainder = 0.0f;
-	score = 0;
-	ballsRemaining = 0;
-	level = 0;
 	levelLoaded = FALSE;
 	renderersReady = FALSE;
 }
@@ -24,15 +21,15 @@ World::World() {
 World::~World() {
 	logmsg("Releasing World");
 	clear();
-	if (pinballs) {
-		delete pinballs;
+	if (gameObjects) {
+		delete gameObjects;
 	}
 }
 
 void World::clear() {
-	logmsg("Clearing pinballs");
-	if (pinballs) {
-		pinballs->deleteElements();
+	logmsg("Clearing game objects");
+	if (gameObjects) {
+		gameObjects->deleteElements();
 	}
 	logmsg("Clearing box world");
 	// Delete boxworld LAST (or crashes occur when freeing other objects)

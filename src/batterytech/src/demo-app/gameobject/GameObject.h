@@ -62,7 +62,7 @@ public:
 	// loads this game object's properties from a block of text
 	virtual void loadFrom(char* text){};
 	virtual F32 getLinearVelocity() { return 0.0f; };
-	// resets the pinball impact solution
+	// resets the impact solution
 	virtual void clearImpact();
 	virtual void setProperty(const char *name, const char *value);
 	virtual ManagedArray<GameObjectProperty>* getProperties();

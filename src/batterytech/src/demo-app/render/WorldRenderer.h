@@ -16,12 +16,12 @@
 #include "../World.h"
 #include "B2DebugRenderer.h"
 #include "SimpleSpriteRenderer.h"
-#include "PinballRenderer.h"
+#include "BallRenderer.h"
 
 class B2DebugRenderer;
 class TextRasterRenderer;
 class SimpleSpriteRenderer;
-class PinballRenderer;
+class BallRenderer;
 
 class WorldRenderer: public Renderer {
 public:
@@ -38,7 +38,7 @@ private:
 	SimpleSpriteRenderer *bgRenderer;
 	SimpleSpriteRenderer *fgRenderer;
 	SimpleSpriteRenderer *uiBGRenderer;
-	PinballRenderer *pinballRenderer;
+	BallRenderer *ballRenderer;
 	GraphicsConfiguration *gConfig;
 	Context *context;
 	S32 frameSamplesCollected;

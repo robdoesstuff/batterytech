@@ -20,16 +20,16 @@ WorldRenderer::WorldRenderer(Context *context) {
 	fps = 0;
 	frameSamplesCollected = 0;
 	frameSampleTimeTotal = 0.0f;
-	textRenderer = new TextRasterRenderer(gConfig, UI_PINBALL_FONT, 12.0f);
+	textRenderer = new TextRasterRenderer(gConfig, UI_GAME_FONT, 12.0f);
 	b2DebugRenderer = new B2DebugRenderer(context);
-	pinballRenderer = new PinballRenderer(context);
+	ballRenderer = new BallRenderer(context);
 	//uiBGRenderer = new SimpleSpriteRenderer(context, "demo_app_bg_tex.jpg");
 }
 
 WorldRenderer::~WorldRenderer() {
 	logmsg("Releasing WorldRenderer");
 	delete textRenderer;
-	delete pinballRenderer;
+	delete ballRenderer;
 	//delete uiBGRenderer;
 }
 
@@ -51,7 +51,7 @@ void WorldRenderer::init(BOOL32 newContext) {
 }
 
 void WorldRenderer::initLevel(BOOL32 newContext) {
-	pinballRenderer->init(newContext);
+	ballRenderer->init(newContext);
 }
 
 void WorldRenderer::render(World *world) {
@@ -109,7 +109,7 @@ void WorldRenderer::render(World *world) {
 		glEnable(GL_BLEND);
 		glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		// pinball
-		pinballRenderer->render(world);
+		ballRenderer->render(world);
 		glDisable(GL_BLEND);
 		if (renderDebug) {
 			// level editing and debugging

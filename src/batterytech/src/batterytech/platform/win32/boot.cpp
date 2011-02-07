@@ -75,7 +75,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	wc.hCursor = LoadCursor(NULL, IDC_ARROW );
 	wc.hbrBackground = (HBRUSH) GetStockObject(BLACK_BRUSH);
 	wc.lpszMenuName = NULL;
-	wc.lpszClassName = (_LPCSTR)"ImmPinball";
+	wc.lpszClassName = (_LPCSTR)"DemoApp";
 	RegisterClass(&wc);
 
 	dwExStyle = WS_EX_APPWINDOW | WS_EX_WINDOWEDGE;
@@ -95,8 +95,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	DWORD dwWidth = GetSystemMetrics(SM_CXFULLSCREEN);
 	DWORD dwHeight = GetSystemMetrics(SM_CYFULLSCREEN);
 	hWnd = CreateWindowEx(dwExStyle, // Extended Style For The Window
-			(_LPCSTR)"ImmPinball", // Class Name
-			(_LPCSTR)"Imm Pinball", // Window Title
+			(_LPCSTR)"DemoApp", // Class Name
+			(_LPCSTR)"Batterytech Demo App", // Window Title
 			WS_CLIPSIBLINGS | // Required Window Style
 					WS_CLIPCHILDREN | // Required Window Style
 					WS_VISIBLE | dwStyle, // Selected Window Style
