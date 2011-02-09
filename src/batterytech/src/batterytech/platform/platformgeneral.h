@@ -35,6 +35,8 @@
 void _platform_log(const char *message);
 unsigned char* _platform_load_asset(const char *filename, S32 *size);
 void _platform_free_asset(unsigned char *ptr);
+S32 _platform_get_asset_length(const char *filename);
+S32 _platform_read_asset_chunk(const char *filename, S32 offset, unsigned char *buffer, S32 bufferLength, BOOL32 *eof);
 void _platform_get_external_storage_dir_name(char* buf, S32 buflen);
 const char* _platform_get_path_separator();
 BOOL32 _platform_path_exists(const char* path);

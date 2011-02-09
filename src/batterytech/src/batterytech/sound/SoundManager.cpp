@@ -112,10 +112,30 @@ void SoundManager::unloadSound(const char *assetName) {
 	}
 }
 
+void SoundManager::playStreamingSound(const char *assetName, S16 loops, F32 leftVol, F32 rightVol, F32 rate) {
+	if (usingNativeSoundPool) {
+
+	} else {
+		pcmSoundMgr->playStreamingSound(assetName, loops, leftVol, rightVol, rate);
+	}
+}
+
+void SoundManager::stopStreamingSound(const char *assetName) {
+	if (usingNativeSoundPool) {
+
+	} else {
+		pcmSoundMgr->stopStreamingSound(assetName);
+	}
+}
+
 void SoundManager::fillBuffer(void *pSoundBuffer, long bufferLen) {
 	if (pcmSoundMgr) {
 		pcmSoundMgr->fillBuffer(pSoundBuffer, bufferLen);
 	}
 }
 
-
+void SoundManager::update() {
+	if (pcmSoundMgr) {
+		pcmSoundMgr->update();
+	}
+}

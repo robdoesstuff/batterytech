@@ -8,16 +8,48 @@
 #include "PCMStream.h"
 
 PCMStream::PCMStream() {
-	position = 0;
+	bufferPosition = 0;
+	overallPosition = 0;
 	isPlaying = FALSE;
 	pcmSound = NULL;
-	loops_remaining = 0;
-	playback_rate = 1.0f;
+	loopsRemaining = 0;
+	playbackRate = 1.0f;
 	streamId = 0;
 	soundId = 0;
-	volume_left = 1.0f;
-	volume_right = 1.0f;
+	volumeLeft = 1.0f;
+	volumeRight = 1.0f;
+	isStreaming = FALSE;
+	tempLength = 0;
+	length = 0;
+	assetLength = 0;
+	channels = 0;
+	resampleActiveRate = 0;
+	resampleInt = 0;
+	resampleFrac = 0;
+	resampleFracAccumulated = 0;
+	assetName = NULL;
+	filePosition = 0;
+	dataBuf = NULL;
+	sampleRate = 0;
+	audioBuf = NULL;
+	activeAudioBuf = 0;
+	audioBufEmpty[0] = TRUE;
+	audioBufEmpty[1] = TRUE;
+	audioHandle = NULL;
+	maxFrameSize = 0;
+	audioBufLimit[0] = 0;
+	audioBufLimit[1] = 0;
 }
 
 PCMStream::~PCMStream() {
+	if (dataBuf) {
+		delete dataBuf;
+	}
+	dataBuf = NULL;
+	if (audioBuf) {
+		delete audioBuf[0];
+		delete audioBuf[1];
+		delete [] audioBuf;
+	}
+	audioBuf = NULL;
 }

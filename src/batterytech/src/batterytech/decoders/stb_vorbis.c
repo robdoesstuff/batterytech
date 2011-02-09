@@ -2755,7 +2755,7 @@ static float *get_window(vorb *f, int len)
    len <<= 1;
    if (len == f->blocksize_0) return f->window[0];
    if (len == f->blocksize_1) return f->window[1];
-   assert(0);
+   //assert(0);
    return NULL;
 }
 
@@ -3323,7 +3323,9 @@ static int start_decoder(vorb *f)
 
    f->codebook_count = get_bits(f,8) + 1;
    f->codebooks = (Codebook *) setup_malloc(f, sizeof(*f->codebooks) * f->codebook_count);
-   if (f->codebooks == NULL)                        return error(f, VORBIS_outofmem);
+   if (f->codebooks == NULL) {
+	   return error(f, VORBIS_outofmem);
+   }
    memset(f->codebooks, 0, sizeof(*f->codebooks) * f->codebook_count);
    for (i=0; i < f->codebook_count; ++i) {
       uint32 *values;

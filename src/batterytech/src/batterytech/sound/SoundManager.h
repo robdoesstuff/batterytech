@@ -23,9 +23,12 @@ public:
 	void stopSound(const char *assetName);
 	void stopAllSounds();
 	void unloadSound(const char *assetName);
+	void playStreamingSound(const char *assetName, S16 loops, F32 leftVol, F32 rightVol, F32 rate);
+	void stopStreamingSound(const char *assetName);
 	void fillBuffer(void *pSoundBuffer, long bufferLen);
 	void setEnabled(BOOL32 enabled);
 	BOOL32 isEnabled();
+	void update();
 private:
 	S32 getSoundId(const char *assetName);
 	BOOL32 usingNativeSoundPool;

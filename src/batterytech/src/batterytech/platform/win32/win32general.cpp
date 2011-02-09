@@ -69,6 +69,51 @@ void _platform_free_asset(unsigned char *ptr) {
 	}
 }
 
+S32 _platform_get_asset_length(const char *filename) {
+	char myFilename[255];
+	strcpy(myFilename, "assets\\");
+	strcat(myFilename, filename);
+	_platform_convert_path(myFilename, myFilename);
+	FILE *handle;
+	handle = fopen(myFilename, "rb");
+	S32 size = 0;
+	if (!handle) {
+		cout << "No file handle" << endl;
+	} else {
+		fseek(handle, 0L, SEEK_END);
+		size = ftell(handle);
+		fclose(handle);
+	}
+	return size;
+}
+
+S32 _platform_read_asset_chunk(const char *filename, S32 offset, unsigned char *buffer, S32 bufferLength, BOOL32 *eof) {
+	char myFilename[255];
+	strcpy(myFilename, "assets\\");
+	strcat(myFilename, filename);
+	_platform_convert_path(myFilename, myFilename);
+	FILE *handle;
+	handle = fopen(myFilename, "rb");
+	if (!handle) {
+		cout << "No file handle" << endl;
+		return 0;
+	} else {
+		fseek(handle, offset, SEEK_SET);
+		int bytesRead = fread(buffer, sizeof(unsigned char), bufferLength, handle);
+		int error = ferror(handle);
+		if (error) {
+			cout << "IO error " << error << endl;
+		}
+		if (feof(handle)) {
+			*eof = TRUE;
+			//cout << "EOF reached " << endl;
+		} else {
+			*eof = FALSE;
+		}
+		fclose(handle);
+		return bytesRead;
+	}
+}
 void _convert_filename(char *filename) {
 	int arrayLength = strlen(filename);
 	int i;

@@ -90,6 +90,10 @@ void Game::loadPreferences() {
 }
 
 void Game::update() {
+	if (context->soundManager) {
+		// fill any streaming data buffers first
+		context->soundManager->update();
+	}
 	updateInput();
 	updateState();
 	updateNetwork();
@@ -107,6 +111,7 @@ void Game::update() {
 		logmsg("Loading Sounds");
 		initialized = TRUE;
 		this->context->world->gameState = GAMESTATE_READY;
+		context->soundManager->playStreamingSound("song1.ogg", -1, 1.0f, 1.0f, 1.0f);
 	}
 	if (context->wasSuspended) {
 		logmsg("Initializing Renderers");
@@ -216,10 +221,10 @@ void Game::initializeNewGame() {
 void Game::loadLevel() {
 	World *world = getWorld();
 	// clean up last game
-	logmsg("Stopping all sounds");
-	context->soundManager->stopAllSounds();
-	logmsg("Stopping all vibes");
-	_platform_stop_all_vibration_effects();
+	//logmsg("Stopping all sounds");
+	//context->soundManager->stopAllSounds();
+	//logmsg("Stopping all vibes");
+	//_platform_stop_all_vibration_effects();
 	logmsg("Clearing World");
 	world->clear();
 	logmsg("Done cleaning up.");

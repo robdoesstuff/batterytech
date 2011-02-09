@@ -28,9 +28,13 @@ public:
 	void unloadSound(const char *assetName);
 	void unloadSound(S32 soundId);
 	void init(U8 streams);
+	S32 playStreamingSound(const char *assetName, S16 loops, F32 leftVol, F32 rightVol, F32 rate);
+	void stopStreamingSound(const char *assetName);
 	void fillBuffer(void *pSoundBuffer, long bufferLen);
+	void update();
 private:
 	S32 getSoundId(const char *assetName);
+	void fillStreamingBuffer(PCMStream *pcmStream, U16 bufNum);
 	U8 streamCount;
 	S32 pcmSoundsLoaded;
 	PCMSound **pcmSounds;
