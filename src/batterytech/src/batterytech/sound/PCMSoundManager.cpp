@@ -16,6 +16,8 @@ struct stb_vorbis;
 
 #define PLAYBACK_RATE 44100
 #define PLAYBACK_CHANNELS 2
+#define STREAM_BUFFER_SIZE 50000
+#define CHUNKED_READ_BUFFER_SIZE 16384
 
 FILE *testOutFile;
 
@@ -234,12 +236,12 @@ S32 PCMSoundManager::playStreamingSound(const char *assetName, S16 loops, F32 le
 				// fill both audio buffers
 				if (!stream->audioBuf) {
 					stream->audioBuf = new S16*[2];
-					stream->audioBuf[0] = new S16[50000];
-					stream->audioBuf[1] = new S16[50000];
+					stream->audioBuf[0] = new S16[STREAM_BUFFER_SIZE];
+					stream->audioBuf[1] = new S16[STREAM_BUFFER_SIZE];
 				}
-				unsigned char buf[16384];
+				unsigned char buf[CHUNKED_READ_BUFFER_SIZE];
 				BOOL32 eof = FALSE;
-				S32 bytesRead = _platform_read_asset_chunk(assetName, 0, buf, 16384, &eof);
+				S32 bytesRead = _platform_read_asset_chunk(assetName, 0, buf, CHUNKED_READ_BUFFER_SIZE, &eof);
 				S32 bytesConsumed;
 				S32 error;
 				// start vorbis pushdata
@@ -286,18 +288,18 @@ void PCMSoundManager::fillStreamingBuffer(PCMStream *stream, U16 bufNum) {
 	U32 startingFilePos = stream->filePosition;
 	while (!done) {
 		// read data
-		unsigned char buf[16384];
+		unsigned char buf[CHUNKED_READ_BUFFER_SIZE];
 		sprintf(cBuf, "Reading at %d", stream->filePosition);
 		logmsg(cBuf);
 		BOOL32 eof = FALSE;
-		S32 bytesRead = _platform_read_asset_chunk(stream->assetName, stream->filePosition, buf, 16384, &eof);
+		S32 bytesRead = _platform_read_asset_chunk(stream->assetName, stream->filePosition, buf, CHUNKED_READ_BUFFER_SIZE, &eof);
 		S32 eofByte = 0;
 		if (eof) {
 			eofByte = bytesRead;
-			if (bytesRead < 16384) {
+			if (bytesRead < CHUNKED_READ_BUFFER_SIZE) {
 				eof = FALSE;
 				sprintf(cBuf, "Reading at 0");
-				bytesRead += _platform_read_asset_chunk(stream->assetName, 0, buf + bytesRead, 16384 - bytesRead, &eof);
+				bytesRead += _platform_read_asset_chunk(stream->assetName, 0, buf + bytesRead, CHUNKED_READ_BUFFER_SIZE - bytesRead, &eof);
 			}
 		}
 		S32 bytesConsumed = 0;
@@ -307,7 +309,7 @@ void PCMSoundManager::fillStreamingBuffer(PCMStream *stream, U16 bufNum) {
 		S32 channelsUsed = 0;
 		BOOL32 hasMoreData = TRUE;
 		S16 *streamAudioBuf = stream->audioBuf[bufNum];
-		while (hasMoreData && audioBufPos + stream->maxFrameSize < 50000) {
+		while (hasMoreData && audioBufPos + (stream->maxFrameSize * stream->channels) < STREAM_BUFFER_SIZE) {
 			S32 dBytesConsumed = stb_vorbis_decode_frame_pushdata((stb_vorbis*) stream->audioHandle, buf + bytesConsumed, bytesRead - bytesConsumed, &channelsUsed, &audioBuf, &samplesDecoded);
 			if (dBytesConsumed < 0) {
 				logmsg("vorbis decoder error");
@@ -342,7 +344,7 @@ void PCMSoundManager::fillStreamingBuffer(PCMStream *stream, U16 bufNum) {
 					}
 				}
 				if (!stream->length) {
-					stream->tempLength += samplesDecoded;
+					stream->tempLength += samplesDecoded & channelsUsed;
 				}
 				if (eofByte && bytesConsumed >= eofByte) {
 					eofByte = 0;
@@ -406,12 +408,16 @@ void PCMSoundManager::fillBuffer(void *pSoundBuffer, long bufferLen) {
 			}
 			PCMSound *pcmSound = stream->pcmSound;
 			// process stream samples
-			S16 sample[2]; // 2 channels input max
 			U32 bufferEnd;
 			U32 streamEnd;
 			BOOL32 isStreaming = stream->isStreaming;
 			U8 activeAudioBuf = stream->activeAudioBuf;
 			U8 sourceChannels = stream->channels;
+			S32 resampleInt = stream->resampleInt;
+			S32 resampleFrac = stream->resampleFrac;
+			U32 bufferPosition = stream->bufferPosition;
+			U32 overallPosition = stream->overallPosition;
+			U32 resampleFracAccumulated = stream->resampleFracAccumulated;
 			S16 *sampleSource;
 			if (isStreaming) {
 				sampleSource = stream->audioBuf[activeAudioBuf];
@@ -431,29 +437,55 @@ void PCMSoundManager::fillBuffer(void *pSoundBuffer, long bufferLen) {
 			char cBuf[50];
 			sprintf(cBuf, "buf %d at %d of %d", activeAudioBuf, stream->bufferPosition, bufferEnd);
 			logmsg(cBuf);
+			// **** entering super performance-critical code section ****
 			for (j=0; j<nbSample; j += playbackChannels) {
-				sample[0] = sampleSource[stream->bufferPosition];
 				// mix with 32 bit headroom
 				S32 mix;
 				// for each output channel (interleaved)
-				for (channelIdx = 0; channelIdx < playbackChannels; channelIdx++) {
-					mix = pSample[j + channelIdx] + (sample[0] * volumes[channelIdx]);
+				if (sourceChannels == playbackChannels) {
+					// mono to mono or stereo to stereo
+					for (channelIdx = 0; channelIdx < sourceChannels; channelIdx++) {
+						mix = pSample[j + channelIdx] + (sampleSource[bufferPosition + channelIdx] * volumes[channelIdx]);
+						if ((U32) (mix + 32768) > 65535) {
+							mix = mix < 0 ? -32767 : 32767;
+						}
+						pSample[j + channelIdx] = (S16) mix;
+					}
+					// left
+					// right
+				} else if (sourceChannels == 1) {
+					// mono to stereo
+					// left
+					mix = pSample[j] + (sampleSource[bufferPosition] * volumes[0]);
 					if ((U32) (mix + 32768) > 65535) {
 						mix = mix < 0 ? -32767 : 32767;
 					}
-					pSample[j + channelIdx] = (S16) mix;
+					pSample[j] = (S16) mix;
+					// right
+					mix = pSample[j+1] + (sampleSource[bufferPosition] * volumes[1]);
+					if ((U32) (mix + 32768) > 65535) {
+						mix = mix < 0 ? -32767 : 32767;
+					}
+					pSample[j+1] = (S16) mix;
+				} else {
+					// stereo to mono
+					mix = pSample[j] + (sampleSource[bufferPosition] * volumes[0] * 0.5f) + (sampleSource[bufferPosition+1] * volumes[1] * 0.5f);
+					if ((U32) (mix + 32768) > 65535) {
+						mix = mix < 0 ? -32767 : 32767;
+					}
+					pSample[j] = (S16) mix;
 				}
 				// update source position
-				stream->bufferPosition += stream->resampleInt;
-				stream->overallPosition += stream->resampleInt;
-				stream->resampleFracAccumulated += stream->resampleFrac;
-				if (stream->resampleFracAccumulated >= playbackRate) {
-					stream->resampleFracAccumulated -= playbackRate;
-					stream->bufferPosition++;
-					stream->overallPosition++;
+				bufferPosition += resampleInt * sourceChannels;
+				overallPosition += resampleInt * sourceChannels;
+				resampleFracAccumulated += resampleFrac;
+				if (resampleFracAccumulated >= playbackRate) {
+					resampleFracAccumulated -= playbackRate;
+					bufferPosition += sourceChannels;
+					overallPosition += sourceChannels;
 				}
-				if (stream->bufferPosition >= bufferEnd) {
-					stream->bufferPosition = 0;
+				if (bufferPosition >= bufferEnd) {
+					bufferPosition = 0;
 					if (isStreaming) {
 						stream->audioBufEmpty[activeAudioBuf] = TRUE;
 						if (!stream->audioBufEmpty[!activeAudioBuf]) {
@@ -469,8 +501,8 @@ void PCMSoundManager::fillBuffer(void *pSoundBuffer, long bufferLen) {
 						}
 					}
 				}
-				if (streamEnd && stream->overallPosition >= streamEnd) {
-					stream->overallPosition = 0;
+				if (streamEnd && overallPosition >= streamEnd) {
+					overallPosition = 0;
 					if (stream->loopsRemaining == 0) {
 						// done
 						stream->isPlaying = FALSE;
@@ -482,6 +514,10 @@ void PCMSoundManager::fillBuffer(void *pSoundBuffer, long bufferLen) {
 					}
 				}
 			}
+			// update stream's members
+			stream->bufferPosition = bufferPosition;
+			stream->overallPosition = overallPosition;
+			stream->resampleFracAccumulated = resampleFracAccumulated;
 		}
 	}
 	fwrite(pSample, sizeof(S16), nbSample, testOutFile);
