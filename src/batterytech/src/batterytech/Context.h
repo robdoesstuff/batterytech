@@ -15,7 +15,7 @@ class Game;
 class UIManager;
 class MenuRenderer;
 class WorldRenderer;
-class SoundManager;
+class AudioManager;
 class NetworkManager;
 class VibrationManager;
 class GraphicsConfiguration;
@@ -45,7 +45,7 @@ public:
 
 	Game *game;
 	World *world;
-	SoundManager *soundManager;
+	AudioManager *audioManager;
 	NetworkManager *networkManager;
 	VibrationManager *vibrationManager;
 	WorldRenderer *worldRenderer;

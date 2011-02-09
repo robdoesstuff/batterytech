@@ -12,7 +12,7 @@
 // at this time, every target arch is little endian.
 #define PLATFORM_IS_LITTLE_ENDIAN 1
 
-#include "../sound/SoundManager.h"
+#include "../audio/AudioManager.h"
 #include "../primitives.h"
 
 #ifdef ANDROID_NDK
@@ -43,7 +43,7 @@ BOOL32 _platform_path_exists(const char* path);
 BOOL32 _platform_path_can_read(const char* path);
 BOOL32 _platform_path_can_write(const char* path);
 BOOL32 _platform_path_create(const char* path);
-void _platform_init_sound(SoundManager *soundManager);
+void _platform_init_sound(AudioManager *audioManager);
 void _platform_stop_sound();
 void _platform_play_vibration_effect(S32 effectId, F32 intensity);
 void _platform_start_vibration_effect(S32 effectId, F32 intensity);

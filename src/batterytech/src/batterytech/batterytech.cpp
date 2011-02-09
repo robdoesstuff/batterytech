@@ -9,7 +9,7 @@
 #include <stdio.h>
 #include "batterytech.h"
 #include "Logger.h"
-#include "sound/SoundManager.h"
+#include "audio/AudioManager.h"
 #include "platform/platformgl.h"
 #include "platform/platformgeneral.h"
 #include "ui/Button.h"
@@ -98,6 +98,7 @@ void btUpdate(F32 delta) {
 	//logmsg(buf);
 	//logmsg("btUpdate");
 	//context->tickDelta = delta;
+	context->audioManager->update();
 	context->uiManager->update();
 	context->game->update();
 	// clear key pressed.

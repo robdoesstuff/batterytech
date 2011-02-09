@@ -9,6 +9,9 @@
 #include <Box2D/Collision/Shapes/b2CircleShape.h>
 #include <Box2D/Dynamics/b2Fixture.h>
 #include <string.h>
+#include <batterytech/audio/AudioManager.h>
+
+#define SOUND_TRIGGER_INTERVAL 0.100f;
 
 // static field initialization
 GameObjectMeta* Ball::meta = NULL;
@@ -45,6 +48,7 @@ void Ball::init(F32 x, F32 y, F32 angle) {
 	cFixtureDef.filter.categoryBits = COLLISION_BITS_BALL;
 	boxBody->CreateFixture(&cFixtureDef);
 	boxBody->SetUserData(this);
+	soundTriggerTimeLeft = 0;
 }
 
 GameObjectMeta* Ball::getMeta() {
@@ -55,10 +59,22 @@ GameObjectMeta* Ball::getMeta() {
 }
 
 void Ball::update() {
+	if (soundTriggerTimeLeft > 0) {
+		soundTriggerTimeLeft -= context->tickDelta;
+		if (soundTriggerTimeLeft < 0) {
+			soundTriggerTimeLeft = 0;
+		}
+	}
 	b2Vec2 pos = boxBody->GetPosition();
 	x = pos.x;
 	y = pos.y;
 	angle = boxBody->GetAngle();
+	if (processContact && impactVelocityDelta > 15.0f) {
+		if (soundTriggerTimeLeft == 0) {
+			context->audioManager->playSound("click.ogg", 0, 1.0f, 1.0f, .90f + ((rand() % 20) / 100.0f));
+			soundTriggerTimeLeft = SOUND_TRIGGER_INTERVAL;
+		}
+	}
 	clearImpact();
 }
 

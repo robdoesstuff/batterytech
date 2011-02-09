@@ -65,9 +65,9 @@ void Game::loadPreferences() {
 				Property *prop = props->array[i];
 				if (strcmp(prop->getName(), PREF_SOUND_ENABLED) == 0) {
 					if (strcmp(prop->getValue(), "1") == 0) {
-						context->soundManager->setEnabled(TRUE);
+						context->audioManager->setEnabled(TRUE);
 					} else {
-						context->soundManager->setEnabled(FALSE);
+						context->audioManager->setEnabled(FALSE);
 					}
 				} else if (strcmp(prop->getName(), PREF_VIBES_ENABLED) == 0) {
 					if (strcmp(prop->getValue(), "1") == 0) {
@@ -90,10 +90,6 @@ void Game::loadPreferences() {
 }
 
 void Game::update() {
-	if (context->soundManager) {
-		// fill any streaming data buffers first
-		context->soundManager->update();
-	}
 	updateInput();
 	updateState();
 	updateNetwork();
@@ -109,9 +105,10 @@ void Game::update() {
 		context->uiManager->addMenu(new SettingsMenu(context));
 		// load sounds
 		logmsg("Loading Sounds");
+		context->audioManager->loadSound("click.ogg");
 		initialized = TRUE;
 		this->context->world->gameState = GAMESTATE_READY;
-		context->soundManager->playStreamingSound("stereo_test.ogg", -1, 1.0f, 1.0f, 1.0f);
+		//context->audioManager->playStreamingSound("stereo_test.ogg", -1, 1.0f, 1.0f, 1.0f);
 	}
 	if (context->wasSuspended) {
 		logmsg("Initializing Renderers");
@@ -222,7 +219,7 @@ void Game::loadLevel() {
 	World *world = getWorld();
 	// clean up last game
 	//logmsg("Stopping all sounds");
-	//context->soundManager->stopAllSounds();
+	//context->audioManager->stopAllSounds();
 	//logmsg("Stopping all vibes");
 	//_platform_stop_all_vibration_effects();
 	logmsg("Clearing World");

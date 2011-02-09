@@ -18,13 +18,13 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "../../primitives.h"
-#include "../../sound/SoundManager.h"
+#include "../../sound/AudioManager.h"
 #include <errno.h>
 #include <net/if.h>
 #include <arpa/inet.h>
 #include <netinet/in.h>
 
-SoundManager *_andSndMgr;
+AudioManager *_andSndMgr;
 
 void _platform_log(const char* message) {
 	__android_log_print(ANDROID_LOG_DEBUG, "Batterytech App", message);
@@ -106,8 +106,8 @@ BOOL32 _platform_path_create(const char* path) {
 	return (mkdir(path, (mode_t)0755) == 0);
 }
 
-void _platform_init_sound(SoundManager *soundManager) {
-	_andSndMgr = soundManager;
+void _platform_init_sound(AudioManager *audioManager) {
+	_andSndMgr = audioManager;
 }
 
 void _platform_stop_sound() {

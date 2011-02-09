@@ -11,7 +11,7 @@
 
 #include "../platformgeneral.h"
 #include "SoundServer.h"
-#include "../../sound/SoundManager.h"
+#include "../../audio/AudioManager.h"
 #include <stdio.h>
 #include <direct.h>
 #include <iostream>
@@ -20,7 +20,7 @@
 
 using namespace std;
 
-static SoundManager *sndMgr;
+static AudioManager *sndMgr;
 
 void _convert_filename(char *filename);
 
@@ -138,8 +138,8 @@ void mySoundProc(void *pSoundBuffer, long bufferLen)
 	// Convert params, assuming we create a 16bits, mono waveform.
 }
 
-void _platform_init_sound(SoundManager *soundManager) {
-	sndMgr = soundManager;
+void _platform_init_sound(AudioManager *audioManager) {
+	sndMgr = audioManager;
 	pServer = new CSoundServer;
 	if (pServer->open(mySoundProc)) {
 		cout << "Windows Sound Started" << endl;

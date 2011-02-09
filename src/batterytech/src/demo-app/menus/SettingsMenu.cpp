@@ -8,7 +8,7 @@
 #include "SettingsMenu.h"
 #include "../UIConstants.h"
 #include "../GameConstants.h"
-#include <batterytech/sound/SoundManager.h>
+#include <batterytech/audio/AudioManager.h>
 #include <batterytech/VibrationManager.h>
 #include <batterytech/util/PropertiesIO.h>
 #include <batterytech/platform/platformgeneral.h>
@@ -83,7 +83,7 @@ void SettingsMenu::onClickUp(UIComponent *component) {
 	if (component == backButton) {
 		context->uiManager->popMenu();
 	} else if (component == soundEnabledCheckbox) {
-		context->soundManager->setEnabled(((Checkbox*)component)->isChecked());
+		context->audioManager->setEnabled(((Checkbox*)component)->isChecked());
 	} else if (component == vibesEnabledCheckbox) {
 		context->vibrationManager->setEnabled(((Checkbox*)component)->isChecked());
 	} else if (component == showFPSCheckbox) {
@@ -91,7 +91,7 @@ void SettingsMenu::onClickUp(UIComponent *component) {
 	}
 	// save
 	ManagedArray<Property> *props = new ManagedArray<Property>(3);
-	if (context->soundManager->isEnabled()) {
+	if (context->audioManager->isEnabled()) {
 		props->add(new Property(PREF_SOUND_ENABLED, "1"));
 	} else {
 		props->add(new Property(PREF_SOUND_ENABLED, "0"));
@@ -123,7 +123,7 @@ void SettingsMenu::onClickUp(UIComponent *component) {
 }
 
 void SettingsMenu::onPreShow() {
-	soundEnabledCheckbox->setChecked(context->soundManager->isEnabled());
+	soundEnabledCheckbox->setChecked(context->audioManager->isEnabled());
 	vibesEnabledCheckbox->setChecked(context->vibrationManager->isEnabled());
 	showFPSCheckbox->setChecked(context->showFPS);
 }

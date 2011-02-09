@@ -29,6 +29,7 @@ public:
 	static GameObjectMeta* getMeta();
 private:
 	static GameObjectMeta *meta;
+	F32 soundTriggerTimeLeft;
 };
 
 #endif /* BALL_H_ */
