@@ -237,6 +237,12 @@ S32 _platform_get_socket_last_error() {
 	return WSAGetLastError();
 }
 
+void _platform_exit() {
+	// should link to boot's quit global
+	extern BOOL32 quit;
+	quit = TRUE;
+}
+
 const char *inet_ntop(int af, const void *src, char *dst, socklen_t cnt)
 {
         if (af == AF_INET)

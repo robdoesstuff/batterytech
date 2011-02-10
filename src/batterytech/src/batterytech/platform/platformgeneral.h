@@ -66,6 +66,7 @@ char** _platform_get_ifaddrs(int *count);
 void _platform_free_ifaddrs(char** ifaddrs, int count);
 void _platform_show_keyboard();
 void _platform_hide_keyboard();
+void _platform_exit();
 
 // implemented generically
 void _platform_convert_path(const char* path, char* newPath);
