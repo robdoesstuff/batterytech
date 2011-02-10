@@ -28,10 +28,10 @@ LOCAL_SRC_FILES :=\
 	batterytech/VibrationManager.cpp \
 	batterytech/decoders/stb_image.c \
 	batterytech/decoders/stb_vorbis.c \
-	batterytech/sound/PCMSound.cpp \
-	batterytech/sound/PCMStream.cpp \
-	batterytech/sound/PCMSoundManager.cpp \
-	batterytech/sound/SoundManager.cpp \
+	batterytech/audio/PCMSound.cpp \
+	batterytech/audio/PCMStream.cpp \
+	batterytech/audio/PCMAudioManager.cpp \
+	batterytech/audio/AudioManager.cpp \
 	batterytech/network/NetworkManager.cpp \
 	batterytech/network/GameConnection.cpp \
 	batterytech/network/NetworkMessage.cpp \

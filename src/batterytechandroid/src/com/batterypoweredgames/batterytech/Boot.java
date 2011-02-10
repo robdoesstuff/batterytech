@@ -3,7 +3,9 @@ package com.batterypoweredgames.batterytech;
 import java.io.IOException;
 import java.io.InputStream;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.res.AssetManager;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
@@ -19,7 +21,7 @@ import android.view.inputmethod.InputMethodManager;
 public class Boot {
 	private static final String TAG = "Boot";
 
-	private Context context;
+	private Activity activity;
 	private SoundPoolWrapper soundPoolWrapper;
 	private View view;
 
@@ -27,17 +29,48 @@ public class Boot {
 		System.loadLibrary("demo-app");
 	}
 
-	public Boot(Context context, View view) {
-		this.context = context;
+	public Boot(Activity activity, View view) {
+		this.activity = activity;
 		this.view = view;
 	}
 
 	public byte[] loadAsset(String name) {
-		Log.d(TAG, "Loading Asset " + name);
+		//Log.d(TAG, "Loading Asset " + name);
 		byte[] data = null;
 		try {
-			InputStream iStream = context.getAssets().open(name);
+			InputStream iStream = activity.getAssets().open(name);
 			int size = iStream.available();
+			data = new byte[size];
+			iStream.read(data);
+			iStream.close();
+		} catch (IOException e) {
+			Log.e(TAG, e.getMessage() + " assetname=" + name, e);
+		}
+		return data;
+	}
+
+	public int getAssetLength(String name) {
+		int size = 0;
+		try {
+			InputStream iStream = activity.getAssets().open(name);
+			size = iStream.available();
+			iStream.close();
+		} catch (IOException e) {
+			Log.e(TAG, e.getMessage() + " assetname=" + name, e);
+		}
+		return size;
+	}
+
+	public byte[] readAssetChunk(String name, int offset, int maxBytes) {
+		byte[] data = null;
+		try {
+			InputStream iStream = activity.getAssets().open(name, AssetManager.ACCESS_RANDOM);
+			iStream.skip(offset);
+			// InputStream.available() is not reliable but the android implementation seems to work correctly.
+			int size = iStream.available();
+			if (size > maxBytes) {
+				size = maxBytes;
+			}
 			data = new byte[size];
 			iStream.read(data);
 			iStream.close();
@@ -53,7 +86,7 @@ public class Boot {
 
 	public void releaseBoot() {
 		release();
-		this.context = null;
+		this.activity = null;
 		this.view = null;
 		if (this.soundPoolWrapper != null) {
 			releaseSoundPool();
@@ -77,7 +110,7 @@ public class Boot {
 	// soundpool JNI callbacks
 
 	public void initSoundPool(int streams) {
-		soundPoolWrapper = new SoundPoolWrapper(context);
+		soundPoolWrapper = new SoundPoolWrapper(activity);
 		soundPoolWrapper.init(streams);
 	}
 
@@ -126,17 +159,22 @@ public class Boot {
 	}
 	
 	public void showKeyboard() {
-		Log.d(TAG, "Showing Keyboard");
-		InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+		//Log.d(TAG, "Showing Keyboard");
+		InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
 		imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_IMPLICIT_ONLY);
 	} 
 	
 	public void hideKeyboard() {
-		Log.d(TAG, "Hiding Keyboard");
+		//Log.d(TAG, "Hiding Keyboard");
 		//InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-		InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+		InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
 		imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_IMPLICIT_ONLY);
 		//imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_IMPLICIT_ONLY); 
+	}
+
+	public void exit() {
+		//Log.d(TAG, "Hiding Keyboard");
+		activity.finish();
 	}
 
 	public native void init(int width, int height);

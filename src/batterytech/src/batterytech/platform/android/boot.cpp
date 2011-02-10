@@ -15,7 +15,7 @@
 #include <android/log.h>
 #include "../../util/strx.h"
 #include "../opengles.h"
-#include "../../sound/SoundManager.h"
+#include "../../audio/AudioManager.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -24,7 +24,7 @@ extern "C" {
 // the current env for the call
 JNIEnv *jnienv;
 jobject javaBoot;
-extern SoundManager *_andSndMgr; // from androidgeneral
+extern AudioManager *_andSndMgr; // from androidgeneral
 GraphicsConfiguration *gConfig;
 
 void determineGPUCapabilities();

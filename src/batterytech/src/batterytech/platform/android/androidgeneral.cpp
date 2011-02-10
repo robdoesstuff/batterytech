@@ -18,7 +18,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "../../primitives.h"
-#include "../../sound/AudioManager.h"
+#include "../../audio/AudioManager.h"
 #include <errno.h>
 #include <net/if.h>
 #include <arpa/inet.h>
@@ -33,20 +33,10 @@ void _platform_log(const char* message) {
 unsigned char* _platform_load_asset(const char *filename, S32 *size) {
 	extern JNIEnv* jnienv;
 	extern jobject javaBoot;
-	//__android_log_print(ANDROID_LOG_DEBUG, "BatteryTech", "Getting boot class");
 	jclass bootClass = jnienv->GetObjectClass(javaBoot);
-	if (!bootClass) {
-		__android_log_print(ANDROID_LOG_DEBUG, "BatteryTech", "Boot class not found!");
-	}
-	//__android_log_print(ANDROID_LOG_DEBUG, "BatteryTech", "Getting method ID");
 	jmethodID loadAssetMethodID = jnienv->GetMethodID(bootClass, "loadAsset", "(Ljava/lang/String;)[B");
-	if (!loadAssetMethodID) {
-		__android_log_print(ANDROID_LOG_DEBUG, "BatteryTech", "Method not found!");
-	}
-	//__android_log_print(ANDROID_LOG_DEBUG, "BatteryTech", "Calling Object Method");
 	jstring jfilename = jnienv->NewStringUTF(filename);
 	jbyteArray jdata = (jbyteArray)jnienv->CallObjectMethod(javaBoot, loadAssetMethodID, jfilename);
-	__android_log_print(ANDROID_LOG_DEBUG, "BatteryTech", "Done Calling Object Method");
 	if (!jdata) {
 		__android_log_print(ANDROID_LOG_DEBUG, "BatteryTech", "No data returned!");
 	}
@@ -70,6 +60,33 @@ void _platform_free_asset(unsigned char *ptr) {
 		free(ptr);
 	}
 }
+
+S32 _platform_get_asset_length(const char *filename) {
+	extern JNIEnv* jnienv;
+	extern jobject javaBoot;
+	jclass bootClass = jnienv->GetObjectClass(javaBoot);
+	jmethodID loadAssetMethodID = jnienv->GetMethodID(bootClass, "getAssetLength", "(Ljava/lang/String;)I");
+	jstring jfilename = jnienv->NewStringUTF(filename);
+	jint dataLength = jnienv->CallIntMethod(javaBoot, loadAssetMethodID, jfilename);
+	return dataLength;
+}
+
+S32 _platform_read_asset_chunk(const char *filename, S32 offset, unsigned char *buffer, S32 bufferLength, BOOL32 *eof) {
+	extern JNIEnv* jnienv;
+	extern jobject javaBoot;
+	jclass bootClass = jnienv->GetObjectClass(javaBoot);
+	jmethodID loadAssetMethodID = jnienv->GetMethodID(bootClass, "readAssetChunk", "(Ljava/lang/String;II)[B");
+	jstring jfilename = jnienv->NewStringUTF(filename);
+	jbyteArray jdata = (jbyteArray)jnienv->CallObjectMethod(javaBoot, loadAssetMethodID, jfilename, offset, bufferLength);
+	if (!jdata) {
+		__android_log_print(ANDROID_LOG_DEBUG, "BatteryTech", "No data returned!");
+	}
+	jsize dataLength = jnienv->GetArrayLength(jdata);
+	jnienv->GetByteArrayRegion(jdata, 0, dataLength, (jbyte*)buffer);
+	*eof = (dataLength < bufferLength);
+	return dataLength;
+}
+
 
 void _platform_get_external_storage_dir_name(char* buf, S32 buflen) {
 	__android_log_print(ANDROID_LOG_DEBUG, "BatteryTech", "Getting External Storage Dir");
@@ -232,6 +249,14 @@ void _platform_hide_keyboard() {
 	extern jobject javaBoot;
 	jclass bootClass = jnienv->GetObjectClass(javaBoot);
 	jmethodID methodId = jnienv->GetMethodID(bootClass, "hideKeyboard", "()V");
+	jnienv->CallVoidMethod(javaBoot, methodId);
+}
+
+void _platform_exit() {
+	extern JNIEnv* jnienv;
+	extern jobject javaBoot;
+	jclass bootClass = jnienv->GetObjectClass(javaBoot);
+	jmethodID methodId = jnienv->GetMethodID(bootClass, "exit", "()V");
 	jnienv->CallVoidMethod(javaBoot, methodId);
 }
 

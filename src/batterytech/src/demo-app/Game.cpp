@@ -108,7 +108,7 @@ void Game::update() {
 		context->audioManager->loadSound("click.ogg");
 		initialized = TRUE;
 		this->context->world->gameState = GAMESTATE_READY;
-		//context->audioManager->playStreamingSound("stereo_test.ogg", -1, 1.0f, 1.0f, 1.0f);
+		context->audioManager->playStreamingSound("song1.ogg", -1, 1.0f, 1.0f, 1.0f);
 	}
 	if (context->wasSuspended) {
 		logmsg("Initializing Renderers");

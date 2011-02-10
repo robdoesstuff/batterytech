@@ -3,6 +3,7 @@ package com.batterypoweredgames.demoapp;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import android.app.Activity;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -20,7 +21,9 @@ import com.batterypoweredgames.input.InputObject;
 public class DemoAppRenderer implements Renderer, InputHandler, SensorEventListener {
 	private static final String TAG = "ImmPinballRenderer";
 
-	private Context context;
+	// TODO - query native to see if it needs us to start/stop audiotrack for pcmaudiomanager service
+	
+	private Activity activity;
 	private Boot boot;
 	private AudioBridge audioBridge;
 	private long lastTickMs;
@@ -29,10 +32,10 @@ public class DemoAppRenderer implements Renderer, InputHandler, SensorEventListe
 	private boolean bootInitialized = false;
 	private SensorManager sensorMgr;
 
-	public DemoAppRenderer(Context context, View view) {
-		this.context = context;
+	public DemoAppRenderer(Activity activity, View view) {
+		this.activity = activity;
 		this.view = view;
-		this.boot = new Boot(context, view);
+		this.boot = new Boot(activity, view);
 		audioBridge = new AudioBridge(boot);
 	}
 	
@@ -109,7 +112,7 @@ public class DemoAppRenderer implements Renderer, InputHandler, SensorEventListe
 		synchronized (tickMutex) {		
 			boot.resume();
 		}
-		sensorMgr = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
+		sensorMgr = (SensorManager) activity.getSystemService(Context.SENSOR_SERVICE);
 		Sensor sensor = sensorMgr.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 		try {
 			sensorMgr.registerListener(this, sensor, SensorManager.SENSOR_DELAY_GAME);
@@ -123,7 +126,7 @@ public class DemoAppRenderer implements Renderer, InputHandler, SensorEventListe
 	
 	public void release() {
 		Log.d(TAG, "Releasing");
-		this.context = null;
+		this.activity = null;
 		if (audioBridge != null) {
 			audioBridge.stopAudio();
 		}

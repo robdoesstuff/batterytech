@@ -1,15 +1,15 @@
 package com.batterypoweredgames.demoapp;
 
-import android.content.Context;
+import android.app.Activity;
 import android.opengl.GLSurfaceView;
 
 public class DemoAppView extends GLSurfaceView {
 
 	private DemoAppRenderer renderer;
 
-	public DemoAppView(Context context) {
-		super(context);
-		renderer = new DemoAppRenderer(context, this);
+	public DemoAppView(Activity activity) {
+		super(activity);
+		renderer = new DemoAppRenderer(activity, this);
 		setRenderer(renderer);
 		setRenderMode(RENDERMODE_CONTINUOUSLY);
 	}
