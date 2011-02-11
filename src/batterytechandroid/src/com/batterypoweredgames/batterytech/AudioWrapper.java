@@ -2,6 +2,7 @@ package com.batterypoweredgames.batterytech;
 
 
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,10 +10,12 @@ import java.util.HashMap;
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnPreparedListener;
 import android.media.SoundPool;
 import android.util.Log;
 
-public class SoundPoolWrapper {
+public class AudioWrapper {
 	
 	private static final String TAG = "SoundPoolSoundManager";
 
@@ -22,8 +25,9 @@ public class SoundPoolWrapper {
 	private HashMap<String, Integer> soundPoolMap;
 	private AudioManager mgr;
 	private ArrayList<SoundStream> loopingStreamIds = new ArrayList<SoundStream>();
+	private HashMap<String, MediaPlayer> streamingPlayers;
 
-	public SoundPoolWrapper(Context context) {
+	public AudioWrapper(Context context) {
 		this.context = context;
 		mgr = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
 	}
@@ -39,6 +43,7 @@ public class SoundPoolWrapper {
 			release();
 			soundPool = new SoundPool(streams, AudioManager.STREAM_MUSIC, 0);
 			soundPoolMap = new HashMap<String, Integer>();
+			streamingPlayers = new HashMap<String, MediaPlayer>();
 		}
 	}
 
@@ -53,7 +58,19 @@ public class SoundPoolWrapper {
 			soundPool.release();
 			soundPool = null;
 			Log.d(TAG, "SoundPool closed");
-			return;
+		}
+		if (streamingPlayers != null) {
+			Log.d(TAG, "Stopping streaming players");
+			for (String key : streamingPlayers.keySet()) {
+				MediaPlayer mp = streamingPlayers.get(key);
+				if (mp.isPlaying()) {
+					mp.stop();
+				}
+				mp.release();
+			}
+			streamingPlayers.clear();
+			streamingPlayers = null;
+			Log.d(TAG, "Stopped streaming players");
 		}
 	}
 
@@ -158,6 +175,77 @@ public class SoundPoolWrapper {
 				soundPool.unload(soundId);
 				soundPoolMap.remove(assetName);
 			}
+		}
+	}
+
+	public void setLoops(int streamId, int loops) {
+		if (soundPool != null && streamId != -1) {
+			soundPool.setLoop(streamId, loops);
+		}
+	}
+	
+	public void setVolume(int streamId, float leftVol, float rightVol) {
+		if (soundPool != null && streamId != -1) {
+			int streamVol = mgr.getStreamVolume(AudioManager.STREAM_MUSIC);
+			float vol = streamVol / 15f;
+			soundPool.setVolume(streamId, vol * leftVol, vol * rightVol);	
+		}
+	}
+	
+	public void setRate(int streamId, float rate) {
+		if (soundPool != null && streamId != -1) {
+			soundPool.setRate(streamId, rate);
+		}
+	}
+
+	public int playStreamingSound(String assetName, final float leftVol, final float rightVol, final int loops, float rate) {
+		int streamId = -1;
+		if (streamingPlayers != null) {
+			if (streamingPlayers.get(assetName) != null) {
+				return -1;
+			}
+			MediaPlayer mp = new MediaPlayer();
+			if (loops == -1) {
+				mp.setLooping(true);
+			} else {
+				mp.setLooping(false);
+			}
+			mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
+			mp.setVolume(leftVol, rightVol);
+			streamingPlayers.put(assetName, mp);
+			try {
+				AssetFileDescriptor descriptor = context.getAssets().openFd(assetName);
+				mp.setDataSource(descriptor.getFileDescriptor(), descriptor.getStartOffset(), descriptor.getLength());
+				descriptor.close();
+				mp.setOnPreparedListener(new OnPreparedListener() {
+					   public void onPrepared(MediaPlayer mplayer) {
+						   mplayer.setVolume(leftVol, rightVol);
+						   if (loops == -1) {
+							   mplayer.setLooping(true);
+						   } else {
+							   mplayer.setLooping(false);
+						   }
+						   mplayer.start();
+					   }
+					});
+				mp.prepareAsync();
+			} catch (IOException e) {
+				Log.e(TAG, "Error starting media player");
+			}
+		}
+		return streamId;
+	}
+
+	public void stopStreamingSound(String assetName) {
+		if (streamingPlayers != null) {
+			MediaPlayer mp = streamingPlayers.remove(assetName);
+			if (mp == null) {
+				return;
+			}
+			if (mp.isPlaying()) {
+				mp.stop();
+			}
+			mp.release();
 		}
 	}
 

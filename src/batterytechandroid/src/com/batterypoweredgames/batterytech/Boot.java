@@ -22,7 +22,7 @@ public class Boot {
 	private static final String TAG = "Boot";
 
 	private Activity activity;
-	private SoundPoolWrapper soundPoolWrapper;
+	private AudioWrapper audioWrapper;
 	private View view;
 
 	static {
@@ -88,8 +88,8 @@ public class Boot {
 		release();
 		this.activity = null;
 		this.view = null;
-		if (this.soundPoolWrapper != null) {
-			releaseSoundPool();
+		if (this.audioWrapper != null) {
+			releaseAudioManagement();
 		}
 	}
 
@@ -107,57 +107,88 @@ public class Boot {
 	public void stopAllVibrationEffects() {
 	}
 
-	// soundpool JNI callbacks
+	// native audio management JNI callbacks
 
-	public void initSoundPool(int streams) {
-		soundPoolWrapper = new SoundPoolWrapper(activity);
-		soundPoolWrapper.init(streams);
+	public void initAudioManagement(int streams) {
+		audioWrapper = new AudioWrapper(activity);
+		audioWrapper.init(streams);
 	}
 
-	public void releaseSoundPool() {
-		if (soundPoolWrapper != null) {
-			soundPoolWrapper.release();
+	public void releaseAudioManagement() {
+		if (audioWrapper != null) {
+			audioWrapper.release();
 		}
-		soundPoolWrapper = null;
+		audioWrapper = null;
 	}
 
 	public void loadSound(String assetName) {
-		if (soundPoolWrapper != null) {
-			soundPoolWrapper.loadSound(assetName);
+		if (audioWrapper != null) {
+			audioWrapper.loadSound(assetName);
 		}
 	}
 
 	public int playSound(String assetName, float leftVol, float rightVol, int loops, float rate) {
-		if (soundPoolWrapper != null) {
-			return soundPoolWrapper.playSound(assetName, leftVol, rightVol, loops, rate);
+		if (audioWrapper != null) {
+			return audioWrapper.playSound(assetName, leftVol, rightVol, loops, rate);
 		}
 		return -1;
 	}
 
 	public void stopSound(int streamId) {
-		if (soundPoolWrapper != null) {
-			soundPoolWrapper.stopSound(streamId);
+		if (audioWrapper != null) {
+			audioWrapper.stopSound(streamId);
 		}
 	}
 
 	public void stopSound(String assetName) {
-		if (soundPoolWrapper != null) {
-			soundPoolWrapper.stopSound(assetName);
+		if (audioWrapper != null) {
+			audioWrapper.stopSound(assetName);
 		}
 	}
 
 	public void stopAllSounds() {
-		if (soundPoolWrapper != null) {
-			soundPoolWrapper.stopAllSounds();
+		if (audioWrapper != null) {
+			audioWrapper.stopAllSounds();
 		}
 	}
 
 	public void unloadSound(String assetName) {
-		if (soundPoolWrapper != null) {
-			soundPoolWrapper.unloadSound(assetName);
+		if (audioWrapper != null) {
+			audioWrapper.unloadSound(assetName);
 		}
 	}
 	
+	public void setSoundLoops(int streamId, int loops) {
+		if (audioWrapper != null) {
+			audioWrapper.setLoops(streamId, loops);
+		}
+	}
+	
+	public void setSoundVolume(int streamId, float leftVol, float rightVol) {
+		if (audioWrapper != null) {
+			audioWrapper.setVolume(streamId, leftVol, rightVol);
+		}
+	}
+	
+	public void setSoundRate(int streamId, float rate) {
+		if (audioWrapper != null) {
+			audioWrapper.setRate(streamId, rate);
+		}
+	}
+	
+	public int playStreamingSound(String assetName, float leftVol, float rightVol, int loops, float rate) {
+		if (audioWrapper != null) {
+			return audioWrapper.playStreamingSound(assetName, leftVol, rightVol, loops, rate);
+		}
+		return -1;
+	}
+	
+	public void stopStreamingSound(String assetName) {
+		if (audioWrapper != null) {
+			audioWrapper.stopStreamingSound(assetName);
+		}
+	}
+
 	public void showKeyboard() {
 		//Log.d(TAG, "Showing Keyboard");
 		InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);

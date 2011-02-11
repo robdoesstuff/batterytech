@@ -23,7 +23,7 @@ AudioManager::AudioManager() {
 void AudioManager::init(U8 streams) {
 	if (PREFER_PLATFORM_AUDIO_MANAGEMENT && _platform_implements_soundpool()) {
 		usingPlatformAudioManagement = TRUE;
-		_platform_init_soundpool(streams);
+		_platform_init_audiomanagement(streams);
 	} else {
 		pcmSoundMgr = new PCMAudioManager();
 		pcmSoundMgr->init(streams);
@@ -34,7 +34,7 @@ void AudioManager::init(U8 streams) {
 AudioManager::~AudioManager() {
 	logmsg("Releasing AudioManager");
 	if (usingPlatformAudioManagement) {
-		_platform_release_soundpool();
+		_platform_release_audiomanagement();
 	} else {
 		_platform_stop_sound();
 	}
@@ -117,7 +117,7 @@ void AudioManager::playStreamingSound(const char *assetName, S16 loops, F32 left
 		return;
 	}
 	if (usingPlatformAudioManagement) {
-
+		_platform_play_streaming_sound(assetName, loops, leftVol, rightVol, rate);
 	} else {
 		pcmSoundMgr->playStreamingSound(assetName, loops, leftVol, rightVol, rate);
 	}
@@ -125,7 +125,7 @@ void AudioManager::playStreamingSound(const char *assetName, S16 loops, F32 left
 
 void AudioManager::stopStreamingSound(const char *assetName) {
 	if (usingPlatformAudioManagement) {
-
+		_platform_stop_streaming_sound(assetName);
 	} else {
 		pcmSoundMgr->stopStreamingSound(assetName);
 	}
@@ -136,7 +136,7 @@ void AudioManager::setLoops(S32 streamId, S16 loops) {
 		return;
 	}
 	if (usingPlatformAudioManagement) {
-
+		_platform_sound_set_loops(streamId, loops);
 	} else {
 		pcmSoundMgr->setLoops(streamId, loops);
 	}
@@ -147,7 +147,7 @@ void AudioManager::setVolume(S32 streamId, F32 leftVol, F32 rightVol) {
 		return;
 	}
 	if (usingPlatformAudioManagement) {
-
+		_platform_sound_set_volume(streamId, leftVol, rightVol);
 	} else {
 		pcmSoundMgr->setVolume(streamId, leftVol, rightVol);
 	}
@@ -158,7 +158,7 @@ void AudioManager::setRate(S32 streamId, F32 rate) {
 		return;
 	}
 	if (usingPlatformAudioManagement) {
-
+		_platform_sound_set_rate(streamId, rate);
 	} else {
 		pcmSoundMgr->setRate(streamId, rate);
 	}

@@ -167,19 +167,19 @@ BOOL32 _platform_implements_soundpool() {
 	return TRUE;
 }
 
-void _platform_init_soundpool(S32 streams) {
+void _platform_init_audiomanagement(S32 streams) {
 	extern JNIEnv* jnienv;
 	extern jobject javaBoot;
 	jclass bootClass = jnienv->GetObjectClass(javaBoot);
-	jmethodID methodId = jnienv->GetMethodID(bootClass, "initSoundPool", "(I)V");
+	jmethodID methodId = jnienv->GetMethodID(bootClass, "initAudioManagement", "(I)V");
 	jnienv->CallVoidMethod(javaBoot, methodId, streams);
 }
 
-void _platform_release_soundpool() {
+void _platform_release_audiomanagement() {
 	extern JNIEnv* jnienv;
 	extern jobject javaBoot;
 	jclass bootClass = jnienv->GetObjectClass(javaBoot);
-	jmethodID methodId = jnienv->GetMethodID(bootClass, "releaseSoundPool", "()V");
+	jmethodID methodId = jnienv->GetMethodID(bootClass, "releaseAudioManagement", "()V");
 	jnienv->CallVoidMethod(javaBoot, methodId);
 }
 
@@ -233,6 +233,49 @@ void _platform_unload_sound(const char *asset) {
 	jclass bootClass = jnienv->GetObjectClass(javaBoot);
 	jmethodID methodId = jnienv->GetMethodID(bootClass, "unloadSound", "(Ljava/lang/String;)V");
 	jstring jAssetname = jnienv->NewStringUTF(asset);
+	jnienv->CallVoidMethod(javaBoot, methodId, jAssetname);
+}
+
+void _platform_sound_set_loops(S32 streamId, S32 loops) {
+	extern JNIEnv* jnienv;
+	extern jobject javaBoot;
+	jclass bootClass = jnienv->GetObjectClass(javaBoot);
+	jmethodID methodId = jnienv->GetMethodID(bootClass, "setSoundLoops", "(II)V");
+	jnienv->CallVoidMethod(javaBoot, methodId, streamId, loops);
+}
+
+void _platform_sound_set_volume(S32 streamId, F32 leftVol, F32 rightVol) {
+	extern JNIEnv* jnienv;
+	extern jobject javaBoot;
+	jclass bootClass = jnienv->GetObjectClass(javaBoot);
+	jmethodID methodId = jnienv->GetMethodID(bootClass, "setSoundVolume", "(IFF)V");
+	jnienv->CallVoidMethod(javaBoot, methodId, streamId, leftVol, rightVol);
+}
+
+void _platform_sound_set_rate(S32 streamId, F32 rate) {
+	extern JNIEnv* jnienv;
+	extern jobject javaBoot;
+	jclass bootClass = jnienv->GetObjectClass(javaBoot);
+	jmethodID methodId = jnienv->GetMethodID(bootClass, "setSoundRate", "(IF)V");
+	jnienv->CallVoidMethod(javaBoot, methodId, streamId, rate);
+}
+
+S32 _platform_play_streaming_sound(const char *assetName, S16 loops, F32 leftVol, F32 rightVol, F32 rate) {
+	extern JNIEnv* jnienv;
+	extern jobject javaBoot;
+	jclass bootClass = jnienv->GetObjectClass(javaBoot);
+	jmethodID methodId = jnienv->GetMethodID(bootClass, "playStreamingSound", "(Ljava/lang/String;FFIF)I");
+	jstring jAssetname = jnienv->NewStringUTF(assetName);
+	jint streamId = jnienv->CallIntMethod(javaBoot, methodId, jAssetname, leftVol, rightVol, loops, rate);
+	return streamId;
+}
+
+void _platform_stop_streaming_sound(const char *assetName) {
+	extern JNIEnv* jnienv;
+	extern jobject javaBoot;
+	jclass bootClass = jnienv->GetObjectClass(javaBoot);
+	jmethodID methodId = jnienv->GetMethodID(bootClass, "stopStreamingSound", "(Ljava/lang/String;)V");
+	jstring jAssetname = jnienv->NewStringUTF(assetName);
 	jnienv->CallVoidMethod(javaBoot, methodId, jAssetname);
 }
 

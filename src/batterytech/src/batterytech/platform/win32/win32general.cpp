@@ -199,14 +199,19 @@ BOOL32 _platform_implements_soundpool() {
 	return FALSE;
 }
 
-void _platform_init_soundpool(S32 streams){}
-void _platform_release_soundpool(){}
+void _platform_init_audiomanagement(S32 streams){}
+void _platform_release_audiomanagement(){}
 void _platform_load_sound(const char* asset){}
 S32 _platform_play_sound(const char* asset, F32 leftVol, F32 rightVol, S32 loops, F32 rate){ return -1; }
 void _platform_stop_sound(S32 streamId){}
 void _platform_stop_sound(const char* asset){}
 void _platform_stop_all_sounds(){}
 void _platform_unload_sound(const char *asset){}
+void _platform_sound_set_loops(S32 streamId, S32 loops){}
+void _platform_sound_set_volume(S32 streamId, F32 leftVol, F32 rightVol){}
+void _platform_sound_set_rate(S32 streamId, F32 rate){}
+S32 _platform_play_streaming_sound(const char *assetName, S16 loops, F32 leftVol, F32 rightVol, F32 rate){}
+void _platform_stop_streaming_sound(const char *assetName){}
 void _platform_show_keyboard(){}
 void _platform_hide_keyboard(){}
 
