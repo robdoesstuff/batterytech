@@ -1,11 +1,11 @@
 #ifdef _WIN32
 
+#include "../../Logger.h"
 #include "resources.h"
 #include <iostream>
 #include <windows.h>
 #include <windowsx.h>
-#include <gl/gl.h>
-#include <gl/glu.h>
+#include "../platformgl.h"
 #include "../../batterytech.h"
 #include "../../render/GraphicsConfiguration.h"
 #include <conio.h>
@@ -23,6 +23,31 @@ using namespace std;
 #else
 #define _LPCSTR LPCWSTR
 #endif
+
+PFNGLCREATESHADERPROC 			glCreateShader = NULL;
+PFNGLATTACHSHADERPROC 			glAttachShader = NULL;
+PFNGLSHADERSOURCEPROC			glShaderSource = NULL;
+PFNGLGETSHADERIVPROC			glGetShaderiv = NULL;
+PFNGLCOMPILESHADERPROC          glCompileShader = NULL;
+PFNGLDETACHSHADERPROC           glDetachShader = NULL;
+PFNGLDELETESHADERPROC           glDeleteShader = NULL;
+PFNGLGETSHADERINFOLOGPROC       glGetShaderInfoLog = NULL;
+
+PFNGLCREATEPROGRAMPROC          glCreateProgram = NULL;
+PFNGLLINKPROGRAMPROC            glLinkProgram = NULL;
+PFNGLGETPROGRAMIVPROC           glGetProgramiv = NULL;
+PFNGLUSEPROGRAMPROC             glUseProgram = NULL;
+PFNGLDELETEPROGRAMPROC          glDeleteProgram = NULL;
+PFNGLGETPROGRAMINFOLOGPROC      glGetProgramInfoLog = NULL;
+
+PFNGLGETUNIFORMLOCATIONPROC     glGetUniformLocation = NULL;
+PFNGLUNIFORM1IPROC              glUniform1i = NULL;
+PFNGLUNIFORM1FPROC              glUniform1f = NULL;
+PFNGLVERTEXATTRIB4FPROC			glVertexAttrib4f = NULL;
+PFNGLVERTEXATTRIBPOINTERPROC		glVertexAttribPointer = NULL;
+PFNGLENABLEVERTEXATTRIBARRAYPROC	glEnableVertexAttribArray = NULL;
+PFNGLDISABLEVERTEXATTRIBARRAYPROC	glDisableVertexAttribArray = NULL;
+PFNGLBINDATTRIBLOCATIONPROC		glBindAttribLocation = NULL;
 
 // WinMain
 DWORD WINAPI StartThread(LPVOID iValue);
@@ -147,6 +172,14 @@ DWORD WINAPI StartThread(LPVOID iValue) {
 	gConfig->supportsHWmipmapgen = true;
 	gConfig->supportsUVTransform = true;
 	gConfig->supportsVBOs = true;
+	// what modern PC video card doesn't support shaders?
+	if (glCreateShader) {
+		logmsg("Shaders supported");
+		gConfig->supportsShaders = true;
+	} else {
+		logmsg("Shaders not supported");
+		gConfig->supportsShaders = false;
+	}
 	btInit(gConfig, DEFAULT_WIDTH, DEFAULT_HEIGHT);
 	DWORD time = timeGetTime();
 	DWORD oldTime = time;
@@ -219,6 +252,15 @@ PFNWGLSWAPINTERVALFARPROC wglSwapIntervalEXT = 0;
 typedef BOOL (APIENTRY *PFNGLXSWAPINTERVALFARPROC)( int );
 PFNGLXSWAPINTERVALFARPROC glxSwapIntervalSGI = 0;
 
+PROC wglLoadExtension(const char* name) {
+	//void* result = NULL;
+	PROC result = wglGetProcAddress(name);
+   if(!result) {
+      printf("Extension %s could not be loaded.\n", name);
+   }
+   return result;
+}
+
 void EnableOpenGL(HWND hWnd, HDC * hDC, HGLRC * hRC) {
 	PIXELFORMATDESCRIPTOR pfd;
 	int format;
@@ -259,6 +301,40 @@ void EnableOpenGL(HWND hWnd, HDC * hDC, HGLRC * hRC) {
 			glxSwapIntervalSGI(1);
 		}
 	}
+	const char *vendor = (const char*)glGetString(GL_VENDOR);
+	const char *renderer = (const char*)glGetString(GL_RENDERER);
+	const char *version = (const char*)glGetString(GL_VERSION);
+	char buf[100];
+	sprintf(buf, "OpenGL Vendor [%s]", vendor);
+	logmsg(buf);
+	sprintf(buf, "OpenGL Renderer [%s]", renderer);
+	logmsg(buf);
+	sprintf(buf, "OpenGL Version [%s]", version);
+	logmsg(buf);
+	logmsg("Loading OpenGL 2.0 extensions");
+	// load extensions we need for opengl 2.0
+    glCreateShader             = (PFNGLCREATESHADERPROC)        wglLoadExtension("glCreateShader");
+    glAttachShader             = (PFNGLATTACHSHADERPROC)        wglLoadExtension("glAttachShader");
+    glShaderSource             = (PFNGLSHADERSOURCEPROC)        wglLoadExtension("glShaderSource");
+    glGetShaderiv              = (PFNGLGETSHADERIVPROC)         wglLoadExtension("glGetShaderiv");
+    glCompileShader            = (PFNGLCOMPILESHADERPROC)       wglLoadExtension("glCompileShader");
+    glDetachShader             = (PFNGLDETACHSHADERPROC)        wglLoadExtension("glDetachShader");
+    glDeleteShader             = (PFNGLDELETESHADERPROC)        wglLoadExtension("glDeleteShader");
+    glGetShaderInfoLog         = (PFNGLGETSHADERINFOLOGPROC)    wglLoadExtension("glGetShaderInfoLog");
+    glCreateProgram            = (PFNGLCREATEPROGRAMPROC)       wglLoadExtension("glCreateProgram");
+    glLinkProgram              = (PFNGLLINKPROGRAMPROC)         wglLoadExtension("glLinkProgram");
+    glGetProgramiv             = (PFNGLGETPROGRAMIVPROC)        wglLoadExtension("glGetProgramiv");
+    glUseProgram               = (PFNGLUSEPROGRAMPROC)          wglLoadExtension("glUseProgram");
+    glDeleteProgram            = (PFNGLDELETEPROGRAMPROC)       wglLoadExtension("glDeleteProgram");
+    glGetProgramInfoLog        = (PFNGLGETPROGRAMINFOLOGPROC)   wglLoadExtension("glGetProgramInfoLog");
+    glGetUniformLocation       = (PFNGLGETUNIFORMLOCATIONPROC)  wglLoadExtension("glGetUniformLocation");
+    glUniform1i                = (PFNGLUNIFORM1IPROC)           wglLoadExtension("glUniform1i");
+    glUniform1f                = (PFNGLUNIFORM1FPROC)           wglLoadExtension("glUniform1f");
+    glVertexAttrib4f           = (PFNGLVERTEXATTRIB4FPROC)         wglLoadExtension("glVertexAttrib4f");
+    glVertexAttribPointer      = (PFNGLVERTEXATTRIBPOINTERPROC)         wglLoadExtension("glVertexAttribPointer");
+    glEnableVertexAttribArray  = (PFNGLENABLEVERTEXATTRIBARRAYPROC)       wglLoadExtension("glEnableVertexAttribArray");
+    glDisableVertexAttribArray  = (PFNGLDISABLEVERTEXATTRIBARRAYPROC)    wglLoadExtension("glDisableVertexAttribArray");
+    glBindAttribLocation 		= (PFNGLBINDATTRIBLOCATIONPROC) 		wglLoadExtension("glBindAttribLocation");
 }
 
 // Disable OpenGL

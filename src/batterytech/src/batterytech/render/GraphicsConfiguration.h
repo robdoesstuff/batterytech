@@ -41,6 +41,7 @@ public:
 	BOOL32 supportsHWmipmapgen;
 	BOOL32 supportsUVTransform;
 	BOOL32 softGPU;
+	BOOL32 supportsShaders;
 };
 
 #endif /* GRAPHICSCONFIGURATION_H_ */

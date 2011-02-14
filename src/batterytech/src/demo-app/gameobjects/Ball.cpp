@@ -71,7 +71,7 @@ void Ball::update() {
 	angle = boxBody->GetAngle();
 	if (processContact && impactVelocityDelta > 15.0f) {
 		if (soundTriggerTimeLeft == 0) {
-			context->audioManager->playSound("click.ogg", 0, 1.0f, 1.0f, .90f + ((rand() % 20) / 100.0f));
+			//context->audioManager->playSound("click.ogg", 0, 1.0f, 1.0f, .90f + ((rand() % 20) / 100.0f));
 			soundTriggerTimeLeft = SOUND_TRIGGER_INTERVAL;
 		}
 	}
