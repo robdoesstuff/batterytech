@@ -10,29 +10,31 @@
 #include <stdio.h>
 #include <string.h>
 #include <batterytech/Logger.h>
+#include <batterytech/util/esTransform.h>
 
 char vShaderStr[] =
-		" uniform Transformation { \n" \
-		"    mat4 projection_matrix; \n" \
-		"    mat4 modelview_matrix; \n" \
-		" }; \n" \
+		"uniform mat4 projection_matrix; \n" \
+		"uniform mat4 modelview_matrix; \n" \
 	   "attribute vec3 vPosition;   \n" \
+	   "attribute vec2 uvMap;   \n" \
 	   "void main()                 \n" \
 	   "{                           \n" \
-	   "   gl_Position = projection_matrix * modelview_matrix * vec4(vertex, 1.0); \n" \
+	   " gl_TexCoord[0] = vec4(uvMap, 1.0, 1.0); \n" \
+	   "   gl_Position = projection_matrix * modelview_matrix * vec4(vPosition, 1.0); \n" \
 	   "};                          \n";
 
 char fShaderStr[] =
 	   "precision mediump float;                  \n" \
+	   "uniform sampler2D tex;				      \n" \
 	   "void main()                               \n" \
 	   "{                                         \n" \
-	   " gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0); \n" \
+	   " gl_FragColor = texture2D(tex, gl_TexCoord[0].st); \n" \
 	   "}                                         \n";
 
 GLuint loadShader(GLenum type, const char *shaderSrc);
 void logShaderInfo(GLuint obj);
 void logProgramInfo(GLuint obj);
-GLuint vShader, fShader, program;
+GLuint vShader, fShader, program, projMatrixUniform, mvMatrixUniform, vertPosition, texPosition, uvmapPosition;
 
 SimpleSpriteRenderer::SimpleSpriteRenderer(Context *context, const char *spriteAssetName) {
 	this->context = context;
@@ -57,13 +59,16 @@ void SimpleSpriteRenderer::init(BOOL32 newContext) {
 	program = glCreateProgram();
 	glAttachShader(program, vShader);
 	glAttachShader(program, fShader);
-	glBindAttribLocation(program, 0, "vPosition");
 	glLinkProgram(program);
 	glGetProgramiv(program, GL_LINK_STATUS, &status);
 	if(status == GL_FALSE){
 		logProgramInfo(program);
 	}
-
+	vertPosition = glGetAttribLocation(program, "vPosition");
+	uvmapPosition = glGetAttribLocation(program, "uvMap");
+	projMatrixUniform = glGetUniformLocation(program, "projection_matrix");
+	mvMatrixUniform = glGetUniformLocation(program, "modelview_matrix");
+	texPosition = glGetUniformLocation(program, "tex");
 	//char buf[50];
 	//sprintf(buf, "Loaded texture Id=%d", textureId);
 	//logmsg(buf);
@@ -82,32 +87,48 @@ void SimpleSpriteRenderer::render(F32 x, F32 y, F32 width, F32 height, F32 angle
 	// this one
 	glBindTexture(GL_TEXTURE_2D, textureId);
 	glUseProgram(program);
-	//glPushMatrix();
-	//glTranslatef(x, y, 0);
-	//glRotatef(angleRads * (180 / PI), 0, 0, 1.0f);
-	F32 top = height/10;
-	F32 right = width/10;
-	F32 bottom = -height/10;
-	F32 left = -width/10;
+	F32 top = height/2;
+	F32 right = width/2;
+	F32 bottom = -height/2;
+	F32 left = -width/2;
 	F32 verts[] = {
 			left, top, 0, right, top, 0, right, bottom, 0, left, bottom, 0
 	};
 	F32 uvs[] = {
 			0, 0, 1, 0, 1, 1, 0, 1
 	};
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, verts);
+	ESMatrix projMatrix, mvMatrix;
+	esMatrixLoadIdentity(&projMatrix);
+	esMatrixLoadIdentity(&mvMatrix);
+	esOrtho(&projMatrix, WORLD_LEFT, WORLD_RIGHT, WORLD_BOTTOM, WORLD_TOP, 1, -1);
+	esTranslate(&mvMatrix, x, y, 0);
+	esRotate(&mvMatrix, angleRads * (180 / PI), 0, 0, -1.0f);
+	glEnableVertexAttribArray(vertPosition);
+	glEnableVertexAttribArray(uvmapPosition);
+	glVertexAttribPointer(vertPosition, 3, GL_FLOAT, GL_FALSE, 0, verts);
+	glVertexAttribPointer(uvmapPosition, 2, GL_FLOAT, GL_FALSE, 0, uvs);
+	glUniformMatrix4fv(projMatrixUniform, 1, GL_FALSE, (GLfloat*) &projMatrix.m[0][0]);
+	glUniformMatrix4fv(mvMatrixUniform, 1, GL_FALSE, (GLfloat*) &mvMatrix.m[0][0]);
+	glUniform1i(texPosition, 0);
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glFrontFace(GL_CW);
-	//glVertexPointer(3, GL_FLOAT, 0, &verts);
-	//glTexCoordPointer(2, GL_FLOAT, 0, &uvs);
 	glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
-	glDisableVertexAttribArray(0);
-	//glPopMatrix();
+	glDisableVertexAttribArray(vertPosition);
+	glDisableVertexAttribArray(uvmapPosition);
 	glUseProgram(0);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	// GL1 rendering branch
+	//glFrontFace(GL_CW);
+	//glPushMatrix();
+	//glTranslatef(x, y, 0);
+	//glRotatef(angleRads * (180 / PI), 0, 0, 1.0f);
+	//glVertexPointer(3, GL_FLOAT, 0, &verts);
+	//glTexCoordPointer(2, GL_FLOAT, 0, &uvs);
+	//glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+	//glPopMatrix();
+
 }
 
 void SimpleSpriteRenderer::renderUVLimited(F32 x, F32 y, F32 width, F32 height, F32 angleRads, F32 uvTop, F32 uvBottom) {

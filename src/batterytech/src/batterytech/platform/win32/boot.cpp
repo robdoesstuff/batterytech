@@ -43,11 +43,13 @@ PFNGLGETPROGRAMINFOLOGPROC      glGetProgramInfoLog = NULL;
 PFNGLGETUNIFORMLOCATIONPROC     glGetUniformLocation = NULL;
 PFNGLUNIFORM1IPROC              glUniform1i = NULL;
 PFNGLUNIFORM1FPROC              glUniform1f = NULL;
+PFNGLUNIFORMMATRIX4FVPROC		glUniformMatrix4fv = NULL;
 PFNGLVERTEXATTRIB4FPROC			glVertexAttrib4f = NULL;
 PFNGLVERTEXATTRIBPOINTERPROC		glVertexAttribPointer = NULL;
 PFNGLENABLEVERTEXATTRIBARRAYPROC	glEnableVertexAttribArray = NULL;
 PFNGLDISABLEVERTEXATTRIBARRAYPROC	glDisableVertexAttribArray = NULL;
 PFNGLBINDATTRIBLOCATIONPROC		glBindAttribLocation = NULL;
+PFNGLGETATTRIBLOCATIONPROC		glGetAttribLocation = NULL;
 
 // WinMain
 DWORD WINAPI StartThread(LPVOID iValue);
@@ -330,11 +332,13 @@ void EnableOpenGL(HWND hWnd, HDC * hDC, HGLRC * hRC) {
     glGetUniformLocation       = (PFNGLGETUNIFORMLOCATIONPROC)  wglLoadExtension("glGetUniformLocation");
     glUniform1i                = (PFNGLUNIFORM1IPROC)           wglLoadExtension("glUniform1i");
     glUniform1f                = (PFNGLUNIFORM1FPROC)           wglLoadExtension("glUniform1f");
+    glUniformMatrix4fv         = (PFNGLUNIFORMMATRIX4FVPROC)    wglLoadExtension("glUniformMatrix4fv");
     glVertexAttrib4f           = (PFNGLVERTEXATTRIB4FPROC)         wglLoadExtension("glVertexAttrib4f");
     glVertexAttribPointer      = (PFNGLVERTEXATTRIBPOINTERPROC)         wglLoadExtension("glVertexAttribPointer");
     glEnableVertexAttribArray  = (PFNGLENABLEVERTEXATTRIBARRAYPROC)       wglLoadExtension("glEnableVertexAttribArray");
     glDisableVertexAttribArray  = (PFNGLDISABLEVERTEXATTRIBARRAYPROC)    wglLoadExtension("glDisableVertexAttribArray");
     glBindAttribLocation 		= (PFNGLBINDATTRIBLOCATIONPROC) 		wglLoadExtension("glBindAttribLocation");
+    glGetAttribLocation			= (PFNGLGETATTRIBLOCATIONPROC)		wglLoadExtension("glGetAttribLocation");
 }
 
 // Disable OpenGL
