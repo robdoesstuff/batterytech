@@ -57,6 +57,8 @@ typedef struct
 //  Public Functions
 //
 
+void ESUTIL_API esCopy(ESMatrix *result, const ESMatrix *source);
+
 //
 /// \brief multiply matrix specified by result with a scaling matrix and return new matrix in result
 /// \param result Specifies the input matrix.  Scaled matrix is returned in result.

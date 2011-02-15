@@ -13,6 +13,7 @@
 #include <Math.h>
 #include "../UIConstants.h"
 #include "../GameUtil.h"
+#include <batterytech/render/RenderContext.h>
 
 WorldRenderer::WorldRenderer(Context *context) {
 	this->context = context;
@@ -61,50 +62,27 @@ void WorldRenderer::render(World *world) {
 	}
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
-	glColor4f(1, 1, 1, 1);
-	// set up world projection
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glOrthof(WORLD_LEFT, WORLD_RIGHT, WORLD_BOTTOM, WORLD_TOP, -1, 1);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
+	if (gConfig->useShaders) {
+		esMatrixLoadIdentity(&context->renderContext->projMatrix);
+		esOrtho(&context->renderContext->projMatrix, WORLD_LEFT, WORLD_RIGHT, WORLD_BOTTOM, WORLD_TOP, -1, 1);
+		esMatrixLoadIdentity(&context->renderContext->mvMatrix);
+	} else {
+		glColor4f(1, 1, 1, 1);
+		// set up world projection
+		glMatrixMode(GL_PROJECTION);
+		glLoadIdentity();
+		glOrthof(WORLD_LEFT, WORLD_RIGHT, WORLD_BOTTOM, WORLD_TOP, -1, 1);
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	}
 	glEnable(GL_TEXTURE_2D);
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 	glDisable(GL_BLEND);
 	BOOL32 renderDebug = false;
 	if (world->gameState == GAMESTATE_READY) {
 		// render the main menuing bg
 		//uiBGRenderer->render(WORLD_TOP, WORLD_RIGHT, WORLD_BOTTOM, WORLD_LEFT);
 	} else if (world->gameState == GAMESTATE_RUNNING) {
-		// multitouch debugging
-		/*
-		if (context->pointerState[0].isDown) {
-			F32 verts[] = { WORLD_LEFT, WORLD_TOP, 0,
-					WORLD_LEFT, WORLD_BOTTOM, 0,
-					WORLD_RIGHT/2, WORLD_BOTTOM, 0,
-					WORLD_RIGHT/2, WORLD_TOP, 0 };
-			glDisable(GL_TEXTURE_2D);
-			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-			glFrontFace(GL_CCW);
-			glVertexPointer(3, GL_FLOAT, 0, &verts);
-			glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
-			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-			glEnable(GL_TEXTURE_2D);
-		}
-		if (context->pointerState[1].isDown) {
-			F32 verts[] = { WORLD_RIGHT/2, WORLD_TOP, 0,
-					WORLD_RIGHT/2, WORLD_BOTTOM, 0,
-					WORLD_RIGHT, WORLD_BOTTOM, 0,
-					WORLD_RIGHT, WORLD_TOP, 0 };
-			glDisable(GL_TEXTURE_2D);
-			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-			glFrontFace(GL_CCW);
-			glVertexPointer(3, GL_FLOAT, 0, &verts);
-			glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
-			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-			glEnable(GL_TEXTURE_2D);
-		}
-		*/
 		//uiBGRenderer->render(WORLD_TOP, WORLD_RIGHT, WORLD_BOTTOM, WORLD_LEFT);
 		glEnable(GL_BLEND);
 		glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

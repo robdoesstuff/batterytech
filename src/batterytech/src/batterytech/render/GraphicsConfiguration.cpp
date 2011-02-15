@@ -18,6 +18,7 @@ GraphicsConfiguration::GraphicsConfiguration() {
 	textureRes = HIGH;
 	textureFilter = LINEAR;
 	showFPS = FALSE;
+	useShaders = FALSE;
 	softGPU = FALSE;
 	supportsVBOs = FALSE;
 	supportsHWmipmapgen = FALSE;

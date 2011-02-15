@@ -15,6 +15,7 @@
 #include "VibrationManager.h"
 #include "render/GraphicsConfiguration.h"
 #include "ui/UIManager.h"
+#include "render/RenderContext.h"
 
 #define MAX_AUDIO_STREAMS 20
 
@@ -29,6 +30,7 @@ Context::Context(GraphicsConfiguration *gConfig) {
 	vibrationManager = new VibrationManager(this);
 	game = new Game(this);
 	uiManager = new UIManager(this);
+	renderContext = new RenderContext();
 	tickDelta = 0;
 	isUIConsumingTouch = FALSE;
 	keyPressed = 0;
@@ -61,6 +63,8 @@ Context::~Context() {
 	world = NULL;
 	delete uiManager;
 	uiManager = NULL;
+	delete renderContext;
+	renderContext = NULL;
 	logmsg("Context deleting game");
 	delete game;
 	logmsg("Context nulling game");

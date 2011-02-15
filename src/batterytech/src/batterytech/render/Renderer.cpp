@@ -57,3 +57,64 @@ GLuint Renderer::loadTexture(const char *name) {
 	_platform_free_asset(fileData);
 	return textureId;
 }
+
+GLuint Renderer::loadShaderFromAsset(GLenum type, const char *assetName) {
+	S32 assetSize;
+	unsigned char *fileData = _platform_load_asset(assetName, &assetSize);
+	if (fileData) {
+		char *shaderText = new char[assetSize+1];
+		strncpy(shaderText, (char*)fileData, assetSize);
+		shaderText[assetSize] = '\0';
+		_platform_free_asset(fileData);
+		//logmsg(shaderText);
+		GLuint shader = loadShader(type, shaderText);
+		delete [] shaderText;
+		return shader;
+	} else {
+		logmsg("No file data loading shader:");
+		logmsg(assetName);
+	}
+	return 0;
+}
+
+GLuint Renderer::loadShader(GLenum type, const char *shaderSrc) {
+   GLuint shader;
+   GLint compiled;
+   // Create the shader object
+   shader = glCreateShader(type);
+   if(shader == 0) {
+	   return 0;
+   }
+   // Load the shader source
+   glShaderSource(shader, 1, &shaderSrc, NULL);
+   // Compile the shader
+   glCompileShader(shader);
+   // Check the compile status
+   glGetShaderiv(shader, GL_COMPILE_STATUS, &compiled);
+   if(!compiled) {
+	   logShaderInfo(shader);
+	   glDeleteShader(shader);
+      return 0;
+   }
+   return shader;
+}
+
+void Renderer::logShaderInfo(GLuint obj) {
+    GLint infoLen = 0;
+    glGetShaderiv(obj, GL_INFO_LOG_LENGTH, &infoLen);
+    if(infoLen > 0) {
+  	  char infoLog[1024];
+  	  glGetShaderInfoLog(obj, (infoLen > 1024 ? 1024 : infoLen), NULL, infoLog);
+  	  logmsg(infoLog);
+    }
+}
+
+void Renderer::logProgramInfo(GLuint obj) {
+    GLint infoLen = 0;
+    glGetShaderiv(obj, GL_INFO_LOG_LENGTH, &infoLen);
+    if(infoLen > 0) {
+  	  char infoLog[1024];
+  	  glGetProgramInfoLog(obj, (infoLen > 1024 ? 1024 : infoLen), NULL, infoLog);
+  	  logmsg(infoLog);
+    }
+}

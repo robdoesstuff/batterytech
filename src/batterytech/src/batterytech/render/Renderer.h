@@ -18,6 +18,10 @@ public:
 	virtual ~Renderer();
 protected:
 	virtual GLuint loadTexture(const char *name);
+	GLuint loadShader(GLenum type, const char *shaderSrc);
+	GLuint loadShaderFromAsset(GLenum type, const char *assetName);
+	void logShaderInfo(GLuint obj);
+	void logProgramInfo(GLuint obj);
 };
 
 #endif /* RENDERER_H_ */

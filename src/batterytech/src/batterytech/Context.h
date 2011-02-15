@@ -20,6 +20,7 @@ class NetworkManager;
 class VibrationManager;
 class GraphicsConfiguration;
 class World;
+class RenderContext;
 
 class Context {
 public:
@@ -52,6 +53,7 @@ public:
 	MenuRenderer *menuRenderer;
 	GraphicsConfiguration *gConfig;
 	UIManager *uiManager;
+	RenderContext *renderContext;
 };
 
 #endif /* CONTEXT_H_ */

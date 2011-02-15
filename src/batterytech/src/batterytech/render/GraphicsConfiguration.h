@@ -36,6 +36,7 @@ public:
 	TextureRes textureRes;
 	TextureFilter textureFilter;
 	BOOL32 showFPS;
+	BOOL32 useShaders;
 	// capabilities
 	BOOL32 supportsVBOs;
 	BOOL32 supportsHWmipmapgen;

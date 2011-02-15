@@ -23,6 +23,25 @@
 
 #define PI 3.1415926535897932384626433832795f
 
+void ESUTIL_API esCopy(ESMatrix *result, const ESMatrix *source) {
+	result->m[0][0] = source->m[0][0];
+	result->m[0][1] = source->m[0][1];
+	result->m[0][2] = source->m[0][2];
+	result->m[0][3] = source->m[0][3];
+	result->m[1][0] = source->m[1][0];
+	result->m[1][1] = source->m[1][1];
+	result->m[1][2] = source->m[1][2];
+	result->m[1][3] = source->m[1][3];
+	result->m[2][0] = source->m[2][0];
+	result->m[2][1] = source->m[2][1];
+	result->m[2][2] = source->m[2][2];
+	result->m[2][3] = source->m[2][3];
+	result->m[3][0] = source->m[3][0];
+	result->m[3][1] = source->m[3][1];
+	result->m[3][2] = source->m[3][2];
+	result->m[3][3] = source->m[3][3];
+}
+
 void ESUTIL_API
 esScale(ESMatrix *result, GLfloat sx, GLfloat sy, GLfloat sz)
 {

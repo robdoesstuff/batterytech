@@ -26,6 +26,7 @@
 #define REFERENCE_WIDTH 480
 #define REFERENCE_HEIGHT 800
 #define TICK_SMOOTHER_SAMPLES 15
+#define USE_SHADERS_WHEN_SUPPORTED TRUE
 
 static Context *context;
 static GraphicsConfiguration *gConfig;
@@ -49,6 +50,12 @@ void btInit(GraphicsConfiguration *graphicsConfig, S32 width, S32 height) {
 	srand(time(NULL));
 	for (S32 i = 0; i < TICK_SMOOTHER_SAMPLES; i++) {
 		updateTimes[i] = -1;
+	}
+	if (graphicsConfig->supportsShaders && USE_SHADERS_WHEN_SUPPORTED) {
+		graphicsConfig->useShaders = TRUE;
+		logmsg("Using Shaders");
+	} else {
+		logmsg("Using Fixed-Function Rendering");
 	}
 	logmsg("Ready");
 }
