@@ -21,7 +21,7 @@ WorldRenderer::WorldRenderer(Context *context) {
 	fps = 0;
 	frameSamplesCollected = 0;
 	frameSampleTimeTotal = 0.0f;
-	textRenderer = new TextRasterRenderer(gConfig, UI_GAME_FONT, 12.0f);
+	textRenderer = new TextRasterRenderer(context, UI_GAME_FONT, 12.0f);
 	b2DebugRenderer = new B2DebugRenderer(context);
 	ballRenderer = new BallRenderer(context);
 	//uiBGRenderer = new SimpleSpriteRenderer(context, "demo_app_bg_tex.jpg");
@@ -35,16 +35,19 @@ WorldRenderer::~WorldRenderer() {
 }
 
 void WorldRenderer::init(BOOL32 newContext) {
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glDisableClientState(GL_COLOR_ARRAY);
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-	glDisableClientState(GL_NORMAL_ARRAY);
+	if (context->gConfig->useShaders) {
+	} else {
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glDisableClientState(GL_COLOR_ARRAY);
+		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+		glDisableClientState(GL_NORMAL_ARRAY);
+		glShadeModel(GL_SMOOTH);
+	}
 	glDisable(GL_CULL_FACE);
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_DITHER);
 	glEnable(GL_TEXTURE_2D);
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
-	glShadeModel(GL_SMOOTH);
 	textRenderer->init(newContext);
 	b2DebugRenderer->init(newContext);
 	//uiBGRenderer->init(newContext);
@@ -62,12 +65,12 @@ void WorldRenderer::render(World *world) {
 	}
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
+	context->renderContext->colorFilter = Vec4f(1, 1, 1, 1);
 	if (gConfig->useShaders) {
 		esMatrixLoadIdentity(&context->renderContext->projMatrix);
 		esOrtho(&context->renderContext->projMatrix, WORLD_LEFT, WORLD_RIGHT, WORLD_BOTTOM, WORLD_TOP, -1, 1);
 		esMatrixLoadIdentity(&context->renderContext->mvMatrix);
 	} else {
-		glColor4f(1, 1, 1, 1);
 		// set up world projection
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
@@ -108,11 +111,17 @@ void WorldRenderer::render(World *world) {
 		if (context->showFPS) {
 			char fpsText[10];
 			sprintf(fpsText, "FPS: %d", fps);
-			glMatrixMode(GL_PROJECTION);
-			glLoadIdentity();
-			glOrthof(0, gConfig->width, gConfig->height, 0, -1, 1);
-			glMatrixMode(GL_MODELVIEW);
-			glLoadIdentity();
+			if (gConfig->useShaders) {
+				esMatrixLoadIdentity(&context->renderContext->projMatrix);
+				esMatrixLoadIdentity(&context->renderContext->mvMatrix);
+				esOrtho(&context->renderContext->projMatrix, 0, gConfig->width, gConfig->height, 0, -1, 1);
+			} else {
+				glMatrixMode(GL_PROJECTION);
+				glLoadIdentity();
+				glOrthof(0, gConfig->width, gConfig->height, 0, -1, 1);
+				glMatrixMode(GL_MODELVIEW);
+				glLoadIdentity();
+			}
 			textRenderer->startText();
 			textRenderer->render(fpsText, 5, context->gConfig->height - 5);
 			textRenderer->finishText();

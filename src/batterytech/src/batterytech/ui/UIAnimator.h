@@ -12,8 +12,8 @@
 #include "../render/GraphicsConfiguration.h"
 #include "UIComponent.h"
 
-//cross-ref
 class UIComponent;
+class Context;
 
 class UIAnimator {
 public:
@@ -21,8 +21,8 @@ public:
 	virtual ~UIAnimator();
 	virtual void reset(){};
 	virtual void update(F32 delta){};
-	virtual void drawPreComponent(GraphicsConfiguration *gConfig){};
-	virtual void drawPostComponent(GraphicsConfiguration *gConfig){};
+	virtual void drawPreComponent(Context *context){};
+	virtual void drawPostComponent(Context *context){};
 	virtual void setComponent(UIComponent *component){ this->component = component; };
 	virtual BOOL32 isComplete(){return TRUE;};
 protected:

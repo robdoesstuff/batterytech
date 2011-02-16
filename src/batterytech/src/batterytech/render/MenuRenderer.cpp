@@ -11,12 +11,19 @@
 #include "../Logger.h"
 #include "../ui/Layout.h"
 #include <string.h>
+#include "../Context.h"
 #include "../../demo-app/UIConstants.h"
+#include "RenderContext.h"
 
-MenuRenderer::MenuRenderer(GraphicsConfiguration *gConfig) {
-	this->gConfig = gConfig;
-	assetNames = new ManagedArray<const char>(100);
-	textRenderer = new TextRasterRenderer(gConfig, UI_MENU_FONT, 12.0f);
+#define MAX_ASSET_NAMES 100
+
+MenuRenderer::MenuRenderer(Context *context) : Renderer() {
+	this->context = context;
+	assetNames = new ManagedArray<const char>(MAX_ASSET_NAMES);
+	textRenderer = new TextRasterRenderer(context, UI_MENU_FONT, 12.0f);
+	vertShader = fragShader = program = shaderProjMatrix =
+	shaderMVMatrix = shaderVPosition = shaderUvMap = shaderTex =
+	shaderColorFilter = 0;
 }
 
 /** Adds a texture asset or returns the ID of the one already added if equal */
@@ -38,7 +45,7 @@ S32 MenuRenderer::findTextureAsset(const char *asset) {
 	return -1;
 }
 
-void MenuRenderer::init(UIManager *uiManager) {
+void MenuRenderer::init(BOOL32 newContext) {
 	textRenderer->init(TRUE);
 	textureIds = new GLuint[assetNames->getSize()];
 	glGenTextures(assetNames->getSize(), textureIds);
@@ -47,37 +54,70 @@ void MenuRenderer::init(UIManager *uiManager) {
 		glBindTexture(GL_TEXTURE_2D, textureIds[i]);
 		loadTexture(assetNames->array[i]);
 	}
+	if (!newContext && program) {
+		glDetachShader(program, vertShader);
+		glDetachShader(program, fragShader);
+		glDeleteShader(vertShader);
+		glDeleteShader(fragShader);
+		glDeleteProgram(program);
+	}
+	if (context->gConfig->useShaders) {
+		GLint status = 0;
+		vertShader = loadShaderFromAsset(GL_VERTEX_SHADER, "shaders/quadshader.vert");
+		fragShader = loadShaderFromAsset(GL_FRAGMENT_SHADER, "shaders/quadshader.frag");
+		program = glCreateProgram();
+		glAttachShader(program, vertShader);
+		glAttachShader(program, fragShader);
+		glLinkProgram(program);
+		glGetProgramiv(program, GL_LINK_STATUS, &status);
+		if(status == GL_FALSE){
+			logProgramInfo(program);
+		}
+		shaderVPosition = glGetAttribLocation(program, "vPosition");
+		shaderUvMap = glGetAttribLocation(program, "uvMap");
+		shaderProjMatrix = glGetUniformLocation(program, "projection_matrix");
+		shaderMVMatrix = glGetUniformLocation(program, "modelview_matrix");
+		shaderTex = glGetUniformLocation(program, "tex");
+		shaderColorFilter = glGetUniformLocation(program, "colorFilter");
+	}
 }
 
-void MenuRenderer::render(UIManager *uiManager) {
+void MenuRenderer::render() {
 	// set the menu projection
 	glEnable(GL_BLEND);
 	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glMatrixMode(GL_PROJECTION);
-	glViewport(0, 0, gConfig->viewportWidth, gConfig->viewportHeight);
-	glLoadIdentity();
-	glOrthof(0, gConfig->width, gConfig->height, 0, -1, 1);
-	glMatrixMode(GL_MODELVIEW);
-	glColor4f(1, 1, 1, 1);
+	glViewport(0, 0, context->gConfig->viewportWidth, context->gConfig->viewportHeight);
+	if (context->gConfig->useShaders) {
+		esMatrixLoadIdentity(&context->renderContext->projMatrix);
+		esOrtho(&context->renderContext->projMatrix, 0, context->gConfig->width, context->gConfig->height, 0, -1, 1);
+		esMatrixLoadIdentity(&context->renderContext->mvMatrix);
+	} else {
+		glMatrixMode(GL_PROJECTION);
+		glLoadIdentity();
+		glOrthof(0, context->gConfig->width, context->gConfig->height, 0, -1, 1);
+		glMatrixMode(GL_MODELVIEW);
+		glColor4f(1, 1, 1, 1);
+	}
 	S32 i = 0;
-	for (i = 0; i < uiManager->activeMenuStack->getSize(); i++) {
-		Menu *menu = uiManager->activeMenuStack->array[i];
+	for (i = 0; i < context->uiManager->activeMenuStack->getSize(); i++) {
+		Menu *menu = context->uiManager->activeMenuStack->array[i];
 		UIComponent *root = menu->getRootComponent();
 		activeResourceId = -1;
-		render(root, uiManager);
+		render(root);
 	}
 	glDisable(GL_BLEND);
 }
 
-void MenuRenderer::render(UIComponent *component, UIManager *uiManager) {
+void MenuRenderer::render(UIComponent *component) {
 	UIAnimator *animator = component->getActiveAnimator();
+	UIManager *uiManager = context->uiManager;
 	if (animator) {
-		animator->drawPreComponent(gConfig);
+		animator->drawPreComponent(context);
 	}
 	if (!component->isEnabled) {
-		glColor4f(0.5f,0.5f,0.5f,1.0f);
+		context->renderContext->colorFilter = Vec4f(0.5f,0.5f,0.5f,1.0f);
 	} else {
-		glColor4f(1,1,1,1);
+		context->renderContext->colorFilter = Vec4f(1,1,1,1);
 	}
 	// draw this component first then recurse children
 	S32 menuResourceId = component->backgroundMenuResourceId;
@@ -101,9 +141,9 @@ void MenuRenderer::render(UIComponent *component, UIManager *uiManager) {
 	}
 	if (component->text) {
 		if (component->isEnabled) {
-			glColor4f(component->textR,component->textB,component->textG,component->textA);
+			context->renderContext->colorFilter = Vec4f(component->textR,component->textB,component->textG,component->textA);
 		} else {
-			glColor4f(component->textR*0.5f,component->textB*0.5f,component->textG*0.5f,component->textA);
+			context->renderContext->colorFilter = Vec4f(component->textR*0.5f,component->textB*0.5f,component->textG*0.5f,component->textA);
 
 		}
 		activeResourceId = -1;
@@ -115,18 +155,18 @@ void MenuRenderer::render(UIComponent *component, UIManager *uiManager) {
 		F32 textLeft = component->left;
 		F32 textBottom = component->bottom;
 		if (component->textHorizontalAlignment == UIComponent::LEFT) {
-			textLeft += component->paddingLeftDips * gConfig->uiScale;
+			textLeft += component->paddingLeftDips * context->gConfig->uiScale;
 		} else if (component->textHorizontalAlignment == UIComponent::HORIZONTAL_CENTER) {
 			textLeft += (componentWidth / 2 - textWidth / 2);
 		} else if (component->textHorizontalAlignment == UIComponent::RIGHT) {
-			textLeft += (componentWidth - textWidth) - component->paddingRightDips * gConfig->uiScale;
+			textLeft += (componentWidth - textWidth) - component->paddingRightDips * context->gConfig->uiScale;
 		}
 		if (component->textVerticalAlignment == UIComponent::BOTTOM) {
-			textBottom -= component->paddingBottomDips * gConfig->uiScale;
+			textBottom -= component->paddingBottomDips * context->gConfig->uiScale;
 		} else if (component->textVerticalAlignment == UIComponent::VERTICAL_CENTER) {
 			textBottom -= (componentHeight / 2 - textHeight / 2);
 		} else if (component->textVerticalAlignment == UIComponent::TOP) {
-			textBottom -= (componentHeight - textHeight) - component->paddingTopDips * gConfig->uiScale;
+			textBottom -= (componentHeight - textHeight) - component->paddingTopDips * context->gConfig->uiScale;
 		}
 		textRenderer->startText();
 		textRenderer->render(component->text, textLeft, textBottom);
@@ -137,12 +177,12 @@ void MenuRenderer::render(UIComponent *component, UIManager *uiManager) {
 		UIComponent **components = component->components->array;
 		int i;
 		for (i = 0; i < component->components->getSize(); i++) {
-			render(components[i], uiManager);
+			render(components[i]);
 		}
 	}
-	glColor4f(1,1,1,1);
+	context->renderContext->colorFilter = Vec4f(1,1,1,1);
 	if (animator) {
-		animator->drawPostComponent(gConfig);
+		animator->drawPostComponent(context);
 	}
 }
 
@@ -154,9 +194,29 @@ void MenuRenderer::drawTexturedQuad(S32 top, S32 right, S32 bottom, S32 left) {
 			0, 0, 1, 0, 1, 1, 0, 1
 	};
 	glFrontFace(GL_CW);
-	glVertexPointer(3, GL_FLOAT, 0, &verts);
-	glTexCoordPointer(2, GL_FLOAT, 0, &uvs);
-	glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+	if (context->gConfig->useShaders) {
+		// this is less than efficient because of the layered text rendering
+		glUseProgram(program);
+		glEnableVertexAttribArray(shaderVPosition);
+		glEnableVertexAttribArray(shaderUvMap);
+		glVertexAttribPointer(shaderVPosition, 3, GL_FLOAT, GL_FALSE, 0, verts);
+		glVertexAttribPointer(shaderUvMap, 2, GL_FLOAT, GL_FALSE, 0, uvs);
+		glUniformMatrix4fv(shaderProjMatrix, 1, GL_FALSE, (GLfloat*) &context->renderContext->projMatrix.m[0][0]);
+		glUniformMatrix4fv(shaderMVMatrix, 1, GL_FALSE, (GLfloat*) &context->renderContext->mvMatrix.m[0][0]);
+		glUniform1i(shaderTex, 0);
+		Vec4f colorFilter = context->renderContext->colorFilter;
+		glUniform4f(shaderColorFilter, colorFilter.x,colorFilter.y,colorFilter.z,colorFilter.a);
+		glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+		glDisableVertexAttribArray(shaderVPosition);
+		glDisableVertexAttribArray(shaderUvMap);
+		glUseProgram(0);
+	} else {
+		Vec4f colorFilter = context->renderContext->colorFilter;
+		glColor4f(colorFilter.x,colorFilter.y,colorFilter.z,colorFilter.a);
+		glVertexPointer(3, GL_FLOAT, 0, &verts);
+		glTexCoordPointer(2, GL_FLOAT, 0, &uvs);
+		glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+	}
 }
 
 void MenuRenderer::loadTexture(const char *assetName) {

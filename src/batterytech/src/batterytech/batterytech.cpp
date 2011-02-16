@@ -116,7 +116,7 @@ void btUpdate(F32 delta) {
 void btDraw() {
 	//logmsg("btDraw");
 	context->worldRenderer->render(context->world);
-	context->menuRenderer->render(context->uiManager);
+	context->menuRenderer->render();
 }
 
 void btSuspend() {
@@ -163,7 +163,7 @@ void btKeyDown(U8 key) {
 void btKeyPressed(U8 key) {
 	char buf[20];
 	sprintf(buf, "KeyPressed=%c, (%d)", key, key);
-	logmsg(buf);
+	//logmsg(buf);
 	context->keyPressed = key;
 }
 

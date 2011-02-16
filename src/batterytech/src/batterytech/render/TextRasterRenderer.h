@@ -12,15 +12,13 @@
 #include "../decoders/stb_truetype.h"
 #include "../platform/platformgl.h"
 #include "GraphicsConfiguration.h"
-#include "../../demo-app/World.h"
+
+class Context;
 
 class TextRasterRenderer: public Renderer {
 public:
-	TextRasterRenderer(GraphicsConfiguration *gConfig, const char *assetName, float fontSize);
-	virtual void unloadLevel();
-	virtual void loadLevel();
+	TextRasterRenderer(Context *context, const char *assetName, float fontSize);
 	virtual void init(BOOL32 newContext);
-	virtual void render(World *world);
 	void render(const char *text, F32 x, F32 y);
 	void startText();
 	void finishText();
@@ -28,10 +26,11 @@ public:
 	F32 measureWidth(const char *text);
 	virtual ~TextRasterRenderer();
 private:
-	GraphicsConfiguration *gConfig;
+	Context *context;
 	stbtt_bakedchar cdata[96]; // ASCII 32..126 is 95 glyphs
 	GLuint ftex;
 	const char *aName;
+	GLuint vertShader, fragShader, program, shaderProjMatrix, shaderMVMatrix, shaderVPosition, shaderUvMap, shaderTex, shaderColorFilter;
 };
 
 #endif /* TEXTRASTERRENDERER_H_ */

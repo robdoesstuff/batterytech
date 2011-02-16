@@ -10,6 +10,7 @@
 
 #include "../primitives.h"
 #include "../util/esTransform.h"
+#include "../math/Vec4f.h"
 
 class RenderContext {
 public:
@@ -17,6 +18,7 @@ public:
 	virtual ~RenderContext();
 	ESMatrix projMatrix;
 	ESMatrix mvMatrix;
+	Vec4f colorFilter;
 };
 
 #endif /* RENDERCONTEXT_H_ */

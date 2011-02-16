@@ -10,6 +10,8 @@
 #include <batterytech/ui/SlideAnimator.h>
 #include "../UIConstants.h"
 #include "SettingsMenu.h"
+#include <batterytech/Context.h>
+#include "../World.h"
 
 GameOptionsMenu::GameOptionsMenu(Context *context) : Menu(GAME_OPTIONS_MENU_NAME) {
 	this->context = context;

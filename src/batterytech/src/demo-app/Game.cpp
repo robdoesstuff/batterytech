@@ -113,8 +113,8 @@ void Game::update() {
 	if (context->wasSuspended) {
 		logmsg("Initializing Renderers");
 		context->worldRenderer->init(TRUE);
+		context->menuRenderer->init(TRUE);
 		context->wasSuspended = FALSE;
-		context->menuRenderer->init(context->uiManager);
 	}
 }
 

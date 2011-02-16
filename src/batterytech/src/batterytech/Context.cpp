@@ -23,7 +23,7 @@ Context::Context(GraphicsConfiguration *gConfig) {
 	this->gConfig = gConfig;
 	this->world = new World;
 	worldRenderer = new WorldRenderer(this);
-	menuRenderer = new MenuRenderer(gConfig);
+	menuRenderer = new MenuRenderer(this);
 	audioManager = new AudioManager;
 	audioManager->init(MAX_AUDIO_STREAMS);
 	networkManager = new NetworkManager(this);

@@ -19,8 +19,6 @@ public:
 	virtual void init(BOOL32 newContext);
 	virtual void render(F32 top, F32 right, F32 bottom, F32 left);
 	virtual void render(F32 x, F32 y, F32 width, F32 height, F32 angle);
-	virtual void renderUVLimited(F32 x, F32 y, F32 width, F32 height, F32 angleRads, F32 uvTop, F32 uvBottom);
-	virtual void renderUVLimitedSpecific(F32 top, F32 right, F32 bottom, F32 left, F32 x, F32 y, F32 angleRads, F32 uvTop, F32 uvBottom);
 	virtual ~SimpleSpriteRenderer();
 	void setSpriteAssetname(const char* spriteAssetName);
 private:
@@ -28,6 +26,7 @@ private:
 	Context *context;
 	const char *spriteAssetName;
 	GLuint textureId;
+	GLuint vertShader, fragShader, program, shaderProjMatrix, shaderMVMatrix, shaderVPosition, shaderUvMap, shaderTex, shaderColorFilter;
 };
 
 #endif /* SIMPLESPRITERENDERER_H_ */

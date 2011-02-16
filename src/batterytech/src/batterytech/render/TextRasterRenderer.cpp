@@ -13,9 +13,15 @@
 #define STB_TRUETYPE_IMPLEMENTATION
 #include "../decoders/stb_truetype.h"
 #include "../Logger.h"
+#include "../Context.h"
+#include "../render/RenderContext.h"
 
-TextRasterRenderer::TextRasterRenderer(GraphicsConfiguration *gConfig, const char *assetName, float fontSize) {
+TextRasterRenderer::TextRasterRenderer(Context *context, const char *assetName, float fontSize) {
+	this->context = context;
 	aName = assetName;
+	vertShader = fragShader = program = shaderProjMatrix =
+	shaderMVMatrix = shaderVPosition = shaderUvMap = shaderTex =
+	shaderColorFilter = 0;
 }
 
 void TextRasterRenderer::init(BOOL32 newContext) {
@@ -54,14 +60,33 @@ void TextRasterRenderer::init(BOOL32 newContext) {
 	} else {
 		Logger::logMsg("error loading font");
 	}
+	if (!newContext && program) {
+		glDetachShader(program, vertShader);
+		glDetachShader(program, fragShader);
+		glDeleteShader(vertShader);
+		glDeleteShader(fragShader);
+		glDeleteProgram(program);
+	}
+	if (context->gConfig->useShaders) {
+		GLint status = 0;
+		vertShader = loadShaderFromAsset(GL_VERTEX_SHADER, "shaders/quadshader.vert");
+		fragShader = loadShaderFromAsset(GL_FRAGMENT_SHADER, "shaders/quadshader.frag");
+		program = glCreateProgram();
+		glAttachShader(program, vertShader);
+		glAttachShader(program, fragShader);
+		glLinkProgram(program);
+		glGetProgramiv(program, GL_LINK_STATUS, &status);
+		if(status == GL_FALSE){
+			logProgramInfo(program);
+		}
+		shaderVPosition = glGetAttribLocation(program, "vPosition");
+		shaderUvMap = glGetAttribLocation(program, "uvMap");
+		shaderProjMatrix = glGetUniformLocation(program, "projection_matrix");
+		shaderMVMatrix = glGetUniformLocation(program, "modelview_matrix");
+		shaderTex = glGetUniformLocation(program, "tex");
+		shaderColorFilter = glGetUniformLocation(program, "colorFilter");
+	}
 
-}
-
-
-void TextRasterRenderer::loadLevel() {
-}
-
-void TextRasterRenderer::unloadLevel() {
 }
 
 F32 TextRasterRenderer::getHeight() {
@@ -99,10 +124,20 @@ void TextRasterRenderer::startText() {
 	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glFrontFace(GL_CW);
 	glBindTexture(GL_TEXTURE_2D, ftex);
+	if (context->gConfig->useShaders) {
+		glUseProgram(program);
+		glEnableVertexAttribArray(shaderVPosition);
+		glEnableVertexAttribArray(shaderUvMap);
+	}
 }
 
 void TextRasterRenderer::finishText() {
 	//glDisable(GL_BLEND);
+	if (context->gConfig->useShaders) {
+		glDisableVertexAttribArray(shaderVPosition);
+		glDisableVertexAttribArray(shaderUvMap);
+		glUseProgram(0);
+	}
 }
 
 void TextRasterRenderer::render(const char *text, F32 x, F32 y) {
@@ -163,12 +198,21 @@ void TextRasterRenderer::render(const char *text, F32 x, F32 y) {
 		++text;
 		++i;
 	}
-	glVertexPointer(3, GL_FLOAT, 0, &verts);
-	glTexCoordPointer(2, GL_FLOAT, 0, &uvs);
+	if (context->gConfig->useShaders) {
+		glVertexAttribPointer(shaderVPosition, 3, GL_FLOAT, GL_FALSE, 0, verts);
+		glVertexAttribPointer(shaderUvMap, 2, GL_FLOAT, GL_FALSE, 0, uvs);
+		glUniformMatrix4fv(shaderProjMatrix, 1, GL_FALSE, (GLfloat*) &context->renderContext->projMatrix.m[0][0]);
+		glUniformMatrix4fv(shaderMVMatrix, 1, GL_FALSE, (GLfloat*) &context->renderContext->mvMatrix.m[0][0]);
+		glUniform1i(shaderTex, 0);
+		Vec4f colorFilter = context->renderContext->colorFilter;
+		glUniform4f(shaderColorFilter, colorFilter.x,colorFilter.y,colorFilter.z,colorFilter.a);
+	} else {
+		Vec4f colorFilter = context->renderContext->colorFilter;
+		glColor4f(colorFilter.x,colorFilter.y,colorFilter.z,colorFilter.a);
+		glVertexPointer(3, GL_FLOAT, 0, &verts);
+		glTexCoordPointer(2, GL_FLOAT, 0, &uvs);
+	}
 	glDrawArrays(GL_TRIANGLES, 0, length * 6);
-}
-
-void TextRasterRenderer::render(World *world) {
 }
 
 TextRasterRenderer::~TextRasterRenderer() {

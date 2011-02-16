@@ -10,6 +10,9 @@
 
 #include "UIAnimator.h"
 #include "../primitives.h"
+#include "../util/esTransform.h"
+
+class Context;
 
 class SlideAnimator : public UIAnimator {
 public:
@@ -19,14 +22,15 @@ public:
 	virtual ~SlideAnimator();
 	virtual void reset();
 	virtual void update(F32 delta);
-	virtual void drawPreComponent(GraphicsConfiguration *gConfig);
-	virtual void drawPostComponent(GraphicsConfiguration *gConfig);
+	virtual void drawPreComponent(Context *context);
+	virtual void drawPostComponent(Context *context);
 	virtual BOOL32 isComplete();
 private:
 	F32 time;
 	F32 animationTime;
 	SlideSide side;
 	SlideType type;
+	ESMatrix tempMatrix;
 };
 
 #endif /* SLIDEANIMATOR_H_ */
