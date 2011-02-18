@@ -12,9 +12,9 @@
 #include <batterytech/Context.h>
 #include <batterytech/primitives.h>
 #include <batterytech/platform/platformgl.h>
-#include "SimpleSpriteRenderer.h"
+#include "BatchSpriteRenderer.h"
 
-class SimpleSpriteRenderer;
+class BatchSpriteRenderer;
 
 class BallRenderer: public Renderer {
 public:
@@ -24,7 +24,7 @@ public:
 	virtual void render(World *world);
 private:
 	Context *context;
-	SimpleSpriteRenderer *spriteRenderer;
+	BatchSpriteRenderer *spriteRenderer;
 };
 
 #endif /* BALLRENDERER_H_ */

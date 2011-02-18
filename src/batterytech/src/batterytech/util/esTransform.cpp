@@ -23,7 +23,7 @@
 
 #define PI 3.1415926535897932384626433832795f
 
-void ESUTIL_API esCopy(ESMatrix *result, const ESMatrix *source) {
+void esCopy(ESMatrix *result, const ESMatrix *source) {
 	result->m[0][0] = source->m[0][0];
 	result->m[0][1] = source->m[0][1];
 	result->m[0][2] = source->m[0][2];
@@ -42,8 +42,7 @@ void ESUTIL_API esCopy(ESMatrix *result, const ESMatrix *source) {
 	result->m[3][3] = source->m[3][3];
 }
 
-void ESUTIL_API
-esScale(ESMatrix *result, GLfloat sx, GLfloat sy, GLfloat sz)
+void esScale(ESMatrix *result, GLfloat sx, GLfloat sy, GLfloat sz)
 {
     result->m[0][0] *= sx;
     result->m[0][1] *= sx;
@@ -61,8 +60,7 @@ esScale(ESMatrix *result, GLfloat sx, GLfloat sy, GLfloat sz)
     result->m[2][3] *= sz;
 }
 
-void ESUTIL_API
-esTranslate(ESMatrix *result, GLfloat tx, GLfloat ty, GLfloat tz)
+void esTranslate(ESMatrix *result, GLfloat tx, GLfloat ty, GLfloat tz)
 {
     result->m[3][0] += (result->m[0][0] * tx + result->m[1][0] * ty + result->m[2][0] * tz);
     result->m[3][1] += (result->m[0][1] * tx + result->m[1][1] * ty + result->m[2][1] * tz);
@@ -70,8 +68,7 @@ esTranslate(ESMatrix *result, GLfloat tx, GLfloat ty, GLfloat tz)
     result->m[3][3] += (result->m[0][3] * tx + result->m[1][3] * ty + result->m[2][3] * tz);
 }
 
-void ESUTIL_API
-esRotate(ESMatrix *result, GLfloat angle, GLfloat x, GLfloat y, GLfloat z)
+void esRotate(ESMatrix *result, GLfloat angle, GLfloat x, GLfloat y, GLfloat z)
 {
    GLfloat sinAngle, cosAngle;
    GLfloat mag = sqrtf(x * x + y * y + z * z);
@@ -123,8 +120,7 @@ esRotate(ESMatrix *result, GLfloat angle, GLfloat x, GLfloat y, GLfloat z)
    }
 }
 
-void ESUTIL_API
-esFrustum(ESMatrix *result, float left, float right, float bottom, float top, float nearZ, float farZ)
+void esFrustum(ESMatrix *result, float left, float right, float bottom, float top, float nearZ, float farZ)
 {
     float       deltaX = right - left;
     float       deltaY = top - bottom;
@@ -153,8 +149,7 @@ esFrustum(ESMatrix *result, float left, float right, float bottom, float top, fl
 }
 
 
-void ESUTIL_API
-esPerspective(ESMatrix *result, float fovy, float aspect, float nearZ, float farZ)
+void esPerspective(ESMatrix *result, float fovy, float aspect, float nearZ, float farZ)
 {
    GLfloat frustumW, frustumH;
 
@@ -164,8 +159,7 @@ esPerspective(ESMatrix *result, float fovy, float aspect, float nearZ, float far
    esFrustum( result, -frustumW, frustumW, -frustumH, frustumH, nearZ, farZ );
 }
 
-void ESUTIL_API
-esOrtho(ESMatrix *result, float left, float right, float bottom, float top, float nearZ, float farZ)
+void esOrtho(ESMatrix *result, float left, float right, float bottom, float top, float nearZ, float farZ)
 {
     float       deltaX = right - left;
     float       deltaY = top - bottom;
@@ -187,8 +181,7 @@ esOrtho(ESMatrix *result, float left, float right, float bottom, float top, floa
 }
 
 
-void ESUTIL_API
-esMatrixMultiply(ESMatrix *result, ESMatrix *srcA, ESMatrix *srcB)
+void esMatrixMultiply(ESMatrix *result, ESMatrix *srcA, ESMatrix *srcB)
 {
     ESMatrix    tmp;
     int         i;
@@ -219,8 +212,7 @@ esMatrixMultiply(ESMatrix *result, ESMatrix *srcA, ESMatrix *srcB)
 }
 
 
-void ESUTIL_API
-esMatrixLoadIdentity(ESMatrix *result)
+void esMatrixLoadIdentity(ESMatrix *result)
 {
     memset(result, 0x0, sizeof(ESMatrix));
     result->m[0][0] = 1.0f;

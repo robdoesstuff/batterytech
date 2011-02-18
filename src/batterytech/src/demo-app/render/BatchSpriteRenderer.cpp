@@ -1,11 +1,11 @@
 /*
- * SimpleSpriteRenderer.cpp
+ * BatchSpriteRenderer
  *
  *  Created on: Dec 2, 2010
  *      Author: rgreen
  */
 
-#include "SimpleSpriteRenderer.h"
+#include "BatchSpriteRenderer.h"
 #include "../GameConstants.h"
 #include <stdio.h>
 #include <string.h>
@@ -14,7 +14,7 @@
 #include <batterytech/render/GraphicsConfiguration.h>
 #include <batterytech/render/RenderContext.h>
 
-SimpleSpriteRenderer::SimpleSpriteRenderer(Context *context, const char *spriteAssetName) {
+BatchSpriteRenderer::BatchSpriteRenderer(Context *context, const char *spriteAssetName) {
 	this->context = context;
 	this->spriteAssetName = spriteAssetName;
 	textureId = 0;
@@ -23,10 +23,10 @@ SimpleSpriteRenderer::SimpleSpriteRenderer(Context *context, const char *spriteA
 	shaderColorFilter = 0;
 }
 
-SimpleSpriteRenderer::~SimpleSpriteRenderer() {
+BatchSpriteRenderer::~BatchSpriteRenderer() {
 }
 
-void SimpleSpriteRenderer::init(BOOL32 newContext) {
+void BatchSpriteRenderer::init(BOOL32 newContext) {
 	if (!newContext && textureId) {
 		glDeleteTextures(1, &textureId);
 		textureId = 0;
@@ -62,34 +62,44 @@ void SimpleSpriteRenderer::init(BOOL32 newContext) {
 	}
 }
 
-void SimpleSpriteRenderer::setSpriteAssetname(const char* spriteAssetName) {
+void BatchSpriteRenderer::setSpriteAssetname(const char* spriteAssetName) {
 	this->spriteAssetName = spriteAssetName;
 }
 
-void SimpleSpriteRenderer::render(F32 top, F32 right, F32 bottom, F32 left) {
+void BatchSpriteRenderer::startBatch() {
 	glBindTexture(GL_TEXTURE_2D, textureId);
+	glFrontFace(GL_CW);
+	if (context->gConfig->useShaders) {
+		glUseProgram(program);
+		glEnableVertexAttribArray(shaderVPosition);
+		glEnableVertexAttribArray(shaderUvMap);
+		glUniform1i(shaderTex, 0);
+		Vec4f colorFilter = context->renderContext->colorFilter;
+		glUniform4f(shaderColorFilter, colorFilter.x,colorFilter.y,colorFilter.z,colorFilter.a);
+	}
+}
+
+void BatchSpriteRenderer::endBatch() {
+	if (context->gConfig->useShaders) {
+		glDisableVertexAttribArray(shaderVPosition);
+		glDisableVertexAttribArray(shaderUvMap);
+		glUseProgram(0);
+	}
+}
+
+void BatchSpriteRenderer::render(F32 top, F32 right, F32 bottom, F32 left) {
 	F32 verts[] = {
 			left, top, 0, right, top, 0, right, bottom, 0, left, bottom, 0
 	};
 	F32 uvs[] = {
 			0, 0, 1, 0, 1, 1, 0, 1
 	};
-	glFrontFace(GL_CW);
 	if (context->gConfig->useShaders) {
-		glUseProgram(program);
-		glEnableVertexAttribArray(shaderVPosition);
-		glEnableVertexAttribArray(shaderUvMap);
 		glVertexAttribPointer(shaderVPosition, 3, GL_FLOAT, GL_FALSE, 0, verts);
 		glVertexAttribPointer(shaderUvMap, 2, GL_FLOAT, GL_FALSE, 0, uvs);
 		glUniformMatrix4fv(shaderProjMatrix, 1, GL_FALSE, (GLfloat*) &context->renderContext->projMatrix.m[0][0]);
 		glUniformMatrix4fv(shaderMVMatrix, 1, GL_FALSE, (GLfloat*) &context->renderContext->mvMatrix.m[0][0]);
-		glUniform1i(shaderTex, 0);
-		Vec4f colorFilter = context->renderContext->colorFilter;
-		glUniform4f(shaderColorFilter, colorFilter.x,colorFilter.y,colorFilter.z,colorFilter.a);
 		glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
-		glDisableVertexAttribArray(shaderVPosition);
-		glDisableVertexAttribArray(shaderUvMap);
-		glUseProgram(0);
 	} else {
 		glVertexPointer(3, GL_FLOAT, 0, &verts);
 		glTexCoordPointer(2, GL_FLOAT, 0, &uvs);
@@ -97,10 +107,7 @@ void SimpleSpriteRenderer::render(F32 top, F32 right, F32 bottom, F32 left) {
 	}
 }
 
-void SimpleSpriteRenderer::render(F32 x, F32 y, F32 width, F32 height, F32 angleRads) {
-	// this one
-	glBindTexture(GL_TEXTURE_2D, textureId);
-	glFrontFace(GL_CW);
+void BatchSpriteRenderer::render(F32 x, F32 y, F32 width, F32 height, F32 angleRads) {
 	F32 top = height/2;
 	F32 right = width/2;
 	F32 bottom = -height/2;
@@ -112,24 +119,15 @@ void SimpleSpriteRenderer::render(F32 x, F32 y, F32 width, F32 height, F32 angle
 			0, 0, 1, 0, 1, 1, 0, 1
 	};
 	if (context->gConfig->useShaders) {
-		glUseProgram(program);
 		ESMatrix myMvMatrix;
 		esCopy(&myMvMatrix, &context->renderContext->mvMatrix);
 		esTranslate(&myMvMatrix, x, y, 0);
 		esRotate(&myMvMatrix, angleRads * (180 / PI), 0, 0, -1.0f);
-		glEnableVertexAttribArray(shaderVPosition);
-		glEnableVertexAttribArray(shaderUvMap);
 		glVertexAttribPointer(shaderVPosition, 3, GL_FLOAT, GL_FALSE, 0, verts);
 		glVertexAttribPointer(shaderUvMap, 2, GL_FLOAT, GL_FALSE, 0, uvs);
 		glUniformMatrix4fv(shaderProjMatrix, 1, GL_FALSE, (GLfloat*) &context->renderContext->projMatrix.m[0][0]);
 		glUniformMatrix4fv(shaderMVMatrix, 1, GL_FALSE, (GLfloat*) &myMvMatrix.m[0][0]);
-		glUniform1i(shaderTex, 0);
-		Vec4f colorFilter = context->renderContext->colorFilter;
-		glUniform4f(shaderColorFilter, colorFilter.x,colorFilter.y,colorFilter.z,colorFilter.a);
 		glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
-		glDisableVertexAttribArray(shaderVPosition);
-		glDisableVertexAttribArray(shaderUvMap);
-		glUseProgram(0);
 	} else {
 		// GL1 rendering branch
 		Vec4f colorFilter = context->renderContext->colorFilter;
@@ -142,8 +140,6 @@ void SimpleSpriteRenderer::render(F32 x, F32 y, F32 width, F32 height, F32 angle
 		glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 		glPopMatrix();
 	}
-
 }
-
 
 

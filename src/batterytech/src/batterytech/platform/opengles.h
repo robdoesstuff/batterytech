@@ -11,7 +11,7 @@
 #include <Math.h>
 #include <stdlib.h>
 
-#define GLES_VERSION_CONSTANT "OpenGL ES-"
+#define GLES_VERSION_CONSTANT "OpenGL ES"
 #define GLES_PROFILE_COMMON "CM"
 #define GLES_PROFILE_COMMON_LITE "CL"
 #define GLES_EXT_GENERATE_MIPMAP "generate_mipmap"

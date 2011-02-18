@@ -1,43 +1,13 @@
 package com.batterypoweredgames.demoapp;
 
-import android.app.Activity;
-import android.opengl.GLSurfaceView;
+public interface DemoAppView {
 
-public class DemoAppView extends GLSurfaceView {
+	public abstract DemoAppRenderer getRenderer();
 
-	private DemoAppRenderer renderer;
+	public abstract void onPause();
 
-	public DemoAppView(Activity activity) {
-		super(activity);
-		renderer = new DemoAppRenderer(activity, this);
-		setRenderer(renderer);
-		setRenderMode(RENDERMODE_CONTINUOUSLY);
-	}
-	
-	public DemoAppRenderer getRenderer() {
-		return renderer;
-	}
-	
-	@Override
-	public void onPause() {
-		super.onPause();
-		if (renderer != null) {
-			renderer.onPause();
-		}
-	}
+	public abstract void onResume();
 
-	@Override
-	public void onResume() {
-		super.onResume();
-		if (renderer != null) {
-			renderer.onResume();
-		}
-	}
+	public abstract void release();
 
-	public void release() {
-		if (renderer != null) {
-			renderer.release();
-		}
-		renderer = null;
-	}
 }

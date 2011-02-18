@@ -11,4 +11,4 @@ varying vec2 uvCoord;
 void main() {
 	uvCoord = uvMap; 
 	gl_Position = projection_matrix * modelview_matrix * vec4(vPosition, 1.0);
-}              
+}      

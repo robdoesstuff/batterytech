@@ -1,27 +1,9 @@
-# Copyright (C) 2009 The Android Open Source Project
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#      http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
-LOCAL_PATH := $(call my-dir)/src
+# Batterytech Demo App Android makefile
 
-include $(CLEAR_VARS)
+LOCAL_PATH := $(call my-dir)/../../batterytech/src
 
-LOCAL_CFLAGS := -DANDROID_NDK \
-                -DDISABLE_IMPORTGL \
-                -I src
-
-LOCAL_MODULE    := demo-app
-LOCAL_SRC_FILES :=\
+# List all of your local source files here that you want included in this build
+my_src_files :=\
 	batterytech/batterytech.cpp \
 	batterytech/Logger.cpp \
 	batterytech/Context.cpp \
@@ -36,6 +18,7 @@ LOCAL_SRC_FILES :=\
 	batterytech/network/GameConnection.cpp \
 	batterytech/network/NetworkMessage.cpp \
 	batterytech/render/Renderer.cpp \
+	batterytech/render/RenderContext.cpp \
 	batterytech/render/TextRasterRenderer.cpp \
 	batterytech/render/GraphicsConfiguration.cpp \
 	batterytech/render/MenuRenderer.cpp \
@@ -57,6 +40,7 @@ LOCAL_SRC_FILES :=\
 	batterytech/ui/TextField.cpp \
 	batterytech/menus/MainMenu.cpp \
 	batterytech/menus/OptionsMenu.cpp \
+	batterytech/util/esTransform.cpp \
 	batterytech/util/Triangulator.cpp \
 	batterytech/util/ByteUtil.cpp \
 	batterytech/util/TextFileUtil.cpp \
@@ -64,7 +48,7 @@ LOCAL_SRC_FILES :=\
 	batterytech/util/PropertiesIO.cpp \
 	batterytech/util/strx.cpp
 	
-LOCAL_SRC_FILES +=\
+my_src_files +=\
 	demo-app/Game.cpp \
 	demo-app/GameUtil.cpp \
 	demo-app/World.cpp \
@@ -78,6 +62,7 @@ LOCAL_SRC_FILES +=\
 	demo-app/render/WorldRenderer.cpp \
 	demo-app/render/B2DebugRenderer.cpp \
 	demo-app/render/SimpleSpriteRenderer.cpp \
+	demo-app/render/BatchSpriteRenderer.cpp \
 	demo-app/render/BallRenderer.cpp \
 	demo-app/gameobjects/Ball.cpp \
 	demo-app/menus/GameOptionsMenu.cpp \
@@ -85,7 +70,7 @@ LOCAL_SRC_FILES +=\
 	demo-app/menus/MenuButtonMenu.cpp
 	
 	
-LOCAL_SRC_FILES +=\
+my_src_files +=\
 	Box2D/Collision/b2BroadPhase.cpp \
 	Box2D/Collision/b2CollideCircle.cpp \
 	Box2D/Collision/b2CollidePolygon.cpp \
@@ -121,8 +106,38 @@ LOCAL_SRC_FILES +=\
 	Box2D/Dynamics/Joints/b2PulleyJoint.cpp \
 	Box2D/Dynamics/Joints/b2RevoluteJoint.cpp \
 	Box2D/Dynamics/Joints/b2WeldJoint.cpp
+
+# This module is for OpenGL ES 2.0 (shader-based) rendering
+# Comment out down to the next module if you don't need ES 2.0 functionality
+# Set SUPPORT_GLES2 to false in DemoAppView20 to only allow for ES 1.0/1.1 initialization (or else
+# you will end up with a 2.0 context and 1.0 rendering which will only be unsupported operations)
+include $(CLEAR_VARS)
+
+LOCAL_CFLAGS := -DANDROID_NDK \
+                -DDISABLE_IMPORTGL \
+                -I src
+
+LOCAL_MODULE    := demo-app-gl2
+LOCAL_SRC_FILES := $(my_src_files)
 	
+LOCAL_LDLIBS := -lGLESv1_CM -lGLESv2 -ldl -llog
+
+include $(BUILD_SHARED_LIBRARY)
+
+# This module is for OpenGL ES 1.0/1.1 (fixed-function) rendering
+# Comment out if you don't need ES 1.0/1.1 functionality
+# Remember to set your min GLES version in your manifest if eliminating 1.0/1.1 support
+include $(CLEAR_VARS)
+
+LOCAL_CFLAGS := -DANDROID_NDK \
+                -DDISABLE_IMPORTGL \
+                -DNO_GLES2_LIB \
+                -I src
+
+LOCAL_MODULE    := demo-app-gl1
+LOCAL_SRC_FILES := $(my_src_files)
+
 LOCAL_LDLIBS := -lGLESv1_CM -ldl -llog
 
-#include $(BUILD_SHARED_LIBRARY)
 include $(BUILD_SHARED_LIBRARY)
+

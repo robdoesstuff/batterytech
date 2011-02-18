@@ -19,7 +19,7 @@ import com.batterypoweredgames.input.InputHandler;
 import com.batterypoweredgames.input.InputObject;
 
 public class DemoAppRenderer implements Renderer, InputHandler, SensorEventListener {
-	private static final String TAG = "ImmPinballRenderer";
+	private static final String TAG = "DemoAppRenderer";
 
 	// TODO - query native to see if it needs us to start/stop audiotrack for pcmaudiomanager service
 	

@@ -7,10 +7,11 @@
 
 #include "BallRenderer.h"
 #include "../gameobjects/Ball.h"
+#include <batterytech/render/RenderContext.h>
 
 BallRenderer::BallRenderer(Context *context) {
 	this->context = context;
-	this->spriteRenderer = new SimpleSpriteRenderer(context, NULL);
+	this->spriteRenderer = new BatchSpriteRenderer(context, NULL);
 }
 
 BallRenderer::~BallRenderer() {
@@ -22,11 +23,13 @@ void BallRenderer::init(BOOL32 newContext) {
 }
 
 void BallRenderer::render(World *world) {
-	glColor4f(1,1,1,1);
+	context->renderContext->colorFilter = Vec4f(1,1,1,1);
 	S32 i;
+	spriteRenderer->startBatch();
 	for (i = 0; i < world->gameObjects->getSize(); i++) {
 		Ball *ball = (Ball*) world->gameObjects->array[i];
 		spriteRenderer->render(ball->x, ball->y, BALL_RADIUS * 2, BALL_RADIUS * 2, ball->angle);
 	}
+	spriteRenderer->endBatch();
 }
 

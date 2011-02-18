@@ -6,6 +6,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 import android.app.Activity;
 import android.hardware.SensorManager;
 import android.media.AudioManager;
+import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -20,6 +21,9 @@ import com.batterypoweredgames.input.TouchProcessor;
 
 public class DemoAppActivity extends Activity {
 	private static final String TAG = "BatteryTechActivity";
+	
+	public static final String APP_GL1_LIB_NAME = "demo-app-gl1";
+	public static final String APP_GL2_LIB_NAME = "demo-app-gl2";
 	
 	private DemoAppView btechView;
 	
@@ -37,8 +41,13 @@ public class DemoAppActivity extends Activity {
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
-        btechView = new DemoAppView(this);
-        setContentView(btechView);
+		int sdkVersion = new Integer(android.os.Build.VERSION.SDK);
+		if (sdkVersion < 5) {
+			btechView = new DemoAppView16(this);
+		} else {
+			btechView = new DemoAppView20(this);
+		}
+        setContentView((GLSurfaceView)btechView);
 		createTouchProcessor();
 		createInputObjectPool();
     }

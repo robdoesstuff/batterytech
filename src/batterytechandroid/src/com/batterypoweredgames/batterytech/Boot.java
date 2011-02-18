@@ -25,10 +25,6 @@ public class Boot {
 	private AudioWrapper audioWrapper;
 	private View view;
 
-	static {
-		System.loadLibrary("demo-app");
-	}
-
 	public Boot(Activity activity, View view) {
 		this.activity = activity;
 		this.view = view;

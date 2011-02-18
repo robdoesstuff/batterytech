@@ -5,21 +5,23 @@
  *      Author: rgreen
  */
 
-#ifndef SIMPLESPRITERENDERER_H_
-#define SIMPLESPRITERENDERER_H_
+#ifndef BATCHSPRITERENDERER_H_
+#define BATCHSPRITERENDERER_H_
 
 #include <batterytech/render/Renderer.h>
 #include <batterytech/Context.h>
 #include <batterytech/primitives.h>
 #include <batterytech/platform/platformgl.h>
 
-class SimpleSpriteRenderer : Renderer {
+class BatchSpriteRenderer : Renderer {
 public:
-	SimpleSpriteRenderer(Context *context, const char *spriteAssetName);
+	BatchSpriteRenderer(Context *context, const char *spriteAssetName);
 	virtual void init(BOOL32 newContext);
+	virtual void startBatch();
+	virtual void endBatch();
 	virtual void render(F32 top, F32 right, F32 bottom, F32 left);
 	virtual void render(F32 x, F32 y, F32 width, F32 height, F32 angle);
-	virtual ~SimpleSpriteRenderer();
+	virtual ~BatchSpriteRenderer();
 	void setSpriteAssetname(const char* spriteAssetName);
 private:
 	Context *context;
