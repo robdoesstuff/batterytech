@@ -20,8 +20,7 @@
 
 #define MAX_TOUCHES 10
 
-@interface batterytechViewController : UIViewController
-{
+@interface batterytechViewController : UIViewController <UIAccelerometerDelegate> {
     EAGLContext *context;
      
     BOOL animating;
@@ -41,6 +40,7 @@
 @property (readonly, nonatomic, getter=isAnimating) BOOL animating;
 @property (nonatomic) NSInteger animationFrameInterval;
 @property (nonatomic, retain) RemoteIOPlayer *player;
+@property (nonatomic, retain) EAGLContext *context;
 
 - (void)startAnimation;
 - (void)stopAnimation;

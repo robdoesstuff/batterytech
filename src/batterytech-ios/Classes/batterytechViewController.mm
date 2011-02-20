@@ -23,13 +23,10 @@ static double lastTime;
 double getCurrentTime();
 UIView *batterytechRootView;
 
-@interface batterytechViewController ()
-@property (nonatomic, retain) EAGLContext *context;
-@end
-
 @implementation batterytechViewController
 
 @synthesize context;
+@synthesize player;
 
 - (void)awakeFromNib
 {
@@ -89,9 +86,13 @@ UIView *batterytechRootView;
 	currentTime = getCurrentTime();
 	//allocate the audio player∫
 	player = [[RemoteIOPlayer alloc]init];
-	//initialise the audio player
+	//initialize the audio player
 	[player initialiseAudio];
 	[player start];
+	// initialize accelerometer
+	UIAccelerometer *accel = [UIAccelerometer sharedAccelerometer];
+	accel.updateInterval = 1/30.0f;
+	accel.delegate = self;
 }
 
 - (void)dealloc
@@ -301,6 +302,14 @@ UIView *batterytechRootView;
 			touchIds[idx] = 0;		
 		}
 	}
+}
+
+- (void)accelerometer:(UIAccelerometer *)accelerometer didAccelerate:(UIAcceleration *)acceleration {
+	UIAccelerationValue x,y,z;
+	x = acceleration.x;
+	y = acceleration.y;
+	z = acceleration.z;
+	btAccelerometerChanged(-9.8f*x,-9.8f*y,-9.8f*z);
 }
 
 @end
