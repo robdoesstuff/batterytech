@@ -14,7 +14,7 @@
 -(OSStatus)start;
 -(OSStatus)stop;
 -(void)cleanUp;
--(void)intialiseAudio;
+-(void)initialiseAudio;
 -(UInt32)getNextPacket;
 
 @end

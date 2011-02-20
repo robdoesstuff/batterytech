@@ -70,17 +70,10 @@ static OSStatus playbackCallback(void *inRefCon,
 		//get the buffer to be filled
 		AudioBuffer buffer = ioData->mBuffers[i];
 		
-		//if needed we can get the number of bytes that will fill the buffer using
-		// int numberOfSamples = ioData->mBuffers[i].mDataByteSize;
-		
-		//get the buffer and point to it as an UInt32 (as we will be filling it with 32 bit samples)
-		//if we wanted we could grab it as a 16 bit and put in the samples for left and right seperately
-		//but the loop below would be for(j = 0; j < inNumberFrames * 2; j++) as each frame is a 32 bit number
-		
-		// WTF - Why does this work??  Something's wrong... I specified 2 channels per frame but it sounds correct with only 1, yet I have to double the frames.
-		UInt32 frames = inNumberFrames * 2;
+		// 4 bytes per frame for 16 bit stereo
+		UInt16 frames = inNumberFrames * 4;
 		UInt16 monoBuffer[frames];
-		UInt32 *frameBuffer = (UInt32*)buffer.mData;
+		UInt16 *frameBuffer = (UInt16*)buffer.mData;
 		_iosSndMgr->fillBuffer(&monoBuffer, frames);
 		
 		//_iosSndMgr->fillBuffer(frameBuffer, inNumberFrames);
@@ -93,11 +86,7 @@ static OSStatus playbackCallback(void *inRefCon,
     return noErr;
 }
 
-
-// Below code is a cut down version (for output only) of the code written by
-// Micheal "Code Fighter" Tyson (punch on Mike)
-// See http://michael.tyson.id.au/2008/11/04/using-remoteio-audio-unit/ for details
--(void)intialiseAudio{
+-(void)initialiseAudio{
 	OSStatus status;
 	
 	

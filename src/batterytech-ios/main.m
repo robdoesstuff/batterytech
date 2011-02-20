@@ -1,9 +1,9 @@
 //
 //  main.m
-//  batterytech-ios
+//  imm-pinball-apple
 //
-//  Created by Apple on 10/17/10.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
+//  Created by Apple on 1/12/11.
+//  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

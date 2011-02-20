@@ -39,8 +39,36 @@
                                         kEAGLColorFormatRGBA8, kEAGLDrawablePropertyColorFormat,
                                         nil];
     }
-    
+	[self configureScale];
     return self;
+}
+
+- (void) configureScale {
+	CGFloat screenScale;
+	if ([[UIScreen mainScreen] respondsToSelector:@selector(scale)]) {
+		//iphones with the latest SDK should end up in here (and also ipads when they are updated)
+		NSMethodSignature * scaleSignature = [UIScreen instanceMethodSignatureForSelector:@selector(scale)];
+		NSInvocation * scaleInvocation = [NSInvocation invocationWithMethodSignature:scaleSignature];
+		[scaleInvocation setTarget:[UIScreen mainScreen]];
+		[scaleInvocation setSelector:@selector(scale)];
+		[scaleInvocation invoke];
+		
+		NSInteger returnLength = [[scaleInvocation methodSignature] methodReturnLength];
+		//good memory management to check this in case anything changed in the future
+		if (returnLength == sizeof(CGFloat)) {
+			[scaleInvocation getReturnValue:&screenScale];
+		} else {
+			//default value
+			screenScale = 1.0f;
+		}
+	} else {
+		//ipad (for now) and other SDK < 4.0 should come here
+		screenScale = 1.0f;
+	}
+	if ([self respondsToSelector: NSSelectorFromString(@"contentScaleFactor")]) {
+		[self setContentScaleFactor:screenScale];
+	} 
+	[self setScaleFactor:screenScale];
 }
 
 - (void)dealloc
@@ -67,6 +95,14 @@
         
         [EAGLContext setCurrentContext:nil];
     }
+}
+
+- (float)scaleFactor {
+	return scaleFactor;
+}
+
+- (void)setScaleFactor:(float)newScaleFactor {
+	scaleFactor = newScaleFactor;
 }
 
 - (void)createFramebuffer
@@ -154,6 +190,7 @@
 
 - (void)layoutSubviews
 {
+	[self configureScale];
     // The framebuffer will be re-created at the beginning of the next setFramebuffer method call.
     [self deleteFramebuffer];
 }
