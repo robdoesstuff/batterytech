@@ -31,12 +31,7 @@ AudioManager *_iosSndMgr;
 UITextView *myTextView;
 batterytechKeyboardDelegate *kbDelegate;
 
-void _platform_log(const char* message) {
-	NSLog(@"%s", message);
-}
-
-unsigned char* _platform_load_asset(const char *assetName, int *size) {
-	char *data;
+static const char* getFilePathForAsset(const char *assetName) {
 	char *lastDot = NULL;
 	char *lastSep = NULL;
 	// assetName will be "dir1/dir2/my_file.ogg"
@@ -69,6 +64,18 @@ unsigned char* _platform_load_asset(const char *assetName, int *size) {
 		NSString *pathName = [NSString stringWithCString:path encoding: NSUTF8StringEncoding];
 		NSString *filePath = [[NSBundle mainBundle] pathForResource:resourceName ofType:extString inDirectory:pathName];
 		const char *filePathCString = [filePath UTF8String];
+		return filePathCString;
+	}
+	return NULL;
+}
+
+void _platform_log(const char* message) {
+	NSLog(@"%s", message);
+}
+
+unsigned char* _platform_load_asset(const char *assetName, int *size) {
+	const char *filePathCString = getFilePathForAsset(assetName);
+	if (filePathCString) {
 		FILE *handle;
 		unsigned char *data = 0;
 		handle = fopen(filePathCString, "rb");
@@ -81,8 +88,9 @@ unsigned char* _platform_load_asset(const char *assetName, int *size) {
 		rewind(handle);
 		data = (unsigned char*) malloc(sizeof(unsigned char) * *size);
 		if (data) {
-			int bytesRead = fread(data, sizeof(unsigned char), *size, handle);
-			//cout << "malloc success, " << bytesRead << " bytes read of " << *size << endl;
+			fread(data, sizeof(unsigned char), *size, handle);
+			// int bytesRead = fread(data, sizeof(unsigned char), *size, handle);
+			// cout << "malloc success, " << bytesRead << " bytes read of " << *size << endl;
 		}
 		int error = ferror(handle);
 		if (error) {
@@ -103,13 +111,45 @@ void _platform_free_asset(unsigned char *ptr) {
 	}
 }
 
-S32 _platform_get_asset_length(const char *filename) {
-	// TODO get asset length
-	return 0;
+S32 _platform_get_asset_length(const char *assetName) {
+	int size = 0;
+	const char *filePathCString = getFilePathForAsset(assetName);
+	if (filePathCString) {
+		FILE *handle;
+		handle = fopen(filePathCString, "rb");
+		if (!handle) {
+			NSLog(@"No File Handle");		
+		}
+		fseek(handle, 0L, SEEK_END);
+		size = ftell(handle);
+		fclose(handle);
+	}
+	return size;
 }
 
-S32 _platform_read_asset_chunk(const char *filename, S32 offset, unsigned char *buffer, S32 bufferLength, BOOL32 *eof) {
-	// TODO read asset chunk
+S32 _platform_read_asset_chunk(const char *assetName, S32 offset, unsigned char *buffer, S32 bufferLength, BOOL32 *eof) {
+	const char *filePathCString = getFilePathForAsset(assetName);
+	if (filePathCString) {
+		FILE *handle;
+		handle = fopen(filePathCString, "rb");
+		if (!handle) {
+			NSLog(@"No File Handle");		
+		}
+		fseek(handle, offset, SEEK_SET);
+		int bytesRead = fread(buffer, sizeof(unsigned char), bufferLength, handle);
+		int error = ferror(handle);
+		if (error) {
+			//cout << "IO error " << error << endl;
+		}
+		if (feof(handle)) {
+			*eof = TRUE;
+			//cout << "EOF reached " << endl;
+		} else {
+			*eof = FALSE;
+		}
+		fclose(handle);
+		return bytesRead;
+	}
 	return 0;
 }
 
