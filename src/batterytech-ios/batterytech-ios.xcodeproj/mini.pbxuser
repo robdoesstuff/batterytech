@@ -288,6 +288,8 @@
 			3D56BB591311CBE600BF7F17 /* PBXTextBookmark */ = 3D56BB591311CBE600BF7F17 /* PBXTextBookmark */;
 			3D56BB5B1311CBFA00BF7F17 /* PBXTextBookmark */ = 3D56BB5B1311CBFA00BF7F17 /* PBXTextBookmark */;
 			3D56BB5C1311CBFA00BF7F17 /* PBXTextBookmark */ = 3D56BB5C1311CBFA00BF7F17 /* PBXTextBookmark */;
+			3D56BB691311CC4700BF7F17 /* PBXTextBookmark */ = 3D56BB691311CC4700BF7F17 /* PBXTextBookmark */;
+			3D56BB6A1311CC4700BF7F17 /* PBXTextBookmark */ = 3D56BB6A1311CC4700BF7F17 /* PBXTextBookmark */;
 		};
 		sourceControlManager = 3D65B4DD126BFA6F00CF4CFC /* Source Control */;
 		userBuildSettings = {
@@ -326,9 +328,9 @@
 	};
 	3D56B31D130F569100BF7F17 /* PCMAudioManager.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1263, 8138}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1263, 8164}}";
 			sepNavSelRange = "{7223, 0}";
-			sepNavVisRange = "{6989, 1286}";
+			sepNavVisRange = "{6989, 1280}";
 		};
 	};
 	3D56B323130F569100BF7F17 /* batterytech.cpp */ = {
@@ -362,9 +364,9 @@
 	};
 	3D56B34C130F569100BF7F17 /* iosgeneral.mm */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1263, 4602}}";
-			sepNavSelRange = "{4139, 0}";
-			sepNavVisRange = "{3557, 709}";
+			sepNavIntBoundsRect = "{{0, 0}, {1013, 4433}}";
+			sepNavSelRange = "{2139, 0}";
+			sepNavVisRange = "{2084, 430}";
 			sepNavWindowFrame = "{{251, 80}, {1241, 891}}";
 		};
 	};
@@ -1666,6 +1668,26 @@
 		rType = 0;
 		vrLen = 906;
 		vrLoc = 0;
+	};
+	3D56BB691311CC4700BF7F17 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 3D56B34C130F569100BF7F17 /* iosgeneral.mm */;
+		name = "iosgeneral.mm: 67";
+		rLen = 0;
+		rLoc = 2139;
+		rType = 0;
+		vrLen = 430;
+		vrLoc = 2084;
+	};
+	3D56BB6A1311CC4700BF7F17 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 3D56B412130F569200BF7F17 /* SimpleSpriteRenderer.cpp */;
+		name = "SimpleSpriteRenderer.cpp: 35";
+		rLen = 11;
+		rLoc = 984;
+		rType = 0;
+		vrLen = 386;
+		vrLoc = 714;
 	};
 	3D65B4CC126BFA6700CF4CFC /* batterytech-ios */ = {
 		isa = PBXExecutable;
