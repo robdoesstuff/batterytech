@@ -111,9 +111,11 @@
 	#include <gl/glu.h>
 	#include "win32/glext.h"
 	#include "win32/wglext.h"
+	// needed to map GLES to GL
 	#define glOrthof(left,right,bottom,top,near,far) glOrtho(left,right,bottom,top,near,far)
 	#define glFrustumf(xmin, xmax, ymin, ymax, zNear, zFar) glFrustum(xmin, xmax, ymin, ymax, zNear, zFar)
 
+	// OpenGL 2.0 extensions
 	extern PFNGLBLENDEQUATIONSEPARATEPROC glBlendEquationSeparate;
 	extern PFNGLDRAWBUFFERSPROC glDrawBuffers;
 	extern PFNGLSTENCILOPSEPARATEPROC glStencilOpSeparate;
