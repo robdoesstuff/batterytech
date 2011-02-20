@@ -19,7 +19,7 @@
 			3D65B4CC126BFA6700CF4CFC /* batterytech-ios */,
 		);
 	};
-	28EC4C5811D54ECE0027AA9F /* batterytech_iosViewController.xib */ = {
+	28EC4C5811D54ECE0027AA9F /* batterytechViewController.xib */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {880, 5460}}";
 			sepNavSelRange = "{0, 0}";
@@ -35,9 +35,9 @@
 	};
 	28FD14FD0DC6FC130079059D /* EAGLView.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1106, 2106}}";
-			sepNavSelRange = "{3756, 0}";
-			sepNavVisRange = "{3010, 910}";
+			sepNavIntBoundsRect = "{{0, 0}, {882, 2496}}";
+			sepNavSelRange = "{392, 0}";
+			sepNavVisRange = "{0, 1219}";
 		};
 	};
 	29B97313FDCFA39411CA2CEA /* Project object */ = {
@@ -48,17 +48,43 @@
 		addToTargets = (
 			1D6058900D05DD3D006BFB54 /* batterytech-ios */,
 		);
+		breakpoints = (
+		);
 		codeSenseManager = 3D65B4DE126BFA6F00CF4CFC /* Code sense */;
 		executables = (
 			3D65B4CC126BFA6700CF4CFC /* batterytech-ios */,
 		);
 		perUserDictionary = {
+			"PBXConfiguration.PBXBreakpointsDataSource.v1:1CA1AED706398EBD00589147" = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXBreakpointsDataSource_BreakpointID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					20,
+					198,
+					20,
+					99,
+					99,
+					29,
+					20,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXBreakpointsDataSource_ActionID,
+					PBXBreakpointsDataSource_TypeID,
+					PBXBreakpointsDataSource_BreakpointID,
+					PBXBreakpointsDataSource_UseID,
+					PBXBreakpointsDataSource_LocationID,
+					PBXBreakpointsDataSource_ConditionID,
+					PBXBreakpointsDataSource_IgnoreCountID,
+					PBXBreakpointsDataSource_ContinueID,
+				);
+			};
 			PBXConfiguration.PBXFileTableDataSource3.PBXFileTableDataSource = {
 				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
 				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
 				PBXFileTableDataSourceColumnWidthsKey = (
 					20,
-					572,
+					704,
 					20,
 					48,
 					43,
@@ -153,6 +179,43 @@
 			3D56B6701310C67900BF7F17 /* PBXTextBookmark */ = 3D56B6701310C67900BF7F17 /* PBXTextBookmark */;
 			3D56B6721310C67900BF7F17 /* XCBuildMessageTextBookmark */ = 3D56B6721310C67900BF7F17 /* XCBuildMessageTextBookmark */;
 			3D56B6731310C67900BF7F17 /* PBXTextBookmark */ = 3D56B6731310C67900BF7F17 /* PBXTextBookmark */;
+			3D56B7691310D06200BF7F17 /* PBXBookmark */ = 3D56B7691310D06200BF7F17 /* PBXBookmark */;
+			3D56B76D1310D15E00BF7F17 /* PBXTextBookmark */ = 3D56B76D1310D15E00BF7F17 /* PBXTextBookmark */;
+			3D56B76E1310D15E00BF7F17 /* XCBuildMessageTextBookmark */ = 3D56B76E1310D15E00BF7F17 /* XCBuildMessageTextBookmark */;
+			3D56B76F1310D15E00BF7F17 /* PBXTextBookmark */ = 3D56B76F1310D15E00BF7F17 /* PBXTextBookmark */;
+			3D56B8C41310D99B00BF7F17 /* PBXTextBookmark */ = 3D56B8C41310D99B00BF7F17 /* PBXTextBookmark */;
+			3D56B8C51310D99B00BF7F17 /* PBXTextBookmark */ = 3D56B8C51310D99B00BF7F17 /* PBXTextBookmark */;
+			3D56B8C61310D99B00BF7F17 /* PBXTextBookmark */ = 3D56B8C61310D99B00BF7F17 /* PBXTextBookmark */;
+			3D56B8C71310D99B00BF7F17 /* PBXTextBookmark */ = 3D56B8C71310D99B00BF7F17 /* PBXTextBookmark */;
+			3D56B8C81310D99B00BF7F17 /* PBXTextBookmark */ = 3D56B8C81310D99B00BF7F17 /* PBXTextBookmark */;
+			3D56B8C91310D99B00BF7F17 /* PBXTextBookmark */ = 3D56B8C91310D99B00BF7F17 /* PBXTextBookmark */;
+			3D56B8CA1310D99B00BF7F17 /* PlistBookmark */ = 3D56B8CA1310D99B00BF7F17 /* PlistBookmark */;
+			3D56B8CB1310D99B00BF7F17 /* PBXTextBookmark */ = 3D56B8CB1310D99B00BF7F17 /* PBXTextBookmark */;
+			3D56B8CC1310D99B00BF7F17 /* PBXTextBookmark */ = 3D56B8CC1310D99B00BF7F17 /* PBXTextBookmark */;
+			3D56B8CF1310D99B00BF7F17 /* PBXTextBookmark */ = 3D56B8CF1310D99B00BF7F17 /* PBXTextBookmark */;
+			3D56B8F71310DAB600BF7F17 /* PBXTextBookmark */ = 3D56B8F71310DAB600BF7F17 /* PBXTextBookmark */;
+			3D56B8F81310DAB600BF7F17 /* PBXTextBookmark */ = 3D56B8F81310DAB600BF7F17 /* PBXTextBookmark */;
+			3D56B8F91310DB1400BF7F17 /* PBXTextBookmark */ = 3D56B8F91310DB1400BF7F17 /* PBXTextBookmark */;
+			3D56B8FF1310DC3D00BF7F17 /* PBXTextBookmark */ = 3D56B8FF1310DC3D00BF7F17 /* PBXTextBookmark */;
+			3D56B9041310DC6D00BF7F17 /* PBXTextBookmark */ = 3D56B9041310DC6D00BF7F17 /* PBXTextBookmark */;
+			3D56B9061310DC7100BF7F17 /* PBXTextBookmark */ = 3D56B9061310DC7100BF7F17 /* PBXTextBookmark */;
+			3D56B90B1310DC7500BF7F17 /* PBXTextBookmark */ = 3D56B90B1310DC7500BF7F17 /* PBXTextBookmark */;
+			3D56B90C1310DC7500BF7F17 /* PBXTextBookmark */ = 3D56B90C1310DC7500BF7F17 /* PBXTextBookmark */;
+			3D56B90F1310DC7500BF7F17 /* PBXTextBookmark */ = 3D56B90F1310DC7500BF7F17 /* PBXTextBookmark */;
+			3D56B9101310DC7500BF7F17 /* PBXTextBookmark */ = 3D56B9101310DC7500BF7F17 /* PBXTextBookmark */;
+			3D56B9261310DE5D00BF7F17 /* PBXTextBookmark */ = 3D56B9261310DE5D00BF7F17 /* PBXTextBookmark */;
+			3D56B9271310DE5D00BF7F17 /* PBXTextBookmark */ = 3D56B9271310DE5D00BF7F17 /* PBXTextBookmark */;
+			3D56B9281310DE5D00BF7F17 /* PBXTextBookmark */ = 3D56B9281310DE5D00BF7F17 /* PBXTextBookmark */;
+			3D56B9291310DE5D00BF7F17 /* PBXTextBookmark */ = 3D56B9291310DE5D00BF7F17 /* PBXTextBookmark */;
+			3D56B92A1310DE5D00BF7F17 /* PBXTextBookmark */ = 3D56B92A1310DE5D00BF7F17 /* PBXTextBookmark */;
+			3D56B92B1310DE5D00BF7F17 /* PBXTextBookmark */ = 3D56B92B1310DE5D00BF7F17 /* PBXTextBookmark */;
+			3D56B9321310DECD00BF7F17 /* PBXTextBookmark */ = 3D56B9321310DECD00BF7F17 /* PBXTextBookmark */;
+			3D56B9331310DECD00BF7F17 /* PBXTextBookmark */ = 3D56B9331310DECD00BF7F17 /* PBXTextBookmark */;
+			3D56B9341310DECD00BF7F17 /* PBXTextBookmark */ = 3D56B9341310DECD00BF7F17 /* PBXTextBookmark */;
+			3D56B9351310DECD00BF7F17 /* PBXTextBookmark */ = 3D56B9351310DECD00BF7F17 /* PBXTextBookmark */;
+			3D56B9371310DEE400BF7F17 /* PBXTextBookmark */ = 3D56B9371310DEE400BF7F17 /* PBXTextBookmark */;
+			3D56B9381310DEE700BF7F17 /* PBXTextBookmark */ = 3D56B9381310DEE700BF7F17 /* PBXTextBookmark */;
+			3D56B9391310DEE700BF7F17 /* PBXTextBookmark */ = 3D56B9391310DEE700BF7F17 /* PBXTextBookmark */;
 		};
 		sourceControlManager = 3D65B4DD126BFA6F00CF4CFC /* Source Control */;
 		userBuildSettings = {
@@ -183,18 +246,93 @@
 	};
 	3D1C19BE12754BBF00A353B4 /* RemoteIOPlayer.mm */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {803, 2041}}";
-			sepNavSelRange = "{249, 0}";
-			sepNavVisRange = "{0, 1236}";
+			sepNavIntBoundsRect = "{{0, 0}, {1013, 1560}}";
+			sepNavSelRange = "{102, 0}";
+			sepNavVisRange = "{0, 377}";
 			sepNavWindowFrame = "{{450, 346}, {868, 740}}";
+		};
+	};
+	3D56B323130F569100BF7F17 /* batterytech.cpp */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1182, 2301}}";
+			sepNavSelRange = "{3338, 6}";
+			sepNavVisRange = "{2295, 1335}";
+			sepNavWindowFrame = "{{107, 198}, {1241, 891}}";
+		};
+	};
+	3D56B349130F569100BF7F17 /* boot.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {882, 581}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 299}";
+		};
+	};
+	3D56B34A130F569100BF7F17 /* boot.mm */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {882, 581}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 243}";
 		};
 	};
 	3D56B34C130F569100BF7F17 /* iosgeneral.mm */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1013, 3783}}";
-			sepNavSelRange = "{663, 0}";
-			sepNavVisRange = "{390, 415}";
-			sepNavWindowFrame = "{{15, 282}, {1241, 891}}";
+			sepNavIntBoundsRect = "{{0, 0}, {965, 3952}}";
+			sepNavSelRange = "{733, 0}";
+			sepNavVisRange = "{1875, 1007}";
+			sepNavWindowFrame = "{{323, 173}, {1241, 891}}";
+		};
+	};
+	3D56B352130F569100BF7F17 /* platformgl.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1041, 2951}}";
+			sepNavSelRange = "{12960, 0}";
+			sepNavVisRange = "{0, 2878}";
+		};
+	};
+	3D56B35B130F569100BF7F17 /* win32general.cpp */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1182, 4186}}";
+			sepNavSelRange = "{2077, 120}";
+			sepNavVisRange = "{1032, 1599}";
+			sepNavWindowFrame = "{{84, 219}, {1241, 891}}";
+		};
+	};
+	3D56B366130F569100BF7F17 /* Renderer.cpp */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1013, 1573}}";
+			sepNavSelRange = "{2210, 0}";
+			sepNavVisRange = "{1956, 545}";
+			sepNavWindowFrame = "{{38, 261}, {1241, 891}}";
+		};
+	};
+	3D56B390130F569200BF7F17 /* esTransform.cpp */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1182, 2925}}";
+			sepNavSelRange = "{594, 0}";
+			sepNavVisRange = "{0, 1659}";
+			sepNavWindowFrame = "{{61, 240}, {1241, 891}}";
+		};
+	};
+	3D56B40E130F569200BF7F17 /* BallRenderer.cpp */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1182, 740}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 906}";
+		};
+	};
+	3D56B410130F569200BF7F17 /* BatchSpriteRenderer.cpp */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {965, 1989}}";
+			sepNavSelRange = "{811, 0}";
+			sepNavVisRange = "{378, 870}";
+		};
+	};
+	3D56B414130F569200BF7F17 /* WorldRenderer.cpp */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1182, 1703}}";
+			sepNavSelRange = "{2014, 0}";
+			sepNavVisRange = "{1885, 2108}";
+			sepNavWindowFrame = "{{130, 177}, {1241, 891}}";
 		};
 	};
 	3D56B51A1310C1D400BF7F17 /* PBXTextBookmark */ = {
@@ -222,7 +360,7 @@
 		fRef = 3D1C19BE12754BBF00A353B4 /* RemoteIOPlayer.mm */;
 		name = "RemoteIOPlayer.mm: 12";
 		rLen = 0;
-		rLoc = 248;
+		rLoc = 101;
 		rType = 0;
 		vrLen = 1312;
 		vrLoc = 0;
@@ -232,7 +370,7 @@
 		fRef = 3D1C19BE12754BBF00A353B4 /* RemoteIOPlayer.mm */;
 		name = "RemoteIOPlayer.mm: 12";
 		rLen = 0;
-		rLoc = 248;
+		rLoc = 101;
 		rType = 0;
 		vrLen = 1312;
 		vrLoc = 0;
@@ -242,17 +380,24 @@
 		fRef = 3D1C19BE12754BBF00A353B4 /* RemoteIOPlayer.mm */;
 		name = "RemoteIOPlayer.mm: 12";
 		rLen = 0;
-		rLoc = 248;
+		rLoc = 101;
 		rType = 0;
 		vrLen = 1258;
 		vrLoc = 0;
+	};
+	3D56B5631310C39C00BF7F17 /* background.jpg */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = image.jpeg;
+		name = background.jpg;
+		path = "/Users/mini/Documents/xcode projects/batterytech-ios/assets/ui/background.jpg";
+		sourceTree = "<absolute>";
 	};
 	3D56B66A1310C67300BF7F17 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = 3D1C19BE12754BBF00A353B4 /* RemoteIOPlayer.mm */;
 		name = "RemoteIOPlayer.mm: 13";
 		rLen = 0;
-		rLoc = 249;
+		rLoc = 102;
 		rType = 0;
 		vrLen = 362;
 		vrLoc = 249;
@@ -302,7 +447,7 @@
 		fRef = 3D1C19BE12754BBF00A353B4 /* RemoteIOPlayer.mm */;
 		fallbackIsa = XCBuildMessageTextBookmark;
 		rLen = 1;
-		rLoc = 12;
+		rLoc = 5;
 		rType = 1;
 	};
 	3D56B6731310C67900BF7F17 /* PBXTextBookmark */ = {
@@ -310,9 +455,374 @@
 		fRef = 3D1C19BE12754BBF00A353B4 /* RemoteIOPlayer.mm */;
 		name = "RemoteIOPlayer.mm: 13";
 		rLen = 0;
-		rLoc = 249;
+		rLoc = 102;
 		rType = 0;
 		vrLen = 1236;
+		vrLoc = 0;
+	};
+	3D56B7551310CE6700BF7F17 /* batterytechViewController.mm */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {882, 4329}}";
+			sepNavSelRange = "{569, 0}";
+			sepNavVisRange = "{0, 1205}";
+		};
+	};
+	3D56B7691310D06200BF7F17 /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = 3D56B34C130F569100BF7F17 /* iosgeneral.mm */;
+	};
+	3D56B76D1310D15E00BF7F17 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 3D1C19BE12754BBF00A353B4 /* RemoteIOPlayer.mm */;
+		name = "RemoteIOPlayer.mm: 6";
+		rLen = 0;
+		rLoc = 102;
+		rType = 0;
+		vrLen = 377;
+		vrLoc = 0;
+	};
+	3D56B76E1310D15E00BF7F17 /* XCBuildMessageTextBookmark */ = {
+		isa = PBXTextBookmark;
+		comments = "'strncpy' was not declared in this scope";
+		fRef = 3D56B366130F569100BF7F17 /* Renderer.cpp */;
+		fallbackIsa = XCBuildMessageTextBookmark;
+		rLen = 1;
+		rLoc = 71;
+		rType = 1;
+	};
+	3D56B76F1310D15E00BF7F17 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 3D56B366130F569100BF7F17 /* Renderer.cpp */;
+		name = "Renderer.cpp: 72";
+		rLen = 0;
+		rLoc = 2210;
+		rType = 0;
+		vrLen = 571;
+		vrLoc = 1956;
+	};
+	3D56B8C41310D99B00BF7F17 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 3D1C19BE12754BBF00A353B4 /* RemoteIOPlayer.mm */;
+		name = "RemoteIOPlayer.mm: 24";
+		rLen = 0;
+		rLoc = 465;
+		rType = 0;
+		vrLen = 1106;
+		vrLoc = 61;
+	};
+	3D56B8C51310D99B00BF7F17 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 3D56B34A130F569100BF7F17 /* boot.mm */;
+		name = "boot.mm: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 243;
+		vrLoc = 0;
+	};
+	3D56B8C61310D99B00BF7F17 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 3D56B34C130F569100BF7F17 /* iosgeneral.mm */;
+		name = "iosgeneral.mm: 33";
+		rLen = 0;
+		rLoc = 663;
+		rType = 0;
+		vrLen = 1138;
+		vrLoc = 0;
+	};
+	3D56B8C71310D99B00BF7F17 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 3D56B7551310CE6700BF7F17 /* batterytechViewController.mm */;
+		name = "batterytechViewController.mm: 51";
+		rLen = 0;
+		rLoc = 1438;
+		rType = 0;
+		vrLen = 1638;
+		vrLoc = 866;
+	};
+	3D56B8C81310D99B00BF7F17 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 3D56B352130F569100BF7F17 /* platformgl.h */;
+		name = "platformgl.h: 220";
+		rLen = 0;
+		rLoc = 12960;
+		rType = 0;
+		vrLen = 2878;
+		vrLoc = 0;
+	};
+	3D56B8C91310D99B00BF7F17 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 3D56B366130F569100BF7F17 /* Renderer.cpp */;
+		name = "Renderer.cpp: 72";
+		rLen = 0;
+		rLoc = 2210;
+		rType = 0;
+		vrLen = 1343;
+		vrLoc = 1522;
+	};
+	3D56B8CA1310D99B00BF7F17 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D1107310486CEB800E47090 /* batterytech_ios-Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = "/Users/mini/Documents/xcode projects/batterytech-ios/batterytech_ios-Info.plist";
+		rLen = 0;
+		rLoc = 9223372036854775807;
+	};
+	3D56B8CB1310D99B00BF7F17 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 28FD14FD0DC6FC130079059D /* EAGLView.m */;
+		name = "EAGLView.m: 128";
+		rLen = 0;
+		rLoc = 3756;
+		rType = 0;
+		vrLen = 1151;
+		vrLoc = 0;
+	};
+	3D56B8CC1310D99B00BF7F17 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 28FD14FD0DC6FC130079059D /* EAGLView.m */;
+		name = "EAGLView.m: 24";
+		rLen = 0;
+		rLoc = 392;
+		rType = 0;
+		vrLen = 1219;
+		vrLoc = 0;
+	};
+	3D56B8CF1310D99B00BF7F17 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 3D56B34C130F569100BF7F17 /* iosgeneral.mm */;
+		name = "iosgeneral.mm: 87";
+		rLen = 0;
+		rLoc = 2896;
+		rType = 0;
+		vrLen = 2161;
+		vrLoc = 622;
+	};
+	3D56B8F71310DAB600BF7F17 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 28FD14FD0DC6FC130079059D /* EAGLView.m */;
+		name = "EAGLView.m: 24";
+		rLen = 0;
+		rLoc = 392;
+		rType = 0;
+		vrLen = 1219;
+		vrLoc = 0;
+	};
+	3D56B8F81310DAB600BF7F17 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 3D56B7551310CE6700BF7F17 /* batterytechViewController.mm */;
+		name = "batterytechViewController.mm: 46";
+		rLen = 0;
+		rLoc = 1186;
+		rType = 0;
+		vrLen = 1207;
+		vrLoc = 519;
+	};
+	3D56B8F91310DB1400BF7F17 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 3D56B7551310CE6700BF7F17 /* batterytechViewController.mm */;
+		name = "batterytechViewController.mm: 22";
+		rLen = 0;
+		rLoc = 569;
+		rType = 0;
+		vrLen = 1205;
+		vrLoc = 0;
+	};
+	3D56B8FF1310DC3D00BF7F17 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 3D56B366130F569100BF7F17 /* Renderer.cpp */;
+		name = "Renderer.cpp: 72";
+		rLen = 0;
+		rLoc = 2210;
+		rType = 0;
+		vrLen = 571;
+		vrLoc = 1956;
+	};
+	3D56B9041310DC6D00BF7F17 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 3D56B40E130F569200BF7F17 /* BallRenderer.cpp */;
+		rLen = 1;
+		rLoc = 20;
+		rType = 1;
+	};
+	3D56B9061310DC7100BF7F17 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 3D56B366130F569100BF7F17 /* Renderer.cpp */;
+		name = "Renderer.cpp: 72";
+		rLen = 0;
+		rLoc = 2210;
+		rType = 0;
+		vrLen = 571;
+		vrLoc = 1956;
+	};
+	3D56B90B1310DC7500BF7F17 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 3D56B7551310CE6700BF7F17 /* batterytechViewController.mm */;
+		name = "batterytechViewController.mm: 22";
+		rLen = 0;
+		rLoc = 569;
+		rType = 0;
+		vrLen = 1205;
+		vrLoc = 0;
+	};
+	3D56B90C1310DC7500BF7F17 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 3D56B40E130F569200BF7F17 /* BallRenderer.cpp */;
+		name = "BallRenderer.cpp: 21";
+		rLen = 56;
+		rLoc = 428;
+		rType = 0;
+		vrLen = 906;
+		vrLoc = 0;
+	};
+	3D56B90F1310DC7500BF7F17 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 3D56B40E130F569200BF7F17 /* BallRenderer.cpp */;
+		name = "BallRenderer.cpp: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 906;
+		vrLoc = 0;
+	};
+	3D56B9101310DC7500BF7F17 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 3D56B40E130F569200BF7F17 /* BallRenderer.cpp */;
+		name = "BallRenderer.cpp: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 906;
+		vrLoc = 0;
+	};
+	3D56B9261310DE5D00BF7F17 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 3D56B40E130F569200BF7F17 /* BallRenderer.cpp */;
+		name = "BallRenderer.cpp: 21";
+		rLen = 56;
+		rLoc = 428;
+		rType = 0;
+		vrLen = 906;
+		vrLoc = 0;
+	};
+	3D56B9271310DE5D00BF7F17 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 3D56B349130F569100BF7F17 /* boot.h */;
+		name = "boot.h: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 299;
+		vrLoc = 0;
+	};
+	3D56B9281310DE5D00BF7F17 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 3D56B34A130F569100BF7F17 /* boot.mm */;
+		name = "boot.mm: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 243;
+		vrLoc = 0;
+	};
+	3D56B9291310DE5D00BF7F17 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 3D56B34C130F569100BF7F17 /* iosgeneral.mm */;
+		name = "iosgeneral.mm: 33";
+		rLen = 0;
+		rLoc = 663;
+		rType = 0;
+		vrLen = 1116;
+		vrLoc = 22;
+	};
+	3D56B92A1310DE5D00BF7F17 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 3D56B34C130F569100BF7F17 /* iosgeneral.mm */;
+		name = "iosgeneral.mm: 61";
+		rLen = 0;
+		rLoc = 1543;
+		rType = 0;
+		vrLen = 1875;
+		vrLoc = 864;
+	};
+	3D56B92B1310DE5D00BF7F17 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 3D56B40E130F569200BF7F17 /* BallRenderer.cpp */;
+		name = "BallRenderer.cpp: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 906;
+		vrLoc = 0;
+	};
+	3D56B9321310DECD00BF7F17 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 3D56B34C130F569100BF7F17 /* iosgeneral.mm */;
+		name = "iosgeneral.mm: 73";
+		rLen = 0;
+		rLoc = 2271;
+		rType = 0;
+		vrLen = 1875;
+		vrLoc = 864;
+	};
+	3D56B9331310DECD00BF7F17 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 3D56B40E130F569200BF7F17 /* BallRenderer.cpp */;
+		rLen = 0;
+		rLoc = 20;
+		rType = 1;
+	};
+	3D56B9341310DECD00BF7F17 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 3D56B40E130F569200BF7F17 /* BallRenderer.cpp */;
+		name = "BallRenderer.cpp: 21";
+		rLen = 0;
+		rLoc = 428;
+		rType = 0;
+		vrLen = 906;
+		vrLoc = 0;
+	};
+	3D56B9351310DECD00BF7F17 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 3D56B40E130F569200BF7F17 /* BallRenderer.cpp */;
+		name = "BallRenderer.cpp: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 906;
+		vrLoc = 0;
+	};
+	3D56B9371310DEE400BF7F17 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 3D56B366130F569100BF7F17 /* Renderer.cpp */;
+		name = "Renderer.cpp: 72";
+		rLen = 0;
+		rLoc = 2210;
+		rType = 0;
+		vrLen = 545;
+		vrLoc = 1956;
+	};
+	3D56B9381310DEE700BF7F17 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 3D56B40E130F569200BF7F17 /* BallRenderer.cpp */;
+		name = "BallRenderer.cpp: 21";
+		rLen = 0;
+		rLoc = 428;
+		rType = 0;
+		vrLen = 906;
+		vrLoc = 0;
+	};
+	3D56B9391310DEE700BF7F17 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 3D56B40E130F569200BF7F17 /* BallRenderer.cpp */;
+		name = "BallRenderer.cpp: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 906;
 		vrLoc = 0;
 	};
 	3D65B4CC126BFA6700CF4CFC /* batterytech-ios */ = {
@@ -322,7 +832,7 @@
 		argumentStrings = (
 		);
 		autoAttachOnCrash = 1;
-		breakpointsEnabled = 0;
+		breakpointsEnabled = 1;
 		configStateDict = {
 		};
 		customDataFormattersEnabled = 1;
@@ -339,9 +849,13 @@
 		executableUserSymbolLevel = 0;
 		libgmallocEnabled = 0;
 		name = "batterytech-ios";
+		savedGlobals = {
+		};
 		showTypeColumn = 0;
 		sourceDirectories = (
 		);
+		variableFormatDictionary = {
+		};
 	};
 	3D65B4DD126BFA6F00CF4CFC /* Source Control */ = {
 		isa = PBXSourceControlManager;

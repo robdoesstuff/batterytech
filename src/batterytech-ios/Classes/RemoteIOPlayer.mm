@@ -1,10 +1,3 @@
-//
-//  RemoteIOPlayer.m
-//  RemoteIOTest
-//
-//  Created by aran Mulholland on 3/03/09.
-//  Copyright 2009 Aran Mulholland. All rights reserved.
-//
 
 #import "RemoteIOPlayer.h"
 #include <AudioUnit/AudioUnit.h>
@@ -35,24 +28,6 @@ AudioStreamBasicDescription audioFormat;
 }
 
 
-/* Parameters on entry to this function are :-
- 
- *inRefCon - used to store whatever you want, can use it to pass in a reference to an objectiveC class
-			 i do this below to get at the InMemoryAudioFile object, the line below :
-				callbackStruct.inputProcRefCon = self;
-			 in the initialiseAudio method sets this to "self" (i.e. this instantiation of RemoteIOPlayer).
-			 This is a way to bridge between objectiveC and the straight C callback mechanism, another way
-			 would be to use an "evil" global variable by just specifying one in theis file and setting it
-			 to point to inMemoryAudiofile whenever it is set.
- 
- *inTimeStamp - the sample time stamp, can use it to find out sample time (the sound card time), or the host time
- 
- inBusnumber - the audio bus number, we are only using 1 so it is always 0 
- 
- inNumberFrames - the number of frames we need to fill. In this example, because of the way audioformat is
-				  initialised below, a frame is a 32 bit number, comprised of two signed 16 bit samples.
- 
- *ioData - holds information about the number of audio buffers we need to fill as well as the audio buffers themselves */
 static OSStatus playbackCallback(void *inRefCon, 
 								 AudioUnitRenderActionFlags *ioActionFlags, 
 								 const AudioTimeStamp *inTimeStamp, 
@@ -75,14 +50,11 @@ static OSStatus playbackCallback(void *inRefCon,
 		UInt16 monoBuffer[frames];
 		UInt16 *frameBuffer = (UInt16*)buffer.mData;
 		_iosSndMgr->fillBuffer(&monoBuffer, frames);
-		
-		//_iosSndMgr->fillBuffer(frameBuffer, inNumberFrames);
+
 		for (int j = 0; j < frames; j++) {
 			frameBuffer[j] = monoBuffer[j];
-			//frameBuffer[j*2+1] = monoBuffer[j];
 		}
 	}
-	//dodgy return :)
     return noErr;
 }
 
@@ -123,7 +95,6 @@ static OSStatus playbackCallback(void *inRefCon,
 	audioFormat.mBytesPerPacket		= 4;
 	audioFormat.mBytesPerFrame		= 4;
 	
-	//Apply format
 	status = AudioUnitSetProperty(audioUnit, 
 								  kAudioUnitProperty_StreamFormat, 
 								  kAudioUnitScope_Input, 
@@ -131,7 +102,6 @@ static OSStatus playbackCallback(void *inRefCon,
 								  &audioFormat, 
 								  sizeof(audioFormat));
 	 
-	// Set up the playback  callback
 	AURenderCallbackStruct callbackStruct;
 	callbackStruct.inputProc = playbackCallback;
 	//set the reference to "self" this becomes *inRefCon in the playback callback
@@ -144,10 +114,7 @@ static OSStatus playbackCallback(void *inRefCon,
 								  &callbackStruct, 
 								  sizeof(callbackStruct));
 	
-	// Initialise
 	status = AudioUnitInitialize(audioUnit);
-	
-	//notice i do nothing with status, i should error check.
 }
 
 

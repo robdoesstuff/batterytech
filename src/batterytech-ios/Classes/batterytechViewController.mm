@@ -15,6 +15,7 @@
 #include "../../batterytech/src/batterytech/batterytech.h"
 #include "../../batterytech/src/batterytech/render/GraphicsConfiguration.h"
 
+#define USE_GLES2_WHEN_AVAILABLE FALSE
 
 static GraphicsConfiguration *gConfig;
 static double currentTime;
@@ -38,12 +39,26 @@ UIView *batterytechRootView;
 	for (int i = 0; i < MAX_TOUCHES; i++) {
 		touchIds[i] = 0;
 	}
-	EAGLContext *aContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1];    
+	gConfig = new GraphicsConfiguration;
+	EAGLContext *aContext = NULL;
+	if (USE_GLES2_WHEN_AVAILABLE) {
+		aContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
+	}
+	if (!aContext) {
+		aContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1];
+		if (aContext) {
+			NSLog(@"Initialized GLES 1.0/1.1 Context");
+		}
+	} else {
+		NSLog(@"Initialized GLES 2.0 Context");
+		gConfig->supportsShaders = TRUE;
+	}
     
-    if (!aContext)
+    if (!aContext) {
         NSLog(@"Failed to create ES context");
-    else if (![EAGLContext setCurrentContext:aContext])
+	} else if (![EAGLContext setCurrentContext:aContext]) {
         NSLog(@"Failed to set ES context current");
+	}
     
 	self.context = aContext;
 	[aContext release];
@@ -64,7 +79,6 @@ UIView *batterytechRootView;
     if ([currSysVer compare:reqSysVer options:NSNumericSearch] != NSOrderedAscending)
         displayLinkSupported = TRUE;
 	
-	gConfig = new GraphicsConfiguration;
 	gConfig->supportsHWmipmapgen = TRUE;
 	gConfig->supportsVBOs = TRUE;
 	gConfig->supportsUVTransform = TRUE;
