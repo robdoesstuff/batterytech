@@ -344,7 +344,8 @@ void _platform_free_ifaddrs(char** ifaddrs, int count) {
 }
 
 void _platform_exit() {
-	// TODO - how to quit an ios app?
+	// Apple recommends against forcefully quitting an app.  If you should choose to quit forcefully,
+	// exit(0);
 }
 
 #endif
