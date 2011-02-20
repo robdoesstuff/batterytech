@@ -27,7 +27,7 @@
 
 #define ASSETS_DIR "assets/"
 
-SoundManager *_iosSndMgr;
+AudioManager *_iosSndMgr;
 UITextView *myTextView;
 batterytechKeyboardDelegate *kbDelegate;
 
@@ -44,14 +44,22 @@ unsigned char* _platform_load_asset(const char *assetName, int *size) {
 	char extension[10]; // extension should be "ogg"
 	char filename[1024]; // filename should be "my_file"
 	lastSep = strrchr(assetName, '/');
-	strcpy(filename, lastSep + 1);
+	if (lastSep) {
+		strcpy(filename, lastSep + 1);
+	} else {
+		strcpy(filename, assetName);
+	}
 	lastDot = strrchr(filename, '.');
 	if (lastDot) {
 		int lastDotPos = lastDot - filename;
 		int extLength = strlen(filename) - lastDotPos - 1;
 		strcpy(path, ASSETS_DIR);
-		strncat(path, assetName, lastSep - assetName);
-		path[strlen(ASSETS_DIR) + (lastSep - assetName)] = '\0';
+		if (lastSep) {
+			strncat(path, assetName, lastSep - assetName);
+			path[strlen(ASSETS_DIR) + (lastSep - assetName)] = '\0';
+		} else {
+			path[strlen(ASSETS_DIR)] = '\0';
+		}
 		strncpy(extension, filename + lastDotPos + 1, extLength);
 		extension[extLength] = '\0';
 		// now that we've pulled the extension off, we can chop the filename to become the resource name.
@@ -95,8 +103,18 @@ void _platform_free_asset(unsigned char *ptr) {
 	}
 }
 
-void _platform_init_sound(SoundManager *soundManager) {
-	_iosSndMgr = soundManager;
+S32 _platform_get_asset_length(const char *filename) {
+	// TODO get asset length
+	return 0;
+}
+
+S32 _platform_read_asset_chunk(const char *filename, S32 offset, unsigned char *buffer, S32 bufferLength, BOOL32 *eof) {
+	// TODO read asset chunk
+	return 0;
+}
+
+void _platform_init_sound(AudioManager *audioManager) {
+	_iosSndMgr = audioManager;
 }
 
 void _platform_stop_sound() {
@@ -148,10 +166,10 @@ BOOL32 _platform_implements_soundpool() {
 	return FALSE;
 }
 
-void _platform_init_soundpool(S32 streams) {
+void _platform_init_audiomanagement(S32 streams) {
 }
 
-void _platform_release_soundpool() {
+void _platform_release_audiomanagement() {
 }
 
 void _platform_load_sound(const char* asset) {
@@ -172,6 +190,12 @@ void _platform_stop_all_sounds() {
 
 void _platform_unload_sound(const char *asset) {
 }
+
+void _platform_sound_set_loops(S32 streamId, S32 loops){}
+void _platform_sound_set_volume(S32 streamId, F32 leftVol, F32 rightVol){}
+void _platform_sound_set_rate(S32 streamId, F32 rate){}
+S32 _platform_play_streaming_sound(const char *assetName, S16 loops, F32 leftVol, F32 rightVol, F32 rate){ return 0; }
+void _platform_stop_streaming_sound(const char *assetName){}
 
 void _platform_show_keyboard() {
 	NSLog(@"Showing keyboard");
@@ -278,4 +302,9 @@ void _platform_free_ifaddrs(char** ifaddrs, int count) {
 	}
 	delete [] ifaddrs;
 }
+
+void _platform_exit() {
+	// TODO - how to quit an ios app?
+}
+
 #endif

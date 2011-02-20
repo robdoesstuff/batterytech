@@ -236,7 +236,9 @@ void MenuRenderer::loadTexture(const char *assetName) {
 		char buf[50];
 		sprintf(buf, "Bitmap is %ix%i color components=%i bytes=%i",x,y,n, bytes);
 		logmsg(buf);
-		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+		if (!context->gConfig->useShaders) {
+			glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+		}
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);

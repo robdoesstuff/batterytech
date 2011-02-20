@@ -9,11 +9,13 @@
 #include "../decoders/stb_image.h"
 #include "../platform/platformgeneral.h"
 #include "../Logger.h"
+#include <string.h>
+#include "../Context.h"
 
 Renderer::~Renderer() {
 }
 
-GLuint Renderer::loadTexture(const char *name, GraphicsConfiguration::TextureFilter filter) {
+GLuint Renderer::loadTexture(const char *name, Context *context) {
 	GLuint textureId;
 	logmsg("Loading texture:");
 	logmsg(name);
@@ -38,10 +40,12 @@ GLuint Renderer::loadTexture(const char *name, GraphicsConfiguration::TextureFil
 		glGenTextures(1, textureIds);
 		textureId = textureIds[0];
 		glBindTexture(GL_TEXTURE_2D, textureId);
-		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+		if (!context->gConfig->useShaders) {
+			glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+		}
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-		if (filter == GraphicsConfiguration::NONE) {
+		if (context->gConfig->textureFilter == GraphicsConfiguration::NONE) {
 			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		} else {

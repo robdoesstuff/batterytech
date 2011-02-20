@@ -32,7 +32,7 @@ void SimpleSpriteRenderer::init(BOOL32 newContext) {
 		textureId = 0;
 	}
 	if (spriteAssetName && strlen(spriteAssetName) > 0) {
-		textureId = loadTexture(spriteAssetName, context->gConfig->textureFilter);
+		textureId = loadTexture(spriteAssetName, context);
 	}
 	if (!newContext && program) {
 		glDetachShader(program, vertShader);

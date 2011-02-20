@@ -12,12 +12,14 @@
 #include "../primitives.h"
 #include "GraphicsConfiguration.h"
 
+class Context;
+
 class Renderer {
 public:
 	virtual void init(BOOL32 newContext) = 0;
 	virtual ~Renderer();
 protected:
-	virtual GLuint loadTexture(const char *name, GraphicsConfiguration::TextureFilter filter);
+	virtual GLuint loadTexture(const char *name, Context *context);
 	GLuint loadShader(GLenum type, const char *shaderSrc);
 	GLuint loadShaderFromAsset(GLenum type, const char *assetName);
 	void logShaderInfo(GLuint obj);
