@@ -234,22 +234,30 @@
 		3D56B4E9130F569200BF7F17 /* BatchSpriteRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B410130F569200BF7F17 /* BatchSpriteRenderer.cpp */; };
 		3D56B4EA130F569200BF7F17 /* SimpleSpriteRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B412130F569200BF7F17 /* SimpleSpriteRenderer.cpp */; };
 		3D56B4EB130F569200BF7F17 /* WorldRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B414130F569200BF7F17 /* WorldRenderer.cpp */; };
-		3DD6371C127241CE00D13421 /* battery_powered_splash.ogg in Resources */ = {isa = PBXBuildFile; fileRef = 3DD6370C127241CD00D13421 /* battery_powered_splash.ogg */; };
-		3DD6371D127241CE00D13421 /* bpg_256_tex.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3DD6370D127241CD00D13421 /* bpg_256_tex.jpg */; };
-		3DD6371E127241CE00D13421 /* button1_pressed_tex.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DD6370E127241CD00D13421 /* button1_pressed_tex.png */; };
-		3DD6371F127241CE00D13421 /* button1_tex.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DD6370F127241CD00D13421 /* button1_tex.png */; };
-		3DD63720127241CE00D13421 /* checkbox_checked_tex.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DD63710127241CD00D13421 /* checkbox_checked_tex.png */; };
-		3DD63721127241CE00D13421 /* checkbox_tex.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DD63711127241CD00D13421 /* checkbox_tex.png */; };
-		3DD63722127241CE00D13421 /* digital.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3DD63712127241CD00D13421 /* digital.ttf */; };
-		3DD63723127241CE00D13421 /* earth_horizon_tex.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3DD63713127241CD00D13421 /* earth_horizon_tex.jpg */; };
-		3DD63724127241CE00D13421 /* glow_tex.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DD63714127241CD00D13421 /* glow_tex.png */; };
-		3DD63725127241CE00D13421 /* icon.ico in Resources */ = {isa = PBXBuildFile; fileRef = 3DD63715127241CE00D13421 /* icon.ico */; };
-		3DD63726127241CE00D13421 /* lcdmn.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3DD63716127241CE00D13421 /* lcdmn.ttf */; };
-		3DD63727127241CE00D13421 /* level_1_song.ogg in Resources */ = {isa = PBXBuildFile; fileRef = 3DD63717127241CE00D13421 /* level_1_song.ogg */; };
-		3DD63728127241CE00D13421 /* panel1_tex.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DD63718127241CE00D13421 /* panel1_tex.png */; };
-		3DD63729127241CE00D13421 /* panel2_tex.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DD63719127241CE00D13421 /* panel2_tex.png */; };
-		3DD6372A127241CE00D13421 /* score_session_end_big.ogg in Resources */ = {isa = PBXBuildFile; fileRef = 3DD6371A127241CE00D13421 /* score_session_end_big.ogg */; };
-		3DD6372B127241CE00D13421 /* text_bg_tex.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3DD6371B127241CE00D13421 /* text_bg_tex.jpg */; };
+		3D56B56F1310C39C00BF7F17 /* background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3D56B5631310C39C00BF7F17 /* background.jpg */; };
+		3D56B5701310C39C00BF7F17 /* button1_pressed_tex.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D56B5641310C39C00BF7F17 /* button1_pressed_tex.png */; };
+		3D56B5711310C39C00BF7F17 /* button1_tex.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D56B5651310C39C00BF7F17 /* button1_tex.png */; };
+		3D56B5721310C39C00BF7F17 /* checkbox_checked_tex.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D56B5661310C39C00BF7F17 /* checkbox_checked_tex.png */; };
+		3D56B5731310C39C00BF7F17 /* checkbox_tex.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D56B5671310C39C00BF7F17 /* checkbox_tex.png */; };
+		3D56B5741310C39C00BF7F17 /* digital.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D56B5681310C39C00BF7F17 /* digital.ttf */; };
+		3D56B5751310C39C00BF7F17 /* lcdmn.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D56B5691310C39C00BF7F17 /* lcdmn.ttf */; };
+		3D56B5761310C39C00BF7F17 /* panel1_tex.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D56B56A1310C39C00BF7F17 /* panel1_tex.png */; };
+		3D56B5771310C39C00BF7F17 /* panel2_tex.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D56B56B1310C39C00BF7F17 /* panel2_tex.png */; };
+		3D56B5781310C39C00BF7F17 /* textfield_pressed_tex.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D56B56C1310C39C00BF7F17 /* textfield_pressed_tex.png */; };
+		3D56B5791310C39C00BF7F17 /* textfield_selected_tex.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D56B56D1310C39C00BF7F17 /* textfield_selected_tex.png */; };
+		3D56B57A1310C39C00BF7F17 /* textfield_tex.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D56B56E1310C39C00BF7F17 /* textfield_tex.png */; };
+		3D56B57B1310C39C00BF7F17 /* background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3D56B5631310C39C00BF7F17 /* background.jpg */; };
+		3D56B57C1310C39C00BF7F17 /* button1_pressed_tex.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D56B5641310C39C00BF7F17 /* button1_pressed_tex.png */; };
+		3D56B57D1310C39C00BF7F17 /* button1_tex.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D56B5651310C39C00BF7F17 /* button1_tex.png */; };
+		3D56B57E1310C39C00BF7F17 /* checkbox_checked_tex.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D56B5661310C39C00BF7F17 /* checkbox_checked_tex.png */; };
+		3D56B57F1310C39C00BF7F17 /* checkbox_tex.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D56B5671310C39C00BF7F17 /* checkbox_tex.png */; };
+		3D56B5801310C39C00BF7F17 /* digital.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D56B5681310C39C00BF7F17 /* digital.ttf */; };
+		3D56B5811310C39C00BF7F17 /* lcdmn.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D56B5691310C39C00BF7F17 /* lcdmn.ttf */; };
+		3D56B5821310C39C00BF7F17 /* panel1_tex.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D56B56A1310C39C00BF7F17 /* panel1_tex.png */; };
+		3D56B5831310C39C00BF7F17 /* panel2_tex.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D56B56B1310C39C00BF7F17 /* panel2_tex.png */; };
+		3D56B5841310C39C00BF7F17 /* textfield_pressed_tex.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D56B56C1310C39C00BF7F17 /* textfield_pressed_tex.png */; };
+		3D56B5851310C39C00BF7F17 /* textfield_selected_tex.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D56B56D1310C39C00BF7F17 /* textfield_selected_tex.png */; };
+		3D56B5861310C39C00BF7F17 /* textfield_tex.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D56B56E1310C39C00BF7F17 /* textfield_tex.png */; };
 		3DD637D612726D3D00D13421 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DD637D512726D3D00D13421 /* UIKit.framework */; };
 		3DD637D812726D4400D13421 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DD637D712726D4400D13421 /* OpenGLES.framework */; };
 		3DD637DA12726D4900D13421 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DD637D912726D4900D13421 /* QuartzCore.framework */; };
@@ -503,22 +511,18 @@
 		3D56B413130F569200BF7F17 /* SimpleSpriteRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleSpriteRenderer.h; sourceTree = "<group>"; };
 		3D56B414130F569200BF7F17 /* WorldRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WorldRenderer.cpp; sourceTree = "<group>"; };
 		3D56B415130F569200BF7F17 /* WorldRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorldRenderer.h; sourceTree = "<group>"; };
-		3DD6370C127241CD00D13421 /* battery_powered_splash.ogg */ = {isa = PBXFileReference; lastKnownFileType = file; path = battery_powered_splash.ogg; sourceTree = "<group>"; };
-		3DD6370D127241CD00D13421 /* bpg_256_tex.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bpg_256_tex.jpg; sourceTree = "<group>"; };
-		3DD6370E127241CD00D13421 /* button1_pressed_tex.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button1_pressed_tex.png; sourceTree = "<group>"; };
-		3DD6370F127241CD00D13421 /* button1_tex.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button1_tex.png; sourceTree = "<group>"; };
-		3DD63710127241CD00D13421 /* checkbox_checked_tex.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkbox_checked_tex.png; sourceTree = "<group>"; };
-		3DD63711127241CD00D13421 /* checkbox_tex.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkbox_tex.png; sourceTree = "<group>"; };
-		3DD63712127241CD00D13421 /* digital.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = digital.ttf; sourceTree = "<group>"; };
-		3DD63713127241CD00D13421 /* earth_horizon_tex.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = earth_horizon_tex.jpg; sourceTree = "<group>"; };
-		3DD63714127241CD00D13421 /* glow_tex.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = glow_tex.png; sourceTree = "<group>"; };
-		3DD63715127241CE00D13421 /* icon.ico */ = {isa = PBXFileReference; lastKnownFileType = image.ico; path = icon.ico; sourceTree = "<group>"; };
-		3DD63716127241CE00D13421 /* lcdmn.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = lcdmn.ttf; sourceTree = "<group>"; };
-		3DD63717127241CE00D13421 /* level_1_song.ogg */ = {isa = PBXFileReference; lastKnownFileType = file; path = level_1_song.ogg; sourceTree = "<group>"; };
-		3DD63718127241CE00D13421 /* panel1_tex.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = panel1_tex.png; sourceTree = "<group>"; };
-		3DD63719127241CE00D13421 /* panel2_tex.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = panel2_tex.png; sourceTree = "<group>"; };
-		3DD6371A127241CE00D13421 /* score_session_end_big.ogg */ = {isa = PBXFileReference; lastKnownFileType = file; path = score_session_end_big.ogg; sourceTree = "<group>"; };
-		3DD6371B127241CE00D13421 /* text_bg_tex.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = text_bg_tex.jpg; sourceTree = "<group>"; };
+		3D56B5631310C39C00BF7F17 /* background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = background.jpg; sourceTree = "<group>"; };
+		3D56B5641310C39C00BF7F17 /* button1_pressed_tex.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button1_pressed_tex.png; sourceTree = "<group>"; };
+		3D56B5651310C39C00BF7F17 /* button1_tex.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button1_tex.png; sourceTree = "<group>"; };
+		3D56B5661310C39C00BF7F17 /* checkbox_checked_tex.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkbox_checked_tex.png; sourceTree = "<group>"; };
+		3D56B5671310C39C00BF7F17 /* checkbox_tex.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkbox_tex.png; sourceTree = "<group>"; };
+		3D56B5681310C39C00BF7F17 /* digital.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = digital.ttf; sourceTree = "<group>"; };
+		3D56B5691310C39C00BF7F17 /* lcdmn.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = lcdmn.ttf; sourceTree = "<group>"; };
+		3D56B56A1310C39C00BF7F17 /* panel1_tex.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = panel1_tex.png; sourceTree = "<group>"; };
+		3D56B56B1310C39C00BF7F17 /* panel2_tex.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = panel2_tex.png; sourceTree = "<group>"; };
+		3D56B56C1310C39C00BF7F17 /* textfield_pressed_tex.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = textfield_pressed_tex.png; sourceTree = "<group>"; };
+		3D56B56D1310C39C00BF7F17 /* textfield_selected_tex.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = textfield_selected_tex.png; sourceTree = "<group>"; };
+		3D56B56E1310C39C00BF7F17 /* textfield_tex.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = textfield_tex.png; sourceTree = "<group>"; };
 		3DD6374C1272468600D13421 /* Simulator 3.2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Simulator 3.2.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3DD6374E1272468600D13421 /* Simulator 3.2-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Simulator 3.2-Info.plist"; sourceTree = "<group>"; };
 		3DD637D512726D3D00D13421 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -619,7 +623,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				3DD637051272419800D13421 /* assets */,
+				3D56B5611310C39C00BF7F17 /* assets */,
 				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
 				8D1107310486CEB800E47090 /* batterytech_ios-Info.plist */,
 			);
@@ -1099,27 +1103,31 @@
 			path = render;
 			sourceTree = "<group>";
 		};
-		3DD637051272419800D13421 /* assets */ = {
+		3D56B5611310C39C00BF7F17 /* assets */ = {
 			isa = PBXGroup;
 			children = (
-				3DD6370C127241CD00D13421 /* battery_powered_splash.ogg */,
-				3DD6370D127241CD00D13421 /* bpg_256_tex.jpg */,
-				3DD6370E127241CD00D13421 /* button1_pressed_tex.png */,
-				3DD6370F127241CD00D13421 /* button1_tex.png */,
-				3DD63710127241CD00D13421 /* checkbox_checked_tex.png */,
-				3DD63711127241CD00D13421 /* checkbox_tex.png */,
-				3DD63712127241CD00D13421 /* digital.ttf */,
-				3DD63713127241CD00D13421 /* earth_horizon_tex.jpg */,
-				3DD63714127241CD00D13421 /* glow_tex.png */,
-				3DD63715127241CE00D13421 /* icon.ico */,
-				3DD63716127241CE00D13421 /* lcdmn.ttf */,
-				3DD63717127241CE00D13421 /* level_1_song.ogg */,
-				3DD63718127241CE00D13421 /* panel1_tex.png */,
-				3DD63719127241CE00D13421 /* panel2_tex.png */,
-				3DD6371A127241CE00D13421 /* score_session_end_big.ogg */,
-				3DD6371B127241CE00D13421 /* text_bg_tex.jpg */,
+				3D56B5621310C39C00BF7F17 /* ui */,
 			);
 			path = assets;
+			sourceTree = "<group>";
+		};
+		3D56B5621310C39C00BF7F17 /* ui */ = {
+			isa = PBXGroup;
+			children = (
+				3D56B5631310C39C00BF7F17 /* background.jpg */,
+				3D56B5641310C39C00BF7F17 /* button1_pressed_tex.png */,
+				3D56B5651310C39C00BF7F17 /* button1_tex.png */,
+				3D56B5661310C39C00BF7F17 /* checkbox_checked_tex.png */,
+				3D56B5671310C39C00BF7F17 /* checkbox_tex.png */,
+				3D56B5681310C39C00BF7F17 /* digital.ttf */,
+				3D56B5691310C39C00BF7F17 /* lcdmn.ttf */,
+				3D56B56A1310C39C00BF7F17 /* panel1_tex.png */,
+				3D56B56B1310C39C00BF7F17 /* panel2_tex.png */,
+				3D56B56C1310C39C00BF7F17 /* textfield_pressed_tex.png */,
+				3D56B56D1310C39C00BF7F17 /* textfield_selected_tex.png */,
+				3D56B56E1310C39C00BF7F17 /* textfield_tex.png */,
+			);
+			path = ui;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1193,25 +1201,21 @@
 				2514C27C10084DCA00A42282 /* Shader.vsh in Resources */,
 				28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */,
 				28EC4C5A11D54ECE0027AA9F /* batterytech_iosViewController.xib in Resources */,
-				3DD6371C127241CE00D13421 /* battery_powered_splash.ogg in Resources */,
-				3DD6371D127241CE00D13421 /* bpg_256_tex.jpg in Resources */,
-				3DD6371E127241CE00D13421 /* button1_pressed_tex.png in Resources */,
-				3DD6371F127241CE00D13421 /* button1_tex.png in Resources */,
-				3DD63720127241CE00D13421 /* checkbox_checked_tex.png in Resources */,
-				3DD63721127241CE00D13421 /* checkbox_tex.png in Resources */,
-				3DD63722127241CE00D13421 /* digital.ttf in Resources */,
-				3DD63723127241CE00D13421 /* earth_horizon_tex.jpg in Resources */,
-				3DD63724127241CE00D13421 /* glow_tex.png in Resources */,
-				3DD63725127241CE00D13421 /* icon.ico in Resources */,
-				3DD63726127241CE00D13421 /* lcdmn.ttf in Resources */,
-				3DD63727127241CE00D13421 /* level_1_song.ogg in Resources */,
-				3DD63728127241CE00D13421 /* panel1_tex.png in Resources */,
-				3DD63729127241CE00D13421 /* panel2_tex.png in Resources */,
-				3DD6372A127241CE00D13421 /* score_session_end_big.ogg in Resources */,
-				3DD6372B127241CE00D13421 /* text_bg_tex.jpg in Resources */,
 				3D56B430130F569200BF7F17 /* resources.rc in Resources */,
 				3D56B449130F569200BF7F17 /* Box2DConfig.cmake in Resources */,
 				3D56B44A130F569200BF7F17 /* CMakeLists.txt in Resources */,
+				3D56B56F1310C39C00BF7F17 /* background.jpg in Resources */,
+				3D56B5701310C39C00BF7F17 /* button1_pressed_tex.png in Resources */,
+				3D56B5711310C39C00BF7F17 /* button1_tex.png in Resources */,
+				3D56B5721310C39C00BF7F17 /* checkbox_checked_tex.png in Resources */,
+				3D56B5731310C39C00BF7F17 /* checkbox_tex.png in Resources */,
+				3D56B5741310C39C00BF7F17 /* digital.ttf in Resources */,
+				3D56B5751310C39C00BF7F17 /* lcdmn.ttf in Resources */,
+				3D56B5761310C39C00BF7F17 /* panel1_tex.png in Resources */,
+				3D56B5771310C39C00BF7F17 /* panel2_tex.png in Resources */,
+				3D56B5781310C39C00BF7F17 /* textfield_pressed_tex.png in Resources */,
+				3D56B5791310C39C00BF7F17 /* textfield_selected_tex.png in Resources */,
+				3D56B57A1310C39C00BF7F17 /* textfield_tex.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1222,6 +1226,18 @@
 				3D56B49B130F569200BF7F17 /* resources.rc in Resources */,
 				3D56B4B4130F569200BF7F17 /* Box2DConfig.cmake in Resources */,
 				3D56B4B5130F569200BF7F17 /* CMakeLists.txt in Resources */,
+				3D56B57B1310C39C00BF7F17 /* background.jpg in Resources */,
+				3D56B57C1310C39C00BF7F17 /* button1_pressed_tex.png in Resources */,
+				3D56B57D1310C39C00BF7F17 /* button1_tex.png in Resources */,
+				3D56B57E1310C39C00BF7F17 /* checkbox_checked_tex.png in Resources */,
+				3D56B57F1310C39C00BF7F17 /* checkbox_tex.png in Resources */,
+				3D56B5801310C39C00BF7F17 /* digital.ttf in Resources */,
+				3D56B5811310C39C00BF7F17 /* lcdmn.ttf in Resources */,
+				3D56B5821310C39C00BF7F17 /* panel1_tex.png in Resources */,
+				3D56B5831310C39C00BF7F17 /* panel2_tex.png in Resources */,
+				3D56B5841310C39C00BF7F17 /* textfield_pressed_tex.png in Resources */,
+				3D56B5851310C39C00BF7F17 /* textfield_selected_tex.png in Resources */,
+				3D56B5861310C39C00BF7F17 /* textfield_tex.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
