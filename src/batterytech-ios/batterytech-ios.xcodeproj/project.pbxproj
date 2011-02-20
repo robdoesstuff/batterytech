@@ -19,7 +19,6 @@
 		28FD15080DC6FC5B0079059D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28FD15070DC6FC5B0079059D /* QuartzCore.framework */; };
 		3D1C1980127536B600A353B4 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D1C197F127536B600A353B4 /* AudioToolbox.framework */; };
 		3D1C19C012754BBF00A353B4 /* RemoteIOPlayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3D1C19BE12754BBF00A353B4 /* RemoteIOPlayer.mm */; };
-		3D1C19C212754BBF00A353B4 /* RemoteIOPlayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3D1C19BE12754BBF00A353B4 /* RemoteIOPlayer.mm */; };
 		3D56B416130F569200BF7F17 /* Context.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B314130F569100BF7F17 /* Context.cpp */; };
 		3D56B417130F569200BF7F17 /* Logger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B316130F569100BF7F17 /* Logger.cpp */; };
 		3D56B418130F569200BF7F17 /* VibrationManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B318130F569100BF7F17 /* VibrationManager.cpp */; };
@@ -127,113 +126,6 @@
 		3D56B47E130F569200BF7F17 /* BatchSpriteRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B410130F569200BF7F17 /* BatchSpriteRenderer.cpp */; };
 		3D56B47F130F569200BF7F17 /* SimpleSpriteRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B412130F569200BF7F17 /* SimpleSpriteRenderer.cpp */; };
 		3D56B480130F569200BF7F17 /* WorldRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B414130F569200BF7F17 /* WorldRenderer.cpp */; };
-		3D56B481130F569200BF7F17 /* Context.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B314130F569100BF7F17 /* Context.cpp */; };
-		3D56B482130F569200BF7F17 /* Logger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B316130F569100BF7F17 /* Logger.cpp */; };
-		3D56B483130F569200BF7F17 /* VibrationManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B318130F569100BF7F17 /* VibrationManager.cpp */; };
-		3D56B484130F569200BF7F17 /* AudioManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B31B130F569100BF7F17 /* AudioManager.cpp */; };
-		3D56B485130F569200BF7F17 /* PCMAudioManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B31D130F569100BF7F17 /* PCMAudioManager.cpp */; };
-		3D56B486130F569200BF7F17 /* PCMSound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B31F130F569100BF7F17 /* PCMSound.cpp */; };
-		3D56B487130F569200BF7F17 /* PCMStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B321130F569100BF7F17 /* PCMStream.cpp */; };
-		3D56B488130F569200BF7F17 /* batterytech.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B323130F569100BF7F17 /* batterytech.cpp */; };
-		3D56B489130F569200BF7F17 /* stb_image.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B326130F569100BF7F17 /* stb_image.c */; };
-		3D56B48A130F569200BF7F17 /* stb_vorbis.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B329130F569100BF7F17 /* stb_vorbis.c */; };
-		3D56B48B130F569200BF7F17 /* MainMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B32F130F569100BF7F17 /* MainMenu.cpp */; };
-		3D56B48C130F569200BF7F17 /* OptionsMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B331130F569100BF7F17 /* OptionsMenu.cpp */; };
-		3D56B48D130F569200BF7F17 /* GameConnection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B334130F569100BF7F17 /* GameConnection.cpp */; };
-		3D56B48E130F569200BF7F17 /* NetworkManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B336130F569100BF7F17 /* NetworkManager.cpp */; };
-		3D56B48F130F569200BF7F17 /* NetworkMessage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B338130F569100BF7F17 /* NetworkMessage.cpp */; };
-		3D56B490130F569200BF7F17 /* androidgeneral.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B33F130F569100BF7F17 /* androidgeneral.cpp */; };
-		3D56B491130F569200BF7F17 /* boot.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B342130F569100BF7F17 /* boot.cpp */; };
-		3D56B492130F569200BF7F17 /* importgl.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B343130F569100BF7F17 /* importgl.c */; };
-		3D56B493130F569200BF7F17 /* batterytechKeyboardDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B347130F569100BF7F17 /* batterytechKeyboardDelegate.mm */; };
-		3D56B494130F569200BF7F17 /* boot.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B348130F569100BF7F17 /* boot.cpp */; };
-		3D56B495130F569200BF7F17 /* boot.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B34A130F569100BF7F17 /* boot.mm */; };
-		3D56B496130F569200BF7F17 /* iosgeneral.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B34C130F569100BF7F17 /* iosgeneral.mm */; };
-		3D56B497130F569200BF7F17 /* opengles.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B34E130F569100BF7F17 /* opengles.cpp */; };
-		3D56B498130F569200BF7F17 /* platformgeneral.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B350130F569100BF7F17 /* platformgeneral.cpp */; };
-		3D56B499130F569200BF7F17 /* SoundServer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B354130F569100BF7F17 /* SoundServer.cpp */; };
-		3D56B49A130F569200BF7F17 /* boot.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B356130F569100BF7F17 /* boot.cpp */; };
-		3D56B49B130F569200BF7F17 /* resources.rc in Resources */ = {isa = PBXBuildFile; fileRef = 3D56B359130F569100BF7F17 /* resources.rc */; };
-		3D56B49C130F569200BF7F17 /* win32general.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B35B130F569100BF7F17 /* win32general.cpp */; };
-		3D56B49D130F569200BF7F17 /* GraphicsConfiguration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B360130F569100BF7F17 /* GraphicsConfiguration.cpp */; };
-		3D56B49E130F569200BF7F17 /* MenuRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B362130F569100BF7F17 /* MenuRenderer.cpp */; };
-		3D56B49F130F569200BF7F17 /* RenderContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B364130F569100BF7F17 /* RenderContext.cpp */; };
-		3D56B4A0130F569200BF7F17 /* Renderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B366130F569100BF7F17 /* Renderer.cpp */; };
-		3D56B4A1130F569200BF7F17 /* TextRasterRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B368130F569100BF7F17 /* TextRasterRenderer.cpp */; };
-		3D56B4A2130F569200BF7F17 /* Button.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B36D130F569100BF7F17 /* Button.cpp */; };
-		3D56B4A3130F569200BF7F17 /* Checkbox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B36F130F569100BF7F17 /* Checkbox.cpp */; };
-		3D56B4A4130F569200BF7F17 /* Label.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B371130F569100BF7F17 /* Label.cpp */; };
-		3D56B4A5130F569200BF7F17 /* Layout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B373130F569100BF7F17 /* Layout.cpp */; };
-		3D56B4A6130F569200BF7F17 /* LinearLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B376130F569100BF7F17 /* LinearLayout.cpp */; };
-		3D56B4A7130F569200BF7F17 /* Menu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B378130F569100BF7F17 /* Menu.cpp */; };
-		3D56B4A8130F569200BF7F17 /* SlideAnimator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B37A130F569100BF7F17 /* SlideAnimator.cpp */; };
-		3D56B4A9130F569200BF7F17 /* TextField.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B37C130F569100BF7F17 /* TextField.cpp */; };
-		3D56B4AA130F569200BF7F17 /* UIAnimator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B37E130F569100BF7F17 /* UIAnimator.cpp */; };
-		3D56B4AB130F569200BF7F17 /* UIComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B380130F569100BF7F17 /* UIComponent.cpp */; };
-		3D56B4AC130F569200BF7F17 /* UIManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B382130F569100BF7F17 /* UIManager.cpp */; };
-		3D56B4AD130F569200BF7F17 /* ByteUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B385130F569200BF7F17 /* ByteUtil.cpp */; };
-		3D56B4AE130F569200BF7F17 /* PropertiesIO.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B388130F569200BF7F17 /* PropertiesIO.cpp */; };
-		3D56B4AF130F569200BF7F17 /* Property.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B38A130F569200BF7F17 /* Property.cpp */; };
-		3D56B4B0130F569200BF7F17 /* TextFileUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B38C130F569200BF7F17 /* TextFileUtil.cpp */; };
-		3D56B4B1130F569200BF7F17 /* Triangulator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B38E130F569200BF7F17 /* Triangulator.cpp */; };
-		3D56B4B2130F569200BF7F17 /* esTransform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B390130F569200BF7F17 /* esTransform.cpp */; };
-		3D56B4B3130F569200BF7F17 /* strx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B392130F569200BF7F17 /* strx.cpp */; };
-		3D56B4B4130F569200BF7F17 /* Box2DConfig.cmake in Resources */ = {isa = PBXBuildFile; fileRef = 3D56B397130F569200BF7F17 /* Box2DConfig.cmake */; };
-		3D56B4B5130F569200BF7F17 /* CMakeLists.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3D56B398130F569200BF7F17 /* CMakeLists.txt */; };
-		3D56B4B6130F569200BF7F17 /* b2CircleShape.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B39B130F569200BF7F17 /* b2CircleShape.cpp */; };
-		3D56B4B7130F569200BF7F17 /* b2PolygonShape.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B39D130F569200BF7F17 /* b2PolygonShape.cpp */; };
-		3D56B4B8130F569200BF7F17 /* b2BroadPhase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B3A0130F569200BF7F17 /* b2BroadPhase.cpp */; };
-		3D56B4B9130F569200BF7F17 /* b2CollideCircle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B3A2130F569200BF7F17 /* b2CollideCircle.cpp */; };
-		3D56B4BA130F569200BF7F17 /* b2CollidePolygon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B3A3130F569200BF7F17 /* b2CollidePolygon.cpp */; };
-		3D56B4BB130F569200BF7F17 /* b2Collision.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B3A4130F569200BF7F17 /* b2Collision.cpp */; };
-		3D56B4BC130F569200BF7F17 /* b2Distance.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B3A6130F569200BF7F17 /* b2Distance.cpp */; };
-		3D56B4BD130F569200BF7F17 /* b2DynamicTree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B3A8130F569200BF7F17 /* b2DynamicTree.cpp */; };
-		3D56B4BE130F569200BF7F17 /* b2TimeOfImpact.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B3AA130F569200BF7F17 /* b2TimeOfImpact.cpp */; };
-		3D56B4BF130F569200BF7F17 /* b2BlockAllocator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B3AD130F569200BF7F17 /* b2BlockAllocator.cpp */; };
-		3D56B4C0130F569200BF7F17 /* b2Math.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B3AF130F569200BF7F17 /* b2Math.cpp */; };
-		3D56B4C1130F569200BF7F17 /* b2Settings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B3B1130F569200BF7F17 /* b2Settings.cpp */; };
-		3D56B4C2130F569200BF7F17 /* b2StackAllocator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B3B3130F569200BF7F17 /* b2StackAllocator.cpp */; };
-		3D56B4C3130F569200BF7F17 /* b2CircleContact.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B3B7130F569200BF7F17 /* b2CircleContact.cpp */; };
-		3D56B4C4130F569200BF7F17 /* b2Contact.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B3B9130F569200BF7F17 /* b2Contact.cpp */; };
-		3D56B4C5130F569200BF7F17 /* b2ContactSolver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B3BB130F569200BF7F17 /* b2ContactSolver.cpp */; };
-		3D56B4C6130F569200BF7F17 /* b2PolygonAndCircleContact.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B3BD130F569200BF7F17 /* b2PolygonAndCircleContact.cpp */; };
-		3D56B4C7130F569200BF7F17 /* b2PolygonContact.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B3BF130F569200BF7F17 /* b2PolygonContact.cpp */; };
-		3D56B4C8130F569200BF7F17 /* b2TOISolver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B3C1130F569200BF7F17 /* b2TOISolver.cpp */; };
-		3D56B4C9130F569200BF7F17 /* b2DistanceJoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B3C4130F569200BF7F17 /* b2DistanceJoint.cpp */; };
-		3D56B4CA130F569200BF7F17 /* b2FrictionJoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B3C6130F569200BF7F17 /* b2FrictionJoint.cpp */; };
-		3D56B4CB130F569200BF7F17 /* b2GearJoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B3C8130F569200BF7F17 /* b2GearJoint.cpp */; };
-		3D56B4CC130F569200BF7F17 /* b2Joint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B3CA130F569200BF7F17 /* b2Joint.cpp */; };
-		3D56B4CD130F569200BF7F17 /* b2LineJoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B3CC130F569200BF7F17 /* b2LineJoint.cpp */; };
-		3D56B4CE130F569200BF7F17 /* b2MouseJoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B3CE130F569200BF7F17 /* b2MouseJoint.cpp */; };
-		3D56B4CF130F569200BF7F17 /* b2PrismaticJoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B3D0130F569200BF7F17 /* b2PrismaticJoint.cpp */; };
-		3D56B4D0130F569200BF7F17 /* b2PulleyJoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B3D2130F569200BF7F17 /* b2PulleyJoint.cpp */; };
-		3D56B4D1130F569200BF7F17 /* b2RevoluteJoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B3D4130F569200BF7F17 /* b2RevoluteJoint.cpp */; };
-		3D56B4D2130F569200BF7F17 /* b2WeldJoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B3D6130F569200BF7F17 /* b2WeldJoint.cpp */; };
-		3D56B4D3130F569200BF7F17 /* b2Body.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B3D8130F569200BF7F17 /* b2Body.cpp */; };
-		3D56B4D4130F569200BF7F17 /* b2ContactManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B3DA130F569200BF7F17 /* b2ContactManager.cpp */; };
-		3D56B4D5130F569200BF7F17 /* b2Fixture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B3DC130F569200BF7F17 /* b2Fixture.cpp */; };
-		3D56B4D6130F569200BF7F17 /* b2Island.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B3DE130F569200BF7F17 /* b2Island.cpp */; };
-		3D56B4D7130F569200BF7F17 /* b2World.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B3E1130F569200BF7F17 /* b2World.cpp */; };
-		3D56B4D8130F569200BF7F17 /* b2WorldCallbacks.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B3E3130F569200BF7F17 /* b2WorldCallbacks.cpp */; };
-		3D56B4D9130F569200BF7F17 /* Game.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B3E6130F569200BF7F17 /* Game.cpp */; };
-		3D56B4DA130F569200BF7F17 /* GameUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B3E9130F569200BF7F17 /* GameUtil.cpp */; };
-		3D56B4DB130F569200BF7F17 /* World.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B3EE130F569200BF7F17 /* World.cpp */; };
-		3D56B4DC130F569200BF7F17 /* GameObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B3F1130F569200BF7F17 /* GameObject.cpp */; };
-		3D56B4DD130F569200BF7F17 /* GameObjectFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B3F3130F569200BF7F17 /* GameObjectFactory.cpp */; };
-		3D56B4DE130F569200BF7F17 /* GameObjectMeta.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B3F5130F569200BF7F17 /* GameObjectMeta.cpp */; };
-		3D56B4DF130F569200BF7F17 /* GameObjectProperty.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B3F7130F569200BF7F17 /* GameObjectProperty.cpp */; };
-		3D56B4E0130F569200BF7F17 /* GameObjectPropertyMeta.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B3F9130F569200BF7F17 /* GameObjectPropertyMeta.cpp */; };
-		3D56B4E1130F569200BF7F17 /* Ball.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B3FC130F569200BF7F17 /* Ball.cpp */; };
-		3D56B4E2130F569200BF7F17 /* TouchInputProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B3FF130F569200BF7F17 /* TouchInputProcessor.cpp */; };
-		3D56B4E3130F569200BF7F17 /* LevelIO.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B402130F569200BF7F17 /* LevelIO.cpp */; };
-		3D56B4E4130F569200BF7F17 /* GameOptionsMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B405130F569200BF7F17 /* GameOptionsMenu.cpp */; };
-		3D56B4E5130F569200BF7F17 /* MenuButtonMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B407130F569200BF7F17 /* MenuButtonMenu.cpp */; };
-		3D56B4E6130F569200BF7F17 /* SettingsMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B409130F569200BF7F17 /* SettingsMenu.cpp */; };
-		3D56B4E7130F569200BF7F17 /* B2DebugRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B40C130F569200BF7F17 /* B2DebugRenderer.cpp */; };
-		3D56B4E8130F569200BF7F17 /* BallRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B40E130F569200BF7F17 /* BallRenderer.cpp */; };
-		3D56B4E9130F569200BF7F17 /* BatchSpriteRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B410130F569200BF7F17 /* BatchSpriteRenderer.cpp */; };
-		3D56B4EA130F569200BF7F17 /* SimpleSpriteRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B412130F569200BF7F17 /* SimpleSpriteRenderer.cpp */; };
-		3D56B4EB130F569200BF7F17 /* WorldRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56B414130F569200BF7F17 /* WorldRenderer.cpp */; };
 		3D56B56F1310C39C00BF7F17 /* background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3D56B5631310C39C00BF7F17 /* background.jpg */; };
 		3D56B5701310C39C00BF7F17 /* button1_pressed_tex.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D56B5641310C39C00BF7F17 /* button1_pressed_tex.png */; };
 		3D56B5711310C39C00BF7F17 /* button1_tex.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D56B5651310C39C00BF7F17 /* button1_tex.png */; };
@@ -246,22 +138,6 @@
 		3D56B5781310C39C00BF7F17 /* textfield_pressed_tex.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D56B56C1310C39C00BF7F17 /* textfield_pressed_tex.png */; };
 		3D56B5791310C39C00BF7F17 /* textfield_selected_tex.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D56B56D1310C39C00BF7F17 /* textfield_selected_tex.png */; };
 		3D56B57A1310C39C00BF7F17 /* textfield_tex.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D56B56E1310C39C00BF7F17 /* textfield_tex.png */; };
-		3D56B57B1310C39C00BF7F17 /* background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3D56B5631310C39C00BF7F17 /* background.jpg */; };
-		3D56B57C1310C39C00BF7F17 /* button1_pressed_tex.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D56B5641310C39C00BF7F17 /* button1_pressed_tex.png */; };
-		3D56B57D1310C39C00BF7F17 /* button1_tex.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D56B5651310C39C00BF7F17 /* button1_tex.png */; };
-		3D56B57E1310C39C00BF7F17 /* checkbox_checked_tex.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D56B5661310C39C00BF7F17 /* checkbox_checked_tex.png */; };
-		3D56B57F1310C39C00BF7F17 /* checkbox_tex.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D56B5671310C39C00BF7F17 /* checkbox_tex.png */; };
-		3D56B5801310C39C00BF7F17 /* digital.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D56B5681310C39C00BF7F17 /* digital.ttf */; };
-		3D56B5811310C39C00BF7F17 /* lcdmn.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D56B5691310C39C00BF7F17 /* lcdmn.ttf */; };
-		3D56B5821310C39C00BF7F17 /* panel1_tex.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D56B56A1310C39C00BF7F17 /* panel1_tex.png */; };
-		3D56B5831310C39C00BF7F17 /* panel2_tex.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D56B56B1310C39C00BF7F17 /* panel2_tex.png */; };
-		3D56B5841310C39C00BF7F17 /* textfield_pressed_tex.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D56B56C1310C39C00BF7F17 /* textfield_pressed_tex.png */; };
-		3D56B5851310C39C00BF7F17 /* textfield_selected_tex.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D56B56D1310C39C00BF7F17 /* textfield_selected_tex.png */; };
-		3D56B5861310C39C00BF7F17 /* textfield_tex.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D56B56E1310C39C00BF7F17 /* textfield_tex.png */; };
-		3DD637D612726D3D00D13421 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DD637D512726D3D00D13421 /* UIKit.framework */; };
-		3DD637D812726D4400D13421 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DD637D712726D4400D13421 /* OpenGLES.framework */; };
-		3DD637DA12726D4900D13421 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DD637D912726D4900D13421 /* QuartzCore.framework */; };
-		3DD637DC12726D5400D13421 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DD637DB12726D5400D13421 /* Foundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -523,7 +399,6 @@
 		3D56B56C1310C39C00BF7F17 /* textfield_pressed_tex.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = textfield_pressed_tex.png; sourceTree = "<group>"; };
 		3D56B56D1310C39C00BF7F17 /* textfield_selected_tex.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = textfield_selected_tex.png; sourceTree = "<group>"; };
 		3D56B56E1310C39C00BF7F17 /* textfield_tex.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = textfield_tex.png; sourceTree = "<group>"; };
-		3DD6374C1272468600D13421 /* Simulator 3.2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Simulator 3.2.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3DD6374E1272468600D13421 /* Simulator 3.2-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Simulator 3.2-Info.plist"; sourceTree = "<group>"; };
 		3DD637D512726D3D00D13421 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		3DD637D712726D4400D13421 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -542,17 +417,6 @@
 				28FD15000DC6FC520079059D /* OpenGLES.framework in Frameworks */,
 				28FD15080DC6FC5B0079059D /* QuartzCore.framework in Frameworks */,
 				3D1C1980127536B600A353B4 /* AudioToolbox.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		3DD6374A1272468600D13421 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				3DD637D612726D3D00D13421 /* UIKit.framework in Frameworks */,
-				3DD637D812726D4400D13421 /* OpenGLES.framework in Frameworks */,
-				3DD637DA12726D4900D13421 /* QuartzCore.framework in Frameworks */,
-				3DD637DC12726D5400D13421 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -575,7 +439,6 @@
 			isa = PBXGroup;
 			children = (
 				1D6058910D05DD3D006BFB54 /* batterytech-ios.app */,
-				3DD6374C1272468600D13421 /* Simulator 3.2.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1150,23 +1013,6 @@
 			productReference = 1D6058910D05DD3D006BFB54 /* batterytech-ios.app */;
 			productType = "com.apple.product-type.application";
 		};
-		3DD6374B1272468600D13421 /* Simulator 3.2 */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 3DD637511272468700D13421 /* Build configuration list for PBXNativeTarget "Simulator 3.2" */;
-			buildPhases = (
-				3DD637481272468600D13421 /* Resources */,
-				3DD637491272468600D13421 /* Sources */,
-				3DD6374A1272468600D13421 /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "Simulator 3.2";
-			productName = "Simulator 3.2";
-			productReference = 3DD6374C1272468600D13421 /* Simulator 3.2.app */;
-			productType = "com.apple.product-type.application";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -1187,7 +1033,6 @@
 			projectRoot = "";
 			targets = (
 				1D6058900D05DD3D006BFB54 /* batterytech-ios */,
-				3DD6374B1272468600D13421 /* Simulator 3.2 */,
 			);
 		};
 /* End PBXProject section */
@@ -1216,28 +1061,6 @@
 				3D56B5781310C39C00BF7F17 /* textfield_pressed_tex.png in Resources */,
 				3D56B5791310C39C00BF7F17 /* textfield_selected_tex.png in Resources */,
 				3D56B57A1310C39C00BF7F17 /* textfield_tex.png in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		3DD637481272468600D13421 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				3D56B49B130F569200BF7F17 /* resources.rc in Resources */,
-				3D56B4B4130F569200BF7F17 /* Box2DConfig.cmake in Resources */,
-				3D56B4B5130F569200BF7F17 /* CMakeLists.txt in Resources */,
-				3D56B57B1310C39C00BF7F17 /* background.jpg in Resources */,
-				3D56B57C1310C39C00BF7F17 /* button1_pressed_tex.png in Resources */,
-				3D56B57D1310C39C00BF7F17 /* button1_tex.png in Resources */,
-				3D56B57E1310C39C00BF7F17 /* checkbox_checked_tex.png in Resources */,
-				3D56B57F1310C39C00BF7F17 /* checkbox_tex.png in Resources */,
-				3D56B5801310C39C00BF7F17 /* digital.ttf in Resources */,
-				3D56B5811310C39C00BF7F17 /* lcdmn.ttf in Resources */,
-				3D56B5821310C39C00BF7F17 /* panel1_tex.png in Resources */,
-				3D56B5831310C39C00BF7F17 /* panel2_tex.png in Resources */,
-				3D56B5841310C39C00BF7F17 /* textfield_pressed_tex.png in Resources */,
-				3D56B5851310C39C00BF7F17 /* textfield_selected_tex.png in Resources */,
-				3D56B5861310C39C00BF7F17 /* textfield_tex.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1358,118 +1181,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		3DD637491272468600D13421 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				3D1C19C212754BBF00A353B4 /* RemoteIOPlayer.mm in Sources */,
-				3D56B481130F569200BF7F17 /* Context.cpp in Sources */,
-				3D56B482130F569200BF7F17 /* Logger.cpp in Sources */,
-				3D56B483130F569200BF7F17 /* VibrationManager.cpp in Sources */,
-				3D56B484130F569200BF7F17 /* AudioManager.cpp in Sources */,
-				3D56B485130F569200BF7F17 /* PCMAudioManager.cpp in Sources */,
-				3D56B486130F569200BF7F17 /* PCMSound.cpp in Sources */,
-				3D56B487130F569200BF7F17 /* PCMStream.cpp in Sources */,
-				3D56B488130F569200BF7F17 /* batterytech.cpp in Sources */,
-				3D56B489130F569200BF7F17 /* stb_image.c in Sources */,
-				3D56B48A130F569200BF7F17 /* stb_vorbis.c in Sources */,
-				3D56B48B130F569200BF7F17 /* MainMenu.cpp in Sources */,
-				3D56B48C130F569200BF7F17 /* OptionsMenu.cpp in Sources */,
-				3D56B48D130F569200BF7F17 /* GameConnection.cpp in Sources */,
-				3D56B48E130F569200BF7F17 /* NetworkManager.cpp in Sources */,
-				3D56B48F130F569200BF7F17 /* NetworkMessage.cpp in Sources */,
-				3D56B490130F569200BF7F17 /* androidgeneral.cpp in Sources */,
-				3D56B491130F569200BF7F17 /* boot.cpp in Sources */,
-				3D56B492130F569200BF7F17 /* importgl.c in Sources */,
-				3D56B493130F569200BF7F17 /* batterytechKeyboardDelegate.mm in Sources */,
-				3D56B494130F569200BF7F17 /* boot.cpp in Sources */,
-				3D56B495130F569200BF7F17 /* boot.mm in Sources */,
-				3D56B496130F569200BF7F17 /* iosgeneral.mm in Sources */,
-				3D56B497130F569200BF7F17 /* opengles.cpp in Sources */,
-				3D56B498130F569200BF7F17 /* platformgeneral.cpp in Sources */,
-				3D56B499130F569200BF7F17 /* SoundServer.cpp in Sources */,
-				3D56B49A130F569200BF7F17 /* boot.cpp in Sources */,
-				3D56B49C130F569200BF7F17 /* win32general.cpp in Sources */,
-				3D56B49D130F569200BF7F17 /* GraphicsConfiguration.cpp in Sources */,
-				3D56B49E130F569200BF7F17 /* MenuRenderer.cpp in Sources */,
-				3D56B49F130F569200BF7F17 /* RenderContext.cpp in Sources */,
-				3D56B4A0130F569200BF7F17 /* Renderer.cpp in Sources */,
-				3D56B4A1130F569200BF7F17 /* TextRasterRenderer.cpp in Sources */,
-				3D56B4A2130F569200BF7F17 /* Button.cpp in Sources */,
-				3D56B4A3130F569200BF7F17 /* Checkbox.cpp in Sources */,
-				3D56B4A4130F569200BF7F17 /* Label.cpp in Sources */,
-				3D56B4A5130F569200BF7F17 /* Layout.cpp in Sources */,
-				3D56B4A6130F569200BF7F17 /* LinearLayout.cpp in Sources */,
-				3D56B4A7130F569200BF7F17 /* Menu.cpp in Sources */,
-				3D56B4A8130F569200BF7F17 /* SlideAnimator.cpp in Sources */,
-				3D56B4A9130F569200BF7F17 /* TextField.cpp in Sources */,
-				3D56B4AA130F569200BF7F17 /* UIAnimator.cpp in Sources */,
-				3D56B4AB130F569200BF7F17 /* UIComponent.cpp in Sources */,
-				3D56B4AC130F569200BF7F17 /* UIManager.cpp in Sources */,
-				3D56B4AD130F569200BF7F17 /* ByteUtil.cpp in Sources */,
-				3D56B4AE130F569200BF7F17 /* PropertiesIO.cpp in Sources */,
-				3D56B4AF130F569200BF7F17 /* Property.cpp in Sources */,
-				3D56B4B0130F569200BF7F17 /* TextFileUtil.cpp in Sources */,
-				3D56B4B1130F569200BF7F17 /* Triangulator.cpp in Sources */,
-				3D56B4B2130F569200BF7F17 /* esTransform.cpp in Sources */,
-				3D56B4B3130F569200BF7F17 /* strx.cpp in Sources */,
-				3D56B4B6130F569200BF7F17 /* b2CircleShape.cpp in Sources */,
-				3D56B4B7130F569200BF7F17 /* b2PolygonShape.cpp in Sources */,
-				3D56B4B8130F569200BF7F17 /* b2BroadPhase.cpp in Sources */,
-				3D56B4B9130F569200BF7F17 /* b2CollideCircle.cpp in Sources */,
-				3D56B4BA130F569200BF7F17 /* b2CollidePolygon.cpp in Sources */,
-				3D56B4BB130F569200BF7F17 /* b2Collision.cpp in Sources */,
-				3D56B4BC130F569200BF7F17 /* b2Distance.cpp in Sources */,
-				3D56B4BD130F569200BF7F17 /* b2DynamicTree.cpp in Sources */,
-				3D56B4BE130F569200BF7F17 /* b2TimeOfImpact.cpp in Sources */,
-				3D56B4BF130F569200BF7F17 /* b2BlockAllocator.cpp in Sources */,
-				3D56B4C0130F569200BF7F17 /* b2Math.cpp in Sources */,
-				3D56B4C1130F569200BF7F17 /* b2Settings.cpp in Sources */,
-				3D56B4C2130F569200BF7F17 /* b2StackAllocator.cpp in Sources */,
-				3D56B4C3130F569200BF7F17 /* b2CircleContact.cpp in Sources */,
-				3D56B4C4130F569200BF7F17 /* b2Contact.cpp in Sources */,
-				3D56B4C5130F569200BF7F17 /* b2ContactSolver.cpp in Sources */,
-				3D56B4C6130F569200BF7F17 /* b2PolygonAndCircleContact.cpp in Sources */,
-				3D56B4C7130F569200BF7F17 /* b2PolygonContact.cpp in Sources */,
-				3D56B4C8130F569200BF7F17 /* b2TOISolver.cpp in Sources */,
-				3D56B4C9130F569200BF7F17 /* b2DistanceJoint.cpp in Sources */,
-				3D56B4CA130F569200BF7F17 /* b2FrictionJoint.cpp in Sources */,
-				3D56B4CB130F569200BF7F17 /* b2GearJoint.cpp in Sources */,
-				3D56B4CC130F569200BF7F17 /* b2Joint.cpp in Sources */,
-				3D56B4CD130F569200BF7F17 /* b2LineJoint.cpp in Sources */,
-				3D56B4CE130F569200BF7F17 /* b2MouseJoint.cpp in Sources */,
-				3D56B4CF130F569200BF7F17 /* b2PrismaticJoint.cpp in Sources */,
-				3D56B4D0130F569200BF7F17 /* b2PulleyJoint.cpp in Sources */,
-				3D56B4D1130F569200BF7F17 /* b2RevoluteJoint.cpp in Sources */,
-				3D56B4D2130F569200BF7F17 /* b2WeldJoint.cpp in Sources */,
-				3D56B4D3130F569200BF7F17 /* b2Body.cpp in Sources */,
-				3D56B4D4130F569200BF7F17 /* b2ContactManager.cpp in Sources */,
-				3D56B4D5130F569200BF7F17 /* b2Fixture.cpp in Sources */,
-				3D56B4D6130F569200BF7F17 /* b2Island.cpp in Sources */,
-				3D56B4D7130F569200BF7F17 /* b2World.cpp in Sources */,
-				3D56B4D8130F569200BF7F17 /* b2WorldCallbacks.cpp in Sources */,
-				3D56B4D9130F569200BF7F17 /* Game.cpp in Sources */,
-				3D56B4DA130F569200BF7F17 /* GameUtil.cpp in Sources */,
-				3D56B4DB130F569200BF7F17 /* World.cpp in Sources */,
-				3D56B4DC130F569200BF7F17 /* GameObject.cpp in Sources */,
-				3D56B4DD130F569200BF7F17 /* GameObjectFactory.cpp in Sources */,
-				3D56B4DE130F569200BF7F17 /* GameObjectMeta.cpp in Sources */,
-				3D56B4DF130F569200BF7F17 /* GameObjectProperty.cpp in Sources */,
-				3D56B4E0130F569200BF7F17 /* GameObjectPropertyMeta.cpp in Sources */,
-				3D56B4E1130F569200BF7F17 /* Ball.cpp in Sources */,
-				3D56B4E2130F569200BF7F17 /* TouchInputProcessor.cpp in Sources */,
-				3D56B4E3130F569200BF7F17 /* LevelIO.cpp in Sources */,
-				3D56B4E4130F569200BF7F17 /* GameOptionsMenu.cpp in Sources */,
-				3D56B4E5130F569200BF7F17 /* MenuButtonMenu.cpp in Sources */,
-				3D56B4E6130F569200BF7F17 /* SettingsMenu.cpp in Sources */,
-				3D56B4E7130F569200BF7F17 /* B2DebugRenderer.cpp in Sources */,
-				3D56B4E8130F569200BF7F17 /* BallRenderer.cpp in Sources */,
-				3D56B4E9130F569200BF7F17 /* BatchSpriteRenderer.cpp in Sources */,
-				3D56B4EA130F569200BF7F17 /* SimpleSpriteRenderer.cpp in Sources */,
-				3D56B4EB130F569200BF7F17 /* WorldRenderer.cpp in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
@@ -1478,11 +1189,13 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = batterytech_ios_Prefix.pch;
 				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
+				HEADER_SEARCH_PATHS = "../batterytech/**";
 				INFOPLIST_FILE = "batterytech_ios-Info.plist";
 				PRODUCT_NAME = "batterytech-ios";
 			};
@@ -1493,61 +1206,14 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = batterytech_ios_Prefix.pch;
 				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
+				HEADER_SEARCH_PATHS = "../batterytech/**";
 				INFOPLIST_FILE = "batterytech_ios-Info.plist";
 				PRODUCT_NAME = "batterytech-ios";
 				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		3DD6374F1272468700D13421 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/UIKit.framework/Headers/UIKit.h";
-				INFOPLIST_FILE = "Simulator 3.2-Info.plist";
-				INSTALL_PATH = "$(HOME)/Applications";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					UIKit,
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = "Simulator 3.2";
-				SDKROOT = iphoneos3.2;
-			};
-			name = Debug;
-		};
-		3DD637501272468700D13421 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/UIKit.framework/Headers/UIKit.h";
-				INFOPLIST_FILE = "Simulator 3.2-Info.plist";
-				INSTALL_PATH = "$(HOME)/Applications";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					UIKit,
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = "Simulator 3.2";
-				SDKROOT = iphoneos4.1;
-				ZERO_LINK = NO;
 			};
 			name = Release;
 		};
@@ -1588,15 +1254,6 @@
 			buildConfigurations = (
 				1D6058940D05DD3E006BFB54 /* Debug */,
 				1D6058950D05DD3E006BFB54 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		3DD637511272468700D13421 /* Build configuration list for PBXNativeTarget "Simulator 3.2" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				3DD6374F1272468700D13421 /* Debug */,
-				3DD637501272468700D13421 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

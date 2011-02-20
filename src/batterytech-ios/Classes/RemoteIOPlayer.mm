@@ -10,9 +10,9 @@
 #include <AudioUnit/AudioUnit.h>
 #define kOutputBus 0
 #define kInputBus 1
-#include "../../batterytech/src/batterytech/sound/SoundManager.h"
+#include <batterytech/audio/AudioManager.h>
 
-extern SoundManager *_iosSndMgr;
+extern AudioManager *_iosSndMgr;
 
 @implementation RemoteIOPlayer
 
