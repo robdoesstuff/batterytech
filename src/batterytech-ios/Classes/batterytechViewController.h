@@ -23,8 +23,7 @@
 @interface batterytechViewController : UIViewController
 {
     EAGLContext *context;
-    GLuint program;
-    
+     
     BOOL animating;
     BOOL displayLinkSupported;
     NSInteger animationFrameInterval;

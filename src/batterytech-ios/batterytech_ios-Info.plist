@@ -24,7 +24,7 @@
 	<string>1.0</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
-		<string>UIInterfaceOrientationLandscapeRight</string>
+		<string>UIInterfaceOrientationPortrait</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>

@@ -15,7 +15,7 @@
 #include "../../batterytech/src/batterytech/batterytech.h"
 #include "../../batterytech/src/batterytech/render/GraphicsConfiguration.h"
 
-#define USE_GLES2_WHEN_AVAILABLE FALSE
+#define USE_GLES2_WHEN_AVAILABLE TRUE
 
 static GraphicsConfiguration *gConfig;
 static double currentTime;
@@ -125,12 +125,6 @@ UIView *batterytechRootView;
 {
 	[super viewDidUnload];
 	
-    if (program)
-    {
-        glDeleteProgram(program);
-        program = 0;
-    }
-
     // Tear down context.
     if ([EAGLContext currentContext] == context)
         [EAGLContext setCurrentContext:nil];
@@ -223,7 +217,7 @@ UIView *batterytechRootView;
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
 {
-	return TRUE;
+	return FALSE;
 }
 
 - (BOOL)canBecomeFirstResponder {
