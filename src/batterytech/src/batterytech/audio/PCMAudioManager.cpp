@@ -12,14 +12,10 @@
 #include <string.h>
 #include <stdio.h>
 #include <assert.h>
+#include "../batterytech_globals.h"
 
 struct stb_vorbis;
 
-#define PLAYBACK_RATE 44100
-#define PLAYBACK_CHANNELS 2
-#define STREAM_BUFFER_SIZE 64000
-#define CHUNKED_READ_BUFFER_SIZE 16384
-#define VORBIS_MAX_LEGAL_FRAME 8192
 
 //FILE *testOutFile;
 
@@ -34,7 +30,7 @@ PCMAudioManager::PCMAudioManager() {
 
 void PCMAudioManager::init(U8 streams) {
 	streamCount = streams;
-	pcmSounds = new ManagedArray<PCMSound>(MAX_SOUNDS);
+	pcmSounds = new ManagedArray<PCMSound>(MAX_PCM_SOUNDS);
 	pcmStreams = new PCMStream[streams];
 	isReady = TRUE;
 	//testOutFile = fopen("output.wav", "wb");

@@ -8,8 +8,6 @@
 #ifndef PCMSOUNDMANAGER_H_
 #define PCMSOUNDMANAGER_H_
 
-#define MAX_SOUNDS 200
-
 #include "../primitives.h"
 #include "PCMSound.h"
 #include "PCMStream.h"

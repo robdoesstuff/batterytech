@@ -84,6 +84,8 @@ public:
 	virtual void setMainAnimator(UIAnimator *animator);
 	virtual void setExitAnimator(UIAnimator *animator);
 	virtual UIAnimator* getActiveAnimator();
+	virtual void setClickDownSoundAsset(const char *assetName);
+	virtual void setClickUpSoundAsset(const char *assetName);
 	S32 paddingLeftDips, paddingTopDips, paddingRightDips, paddingBottomDips;
 	S32 marginLeftDips, marginTopDips, marginRightDips, marginBottomDips;
 	S32 backgroundMenuResourceId;
@@ -101,6 +103,10 @@ public:
 	BOOL32 isPressed;
 	BOOL32 removeFromView;
 	S32 userId;
+	const char *clickDownSoundAsset;
+	const char *clickUpSoundAsset;
+	BOOL32 playClickDownSound;
+	BOOL32 playClickUpSound;
 protected:
 	S32 widthDips;
 	S32 heightDips;

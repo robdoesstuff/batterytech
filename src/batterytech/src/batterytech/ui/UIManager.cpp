@@ -9,6 +9,7 @@
 #include "LayoutParameters.h"
 #include <string.h>
 #include "../Logger.h"
+#include "../audio/AudioManager.h"
 
 UIManager::UIManager(Context *context) {
 	this->context = context;
@@ -178,6 +179,14 @@ void UIManager::update() {
 
 void UIManager::traverseUpdate(UIComponent *component) {
 	component->update(context->tickDelta);
+	if (component->playClickDownSound) {
+		component->playClickDownSound = FALSE;
+		context->audioManager->playSound(component->clickDownSoundAsset, 0, 1.0f, 1.0f, 1.0f);
+	}
+	if (component->playClickUpSound) {
+		component->playClickUpSound = FALSE;
+		context->audioManager->playSound(component->clickUpSoundAsset, 0, 1.0f, 1.0f, 1.0f);
+	}
 	ManagedArray<UIComponent> *subComps = component->components;
 	if (subComps) {
 		S32 i;

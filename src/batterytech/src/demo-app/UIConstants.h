@@ -16,3 +16,4 @@
 #define UI_TEXTFIELD "ui/textfield_tex.png"
 #define UI_TEXTFIELD_PRESSED "ui/textfield_pressed_tex.png"
 #define UI_TEXTFIELD_SELECTED "ui/textfield_selected_tex.png"
+#define UI_CLICK_DOWN_ASSETNAME "click.ogg"

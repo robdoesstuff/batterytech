@@ -28,6 +28,11 @@ Checkbox::Checkbox(const char *text) : LinearLayout() {
 	label->isClickable = FALSE;
 }
 
+Checkbox::~Checkbox() {
+	delete button;
+	delete label;
+}
+
 void Checkbox::setBoxResourceId(S32 resourceId) {
 	this->boxResourceId = resourceId;
 	if (!checked) {
@@ -76,7 +81,6 @@ BOOL32 Checkbox::isChecked() {
 	return checked;
 }
 
-Checkbox::~Checkbox() {
-	delete button;
-	delete label;
+void Checkbox::setTextAlignment(HorizontalAlignment horizAlignment, VerticalAlignment vertAlignment) {
+	label->setTextAlignment(horizAlignment, vertAlignment);
 }

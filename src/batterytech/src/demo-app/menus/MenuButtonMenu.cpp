@@ -22,6 +22,7 @@ MenuButtonMenu::MenuButtonMenu(Context *context) : Menu(MENU_BUTTON_MENU_NAME) {
 	button1->setMargins(1);
 	button1->setBackgroundMenuResource(buttonBgId);
 	button1->setPressedBackgroundMenuResource(buttonPressedBgId);
+	button1->setClickDownSoundAsset(UI_CLICK_DOWN_ASSETNAME);
 	buttonLayout->addComponent(button1);
 	buttonLayout->setHeight(WRAP);
 	buttonLayout->setWidth(WRAP);

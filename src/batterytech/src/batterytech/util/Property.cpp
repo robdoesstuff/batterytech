@@ -29,15 +29,15 @@ const char* Property::getValue() {
 }
 
 void Property::setName(const char* name) {
-	if (name) {
-		delete name;
+	if (this->name) {
+		delete [] this->name;
 	}
 	this->name = strDuplicate(name);
 }
 
 void Property::setValue(const char* value) {
-	if (value) {
-		delete value;
+	if (this->value) {
+		delete [] this->value;
 	}
 	this->value = strDuplicate(value);
 }

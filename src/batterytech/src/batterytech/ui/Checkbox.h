@@ -25,6 +25,7 @@ public:
 	virtual ~Checkbox();
 	virtual void setChecked(BOOL32 checked);
 	virtual BOOL32 isChecked();
+	virtual void setTextAlignment(HorizontalAlignment horizAlignment, VerticalAlignment vertAlignment);
 private:
 	Button *button;
 	Label *label;

@@ -7,6 +7,8 @@
 
 #include "UIComponent.h"
 #include <string.h>
+#include "../util/strx.h"
+#include "../batterytech_globals.h"
 
 UIComponent::UIComponent(const char *text) {
 	widthDips = 0;
@@ -24,16 +26,10 @@ UIComponent::UIComponent(const char *text) {
 	pressedBackgroundMenuResourceId = NO_RESOURCE;
 	selectedBackgroundMenuResourceId = NO_RESOURCE;
 	// use a copy of the text.
-	if (text) {
-		S32 textLength = strlen(text);
-		this->text = new char[textLength + 1];
-		strcpy(this->text, text);
-	} else {
-		this->text = NULL;
-	}
+	this->text = strDuplicate(text);
 	textHorizontalAlignment = HORIZONTAL_CENTER;
 	textVerticalAlignment = VERTICAL_CENTER;
-	components = new ManagedArray<UIComponent> (10);
+	components = new ManagedArray<UIComponent> (MAX_UI_SUBCOMPONENTS);
 	isClickable = TRUE;
 	isSelectable = TRUE;
 	isEnabled = TRUE;
@@ -46,6 +42,26 @@ UIComponent::UIComponent(const char *text) {
 	exitAnimator = NULL;
 	userId = NO_ID;
 	textR = textB = textG = textA = 1.0f;
+	clickDownSoundAsset = NULL;
+	clickUpSoundAsset = NULL;
+	playClickDownSound = FALSE;
+	playClickUpSound = FALSE;
+}
+
+
+UIComponent::~UIComponent() {
+	delete enterAnimator;
+	delete mainAnimator;
+	delete exitAnimator;
+	delete layoutParameters;
+	delete components;
+	delete [] text;
+	if (clickDownSoundAsset) {
+		delete [] clickDownSoundAsset;
+	}
+	if (clickUpSoundAsset) {
+		delete [] clickUpSoundAsset;
+	}
 }
 
 void UIComponent::setText(const char *text) {
@@ -53,24 +69,24 @@ void UIComponent::setText(const char *text) {
 	if (this->text) {
 		delete [] this->text;
 	}
-	if (text) {
-		S32 textLength = strlen(text);
-		this->text = new char[textLength + 1];
-		strcpy(this->text, text);
-	} else {
-		this->text = NULL;
-	}
-};
+	this->text = strDuplicate(text);
+}
 
 void UIComponent::addComponent(UIComponent *component) {
 	components->add(component);
 }
 
 void UIComponent::dispatchClickDown() {
+	if (clickDownSoundAsset) {
+		playClickDownSound = TRUE;
+	}
 	onClickDown();
 }
 
 void UIComponent::dispatchClickUp() {
+	if (clickUpSoundAsset) {
+		playClickUpSound = TRUE;
+	}
 	onClickUp();
 }
 
@@ -183,11 +199,18 @@ void UIComponent::setExitAnimator(UIAnimator *animator) {
 	}
 }
 
-UIComponent::~UIComponent() {
-	delete enterAnimator;
-	delete mainAnimator;
-	delete exitAnimator;
-	delete layoutParameters;
-	delete components;
-	delete [] text;
+void UIComponent::setClickDownSoundAsset(const char *assetName) {
+	// use a copy of the text, delete previous if exists
+	if (this->clickDownSoundAsset) {
+		delete [] this->clickDownSoundAsset;
+	}
+	this->clickDownSoundAsset = strDuplicate(assetName);
+}
+
+void UIComponent::setClickUpSoundAsset(const char *assetName) {
+	// use a copy of the text, delete previous if exists
+	if (this->clickUpSoundAsset) {
+		delete [] this->clickUpSoundAsset;
+	}
+	this->clickUpSoundAsset = strDuplicate(assetName);
 }
