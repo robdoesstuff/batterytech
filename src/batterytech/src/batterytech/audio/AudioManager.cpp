@@ -11,22 +11,18 @@
 #include <string.h>
 #include <stdio.h>
 #include "PCMAudioManager.h"
-
-#define PREFER_PLATFORM_AUDIO_MANAGEMENT TRUE
+#include "../batterytech_globals.h"
 
 AudioManager::AudioManager() {
 	usingPlatformAudioManagement = FALSE;
 	pcmSoundMgr = NULL;
 	enabled = TRUE;
-}
-
-void AudioManager::init(U8 streams) {
 	if (PREFER_PLATFORM_AUDIO_MANAGEMENT && _platform_implements_soundpool()) {
 		usingPlatformAudioManagement = TRUE;
-		_platform_init_audiomanagement(streams);
+		_platform_init_audiomanagement(MAX_AUDIO_STREAMS);
 	} else {
 		pcmSoundMgr = new PCMAudioManager();
-		pcmSoundMgr->init(streams);
+		pcmSoundMgr->init(MAX_AUDIO_STREAMS);
 		_platform_init_sound(this);
 	}
 }

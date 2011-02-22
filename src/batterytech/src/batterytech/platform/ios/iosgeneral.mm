@@ -348,4 +348,12 @@ void _platform_exit() {
 	// exit(0);
 }
 
+void _platform_show_ad() {
+	// Call out to your ios ad integration piece here
+}
+
+void _platform_hide_ad() {
+	// Call out to your ios ad integration piece here
+}
+
 #endif

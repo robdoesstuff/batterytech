@@ -9,47 +9,89 @@
 #include "../platform/platformgeneral.h"
 #include "../platform/platformgl.h"
 #include "../primitives.h"
-
 #define STB_TRUETYPE_IMPLEMENTATION
 #include "../decoders/stb_truetype.h"
 #include "../Logger.h"
 #include "../Context.h"
 #include "../render/RenderContext.h"
+#include "../batterytech_globals.h"
+#include <stdio.h>
 
-TextRasterRenderer::TextRasterRenderer(Context *context, const char *assetName, float fontSize) {
+TextRasterRenderer::TextRasterRenderer(Context *context, const char *assetName, F32 fontSize) {
 	this->context = context;
 	aName = assetName;
+	this->fontSize = fontSize * context->gConfig->uiScale;
+	bmpWidth = 0;
+	bmpHeight = 0;
 	vertShader = fragShader = program = shaderProjMatrix =
 	shaderMVMatrix = shaderVPosition = shaderUvMap = shaderTex =
 	shaderColorFilter = 0;
 }
 
+TextRasterRenderer::~TextRasterRenderer() {
+}
+
 void TextRasterRenderer::init(BOOL32 newContext) {
+	S32 bmpWidth = INITIAL_FONT_TEXTURE_WIDTH;
+	S32 bmpHeight = INITIAL_FONT_TEXTURE_HEIGHT;
 	S32 size = 0;
 	BYTE8 *data;
 	data = _platform_load_asset(aName, &size);
-	BYTE8 *temp_bitmap = (unsigned char*) malloc(sizeof(unsigned char) * 512*512);
-	BYTE8 *temp_bitmap_rgba = (unsigned char*) malloc(sizeof(unsigned char) * 512*512*4);
 	if (data) {
-		stbtt_BakeFontBitmap(data, 0, 32.0, temp_bitmap, 512, 512, 32,96, cdata); // no guarantee this fits!
-		S32 i,j;
-		for (i = 0; i < 512; i++) {
-			for (j = 0; j < 512; j++) {
-				S32 rowStart = i * 512 * 4;
-				BYTE8 alpha = temp_bitmap[i * 512 + j];
-				// will give a nice b&w gradient
-				temp_bitmap_rgba[rowStart + j * 4] = alpha;
-				temp_bitmap_rgba[rowStart + j * 4 + 1] = alpha;
-				temp_bitmap_rgba[rowStart + j * 4 + 2] = alpha;
-				temp_bitmap_rgba[rowStart + j * 4 + 3] = alpha;
+		BYTE8 *temp_bitmap = NULL;
+		BYTE8 *temp_bitmap_rgba = NULL;
+		BOOL32 fit = FALSE;
+		BOOL32 increaseToggle = FALSE;
+		while (!fit) {
+			// this isn't the most efficient way to do this but anything better will require modifying stb_truetype to do a dry run with no allocation
+			temp_bitmap = (unsigned char*) malloc(sizeof(unsigned char) * bmpWidth*bmpHeight);
+			temp_bitmap_rgba = (unsigned char*) malloc(sizeof(unsigned char) * bmpWidth*bmpHeight*4);
+			S32 result = stbtt_BakeFontBitmap(data, 0, fontSize, temp_bitmap, bmpWidth, bmpHeight, 32,95, cdata); // no guarantee this fits!
+			if (result <= 0) {
+				// didn't fit it all
+				increaseToggle = !increaseToggle;
+				if (increaseToggle) {
+					bmpWidth *= 2;
+				} else {
+					bmpHeight *= 2;
+				}
+				free(temp_bitmap_rgba);
+				free(temp_bitmap);
+			} else {
+				fit = TRUE;
+				this->bmpWidth = bmpWidth;
+				this->bmpHeight = bmpHeight;
 			}
 		}
+		// the bitmap we get from the stb lib is 8 bit alpha, so we need to convert it to rgba 32 bit for gl
+		S32 row,col;
+		for (row = 0; row < bmpHeight; row++) {
+			for (col = 0; col < bmpWidth; col++) {
+				S32 rowStart = row * bmpWidth * 4;
+				BYTE8 alpha = temp_bitmap[row * bmpWidth + col];
+				// will give a nice b&w gradient
+				temp_bitmap_rgba[rowStart + col * 4] = alpha;
+				temp_bitmap_rgba[rowStart + col * 4 + 1] = alpha;
+				temp_bitmap_rgba[rowStart + col * 4 + 2] = alpha;
+				temp_bitmap_rgba[rowStart + col * 4 + 3] = alpha;
+			}
+		}
+		/*
+		// uncomment for debugging font texture generation
+		FILE *testOutFile;
+		testOutFile = fopen("bmp8.raw", "wb");
+		fwrite(temp_bitmap, bmpWidth * bmpHeight, 1, testOutFile);
+		fclose(testOutFile);
+		testOutFile = fopen("bmp32.raw", "wb");
+		fwrite(temp_bitmap_rgba, bmpWidth * bmpHeight * 4, 1, testOutFile);
+		fclose(testOutFile);
+		*/
 		// can free ttf_buffer at this point
 		free(temp_bitmap);
 		glGenTextures(1, &ftex);
 		glBindTexture(GL_TEXTURE_2D, ftex);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 512, 512, 0, GL_RGBA, GL_UNSIGNED_BYTE, temp_bitmap_rgba);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, bmpWidth, bmpHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, temp_bitmap_rgba);
 		free(temp_bitmap_rgba);
 		GLenum error = glGetError();
 		if (error) {
@@ -93,7 +135,7 @@ F32 TextRasterRenderer::getHeight() {
 	F32 x = 0;
 	F32 y = 0;
 	stbtt_aligned_quad q;
-	stbtt_GetBakedQuad(cdata, 512,512, 'A'-32, &x,&y,&q,1);//1=opengl,0=old d3d
+	stbtt_GetBakedQuad(cdata, bmpWidth, bmpHeight, 'A'-32, &x,&y,&q,1);//1=opengl,0=old d3d
 	return q.y1 - q.y0;
 }
 
@@ -106,7 +148,7 @@ F32 TextRasterRenderer::measureWidth(const char *text) {
 	while (*text) {
 		if (*text >= 32 && *text < 128) {
 			stbtt_aligned_quad q;
-			stbtt_GetBakedQuad(cdata, 512,512, *text-32, &x,&y,&q,1);//1=opengl,0=old d3d
+			stbtt_GetBakedQuad(cdata, bmpWidth, bmpHeight, *text-32, &x,&y,&q,1);//1=opengl,0=old d3d
 			if (q.x0 < lowestX) {
 				lowestX = q.x0;
 			}
@@ -149,7 +191,7 @@ void TextRasterRenderer::render(const char *text, F32 x, F32 y) {
 	while (*text) {
 		if (*text >= 32 && *text < 128) {
 			stbtt_aligned_quad q;
-			stbtt_GetBakedQuad(cdata, 512,512, *text-32, &x,&y,&q,1);//1=opengl,0=old d3d
+			stbtt_GetBakedQuad(cdata, bmpWidth, bmpHeight, *text-32, &x,&y,&q,1);//1=opengl,0=old d3d
 			S32 pos = i * 18;
 			// 0
 			verts[pos] = q.x0;
@@ -213,8 +255,4 @@ void TextRasterRenderer::render(const char *text, F32 x, F32 y) {
 		glTexCoordPointer(2, GL_FLOAT, 0, &uvs);
 	}
 	glDrawArrays(GL_TRIANGLES, 0, length * 6);
-}
-
-TextRasterRenderer::~TextRasterRenderer() {
-	// TODO Auto-generated destructor stub
 }

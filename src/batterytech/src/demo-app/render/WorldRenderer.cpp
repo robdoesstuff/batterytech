@@ -21,7 +21,7 @@ WorldRenderer::WorldRenderer(Context *context) {
 	fps = 0;
 	frameSamplesCollected = 0;
 	frameSampleTimeTotal = 0.0f;
-	textRenderer = new TextRasterRenderer(context, UI_GAME_FONT, 12.0f);
+	textRenderer = new TextRasterRenderer(context, UI_GAME_FONT, 32.0f);
 	b2DebugRenderer = new B2DebugRenderer(context);
 	ballRenderer = new BallRenderer(context);
 	//uiBGRenderer = new SimpleSpriteRenderer(context, "demo_app_bg_tex.jpg");

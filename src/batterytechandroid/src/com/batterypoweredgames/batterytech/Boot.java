@@ -200,8 +200,15 @@ public class Boot {
 	}
 
 	public void exit() {
-		//Log.d(TAG, "Hiding Keyboard");
 		activity.finish();
+	}
+
+	public void showAd() {
+		// integrate with your android ad provider here
+	}
+
+	public void hideAd() {
+		// integrate with your android ad provider here
 	}
 
 	public native void init(int width, int height);

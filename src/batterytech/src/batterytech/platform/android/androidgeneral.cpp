@@ -303,6 +303,22 @@ void _platform_exit() {
 	jnienv->CallVoidMethod(javaBoot, methodId);
 }
 
+void _platform_show_ad() {
+	extern JNIEnv* jnienv;
+	extern jobject javaBoot;
+	jclass bootClass = jnienv->GetObjectClass(javaBoot);
+	jmethodID methodId = jnienv->GetMethodID(bootClass, "showAd", "()V");
+	jnienv->CallVoidMethod(javaBoot, methodId);
+}
+
+void _platform_hide_ad() {
+	extern JNIEnv* jnienv;
+	extern jobject javaBoot;
+	jclass bootClass = jnienv->GetObjectClass(javaBoot);
+	jmethodID methodId = jnienv->GetMethodID(bootClass, "hideAd", "()V");
+	jnienv->CallVoidMethod(javaBoot, methodId);
+}
+
 void _platform_init_network() {}
 void _platform_release_network() {}
 

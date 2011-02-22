@@ -16,16 +16,14 @@
 #include "render/GraphicsConfiguration.h"
 #include "ui/UIManager.h"
 #include "render/RenderContext.h"
-
-#define MAX_AUDIO_STREAMS 20
+#include "batterytech_globals.h"
 
 Context::Context(GraphicsConfiguration *gConfig) {
 	this->gConfig = gConfig;
 	this->world = new World;
 	worldRenderer = new WorldRenderer(this);
 	menuRenderer = new MenuRenderer(this);
-	audioManager = new AudioManager;
-	audioManager->init(MAX_AUDIO_STREAMS);
+	audioManager = new AudioManager();
 	networkManager = new NetworkManager(this);
 	vibrationManager = new VibrationManager(this);
 	game = new Game(this);

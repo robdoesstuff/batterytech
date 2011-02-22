@@ -20,7 +20,7 @@
 MenuRenderer::MenuRenderer(Context *context) : Renderer() {
 	this->context = context;
 	assetNames = new ManagedArray<const char>(MAX_ASSET_NAMES);
-	textRenderer = new TextRasterRenderer(context, UI_MENU_FONT, 12.0f);
+	textRenderer = new TextRasterRenderer(context, UI_MENU_FONT, 32.0f);
 	vertShader = fragShader = program = shaderProjMatrix =
 	shaderMVMatrix = shaderVPosition = shaderUvMap = shaderTex =
 	shaderColorFilter = 0;

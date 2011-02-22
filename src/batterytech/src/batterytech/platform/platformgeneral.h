@@ -72,6 +72,8 @@ void _platform_free_ifaddrs(char** ifaddrs, int count);
 void _platform_show_keyboard();
 void _platform_hide_keyboard();
 void _platform_exit();
+void _platform_show_ad();
+void _platform_hide_ad();
 
 // implemented generically
 void _platform_convert_path(const char* path, char* newPath);

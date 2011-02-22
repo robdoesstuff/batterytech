@@ -12,11 +12,12 @@
 #include <stdio.h>
 #include <fcntl.h>
 #include <io.h>
+#include "../../batterytech_globals.h"
 using namespace std;
 
-#define CONSOLE 1
-#define DEFAULT_WIDTH 480
-#define DEFAULT_HEIGHT 800
+#define CONSOLE CONSOLE_LOG_ENABLED_WHEN_AVAILABLE
+#define DEFAULT_WIDTH WINDOW_WIDTH
+#define DEFAULT_HEIGHT WINDOW_HEIGHT
 
 #ifdef __MINGW32__
 #define _LPCSTR LPCSTR
@@ -191,7 +192,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	DWORD dwHeight = GetSystemMetrics(SM_CYFULLSCREEN);
 	hWnd = CreateWindowEx(dwExStyle, // Extended Style For The Window
 			(_LPCSTR)"DemoApp", // Class Name
-			(_LPCSTR)"Batterytech Demo App", // Window Title
+			(_LPCSTR)WINDOWED_APP_NAME, // Window Title
 			WS_CLIPSIBLINGS | // Required Window Style
 					WS_CLIPCHILDREN | // Required Window Style
 					WS_VISIBLE | dwStyle, // Selected Window Style

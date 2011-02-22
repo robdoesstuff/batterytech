@@ -210,7 +210,7 @@ void _platform_unload_sound(const char *asset){}
 void _platform_sound_set_loops(S32 streamId, S32 loops){}
 void _platform_sound_set_volume(S32 streamId, F32 leftVol, F32 rightVol){}
 void _platform_sound_set_rate(S32 streamId, F32 rate){}
-S32 _platform_play_streaming_sound(const char *assetName, S16 loops, F32 leftVol, F32 rightVol, F32 rate){}
+S32 _platform_play_streaming_sound(const char *assetName, S16 loops, F32 leftVol, F32 rightVol, F32 rate){ return -1; }
 void _platform_stop_streaming_sound(const char *assetName){}
 void _platform_show_keyboard(){}
 void _platform_hide_keyboard(){}
@@ -246,6 +246,13 @@ void _platform_exit() {
 	// should link to boot's quit global
 	extern BOOL32 quit;
 	quit = TRUE;
+}
+
+void _platform_show_ad() {
+	// Call out to your windows ad integration piece here
+}
+void _platform_hide_ad() {
+	// Call out to your windows ad integration piece here
 }
 
 const char *inet_ntop(int af, const void *src, char *dst, socklen_t cnt)

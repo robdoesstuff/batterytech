@@ -22,11 +22,7 @@
 #include "../demo-app/render/WorldRenderer.h"
 #include <stdlib.h>
 #include <time.h>
-
-#define REFERENCE_WIDTH 480
-#define REFERENCE_HEIGHT 800
-#define TICK_SMOOTHER_SAMPLES 15
-#define USE_SHADERS_WHEN_SUPPORTED TRUE
+#include "batterytech_globals.h"
 
 static Context *context;
 static GraphicsConfiguration *gConfig;

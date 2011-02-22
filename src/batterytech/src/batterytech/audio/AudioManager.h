@@ -16,7 +16,6 @@ class AudioManager {
 public:
 	AudioManager();
 	virtual ~AudioManager();
-	void init(U8 streams);
 	void loadSound(const char *assetName);
 	S32 playSound(const char *assetName, S16 loops, F32 leftVol, F32 rightVol, F32 rate);
 	void stopSound(S32 streamId);
