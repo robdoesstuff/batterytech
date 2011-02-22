@@ -9,6 +9,7 @@
 #define PCMSTREAM_H_
 
 #include "PCMSound.h"
+#include "../batterytech_globals.h"
 
 class PCMStream {
 public:
@@ -46,8 +47,8 @@ public:
 	U32 sampleRate;
 	S16 **audioBuf;
 	U16 activeAudioBuf;
-	BOOL32 audioBufEmpty[2];
-	U16 audioBufLimit[2];
+	BOOL32 audioBufEmpty[STREAM_BUFFERS];
+	U16 audioBufLimit[STREAM_BUFFERS];
 	void* audioHandle;
 	U16 maxFrameSize;
 };

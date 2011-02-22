@@ -242,9 +242,10 @@ S32 PCMAudioManager::playStreamingSound(const char *assetName, S16 loops, F32 le
 				// get vorbis handle and read info
 				// fill both audio buffers
 				if (!stream->audioBuf) {
-					stream->audioBuf = new S16*[2];
-					stream->audioBuf[0] = new S16[STREAM_BUFFER_SIZE];
-					stream->audioBuf[1] = new S16[STREAM_BUFFER_SIZE];
+					stream->audioBuf = new S16*[STREAM_BUFFERS];
+					for (S32 j = 0; j < STREAM_BUFFERS; j++) {
+						stream->audioBuf[j] = new S16[STREAM_BUFFER_SIZE];
+					}
 				}
 				unsigned char buf[CHUNKED_READ_BUFFER_SIZE];
 				BOOL32 eof = FALSE;
@@ -265,8 +266,9 @@ S32 PCMAudioManager::playStreamingSound(const char *assetName, S16 loops, F32 le
 				stream->resampleInt = stream->resampleActiveRate / PLAYBACK_RATE;
 				stream->resampleFrac = stream->resampleActiveRate % PLAYBACK_RATE;
 				stream->resampleFracAccumulated = 0;
-				fillStreamingBuffer(stream, 0);
-				fillStreamingBuffer(stream, 1);
+				for (S32 j = 0; j < STREAM_BUFFERS; j++) {
+					fillStreamingBuffer(stream, j);
+				}
 				stream->activeAudioBuf = 0;
 				// set isPlaying to true last
 				stream->isPlaying = TRUE;
@@ -490,16 +492,23 @@ void PCMAudioManager::fillBuffer(void *pSoundBuffer, long bufferLen) {
 			if (isStreaming) {
 				bufferEnd = stream->audioBufLimit[activeAudioBuf];
 				streamEnd = stream->length;
-				if (stream->audioBufEmpty[0] && stream->audioBufEmpty[1]) {
+				BOOL32 hasData = FALSE;
+				for (S32 j = 0; j < STREAM_BUFFERS; j++) {
+					if (!stream->audioBufEmpty[j]) {
+						hasData = TRUE;
+						break;
+					}
+				}
+				if (!hasData) {
 					// underrun, wait for fill
 					continue;
 				}
 			} else {
 				streamEnd = bufferEnd = pcmSound->length;
 			}
-			//char cBuf[50];
-			//sprintf(cBuf, "buf %d at %d of %d", activeAudioBuf, stream->bufferPosition, bufferEnd);
-			//logmsg(cBuf);
+			char cBuf[50];
+			sprintf(cBuf, "buf %d at %d of %d", activeAudioBuf, stream->bufferPosition, bufferEnd);
+			logmsg(cBuf);
 			// **** entering super performance-critical code section ****
 			for (j=0; j<nbSample; j += playbackChannels) {
 				// mix with 32 bit headroom
@@ -551,15 +560,21 @@ void PCMAudioManager::fillBuffer(void *pSoundBuffer, long bufferLen) {
 					bufferPosition = 0;
 					if (isStreaming) {
 						stream->audioBufEmpty[activeAudioBuf] = TRUE;
-						if (!stream->audioBufEmpty[!activeAudioBuf]) {
-							stream->activeAudioBuf = activeAudioBuf = !activeAudioBuf;
-							sampleSource = stream->audioBuf[activeAudioBuf];
-							bufferEnd = stream->audioBufLimit[activeAudioBuf];
-							//logmsg("Switching buffers");
-							continue;
-						} else {
-							// logmsg("Out of streaming data");
-							// out of buffered data for stream
+						S32 oldActiveAudioBuf = activeAudioBuf++;
+						while (activeAudioBuf != oldActiveAudioBuf) {
+							activeAudioBuf %= STREAM_BUFFERS;
+							if (stream->audioBufEmpty[activeAudioBuf]) {
+								activeAudioBuf++;
+							} else {
+								// this is the next buffer that's not full
+								stream->activeAudioBuf = activeAudioBuf;
+								sampleSource = stream->audioBuf[activeAudioBuf];
+								bufferEnd = stream->audioBufLimit[activeAudioBuf];
+								break;
+							}
+						}
+						if (activeAudioBuf == oldActiveAudioBuf) {
+							// no buffers had any data :(
 							continue;
 						}
 					}
@@ -592,11 +607,10 @@ void PCMAudioManager::update() {
 		PCMStream *stream = &pcmStreams[i];
 		if (stream->isPlaying && stream->isStreaming) {
 			//fill empty buffers (will normally only be 1 to fill unless app was interrupted)
-			if (stream->audioBufEmpty[0]) {
-				fillStreamingBuffer(stream, 0);
-			}
-			if (stream->audioBufEmpty[1]) {
-				fillStreamingBuffer(stream, 1);
+			for (S32 j = 0; j < STREAM_BUFFERS; j++) {
+				if (stream->audioBufEmpty[j]) {
+					fillStreamingBuffer(stream, j);
+				}
 			}
 		}
 		// clean up any finished streams

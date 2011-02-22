@@ -33,12 +33,12 @@ PCMStream::PCMStream() {
 	sampleRate = 0;
 	audioBuf = NULL;
 	activeAudioBuf = 0;
-	audioBufEmpty[0] = TRUE;
-	audioBufEmpty[1] = TRUE;
+	for (S32 i = 0; i < STREAM_BUFFERS; i++) {
+		audioBufEmpty[i] = TRUE;
+		audioBufLimit[i] = 0;
+	}
 	audioHandle = NULL;
 	maxFrameSize = 0;
-	audioBufLimit[0] = 0;
-	audioBufLimit[1] = 0;
 }
 
 PCMStream::~PCMStream() {

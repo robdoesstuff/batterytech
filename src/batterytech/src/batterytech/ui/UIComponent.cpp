@@ -46,6 +46,10 @@ UIComponent::UIComponent(const char *text) {
 	clickUpSoundAsset = NULL;
 	playClickDownSound = FALSE;
 	playClickUpSound = FALSE;
+	clickDownVibeEffectId = -1;
+	clickUpVibeEffectId = -1;
+	playClickDownVibeEffect = FALSE;
+	playClickUpVibeEffect = FALSE;
 }
 
 
@@ -80,12 +84,18 @@ void UIComponent::dispatchClickDown() {
 	if (clickDownSoundAsset) {
 		playClickDownSound = TRUE;
 	}
+	if (clickDownVibeEffectId != -1) {
+		playClickDownVibeEffect = TRUE;
+	}
 	onClickDown();
 }
 
 void UIComponent::dispatchClickUp() {
 	if (clickUpSoundAsset) {
 		playClickUpSound = TRUE;
+	}
+	if (clickUpVibeEffectId != -1) {
+		playClickUpVibeEffect = TRUE;
 	}
 	onClickUp();
 }
@@ -213,4 +223,12 @@ void UIComponent::setClickUpSoundAsset(const char *assetName) {
 		delete [] this->clickUpSoundAsset;
 	}
 	this->clickUpSoundAsset = strDuplicate(assetName);
+}
+
+void UIComponent::setClickDownVibeEffectId(S32 vibeEffectId) {
+	clickDownVibeEffectId = vibeEffectId;
+}
+
+void UIComponent::setClickUpVibeEffectId(S32 vibeEffectId) {
+	clickUpVibeEffectId = vibeEffectId;
 }

@@ -86,6 +86,8 @@ public:
 	virtual UIAnimator* getActiveAnimator();
 	virtual void setClickDownSoundAsset(const char *assetName);
 	virtual void setClickUpSoundAsset(const char *assetName);
+	virtual void setClickDownVibeEffectId(S32 vibeEffectId);
+	virtual void setClickUpVibeEffectId(S32 vibeEffectId);
 	S32 paddingLeftDips, paddingTopDips, paddingRightDips, paddingBottomDips;
 	S32 marginLeftDips, marginTopDips, marginRightDips, marginBottomDips;
 	S32 backgroundMenuResourceId;
@@ -107,6 +109,10 @@ public:
 	const char *clickUpSoundAsset;
 	BOOL32 playClickDownSound;
 	BOOL32 playClickUpSound;
+	S32 clickDownVibeEffectId;
+	S32 clickUpVibeEffectId;
+	BOOL32 playClickDownVibeEffect;
+	BOOL32 playClickUpVibeEffect;
 protected:
 	S32 widthDips;
 	S32 heightDips;

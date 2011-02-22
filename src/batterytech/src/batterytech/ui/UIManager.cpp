@@ -10,6 +10,7 @@
 #include <string.h>
 #include "../Logger.h"
 #include "../audio/AudioManager.h"
+#include "../VibrationManager.h"
 
 UIManager::UIManager(Context *context) {
 	this->context = context;
@@ -186,6 +187,14 @@ void UIManager::traverseUpdate(UIComponent *component) {
 	if (component->playClickUpSound) {
 		component->playClickUpSound = FALSE;
 		context->audioManager->playSound(component->clickUpSoundAsset, 0, 1.0f, 1.0f, 1.0f);
+	}
+	if (component->playClickDownVibeEffect) {
+		component->playClickDownVibeEffect = FALSE;
+		context->vibrationManager->playEffect(component->clickDownVibeEffectId, 1.0);
+	}
+	if (component->playClickUpVibeEffect) {
+		component->playClickUpVibeEffect = FALSE;
+		context->vibrationManager->playEffect(component->clickUpVibeEffectId, 1.0);
 	}
 	ManagedArray<UIComponent> *subComps = component->components;
 	if (subComps) {
