@@ -125,10 +125,20 @@ BOOL32 _platform_path_create(const char* path) {
 
 void _platform_init_sound(AudioManager *audioManager) {
 	_andSndMgr = audioManager;
+	extern JNIEnv* jnienv;
+	extern jobject javaBoot;
+	jclass bootClass = jnienv->GetObjectClass(javaBoot);
+	jmethodID methodId = jnienv->GetMethodID(bootClass, "startAudioTrack", "()V");
+	jnienv->CallVoidMethod(javaBoot, methodId);
 }
 
 void _platform_stop_sound() {
 	_andSndMgr = NULL;
+	extern JNIEnv* jnienv;
+	extern jobject javaBoot;
+	jclass bootClass = jnienv->GetObjectClass(javaBoot);
+	jmethodID methodId = jnienv->GetMethodID(bootClass, "stopAudioTrack", "()V");
+	jnienv->CallVoidMethod(javaBoot, methodId);
 }
 
 void _platform_play_vibration_effect(S32 effectId, F32 intensity) {

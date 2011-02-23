@@ -24,12 +24,19 @@ public class Boot {
 	private Activity activity;
 	private AudioWrapper audioWrapper;
 	private View view;
+	private AudioBridge audioBridge;
+	public boolean audioTrackStartedViaNative;
 
 	public Boot(Activity activity, View view) {
 		this.activity = activity;
 		this.view = view;
+		audioTrackStartedViaNative = false;
 	}
 
+	public void setAudioBridge(AudioBridge audioBridge) {
+		this.audioBridge = audioBridge;
+	}
+	
 	public byte[] loadAsset(String name) {
 		//Log.d(TAG, "Loading Asset " + name);
 		byte[] data = null;
@@ -104,6 +111,23 @@ public class Boot {
 	}
 
 	// native audio management JNI callbacks
+
+	/**
+	 * JNI Callback to start the audiotrack
+	 * 
+	 * Do not call this from anywhere but the native batterytech audiomanager
+	 */
+	public void startAudioTrack() {
+		audioTrackStartedViaNative = true;
+		audioBridge.startAudio();
+	}
+
+	/**
+	 * JNI Callback to stop the audiotrack
+	 */
+	public void stopAudioTrack() {
+		audioBridge.stopAudio();
+	}
 
 	public void initAudioManagement(int streams) {
 		audioWrapper = new AudioWrapper(activity);

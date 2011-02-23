@@ -19,6 +19,7 @@
 #include "gameobjects/Ball.h"
 #include <batterytech/ui/Menu.h>
 #include "input/TouchInputProcessor.h"
+#include "menus/TopMenu.h"
 #include "menus/MenuButtonMenu.h"
 #include "menus/GameOptionsMenu.h"
 #include "menus/SettingsMenu.h"
@@ -100,6 +101,7 @@ void Game::update() {
 		// load preferences
 		loadPreferences();
 		logmsg("Initializing Menus");
+		context->uiManager->addMenu(new TopMenu(context));
 		context->uiManager->addMenu(new MenuButtonMenu(context));
 		context->uiManager->addMenu(new GameOptionsMenu(context));
 		context->uiManager->addMenu(new SettingsMenu(context));
@@ -108,7 +110,7 @@ void Game::update() {
 		context->audioManager->loadSound("click.ogg");
 		initialized = TRUE;
 		this->context->world->gameState = GAMESTATE_READY;
-		//context->audioManager->playStreamingSound("song1.ogg", -1, 1.0f, 1.0f, 1.0f);
+		context->audioManager->playStreamingSound("song1.ogg", -1, 1.0f, 1.0f, 1.0f);
 	}
 	if (context->wasSuspended) {
 		logmsg("Initializing Renderers");
@@ -130,7 +132,7 @@ void Game::updateState() {
 		// running state is level loaded and playing a game.
 		if (stateChanged) {
 			context->uiManager->clearMenuStack();
-			context->uiManager->showMenu(MENU_BUTTON_MENU_NAME);
+			context->uiManager->showMenu(TOP_MENU_NAME);
 		}
 		// watch for state change conditions
 	} else if (gameState == GAMESTATE_LOADING) {

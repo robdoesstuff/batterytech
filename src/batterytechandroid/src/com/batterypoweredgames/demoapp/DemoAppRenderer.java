@@ -37,6 +37,7 @@ public class DemoAppRenderer implements Renderer, InputHandler, SensorEventListe
 		this.view = view;
 		this.boot = new Boot(activity, view);
 		audioBridge = new AudioBridge(boot);
+		boot.setAudioBridge(audioBridge);
 	}
 	
 	public Boot getBoot() {
@@ -103,9 +104,11 @@ public class DemoAppRenderer implements Renderer, InputHandler, SensorEventListe
 			sensorMgr.unregisterListener(this);
 			sensorMgr = null;
 		}
-		//Thread.currentThread().setPriority(Thread.NORM_PRIORITY);
 		//vibrationManager.onPause();
-		//audioBridge.stopAudio();
+		// only stop audio if it was started via the native side
+		if (boot.audioTrackStartedViaNative) {
+			audioBridge.stopAudio();
+		}
 	}
 	
 	public void onResume() {
@@ -119,9 +122,11 @@ public class DemoAppRenderer implements Renderer, InputHandler, SensorEventListe
 		} catch (UnsupportedOperationException e) {
 			Log.i(TAG, "Accelerometer is not available on this device.");
 		}
-		//Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
 		//vibrationManager.onResume();
-		//audioBridge.startAudio();
+		// only resume audio if it was started via the native side
+		if (boot.audioTrackStartedViaNative) {
+			audioBridge.startAudio();
+		}
 	}
 	
 	public void release() {
@@ -129,6 +134,7 @@ public class DemoAppRenderer implements Renderer, InputHandler, SensorEventListe
 		this.activity = null;
 		if (audioBridge != null) {
 			audioBridge.stopAudio();
+			audioBridge.release();
 		}
 		audioBridge = null;
 		Log.d(TAG, "Releasing Batterytech Bootstrap");

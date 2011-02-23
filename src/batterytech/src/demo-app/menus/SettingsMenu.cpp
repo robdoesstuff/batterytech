@@ -69,6 +69,7 @@ SettingsMenu::SettingsMenu(Context *context) : Menu(SETTINGS_MENU_NAME) {
 	mainLayout->addComponent(showFPSCheckbox);
 	mainLayout->addComponent(backButton);
 	setRootComponent(mainLayout);
+	showMenuAfterQuitName = NULL;
 }
 
 SettingsMenu::~SettingsMenu() {
@@ -89,6 +90,10 @@ SettingsMenu::~SettingsMenu() {
 void SettingsMenu::onClickUp(UIComponent *component) {
 	if (component == backButton) {
 		context->uiManager->popMenu();
+		if (showMenuAfterQuitName) {
+			context->uiManager->showMenu(showMenuAfterQuitName);
+			showMenuAfterQuitName = NULL;
+		}
 	} else if (component == soundEnabledCheckbox) {
 		context->audioManager->setEnabled(((Checkbox*)component)->isChecked());
 	} else if (component == vibesEnabledCheckbox) {
@@ -133,4 +138,10 @@ void SettingsMenu::onPreShow() {
 	soundEnabledCheckbox->setChecked(context->audioManager->isEnabled());
 	vibesEnabledCheckbox->setChecked(context->vibrationManager->isEnabled());
 	showFPSCheckbox->setChecked(context->showFPS);
+}
+
+void SettingsMenu::setData(void *data) {
+	if (data) {
+		showMenuAfterQuitName = (const char*) data;
+	}
 }

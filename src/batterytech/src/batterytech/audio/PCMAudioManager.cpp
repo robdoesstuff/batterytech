@@ -506,9 +506,9 @@ void PCMAudioManager::fillBuffer(void *pSoundBuffer, long bufferLen) {
 			} else {
 				streamEnd = bufferEnd = pcmSound->length;
 			}
-			char cBuf[50];
-			sprintf(cBuf, "buf %d at %d of %d", activeAudioBuf, stream->bufferPosition, bufferEnd);
-			logmsg(cBuf);
+			//char cBuf[50];
+			//sprintf(cBuf, "buf %d at %d of %d", activeAudioBuf, stream->bufferPosition, bufferEnd);
+			//logmsg(cBuf);
 			// **** entering super performance-critical code section ****
 			for (j=0; j<nbSample; j += playbackChannels) {
 				// mix with 32 bit headroom

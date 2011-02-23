@@ -1,12 +1,12 @@
 /*
- * HighScoresMenu.h
+ * TopMenu.h
  *
  *  Created on: Dec 30, 2010
  *      Author: rgreen
  */
 
-#ifndef SETTINGSMENU_H_
-#define SETTINGSMENU_H_
+#ifndef TOPMENU_H_
+#define TOPMENU_H_
 
 #include <batterytech/Context.h>
 #include <batterytech/ui/Menu.h>
@@ -16,24 +16,21 @@
 #include <batterytech/ui/Checkbox.h>
 #include <batterytech/util/ManagedArray.h>
 
-#define SETTINGS_MENU_NAME "SettingsMenu"
+#define TOP_MENU_NAME "TopMenu"
 
-class SettingsMenu : public Menu {
+class TopMenu : public Menu {
 public:
-	SettingsMenu(Context *context);
-	virtual ~SettingsMenu();
+	TopMenu(Context *context);
+	virtual ~TopMenu();
 	virtual void onClickUp(UIComponent *component);
 	virtual void onPreShow();
-	virtual void setData(void *data);
 private:
 	Context *context;
 	Label *titleLabel;
-	Button *backButton;
-	Checkbox *soundEnabledCheckbox;
-	Checkbox *vibesEnabledCheckbox;
-	Checkbox *showFPSCheckbox;
+	Button *playButton;
+	Button *settingsButton;
+	Button *soundcheckButton;
 	LinearLayout *mainLayout;
-	const char *showMenuAfterQuitName;
 };
 
-#endif /* HIGHSCORESMENU_H_ */
+#endif /* TOPMENU_H_ */

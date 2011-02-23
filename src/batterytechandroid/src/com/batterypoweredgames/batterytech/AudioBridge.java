@@ -33,7 +33,7 @@ public class AudioBridge {
 				while(run) {
 					//Log.d(TAG, "Filling audio buffer from native");
 					// get audio from native side (specify in bytes)
-					boot.fillAudioBuffer(buf, 768 * 2);
+					boot.fillAudioBuffer(buf, 768 * 2); // TODO - NPE on resume
 					//Log.d(TAG, "Writing audio buffer to audioTrack");
 					// write audio to android track (specify in shorts)
 					audioTrack.write(buf, 0, 768);
@@ -59,6 +59,9 @@ public class AudioBridge {
 		}
 		audioTrack = null;
 		buf = null;
+	}
+	
+	public void release() {
 		boot = null;
 	}
 }

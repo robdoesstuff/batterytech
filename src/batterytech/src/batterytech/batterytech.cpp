@@ -16,8 +16,6 @@
 #include "ui/LinearLayout.h"
 #include "render/MenuRenderer.h"
 #include "Context.h"
-#include "menus/MainMenu.h"
-#include "menus/OptionsMenu.h"
 #include "../demo-app/Game.h"
 #include "../demo-app/render/WorldRenderer.h"
 #include <stdlib.h>
@@ -26,8 +24,6 @@
 
 static Context *context;
 static GraphicsConfiguration *gConfig;
-
-void createMenu(S32 width, S32 height);
 
 static F32 updateTimes[TICK_SMOOTHER_SAMPLES];
 static S32 updateTimeIdx = 0;
@@ -41,7 +37,6 @@ void btInit(GraphicsConfiguration *graphicsConfig, S32 width, S32 height) {
 		logmsg("Context already exists!!  Check for missing shutdown calls");
 	}
 	context = new Context(gConfig);
-	createMenu(width, height);
 	// initialize random number generator
 	srand(time(NULL));
 	for (S32 i = 0; i < TICK_SMOOTHER_SAMPLES; i++) {
@@ -69,14 +64,6 @@ void btSetScreenSize(S32 width, S32 height) {
 	} else {
 		gConfig->uiScale = gConfig->scaleX2d;
 	}
-}
-
-void createMenu(S32 width, S32 height) {
-	Menu *mainMenu = new MainMenu(context);
-	Menu *optionsMenu = new OptionsMenu(context);
-	context->uiManager->addMenu(mainMenu);
-	context->uiManager->addMenu(optionsMenu);
-	//context->uiManager->showMenu(MAIN_MENU_NAME);
 }
 
 void btUpdate(F32 delta) {

@@ -12,6 +12,7 @@
 #include "SettingsMenu.h"
 #include <batterytech/Context.h>
 #include "../World.h"
+#include "TopMenu.h"
 
 GameOptionsMenu::GameOptionsMenu(Context *context) : Menu(GAME_OPTIONS_MENU_NAME) {
 	this->context = context;
@@ -58,7 +59,8 @@ void GameOptionsMenu::onClickDown(UIComponent *component){
 void GameOptionsMenu::onClickUp(UIComponent *component){
 	this->context->uiManager->popMenu();
 	if (component == quitButton) {
-		this->context->world->gameState = GAMESTATE_READY;
+		this->context->uiManager->clearMenuStack();
+		this->context->uiManager->showMenu(TOP_MENU_NAME);
 		//this->context->uiManager->showMenu(LEVELS_MENU_NAME);
 	} else if (component == settingsButton) {
 		this->context->uiManager->showMenu(SETTINGS_MENU_NAME);
