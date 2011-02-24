@@ -27,7 +27,7 @@ public:
 	F32 volumeRight;
 	// update all resample fields when playbackRate changed
 	// resampleActiveRate = sampleRate * playbackRate
-	U16 resampleActiveRate;
+	U32 resampleActiveRate;
 	// resampleInt = resampleActiveRate / PLAYBACK_RATE
 	U8 resampleInt;
 	// resampleFrac = resampleActiveRate % PLAYBACK_RATE

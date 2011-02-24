@@ -63,7 +63,7 @@ S32 PCMAudioManager::loadSound(const char *assetName) {
 		len = stb_vorbis_decode_memory(fileData, assetSize, &channels, &sampleRate, &decoded);
 		sprintf(buf, "OGG length=%i channels=%i rate=%i", len, channels, sampleRate);
 		logmsg(buf);
-		sndId = loadSound(decoded, len, sampleRate, channels, assetName);
+		sndId = loadSound(decoded, len * channels, sampleRate, channels, assetName);
 	}
 	_platform_free_asset(fileData);
 	return sndId;

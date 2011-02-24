@@ -16,6 +16,7 @@
 #include "../level/LevelIO.h"
 #include "MenuButtonMenu.h"
 #include "SettingsMenu.h"
+#include "SoundcheckMenu.h"
 
 TopMenu::TopMenu(Context *context) : Menu(TOP_MENU_NAME) {
 	this->context = context;
@@ -80,6 +81,8 @@ void TopMenu::onClickUp(UIComponent *component) {
 		context->uiManager->popMenu();
 		context->uiManager->showMenu(SETTINGS_MENU_NAME, (void*)TOP_MENU_NAME);
 	} else if (component == soundcheckButton) {
+		context->uiManager->popMenu();
+		context->uiManager->showMenu(SOUNDCHECK_MENU_NAME);
 	}
 }
 

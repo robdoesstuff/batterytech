@@ -23,6 +23,7 @@
 #include "menus/MenuButtonMenu.h"
 #include "menus/GameOptionsMenu.h"
 #include "menus/SettingsMenu.h"
+#include "menus/SoundcheckMenu.h"
 #include <batterytech/util/PropertiesIO.h>
 #include "render/WorldRenderer.h"
 #include <string.h>
@@ -105,12 +106,13 @@ void Game::update() {
 		context->uiManager->addMenu(new MenuButtonMenu(context));
 		context->uiManager->addMenu(new GameOptionsMenu(context));
 		context->uiManager->addMenu(new SettingsMenu(context));
+		context->uiManager->addMenu(new SoundcheckMenu(context));
 		// load sounds
 		logmsg("Loading Sounds");
 		context->audioManager->loadSound("click.ogg");
 		initialized = TRUE;
 		this->context->world->gameState = GAMESTATE_READY;
-		context->audioManager->playStreamingSound("song1.ogg", -1, 1.0f, 1.0f, 1.0f);
+		//context->audioManager->playStreamingSound("song1.ogg", -1, 1.0f, 1.0f, 1.0f);
 	}
 	if (context->wasSuspended) {
 		logmsg("Initializing Renderers");
