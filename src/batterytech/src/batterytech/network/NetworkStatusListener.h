@@ -1,9 +1,18 @@
 /*
- * NetworkStatusListener.h
+ * BatteryTech
+ * Copyright (c) 2010 Battery Powered Games, LLC.
  *
- *  Created on: Dec 27, 2010
- *      Author: rgreen
+ * This code is a component of BatteryTech and is subject to the 'BatteryTech
+ * End User License Agreement'.  Among other important provisions, this
+ * license prohibits the distribution of source code to anyone other than
+ * authorized parties.  If you have any questions or would like an additional
+ * copy of the license, please contact: support@batterypoweredgames.com
  */
+
+//============================================================================
+// Name        : NetworkMessageFactory.cpp
+// Description : Implement in your application and set to the NetworkManager to receive network status updates.
+//============================================================================
 
 #ifndef NETWORKSTATUSLISTENER_H_
 #define NETWORKSTATUSLISTENER_H_

@@ -1,9 +1,23 @@
 /*
- * AudioManager.h
+ * BatteryTech
+ * Copyright (c) 2010 Battery Powered Games, LLC.
  *
- *  Created on: Aug 10, 2010
- *      Author: rgreen
+ * This code is a component of BatteryTech and is subject to the 'BatteryTech
+ * End User License Agreement'.  Among other important provisions, this
+ * license prohibits the distribution of source code to anyone other than
+ * authorized parties.  If you have any questions or would like an additional
+ * copy of the license, please contact: support@batterypoweredgames.com
  */
+
+//============================================================================
+// Name        : AudioManager.cpp
+// Description : Cross-platform Audio Management and Playback (Sound FX, Music)
+// Usage       : Use this class to trigger sound effects and play music.  If PREFER_PLATFORM_AUDIO_MANAGEMENT
+//             : in batterytech_globals.h is set to true, this will attempt to use platform facilities instead of
+//             : raw PCM playback when available.  If it is set to false, this will always use raw PCM mixing and playback.
+//             : When using raw PCM playback, streaming sounds will decode in real-time chunks of PCM_AUDIO_STREAM_BUFFER_SIZE.
+//             : Add more buffers and decrease buffer size to decrease decoding lag in the main loop.
+//============================================================================
 
 #ifndef AUDIOMANAGER_H_
 #define AUDIOMANAGER_H_

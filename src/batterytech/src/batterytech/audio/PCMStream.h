@@ -1,9 +1,18 @@
 /*
- * PCMStream.h
+ * BatteryTech
+ * Copyright (c) 2010 Battery Powered Games, LLC.
  *
- *  Created on: Aug 11, 2010
- *      Author: rgreen
+ * This code is a component of BatteryTech and is subject to the 'BatteryTech
+ * End User License Agreement'.  Among other important provisions, this
+ * license prohibits the distribution of source code to anyone other than
+ * authorized parties.  If you have any questions or would like an additional
+ * copy of the license, please contact: support@batterypoweredgames.com
  */
+
+//============================================================================
+// Name        : PCMStream.h
+// Description : A representation of a currently playing PCM Stream used by PCMAudioManager.
+//============================================================================
 
 #ifndef PCMSTREAM_H_
 #define PCMSTREAM_H_
@@ -28,9 +37,9 @@ public:
 	// update all resample fields when playbackRate changed
 	// resampleActiveRate = sampleRate * playbackRate
 	U32 resampleActiveRate;
-	// resampleInt = resampleActiveRate / PLAYBACK_RATE
+	// resampleInt = resampleActiveRate / PCM_AUDIO_PLAYBACK_RATE
 	U8 resampleInt;
-	// resampleFrac = resampleActiveRate % PLAYBACK_RATE
+	// resampleFrac = resampleActiveRate % PCM_AUDIO_PLAYBACK_RATE
 	U32 resampleFrac;
 	// accumulate the fraction until greater than active rate
 	U32 resampleFracAccumulated;
@@ -47,8 +56,8 @@ public:
 	U32 sampleRate;
 	S16 **audioBuf;
 	U16 activeAudioBuf;
-	BOOL32 audioBufEmpty[STREAM_BUFFERS];
-	U16 audioBufLimit[STREAM_BUFFERS];
+	BOOL32 audioBufEmpty[PCM_AUDIO_STREAM_BUFFERS];
+	U16 audioBufLimit[PCM_AUDIO_STREAM_BUFFERS];
 	void* audioHandle;
 	U16 maxFrameSize;
 };

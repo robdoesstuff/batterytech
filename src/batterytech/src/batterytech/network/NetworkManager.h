@@ -1,9 +1,23 @@
 /*
- * NetworkManager.h
+ * BatteryTech
+ * Copyright (c) 2010 Battery Powered Games, LLC.
  *
- *  Created on: Dec 23, 2010
- *      Author: rgreen
+ * This code is a component of BatteryTech and is subject to the 'BatteryTech
+ * End User License Agreement'.  Among other important provisions, this
+ * license prohibits the distribution of source code to anyone other than
+ * authorized parties.  If you have any questions or would like an additional
+ * copy of the license, please contact: support@batterypoweredgames.com
  */
+
+//============================================================================
+// Name        : NetworkManager.cpp
+// Description : Established connections to clients using UDP-based network discovery, sends TCP messages to clients.
+// Usage       : startHosting() will start a server and advertise the server to potential clients.
+//             : findHost() will find a host as a client
+//             : sendMessage() will send a message to the server or to a client
+//             : createMessage() will get you a message instance (do not instance your own) from the pool.
+//             : All messages must be returned to the pool after use or memory leaks will occur.
+//============================================================================
 
 #ifndef NETWORKMANAGER_H_
 #define NETWORKMANAGER_H_

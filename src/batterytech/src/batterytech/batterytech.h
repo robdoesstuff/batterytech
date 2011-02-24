@@ -1,11 +1,18 @@
 /*
- * batterytech.h
+ * BatteryTech
+ * Copyright (c) 2010 Battery Powered Games, LLC.
  *
- * the basic entry functions to the engine - all functions are either lifecycle or IO.
- *
- *  Created on: Jul 28, 2010
- *      Author: rgreen
+ * This code is a component of BatteryTech and is subject to the 'BatteryTech
+ * End User License Agreement'.  Among other important provisions, this
+ * license prohibits the distribution of source code to anyone other than
+ * authorized parties.  If you have any questions or would like an additional
+ * copy of the license, please contact: support@batterypoweredgames.com
  */
+
+//============================================================================
+// Name        : batterytech.h
+// Description : The basic entry functions to the platform - all functions are either lifecycle, update or IO.
+//============================================================================
 
 #ifndef BATTERYTECH_H_
 #define BATTERYTECH_H_

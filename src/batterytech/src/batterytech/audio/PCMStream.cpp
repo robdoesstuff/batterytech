@@ -1,9 +1,18 @@
 /*
- * PCMStream.cpp
+ * BatteryTech
+ * Copyright (c) 2010 Battery Powered Games, LLC.
  *
- *  Created on: Aug 11, 2010
- *      Author: rgreen
+ * This code is a component of BatteryTech and is subject to the 'BatteryTech
+ * End User License Agreement'.  Among other important provisions, this
+ * license prohibits the distribution of source code to anyone other than
+ * authorized parties.  If you have any questions or would like an additional
+ * copy of the license, please contact: support@batterypoweredgames.com
  */
+
+//============================================================================
+// Name        : PCMStream.cpp
+// Description : A representation of a currently playing PCM Stream used by PCMAudioManager.
+//============================================================================
 
 #include "PCMStream.h"
 
@@ -33,7 +42,7 @@ PCMStream::PCMStream() {
 	sampleRate = 0;
 	audioBuf = NULL;
 	activeAudioBuf = 0;
-	for (S32 i = 0; i < STREAM_BUFFERS; i++) {
+	for (S32 i = 0; i < PCM_AUDIO_STREAM_BUFFERS; i++) {
 		audioBufEmpty[i] = TRUE;
 		audioBufLimit[i] = 0;
 	}

@@ -1,9 +1,20 @@
 /*
- * SoundManager.cpp
+ * BatteryTech
+ * Copyright (c) 2010 Battery Powered Games, LLC.
  *
- *  Created on: Aug 10, 2010
- *      Author: rgreen
+ * This code is a component of BatteryTech and is subject to the 'BatteryTech
+ * End User License Agreement'.  Among other important provisions, this
+ * license prohibits the distribution of source code to anyone other than
+ * authorized parties.  If you have any questions or would like an additional
+ * copy of the license, please contact: support@batterypoweredgames.com
  */
+
+//============================================================================
+// Name        : PCMAudioManager.cpp
+// Description : Low-level PCM Manager for audio playback using only a platform PCM Stream
+// Usage       : Do not use directly.  Use AudioManager.  See PREFER_PLATFORM_AUDIO_MANAGEMENT
+//             : in batterytech_globals.h to force using this over using platform services.
+//============================================================================
 
 #include "PCMAudioManager.h"
 #include "../Logger.h"
@@ -146,8 +157,8 @@ S32 PCMAudioManager::playSound(S32 soundId, S16 loops, F32 leftVol, F32 rightVol
 			stream->assetName = sound->assetName;
 			stream->sampleRate = sound->rate;
 			stream->resampleActiveRate = stream->sampleRate * stream->playbackRate;
-			stream->resampleInt = stream->resampleActiveRate / PLAYBACK_RATE;
-			stream->resampleFrac = stream->resampleActiveRate % PLAYBACK_RATE;
+			stream->resampleInt = stream->resampleActiveRate / PCM_AUDIO_PLAYBACK_RATE;
+			stream->resampleFrac = stream->resampleActiveRate % PCM_AUDIO_PLAYBACK_RATE;
 			stream->resampleFracAccumulated = 0;
 			stream->filePosition = 0;
 			stream->dataBuf = 0;
@@ -242,9 +253,9 @@ S32 PCMAudioManager::playStreamingSound(const char *assetName, S16 loops, F32 le
 				// get vorbis handle and read info
 				// fill both audio buffers
 				if (!stream->audioBuf) {
-					stream->audioBuf = new S16*[STREAM_BUFFERS];
-					for (S32 j = 0; j < STREAM_BUFFERS; j++) {
-						stream->audioBuf[j] = new S16[STREAM_BUFFER_SIZE];
+					stream->audioBuf = new S16*[PCM_AUDIO_STREAM_BUFFERS];
+					for (S32 j = 0; j < PCM_AUDIO_STREAM_BUFFERS; j++) {
+						stream->audioBuf[j] = new S16[PCM_AUDIO_STREAM_BUFFER_SIZE];
 					}
 				}
 				unsigned char buf[CHUNKED_READ_BUFFER_SIZE];
@@ -263,10 +274,10 @@ S32 PCMAudioManager::playStreamingSound(const char *assetName, S16 loops, F32 le
 				stream->filePosition = bytesConsumed;
 				stream->audioHandle = vorb;
 				stream->resampleActiveRate = stream->sampleRate * stream->playbackRate;
-				stream->resampleInt = stream->resampleActiveRate / PLAYBACK_RATE;
-				stream->resampleFrac = stream->resampleActiveRate % PLAYBACK_RATE;
+				stream->resampleInt = stream->resampleActiveRate / PCM_AUDIO_PLAYBACK_RATE;
+				stream->resampleFrac = stream->resampleActiveRate % PCM_AUDIO_PLAYBACK_RATE;
 				stream->resampleFracAccumulated = 0;
-				for (S32 j = 0; j < STREAM_BUFFERS; j++) {
+				for (S32 j = 0; j < PCM_AUDIO_STREAM_BUFFERS; j++) {
 					fillStreamingBuffer(stream, j);
 				}
 				stream->activeAudioBuf = 0;
@@ -314,8 +325,8 @@ void PCMAudioManager::setRate(S32 streamId, F32 rate) {
 			rate = rate > 2.0f ? 2.0f : rate;
 			stream->playbackRate = rate;
 			stream->resampleActiveRate = stream->sampleRate * stream->playbackRate;
-			stream->resampleInt = stream->resampleActiveRate / PLAYBACK_RATE;
-			stream->resampleFrac = stream->resampleActiveRate % PLAYBACK_RATE;
+			stream->resampleInt = stream->resampleActiveRate / PCM_AUDIO_PLAYBACK_RATE;
+			stream->resampleFrac = stream->resampleActiveRate % PCM_AUDIO_PLAYBACK_RATE;
 		}
 	}
 }
@@ -367,7 +378,7 @@ void PCMAudioManager::fillStreamingBuffer(PCMStream *stream, U16 bufNum) {
 		S32 channelsUsed = 0;
 		BOOL32 hasMoreData = TRUE;
 		S16 *streamAudioBuf = stream->audioBuf[bufNum];
-		while (hasMoreData && audioBufPos + (VORBIS_MAX_LEGAL_FRAME * stream->channels) < STREAM_BUFFER_SIZE) {
+		while (hasMoreData && audioBufPos + (VORBIS_MAX_LEGAL_FRAME * stream->channels) < PCM_AUDIO_STREAM_BUFFER_SIZE) {
 			S32 dBytesConsumed = stb_vorbis_decode_frame_pushdata((stb_vorbis*) stream->audioHandle, buf + bytesConsumed, bytesRead - bytesConsumed, &channelsUsed, &audioBuf, &samplesDecoded);
 			if (dBytesConsumed < 0) {
 				logmsg("vorbis decoder error");
@@ -447,8 +458,8 @@ void PCMAudioManager::unloadSound(S32 soundId) {
 
 void PCMAudioManager::fillBuffer(void *pSoundBuffer, long bufferLen) {
 	//logmsg("fillBuffer");
-	U8 playbackChannels = PLAYBACK_CHANNELS;
-	U16 playbackRate = PLAYBACK_RATE;
+	U8 playbackChannels = PCM_AUDIO_PLAYBACK_CHANNELS;
+	U16 playbackRate = PCM_AUDIO_PLAYBACK_RATE;
 	S16 *pSample = (S16*)pSoundBuffer;
 	long nbSample = bufferLen / sizeof(S16);
 	int i, j, channelIdx;
@@ -493,7 +504,7 @@ void PCMAudioManager::fillBuffer(void *pSoundBuffer, long bufferLen) {
 				bufferEnd = stream->audioBufLimit[activeAudioBuf];
 				streamEnd = stream->length;
 				BOOL32 hasData = FALSE;
-				for (S32 j = 0; j < STREAM_BUFFERS; j++) {
+				for (S32 j = 0; j < PCM_AUDIO_STREAM_BUFFERS; j++) {
 					if (!stream->audioBufEmpty[j]) {
 						hasData = TRUE;
 						break;
@@ -562,7 +573,7 @@ void PCMAudioManager::fillBuffer(void *pSoundBuffer, long bufferLen) {
 						stream->audioBufEmpty[activeAudioBuf] = TRUE;
 						S32 oldActiveAudioBuf = activeAudioBuf++;
 						while (activeAudioBuf != oldActiveAudioBuf) {
-							activeAudioBuf %= STREAM_BUFFERS;
+							activeAudioBuf %= PCM_AUDIO_STREAM_BUFFERS;
 							if (stream->audioBufEmpty[activeAudioBuf]) {
 								activeAudioBuf++;
 							} else {
@@ -607,7 +618,7 @@ void PCMAudioManager::update() {
 		PCMStream *stream = &pcmStreams[i];
 		if (stream->isPlaying && stream->isStreaming) {
 			//fill empty buffers (will normally only be 1 to fill unless app was interrupted)
-			for (S32 j = 0; j < STREAM_BUFFERS; j++) {
+			for (S32 j = 0; j < PCM_AUDIO_STREAM_BUFFERS; j++) {
 				if (stream->audioBufEmpty[j]) {
 					fillStreamingBuffer(stream, j);
 				}
