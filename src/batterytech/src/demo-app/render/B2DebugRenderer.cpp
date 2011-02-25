@@ -8,7 +8,7 @@
 #include "B2DebugRenderer.h"
 #include <batterytech/render/Renderer.h>
 #include <batterytech/platform/platformgl.h>
-#include <batterytech/util/Triangulator.h>
+#include <batterytech/math/Triangulator.h>
 #include <Box2D/Dynamics/b2Body.h>
 #include <Box2D/Dynamics/b2World.h>
 #include <Box2D/Dynamics/b2Fixture.h>
@@ -162,15 +162,15 @@ void B2DebugRenderer::renderLine(F32 x, F32 y, F32 angle, F32 length) {
 	glPopMatrix();
 }
 
-void B2DebugRenderer::renderDrawLines(ManagedArray<TVEC2D> *points) {
+void B2DebugRenderer::renderDrawLines(ManagedArray<Vec2f> *points) {
 	glColor4f(0, 1, 0, 1);
 	S32 vertCount = points->getSize() - 1;
 	// 200 is max
 	F32 glVerts[200 * 3 * 2];
 	S32 i;
-	TVEC2D vert2;
+	Vec2f vert2;
 	for (i = 0; i < vertCount; i++) {
-		TVEC2D vert = *(points->array[i]);
+		Vec2f vert = *(points->array[i]);
 		vert2 = *(points->array[i + 1]);
 		glVerts[i * 6] = vert.x;
 		glVerts[i * 6 + 1] = vert.y;

@@ -17,7 +17,7 @@
 #include <batterytech/Context.h>
 #include <stdio.h>
 #include <batterytech/util/TextFileUtil.h>
-#include <batterytech/util/tvec2d.h>
+#include <batterytech/math/Vec2f.h>
 #include <batterytech/util/ManagedArray.h>
 #include "GameObjectProperty.h"
 
@@ -83,7 +83,7 @@ public:
 	S32 userGroupId;
 protected:
 	// calculates the center point of a concave polygon comprised of points
-	static TVEC2D calcCenter(TVEC2D *points, S32 count);
+	static Vec2f calcCenter(Vec2f *points, S32 count);
 	// shortcut to context->world
 	World* getWorld();
 	// handed a line of loadable text, this will attempt to match a property and load it if it matches.

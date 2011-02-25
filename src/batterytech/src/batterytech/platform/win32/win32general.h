@@ -1,9 +1,19 @@
 /*
- * win32general.h
+ * BatteryTech
+ * Copyright (c) 2010 Battery Powered Games, LLC.
  *
- *  Created on: Jul 29, 2010
- *      Author: rgreen
+ * This code is a component of BatteryTech and is subject to the 'BatteryTech
+ * End User License Agreement'.  Among other important provisions, this
+ * license prohibits the distribution of source code to anyone other than
+ * authorized parties.  If you have any questions or would like an additional
+ * copy of the license, please contact: support@batterypoweredgames.com
  */
+
+//============================================================================
+// Name        : win32general.h
+// Description : Win32 platform general functions
+// Usage       : Include platformgeneral.h in your application code.  Do not include this directly.
+//============================================================================
 
 #ifndef WIN32GENERAL_H_
 #define WIN32GENERAL_H_

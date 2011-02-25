@@ -1,3 +1,22 @@
+/*
+ * BatteryTech
+ * Copyright (c) 2010 Battery Powered Games, LLC.
+ *
+ * This code is a component of BatteryTech and is subject to the 'BatteryTech
+ * End User License Agreement'.  Among other important provisions, this
+ * license prohibits the distribution of source code to anyone other than
+ * authorized parties.  If you have any questions or would like an additional
+ * copy of the license, please contact: support@batterypoweredgames.com
+ */
+
+//============================================================================
+// Name        : Boot.java
+// Description : JNI Bindings and hooks.
+//             : Do not rename this class, its package or any of its functions as they are mapped via JNI-callbacks from androidgeneral.cpp and boot.cpp
+//             : You must update the JNI callbacks on the native side if you rename or move any critical methods or crashing will result
+// Usage       : Implement custom ad handling, vibration and any other android-specific customizations via hooks here.
+//============================================================================
+
 package com.batterypoweredgames.batterytech;
 
 import java.io.IOException;
@@ -11,13 +30,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
-/**
- * Do not rename this class, change its package or rename any of its methods unless you update androidgeneral.cpp to
- * match.
- * 
- * @author rgreen
- * 
- */
 public class Boot {
 	private static final String TAG = "Boot";
 

@@ -1,9 +1,19 @@
 /*
- * Menu.h
+ * BatteryTech
+ * Copyright (c) 2010 Battery Powered Games, LLC.
  *
- *  Created on: Oct 8, 2010
- *      Author: rgreen
+ * This code is a component of BatteryTech and is subject to the 'BatteryTech
+ * End User License Agreement'.  Among other important provisions, this
+ * license prohibits the distribution of source code to anyone other than
+ * authorized parties.  If you have any questions or would like an additional
+ * copy of the license, please contact: support@batterypoweredgames.com
  */
+
+//============================================================================
+// Name        : Menu.h
+// Description : Abstract class for creating menus.  A menu is a collection of UIComponents, Layouts and programmed behavior.
+// Usage       : Subclass to make a menu and add an instance of the subclass via UIManager::addMenu()
+//============================================================================
 
 #ifndef MENU_H_
 #define MENU_H_

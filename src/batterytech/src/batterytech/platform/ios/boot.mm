@@ -1,11 +1,18 @@
 /*
- *  boot.cpp
- *  batterytech-ios
+ * BatteryTech
+ * Copyright (c) 2010 Battery Powered Games, LLC.
  *
- *  Created by Apple on 10/21/10.
- *  Copyright 2010 __MyCompanyName__. All rights reserved.
- *
+ * This code is a component of BatteryTech and is subject to the 'BatteryTech
+ * End User License Agreement'.  Among other important provisions, this
+ * license prohibits the distribution of source code to anyone other than
+ * authorized parties.  If you have any questions or would like an additional
+ * copy of the license, please contact: support@batterypoweredgames.com
  */
+
+//============================================================================
+// Name        : boot.mm
+// Description : iOS bootstrap
+//============================================================================
 
 #ifdef __APPLE__
 #include <TargetConditionals.h>

@@ -1,3 +1,19 @@
+/*
+ * BatteryTech
+ * Copyright (c) 2010 Battery Powered Games, LLC.
+ *
+ * This code is a component of BatteryTech and is subject to the 'BatteryTech
+ * End User License Agreement'.  Among other important provisions, this
+ * license prohibits the distribution of source code to anyone other than
+ * authorized parties.  If you have any questions or would like an additional
+ * copy of the license, please contact: support@batterypoweredgames.com
+ */
+
+//============================================================================
+// Name        : DemoAppRenderer.java
+// Description : The BatteryTech renderer for Android
+//============================================================================
+
 package com.batterypoweredgames.demoapp;
 
 import javax.microedition.khronos.egl.EGLConfig;
@@ -20,8 +36,6 @@ import com.batterypoweredgames.input.InputObject;
 
 public class DemoAppRenderer implements Renderer, InputHandler, SensorEventListener {
 	private static final String TAG = "DemoAppRenderer";
-
-	// TODO - query native to see if it needs us to start/stop audiotrack for pcmaudiomanager service
 	
 	private Activity activity;
 	private Boot boot;

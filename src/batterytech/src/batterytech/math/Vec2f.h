@@ -10,10 +10,21 @@
  */
 
 //============================================================================
-// Name        : resources.rc
-// Description : Windows resource map
+// Name        : Vec2f.h
+// Description : 2 value vector structure.  No math included for now.
 //============================================================================
 
-#include "resources.h"
+#ifndef VEC2F_H_
+#define VEC2F_H_
 
-AppIcon ICON "../../../../assets/icon.ico"
+struct Vec2f {
+	/// Default constructor does nothing (for performance).
+	Vec2f() {}
+
+	/// Construct using coordinates.
+	Vec2f(float x, float y) : x(x), y(y) {}
+
+	float x,y;
+};
+
+#endif /* VEC2F_H_ */

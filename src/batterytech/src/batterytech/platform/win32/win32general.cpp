@@ -10,7 +10,7 @@
 #ifdef _WIN32
 
 #include "../platformgeneral.h"
-#include "SoundServer.h"
+#include "WinSound.h"
 #include "../../audio/AudioManager.h"
 #include <stdio.h>
 #include <direct.h>
@@ -21,6 +21,7 @@
 using namespace std;
 
 static AudioManager *sndMgr;
+static WinSound *winSound;
 
 void _convert_filename(char *filename);
 
@@ -124,34 +125,27 @@ void _convert_filename(char *filename) {
 	}
 }
 
-#define	WND_CLASSNAME	"SoundWindow"
-#define	TWO_PI			(3.1415926f * 2.f)
-#define	SIN_STEP		((TWO_PI * 440.f) / 44100.f)
-CSoundServer *pServer;
-
-void mySoundProc(void *pSoundBuffer, long bufferLen)
-{
+/** WinSound callback */
+void mySoundProc(void *pSoundBuffer, long bufferLen) {
 	if (sndMgr) {
 		sndMgr->fillBuffer(pSoundBuffer, bufferLen);
 	}
-	//cout << "Buffering " << bufferLen << " bytes" << endl;
-	// Convert params, assuming we create a 16bits, mono waveform.
 }
 
 void _platform_init_sound(AudioManager *audioManager) {
 	sndMgr = audioManager;
-	pServer = new CSoundServer;
-	if (pServer->open(mySoundProc)) {
+	winSound = new WinSound;
+	if (winSound->start(mySoundProc)) {
 		cout << "Windows Sound Started" << endl;
 	}
 }
 
 void _platform_stop_sound() {
 	cout << "Stopping Windows Sound" << endl;
-	if (pServer) {
-		pServer->close();
+	if (winSound) {
+		winSound->stop();
 	}
-	pServer = NULL;
+	winSound = NULL;
 	cout << "Windows Sound Stopped" << endl;
 }
 

@@ -1,13 +1,3 @@
-/*
- * Triangulator.cpp
- *
- *  Created on: Oct 31, 2010
- *      Author: rgreen
- */
-
-#include "Triangulator.h"
-
-
 // COTD Entry submitted by John W. Ratcliff [jratcliff@verant.com]
 
 // ** THIS IS A CODE SNIPPET WHICH WILL EFFICIEINTLY TRIANGULATE ANY
@@ -36,17 +26,16 @@
 /** whatever your own Vector implementation might be.           **/
 /*****************************************************************/
 
+#include "Triangulator.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
 
-#include "Triangulator.h"
-
 static const float EPSILON=0.0000000001f;
 
-float Triangulator::Area(TVEC2D *contour, int contourSize)
+float Triangulator::Area(Vec2f *contour, int contourSize)
 {
 
   int n = contourSize;
@@ -87,7 +76,7 @@ bool Triangulator::InsideTriangle(float Ax, float Ay,
   return ((aCROSSbp >= 0.0f) && (bCROSScp >= 0.0f) && (cCROSSap >= 0.0f));
 };
 
-bool Triangulator::Snip(TVEC2D *contour, int contourSize, int u,int v,int w,int n,int *V)
+bool Triangulator::Snip(Vec2f *contour, int contourSize, int u,int v,int w,int n,int *V)
 {
   int p;
   float Ax, Ay, Bx, By, Cx, Cy, Px, Py;
@@ -114,8 +103,8 @@ bool Triangulator::Snip(TVEC2D *contour, int contourSize, int u,int v,int w,int 
   return true;
 }
 
-bool Triangulator::Process(TVEC2D *contour, int contourSize,
-		TVEC2D *result, int *resultSize)
+bool Triangulator::Process(Vec2f *contour, int contourSize,
+		Vec2f *result, int *resultSize)
 {
   /* allocate and initialize list of Vertices in polygon */
 

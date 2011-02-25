@@ -11,7 +11,7 @@
 #include <batterytech/primitives.h>
 #include <Box2D/Dynamics/b2World.h>
 #include <batterytech/util/ManagedArray.h>
-#include <batterytech/util/Triangulator.h>
+#include <batterytech/math/Triangulator.h>
 #include "gameobject/GameObject.h"
 
 class GameObject;

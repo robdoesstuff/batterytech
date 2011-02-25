@@ -12,7 +12,7 @@
 #include <Box2D/Dynamics/b2Body.h>
 #include <Box2D/Collision/Shapes/b2CircleShape.h>
 #include <Box2D/Collision/Shapes/b2PolygonShape.h>
-#include <batterytech/util/tvec2d.h>
+#include <batterytech/math/Vec2f.h>
 #include <batterytech/util/ManagedArray.h>
 
 class Context;
@@ -29,7 +29,7 @@ private:
 	void renderCircleShape(b2Body *body, b2CircleShape *shape);
 	void renderOrientationLine(b2Body *body);
 	void renderLine(F32 x, F32 y, F32 angle, F32 length);
-	void renderDrawLines(ManagedArray<TVEC2D> *points);
+	void renderDrawLines(ManagedArray<Vec2f> *points);
 	Context *context;
 };
 
