@@ -38,10 +38,8 @@ my_src_files :=\
 	batterytech/ui/UIAnimator.cpp \
 	batterytech/ui/SlideAnimator.cpp \
 	batterytech/ui/TextField.cpp \
-	batterytech/menus/MainMenu.cpp \
-	batterytech/menus/OptionsMenu.cpp \
+	batterytech/math/Triangulator.cpp \
 	batterytech/util/esTransform.cpp \
-	batterytech/util/Triangulator.cpp \
 	batterytech/util/ByteUtil.cpp \
 	batterytech/util/TextFileUtil.cpp \
 	batterytech/util/Property.cpp \
@@ -67,7 +65,9 @@ my_src_files +=\
 	demo-app/gameobjects/Ball.cpp \
 	demo-app/menus/GameOptionsMenu.cpp \
 	demo-app/menus/SettingsMenu.cpp \
-	demo-app/menus/MenuButtonMenu.cpp
+	demo-app/menus/MenuButtonMenu.cpp \
+	demo-app/menus/SoundcheckMenu.cpp \
+	demo-app/menus/TopMenu.cpp
 	
 	
 my_src_files +=\

@@ -24,15 +24,11 @@ import android.view.MotionEvent;
 import com.batterypoweredgames.batterytech.Boot;
 
 /**
- * For Android 2.0+
- * 
- * @author rgreen
+ * Converts multi-touch input into touch objects - for Android 2.0+
  * 
  */
 public class TouchProcessorMulti implements TouchProcessor {
 	private static final String TAG = "TouchProcessorMulti";
-
-	private static final int BAD_POINT_THRESHOLD = 50;
 
 	private int lastKnownX[] = new int[] { -100, -100, -100, -100, -100, -100, -100, -100, -100, -100 };
 	private int lastKnownY[] = new int[] { -100, -100, -100, -100, -100, -100, -100, -100, -100, -100 };
