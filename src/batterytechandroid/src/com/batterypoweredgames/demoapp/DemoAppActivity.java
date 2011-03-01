@@ -37,8 +37,7 @@ import com.batterypoweredgames.input.TouchProcessor;
 public class DemoAppActivity extends Activity {
 	private static final String TAG = "BatteryTechActivity";
 	
-	public static final String APP_GL1_LIB_NAME = "demo-app-gl1";
-	public static final String APP_GL2_LIB_NAME = "demo-app-gl2";
+	public static final String APP_LIB_NAME = "demo-app";
 	
 	private DemoAppView btechView;
 	

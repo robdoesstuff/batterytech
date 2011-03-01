@@ -37,6 +37,10 @@ import com.batterypoweredgames.input.InputObject;
 public class DemoAppRenderer implements Renderer, InputHandler, SensorEventListener {
 	private static final String TAG = "DemoAppRenderer";
 	
+	static {
+		System.loadLibrary(DemoAppActivity.APP_LIB_NAME);
+	}
+
 	private Activity activity;
 	private Boot boot;
 	private AudioBridge audioBridge;

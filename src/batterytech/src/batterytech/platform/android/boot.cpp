@@ -41,6 +41,7 @@ void determineGPUCapabilities();
 void Java_com_batterypoweredgames_batterytech_Boot_init(JNIEnv* env, jobject thiz, jint width, jint height) {
 	jnienv = env;
 	javaBoot = thiz;
+	importGLInit();
 	gConfig = new GraphicsConfiguration;
 	determineGPUCapabilities();
 	btInit(gConfig, width, height);
@@ -53,9 +54,11 @@ void Java_com_batterypoweredgames_batterytech_Boot_release(JNIEnv* env, jobject 
 	javaBoot = thiz;
 	btRelease();
 	delete gConfig;
+	importGLDeinit();
 	jnienv = 0;
 	javaBoot = 0;
 }
+
 void Java_com_batterypoweredgames_batterytech_Boot_update(JNIEnv* env, jobject thiz, jfloat delta) {
 	//__android_log_print(ANDROID_LOG_DEBUG, "BatteryTech Boot", "delta is %f", delta);
 	jnienv = env;
@@ -180,94 +183,6 @@ void determineGPUCapabilities() {
 	}
 }
 
-#ifdef NO_GLES2_LIB
- void          glAttachShader (GLuint program, GLuint shader){}
- void          glBindAttribLocation (GLuint program, GLuint index, const char* name){}
- void          glBindFramebuffer (GLenum target, GLuint framebuffer){}
- void          glBindRenderbuffer (GLenum target, GLuint renderbuffer){}
- void          glBlendColor (GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha){}
- void          glBlendEquation ( GLenum mode ){}
- void          glBlendEquationSeparate (GLenum modeRGB, GLenum modeAlpha){}
- void          glBlendFuncSeparate (GLenum srcRGB, GLenum dstRGB, GLenum srcAlpha, GLenum dstAlpha){}
- void          glBufferData (GLenum target, GLsizeiptr size, const void* data, GLenum usage){}
- void          glBufferSubData (GLenum target, GLintptr offset, GLsizeiptr size, const void* data){}
- GLenum        glCheckFramebufferStatus (GLenum target){}
- void          glCompileShader (GLuint shader){}
- GLuint        glCreateProgram (void){}
- GLuint        glCreateShader (GLenum type){}
- void          glDeleteFramebuffers (GLsizei n, const GLuint* framebuffers){}
- void          glDeleteProgram (GLuint program){}
- void          glDeleteRenderbuffers (GLsizei n, const GLuint* renderbuffers){}
- void          glDeleteShader (GLuint shader){}
- void          glDetachShader (GLuint program, GLuint shader){}
- void          glDisableVertexAttribArray (GLuint index){}
- void          glEnableVertexAttribArray (GLuint index){}
- void          glFramebufferRenderbuffer (GLenum target, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer){}
- void          glFramebufferTexture2D (GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level){}
- void          glGenFramebuffers (GLsizei n, GLuint* framebuffers){}
- void          glGenRenderbuffers (GLsizei n, GLuint* renderbuffers){}
- void          glGetActiveAttrib (GLuint program, GLuint index, GLsizei bufsize, GLsizei* length, GLint* size, GLenum* type, char* name){}
- void          glGetActiveUniform (GLuint program, GLuint index, GLsizei bufsize, GLsizei* length, GLint* size, GLenum* type, char* name){}
- void          glGetAttachedShaders (GLuint program, GLsizei maxcount, GLsizei* count, GLuint* shaders){}
- int           glGetAttribLocation (GLuint program, const char* name){}
- void          glGetBufferParameteriv (GLenum target, GLenum pname, GLint* params){}
- void          glGetFramebufferAttachmentParameteriv (GLenum target, GLenum attachment, GLenum pname, GLint* params){}
- void          glGetProgramiv (GLuint program, GLenum pname, GLint* params){}
- void          glGetProgramInfoLog (GLuint program, GLsizei bufsize, GLsizei* length, char* infolog){}
- void          glGetRenderbufferParameteriv (GLenum target, GLenum pname, GLint* params){}
- void          glGetShaderiv (GLuint shader, GLenum pname, GLint* params){}
- void          glGetShaderInfoLog (GLuint shader, GLsizei bufsize, GLsizei* length, char* infolog){}
- void          glGetShaderPrecisionFormat (GLenum shadertype, GLenum precisiontype, GLint* range, GLint* precision){}
- void          glGetShaderSource (GLuint shader, GLsizei bufsize, GLsizei* length, char* source){}
- void          glGetUniformfv (GLuint program, GLint location, GLfloat* params){}
- void          glGetUniformiv (GLuint program, GLint location, GLint* params){}
- int           glGetUniformLocation (GLuint program, const char* name){}
- void          glGetVertexAttribfv (GLuint index, GLenum pname, GLfloat* params){}
- void          glGetVertexAttribiv (GLuint index, GLenum pname, GLint* params){}
- void          glGetVertexAttribPointerv (GLuint index, GLenum pname, void** pointer){}
- GLboolean     glIsFramebuffer (GLuint framebuffer){}
- GLboolean     glIsProgram (GLuint program){}
- GLboolean     glIsRenderbuffer (GLuint renderbuffer){}
- GLboolean     glIsShader (GLuint shader){}
- void          glLinkProgram (GLuint program){}
- void          glReleaseShaderCompiler (void){}
- void          glRenderbufferStorage (GLenum target, GLenum internalformat, GLsizei width, GLsizei height){}
- void          glShaderBinary (GLsizei n, const GLuint* shaders, GLenum binaryformat, const void* binary, GLsizei length){}
- void          glShaderSource (GLuint shader, GLsizei count, const char** string, const GLint* length){}
- void          glStencilFuncSeparate (GLenum face, GLenum func, GLint ref, GLuint mask){}
- void          glStencilMaskSeparate (GLenum face, GLuint mask){}
- void          glStencilOpSeparate (GLenum face, GLenum fail, GLenum zfail, GLenum zpass){}
- void          glUniform1f (GLint location, GLfloat x){}
- void          glUniform1fv (GLint location, GLsizei count, const GLfloat* v){}
- void          glUniform1i (GLint location, GLint x){}
- void          glUniform1iv (GLint location, GLsizei count, const GLint* v){}
- void          glUniform2f (GLint location, GLfloat x, GLfloat y){}
- void          glUniform2fv (GLint location, GLsizei count, const GLfloat* v){}
- void          glUniform2i (GLint location, GLint x, GLint y){}
- void          glUniform2iv (GLint location, GLsizei count, const GLint* v){}
- void          glUniform3f (GLint location, GLfloat x, GLfloat y, GLfloat z){}
- void          glUniform3fv (GLint location, GLsizei count, const GLfloat* v){}
- void          glUniform3i (GLint location, GLint x, GLint y, GLint z){}
- void          glUniform3iv (GLint location, GLsizei count, const GLint* v){}
- void          glUniform4f (GLint location, GLfloat x, GLfloat y, GLfloat z, GLfloat w){}
- void          glUniform4fv (GLint location, GLsizei count, const GLfloat* v){}
- void          glUniform4i (GLint location, GLint x, GLint y, GLint z, GLint w){}
- void          glUniform4iv (GLint location, GLsizei count, const GLint* v){}
- void          glUniformMatrix2fv (GLint location, GLsizei count, GLboolean transpose, const GLfloat* value){}
- void          glUniformMatrix3fv (GLint location, GLsizei count, GLboolean transpose, const GLfloat* value){}
- void          glUniformMatrix4fv (GLint location, GLsizei count, GLboolean transpose, const GLfloat* value){}
- void          glUseProgram (GLuint program){}
- void          glValidateProgram (GLuint program){}
- void          glVertexAttrib1f (GLuint indx, GLfloat x){}
- void          glVertexAttrib1fv (GLuint indx, const GLfloat* values){}
- void          glVertexAttrib2f (GLuint indx, GLfloat x, GLfloat y){}
- void          glVertexAttrib2fv (GLuint indx, const GLfloat* values){}
- void          glVertexAttrib3f (GLuint indx, GLfloat x, GLfloat y, GLfloat z){}
- void          glVertexAttrib3fv (GLuint indx, const GLfloat* values){}
- void          glVertexAttrib4f (GLuint indx, GLfloat x, GLfloat y, GLfloat z, GLfloat w){}
- void          glVertexAttrib4fv (GLuint indx, const GLfloat* values){}
- void          glVertexAttribPointer (GLuint indx, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const void* ptr){}
-#endif /* NO_GLES2_LIB */
 
 #ifdef __cplusplus
 }

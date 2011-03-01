@@ -29,10 +29,6 @@ import android.opengl.GLSurfaceView;
  */public class DemoAppView16 extends GLSurfaceView implements DemoAppView {
 	private DemoAppRenderer renderer;
 
-	static {
-		System.loadLibrary(DemoAppActivity.APP_GL1_LIB_NAME);
-	}
-
 	public DemoAppView16(Activity activity) {
 		super(activity);
 		renderer = new DemoAppRenderer(activity, this);

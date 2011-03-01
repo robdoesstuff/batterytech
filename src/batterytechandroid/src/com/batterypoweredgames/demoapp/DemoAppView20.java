@@ -44,21 +44,11 @@ public class DemoAppView20 extends GLSurfaceView implements DemoAppView {
 	private static final boolean DEBUG = false;
 	
 	private DemoAppRenderer renderer;
-	private static boolean libLoaded = false;
 
 	public DemoAppView20(Activity activity) {
 		super(activity);
 		if (SUPPORT_GLES2 && checkGL20Support(activity)) {
 			initGLES2(false, 0, 0);
-			if (!libLoaded) {
-				System.loadLibrary(DemoAppActivity.APP_GL2_LIB_NAME);
-				libLoaded = true;
-			}
-		} else {
-			if (!libLoaded) {
-				System.loadLibrary(DemoAppActivity.APP_GL1_LIB_NAME);
-				libLoaded = true;
-			}
 		}
 		renderer = new DemoAppRenderer(activity, this);
 		setRenderer(renderer);

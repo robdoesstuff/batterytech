@@ -24,7 +24,7 @@ my_src_files :=\
 	batterytech/render/MenuRenderer.cpp \
 	batterytech/platform/android/androidgeneral.cpp \
 	batterytech/platform/android/boot.cpp \
-	batterytech/platform/android/importgl.c \
+	batterytech/platform/android/importgl.cpp \
 	batterytech/platform/opengles.cpp \
 	batterytech/platform/platformgeneral.cpp \
 	batterytech/ui/Button.cpp \
@@ -107,37 +107,15 @@ my_src_files +=\
 	Box2D/Dynamics/Joints/b2RevoluteJoint.cpp \
 	Box2D/Dynamics/Joints/b2WeldJoint.cpp
 
-# This module is for OpenGL ES 2.0 (shader-based) rendering
-# Comment out down to the next module if you don't need ES 2.0 functionality
-# Set SUPPORT_GLES2 to false in DemoAppView20 to only allow for ES 1.0/1.1 initialization (or else
-# you will end up with a 2.0 context and 1.0 rendering which will only be unsupported operations)
 include $(CLEAR_VARS)
 
 LOCAL_CFLAGS := -DANDROID_NDK \
-                -DDISABLE_IMPORTGL \
                 -I src
 
-LOCAL_MODULE    := demo-app-gl2
+LOCAL_MODULE    := demo-app
 LOCAL_SRC_FILES := $(my_src_files)
 	
-LOCAL_LDLIBS := -lGLESv1_CM -lGLESv2 -ldl -llog
-
-include $(BUILD_SHARED_LIBRARY)
-
-# This module is for OpenGL ES 1.0/1.1 (fixed-function) rendering
-# Comment out if you don't need ES 1.0/1.1 functionality
-# Remember to set your min GLES version in your manifest if eliminating 1.0/1.1 support
-include $(CLEAR_VARS)
-
-LOCAL_CFLAGS := -DANDROID_NDK \
-                -DDISABLE_IMPORTGL \
-                -DNO_GLES2_LIB \
-                -I src
-
-LOCAL_MODULE    := demo-app-gl1
-LOCAL_SRC_FILES := $(my_src_files)
-
-LOCAL_LDLIBS := -lGLESv1_CM -ldl -llog
+LOCAL_LDLIBS := -ldl -llog
 
 include $(BUILD_SHARED_LIBRARY)
 
