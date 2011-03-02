@@ -21,7 +21,7 @@
 #ifdef __APPLE__
 	#include <TargetConditionals.h>
 #endif
-#if TARGET_OS_MAC
+#if TARGET_OS_MAC && !TARGET_OS_IPHONE
 
 // integers
 typedef signed char S8;

@@ -21,6 +21,7 @@
 #ifdef __APPLE__
 	#include <TargetConditionals.h>
 #endif
+
 #if TARGET_OS_IPHONE
 
 @implementation batterytechKeyboardDelegate
@@ -45,4 +46,3 @@
 @end
 
 #endif /* IOS */
-#endif /* BATTERYTECHKEYBOARDDELEGATE_H_ */

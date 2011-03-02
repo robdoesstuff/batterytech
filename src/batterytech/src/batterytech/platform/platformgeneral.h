@@ -41,7 +41,7 @@
 	#include "ios/iosgeneral.h"
 #endif /* IOS */
 
-#if TARGET_OS_MAC
+#if TARGET_OS_MAC && !TARGET_OS_IPHONE
 	#include "osx/osxgeneral.h"
 #endif /* MAC */
 

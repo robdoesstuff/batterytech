@@ -18,7 +18,7 @@
 #ifdef __APPLE__
 #include <TargetConditionals.h>
 #endif
-#if TARGET_OS_MAC
+#if TARGET_OS_MAC && !TARGET_OS_IPHONE
 
 #include "../platformgeneral.h"
 #include <stdlib.h>
@@ -35,8 +35,6 @@
 #define ASSETS_DIR "assets/"
 
 AudioManager *_iosSndMgr;
-UITextView *myTextView;
-batterytechKeyboardDelegate *kbDelegate;
 
 static const char* getFilePathForAsset(const char *assetName) {
 	char *lastDot = NULL;
@@ -196,11 +194,9 @@ BOOL32 _platform_path_create(const char* path) {
 }
 
 void _platform_play_vibration_effect(S32 effectId, F32 intensity) {
-	AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
 }
 
 void _platform_start_vibration_effect(S32 effectId, F32 intensity) {
-	AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
 }
 
 void _platform_stop_vibration_effect(S32 effectId) {
@@ -310,8 +306,7 @@ void _platform_free_ifaddrs(char** ifaddrs, int count) {
 }
 
 void _platform_exit() {
-	// Apple recommends against forcefully quitting an app.  If you should choose to quit forcefully,
-	// exit(0);
+	exit(0);
 }
 
 void _platform_show_ad() {

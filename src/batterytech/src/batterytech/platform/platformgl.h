@@ -141,9 +141,12 @@
 	#import <OpenGLES/ES2/glext.h>
 #endif /* IOS */
 
-#if TARGET_OS_MAC
+#if TARGET_OS_MAC && !TARGET_OS_IPHONE
 	#import <OpenGL/gl.h>
 	#import <OpenGL/glext.h>
+	// needed to map GLES to GL
+	#define glOrthof(left,right,bottom,top,near,far) glOrtho(left,right,bottom,top,near,far)
+	#define glFrustumf(xmin, xmax, ymin, ymax, zNear, zFar) glFrustum(xmin, xmax, ymin, ymax, zNear, zFar)
 #endif /* OSX */
 
 #include "opengles.h"

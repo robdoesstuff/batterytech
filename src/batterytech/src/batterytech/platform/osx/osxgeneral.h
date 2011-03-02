@@ -21,7 +21,7 @@
 #ifdef __APPLE__
 	#include <TargetConditionals.h>
 #endif
-#if TARGET_OS_MAC
+#if TARGET_OS_MAC && !TARGET_OS_IPHONE
 
 // osx specific functions here
 #include <sys/types.h>
