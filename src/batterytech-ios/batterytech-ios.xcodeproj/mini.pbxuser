@@ -42,11 +42,12 @@
 	};
 	29B97313FDCFA39411CA2CEA /* Project object */ = {
 		activeBuildConfigurationName = Release;
-		activeExecutable = 3D56BC821311D55100BF7F17 /* batterytech-ios ipad */;
-		activeSDKPreference = iphonesimulator3.2;
-		activeTarget = 3D56BC011311D55100BF7F17 /* batterytech-ios ipad */;
+		activeExecutable = 3D65B4CC126BFA6700CF4CFC /* batterytech-ios */;
+		activeSDKPreference = iphonesimulator4.1;
+		activeTarget = 1D6058900D05DD3D006BFB54 /* batterytech-ios */;
 		addToTargets = (
 			1D6058900D05DD3D006BFB54 /* batterytech-ios */,
+			3D56BC011311D55100BF7F17 /* batterytech-ios ipad */,
 		);
 		breakpoints = (
 		);
@@ -313,6 +314,12 @@
 			3D56BC911311D5B700BF7F17 /* PBXTextBookmark */ = 3D56BC911311D5B700BF7F17 /* PBXTextBookmark */;
 			3D56BC921311D5B700BF7F17 /* PBXTextBookmark */ = 3D56BC921311D5B700BF7F17 /* PBXTextBookmark */;
 			3D56BC931311D5B700BF7F17 /* PBXTextBookmark */ = 3D56BC931311D5B700BF7F17 /* PBXTextBookmark */;
+			3D56BCA21311D6A600BF7F17 /* PBXTextBookmark */ = 3D56BCA21311D6A600BF7F17 /* PBXTextBookmark */;
+			3D56BCA31311D6A600BF7F17 /* PlistBookmark */ = 3D56BCA31311D6A600BF7F17 /* PlistBookmark */;
+			3D56BCA41311D6A600BF7F17 /* PlistBookmark */ = 3D56BCA41311D6A600BF7F17 /* PlistBookmark */;
+			3D56BCB31311D6E300BF7F17 /* PBXTextBookmark */ = 3D56BCB31311D6E300BF7F17 /* PBXTextBookmark */;
+			3D56BCB41311D6E300BF7F17 /* PBXTextBookmark */ = 3D56BCB41311D6E300BF7F17 /* PBXTextBookmark */;
+			3D56BCB51311D6E400BF7F17 /* PlistBookmark */ = 3D56BCB51311D6E400BF7F17 /* PlistBookmark */;
 		};
 		sourceControlManager = 3D65B4DD126BFA6F00CF4CFC /* Source Control */;
 		userBuildSettings = {
@@ -349,36 +356,26 @@
 			sepNavWindowFrame = "{{450, 346}, {868, 740}}";
 		};
 	};
-	3D56B31D130F569100BF7F17 /* PCMAudioManager.cpp */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1263, 8164}}";
-			sepNavSelRange = "{7223, 0}";
-			sepNavVisRange = "{6989, 1280}";
-		};
-	};
-	3D56B323130F569100BF7F17 /* batterytech.cpp */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1182, 2301}}";
-			sepNavSelRange = "{3338, 6}";
-			sepNavVisRange = "{2295, 1335}";
-			sepNavWindowFrame = "{{107, 198}, {1241, 891}}";
-		};
-	};
 	3D56B324130F569100BF7F17 /* batterytech.h */ = {
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.c.h;
+		name = batterytech.h;
+		path = "/Users/mini/Documents/xcode projects/batterytech/src/batterytech/batterytech.h";
+		sourceTree = "<absolute>";
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {917, 1040}}";
 			sepNavSelRange = "{0, 0}";
 			sepNavVisRange = "{0, 749}";
 		};
 	};
-	3D56B329130F569100BF7F17 /* stb_vorbis.c */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {965, 65975}}";
-			sepNavSelRange = "{130927, 0}";
-			sepNavVisRange = "{130502, 711}";
-		};
-	};
 	3D56B349130F569100BF7F17 /* boot.h */ = {
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.c.h;
+		name = boot.h;
+		path = "/Users/mini/Documents/xcode projects/batterytech/src/batterytech/platform/ios/boot.h";
+		sourceTree = "<absolute>";
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {882, 581}}";
 			sepNavSelRange = "{0, 0}";
@@ -386,6 +383,12 @@
 		};
 	};
 	3D56B34A130F569100BF7F17 /* boot.mm */ = {
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.cpp.objcpp;
+		name = boot.mm;
+		path = "/Users/mini/Documents/xcode projects/batterytech/src/batterytech/platform/ios/boot.mm";
+		sourceTree = "<absolute>";
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {882, 581}}";
 			sepNavSelRange = "{0, 0}";
@@ -393,6 +396,12 @@
 		};
 	};
 	3D56B34C130F569100BF7F17 /* iosgeneral.mm */ = {
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.cpp.objcpp;
+		name = iosgeneral.mm;
+		path = "/Users/mini/Documents/xcode projects/batterytech/src/batterytech/platform/ios/iosgeneral.mm";
+		sourceTree = "<absolute>";
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {917, 4576}}";
 			sepNavSelRange = "{9325, 0}";
@@ -401,6 +410,12 @@
 		};
 	};
 	3D56B34D130F569100BF7F17 /* iostypes.h */ = {
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.c.h;
+		name = iostypes.h;
+		path = "/Users/mini/Documents/xcode projects/batterytech/src/batterytech/platform/ios/iostypes.h";
+		sourceTree = "<absolute>";
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {725, 585}}";
 			sepNavSelRange = "{0, 0}";
@@ -408,28 +423,25 @@
 		};
 	};
 	3D56B352130F569100BF7F17 /* platformgl.h */ = {
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.c.h;
+		name = platformgl.h;
+		path = "/Users/mini/Documents/xcode projects/batterytech/src/batterytech/platform/platformgl.h";
+		sourceTree = "<absolute>";
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1041, 2951}}";
 			sepNavSelRange = "{12960, 0}";
 			sepNavVisRange = "{0, 2878}";
 		};
 	};
-	3D56B35B130F569100BF7F17 /* win32general.cpp */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1182, 4186}}";
-			sepNavSelRange = "{2077, 120}";
-			sepNavVisRange = "{1032, 1599}";
-			sepNavWindowFrame = "{{84, 219}, {1241, 891}}";
-		};
-	};
-	3D56B362130F569100BF7F17 /* MenuRenderer.cpp */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {965, 3497}}";
-			sepNavSelRange = "{8981, 0}";
-			sepNavVisRange = "{8430, 1122}";
-		};
-	};
 	3D56B366130F569100BF7F17 /* Renderer.cpp */ = {
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.cpp.cpp;
+		name = Renderer.cpp;
+		path = "/Users/mini/Documents/xcode projects/batterytech/src/batterytech/render/Renderer.cpp";
+		sourceTree = "<absolute>";
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1013, 1599}}";
 			sepNavSelRange = "{1054, 0}";
@@ -438,21 +450,25 @@
 		};
 	};
 	3D56B367130F569100BF7F17 /* Renderer.h */ = {
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.c.h;
+		name = Renderer.h;
+		path = "/Users/mini/Documents/xcode projects/batterytech/src/batterytech/render/Renderer.h";
+		sourceTree = "<absolute>";
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {882, 604}}";
 			sepNavSelRange = "{341, 0}";
 			sepNavVisRange = "{0, 645}";
 		};
 	};
-	3D56B390130F569200BF7F17 /* esTransform.cpp */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1182, 2925}}";
-			sepNavSelRange = "{594, 0}";
-			sepNavVisRange = "{0, 1659}";
-			sepNavWindowFrame = "{{61, 240}, {1241, 891}}";
-		};
-	};
 	3D56B3E6130F569200BF7F17 /* Game.cpp */ = {
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.cpp.cpp;
+		name = Game.cpp;
+		path = "/Users/mini/Documents/xcode projects/batterytech/src/demo-app/Game.cpp";
+		sourceTree = "<absolute>";
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {917, 4641}}";
 			sepNavSelRange = "{3425, 0}";
@@ -460,6 +476,12 @@
 		};
 	};
 	3D56B40E130F569200BF7F17 /* BallRenderer.cpp */ = {
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.cpp.cpp;
+		name = BallRenderer.cpp;
+		path = "/Users/mini/Documents/xcode projects/batterytech/src/demo-app/render/BallRenderer.cpp";
+		sourceTree = "<absolute>";
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1182, 740}}";
 			sepNavSelRange = "{0, 0}";
@@ -468,6 +490,12 @@
 		};
 	};
 	3D56B410130F569200BF7F17 /* BatchSpriteRenderer.cpp */ = {
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.cpp.cpp;
+		name = BatchSpriteRenderer.cpp;
+		path = "/Users/mini/Documents/xcode projects/batterytech/src/demo-app/render/BatchSpriteRenderer.cpp";
+		sourceTree = "<absolute>";
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {720, 1937}}";
 			sepNavSelRange = "{1009, 0}";
@@ -475,6 +503,12 @@
 		};
 	};
 	3D56B412130F569200BF7F17 /* SimpleSpriteRenderer.cpp */ = {
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.cpp.cpp;
+		name = SimpleSpriteRenderer.cpp;
+		path = "/Users/mini/Documents/xcode projects/batterytech/src/demo-app/render/SimpleSpriteRenderer.cpp";
+		sourceTree = "<absolute>";
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {720, 2041}}";
 			sepNavSelRange = "{984, 11}";
@@ -482,6 +516,12 @@
 		};
 	};
 	3D56B414130F569200BF7F17 /* WorldRenderer.cpp */ = {
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.cpp.cpp;
+		name = WorldRenderer.cpp;
+		path = "/Users/mini/Documents/xcode projects/batterytech/src/demo-app/render/WorldRenderer.cpp";
+		sourceTree = "<absolute>";
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {965, 1742}}";
 			sepNavSelRange = "{1780, 0}";
@@ -1788,6 +1828,7 @@
 	};
 	3D56BBCC1311D22F00BF7F17 /* mini.pbxuser */ = {
 		isa = PBXFileReference;
+		lastKnownFileType = text;
 		name = mini.pbxuser;
 		path = "/Users/mini/Documents/xcode projects/batterytech-ios/batterytech-ios.xcodeproj/mini.pbxuser";
 		sourceTree = "<absolute>";
@@ -1979,6 +2020,72 @@
 		rType = 0;
 		vrLen = 1270;
 		vrLoc = 2704;
+	};
+	3D56BCA21311D6A600BF7F17 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 3D56B3E6130F569200BF7F17 /* Game.cpp */;
+		name = "Game.cpp: 114";
+		rLen = 0;
+		rLoc = 3425;
+		rType = 0;
+		vrLen = 1347;
+		vrLoc = 2776;
+	};
+	3D56BCA31311D6A600BF7F17 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D1107310486CEB800E47090 /* batterytech_ios-Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			UISupportedInterfaceOrientations,
+		);
+		name = "/Users/mini/Documents/xcode projects/batterytech-ios/batterytech_ios-Info.plist";
+		rLen = 0;
+		rLoc = 9223372036854775807;
+	};
+	3D56BCA41311D6A600BF7F17 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D1107310486CEB800E47090 /* batterytech_ios-Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			UISupportedInterfaceOrientations,
+		);
+		name = "/Users/mini/Documents/xcode projects/batterytech-ios/batterytech_ios-Info.plist";
+		rLen = 0;
+		rLoc = 9223372036854775807;
+	};
+	3D56BCB31311D6E300BF7F17 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 3D56B7551310CE6700BF7F17 /* batterytechViewController.mm */;
+		name = "batterytechViewController.mm: 95";
+		rLen = 0;
+		rLoc = 2861;
+		rType = 0;
+		vrLen = 435;
+		vrLoc = 2619;
+	};
+	3D56BCB41311D6E300BF7F17 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 3D56B412130F569200BF7F17 /* SimpleSpriteRenderer.cpp */;
+		name = "SimpleSpriteRenderer.cpp: 35";
+		rLen = 11;
+		rLoc = 984;
+		rType = 0;
+		vrLen = 386;
+		vrLoc = 714;
+	};
+	3D56BCB51311D6E400BF7F17 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D1107310486CEB800E47090 /* batterytech_ios-Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			UISupportedInterfaceOrientations,
+		);
+		name = "/Users/mini/Documents/xcode projects/batterytech-ios/batterytech_ios-Info.plist";
+		rLen = 0;
+		rLoc = 9223372036854775807;
 	};
 	3D65B4CC126BFA6700CF4CFC /* batterytech-ios */ = {
 		isa = PBXExecutable;

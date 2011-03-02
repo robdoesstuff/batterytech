@@ -266,13 +266,12 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateExpansionKey</key>
 							<array>
 								<string>29B97314FDCFA39411CA2CEA</string>
-								<string>1C37FABC05509CD000000102</string>
+								<string>29B97317FDCFA39411CA2CEA</string>
 								<string>E2644B35053B69B200211256</string>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>10</integer>
 									<integer>0</integer>
 								</array>
 							</array>
@@ -296,7 +295,7 @@
 							<real>352</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>106 132 1352 1024 0 0 1600 1178 </string>
+						<string>89 132 1352 1024 0 0 1600 1178 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -312,7 +311,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>Game.cpp</string>
+								<string>batterytech_ios-Info.plist</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -320,11 +319,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>Game.cpp</string>
+										<string>batterytech_ios-Info.plist</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>3D56BC931311D5B700BF7F17</string>
+										<string>3D56BCB51311D6E400BF7F17</string>
 										<key>history</key>
 										<array>
 											<string>3D56B51B1310C1D400BF7F17</string>
@@ -341,7 +340,6 @@
 											<string>3D56BB2B1311C96000BF7F17</string>
 											<string>3D56BB2C1311C96000BF7F17</string>
 											<string>3D56BB2D1311C96000BF7F17</string>
-											<string>3D56BB3E1311CA0400BF7F17</string>
 											<string>3D56BBCB1311D22F00BF7F17</string>
 											<string>3D56BBCD1311D22F00BF7F17</string>
 											<string>3D56BBCE1311D22F00BF7F17</string>
@@ -350,7 +348,8 @@
 											<string>3D56BBD11311D22F00BF7F17</string>
 											<string>3D56BC911311D5B700BF7F17</string>
 											<string>3D56BC921311D5B700BF7F17</string>
-											<string>3D56BBCA1311D22F00BF7F17</string>
+											<string>3D56BCA21311D6A600BF7F17</string>
+											<string>3D56BCA31311D6A600BF7F17</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -364,7 +363,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {978, 568}}</string>
 								<key>RubberWindowFrame</key>
-								<string>106 132 1352 1024 0 0 1600 1178 </string>
+								<string>89 132 1352 1024 0 0 1600 1178 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -384,7 +383,7 @@
 								<key>Frame</key>
 								<string>{{0, 573}, {978, 410}}</string>
 								<key>RubberWindowFrame</key>
-								<string>106 132 1352 1024 0 0 1600 1178 </string>
+								<string>89 132 1352 1024 0 0 1600 1178 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
@@ -554,11 +553,10 @@
 		<string>1C530D57069F1CE1000CFCEE</string>
 		<string>1C78EAAD065D492600B07095</string>
 		<string>1CD10A99069EF8BA00B06720</string>
-		<string>/Users/mini/Documents/xcode projects/batterytech-ios/batterytech-ios.xcodeproj</string>
 		<string>3D65B4DB126BFA6F00CF4CFC</string>
 	</array>
 	<key>WindowString</key>
-	<string>106 132 1352 1024 0 0 1600 1178 </string>
+	<string>89 132 1352 1024 0 0 1600 1178 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>
@@ -588,7 +586,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {1074, 256}}</string>
 								<key>RubberWindowFrame</key>
-								<string>416 164 1074 900 0 0 1600 1178 </string>
+								<string>281 154 1074 900 0 0 1600 1178 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -614,7 +612,7 @@
 								<key>Frame</key>
 								<string>{{0, 261}, {1074, 598}}</string>
 								<key>RubberWindowFrame</key>
-								<string>416 164 1074 900 0 0 1600 1178 </string>
+								<string>281 154 1074 900 0 0 1600 1178 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXBuildResultsModule</string>
@@ -646,11 +644,11 @@
 			<key>WindowContentMinSize</key>
 			<string>486 300</string>
 			<key>WindowString</key>
-			<string>416 164 1074 900 0 0 1600 1178 </string>
+			<string>281 154 1074 900 0 0 1600 1178 </string>
 			<key>WindowToolGUID</key>
 			<string>3D65B4DB126BFA6F00CF4CFC</string>
 			<key>WindowToolIsVisible</key>
-			<true/>
+			<false/>
 		</dict>
 		<dict>
 			<key>FirstTimeWindowDisplayed</key>
