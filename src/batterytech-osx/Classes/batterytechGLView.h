@@ -1,10 +1,18 @@
-//
-//  EAGLView.h
-//  batterytech-ios
-//
-//  Created by Apple on 10/17/10.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
-//
+/*
+ * BatteryTech
+ * Copyright (c) 2010 Battery Powered Games, LLC.
+ *
+ * This code is a component of BatteryTech and is subject to the 'BatteryTech
+ * End User License Agreement'.  Among other important provisions, this
+ * license prohibits the distribution of source code to anyone other than
+ * authorized parties.  If you have any questions or would like an additional
+ * copy of the license, please contact: support@batterypoweredgames.com
+ */
+
+//============================================================================
+// Name        : batterytechGLView.h
+// Description : Primary driver for Batterytech on OSX
+//============================================================================
 
 #import <OpenGL/gl.h>
 #import <OpenGL/glext.h>
@@ -12,14 +20,7 @@
 
 #import "RemoteIOPlayer.h"
 
-// This class wraps the CAEAGLLayer from CoreAnimation into a convenient UIView subclass.
-// The view content is basically an EAGL surface you render your OpenGL scene into.
-// Note that setting the view non-opaque will only work if the EAGL surface has an alpha channel.
 @interface BatterytechGLView : NSOpenGLView {
-@private
-
-}
-
 NSTimer* timer;
 RemoteIOPlayer *player;
 

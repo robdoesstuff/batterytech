@@ -1,23 +1,30 @@
-//
-//  EAGLView.m
-//  batterytech-ios
-//
-//  Created by Apple on 10/17/10.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
-//
+/*
+ * BatteryTech
+ * Copyright (c) 2010 Battery Powered Games, LLC.
+ *
+ * This code is a component of BatteryTech and is subject to the 'BatteryTech
+ * End User License Agreement'.  Among other important provisions, this
+ * license prohibits the distribution of source code to anyone other than
+ * authorized parties.  If you have any questions or would like an additional
+ * copy of the license, please contact: support@batterypoweredgames.com
+ */
 
+//============================================================================
+// Name        : batterytechGLView.mm
+// Description : Primary driver for Batterytech on OSX
+//============================================================================
+
+#import "batterytechGLView.h"
 #import <QuartzCore/QuartzCore.h>
 #include <mach/mach.h>
 #include <mach/mach_time.h>
-
-#import "batterytechGLView.h"
 #import <OpenGL/gl.h>
 #import <OpenGL/glext.h>
 #import <OpenGL/glu.h>
 #include <batterytech/batterytech.h>
 #include <batterytech/render/GraphicsConfiguration.h>
 
-CGDisplayCount gNumDisplays = 0;
+#define USE_SHADERS TRUE
 
 static GraphicsConfiguration *gConfig;
 static double currentTime;
@@ -30,7 +37,6 @@ double getCurrentTime() {
 	static mach_timebase_info_data_t sTimebaseInfo;
 	uint64_t time = mach_absolute_time();
 	uint64_t nanos;
-	
 	// If this is the first time we've run, get the timebase.
 	// We can use denom == 0 to indicate that sTimebaseInfo is
 	// uninitialised because it makes no sense to have a zero
@@ -38,7 +44,6 @@ double getCurrentTime() {
 	if ( sTimebaseInfo.denom == 0 ) {
 		(void) mach_timebase_info(&sTimebaseInfo);
 	}
-	
 	// Do the maths.  We hope that the multiplication doesn't
 	// overflow; the price you pay for working in fixed point.
 	nanos = time * sTimebaseInfo.numer / sTimebaseInfo.denom;
@@ -60,6 +65,10 @@ double getCurrentTime() {
     return [[[NSOpenGLPixelFormat alloc] initWithAttributes:attributes] autorelease];
 }
 
+// Method initWithFrame:
+// for this to be called properly when playing this view using IB, you need to actually drag and drop a plain NSView
+// from the library, then set the classname property to BatterytechGLView.  If you drag this view directly, the
+// other coded init method will be called (thank apple for that quirk).
 -(id) initWithFrame: (NSRect) frameRect {
 	NSOpenGLPixelFormat * pf = [BatterytechGLView basicPixelFormat];
 	self = [super initWithFrame: frameRect pixelFormat: pf];
@@ -68,9 +77,9 @@ double getCurrentTime() {
     return self;
 }
 
-
+// Method awakeFromNib
+// GL init has already happened since initWithFrame is called first.  This sets up the main loop, audio and GL capabilities.
 - (void) awakeFromNib {
-	//getCurrentCaps (); // get current GL capabilites for all displays
     GLint swapInt = 1;
     [[self openGLContext] setValues:&swapInt forParameter:NSOpenGLCPSwapInterval]; // set to vbl sync
 	const char *vendor = (const char*)glGetString(GL_VENDOR);
@@ -83,7 +92,9 @@ double getCurrentTime() {
 	gConfig->supportsHWmipmapgen = TRUE;
 	gConfig->supportsVBOs = TRUE;
 	gConfig->supportsUVTransform = TRUE;
-	gConfig->supportsShaders = TRUE;
+	if (USE_SHADERS) {
+		gConfig->supportsShaders = TRUE;
+	}
 	btInit(gConfig, frameWidth, frameHeight);
 	currentTime = getCurrentTime();
 	//allocate the audio player∫
@@ -92,7 +103,7 @@ double getCurrentTime() {
 	[player initialiseAudio];
 	[player start];
 	
-	// start animation timer
+	// start animation timer with a 1ms update (it's vsynched so it will run at full monitor refresh rate
 	timer = [NSTimer timerWithTimeInterval:(0.001f) target:self selector:@selector(animationTimer:) userInfo:nil repeats:YES];
 	[[NSRunLoop currentRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
 	[[NSRunLoop currentRunLoop] addTimer:timer forMode:NSEventTrackingRunLoopMode]; // ensure timer fires during resize
@@ -121,8 +132,6 @@ double getCurrentTime() {
 	//[msgStringTex setString:[NSString stringWithFormat:@"update at %0.1f secs", msgTime]  withAttributes:stanStringAttrib];
 	[super update];
 	if (![self inLiveResize])  {// if not doing live resize
-		//[self updateInfoString]; // to get change in renderers will rebuld string every time (could test for early out)
-		//getCurrentCaps (); // this call checks to see if the current config changed in a reasonably lightweight way to prevent expensive re-allocations
 	}
 }
 
@@ -138,10 +147,7 @@ double getCurrentTime() {
 	return YES;
 }
 
-// ---------------------------------
-
-- (void)mouseDown:(NSEvent *)theEvent
-{
+- (void)mouseDown:(NSEvent *)theEvent {
 	NSPoint location = [self convertPoint:[theEvent locationInWindow] fromView:nil];
     if ([theEvent modifierFlags] & NSControlKeyMask) {
 	} else if ([theEvent modifierFlags] & NSAlternateKeyMask) {
@@ -159,8 +165,7 @@ double getCurrentTime() {
 	btSetPointerState(0, TRUE, location.x, frameHeight - (location.y - 1)); 
 }
 
--(void)keyDown:(NSEvent *)theEvent
-{
+-(void)keyDown:(NSEvent *)theEvent {
     NSString *characters = [theEvent characters];
     if ([characters length]) {
         unichar character = [characters characterAtIndex:0];
