@@ -141,6 +141,11 @@
 	#import <OpenGLES/ES2/glext.h>
 #endif /* IOS */
 
+#if TARGET_OS_MAC
+	#import <OpenGL/gl.h>
+	#import <OpenGL/glext.h>
+#endif /* OSX */
+
 #include "opengles.h"
 
 #endif /* PLATFORMGENERAL_H_ */

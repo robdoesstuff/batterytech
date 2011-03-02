@@ -35,5 +35,7 @@
 #if TARGET_OS_IPHONE
 	#include "platform/ios/iostypes.h"
 #endif /* TARGET_OS_IPHONE */
-
+#if TARGET_OS_MAC
+	#include "platform/osx/osxtypes.h"
+#endif /* TARGET_OS_MAC */
 #endif /* PRIMITIVES_H_ */

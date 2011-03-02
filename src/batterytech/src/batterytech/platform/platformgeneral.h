@@ -41,6 +41,10 @@
 	#include "ios/iosgeneral.h"
 #endif /* IOS */
 
+#if TARGET_OS_MAC
+	#include "osx/osxgeneral.h"
+#endif /* MAC */
+
 // must be implemented by target arch
 void _platform_log(const char *message);
 unsigned char* _platform_load_asset(const char *filename, S32 *size);
