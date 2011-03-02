@@ -1,19 +1,26 @@
-//
-//  batterytech_iosViewController.m
-//  batterytech-ios
-//
-//  Created by Apple on 10/17/10.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
-//
+/*
+ * BatteryTech
+ * Copyright (c) 2010 Battery Powered Games, LLC.
+ *
+ * This code is a component of BatteryTech and is subject to the 'BatteryTech
+ * End User License Agreement'.  Among other important provisions, this
+ * license prohibits the distribution of source code to anyone other than
+ * authorized parties.  If you have any questions or would like an additional
+ * copy of the license, please contact: support@batterypoweredgames.com
+ */
 
+//============================================================================
+// Name        : batterytechViewController.mm
+// Description : Primary driver class for Batterytech on IOS
+//============================================================================
+
+#import "batterytechViewController.h"
 #import <QuartzCore/QuartzCore.h>
 #include <mach/mach.h>
 #include <mach/mach_time.h>
-
-#import "batterytechViewController.h"
 #import "EAGLView.h"
-#include "../../batterytech/src/batterytech/batterytech.h"
-#include "../../batterytech/src/batterytech/render/GraphicsConfiguration.h"
+#include <batterytech/batterytech.h>
+#include <batterytech/render/GraphicsConfiguration.h>
 
 #define USE_GLES2_WHEN_AVAILABLE TRUE
 
@@ -22,6 +29,23 @@ static double currentTime;
 static double lastTime;
 double getCurrentTime();
 UIView *batterytechRootView;
+
+double getCurrentTime() {
+	static mach_timebase_info_data_t sTimebaseInfo;
+	uint64_t time = mach_absolute_time();
+	uint64_t nanos;
+	// If this is the first time we've run, get the timebase.
+	// We can use denom == 0 to indicate that sTimebaseInfo is
+	// uninitialised because it makes no sense to have a zero
+	// denominator is a fraction.
+	if ( sTimebaseInfo.denom == 0 ) {
+		(void) mach_timebase_info(&sTimebaseInfo);
+	}	
+	// Do the maths.  We hope that the multiplication doesn't
+	// overflow; the price you pay for working in fixed point.
+	nanos = time * sTimebaseInfo.numer / sTimebaseInfo.denom;
+	return ((double)nanos / 1000000000.0);
+}
 
 @implementation batterytechViewController
 
@@ -97,6 +121,7 @@ UIView *batterytechRootView;
 
 - (void)dealloc
 {
+	btRelease();
     // Tear down context.
     if ([EAGLContext currentContext] == context) {
         [EAGLContext setCurrentContext:nil];
@@ -111,14 +136,14 @@ UIView *batterytechRootView;
 - (void)viewWillAppear:(BOOL)animated
 {
     [self startAnimation];
-    
     [super viewWillAppear:animated];
+	btResume();
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
+	btSuspend();
     [self stopAnimation];
-    
     [super viewWillDisappear:animated];
 }
 
@@ -314,22 +339,3 @@ UIView *batterytechRootView;
 
 @end
 
-double getCurrentTime()
-{
-	static mach_timebase_info_data_t sTimebaseInfo;
-	uint64_t time = mach_absolute_time();
-	uint64_t nanos;
-	
-	// If this is the first time we've run, get the timebase.
-	// We can use denom == 0 to indicate that sTimebaseInfo is
-	// uninitialised because it makes no sense to have a zero
-	// denominator is a fraction.
-	if ( sTimebaseInfo.denom == 0 ) {
-		(void) mach_timebase_info(&sTimebaseInfo);
-	}
-	
-	// Do the maths.  We hope that the multiplication doesn't
-	// overflow; the price you pay for working in fixed point.
-	nanos = time * sTimebaseInfo.numer / sTimebaseInfo.denom;
-	return ((double)nanos / 1000000000.0);
-}

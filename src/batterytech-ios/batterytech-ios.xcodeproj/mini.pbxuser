@@ -28,16 +28,16 @@
 	};
 	28FD14FC0DC6FC130079059D /* EAGLView.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {882, 581}}";
-			sepNavSelRange = "{981, 43}";
-			sepNavVisRange = "{0, 1103}";
+			sepNavIntBoundsRect = "{{0, 0}, {833, 663}}";
+			sepNavSelRange = "{0, 700}";
+			sepNavVisRange = "{0, 1666}";
 		};
 	};
 	28FD14FD0DC6FC130079059D /* EAGLView.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {882, 2587}}";
-			sepNavSelRange = "{392, 0}";
-			sepNavVisRange = "{0, 1103}";
+			sepNavIntBoundsRect = "{{0, 0}, {833, 2691}}";
+			sepNavSelRange = "{879, 0}";
+			sepNavVisRange = "{0, 1646}";
 		};
 	};
 	29B97313FDCFA39411CA2CEA /* Project object */ = {
@@ -125,7 +125,7 @@
 				PBXFileTableDataSourceColumnWidthsKey = (
 					20,
 					20,
-					508,
+					426,
 					20,
 					48,
 					43,
@@ -342,16 +342,16 @@
 	};
 	3D1C19BD12754BBF00A353B4 /* RemoteIOPlayer.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {866, 439}}";
-			sepNavSelRange = "{300, 0}";
-			sepNavVisRange = "{0, 306}";
+			sepNavIntBoundsRect = "{{0, 0}, {833, 640}}";
+			sepNavSelRange = "{0, 701}";
+			sepNavVisRange = "{0, 860}";
 		};
 	};
 	3D1C19BE12754BBF00A353B4 /* RemoteIOPlayer.mm */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {866, 1430}}";
-			sepNavSelRange = "{994, 0}";
-			sepNavVisRange = "{1528, 1153}";
+			sepNavIntBoundsRect = "{{0, 0}, {833, 1625}}";
+			sepNavSelRange = "{881, 0}";
+			sepNavVisRange = "{0, 1435}";
 			sepNavWindowFrame = "{{450, 346}, {868, 740}}";
 		};
 	};
@@ -543,7 +543,7 @@
 		fRef = 3D1C19BD12754BBF00A353B4 /* RemoteIOPlayer.h */;
 		name = "RemoteIOPlayer.h: 17";
 		rLen = 0;
-		rLoc = 298;
+		rLoc = 852;
 		rType = 0;
 		vrLen = 329;
 		vrLoc = 0;
@@ -553,7 +553,7 @@
 		fRef = 3D1C19BE12754BBF00A353B4 /* RemoteIOPlayer.mm */;
 		name = "RemoteIOPlayer.mm: 12";
 		rLen = 0;
-		rLoc = 101;
+		rLoc = 803;
 		rType = 0;
 		vrLen = 1312;
 		vrLoc = 0;
@@ -563,7 +563,7 @@
 		fRef = 3D1C19BE12754BBF00A353B4 /* RemoteIOPlayer.mm */;
 		name = "RemoteIOPlayer.mm: 12";
 		rLen = 0;
-		rLoc = 101;
+		rLoc = 803;
 		rType = 0;
 		vrLen = 1312;
 		vrLoc = 0;
@@ -573,7 +573,7 @@
 		fRef = 3D1C19BE12754BBF00A353B4 /* RemoteIOPlayer.mm */;
 		name = "RemoteIOPlayer.mm: 12";
 		rLen = 0;
-		rLoc = 101;
+		rLoc = 803;
 		rType = 0;
 		vrLen = 1258;
 		vrLoc = 0;
@@ -590,7 +590,7 @@
 		fRef = 3D1C19BE12754BBF00A353B4 /* RemoteIOPlayer.mm */;
 		name = "RemoteIOPlayer.mm: 13";
 		rLen = 0;
-		rLoc = 102;
+		rLoc = 804;
 		rType = 0;
 		vrLen = 362;
 		vrLoc = 249;
@@ -639,8 +639,8 @@
 		comments = "../../batterytech/src/batterytech/sound/SoundManager.h: No such file or directory";
 		fRef = 3D1C19BE12754BBF00A353B4 /* RemoteIOPlayer.mm */;
 		fallbackIsa = XCBuildMessageTextBookmark;
-		rLen = 1;
-		rLoc = 5;
+		rLen = 0;
+		rLoc = 0;
 		rType = 1;
 	};
 	3D56B6731310C67900BF7F17 /* PBXTextBookmark */ = {
@@ -648,37 +648,38 @@
 		fRef = 3D1C19BE12754BBF00A353B4 /* RemoteIOPlayer.mm */;
 		name = "RemoteIOPlayer.mm: 13";
 		rLen = 0;
-		rLoc = 102;
+		rLoc = 804;
 		rType = 0;
 		vrLen = 1236;
 		vrLoc = 0;
 	};
 	3D56B7521310CE6700BF7F17 /* batterytechAppDelegate.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {917, 488}}";
-			sepNavSelRange = "{0, 0}";
-			sepNavVisRange = "{0, 505}";
+			sepNavIntBoundsRect = "{{0, 0}, {628, 403}}";
+			sepNavSelRange = "{0, 696}";
+			sepNavVisRange = "{0, 1046}";
 		};
 	};
 	3D56B7531310CE6700BF7F17 /* batterytechAppDelegate.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {917, 767}}";
-			sepNavSelRange = "{1186, 0}";
-			sepNavVisRange = "{425, 917}";
+			sepNavIntBoundsRect = "{{0, 0}, {833, 806}}";
+			sepNavSelRange = "{570, 0}";
+			sepNavVisRange = "{0, 1577}";
 		};
 	};
 	3D56B7541310CE6700BF7F17 /* batterytechViewController.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {917, 637}}";
-			sepNavSelRange = "{620, 0}";
-			sepNavVisRange = "{210, 1116}";
+			sepNavIntBoundsRect = "{{0, 0}, {838, 715}}";
+			sepNavSelRange = "{0, 714}";
+			sepNavVisRange = "{0, 1776}";
 		};
 	};
 	3D56B7551310CE6700BF7F17 /* batterytechViewController.mm */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1263, 4407}}";
-			sepNavSelRange = "{9014, 0}";
-			sepNavVisRange = "{8671, 812}";
+			sepNavIntBoundsRect = "{{0, 0}, {833, 4472}}";
+			sepNavSelRange = "{0, 715}";
+			sepNavVisRange = "{0, 1823}";
+			sepNavWindowFrame = "{{224, 155}, {961, 846}}";
 		};
 	};
 	3D56B7691310D06200BF7F17 /* PBXBookmark */ = {
@@ -690,7 +691,7 @@
 		fRef = 3D1C19BE12754BBF00A353B4 /* RemoteIOPlayer.mm */;
 		name = "RemoteIOPlayer.mm: 6";
 		rLen = 0;
-		rLoc = 102;
+		rLoc = 804;
 		rType = 0;
 		vrLen = 377;
 		vrLoc = 0;
@@ -719,7 +720,7 @@
 		fRef = 3D1C19BE12754BBF00A353B4 /* RemoteIOPlayer.mm */;
 		name = "RemoteIOPlayer.mm: 24";
 		rLen = 0;
-		rLoc = 465;
+		rLoc = 1167;
 		rType = 0;
 		vrLen = 1106;
 		vrLoc = 61;
@@ -749,7 +750,7 @@
 		fRef = 3D56B7551310CE6700BF7F17 /* batterytechViewController.mm */;
 		name = "batterytechViewController.mm: 51";
 		rLen = 0;
-		rLoc = 1359;
+		rLoc = 2516;
 		rType = 0;
 		vrLen = 1638;
 		vrLoc = 866;
@@ -790,7 +791,7 @@
 		fRef = 28FD14FD0DC6FC130079059D /* EAGLView.m */;
 		name = "EAGLView.m: 128";
 		rLen = 0;
-		rLoc = 3756;
+		rLoc = 4319;
 		rType = 0;
 		vrLen = 1151;
 		vrLoc = 0;
@@ -800,7 +801,7 @@
 		fRef = 28FD14FD0DC6FC130079059D /* EAGLView.m */;
 		name = "EAGLView.m: 24";
 		rLen = 0;
-		rLoc = 392;
+		rLoc = 955;
 		rType = 0;
 		vrLen = 1219;
 		vrLoc = 0;
@@ -820,7 +821,7 @@
 		fRef = 28FD14FD0DC6FC130079059D /* EAGLView.m */;
 		name = "EAGLView.m: 24";
 		rLen = 0;
-		rLoc = 392;
+		rLoc = 955;
 		rType = 0;
 		vrLen = 1219;
 		vrLoc = 0;
@@ -830,7 +831,7 @@
 		fRef = 3D56B7551310CE6700BF7F17 /* batterytechViewController.mm */;
 		name = "batterytechViewController.mm: 46";
 		rLen = 0;
-		rLoc = 1107;
+		rLoc = 2264;
 		rType = 0;
 		vrLen = 1207;
 		vrLoc = 519;
@@ -840,7 +841,7 @@
 		fRef = 3D56B7551310CE6700BF7F17 /* batterytechViewController.mm */;
 		name = "batterytechViewController.mm: 22";
 		rLen = 0;
-		rLoc = 568;
+		rLoc = 1080;
 		rType = 0;
 		vrLen = 1205;
 		vrLoc = 0;
@@ -877,7 +878,7 @@
 		fRef = 3D56B7551310CE6700BF7F17 /* batterytechViewController.mm */;
 		name = "batterytechViewController.mm: 22";
 		rLen = 0;
-		rLoc = 568;
+		rLoc = 1080;
 		rType = 0;
 		vrLen = 1205;
 		vrLoc = 0;
@@ -1054,7 +1055,7 @@
 		fRef = 3D56B7551310CE6700BF7F17 /* batterytechViewController.mm */;
 		name = "batterytechViewController.mm: 22";
 		rLen = 0;
-		rLoc = 568;
+		rLoc = 1080;
 		rType = 0;
 		vrLen = 1184;
 		vrLoc = 0;
@@ -1064,7 +1065,7 @@
 		fRef = 3D56B7551310CE6700BF7F17 /* batterytechViewController.mm */;
 		name = "batterytechViewController.mm: 82";
 		rLen = 0;
-		rLoc = 2262;
+		rLoc = 3419;
 		rType = 0;
 		vrLen = 1427;
 		vrLoc = 1676;
@@ -1084,7 +1085,7 @@
 		fRef = 3D56B7531310CE6700BF7F17 /* batterytechAppDelegate.m */;
 		name = "batterytechAppDelegate.m: 45";
 		rLen = 0;
-		rLoc = 1186;
+		rLoc = 1727;
 		rType = 0;
 		vrLen = 1187;
 		vrLoc = 0;
@@ -1094,7 +1095,7 @@
 		fRef = 3D56B7541310CE6700BF7F17 /* batterytechViewController.h */;
 		name = "batterytechViewController.h: 35";
 		rLen = 0;
-		rLoc = 963;
+		rLoc = 1519;
 		rType = 0;
 		vrLen = 1186;
 		vrLoc = 62;
@@ -1104,7 +1105,7 @@
 		fRef = 28FD14FC0DC6FC130079059D /* EAGLView.h */;
 		name = "EAGLView.h: 36";
 		rLen = 43;
-		rLoc = 981;
+		rLoc = 1544;
 		rType = 0;
 		vrLen = 1103;
 		vrLoc = 0;
@@ -1114,7 +1115,7 @@
 		fRef = 28FD14FD0DC6FC130079059D /* EAGLView.m */;
 		name = "EAGLView.m: 24";
 		rLen = 0;
-		rLoc = 392;
+		rLoc = 955;
 		rType = 0;
 		vrLen = 1103;
 		vrLoc = 0;
@@ -1136,7 +1137,7 @@
 		fRef = 3D56B7551310CE6700BF7F17 /* batterytechViewController.mm */;
 		name = "batterytechViewController.mm: 64";
 		rLen = 0;
-		rLoc = 1596;
+		rLoc = 2753;
 		rType = 0;
 		vrLen = 1184;
 		vrLoc = 5648;
@@ -1146,7 +1147,7 @@
 		fRef = 3D56B7551310CE6700BF7F17 /* batterytechViewController.mm */;
 		name = "batterytechViewController.mm: 27";
 		rLen = 0;
-		rLoc = 623;
+		rLoc = 1780;
 		rType = 0;
 		vrLen = 1204;
 		vrLoc = 0;
@@ -1166,7 +1167,7 @@
 		fRef = 3D56B7551310CE6700BF7F17 /* batterytechViewController.mm */;
 		name = "batterytechViewController.mm: 27";
 		rLen = 0;
-		rLoc = 623;
+		rLoc = 1780;
 		rType = 0;
 		vrLen = 1204;
 		vrLoc = 0;
@@ -1504,7 +1505,7 @@
 		fRef = 3D1C19BE12754BBF00A353B4 /* RemoteIOPlayer.mm */;
 		fallbackIsa = XCBuildMessageTextBookmark;
 		rLen = 0;
-		rLoc = 36;
+		rLoc = 0;
 		rType = 1;
 	};
 	3D56BAF613111BFB00BF7F17 /* PBXTextBookmark */ = {
@@ -1512,7 +1513,7 @@
 		fRef = 3D1C19BE12754BBF00A353B4 /* RemoteIOPlayer.mm */;
 		name = "RemoteIOPlayer.mm: 41";
 		rLen = 0;
-		rLoc = 772;
+		rLoc = 1474;
 		rType = 0;
 		vrLen = 595;
 		vrLoc = 572;
@@ -1532,7 +1533,7 @@
 		fRef = 3D1C19BE12754BBF00A353B4 /* RemoteIOPlayer.mm */;
 		name = "RemoteIOPlayer.mm: 41";
 		rLen = 0;
-		rLoc = 772;
+		rLoc = 1474;
 		rType = 0;
 		vrLen = 595;
 		vrLoc = 572;
@@ -1611,7 +1612,7 @@
 		fRef = 3D1C19BE12754BBF00A353B4 /* RemoteIOPlayer.mm */;
 		name = "RemoteIOPlayer.mm: 41";
 		rLen = 0;
-		rLoc = 772;
+		rLoc = 1474;
 		rType = 0;
 		vrLen = 1029;
 		vrLoc = 397;
@@ -1782,7 +1783,7 @@
 		fRef = 3D56B7551310CE6700BF7F17 /* batterytechViewController.mm */;
 		fallbackIsa = XCBuildMessageTextBookmark;
 		rLen = 1;
-		rLoc = 94;
+		rLoc = 118;
 		rType = 1;
 	};
 	3D56BBC41311D1ED00BF7F17 /* PBXTextBookmark */ = {
@@ -1790,7 +1791,7 @@
 		fRef = 3D56B7551310CE6700BF7F17 /* batterytechViewController.mm */;
 		name = "batterytechViewController.mm: 95";
 		rLen = 0;
-		rLoc = 2861;
+		rLoc = 4018;
 		rType = 0;
 		vrLen = 435;
 		vrLoc = 2619;
@@ -1851,7 +1852,7 @@
 		fRef = 3D56B7531310CE6700BF7F17 /* batterytechAppDelegate.m */;
 		name = "batterytechAppDelegate.m: 45";
 		rLen = 0;
-		rLoc = 1186;
+		rLoc = 1727;
 		rType = 0;
 		vrLen = 917;
 		vrLoc = 425;
@@ -1861,7 +1862,7 @@
 		fRef = 3D56B7541310CE6700BF7F17 /* batterytechViewController.h */;
 		name = "batterytechViewController.h: 28";
 		rLen = 0;
-		rLoc = 620;
+		rLoc = 1176;
 		rType = 0;
 		vrLen = 1116;
 		vrLoc = 210;
@@ -1881,7 +1882,7 @@
 		fRef = 3D56B7551310CE6700BF7F17 /* batterytechViewController.mm */;
 		name = "batterytechViewController.mm: 313";
 		rLen = 0;
-		rLoc = 9065;
+		rLoc = 10253;
 		rType = 0;
 		vrLen = 1124;
 		vrLoc = 8581;
@@ -1891,7 +1892,7 @@
 		fRef = 3D56B7551310CE6700BF7F17 /* batterytechViewController.mm */;
 		name = "batterytechViewController.mm: 313";
 		rLen = 0;
-		rLoc = 9065;
+		rLoc = 10253;
 		rType = 0;
 		vrLen = 1124;
 		vrLoc = 8581;
@@ -1901,7 +1902,7 @@
 		fRef = 3D56B7551310CE6700BF7F17 /* batterytechViewController.mm */;
 		name = "batterytechViewController.mm: 313";
 		rLen = 0;
-		rLoc = 9065;
+		rLoc = 10253;
 		rType = 0;
 		vrLen = 1136;
 		vrLoc = 8581;
@@ -1911,7 +1912,7 @@
 		fRef = 3D56B7551310CE6700BF7F17 /* batterytechViewController.mm */;
 		name = "batterytechViewController.mm: 95";
 		rLen = 0;
-		rLoc = 2861;
+		rLoc = 4018;
 		rType = 0;
 		vrLen = 435;
 		vrLoc = 2619;
@@ -1931,7 +1932,7 @@
 		fRef = 3D56B7551310CE6700BF7F17 /* batterytechViewController.mm */;
 		name = "batterytechViewController.mm: 95";
 		rLen = 0;
-		rLoc = 2861;
+		rLoc = 4018;
 		rType = 0;
 		vrLen = 435;
 		vrLoc = 2619;
@@ -1951,7 +1952,7 @@
 		fRef = 3D56B7551310CE6700BF7F17 /* batterytechViewController.mm */;
 		name = "batterytechViewController.mm: 313";
 		rLen = 0;
-		rLoc = 9065;
+		rLoc = 10253;
 		rType = 0;
 		vrLen = 1136;
 		vrLoc = 8581;
@@ -1995,7 +1996,7 @@
 		fRef = 3D56B7551310CE6700BF7F17 /* batterytechViewController.mm */;
 		name = "batterytechViewController.mm: 313";
 		rLen = 0;
-		rLoc = 9065;
+		rLoc = 10253;
 		rType = 0;
 		vrLen = 1139;
 		vrLoc = 8581;
@@ -2059,7 +2060,7 @@
 		fRef = 3D56B7551310CE6700BF7F17 /* batterytechViewController.mm */;
 		name = "batterytechViewController.mm: 95";
 		rLen = 0;
-		rLoc = 2861;
+		rLoc = 4018;
 		rType = 0;
 		vrLen = 435;
 		vrLoc = 2619;
@@ -2091,7 +2092,7 @@
 		fRef = 3D56B7551310CE6700BF7F17 /* batterytechViewController.mm */;
 		name = "batterytechViewController.mm: 95";
 		rLen = 0;
-		rLoc = 2861;
+		rLoc = 4018;
 		rType = 0;
 		vrLen = 435;
 		vrLoc = 2619;
@@ -2113,7 +2114,7 @@
 		fRef = 3D56B7551310CE6700BF7F17 /* batterytechViewController.mm */;
 		name = "batterytechViewController.mm: 313";
 		rLen = 0;
-		rLoc = 9065;
+		rLoc = 10253;
 		rType = 0;
 		vrLen = 826;
 		vrLoc = 0;
@@ -2123,7 +2124,7 @@
 		fRef = 3D1C19BD12754BBF00A353B4 /* RemoteIOPlayer.h */;
 		name = "RemoteIOPlayer.h: 18";
 		rLen = 0;
-		rLoc = 300;
+		rLoc = 854;
 		rType = 0;
 		vrLen = 306;
 		vrLoc = 0;
@@ -2133,7 +2134,7 @@
 		fRef = 3D1C19BE12754BBF00A353B4 /* RemoteIOPlayer.mm */;
 		name = "RemoteIOPlayer.mm: 41";
 		rLen = 0;
-		rLoc = 772;
+		rLoc = 1474;
 		rType = 0;
 		vrLen = 960;
 		vrLoc = 448;
@@ -2143,7 +2144,7 @@
 		fRef = 3D1C19BE12754BBF00A353B4 /* RemoteIOPlayer.mm */;
 		name = "RemoteIOPlayer.mm: 41";
 		rLen = 0;
-		rLoc = 994;
+		rLoc = 1696;
 		rType = 0;
 		vrLen = 1153;
 		vrLoc = 1528;
@@ -2153,16 +2154,16 @@
 		fRef = 3D56B7551310CE6700BF7F17 /* batterytechViewController.mm */;
 		name = "batterytechViewController.mm: 95";
 		rLen = 0;
-		rLoc = 2861;
+		rLoc = 4018;
 		rType = 0;
 		vrLen = 435;
 		vrLoc = 2619;
 	};
 	3D56C9A0131EDFBF00BF7F17 /* main.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {866, 439}}";
-			sepNavSelRange = "{0, 0}";
-			sepNavVisRange = "{0, 178}";
+			sepNavIntBoundsRect = "{{0, 0}, {628, 387}}";
+			sepNavSelRange = "{1, 0}";
+			sepNavVisRange = "{0, 229}";
 		};
 	};
 	3D65B4CC126BFA6700CF4CFC /* batterytech-ios */ = {

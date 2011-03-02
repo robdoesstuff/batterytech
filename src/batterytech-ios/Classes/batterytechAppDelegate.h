@@ -1,10 +1,18 @@
-//
-//  batterytech_iosAppDelegate.h
-//  batterytech-ios
-//
-//  Created by Apple on 10/17/10.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
-//
+/*
+ * BatteryTech
+ * Copyright (c) 2010 Battery Powered Games, LLC.
+ *
+ * This code is a component of BatteryTech and is subject to the 'BatteryTech
+ * End User License Agreement'.  Among other important provisions, this
+ * license prohibits the distribution of source code to anyone other than
+ * authorized parties.  If you have any questions or would like an additional
+ * copy of the license, please contact: support@batterypoweredgames.com
+ */
+
+//============================================================================
+// Name        : batterytechAppDelegate.h
+// Description : IOS Batterytech App Delegate
+//============================================================================
 
 #import <UIKit/UIKit.h>
 
