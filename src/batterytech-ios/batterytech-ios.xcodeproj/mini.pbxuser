@@ -86,7 +86,7 @@
 				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
 				PBXFileTableDataSourceColumnWidthsKey = (
 					20,
-					739,
+					688,
 					20,
 					48,
 					43,
@@ -125,7 +125,7 @@
 				PBXFileTableDataSourceColumnWidthsKey = (
 					20,
 					20,
-					715,
+					508,
 					20,
 					48,
 					43,
@@ -320,17 +320,16 @@
 			3D56BCB31311D6E300BF7F17 /* PBXTextBookmark */ = 3D56BCB31311D6E300BF7F17 /* PBXTextBookmark */;
 			3D56BCB41311D6E300BF7F17 /* PBXTextBookmark */ = 3D56BCB41311D6E300BF7F17 /* PBXTextBookmark */;
 			3D56BCB51311D6E400BF7F17 /* PlistBookmark */ = 3D56BCB51311D6E400BF7F17 /* PlistBookmark */;
+			3D56C97D131EDE9600BF7F17 /* PBXTextBookmark */ = 3D56C97D131EDE9600BF7F17 /* PBXTextBookmark */;
+			3D56C97F131EDEA100BF7F17 /* PlistBookmark */ = 3D56C97F131EDEA100BF7F17 /* PlistBookmark */;
+			3D56C980131EDEA100BF7F17 /* PBXTextBookmark */ = 3D56C980131EDEA100BF7F17 /* PBXTextBookmark */;
+			3D56C981131EDEA100BF7F17 /* PBXTextBookmark */ = 3D56C981131EDEA100BF7F17 /* PBXTextBookmark */;
+			3D56C982131EDEA100BF7F17 /* PBXTextBookmark */ = 3D56C982131EDEA100BF7F17 /* PBXTextBookmark */;
+			3D56C983131EDEA100BF7F17 /* PBXTextBookmark */ = 3D56C983131EDEA100BF7F17 /* PBXTextBookmark */;
+			3D56C990131EDF4000BF7F17 /* PBXTextBookmark */ = 3D56C990131EDF4000BF7F17 /* PBXTextBookmark */;
 		};
 		sourceControlManager = 3D65B4DD126BFA6F00CF4CFC /* Source Control */;
 		userBuildSettings = {
-		};
-	};
-	29B97316FDCFA39411CA2CEA /* main.m */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {809, 612}}";
-			sepNavSelRange = "{0, 0}";
-			sepNavVisRange = "{0, 363}";
-			sepNavWindowFrame = "{{38, 412}, {868, 740}}";
 		};
 	};
 	32CA4F630368D1EE00C91783 /* batterytech_ios_Prefix.pch */ = {
@@ -343,16 +342,16 @@
 	};
 	3D1C19BD12754BBF00A353B4 /* RemoteIOPlayer.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {750, 591}}";
-			sepNavSelRange = "{298, 0}";
-			sepNavVisRange = "{0, 329}";
+			sepNavIntBoundsRect = "{{0, 0}, {866, 439}}";
+			sepNavSelRange = "{300, 0}";
+			sepNavVisRange = "{0, 306}";
 		};
 	};
 	3D1C19BE12754BBF00A353B4 /* RemoteIOPlayer.mm */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {726, 1703}}";
-			sepNavSelRange = "{876, 0}";
-			sepNavVisRange = "{397, 1029}";
+			sepNavIntBoundsRect = "{{0, 0}, {866, 1430}}";
+			sepNavSelRange = "{994, 0}";
+			sepNavVisRange = "{1528, 1153}";
 			sepNavWindowFrame = "{{450, 346}, {868, 740}}";
 		};
 	};
@@ -760,7 +759,7 @@
 		fRef = 3D56B352130F569100BF7F17 /* platformgl.h */;
 		name = "platformgl.h: 220";
 		rLen = 0;
-		rLoc = 12960;
+		rLoc = 6716;
 		rType = 0;
 		vrLen = 2878;
 		vrLoc = 0;
@@ -1504,8 +1503,8 @@
 		comments = "Unused variable 'remoteIOplayer'";
 		fRef = 3D1C19BE12754BBF00A353B4 /* RemoteIOPlayer.mm */;
 		fallbackIsa = XCBuildMessageTextBookmark;
-		rLen = 1;
-		rLoc = 40;
+		rLen = 0;
+		rLoc = 36;
 		rType = 1;
 	};
 	3D56BAF613111BFB00BF7F17 /* PBXTextBookmark */ = {
@@ -1513,7 +1512,7 @@
 		fRef = 3D1C19BE12754BBF00A353B4 /* RemoteIOPlayer.mm */;
 		name = "RemoteIOPlayer.mm: 41";
 		rLen = 0;
-		rLoc = 876;
+		rLoc = 772;
 		rType = 0;
 		vrLen = 595;
 		vrLoc = 572;
@@ -1533,7 +1532,7 @@
 		fRef = 3D1C19BE12754BBF00A353B4 /* RemoteIOPlayer.mm */;
 		name = "RemoteIOPlayer.mm: 41";
 		rLen = 0;
-		rLoc = 876;
+		rLoc = 772;
 		rType = 0;
 		vrLen = 595;
 		vrLoc = 572;
@@ -1612,7 +1611,7 @@
 		fRef = 3D1C19BE12754BBF00A353B4 /* RemoteIOPlayer.mm */;
 		name = "RemoteIOPlayer.mm: 41";
 		rLen = 0;
-		rLoc = 876;
+		rLoc = 772;
 		rType = 0;
 		vrLen = 1029;
 		vrLoc = 397;
@@ -2086,6 +2085,85 @@
 		name = "/Users/mini/Documents/xcode projects/batterytech-ios/batterytech_ios-Info.plist";
 		rLen = 0;
 		rLoc = 9223372036854775807;
+	};
+	3D56C97D131EDE9600BF7F17 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 3D56B7551310CE6700BF7F17 /* batterytechViewController.mm */;
+		name = "batterytechViewController.mm: 95";
+		rLen = 0;
+		rLoc = 2861;
+		rType = 0;
+		vrLen = 435;
+		vrLoc = 2619;
+	};
+	3D56C97F131EDEA100BF7F17 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D1107310486CEB800E47090 /* batterytech_ios-Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			UISupportedInterfaceOrientations,
+		);
+		name = "/Users/mini/Documents/xcode projects/batterytech-ios/batterytech_ios-Info.plist";
+		rLen = 0;
+		rLoc = 9223372036854775807;
+	};
+	3D56C980131EDEA100BF7F17 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 3D56B7551310CE6700BF7F17 /* batterytechViewController.mm */;
+		name = "batterytechViewController.mm: 313";
+		rLen = 0;
+		rLoc = 9065;
+		rType = 0;
+		vrLen = 826;
+		vrLoc = 0;
+	};
+	3D56C981131EDEA100BF7F17 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 3D1C19BD12754BBF00A353B4 /* RemoteIOPlayer.h */;
+		name = "RemoteIOPlayer.h: 18";
+		rLen = 0;
+		rLoc = 300;
+		rType = 0;
+		vrLen = 306;
+		vrLoc = 0;
+	};
+	3D56C982131EDEA100BF7F17 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 3D1C19BE12754BBF00A353B4 /* RemoteIOPlayer.mm */;
+		name = "RemoteIOPlayer.mm: 41";
+		rLen = 0;
+		rLoc = 772;
+		rType = 0;
+		vrLen = 960;
+		vrLoc = 448;
+	};
+	3D56C983131EDEA100BF7F17 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 3D1C19BE12754BBF00A353B4 /* RemoteIOPlayer.mm */;
+		name = "RemoteIOPlayer.mm: 41";
+		rLen = 0;
+		rLoc = 994;
+		rType = 0;
+		vrLen = 1153;
+		vrLoc = 1528;
+	};
+	3D56C990131EDF4000BF7F17 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 3D56B7551310CE6700BF7F17 /* batterytechViewController.mm */;
+		name = "batterytechViewController.mm: 95";
+		rLen = 0;
+		rLoc = 2861;
+		rType = 0;
+		vrLen = 435;
+		vrLoc = 2619;
+	};
+	3D56C9A0131EDFBF00BF7F17 /* main.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {866, 439}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 178}";
+		};
 	};
 	3D65B4CC126BFA6700CF4CFC /* batterytech-ios */ = {
 		isa = PBXExecutable;
