@@ -34,26 +34,13 @@ static OSStatus playbackCallback(void *inRefCon,
 								 UInt32 inBusNumber, 
 								 UInt32 inNumberFrames, 
 								 AudioBufferList *ioData) {  
-	
-
-	
-	//get a copy of the objectiveC class "self" we need this to get the next sample to fill the buffer
-	RemoteIOPlayer *remoteIOplayer = (RemoteIOPlayer *)inRefCon;
-	
 	//loop through all the buffers that need to be filled
 	for (int i = 0 ; i < ioData->mNumberBuffers; i++){
 		//get the buffer to be filled
 		AudioBuffer buffer = ioData->mBuffers[i];
-		
 		// 4 bytes per frame for 16 bit stereo
 		UInt16 frames = inNumberFrames * 4;
-		UInt16 monoBuffer[frames];
-		UInt16 *frameBuffer = (UInt16*)buffer.mData;
-		_iosSndMgr->fillBuffer(&monoBuffer, frames);
-
-		for (int j = 0; j < frames; j++) {
-			frameBuffer[j] = monoBuffer[j];
-		}
+		_iosSndMgr->fillBuffer((UInt16*)buffer.mData, frames);
 	}
     return noErr;
 }
@@ -65,7 +52,7 @@ static OSStatus playbackCallback(void *inRefCon,
 	// Describe audio component
 	AudioComponentDescription desc;
 	desc.componentType = kAudioUnitType_Output;
-	desc.componentSubType = kAudioUnitSubType_RemoteIO;
+	//desc.componentSubType = kAudioUnitSubType_RemoteIO;
 	desc.componentFlags = 0;
 	desc.componentFlagsMask = 0;
 	desc.componentManufacturer = kAudioUnitManufacturer_Apple;
