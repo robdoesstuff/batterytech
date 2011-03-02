@@ -18,6 +18,11 @@
 #import "../../batterytech.h"
 #import "../platformgeneral.h"
 
+#ifdef __APPLE__
+	#include <TargetConditionals.h>
+#endif
+#if TARGET_OS_IPHONE
+
 @implementation batterytechKeyboardDelegate
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
@@ -38,3 +43,6 @@
 }
 
 @end
+
+#endif /* IOS */
+#endif /* BATTERYTECHKEYBOARDDELEGATE_H_ */
