@@ -44,7 +44,7 @@
 									<listOptionValue builtIn="false" value="winmm"/>
 									<listOptionValue builtIn="false" value="opengl32"/>
 								</option>
-								<option id="gnu.cpp.link.option.flags.964526971" name="Linker flags" superClass="gnu.cpp.link.option.flags" value="-mwindows" valueType="string"/>
+								<option id="gnu.cpp.link.option.flags.964526971" name="Linker flags" superClass="gnu.cpp.link.option.flags" value="-mwindows -static-libgcc" valueType="string"/>
 								<option id="gnu.cpp.link.option.userobjs.1559209456" name="Other objects" superClass="gnu.cpp.link.option.userobjs" valueType="userObjs">
 									<listOptionValue builtIn="false" value="Resources/resources.o"/>
 								</option>
@@ -521,9 +521,10 @@
 									<listOptionValue builtIn="false" value="opengl32"/>
 									<listOptionValue builtIn="false" value="winmm"/>
 								</option>
-								<option id="gnu.cpp.link.option.userobjs.588174265" superClass="gnu.cpp.link.option.userobjs" valueType="userObjs">
+								<option id="gnu.cpp.link.option.userobjs.588174265" name="Other objects" superClass="gnu.cpp.link.option.userobjs" valueType="userObjs">
 									<listOptionValue builtIn="false" value="Resources/resources.o"/>
 								</option>
+								<option id="gnu.cpp.link.option.flags.920870567" name="Linker flags" superClass="gnu.cpp.link.option.flags" value="-mwindows -static-libgcc" valueType="string"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.1441702812" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
