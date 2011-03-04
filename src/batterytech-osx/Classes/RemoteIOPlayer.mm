@@ -20,6 +20,8 @@
 #define kInputBus 1
 #include <batterytech/audio/AudioManager.h>
 
+using namespace BatteryTech;
+
 extern AudioManager *_iosSndMgr;
 
 @implementation RemoteIOPlayer

@@ -26,6 +26,8 @@
 
 #define USE_SHADERS TRUE
 
+using namespace BatteryTech;
+
 static GraphicsConfiguration *gConfig;
 static double currentTime;
 static double lastTime;
