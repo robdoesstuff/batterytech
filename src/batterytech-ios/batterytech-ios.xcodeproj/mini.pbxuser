@@ -22,9 +22,9 @@
 	};
 	28FD14FD0DC6FC130079059D /* EAGLView.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {833, 2691}}";
+			sepNavIntBoundsRect = "{{0, 0}, {833, 2613}}";
 			sepNavSelRange = "{879, 0}";
-			sepNavVisRange = "{0, 1646}";
+			sepNavVisRange = "{0, 1665}";
 		};
 	};
 	29B97313FDCFA39411CA2CEA /* Project object */ = {
@@ -149,7 +149,7 @@
 				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
 				PBXFileTableDataSourceColumnWidthsKey = (
 					20,
-					699,
+					615,
 					60,
 					20,
 					48,
@@ -166,8 +166,8 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 320894257;
-			PBXWorkspaceStateSaveDate = 320894257;
+			PBXPerProjectTemplateStateSaveDate = 320961384;
+			PBXWorkspaceStateSaveDate = 320961384;
 		};
 		perUserProjectItems = {
 			3D56BB2B1311C96000BF7F17 = 3D56BB2B1311C96000BF7F17 /* PBXTextBookmark */;
@@ -182,11 +182,11 @@
 			3D56CA82131F10D300BF7F17 = 3D56CA82131F10D300BF7F17 /* PBXTextBookmark */;
 			3D56CA83131F10D300BF7F17 = 3D56CA83131F10D300BF7F17 /* PBXTextBookmark */;
 			3D56CA84131F10D300BF7F17 = 3D56CA84131F10D300BF7F17 /* PBXTextBookmark */;
-			3D56CA86131F10D300BF7F17 = 3D56CA86131F10D300BF7F17 /* PBXTextBookmark */;
-			3D56CACB132073D600BF7F17 = 3D56CACB132073D600BF7F17 /* PBXTextBookmark */;
-			3D56CB9B1320754300BF7F17 /* PBXTextBookmark */ = 3D56CB9B1320754300BF7F17 /* PBXTextBookmark */;
-			3D56CB9C1320754300BF7F17 /* PBXBookmark */ = 3D56CB9C1320754300BF7F17 /* PBXBookmark */;
-			3D56CB9D1320754300BF7F17 /* PBXTextBookmark */ = 3D56CB9D1320754300BF7F17 /* PBXTextBookmark */;
+			3D56CB9B1320754300BF7F17 = 3D56CB9B1320754300BF7F17 /* PBXTextBookmark */;
+			3D56CBFA13207DD900BF7F17 = 3D56CBFA13207DD900BF7F17 /* PBXTextBookmark */;
+			3D56CBFB13207DD900BF7F17 = 3D56CBFB13207DD900BF7F17 /* PBXTextBookmark */;
+			3D56CC2213217CB200BF7F17 /* XCBuildMessageTextBookmark */ = 3D56CC2213217CB200BF7F17 /* XCBuildMessageTextBookmark */;
+			3D56CC2313217CB200BF7F17 /* PBXTextBookmark */ = 3D56CC2313217CB200BF7F17 /* PBXTextBookmark */;
 		};
 		sourceControlManager = 3D65B4DD126BFA6F00CF4CFC /* Source Control */;
 		userBuildSettings = {
@@ -209,9 +209,9 @@
 	};
 	3D1C19BE12754BBF00A353B4 /* RemoteIOPlayer.mm */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {833, 1625}}";
-			sepNavSelRange = "{881, 0}";
-			sepNavVisRange = "{0, 1435}";
+			sepNavIntBoundsRect = "{{0, 0}, {833, 1638}}";
+			sepNavSelRange = "{878, 0}";
+			sepNavVisRange = "{0, 1465}";
 			sepNavWindowFrame = "{{450, 346}, {868, 740}}";
 		};
 	};
@@ -224,9 +224,9 @@
 	};
 	3D56B7531310CE6700BF7F17 /* batterytechAppDelegate.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {833, 806}}";
+			sepNavIntBoundsRect = "{{0, 0}, {833, 871}}";
 			sepNavSelRange = "{570, 0}";
-			sepNavVisRange = "{0, 1577}";
+			sepNavVisRange = "{696, 1187}";
 		};
 	};
 	3D56B7541310CE6700BF7F17 /* batterytechViewController.h */ = {
@@ -238,9 +238,9 @@
 	};
 	3D56B7551310CE6700BF7F17 /* batterytechViewController.mm */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1013, 4524}}";
-			sepNavSelRange = "{4018, 0}";
-			sepNavVisRange = "{2904, 772}";
+			sepNavIntBoundsRect = "{{0, 0}, {833, 4368}}";
+			sepNavSelRange = "{753, 0}";
+			sepNavVisRange = "{0, 1853}";
 			sepNavWindowFrame = "{{224, 155}, {961, 846}}";
 		};
 	};
@@ -316,11 +316,13 @@
 		sourceDirectories = (
 		);
 	};
-	3D56C053131DC10F00BF7F17 /* quadshader.frag */ = {
-		isa = PBXFileReference;
-		name = quadshader.frag;
-		path = "/Users/mini/Documents/xcode projects/batterytech/assets/shaders/quadshader.frag";
-		sourceTree = "<absolute>";
+	3D56BEA7131DC0C500BF7F17 /* iosgeneral.mm */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {902, 4784}}";
+			sepNavSelRange = "{1161, 0}";
+			sepNavVisRange = "{0, 1730}";
+			sepNavWindowFrame = "{{420, 228}, {961, 846}}";
+		};
 	};
 	3D56C97F131EDEA100BF7F17 /* PlistBookmark */ = {
 		isa = PlistBookmark;
@@ -396,7 +398,7 @@
 		fRef = 3D1C19BE12754BBF00A353B4 /* RemoteIOPlayer.mm */;
 		name = "RemoteIOPlayer.mm: 23";
 		rLen = 0;
-		rLoc = 881;
+		rLoc = 911;
 		rType = 0;
 		vrLen = 1435;
 		vrLoc = 0;
@@ -421,26 +423,6 @@
 		vrLen = 1646;
 		vrLoc = 0;
 	};
-	3D56CA86131F10D300BF7F17 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 3D56C9A0131EDFBF00BF7F17 /* main.m */;
-		name = "main.m: 18";
-		rLen = 0;
-		rLoc = 690;
-		rType = 0;
-		vrLen = 894;
-		vrLoc = 0;
-	};
-	3D56CACB132073D600BF7F17 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 3D56C9A0131EDFBF00BF7F17 /* main.m */;
-		name = "main.m: 18";
-		rLen = 0;
-		rLoc = 690;
-		rType = 0;
-		vrLen = 894;
-		vrLoc = 0;
-	};
 	3D56CB9B1320754300BF7F17 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = 3D56C9A0131EDFBF00BF7F17 /* main.m */;
@@ -451,26 +433,63 @@
 		vrLen = 894;
 		vrLoc = 0;
 	};
-	3D56CB9C1320754300BF7F17 /* PBXBookmark */ = {
-		isa = PBXBookmark;
-		fRef = 3D56C053131DC10F00BF7F17 /* quadshader.frag */;
-	};
-	3D56CB9D1320754300BF7F17 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 3D56CB9E1320754300BF7F17 /* quadshader.frag */;
-		name = "quadshader.frag: 9";
-		rLen = 0;
-		rLoc = 139;
-		rType = 0;
-		vrLen = 299;
-		vrLoc = 0;
-	};
 	3D56CB9E1320754300BF7F17 /* quadshader.frag */ = {
 		isa = PBXFileReference;
 		lastKnownFileType = sourcecode.glsl;
 		name = quadshader.frag;
 		path = "/Users/mini/Documents/xcode projects/batterytech/assets/shaders/quadshader.frag";
 		sourceTree = "<absolute>";
+	};
+	3D56CBFA13207DD900BF7F17 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 3D56CB9E1320754300BF7F17 /* quadshader.frag */;
+		name = "quadshader.frag: 13";
+		rLen = 0;
+		rLoc = 223;
+		rType = 0;
+		vrLen = 299;
+		vrLoc = 0;
+	};
+	3D56CBFB13207DD900BF7F17 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 3D56CBFC13207DD900BF7F17 /* quadshader.frag */;
+		name = "quadshader.frag: 6";
+		rLen = 0;
+		rLoc = 103;
+		rType = 0;
+		vrLen = 300;
+		vrLoc = 0;
+	};
+	3D56CBFC13207DD900BF7F17 /* quadshader.frag */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.glsl;
+		name = quadshader.frag;
+		path = "/Users/mini/Documents/xcode projects/batterytech-ios/assets/shaders/quadshader.frag";
+		sourceTree = "<absolute>";
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {833, 676}}";
+			sepNavSelRange = "{184, 0}";
+			sepNavVisRange = "{0, 300}";
+		};
+	};
+	3D56CC2213217CB200BF7F17 /* XCBuildMessageTextBookmark */ = {
+		isa = PBXTextBookmark;
+		comments = "Expected constructor, destructor, or type conversion before '*' token";
+		fRef = 3D56BEA7131DC0C500BF7F17 /* iosgeneral.mm */;
+		fallbackIsa = XCBuildMessageTextBookmark;
+		rLen = 1;
+		rLoc = 39;
+		rType = 1;
+	};
+	3D56CC2313217CB200BF7F17 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 3D56BEA7131DC0C500BF7F17 /* iosgeneral.mm */;
+		name = "iosgeneral.mm: 40";
+		rLen = 0;
+		rLoc = 1193;
+		rType = 0;
+		vrLen = 429;
+		vrLoc = 943;
 	};
 	3D65B4CC126BFA6700CF4CFC /* batterytech-ios */ = {
 		isa = PBXExecutable;

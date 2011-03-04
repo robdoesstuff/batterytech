@@ -229,6 +229,8 @@
 			<key>Layout</key>
 			<array>
 				<dict>
+					<key>BecomeActive</key>
+					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -263,19 +265,11 @@
 						<dict>
 							<key>PBXSmartGroupTreeModuleOutlineStateExpansionKey</key>
 							<array>
-								<string>29B97314FDCFA39411CA2CEA</string>
-								<string>29B97317FDCFA39411CA2CEA</string>
-								<string>3D56C046131DC10F00BF7F17</string>
-								<string>3D56C04E131DC10F00BF7F17</string>
 								<string>E2644B35053B69B200211256</string>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>12</integer>
-									<integer>11</integer>
-									<integer>4</integer>
-									<integer>3</integer>
 									<integer>0</integer>
 								</array>
 							</array>
@@ -299,7 +293,7 @@
 							<real>352</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>166 175 1268 943 0 0 1600 1178 </string>
+						<string>268 157 1268 943 0 0 1600 1178 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -310,8 +304,6 @@
 					<key>Dock</key>
 					<array>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -329,10 +321,9 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>3D56CB9D1320754300BF7F17</string>
+										<string>3D56CBFB13207DD900BF7F17</string>
 										<key>history</key>
 										<array>
-											<string>3D56BB2B1311C96000BF7F17</string>
 											<string>3D56BBCB1311D22F00BF7F17</string>
 											<string>3D56BBCD1311D22F00BF7F17</string>
 											<string>3D56C97F131EDEA100BF7F17</string>
@@ -345,7 +336,8 @@
 											<string>3D56CA83131F10D300BF7F17</string>
 											<string>3D56CA84131F10D300BF7F17</string>
 											<string>3D56CB9B1320754300BF7F17</string>
-											<string>3D56CB9C1320754300BF7F17</string>
+											<string>3D56CBFA13207DD900BF7F17</string>
+											<string>3D56BB2B1311C96000BF7F17</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -359,7 +351,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {894, 712}}</string>
 								<key>RubberWindowFrame</key>
-								<string>166 175 1268 943 0 0 1600 1178 </string>
+								<string>268 157 1268 943 0 0 1600 1178 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -379,7 +371,7 @@
 								<key>Frame</key>
 								<string>{{0, 717}, {894, 185}}</string>
 								<key>RubberWindowFrame</key>
-								<string>166 175 1268 943 0 0 1600 1178 </string>
+								<string>268 157 1268 943 0 0 1600 1178 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
@@ -543,13 +535,15 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
+		<string>3D56CBFD13207DD900BF7F17</string>
+		<string>3D56CBFE13207DD900BF7F17</string>
 		<string>1C78EAAD065D492600B07095</string>
 		<string>1CD10A99069EF8BA00B06720</string>
 		<string>3D65B4DB126BFA6F00CF4CFC</string>
 		<string>/Users/mini/Documents/xcode projects/batterytech-ios/batterytech-ios.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>166 175 1268 943 0 0 1600 1178 </string>
+	<string>268 157 1268 943 0 0 1600 1178 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>

@@ -24,6 +24,8 @@
 
 #define USE_GLES2_WHEN_AVAILABLE TRUE
 
+using namespace BatteryTech;
+
 static GraphicsConfiguration *gConfig;
 static double currentTime;
 static double lastTime;
