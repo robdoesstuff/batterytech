@@ -27,11 +27,34 @@ class Context;
 class TextRasterRenderer: public Renderer {
 public:
 	TextRasterRenderer(Context *context, const char *assetName, F32 fontSize);
+	/**
+	 * Initializes the TextRasterRenderer for the GL context
+	 */
 	virtual void init(BOOL32 newContext);
+	/**
+	 * Renders a line of text using reference coordinate system.
+	 * x = position relative to REFERENCE_WIDTH
+	 * y = position relative to REFERENCE_HEIGHT
+	 * Call startText() before any renders and finishText() after to reset GL states
+	 */
 	void render(const char *text, F32 x, F32 y);
+	/**
+	 * Starts rendering text
+	 * Must be called before first render()
+	 */
 	void startText();
+	/**
+	 * Finishes rendering text
+	 * Must be called after render() calls are all complete
+	 */
 	void finishText();
+	/**
+	 * Gets the height of the text in reference-size units
+	 */
 	F32 getHeight();
+	/**
+	 * Measures the width of a line of text in reference-size units
+	 */
 	F32 measureWidth(const char *text);
 	virtual ~TextRasterRenderer();
 private:

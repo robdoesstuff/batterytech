@@ -26,8 +26,17 @@ class RenderContext {
 public:
 	RenderContext();
 	virtual ~RenderContext();
+	/**
+	 * Current projection matrix
+	 */
 	ESMatrix projMatrix;
+	/**
+	 * Current modelview matrix
+	 */
 	ESMatrix mvMatrix;
+	/**
+	 * Current color (like glColor())
+	 */
 	Vec4f colorFilter;
 };
 

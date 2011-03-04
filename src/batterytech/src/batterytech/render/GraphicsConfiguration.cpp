@@ -26,7 +26,6 @@ GraphicsConfiguration::GraphicsConfiguration() {
 	viewportWidth = 0;
 	textureRes = HIGH;
 	textureFilter = LINEAR;
-	showFPS = FALSE;
 	useShaders = FALSE;
 	softGPU = FALSE;
 	supportsVBOs = FALSE;

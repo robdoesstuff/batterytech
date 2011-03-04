@@ -151,7 +151,7 @@ void UIManager::update() {
 		if (pointer.isDown && !clickDownChecked) {
 			if (traverseClickState(menu, menu->getRootComponent(), TRUE, pointer.x, pointer.y)) {
 				clickDownActive = TRUE;
-				context->isUIConsumingTouch = TRUE;
+				context->isUIConsumingPointers = TRUE;
 			}
 			clickDownChecked = TRUE;
 		}
@@ -159,7 +159,7 @@ void UIManager::update() {
 			if (clickDownActive) {
 				// need to unclick
 				traverseClickState(menu, menu->getRootComponent(), FALSE, pointer.x, pointer.y);
-				context->isUIConsumingTouch = FALSE;
+				context->isUIConsumingPointers = FALSE;
 			}
 			clickDownChecked = FALSE;
 			clickDownActive = FALSE;

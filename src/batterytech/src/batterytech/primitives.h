@@ -12,6 +12,7 @@
 //============================================================================
 // Name        : primitives.h
 // Description : Cross-platform primitive declarations
+// Usage       : Always include this and use instead of using primitives directly.
 //============================================================================
 
 #ifndef PRIMITIVES_H_
@@ -35,7 +36,7 @@
 #if TARGET_OS_IPHONE
 	#include "platform/ios/iostypes.h"
 #endif /* TARGET_OS_IPHONE */
-#if TARGET_OS_MAC
+#if TARGET_OS_MAC && !TARGET_OS_IPHONE
 	#include "platform/osx/osxtypes.h"
 #endif /* TARGET_OS_MAC */
 #endif /* PRIMITIVES_H_ */

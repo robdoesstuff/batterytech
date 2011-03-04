@@ -33,11 +33,17 @@ class RenderContext;
 
 class Context {
 public:
+	/**
+	 * Represents the state of a pointer (mouse, touch or other)
+	 */
 	struct PointerState {
 		BOOL32 isDown;
 		S32 x;
 		S32 y;
 	};
+	/**
+	 * Represents the state of the accelerometer
+	 */
 	struct AccelerometerState {
 		F32 x;
 		F32 y;
@@ -45,23 +51,97 @@ public:
 	};
 	Context(GraphicsConfiguration *gConfig);
 	virtual ~Context();
+	/**
+	 * Array of pointer states to support multitouch.
+	 * This will be MAX_POINTERS in length
+	 */
 	PointerState *pointerState;
+
+	/**
+	 * Only one accelerometer is supported and the current state of it is held here.
+	 */
 	AccelerometerState accelerometerState;
+
+	/**
+	 * For keyboard input, this is the last key the user pressed and is cleared by the UI library once consumed.
+	 * As of Batterytech 1.0 - key events are not queued so if the user types faster than the FPS of the app, keys will be missed.
+	 * There are threading issues to queuing that are not addressible until thread support is added to batterytech.
+	 */
 	U8 keyPressed;
-	BOOL32 isUIConsumingTouch;
+
+	/**
+	 * Set to true if the UI is consuming the current pointers.
+	 * Your app can use this to decide if it wants to ignore touches the UI is responding to.
+	 * This is used instead of an event chain of consumption pattern.
+	 */
+	BOOL32 isUIConsumingPointers;
+
+	/**
+	 * The time in seconds that has passed between the last update and this update.
+	 * Use this for timing animations, physics and anything else time-sensitive.
+	 */
 	F32 tickDelta;
+
+	/**
+	 * Display the current frames per second?
+	 */
 	BOOL32 showFPS;
+
+	/**
+	 * Set to true if the app was previously suspended.  This will only be true if it was suspended AND the OpenGL context was lost.
+	 * If this is set to true, you must reload all VRAM objects (textures, FBOs, VBOs, etc) and reset the GL states before continuing.
+	 */
 	BOOL32 wasSuspended;
 
+	/**
+	 * Link to your game or a wrapper to your game here.
+	 */
 	Game *game;
+
+	/**
+	 * Link to your game's world or a wrapper of your game's world here.
+	 */
 	World *world;
+
+	/**
+	 * Use this for playing sound effects and music.
+	 */
 	AudioManager *audioManager;
+
+	/**
+	 * Use this for establishing network connections, or replace with your own implementation.
+	 */
 	NetworkManager *networkManager;
+
+	/**
+	 * Use this for playing vibration effects.
+	 * Platform-specific implementation is required (as of batterytech 1.0, except for IOS which only has one vibe)
+	 */
 	VibrationManager *vibrationManager;
+
+	/**
+	 * Link to your game's rendering system or a wrapper to its rendering system here.
+	 */
 	WorldRenderer *worldRenderer;
+
+	/**
+	 * This is the default Batterytech UI Renderer.
+	 */
 	MenuRenderer *menuRenderer;
+
+	/**
+	 * This holds the configuration for the current graphics system.
+	 */
 	GraphicsConfiguration *gConfig;
+
+	/**
+	 * Use this to add and show menus and manipulate the menu stack.
+	 */
 	UIManager *uiManager;
+
+	/**
+	 * This is the current rendering context.  Among other things, it should be used to track matrices and states.
+	 */
 	RenderContext *renderContext;
 };
 

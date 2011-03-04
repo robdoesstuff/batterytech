@@ -196,7 +196,7 @@ void Game::updateNetwork() {
 }
 
 void Game::updateInput() {
-	if (context->isUIConsumingTouch) {
+	if (context->isUIConsumingPointers) {
 		return;
 	}
 	touchInputProcessor->processInput(context);

@@ -22,6 +22,8 @@ package com.batterypoweredgames.batterytech;
 import java.io.IOException;
 import java.io.InputStream;
 
+import com.batterypoweredgames.demoapp.VibrationManager;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.AssetManager;
@@ -37,12 +39,14 @@ public class Boot {
 	private AudioWrapper audioWrapper;
 	private View view;
 	private AudioBridge audioBridge;
+	private VibrationManager vibrationManager;
 	public boolean audioTrackStartedViaNative;
 
 	public Boot(Activity activity, View view) {
 		this.activity = activity;
 		this.view = view;
 		audioTrackStartedViaNative = false;
+		vibrationManager = new VibrationManager(activity);
 	}
 
 	public void setAudioBridge(AudioBridge audioBridge) {
@@ -106,23 +110,31 @@ public class Boot {
 		if (this.audioWrapper != null) {
 			releaseAudioManagement();
 		}
+		if (vibrationManager != null) {
+			vibrationManager.release();
+		}
+		vibrationManager = null;
 	}
 
-	// vibration JNI callbacks
-
+	// ----------- vibration JNI callbacks ------------
+	// directs calls to app-specific vibration manager
 	public void playVibrationEffect(int effectId, float intensity) {
+		vibrationManager.playVibrationEffect(effectId, intensity);
 	}
 
 	public void startVibrationEffect(int effectId, float intensity) {
+		vibrationManager.startVibrationEffect(effectId, intensity);
 	}
 
 	public void stopVibrationEffect(int effectId) {
+		vibrationManager.stopVibrationEffect(effectId);
 	}
 
 	public void stopAllVibrationEffects() {
+		vibrationManager.stopAllVibrationEffects();
 	}
 
-	// native audio management JNI callbacks
+	// ------------ native audio management JNI callbacks -----------
 
 	/**
 	 * JNI Callback to start the audiotrack

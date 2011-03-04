@@ -40,15 +40,15 @@ Context::Context(GraphicsConfiguration *gConfig) {
 	uiManager = new UIManager(this);
 	renderContext = new RenderContext();
 	tickDelta = 0;
-	isUIConsumingTouch = FALSE;
+	isUIConsumingPointers = FALSE;
 	keyPressed = 0;
 	showFPS = FALSE;
 	wasSuspended = TRUE;
 	accelerometerState.x = 0;
 	accelerometerState.y = 0;
 	accelerometerState.z = 0;
-	pointerState = new PointerState[10];
-	for (S32 i = 0; i < 10; i++) {
+	pointerState = new PointerState[MAX_POINTERS];
+	for (S32 i = 0; i < MAX_POINTERS; i++) {
 		pointerState[i].isDown = FALSE;
 		pointerState[i].x = 0;
 		pointerState[i].y = 0;
@@ -75,7 +75,6 @@ Context::~Context() {
 	renderContext = NULL;
 	logmsg("Context deleting game");
 	delete game;
-	logmsg("Context nulling game");
 	game = NULL;
 	delete [] pointerState;
 	logmsg("Done Releasing Context");

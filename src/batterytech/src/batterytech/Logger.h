@@ -12,6 +12,7 @@
 //============================================================================
 // Name        : Logger.h
 // Description : Logging Facility
+//             : Very simple for now.  Will be expanded upon later.
 //============================================================================
 
 #ifndef LOGGER_H_
