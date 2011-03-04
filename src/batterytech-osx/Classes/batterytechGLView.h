@@ -23,6 +23,7 @@
 @interface BatterytechGLView : NSOpenGLView {
 NSTimer* timer;
 RemoteIOPlayer *player;
+}
 
 - (id) initWithFrame: (NSRect) frameRect;
 - (void) awakeFromNib;
