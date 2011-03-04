@@ -52,6 +52,11 @@
 // Maximum number of components you can add to any other UI component (including layouts).
 // Increase if necessary.
 #define MAX_UI_SUBCOMPONENTS 10
+// Maximum number of UI rendering assets.
+// Increase if necessary.
+#define MAX_UI_ASSET_NAMES 100
+// Font size in reference units for UI text
+#define UI_FONT_SIZE 32.0f
 
 /// -------------- audio --------------------
 // Would you like to use the platform's audio management (soundpool, mediaplayer, etc)?

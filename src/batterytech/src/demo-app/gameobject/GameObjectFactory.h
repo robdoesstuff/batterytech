@@ -14,6 +14,8 @@
 #include "GameObjectMeta.h"
 #include <batterytech/math/Vec2f.h>
 
+using namespace BatteryTech;
+
 class GameObjectFactory {
 public:
 	GameObjectFactory();

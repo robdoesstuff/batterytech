@@ -17,15 +17,18 @@
 #ifndef NETWORKMESSAGELISTENER_H_
 #define NETWORKMESSAGELISTENER_H_
 
-class NetworkMessage;
+namespace BatteryTech {
 
-class NetworkMessageListener {
-public:
-	virtual ~NetworkMessageListener(){};
-	// called when a new network message has arrived.
-	virtual void onNetworkMessage(NetworkMessage* message){};
-	// called when the network connection has disconnected.
-	virtual void onNetworkDisconnected(){};
-};
+	class NetworkMessage;
 
+	class NetworkMessageListener {
+	public:
+		virtual ~NetworkMessageListener(){};
+		// called when a new network message has arrived.
+		virtual void onNetworkMessage(NetworkMessage* message){};
+		// called when the network connection has disconnected.
+		virtual void onNetworkDisconnected(){};
+	};
+
+}
 #endif /* NETWORKMESSAGELISTENER_H_ */

@@ -18,6 +18,8 @@
 
 #define TOP_MENU_NAME "TopMenu"
 
+using namespace BatteryTech;
+
 class TopMenu : public Menu {
 public:
 	TopMenu(Context *context);

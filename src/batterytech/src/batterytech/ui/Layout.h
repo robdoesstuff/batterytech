@@ -20,10 +20,13 @@
 
 #include "UIComponent.h"
 
-class Layout: public UIComponent {
-public:
-	Layout(const char *text = NULL) : UIComponent(text){};
-	virtual ~Layout();
-};
+namespace BatteryTech {
 
+	class Layout: public UIComponent {
+	public:
+		Layout(const char *text = NULL) : UIComponent(text){};
+		virtual ~Layout();
+	};
+
+}
 #endif /* LAYOUT_H_ */

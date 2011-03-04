@@ -20,18 +20,22 @@
 #include "ManagedArray.h"
 #include "Property.h"
 
-class PropertiesIO {
-public:
-	PropertiesIO();
-	virtual ~PropertiesIO();
-	/**
-	 * Saves an array of properties to disk
-	 */
-	void saveProperties(ManagedArray<Property> *properties, const char* path);
-	/**
-	 * Loads from disk an array of properties
-	 */
-	ManagedArray<Property>* loadPropertiesFromFile(const char* path);
-};
+namespace BatteryTech {
+
+	class PropertiesIO {
+	public:
+		PropertiesIO();
+		virtual ~PropertiesIO();
+		/**
+		 * Saves an array of properties to disk
+		 */
+		void saveProperties(ManagedArray<Property> *properties, const char* path);
+		/**
+		 * Loads from disk an array of properties
+		 */
+		ManagedArray<Property>* loadPropertiesFromFile(const char* path);
+	};
+
+}
 
 #endif /* PROPERTIESIO_H_ */

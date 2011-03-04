@@ -11,6 +11,8 @@
 #include <batterytech/primitives.h>
 #include <batterytech/util/ManagedArray.h>
 
+using BatteryTech::ManagedArray;
+
 class GameObjectPropertyMeta {
 public:
 	GameObjectPropertyMeta(const char* name, ManagedArray<const char> *choices);

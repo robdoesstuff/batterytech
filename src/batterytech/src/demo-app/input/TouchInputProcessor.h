@@ -11,6 +11,8 @@
 #include <batterytech/Context.h>
 #include <batterytech/primitives.h>
 
+using namespace BatteryTech;
+
 class GameObject;
 
 class TouchInputProcessor {

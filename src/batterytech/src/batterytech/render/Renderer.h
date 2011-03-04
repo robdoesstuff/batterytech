@@ -22,36 +22,39 @@
 #include "../primitives.h"
 #include "GraphicsConfiguration.h"
 
-class Context;
+namespace BatteryTech {
 
-class Renderer {
-public:
-	/**
-	 * Initializes the Renderer for the GL context
-	 */
-	virtual void init(BOOL32 newContext) = 0;
-	virtual ~Renderer();
-protected:
-	/**
-	 * Loads a texture
-	 */
-	virtual GLuint loadTexture(const char *name, Context *context);
-	/**
-	 * Loads a shader from text source
-	 */
-	GLuint loadShader(GLenum type, const char *shaderSrc);
-	/**
-	 * Loads a shader from an asset
-	 */
-	GLuint loadShaderFromAsset(GLenum type, const char *assetName);
-	/**
-	 * Logs the shader info from the GPU
-	 */
-	void logShaderInfo(GLuint obj);
-	/**
-	 * Logs the program info from the GPU
-	 */
-	void logProgramInfo(GLuint obj);
-};
+	class Context;
 
+	class Renderer {
+	public:
+		/**
+		 * Initializes the Renderer for the GL context
+		 */
+		virtual void init(BOOL32 newContext) = 0;
+		virtual ~Renderer();
+	protected:
+		/**
+		 * Loads a texture
+		 */
+		virtual GLuint loadTexture(const char *name, Context *context);
+		/**
+		 * Loads a shader from text source
+		 */
+		GLuint loadShader(GLenum type, const char *shaderSrc);
+		/**
+		 * Loads a shader from an asset
+		 */
+		GLuint loadShaderFromAsset(GLenum type, const char *assetName);
+		/**
+		 * Logs the shader info from the GPU
+		 */
+		void logShaderInfo(GLuint obj);
+		/**
+		 * Logs the program info from the GPU
+		 */
+		void logProgramInfo(GLuint obj);
+	};
+
+}
 #endif /* RENDERER_H_ */

@@ -15,6 +15,8 @@
 
 #define MENU_BUTTON_MENU_NAME "MenuButtonMenu"
 
+using namespace BatteryTech;
+
 class MenuButtonMenu: public Menu {
 public:
 	MenuButtonMenu(Context *context);

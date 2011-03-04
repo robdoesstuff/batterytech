@@ -16,14 +16,17 @@
 
 #include "Button.h"
 
-Button::Button(const char *text) : UIComponent(text) {
-}
+namespace BatteryTech {
 
-Button::~Button() {
-}
+	Button::Button(const char *text) : UIComponent(text) {
+	}
 
-void Button::update(F32 delta) {
-	UIComponent::update(delta);
-}
+	Button::~Button() {
+	}
 
+	void Button::update(F32 delta) {
+		UIComponent::update(delta);
+	}
+
+}
 

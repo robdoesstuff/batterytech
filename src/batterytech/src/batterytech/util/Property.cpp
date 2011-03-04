@@ -17,36 +17,40 @@
 #include "Property.h"
 #include "strx.h"
 
-Property::Property(const char* name, const char* value) {
-	this->name = strDuplicate(name);
-	this->value = strDuplicate(value);
-}
+namespace BatteryTech {
 
-Property::~Property() {
-	delete name;
-	name = NULL;
-	delete value;
-	value = NULL;
-}
-
-const char* Property::getName() {
-	return name;
-}
-
-const char* Property::getValue() {
-	return value;
-}
-
-void Property::setName(const char* name) {
-	if (this->name) {
-		delete [] this->name;
+	Property::Property(const char* name, const char* value) {
+		this->name = strDuplicate(name);
+		this->value = strDuplicate(value);
 	}
-	this->name = strDuplicate(name);
-}
 
-void Property::setValue(const char* value) {
-	if (this->value) {
-		delete [] this->value;
+	Property::~Property() {
+		delete name;
+		name = NULL;
+		delete value;
+		value = NULL;
 	}
-	this->value = strDuplicate(value);
+
+	const char* Property::getName() {
+		return name;
+	}
+
+	const char* Property::getValue() {
+		return value;
+	}
+
+	void Property::setName(const char* name) {
+		if (this->name) {
+			delete [] this->name;
+		}
+		this->name = strDuplicate(name);
+	}
+
+	void Property::setValue(const char* value) {
+		if (this->value) {
+			delete [] this->value;
+		}
+		this->value = strDuplicate(value);
+	}
+
 }

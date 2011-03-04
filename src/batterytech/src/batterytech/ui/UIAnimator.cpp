@@ -18,8 +18,12 @@
 #include "UIAnimator.h"
 #include "../primitives.h"
 
-UIAnimator::UIAnimator() {
-}
+namespace BatteryTech {
 
-UIAnimator::~UIAnimator() {
+	UIAnimator::UIAnimator() {
+	}
+
+	UIAnimator::~UIAnimator() {
+	}
+
 }

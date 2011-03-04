@@ -15,8 +15,10 @@
 #include <batterytech/math/Vec2f.h>
 #include <batterytech/util/ManagedArray.h>
 
-class Context;
 class World;
+namespace BatteryTech { class Context; }
+
+using namespace BatteryTech;
 
 class B2DebugRenderer : Renderer {
 public:

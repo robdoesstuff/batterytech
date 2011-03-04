@@ -19,9 +19,12 @@
 #include "BallRenderer.h"
 
 class B2DebugRenderer;
-class TextRasterRenderer;
 class SimpleSpriteRenderer;
 class BallRenderer;
+
+namespace BatteryTech { class TextRasterRenderer; }
+
+using namespace BatteryTech;
 
 class WorldRenderer: public Renderer {
 public:

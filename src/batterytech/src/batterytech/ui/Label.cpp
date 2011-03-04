@@ -16,6 +16,9 @@
 
 #include "Label.h"
 
+namespace BatteryTech {
 
-Label::~Label() {
+	Label::~Label() {
+	}
+
 }

@@ -25,8 +25,10 @@
 #define GAMEOBJECT_NO_USER_GROUP_ID -1
 
 class World;
-class Context;
 class GameObjectMeta;
+namespace Batterytech { class Context; }
+
+using namespace BatteryTech;
 
 class GameObject : PhysicsBodyObject {
 public:

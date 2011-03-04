@@ -26,6 +26,8 @@
 #include "../opengles.h"
 #include "../../audio/AudioManager.h"
 
+using namespace BatteryTech;
+
 #ifdef __cplusplus
 extern "C" {
 #endif

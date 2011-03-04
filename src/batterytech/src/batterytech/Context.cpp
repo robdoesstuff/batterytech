@@ -28,54 +28,58 @@
 #include "render/RenderContext.h"
 #include "batterytech_globals.h"
 
-Context::Context(GraphicsConfiguration *gConfig) {
-	this->gConfig = gConfig;
-	this->world = new World;
-	worldRenderer = new WorldRenderer(this);
-	menuRenderer = new MenuRenderer(this);
-	audioManager = new AudioManager();
-	networkManager = new NetworkManager(this);
-	vibrationManager = new VibrationManager(this);
-	game = new Game(this);
-	uiManager = new UIManager(this);
-	renderContext = new RenderContext();
-	tickDelta = 0;
-	isUIConsumingPointers = FALSE;
-	keyPressed = 0;
-	showFPS = FALSE;
-	wasSuspended = TRUE;
-	accelerometerState.x = 0;
-	accelerometerState.y = 0;
-	accelerometerState.z = 0;
-	pointerState = new PointerState[MAX_POINTERS];
-	for (S32 i = 0; i < MAX_POINTERS; i++) {
-		pointerState[i].isDown = FALSE;
-		pointerState[i].x = 0;
-		pointerState[i].y = 0;
-	}
-}
+namespace BatteryTech {
 
-Context::~Context() {
-	logmsg("Releasing Context");
-	if (audioManager) {
-		delete audioManager;
+	Context::Context(GraphicsConfiguration *gConfig) {
+		this->gConfig = gConfig;
+		this->world = new World;
+		worldRenderer = new WorldRenderer(this);
+		menuRenderer = new MenuRenderer(this);
+		audioManager = new AudioManager();
+		networkManager = new NetworkManager(this);
+		vibrationManager = new VibrationManager(this);
+		game = new Game(this);
+		uiManager = new UIManager(this);
+		renderContext = new RenderContext();
+		tickDelta = 0;
+		isUIConsumingPointers = FALSE;
+		keyPressed = 0;
+		showFPS = FALSE;
+		wasSuspended = TRUE;
+		accelerometerState.x = 0;
+		accelerometerState.y = 0;
+		accelerometerState.z = 0;
+		pointerState = new PointerState[MAX_POINTERS];
+		for (S32 i = 0; i < MAX_POINTERS; i++) {
+			pointerState[i].isDown = FALSE;
+			pointerState[i].x = 0;
+			pointerState[i].y = 0;
+		}
 	}
-	audioManager = NULL;
-	delete networkManager;
-	networkManager = NULL;
-	delete vibrationManager;
-	vibrationManager = NULL;
-	delete worldRenderer;
-	worldRenderer = NULL;
-	delete world;
-	world = NULL;
-	delete uiManager;
-	uiManager = NULL;
-	delete renderContext;
-	renderContext = NULL;
-	logmsg("Context deleting game");
-	delete game;
-	game = NULL;
-	delete [] pointerState;
-	logmsg("Done Releasing Context");
+
+	Context::~Context() {
+		logmsg("Releasing Context");
+		if (audioManager) {
+			delete audioManager;
+		}
+		audioManager = NULL;
+		delete networkManager;
+		networkManager = NULL;
+		delete vibrationManager;
+		vibrationManager = NULL;
+		delete worldRenderer;
+		worldRenderer = NULL;
+		delete world;
+		world = NULL;
+		delete uiManager;
+		uiManager = NULL;
+		delete renderContext;
+		renderContext = NULL;
+		logmsg("Context deleting game");
+		delete game;
+		game = NULL;
+		delete [] pointerState;
+		logmsg("Done Releasing Context");
+	}
+
 }

@@ -19,11 +19,14 @@
 
 #include "UIComponent.h"
 
-class Button: public UIComponent {
-public:
-	Button(const char *text = NULL);
-	virtual ~Button();
-	virtual void update(F32 delta);
-};
+namespace BatteryTech {
 
+	class Button: public UIComponent {
+	public:
+		Button(const char *text = NULL);
+		virtual ~Button();
+		virtual void update(F32 delta);
+	};
+
+}
 #endif /* BUTTON_H_ */

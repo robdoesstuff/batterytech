@@ -14,6 +14,8 @@
 #include <batterytech/platform/platformgl.h>
 #include "BatchSpriteRenderer.h"
 
+using namespace BatteryTech;
+
 class BatchSpriteRenderer;
 
 class BallRenderer: public Renderer {

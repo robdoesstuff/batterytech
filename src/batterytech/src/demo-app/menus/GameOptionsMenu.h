@@ -15,6 +15,8 @@
 
 #define GAME_OPTIONS_MENU_NAME "GameOptionsMenu"
 
+using namespace BatteryTech;
+
 class GameOptionsMenu: public Menu {
 public:
 	GameOptionsMenu(Context *context);

@@ -18,6 +18,8 @@
 
 #define SOUNDCHECK_MENU_NAME "SoundcheckMenu"
 
+using namespace BatteryTech;
+
 class SoundcheckMenu : public Menu {
 public:
 	SoundcheckMenu(Context *context);

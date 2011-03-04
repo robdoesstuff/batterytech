@@ -18,5 +18,9 @@
 #include "Layout.h"
 #include "../util/ManagedArray.h"
 
-Layout::~Layout() {
+namespace BatteryTech {
+
+	Layout::~Layout() {
+	}
+
 }

@@ -22,21 +22,24 @@
 #include "../render/GraphicsConfiguration.h"
 #include "UIComponent.h"
 
-class UIComponent;
-class Context;
+namespace BatteryTech {
 
-class UIAnimator {
-public:
-	UIAnimator();
-	virtual ~UIAnimator();
-	virtual void reset(){};
-	virtual void update(F32 delta){};
-	virtual void drawPreComponent(Context *context){};
-	virtual void drawPostComponent(Context *context){};
-	virtual void setComponent(UIComponent *component){ this->component = component; };
-	virtual BOOL32 isComplete(){return TRUE;};
-protected:
-	UIComponent *component;
-};
+	class UIComponent;
+	class Context;
 
+	class UIAnimator {
+	public:
+		UIAnimator();
+		virtual ~UIAnimator();
+		virtual void reset(){};
+		virtual void update(F32 delta){};
+		virtual void drawPreComponent(Context *context){};
+		virtual void drawPostComponent(Context *context){};
+		virtual void setComponent(UIComponent *component){ this->component = component; };
+		virtual BOOL32 isComplete(){return TRUE;};
+	protected:
+		UIComponent *component;
+	};
+
+}
 #endif /* UIANIMATOR_H_ */

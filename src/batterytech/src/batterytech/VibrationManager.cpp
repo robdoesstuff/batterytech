@@ -18,44 +18,47 @@
 #include <batterytech/platform/platformgeneral.h>
 #include <batterytech/Context.h>
 
-VibrationManager::VibrationManager(Context *context) {
-	this->context = context;
-	enabled = TRUE;
-}
+namespace BatteryTech {
 
-VibrationManager::~VibrationManager() {
-	context = NULL;
-}
-
-void VibrationManager::setEnabled(BOOL32 enabled) {
-	this->enabled = enabled;
-}
-
-BOOL32 VibrationManager::isEnabled() {
-	return enabled;
-}
-
-void VibrationManager::playEffect(S32 effectId, F32 intensity) {
-	if (enabled) {
-		_platform_play_vibration_effect(effectId, intensity);
+	VibrationManager::VibrationManager(Context *context) {
+		this->context = context;
+		enabled = TRUE;
 	}
-}
 
-void VibrationManager::startEffect(S32 effectId, F32 intensity) {
-	if (enabled) {
-		_platform_start_vibration_effect(effectId, intensity);
+	VibrationManager::~VibrationManager() {
+		context = NULL;
 	}
-}
 
-void VibrationManager::stopEffect(S32 effectId) {
-	if (enabled) {
-		_platform_stop_vibration_effect(effectId);
+	void VibrationManager::setEnabled(BOOL32 enabled) {
+		this->enabled = enabled;
 	}
-}
 
-void VibrationManager::stopAllEffects() {
-	if (enabled) {
-		_platform_stop_all_vibration_effects();
+	BOOL32 VibrationManager::isEnabled() {
+		return enabled;
 	}
-}
 
+	void VibrationManager::playEffect(S32 effectId, F32 intensity) {
+		if (enabled) {
+			_platform_play_vibration_effect(effectId, intensity);
+		}
+	}
+
+	void VibrationManager::startEffect(S32 effectId, F32 intensity) {
+		if (enabled) {
+			_platform_start_vibration_effect(effectId, intensity);
+		}
+	}
+
+	void VibrationManager::stopEffect(S32 effectId) {
+		if (enabled) {
+			_platform_stop_vibration_effect(effectId);
+		}
+	}
+
+	void VibrationManager::stopAllEffects() {
+		if (enabled) {
+			_platform_stop_all_vibration_effects();
+		}
+	}
+
+}

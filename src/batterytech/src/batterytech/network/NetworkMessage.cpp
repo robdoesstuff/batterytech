@@ -16,9 +16,13 @@
 
 #include "NetworkMessage.h"
 
-NetworkMessage::NetworkMessage(S32 messageType) {
-	this->messageType = messageType;
-}
+namespace BatteryTech {
 
-NetworkMessage::~NetworkMessage() {
+	NetworkMessage::NetworkMessage(S32 messageType) {
+		this->messageType = messageType;
+	}
+
+	NetworkMessage::~NetworkMessage() {
+	}
+
 }

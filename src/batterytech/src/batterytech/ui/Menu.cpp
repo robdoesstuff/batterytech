@@ -17,5 +17,9 @@
 
 #include "Menu.h"
 
-Menu::~Menu() {
+namespace BatteryTech {
+
+	Menu::~Menu() {
+	}
+
 }

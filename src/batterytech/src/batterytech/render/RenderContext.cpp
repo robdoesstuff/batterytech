@@ -17,10 +17,14 @@
 
 #include "RenderContext.h"
 
-RenderContext::RenderContext() {
-	esMatrixLoadIdentity(&projMatrix);
-	esMatrixLoadIdentity(&mvMatrix);
-}
+namespace BatteryTech {
 
-RenderContext::~RenderContext() {
+	RenderContext::RenderContext() {
+		esMatrixLoadIdentity(&projMatrix);
+		esMatrixLoadIdentity(&mvMatrix);
+	}
+
+	RenderContext::~RenderContext() {
+	}
+
 }

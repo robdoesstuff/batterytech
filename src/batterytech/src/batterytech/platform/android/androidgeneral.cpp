@@ -34,6 +34,8 @@
 #include <arpa/inet.h>
 #include <netinet/in.h>
 
+using namespace BatteryTech;
+
 AudioManager *_andSndMgr;
 
 void _platform_log(const char* message) {

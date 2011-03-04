@@ -12,6 +12,8 @@
 #include "../World.h"
 #include <stdio.h>
 
+using namespace BatteryTech;
+
 class Level;
 class World;
 

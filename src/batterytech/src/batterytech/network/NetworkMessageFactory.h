@@ -19,12 +19,15 @@
 
 #include <batterytech/primitives.h>
 
-class NetworkMessage;
+namespace BatteryTech {
 
-class NetworkMessageFactory {
-public:
-	virtual ~NetworkMessageFactory(){};
-	virtual NetworkMessage* createMessage(S32 messageType)=0;
-};
+	class NetworkMessage;
 
+	class NetworkMessageFactory {
+	public:
+		virtual ~NetworkMessageFactory(){};
+		virtual NetworkMessage* createMessage(S32 messageType)=0;
+	};
+
+}
 #endif /* NETWORKMESSAGEFACTORY_H_ */

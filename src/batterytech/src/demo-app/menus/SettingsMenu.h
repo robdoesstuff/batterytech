@@ -18,6 +18,8 @@
 
 #define SETTINGS_MENU_NAME "SettingsMenu"
 
+using namespace BatteryTech;
+
 class SettingsMenu : public Menu {
 public:
 	SettingsMenu(Context *context);

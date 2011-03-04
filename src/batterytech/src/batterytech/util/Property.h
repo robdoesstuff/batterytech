@@ -17,29 +17,33 @@
 #ifndef PROPERTY_H_
 #define PROPERTY_H_
 
-class Property {
-public:
-	Property(const char* name, const char* value);
-	virtual ~Property();
-	/**
-	 * Returns the name of the property
-	 */
-	const char* getName();
-	/**
-	 * Returns the value of the property
-	 */
-	const char* getValue();
-	/**
-	 * Sets the name of the property
-	 */
-	void setName(const char* name);
-	/**
-	 * Sets the value of the property
-	 */
-	void setValue(const char* value);
-private:
-	const char* name;
-	const char* value;
-};
+namespace BatteryTech {
+
+	class Property {
+	public:
+		Property(const char* name, const char* value);
+		virtual ~Property();
+		/**
+		 * Returns the name of the property
+		 */
+		const char* getName();
+		/**
+		 * Returns the value of the property
+		 */
+		const char* getValue();
+		/**
+		 * Sets the name of the property
+		 */
+		void setName(const char* name);
+		/**
+		 * Sets the value of the property
+		 */
+		void setValue(const char* value);
+	private:
+		const char* name;
+		const char* value;
+	};
+
+}
 
 #endif /* PROPERTY_H_ */

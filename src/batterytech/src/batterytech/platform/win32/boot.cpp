@@ -29,7 +29,9 @@
 #include <fcntl.h>
 #include <io.h>
 #include "../../batterytech_globals.h"
+
 using namespace std;
+using namespace BatteryTech;
 
 #define CONSOLE CONSOLE_LOG_ENABLED_WHEN_AVAILABLE
 #define DEFAULT_WIDTH WINDOW_WIDTH

@@ -25,45 +25,48 @@
 #include "../util/ManagedArray.h"
 #include "Renderer.h"
 
-class UIManager;
-class TextRasterRenderer;
-class Context;
+namespace BatteryTech {
 
-class MenuRenderer : Renderer {
-public:
-	MenuRenderer(Context *context);
-	/**
-	 * Adds a texture asset or returns the ID of the one already added if equal.
-	 * It's acceptable to call this multiple times for the same asset.  It won't allow overlap so that's ok.
-	 * This must be called before a UI texture can be rendered.
-	 */
-	S32 addTextureAsset(const char *asset);
-	/**
-	 * For rendering - finds a texture asset's ID.
-	 */
-	S32 findTextureAsset(const char *asset);
-	/**
-	 * Initializes menu rendering GL
-	 */
-	virtual void init(BOOL32 newContext);
-	/**
-	 * Renders menus/UI
-	 */
-	void render();
-	/**
-	 * Renders a specific UI component
-	 */
-	void render(UIComponent *component);
-	virtual ~MenuRenderer();
-private:
-	void loadTexture(const char *assetName);
-	void drawTexturedQuad(S32 top, S32 right, S32 bottom, S32 left);
-	Context *context;
-	ManagedArray<const char> *assetNames;
-	GLuint *textureIds;
-	S32 activeResourceId;
-	TextRasterRenderer *textRenderer;
-	GLuint vertShader, fragShader, program, shaderProjMatrix, shaderMVMatrix, shaderVPosition, shaderUvMap, shaderTex, shaderColorFilter;
-};
+	class UIManager;
+	class TextRasterRenderer;
+	class Context;
 
+	class MenuRenderer : Renderer {
+	public:
+		MenuRenderer(Context *context);
+		/**
+		 * Adds a texture asset or returns the ID of the one already added if equal.
+		 * It's acceptable to call this multiple times for the same asset.  It won't allow overlap so that's ok.
+		 * This must be called before a UI texture can be rendered.
+		 */
+		S32 addTextureAsset(const char *asset);
+		/**
+		 * For rendering - finds a texture asset's ID.
+		 */
+		S32 findTextureAsset(const char *asset);
+		/**
+		 * Initializes menu rendering GL
+		 */
+		virtual void init(BOOL32 newContext);
+		/**
+		 * Renders menus/UI
+		 */
+		void render();
+		/**
+		 * Renders a specific UI component
+		 */
+		void render(UIComponent *component);
+		virtual ~MenuRenderer();
+	private:
+		void loadTexture(const char *assetName);
+		void drawTexturedQuad(S32 top, S32 right, S32 bottom, S32 left);
+		Context *context;
+		ManagedArray<const char> *assetNames;
+		GLuint *textureIds;
+		S32 activeResourceId;
+		TextRasterRenderer *textRenderer;
+		GLuint vertShader, fragShader, program, shaderProjMatrix, shaderMVMatrix, shaderVPosition, shaderUvMap, shaderTex, shaderColorFilter;
+	};
+
+}
 #endif /* MENURENDERER_H_ */

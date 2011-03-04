@@ -12,6 +12,8 @@
 #include <Box2D/Dynamics/b2Body.h>
 #include "../gameobject/GameObjectMeta.h"
 
+using namespace BatteryTech;
+
 class World;
 
 class Ball: public GameObject {

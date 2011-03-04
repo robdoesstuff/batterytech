@@ -19,6 +19,7 @@
 #include <string.h>
 
 using namespace std;
+using namespace BatteryTech;
 
 static AudioManager *sndMgr;
 static WinSound *winSound;

@@ -13,6 +13,8 @@
 #include <batterytech/primitives.h>
 #include <batterytech/platform/platformgl.h>
 
+using namespace BatteryTech;
+
 class SimpleSpriteRenderer : Renderer {
 public:
 	SimpleSpriteRenderer(Context *context, const char *spriteAssetName);

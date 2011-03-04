@@ -19,10 +19,13 @@
 
 #include "UIComponent.h"
 
-class Label: public UIComponent {
-public:
-	Label(const char *text = NULL) : UIComponent(text){};
-	virtual ~Label();
-};
+namespace BatteryTech {
 
+	class Label: public UIComponent {
+	public:
+		Label(const char *text = NULL) : UIComponent(text){};
+		virtual ~Label();
+	};
+
+}
 #endif /* LABEL_H_ */

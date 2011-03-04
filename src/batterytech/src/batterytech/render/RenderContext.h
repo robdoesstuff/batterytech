@@ -22,22 +22,25 @@
 #include "../util/esTransform.h"
 #include "../math/Vec4f.h"
 
-class RenderContext {
-public:
-	RenderContext();
-	virtual ~RenderContext();
-	/**
-	 * Current projection matrix
-	 */
-	ESMatrix projMatrix;
-	/**
-	 * Current modelview matrix
-	 */
-	ESMatrix mvMatrix;
-	/**
-	 * Current color (like glColor())
-	 */
-	Vec4f colorFilter;
-};
+namespace BatteryTech {
 
+	class RenderContext {
+	public:
+		RenderContext();
+		virtual ~RenderContext();
+		/**
+		 * Current projection matrix
+		 */
+		ESMatrix projMatrix;
+		/**
+		 * Current modelview matrix
+		 */
+		ESMatrix mvMatrix;
+		/**
+		 * Current color (like glColor())
+		 */
+		Vec4f colorFilter;
+	};
+
+}
 #endif /* RENDERCONTEXT_H_ */

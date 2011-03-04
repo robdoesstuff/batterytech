@@ -13,13 +13,14 @@
 #include <batterytech/util/ManagedArray.h>
 #include <batterytech/network/NetworkMessageListener.h>
 
-class Context;
 class LevelEditor;
 class GameObject;
 class World;
 class TouchInputProcessor;
 class LevelIO;
-class NetworkMessageFactory;
+namespace BatteryTech { class Context; class NetworkMessageFactory; }
+
+using namespace BatteryTech;
 
 class Game : b2ContactListener, b2DestructionListener, NetworkMessageListener {
 public:
