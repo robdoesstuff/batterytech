@@ -245,10 +245,10 @@
 		3D56C041131DC0C500BF7F17 /* BatchSpriteRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56BF6A131DC0C500BF7F17 /* BatchSpriteRenderer.cpp */; };
 		3D56C042131DC0C500BF7F17 /* SimpleSpriteRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56BF6C131DC0C500BF7F17 /* SimpleSpriteRenderer.cpp */; };
 		3D56C043131DC0C500BF7F17 /* WorldRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56BF6E131DC0C500BF7F17 /* WorldRenderer.cpp */; };
-		3D56C062131DC10F00BF7F17 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 3D56C046131DC10F00BF7F17 /* assets */; };
-		3D56C063131DC10F00BF7F17 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 3D56C046131DC10F00BF7F17 /* assets */; };
 		3D56C9A1131EDFBF00BF7F17 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D56C9A0131EDFBF00BF7F17 /* main.m */; };
 		3D56C9A2131EDFBF00BF7F17 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D56C9A0131EDFBF00BF7F17 /* main.m */; };
+		3D56CBF11320764200BF7F17 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 3D56CBDA1320764200BF7F17 /* assets */; };
+		3D56CBF21320764200BF7F17 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 3D56CBDA1320764200BF7F17 /* assets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -501,8 +501,8 @@
 		3D56BF6D131DC0C500BF7F17 /* SimpleSpriteRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleSpriteRenderer.h; sourceTree = "<group>"; };
 		3D56BF6E131DC0C500BF7F17 /* WorldRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WorldRenderer.cpp; sourceTree = "<group>"; };
 		3D56BF6F131DC0C500BF7F17 /* WorldRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorldRenderer.h; sourceTree = "<group>"; };
-		3D56C046131DC10F00BF7F17 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = ../batterytech/assets; sourceTree = SOURCE_ROOT; };
 		3D56C9A0131EDFBF00BF7F17 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		3D56CBDA1320764200BF7F17 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = assets; sourceTree = "<group>"; };
 		3DD6374E1272468600D13421 /* Simulator 3.2-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Simulator 3.2-Info.plist"; sourceTree = "<group>"; };
 		3DD637D512726D3D00D13421 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		3DD637D712726D4400D13421 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -598,7 +598,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				3D56C046131DC10F00BF7F17 /* assets */,
+				3D56CBDA1320764200BF7F17 /* assets */,
 				3D56BB371311C97D00BF7F17 /* icon-57.png */,
 				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
 				8D1107310486CEB800E47090 /* batterytech_ios-Info.plist */,
@@ -640,7 +640,6 @@
 				3D56BE82131DC0C500BF7F17 /* batterytech_globals.h */,
 				3D56BE83131DC0C500BF7F17 /* decoders */,
 				3D56BE89131DC0C500BF7F17 /* math */,
-				3D56BE8E131DC0C500BF7F17 /* menus */,
 				3D56BE8F131DC0C500BF7F17 /* network */,
 				3D56BE99131DC0C500BF7F17 /* platform */,
 				3D56BEB9131DC0C500BF7F17 /* primitives.h */,
@@ -688,13 +687,6 @@
 				3D56BE8D131DC0C500BF7F17 /* Vec4f.h */,
 			);
 			path = math;
-			sourceTree = "<group>";
-		};
-		3D56BE8E131DC0C500BF7F17 /* menus */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = menus;
 			sourceTree = "<group>";
 		};
 		3D56BE8F131DC0C500BF7F17 /* network */ = {
@@ -1144,7 +1136,7 @@
 				3D56BF88131DC0C500BF7F17 /* resources.rc in Resources */,
 				3D56BFA0131DC0C500BF7F17 /* Box2DConfig.cmake in Resources */,
 				3D56BFA1131DC0C500BF7F17 /* CMakeLists.txt in Resources */,
-				3D56C062131DC10F00BF7F17 /* assets in Resources */,
+				3D56CBF11320764200BF7F17 /* assets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1159,7 +1151,7 @@
 				3D56BFF2131DC0C500BF7F17 /* resources.rc in Resources */,
 				3D56C00A131DC0C500BF7F17 /* Box2DConfig.cmake in Resources */,
 				3D56C00B131DC0C500BF7F17 /* CMakeLists.txt in Resources */,
-				3D56C063131DC10F00BF7F17 /* assets in Resources */,
+				3D56CBF21320764200BF7F17 /* assets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
