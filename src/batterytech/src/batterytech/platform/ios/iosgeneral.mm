@@ -35,6 +35,8 @@
 
 #define ASSETS_DIR "assets/"
 
+using namespace BatteryTech;
+
 AudioManager *_iosSndMgr;
 UITextView *myTextView;
 batterytechKeyboardDelegate *kbDelegate;

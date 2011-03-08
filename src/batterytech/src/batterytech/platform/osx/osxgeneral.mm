@@ -34,6 +34,8 @@
 
 #define ASSETS_DIR "assets/"
 
+using namespace BatteryTech;
+
 AudioManager *_iosSndMgr;
 
 static const char* getFilePathForAsset(const char *assetName) {
