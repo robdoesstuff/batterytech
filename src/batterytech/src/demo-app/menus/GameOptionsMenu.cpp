@@ -73,3 +73,9 @@ GameOptionsMenu::~GameOptionsMenu() {
 	delete cancelButton;
 	delete buttonLayout;
 }
+
+void GameOptionsMenu::onSpecialKey(SpecialKey sKey) {
+	if (sKey == SKEY_BACK || sKey == SKEY_MENU) {
+		this->context->uiManager->popMenu();
+	}
+}

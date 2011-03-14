@@ -188,6 +188,10 @@ namespace BatteryTech {
 		if (selectedComponent && context->keyPressed) {
 			selectedComponent->dispatchKeyPressed(context->keyPressed);
 		}
+		// only send special keys to the menu at the very top of the stack
+		if (context->specialKeyPressed != SKEY_NULL && activeMenuStack->getSize() > 0) {
+			activeMenuStack->array[activeMenuStack->lastItemIndex]->onSpecialKey(context->specialKeyPressed);
+		}
 	}
 
 	void UIManager::traverseUpdate(UIComponent *component) {

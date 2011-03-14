@@ -88,3 +88,9 @@ void TopMenu::onClickUp(UIComponent *component) {
 
 void TopMenu::onPreShow() {
 }
+
+void TopMenu::onSpecialKey(SpecialKey sKey) {
+	if (sKey == SKEY_BACK) {
+		_platform_exit();
+	}
+}

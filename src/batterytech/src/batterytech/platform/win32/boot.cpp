@@ -296,13 +296,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 	int x,y;
 	switch (message) {
 	case WM_CHAR:
-		btKeyPressed(wParam);
+		btKeyPressed(wParam, BatteryTech::SKEY_NULL);
 		return 0;
 	case WM_KEYUP:
-		btKeyUp(wParam);
+		btKeyUp(wParam, BatteryTech::SKEY_NULL);
 		return 0;
 	case WM_KEYDOWN:
-		btKeyDown(wParam);
+		btKeyDown(wParam, BatteryTech::SKEY_NULL);
 		return 0;
 	case WM_LBUTTONDOWN:
 		leftButtonDown = TRUE;

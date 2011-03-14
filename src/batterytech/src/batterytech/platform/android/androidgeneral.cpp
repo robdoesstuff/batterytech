@@ -341,6 +341,27 @@ void _platform_hide_ad() {
 	jnienv->CallVoidMethod(javaBoot, methodId);
 }
 
+BOOL32 _platform_has_special_key(BatteryTech::SpecialKey sKey) {
+	if (sKey == BatteryTech::SKEY_BACK || sKey == BatteryTech::SKEY_MENU) {
+		return TRUE;
+	}
+	return FALSE;
+}
+
+void _platform_hook(const char *hook, char *result, S32 resultLen) {
+	extern JNIEnv* jnienv;
+	extern jobject javaBoot;
+	// pull from android java apis
+	jclass bootClass = jnienv->GetObjectClass(javaBoot);
+	jmethodID loadAssetMethodID = jnienv->GetMethodID(bootClass, "hook", "(Ljava/lang/String;)Ljava/lang/String;");
+	jstring jhook = jnienv->NewStringUTF(hook);
+	jstring pathStringUTF = (jstring)jnienv->CallObjectMethod(javaBoot, loadAssetMethodID, jhook);
+	jboolean isCopy;
+	const char *jnibuf = jnienv->GetStringUTFChars(pathStringUTF, &isCopy);
+	strcpy(result, jnibuf);
+	jnienv->ReleaseStringUTFChars(pathStringUTF, jnibuf);
+}
+
 void _platform_init_network() {}
 void _platform_release_network() {}
 

@@ -145,3 +145,13 @@ void SettingsMenu::setData(void *data) {
 		showMenuAfterQuitName = (const char*) data;
 	}
 }
+
+void SettingsMenu::onSpecialKey(SpecialKey sKey) {
+	if (sKey == SKEY_BACK) {
+		context->uiManager->popMenu();
+		if (showMenuAfterQuitName) {
+			context->uiManager->showMenu(showMenuAfterQuitName);
+			showMenuAfterQuitName = NULL;
+		}
+	}
+}

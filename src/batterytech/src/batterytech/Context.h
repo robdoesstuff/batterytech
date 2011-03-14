@@ -73,6 +73,11 @@ namespace BatteryTech {
 		U8 keyPressed;
 
 		/**
+		 * Special keys that a device may or may not have.  Query using _platform_has_special_key(BatteryTech::SpecialKey sKey)
+		 */
+		SpecialKey specialKeyPressed;
+
+		/**
 		 * Set to true if the UI is consuming the current pointers.
 		 * Your app can use this to decide if it wants to ignore touches the UI is responding to.
 		 * This is used instead of an event chain of consumption pattern.

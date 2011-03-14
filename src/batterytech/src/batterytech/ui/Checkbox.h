@@ -39,6 +39,7 @@ namespace BatteryTech {
 		virtual void setChecked(BOOL32 checked);
 		virtual BOOL32 isChecked();
 		virtual void setTextAlignment(HorizontalAlignment horizAlignment, VerticalAlignment vertAlignment);
+		virtual void setTextColor(F32 r, F32 g, F32 b, F32 a);
 	private:
 		Button *button;
 		Label *label;

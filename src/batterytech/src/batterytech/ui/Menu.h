@@ -87,6 +87,10 @@ namespace BatteryTech {
 		 */
 		virtual void requestLayout() { layoutRequested = true; };
 		/**
+		 * Overide to handle special key presses
+		 */
+		virtual void onSpecialKey(SpecialKey sKey){};
+		/**
 		 * The menu's ID (used by UIManager)
 		 */
 		S32 menuId;

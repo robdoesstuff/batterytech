@@ -88,6 +88,8 @@ void _platform_hide_keyboard();
 void _platform_exit();
 void _platform_show_ad();
 void _platform_hide_ad();
+BOOL32 _platform_has_special_key(BatteryTech::SpecialKey sKey);
+void _platform_hook(const char *hook, char *result, S32 resultLen);
 
 // implemented generically
 void _platform_convert_path(const char* path, char* newPath);

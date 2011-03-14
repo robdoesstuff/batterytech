@@ -101,6 +101,7 @@ void btUpdate(F32 delta) {
 	context->game->update();
 	// clear key pressed.
 	context->keyPressed = 0;
+	context->specialKeyPressed = BatteryTech::SKEY_NULL;
 }
 
 
@@ -139,23 +140,24 @@ void btSetPointerState(S32 pointerId, BOOL32 down, S32 x, S32 y) {
 	}
 }
 
-void btKeyUp(U8 key) {
-	char buf[20];
-	sprintf(buf, "KeyUp=%c, (%d)", key, key);
+void btKeyUp(U8 key, BatteryTech::SpecialKey sKey) {
+	//char buf[20];
+	//sprintf(buf, "KeyUp=%c, (%d)", key, key);
 	//logmsg(buf);
 }
 
-void btKeyDown(U8 key) {
-	char buf[20];
-	sprintf(buf, "KeyDown=%c, (%d)", key, key);
+void btKeyDown(U8 key, BatteryTech::SpecialKey sKey) {
+	//char buf[20];
+	//sprintf(buf, "KeyDown=%c, (%d)", key, key);
 	//logmsg(buf);
 }
 
-void btKeyPressed(U8 key) {
-	char buf[20];
-	sprintf(buf, "KeyPressed=%c, (%d)", key, key);
+void btKeyPressed(U8 key, BatteryTech::SpecialKey sKey) {
+	//char buf[20];
+	//sprintf(buf, "KeyPressed=%c, (%d)", key, key);
 	//logmsg(buf);
 	context->keyPressed = key;
+	context->specialKeyPressed = sKey;
 }
 
 void btAccelerometerChanged(F32 x, F32 y, F32 z) {

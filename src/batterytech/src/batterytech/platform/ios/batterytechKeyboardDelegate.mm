@@ -34,11 +34,11 @@
 			_platform_hide_keyboard();
 			break;
 		} else {
-			btKeyPressed(c);
+			btKeyPressed(c, BatteryTech::SKEY_NULL);
 		}
 	}
 	if ([text length] == 0) {
-		btKeyPressed(8);
+		btKeyPressed(8, BatteryTech::SKEY_NULL);
 	}
 	return FALSE;
 }

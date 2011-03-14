@@ -23,6 +23,7 @@ public:
 	virtual ~GameOptionsMenu();
 	virtual void onClickDown(UIComponent *component);
 	virtual void onClickUp(UIComponent *component);
+	virtual void onSpecialKey(SpecialKey sKey);
 private:
 	Context *context;
 	Button *settingsButton;

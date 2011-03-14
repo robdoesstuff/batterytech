@@ -148,11 +148,12 @@ public class DemoAppActivity extends Activity {
 		if (btechView != null) {
 			if (btechView.getRenderer() != null) {
 				// handle specials
-				int key = event.getUnicodeChar();
+				int keyChar = event.getUnicodeChar();
 				if (keyCode == KeyEvent.KEYCODE_DEL) {
-					key = 8;
+					keyChar = 8;
 				}
-				btechView.getRenderer().keyDown(key);
+				btechView.getRenderer().keyDown(keyChar, keyCode);
+				return true;
 			}
 		}
 		return super.onKeyDown(keyCode, event);
@@ -162,11 +163,12 @@ public class DemoAppActivity extends Activity {
 	public boolean onKeyUp(int keyCode, KeyEvent event) {
 		if (btechView != null) {
 			if (btechView.getRenderer() != null) {
-				int key = event.getUnicodeChar();
+				int keyChar = event.getUnicodeChar();
 				if (keyCode == KeyEvent.KEYCODE_DEL) {
-					key = 8;
+					keyChar = 8;
 				}
-				btechView.getRenderer().keyUp(key);
+				btechView.getRenderer().keyUp(keyChar, keyCode);
+				return true;
 			}
 		}
 		return super.onKeyUp(keyCode, event);

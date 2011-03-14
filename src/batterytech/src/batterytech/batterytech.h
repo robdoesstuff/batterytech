@@ -38,17 +38,17 @@ void btSetPointerState(S32 pointerId, BOOL32 down, S32 x, S32 y);
 /*
  * Sets that a key has gone up
  */
-void btKeyUp(U8 key);
+void btKeyUp(U8 key, BatteryTech::SpecialKey sKey);
 
 /*
  * Sets that a key is pressed down
  */
-void btKeyDown(U8 key);
+void btKeyDown(U8 key, BatteryTech::SpecialKey sKey);
 
 /*
  * Sets that a key has been pressed
  */
-void btKeyPressed(U8 key);
+void btKeyPressed(U8 key, BatteryTech::SpecialKey sKey);
 
 /*
  * Called as often as possible to update the state of the engine

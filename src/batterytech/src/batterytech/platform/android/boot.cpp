@@ -39,6 +39,7 @@ extern AudioManager *_andSndMgr; // from androidgeneral
 GraphicsConfiguration *gConfig;
 
 void determineGPUCapabilities();
+BatteryTech::SpecialKey getSpecialKey(int keyCode);
 
 void Java_com_batterypoweredgames_batterytech_Boot_init(JNIEnv* env, jobject thiz, jint width, jint height) {
 	jnienv = env;
@@ -102,26 +103,26 @@ void Java_com_batterypoweredgames_batterytech_Boot_setPointerState(JNIEnv* env, 
 	javaBoot = 0;
 }
 
-void Java_com_batterypoweredgames_batterytech_Boot_keyUp(JNIEnv* env, jobject thiz, jint keyCode) {
+void Java_com_batterypoweredgames_batterytech_Boot_keyUp(JNIEnv* env, jobject thiz, jint keyChar, jint keyCode) {
 	jnienv = env;
 	javaBoot = thiz;
-	btKeyUp(keyCode);
+	btKeyUp(keyChar, getSpecialKey(keyCode));
 	jnienv = 0;
 	javaBoot = 0;
 }
 
-void Java_com_batterypoweredgames_batterytech_Boot_keyDown(JNIEnv* env, jobject thiz, jint keyCode) {
+void Java_com_batterypoweredgames_batterytech_Boot_keyDown(JNIEnv* env, jobject thiz, jint keyChar, jint keyCode) {
 	jnienv = env;
 	javaBoot = thiz;
-	btKeyDown(keyCode);
+	btKeyDown(keyChar, getSpecialKey(keyCode));
 	jnienv = 0;
 	javaBoot = 0;
 }
 
-void Java_com_batterypoweredgames_batterytech_Boot_keyPressed(JNIEnv* env, jobject thiz, jint keyCode) {
+void Java_com_batterypoweredgames_batterytech_Boot_keyPressed(JNIEnv* env, jobject thiz, jint keyChar, jint keyCode) {
 	jnienv = env;
 	javaBoot = thiz;
-	btKeyPressed(keyCode);
+	btKeyPressed(keyChar, getSpecialKey(keyCode));
 	jnienv = 0;
 	javaBoot = 0;
 }
@@ -185,6 +186,17 @@ void determineGPUCapabilities() {
 	}
 }
 
+BatteryTech::SpecialKey getSpecialKey(int keyCode) {
+	if (keyCode == 82) {
+		return BatteryTech::SKEY_MENU;
+	} else if (keyCode == 4) {
+		return BatteryTech::SKEY_BACK;
+	} else if (keyCode == 27) {
+		return BatteryTech::SKEY_CAMERA;
+	} else {
+		return BatteryTech::SKEY_NULL;
+	}
+}
 
 #ifdef __cplusplus
 }

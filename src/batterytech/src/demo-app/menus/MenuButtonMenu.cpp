@@ -10,6 +10,7 @@
 #include <batterytech/ui/SlideAnimator.h>
 #include "GameOptionsMenu.h"
 #include "../UIConstants.h"
+#include "TopMenu.h"
 
 MenuButtonMenu::MenuButtonMenu(Context *context) : Menu(MENU_BUTTON_MENU_NAME) {
 	this->context = context;
@@ -46,4 +47,13 @@ void MenuButtonMenu::onClickUp(UIComponent *component){
 	//this->context->uiManager->popMenu();
 	// TODO - replace fields in world with LevelEditorData and add .clear() to it
 	this->context->uiManager->showMenu(GAME_OPTIONS_MENU_NAME);
+}
+
+void MenuButtonMenu::onSpecialKey(SpecialKey sKey) {
+	if (sKey == SKEY_BACK) {
+		this->context->uiManager->clearMenuStack();
+		this->context->uiManager->showMenu(TOP_MENU_NAME);
+	} else if (sKey == SKEY_MENU) {
+		this->context->uiManager->showMenu(GAME_OPTIONS_MENU_NAME);
+	}
 }

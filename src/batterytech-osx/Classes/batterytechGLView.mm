@@ -171,7 +171,7 @@ double getCurrentTime() {
     NSString *characters = [theEvent characters];
     if ([characters length]) {
         unichar character = [characters characterAtIndex:0];
-		btKeyPressed(character);
+		btKeyPressed(character, BatteryTech::SKEY_NULL);
 	}
 }
 

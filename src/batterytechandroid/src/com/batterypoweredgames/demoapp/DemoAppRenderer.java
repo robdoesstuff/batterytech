@@ -88,16 +88,16 @@ public class DemoAppRenderer implements Renderer, InputHandler, SensorEventListe
 		}
 	}
 	
-	public void keyDown(int keyCode) {
+	public void keyDown(int keyChar, int keyCode) {
 		synchronized (tickMutex) {
-			boot.keyDown(keyCode);
-			boot.keyPressed(keyCode);
+			boot.keyDown(keyChar, keyCode);
+			boot.keyPressed(keyChar, keyCode);
 		}		
 	}
 	
-	public void keyUp(int keyCode) {
+	public void keyUp(int keyChar, int keyCode) {
 		synchronized (tickMutex) {
-			boot.keyUp(keyCode);
+			boot.keyUp(keyChar, keyCode);
 		}		
 	}
 	

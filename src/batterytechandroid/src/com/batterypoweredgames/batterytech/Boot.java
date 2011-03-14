@@ -258,6 +258,11 @@ public class Boot {
 	public void hideAd() {
 		// integrate with your android ad provider here
 	}
+	
+	public String hook(String hook) {
+		// handle any custom hooks for Android here
+		return "";
+	}
 
 	public native void init(int width, int height);
 	public native void release();
@@ -267,8 +272,8 @@ public class Boot {
 	public native void resume();
 	public native void fillAudioBuffer(short[] pcmData, int count);
 	public native void setPointerState(int pointerId, boolean down, int x, int y);
-	public native void keyUp(int keyCode);
-	public native void keyDown(int keyCode);
-	public native void keyPressed(int keyCode);
+	public native void keyUp(int keyChar, int keyCode);
+	public native void keyDown(int keyChar, int keyCode);
+	public native void keyPressed(int keyChar, int keyCode);
 	public native void accelerometerChanged(float x, float y, float z);
 }

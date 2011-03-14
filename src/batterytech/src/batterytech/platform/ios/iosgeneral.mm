@@ -366,4 +366,11 @@ void _platform_hide_ad() {
 	// Call out to your ios ad integration piece here
 }
 
+void _platform_hook(const char *hook, char *result, S32 resultLen) {
+	// Handle custom hooks here
+}
+
+BOOL32 _platform_has_special_key(BatteryTech::SpecialKey sKey) {
+	return FALSE;
+}
 #endif

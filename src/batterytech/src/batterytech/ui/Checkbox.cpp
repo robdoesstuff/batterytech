@@ -97,4 +97,8 @@ namespace BatteryTech {
 		label->setTextAlignment(horizAlignment, vertAlignment);
 	}
 
+	void Checkbox::setTextColor(F32 r, F32 g, F32 b, F32 a) {
+		label->setTextColor(r,g,b,a);
+	}
+
 }

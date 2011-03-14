@@ -26,6 +26,7 @@ public:
 	virtual ~TopMenu();
 	virtual void onClickUp(UIComponent *component);
 	virtual void onPreShow();
+	virtual void onSpecialKey(SpecialKey sKey);
 private:
 	Context *context;
 	Label *titleLabel;

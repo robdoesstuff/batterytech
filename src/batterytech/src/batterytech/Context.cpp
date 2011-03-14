@@ -44,6 +44,7 @@ namespace BatteryTech {
 		tickDelta = 0;
 		isUIConsumingPointers = FALSE;
 		keyPressed = 0;
+		specialKeyPressed = SKEY_NULL;
 		showFPS = FALSE;
 		wasSuspended = TRUE;
 		accelerometerState.x = 0;

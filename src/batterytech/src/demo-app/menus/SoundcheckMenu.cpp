@@ -151,3 +151,10 @@ void SoundcheckMenu::onPreShow() {
 
 void SoundcheckMenu::setData(void *data) {
 }
+
+void SoundcheckMenu::onSpecialKey(SpecialKey sKey) {
+	if (sKey == SKEY_BACK) {
+		context->uiManager->popMenu();
+		context->uiManager->showMenu(TOP_MENU_NAME);
+	}
+}
