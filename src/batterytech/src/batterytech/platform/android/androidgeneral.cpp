@@ -355,11 +355,19 @@ void _platform_hook(const char *hook, char *result, S32 resultLen) {
 	jclass bootClass = jnienv->GetObjectClass(javaBoot);
 	jmethodID loadAssetMethodID = jnienv->GetMethodID(bootClass, "hook", "(Ljava/lang/String;)Ljava/lang/String;");
 	jstring jhook = jnienv->NewStringUTF(hook);
-	jstring pathStringUTF = (jstring)jnienv->CallObjectMethod(javaBoot, loadAssetMethodID, jhook);
-	jboolean isCopy;
-	const char *jnibuf = jnienv->GetStringUTFChars(pathStringUTF, &isCopy);
-	strcpy(result, jnibuf);
-	jnienv->ReleaseStringUTFChars(pathStringUTF, jnibuf);
+	jstring resultStringUTF = (jstring)jnienv->CallObjectMethod(javaBoot, loadAssetMethodID, jhook);
+	// only copy the result from Java if we've got somewhere to put it
+	if (result) {
+		jboolean isCopy;
+		const char *jnibuf = jnienv->GetStringUTFChars(resultStringUTF, &isCopy);
+		if (jnibuf) {
+			strcpy(result, jnibuf);
+			result[strlen(jnibuf)] = '\0';
+		} else {
+			result[0] = '\0';
+		}
+		jnienv->ReleaseStringUTFChars(resultStringUTF, jnibuf);
+	}
 }
 
 void _platform_init_network() {}

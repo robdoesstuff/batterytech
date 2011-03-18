@@ -24,20 +24,22 @@
 
 namespace BatteryTech {
 
+	class Context;
+
 	class LinearLayout: public Layout {
 	public:
 		enum LayoutDirection { VERTICAL, HORIZONTAL };
 		LinearLayout(const char *text = NULL);
 		LinearLayout(LayoutDirection direction);
 		virtual ~LinearLayout();
-		virtual void layout(F32 scale);
+		virtual void layout(Context *context, F32 scale);
 		virtual void update(F32 delta);
-		virtual S32 getDesiredWidth();
-		virtual S32 getDesiredHeight();
+		virtual S32 getDesiredWidth(Context *context, S32 widthAvailable, S32 heightAvailable);
+		virtual S32 getDesiredHeight(Context *context, S32 widthAvailable, S32 heightAvailable);
 	protected:
 		LayoutDirection layoutDirection;
 	private:
-		void calcSpaceRequired(F32 scale, S32 *width, S32 *height, S32 *horizFillCount, S32 *vertFillCount, S32 *center);
+		void calcSpaceRequired(Context *context, F32 scale, S32 *width, S32 *height, S32 *horizFillCount, S32 *vertFillCount, S32 *center, S32 widthAvailable, S32 heightAvailable);
 	};
 
 }

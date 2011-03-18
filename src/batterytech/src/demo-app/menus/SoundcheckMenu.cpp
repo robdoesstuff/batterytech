@@ -82,7 +82,7 @@ SoundcheckMenu::SoundcheckMenu(Context *context) : Menu(SOUNDCHECK_MENU_NAME) {
 	sound4Button->setClickDownSoundAsset(UI_CLICK_DOWN_ASSETNAME);
 	titleLabel = new Label("Sound Check");
 	titleLabel->setHeight(60);
-	titleLabel->setWidth(100);
+	titleLabel->setWidth(WRAP);
 	titleLabel->setLayoutParameters(new LayoutParameters(LayoutParameters::HORIZONTAL_CENTER, LayoutParameters::TOP));
 	mainLayout->setHeight(WRAP);
 	mainLayout->setWidth(300);

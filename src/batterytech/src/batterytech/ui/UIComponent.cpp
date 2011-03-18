@@ -29,19 +29,19 @@ namespace BatteryTech {
 		marginLeftDips = 0;
 		marginRightDips = 0;
 		marginTopDips = 0;
-		left = 0;
-		top = 0;
-		right = 0;
-		bottom = 0;
+		left = top = right = bottom = 0;
+		virtualLeft = virtualTop = virtualRight = virtualBottom = 0;
 		backgroundMenuResourceId = NO_RESOURCE;
 		pressedBackgroundMenuResourceId = NO_RESOURCE;
 		selectedBackgroundMenuResourceId = NO_RESOURCE;
 		// use a copy of the text.
 		this->text = strDuplicate(text);
+		isTextMultiline = FALSE;
 		textHorizontalAlignment = HORIZONTAL_CENTER;
 		textVerticalAlignment = VERTICAL_CENTER;
 		components = new ManagedArray<UIComponent> (MAX_UI_SUBCOMPONENTS);
 		isClickable = TRUE;
+		isClickableUnderChildren = FALSE;
 		isSelectable = TRUE;
 		isEnabled = TRUE;
 		isPressed = FALSE;
@@ -91,14 +91,19 @@ namespace BatteryTech {
 		components->add(component);
 	}
 
-	void UIComponent::dispatchClickDown() {
+	void UIComponent::dispatchClickDown(S32 x, S32 y) {
 		if (clickDownSoundAsset) {
 			playClickDownSound = TRUE;
 		}
 		if (clickDownVibeEffectId != -1) {
 			playClickDownVibeEffect = TRUE;
 		}
-		onClickDown();
+		onClickDown(x, y);
+	}
+
+	void UIComponent::dispatchClickMove(S32 x, S32 y) {
+		onClickMove(x, y);
+		//logmsg("ClickMove");
 	}
 
 	void UIComponent::dispatchClickUp() {

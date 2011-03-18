@@ -93,8 +93,8 @@ namespace BatteryTech {
 	void UIManager::layoutMenu(Menu *menu) {
 		GraphicsConfiguration *gConfig = context->gConfig;
 		// do frame layout
-		S32 width = menu->getRootComponent()->getDesiredWidth();
-		S32 height = menu->getRootComponent()->getDesiredHeight();
+		S32 width = menu->getRootComponent()->getDesiredWidth(context, gConfig->width, gConfig->height);
+		S32 height = menu->getRootComponent()->getDesiredHeight(context, gConfig->width, gConfig->height);
 		if (width == FILL) {
 			width = gConfig->width;
 		} else {
@@ -130,7 +130,7 @@ namespace BatteryTech {
 		}
 		right = left + width;
 		menu->getRootComponent()->setDrawableBounds(left, top, right, bottom);
-		menu->getRootComponent()->layout(gConfig->uiScale);
+		menu->getRootComponent()->layout(context, gConfig->uiScale);
 	}
 
 	void UIManager::popMenu() {
@@ -156,6 +156,9 @@ namespace BatteryTech {
 					context->isUIConsumingPointers = TRUE;
 				}
 				clickDownChecked = TRUE;
+			} else if (pointer.isDown) {
+				// moving
+				traverseClickState(menu, menu->getRootComponent(), TRUE, pointer.x, pointer.y);
 			}
 			if (!pointer.isDown) {
 				if (clickDownActive) {
@@ -227,28 +230,42 @@ namespace BatteryTech {
 		if (component->isEnterPending()) {
 			return FALSE;
 		}
+		BOOL32 isClickUnder = FALSE;
 		ManagedArray<UIComponent> *subComps = component->components;
 		if (subComps) {
 			S32 i;
 			for (i = 0; i < subComps->getSize(); i++) {
 				UIComponent *subComp = subComps->array[i];
 				if (traverseClickState(menu, subComp, down, x, y)) {
-					return TRUE;
+					if (!component->isClickableUnderChildren) {
+						return TRUE;
+					} else {
+						isClickUnder = TRUE;
+						break;
+					}
 				}
 			}
 		}
-		if (down && component->isClickable && component->isEnabled) {
-			if (x < component->left || x > component->right || y < component->top || y > component->bottom) {
+		if (clickDownActive && down) {
+			// move
+			if (isClickUnder || component == selectedComponent) {
+				component->dispatchClickMove(x, y);
+				return TRUE;
+			}
+		} else if (down && component->isClickable && component->isEnabled) {
+			if (x < component->virtualLeft || x > component->virtualRight || y < component->virtualTop || y > component->virtualBottom) {
 				// do nothing, fast out check
 			} else {
-				if (component->isSelectable) {
-					component->onSelected();
-					selectedComponent = component;
-				} else {
-					selectedComponent = NULL;
+				if (!isClickUnder) {
+					if (component->isSelectable) {
+						component->onSelected();
+						selectedComponent = component;
+					} else {
+						selectedComponent = NULL;
+					}
 				}
 				component->isPressed = TRUE;
-				component->dispatchClickDown();
+				component->dispatchClickDown(x, y);
 				menu->onClickDown(component);
 				return TRUE;
 			}

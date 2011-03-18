@@ -41,6 +41,14 @@ namespace BatteryTech {
 		 */
 		void render(const char *text, F32 x, F32 y);
 		/**
+		 * Renders a block of text using reference coordinate system.
+		 * x = position relative to REFERENCE_WIDTH
+		 * y = position relative to REFERENCE_HEIGHT
+		 * Call startText() before any renders and finishText() after to reset GL states
+		 */
+		void renderMultiline(const char *text, F32 x, F32 y, F32 maxX, F32 maxY);
+
+		/**
 		 * Starts rendering text
 		 * Must be called before first render()
 		 */
@@ -58,6 +66,13 @@ namespace BatteryTech {
 		 * Measures the width of a line of text in reference-size units
 		 */
 		F32 measureWidth(const char *text);
+		/**
+		 * Calculates total height to be used for multiline text
+		 * x = position relative to REFERENCE_WIDTH
+		 * y = position relative to REFERENCE_HEIGHT
+		 */
+		F32 measureMultilineHeight(const char *text, F32 availableWidth);
+
 		virtual ~TextRasterRenderer();
 	private:
 		Context *context;

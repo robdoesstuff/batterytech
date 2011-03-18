@@ -36,6 +36,7 @@ my_src_files :=\
 	batterytech/ui/UIComponent.cpp \
 	batterytech/ui/UIManager.cpp \
 	batterytech/ui/UIAnimator.cpp \
+	batterytech/ui/ScrollableContainer.cpp \
 	batterytech/ui/SlideAnimator.cpp \
 	batterytech/ui/TextField.cpp \
 	batterytech/math/Triangulator.cpp \

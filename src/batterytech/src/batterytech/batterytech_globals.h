@@ -57,6 +57,12 @@
 #define MAX_UI_ASSET_NAMES 100
 // Font size in reference units for UI text
 #define UI_FONT_SIZE 32.0f
+// Maximum number of characters in a single line of text
+#define TEXT_RENDER_MAX_LINE_LENGTH 255
+// Maximum number of characters in a multiline of text
+#define TEXT_RENDER_MAX_MULTILINE_LENGTH 2048
+// How much vertical space to give multiline text
+#define TEXT_VERTICAL_SPACING_MULT 1.2f
 
 /// -------------- audio --------------------
 // Would you like to use the platform's audio management (soundpool, mediaplayer, etc)?

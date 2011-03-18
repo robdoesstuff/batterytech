@@ -32,6 +32,7 @@
 namespace BatteryTech {
 
 	class UIAnimator;
+	class Context;
 
 	class UIComponent {
 	public:
@@ -56,10 +57,10 @@ namespace BatteryTech {
 		}
 		virtual void addComponent(UIComponent *component);
 		// framework methods
-		virtual S32 getDesiredWidth() {return widthDips;};
-		virtual S32 getDesiredHeight() {return heightDips;};
+		virtual S32 getDesiredWidth(Context *context, S32 widthAvailable, S32 heightAvailable) {return widthDips;};
+		virtual S32 getDesiredHeight(Context *context, S32 widthAvailable, S32 heightAvailable) {return heightDips;};
 		virtual LayoutParameters* getLayoutParameters() {return layoutParameters;};
-		virtual void layout(F32 scale){};
+		virtual void layout(Context *context, F32 scale){};
 		// in actual screen coordinates
 		virtual void setDrawableBounds(S32 left, S32 top, S32 right, S32 bottom) {
 			//char buf[100];
@@ -73,6 +74,35 @@ namespace BatteryTech {
 			this->top = top;
 			this->right = right;
 			this->bottom = bottom;
+			setVirtualBounds(left, top, right, bottom);
+		}
+		virtual void setVirtualBounds(S32 left, S32 top, S32 right, S32 bottom) {
+			this->virtualLeft = left;
+			this->virtualTop = top;
+			this->virtualRight = right;
+			this->virtualBottom = bottom;
+		}
+		virtual void scrollAllBounds(S32 x, S32 y) {
+			this->left += x;
+			this->top += y;
+			this->right += x;
+			this->bottom += y;
+			scrollVirtualBounds(x, y);
+		}
+		virtual void scrollVirtualBounds(S32 x, S32 y) {
+			this->virtualLeft += x;
+			this->virtualTop += y;
+			this->virtualRight+= x;
+			this->virtualBottom += y;
+			if (components) {
+				for (S32 i = 0; i < components->getSize(); i++) {
+					// all subcomponents and theirs will also need to scroll drawable bounds
+					components->array[i]->scrollAllBounds(x, y);
+				}
+			}
+		}
+		virtual BOOL32 isVirtualLargerThanDrawable() {
+			return (right - left < virtualRight - virtualLeft || bottom - top < virtualBottom - virtualTop);
 		}
 		virtual void setTextColor(F32 r, F32 g, F32 b, F32 a) {
 			textR = r;
@@ -87,7 +117,8 @@ namespace BatteryTech {
 		virtual BOOL32 isExitPending() { return (isExiting || removeFromView); };
 		virtual BOOL32 isExitDone();
 		virtual void update(F32 delta);
-		virtual void dispatchClickDown();
+		virtual void dispatchClickDown(S32 x, S32 y);
+		virtual void dispatchClickMove(S32 x, S32 y);
 		virtual void dispatchClickUp();
 		virtual void dispatchKeyPressed(U8 key);
 		virtual void setEnterAnimator(UIAnimator *animator);
@@ -104,7 +135,9 @@ namespace BatteryTech {
 		S32 pressedBackgroundMenuResourceId;
 		S32 selectedBackgroundMenuResourceId;
 		char *text;
+		BOOL32 isTextMultiline;
 		S32 left, top, right, bottom;
+		S32 virtualLeft, virtualTop, virtualRight, virtualBottom;
 		F32 textR, textB, textG, textA;
 		HorizontalAlignment textHorizontalAlignment;
 		VerticalAlignment textVerticalAlignment;
@@ -114,6 +147,7 @@ namespace BatteryTech {
 		BOOL32 isEnabled;
 		BOOL32 isPressed;
 		BOOL32 removeFromView;
+		BOOL32 isClickableUnderChildren;
 		S32 userId;
 		const char *clickDownSoundAsset;
 		const char *clickUpSoundAsset;
@@ -126,8 +160,9 @@ namespace BatteryTech {
 	protected:
 		S32 widthDips;
 		S32 heightDips;
-		virtual void onClickDown(){};
+		virtual void onClickDown(S32 x, S32 y){};
 		virtual void onClickUp(){};
+		virtual void onClickMove(S32 x, S32 y){};
 		virtual void onKeyPressed(U8 key){};
 		LayoutParameters *layoutParameters;
 	private:

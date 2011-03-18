@@ -26,7 +26,7 @@ TopMenu::TopMenu(Context *context) : Menu(TOP_MENU_NAME) {
 	mainLayout = new LinearLayout(LinearLayout::VERTICAL);
 	titleLabel = new Label("BatteryTech Demo");
 	titleLabel->setHeight(60);
-	titleLabel->setWidth(100);
+	titleLabel->setWidth(WRAP);
 	titleLabel->setLayoutParameters(new LayoutParameters(LayoutParameters::HORIZONTAL_CENTER, LayoutParameters::TOP));
 	playButton = new Button("Play");
 	playButton->setLayoutParameters(new LayoutParameters(LayoutParameters::HORIZONTAL_CENTER, LayoutParameters::TOP));

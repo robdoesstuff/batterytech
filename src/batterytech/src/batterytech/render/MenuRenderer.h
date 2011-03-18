@@ -56,6 +56,23 @@ namespace BatteryTech {
 		 * Renders a specific UI component
 		 */
 		void render(UIComponent *component);
+		/**
+		 * Determines if, using available width, this text requires multiple lines
+		 */
+		BOOL32 isMultiline(const char *text, F32 availableWidth);
+		/**
+		 * Calculates the total height of the multiline text
+		 */
+		F32 measureMultilineHeight(const char *text, F32 availableWidth);
+		/**
+		 * Calculates the width of the given text using current UI font,
+		 * may return value greater than available width (switch to multiline then)
+		 */
+		F32 measureTextWidth(const char *text);
+		/**
+		 * Gets the height of the current UI font
+		 */
+		F32 getTextHeight();
 		virtual ~MenuRenderer();
 	private:
 		void loadTexture(const char *assetName);

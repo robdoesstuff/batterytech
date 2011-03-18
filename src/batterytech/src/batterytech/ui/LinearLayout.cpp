@@ -20,6 +20,8 @@
 #include "../Logger.h"
 #include <stdio.h>
 #include "LayoutParameters.h"
+#include "../Context.h"
+#include "../render/MenuRenderer.h"
 
 namespace BatteryTech {
 
@@ -31,7 +33,7 @@ namespace BatteryTech {
 		this->layoutDirection = direction;
 	}
 
-	S32 LinearLayout::getDesiredWidth() {
+	S32 LinearLayout::getDesiredWidth(Context *context, S32 widthAvailable, S32 heightAvailable) {
 		if (widthDips == FILL) {
 			return FILL;
 		} else if (widthDips == WRAP) {
@@ -41,14 +43,18 @@ namespace BatteryTech {
 			S32 horizFillCount = 0;
 			S32 centerNeeded = 0;
 			// scale at 1.0 for dips
-			calcSpaceRequired(1.0f, &widthNeeded, &heightNeeded, &horizFillCount, &vertFillCount, &centerNeeded);
+			S32 heightAssumption = heightAvailable;
+			if (heightDips != FILL && heightDips != WRAP) {
+				heightAssumption = heightDips;
+			}
+			calcSpaceRequired(context, 1.0f, &widthNeeded, &heightNeeded, &horizFillCount, &vertFillCount, &centerNeeded, widthAvailable, heightAssumption);
 			return widthNeeded + paddingLeftDips + paddingRightDips;
 		} else {
 			return widthDips;
 		}
 	}
 
-	S32 LinearLayout::getDesiredHeight() {
+	S32 LinearLayout::getDesiredHeight(Context *context, S32 widthAvailable, S32 heightAvailable) {
 		if (heightDips == FILL) {
 			return FILL;
 		} else if (heightDips == WRAP) {
@@ -58,7 +64,11 @@ namespace BatteryTech {
 			S32 horizFillCount = 0;
 			S32 centerNeeded = 0;
 			// scale at 1.0 for dips
-			calcSpaceRequired(1.0f, &widthNeeded, &heightNeeded, &horizFillCount, &vertFillCount, &centerNeeded);
+			S32 widthAssumption = widthAvailable;
+			if (widthDips != FILL && widthDips != WRAP) {
+				widthAssumption = widthDips;
+			}
+			calcSpaceRequired(context, 1.0f, &widthNeeded, &heightNeeded, &horizFillCount, &vertFillCount, &centerNeeded, widthAssumption, heightAvailable);
 			return heightNeeded + paddingTopDips + paddingBottomDips;
 		} else {
 			return heightDips;
@@ -68,7 +78,7 @@ namespace BatteryTech {
 	LinearLayout::~LinearLayout() {
 	}
 
-	void LinearLayout::layout(F32 scale) {
+	void LinearLayout::layout(Context *context, F32 scale) {
 		//logmsg("LinearLayout::layout starting");
 		//char buf[70];
 		//sprintf(buf, "Laying out %d UI Components at scale %g", components->getSize(), scale);
@@ -90,7 +100,7 @@ namespace BatteryTech {
 		S32 compTop = 0;
 		S32 compBottom = 0;
 		S32 i = 0;
-		calcSpaceRequired(scale, &totalWidthNeeded, &totalHeightNeeded, &horizFillCount, &vertFillCount, &centerNeeded);
+		calcSpaceRequired(context, scale, &totalWidthNeeded, &totalHeightNeeded, &horizFillCount, &vertFillCount, &centerNeeded, horizRemain, vertRemain);
 		//logmsg("calcing space dist 2");
 		// this distributes remaining space to components which require fill
 		S32 vertFillPerComponentSize = 0;
@@ -122,7 +132,7 @@ namespace BatteryTech {
 				vertAlign = component->getLayoutParameters()->getVerticalAlignment();
 			}
 			// horizontal part
-			if (component->getDesiredWidth() == FILL) {
+			if (component->getDesiredWidth(context, horizRemain, vertRemain) == FILL) {
 				// filling horizontal space
 				if (layoutDirection == VERTICAL) {
 					// just use all horizontal space
@@ -134,42 +144,53 @@ namespace BatteryTech {
 					compRight = curLeft + horizFillPerComponentSize - (S32)(component->marginRightDips * scale);
 					curLeft += horizFillPerComponentSize;
 				}
-			} else if (component->getDesiredWidth() == WRAP) {
-				// Is there anything to do about a wrap result?
 			} else {
+				// width wrap
+				F32 compWidth = component->getDesiredWidth(context, horizRemain, vertRemain);
+				if (compWidth == WRAP) {
+					if (component->text) {
+						// already in scaled units
+						compWidth = context->menuRenderer->measureTextWidth(component->text);
+					} else {
+						compWidth = 0;
+					}
+					compWidth += (S32)(component->paddingLeftDips + component->paddingRightDips * scale);
+				} else {
+					compWidth *= scale;
+				}
 				// fixed-width component
 				if (layoutDirection == VERTICAL) {
 					if (horizAlign == LayoutParameters::LEFT) {
 						compLeft = curLeft + (S32)(component->marginLeftDips * scale);
-						compRight = compLeft + (S32)(component->getDesiredWidth() * scale);
+						compRight = compLeft + (S32)(compWidth);
 					} if (horizAlign == LayoutParameters::HORIZONTAL_CENTER) {
 						// use the difference of the left and right margins
-						compLeft = left + (right - left) / 2 - (S32)(component->getDesiredWidth() * scale) / 2 + (S32)(component->marginLeftDips * scale - component->marginRightDips * scale);
-						compRight = compLeft + (S32)(component->getDesiredWidth() * scale);
+						compLeft = left + (right - left) / 2 - (S32)(compWidth) / 2 + (S32)(component->marginLeftDips * scale - component->marginRightDips * scale);
+						compRight = compLeft + (S32)(compWidth);
 					} else if (horizAlign == LayoutParameters::RIGHT) {
 						compRight = right - (S32)(component->marginRightDips * scale);
-						compLeft = compRight - (S32)(component->getDesiredWidth() * scale);
+						compLeft = compRight - (S32)(compWidth);
 					}
 				} else {
 					// horizontal layout
 					if (horizAlign == LayoutParameters::LEFT) {
 						compLeft = curLeft + (S32)(component->marginLeftDips * scale);
-						compRight = compLeft + (S32)(component->getDesiredWidth() * scale);
+						compRight = compLeft + (S32)(compWidth);
 						curLeft = compRight + (S32)(component->marginRightDips * scale);
 					} if (horizAlign == LayoutParameters::HORIZONTAL_CENTER) {
 						compLeft = left + (right - left) / 2 + - centerNeeded / 2 + centerUsed + (S32)(component->marginLeftDips * scale);
-						compRight = compLeft + (S32)(component->getDesiredWidth() * scale);
+						compRight = compLeft + (S32)(compWidth);
 						curLeft = compRight + (S32)(component->marginRightDips * scale);
-						centerUsed += (S32)(component->getDesiredWidth() * scale) + (S32)(component->marginLeftDips * scale) + (S32)(component->marginRightDips * scale);
+						centerUsed += (S32)(compWidth) + (S32)(component->marginLeftDips * scale) + (S32)(component->marginRightDips * scale);
 					} else if (horizAlign == LayoutParameters::RIGHT) {
 						compRight = curRight - (S32)(component->marginRightDips * scale);
-						compLeft = compRight - (S32)(component->getDesiredWidth() * scale);
+						compLeft = compRight - (S32)(compWidth);
 						curRight = compLeft - (S32)(component->marginLeftDips * scale);
 					}
 				}
 			}
 			// vertical part
-			if (component->getDesiredHeight() == FILL) {
+			if (component->getDesiredHeight(context, horizRemain, vertRemain) == FILL) {
 				// filling vertical space
 				if (layoutDirection == VERTICAL) {
 					compTop = curTop + (S32)(component->marginTopDips * scale);
@@ -179,46 +200,69 @@ namespace BatteryTech {
 					compTop = curTop + (S32)(component->marginTopDips * scale);
 					compBottom = curBottom - (S32)(component->marginBottomDips * scale);
 				}
-			} else if (component->getDesiredHeight() == WRAP) {
-				// Is there anything to do about a wrap result?
 			} else {
+				// height wrap
+				F32 compHeight = component->getDesiredHeight(context, horizRemain, vertRemain);
+				if (compHeight == WRAP) {
+					if (component->text) {
+						if (component->isTextMultiline) {
+							F32 widthAssumption = component->getDesiredWidth(context, horizRemain, vertRemain);
+							if (widthAssumption == WRAP || widthAssumption == FILL) {
+								widthAssumption = horizRemain;
+							} else {
+								widthAssumption *= scale;
+							}
+							widthAssumption -= (S32)(component->paddingLeftDips + component->paddingRightDips * scale);
+							// already in scaled units
+							compHeight = context->menuRenderer->measureMultilineHeight(component->text, widthAssumption);
+						} else {
+							// already in scaled units
+							compHeight = context->menuRenderer->getTextHeight();
+						}
+					} else {
+						compHeight = 0;
+					}
+					compHeight += (S32)(component->paddingTopDips + component->paddingBottomDips * scale);
+				} else {
+					compHeight *= scale;
+				}
 				// fixed-height component
 				if (layoutDirection == VERTICAL) {
 					if (vertAlign == LayoutParameters::TOP) {
 						compTop = curTop + (S32)(component->marginTopDips * scale);
-						compBottom = compTop + (S32)(component->getDesiredHeight() * scale);
+						compBottom = compTop + (S32)(compHeight);
 						curTop = compBottom + (S32)(component->marginBottomDips * scale);
 					} else if (vertAlign == LayoutParameters::VERTICAL_CENTER) {
 						compTop = top + (bottom - top) / 2 - (centerNeeded / 2) + centerUsed + (S32)(component->marginTopDips * scale);
-						S32 compTotalVertSize = (S32)((component->getDesiredHeight() + component->marginTopDips + component->marginBottomDips) * scale);
-						compBottom = compTop + (S32)(component->getDesiredHeight() * scale);
+						S32 compTotalVertSize = (S32)(compHeight + (component->marginTopDips + component->marginBottomDips) * scale);
+						compBottom = compTop + (S32)(compHeight);
 						centerUsed += compTotalVertSize;
 					} else if (vertAlign == LayoutParameters::BOTTOM) {
 						compBottom = curBottom - (S32)(component->marginBottomDips * scale);
-						compTop = compBottom - (S32)(component->getDesiredHeight() * scale);
+						compTop = compBottom - (S32)(compHeight);
 						curBottom = compTop - (S32)(component->marginTopDips * scale);
 					}
 				} else {
 					// horizontal layout
 					if (vertAlign == LayoutParameters::TOP) {
 						compTop = curTop + (S32)(component->marginTopDips * scale);
-						compBottom = compTop + (S32)(component->getDesiredHeight() * scale);
+						compBottom = compTop + (S32)(compHeight);
 					} else if (vertAlign == LayoutParameters::VERTICAL_CENTER) {
 						// use the difference of the top and bottom margins
-						compTop = top + (bottom - top) / 2 - (S32)(component->getDesiredHeight() * scale) / 2 + (S32)(component->marginTopDips * scale  - component->marginBottomDips * scale);
-						compBottom = compTop + (S32)(component->getDesiredHeight() * scale);
+						compTop = top + (bottom - top) / 2 - (S32)(compHeight) / 2 + (S32)(component->marginTopDips * scale  - component->marginBottomDips * scale);
+						compBottom = compTop + (S32)(compHeight);
 					} else if (vertAlign == LayoutParameters::BOTTOM) {
 						compBottom = bottom - (S32)(component->marginBottomDips * scale);
-						compTop = compBottom - (S32)(component->getDesiredHeight() * scale);
+						compTop = compBottom - (S32)(compHeight);
 					}
 				}
 			}
 			component->setDrawableBounds(compLeft, compTop, compRight, compBottom);
-			component->layout(scale);
+			component->layout(context, scale);
 		}
 	}
 
-	void LinearLayout::calcSpaceRequired(F32 scale, S32 *width, S32 *height, S32 *horizFillCount, S32 *vertFillCount, S32 *center) {
+	void LinearLayout::calcSpaceRequired(Context *context, F32 scale, S32 *width, S32 *height, S32 *horizFillCount, S32 *vertFillCount, S32 *center, S32 widthAvailable, S32 heightAvailable) {
 		S32 i;
 		for (i = 0; i < components->getSize(); i++) {
 			UIComponent *component = components->array[i];
@@ -229,44 +273,70 @@ namespace BatteryTech {
 				horizAlign = component->getLayoutParameters()->getHorizontalAlignment();
 				vertAlign = component->getLayoutParameters()->getVerticalAlignment();
 			}
+			S32 desiredHeight = component->getDesiredHeight(context, widthAvailable, heightAvailable);
+			S32 desiredWidth = component->getDesiredWidth(context, widthAvailable, heightAvailable);
+			if (component->text) {
+				if (context->menuRenderer->isMultiline(component->text, widthAvailable)) {
+					component->isTextMultiline = TRUE;
+				}
+			}
 			if (layoutDirection == VERTICAL) {
-				if (component->getDesiredHeight() == FILL) {
+				if (desiredHeight == FILL) {
 					++*vertFillCount;
-				} else if (component->getDesiredHeight() == WRAP) {
-					// Is there anything to do about a wrap result?
+				} else if (desiredHeight == WRAP) {
+					if (component->text) {
+						if (component->isTextMultiline) {
+							F32 widthAssumption = component->getDesiredWidth(context, widthAvailable, heightAvailable);
+							if (widthAssumption == WRAP || widthAssumption == FILL) {
+								widthAssumption = widthAvailable;
+							} else {
+								widthAssumption *= scale;
+							}
+							widthAssumption -= (S32)(component->paddingLeftDips + component->paddingRightDips * scale);
+							F32 textHeight = context->menuRenderer->measureMultilineHeight(component->text, widthAssumption);
+							textHeight += (S32)(component->paddingTopDips + component->paddingBottomDips * scale);
+							*height += (S32)(textHeight + component->marginTopDips * scale + component->marginBottomDips * scale);
+						} else {
+							F32 textHeight = context->menuRenderer->getTextHeight();
+							*height += (S32)(textHeight + component->marginTopDips * scale + component->marginBottomDips * scale);
+						}
+					}
 				} else {
-					*height += (S32)(component->getDesiredHeight() * scale + component->marginTopDips * scale + component->marginBottomDips * scale);
+					*height += (S32)(desiredHeight * scale + component->marginTopDips * scale + component->marginBottomDips * scale);
 					if (vertAlign == LayoutParameters::VERTICAL_CENTER) {
-						*center += (S32)(component->getDesiredHeight() * scale + component->marginTopDips * scale + component->marginBottomDips * scale);
+						*center += (S32)(desiredHeight * scale + component->marginTopDips * scale + component->marginBottomDips * scale);
 					}
 				}
 				// just return the widest fixed-width component
-				if (component->getDesiredWidth() != FILL && component->getDesiredWidth() != WRAP) {
-					S32 componentTotalWidthPx = (S32)((component->getDesiredWidth() + component->marginLeftDips + component->marginRightDips) * scale);
+				if (desiredWidth != FILL && desiredWidth != WRAP) {
+					S32 componentTotalWidthPx = (S32)((desiredWidth + component->marginLeftDips + component->marginRightDips) * scale);
 					if (componentTotalWidthPx > *width) {
 						*width = componentTotalWidthPx;
 					}
 				}
 			} else {
 				// horizontal
-				if (component->getDesiredWidth() == FILL) {
+				if (desiredWidth == FILL) {
 					++*horizFillCount;
-				} else if (component->getDesiredWidth() == WRAP) {
-					// Is there anything to do about a wrap result?
+				} else if (desiredWidth == WRAP) {
+					if (component->text) {
+						F32 textWidth = context->menuRenderer->measureTextWidth(component->text);
+						textWidth += (S32)(component->paddingLeftDips + component->paddingRightDips * scale);
+						*width += (S32)(textWidth + component->marginLeftDips * scale + component->marginRightDips * scale);
+					}
 				} else {
-					*width += (S32)(component->getDesiredWidth() * scale + component->marginLeftDips * scale + component->marginRightDips * scale);
+					*width += (S32)(desiredWidth * scale + component->marginLeftDips * scale + component->marginRightDips * scale);
 					if (horizAlign == LayoutParameters::HORIZONTAL_CENTER) {
-						*center += (S32)(component->getDesiredWidth() * scale + component->marginLeftDips * scale + component->marginRightDips * scale);
+						*center += (S32)(desiredWidth * scale + component->marginLeftDips * scale + component->marginRightDips * scale);
 					}
 				}
 				// just return the tallest fixed-height component
-				if (component->getDesiredHeight() != FILL && component->getDesiredHeight() != WRAP) {
-					S32 componentTotalHeightPx = (S32)((component->getDesiredHeight() + component->marginTopDips + component->marginBottomDips) * scale);
+				if (desiredHeight != FILL && desiredHeight != WRAP) {
+					S32 componentTotalHeightPx = (S32)((desiredHeight + component->marginTopDips + component->marginBottomDips) * scale);
 					if (componentTotalHeightPx > *height) {
 						*height = componentTotalHeightPx;
 					}
 				}
-
 			}
 		}
 	}

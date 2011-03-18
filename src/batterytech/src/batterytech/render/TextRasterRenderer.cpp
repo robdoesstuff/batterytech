@@ -193,11 +193,15 @@ namespace BatteryTech {
 		}
 	}
 
+
 	void TextRasterRenderer::render(const char *text, F32 x, F32 y) {
 		S32 length = strlen(text);
-		// longest string is 255
-		F32 verts[255 * 6 * 3];
-		F32 uvs[255 * 6 * 2];
+		if (length > TEXT_RENDER_MAX_LINE_LENGTH) {
+			length = TEXT_RENDER_MAX_LINE_LENGTH;
+		}
+		// longest string is TEXT_RENDER_MAX_LINE_LENGTH
+		F32 verts[TEXT_RENDER_MAX_LINE_LENGTH * 6 * 3];
+		F32 uvs[TEXT_RENDER_MAX_LINE_LENGTH * 6 * 2];
 		S32 i = 0;
 		while (*text) {
 			if (*text >= 32 && *text < 128) {
@@ -250,6 +254,153 @@ namespace BatteryTech {
 			}
 			++text;
 			++i;
+		}
+		if (context->gConfig->useShaders) {
+			glVertexAttribPointer(shaderVPosition, 3, GL_FLOAT, GL_FALSE, 0, verts);
+			glVertexAttribPointer(shaderUvMap, 2, GL_FLOAT, GL_FALSE, 0, uvs);
+			glUniformMatrix4fv(shaderProjMatrix, 1, GL_FALSE, (GLfloat*) &context->renderContext->projMatrix.m[0][0]);
+			glUniformMatrix4fv(shaderMVMatrix, 1, GL_FALSE, (GLfloat*) &context->renderContext->mvMatrix.m[0][0]);
+			glUniform1i(shaderTex, 0);
+			Vec4f colorFilter = context->renderContext->colorFilter;
+			glUniform4f(shaderColorFilter, colorFilter.x,colorFilter.y,colorFilter.z,colorFilter.a);
+		} else {
+			Vec4f colorFilter = context->renderContext->colorFilter;
+			glColor4f(colorFilter.x,colorFilter.y,colorFilter.z,colorFilter.a);
+			glVertexPointer(3, GL_FLOAT, 0, &verts);
+			glTexCoordPointer(2, GL_FLOAT, 0, &uvs);
+		}
+		glDrawArrays(GL_TRIANGLES, 0, length * 6);
+	}
+
+	F32 TextRasterRenderer::measureMultilineHeight(const char *text, F32 availableWidth) {
+		S32 i = 0;
+		S32 lastSpaceIdx = -1;
+		F32 lineHeight = getHeight() * TEXT_VERTICAL_SPACING_MULT;
+		F32 x = 0;
+		// first line's height
+		F32 y = lineHeight;
+		char c = *text;
+		while (c) {
+			if (c == '\n') {
+				lastSpaceIdx = -1;
+				y += lineHeight;
+				x = 0;
+			}
+			if (c >= 32 && c < 128) {
+				if (c == 32) {
+					lastSpaceIdx = i;
+				}
+				stbtt_aligned_quad q;
+				stbtt_GetBakedQuad(cdata, bmpWidth, bmpHeight, c-32, &x,&y,&q,1);//1=opengl,0=old d3d
+				if (x > availableWidth) {
+					x = 0;
+					y += lineHeight;
+					// rewind to 1 past last space
+					if (lastSpaceIdx != -1) {
+						i = lastSpaceIdx + 1;
+						lastSpaceIdx = -1;
+						c = *(text + i);
+					}
+					stbtt_GetBakedQuad(cdata, bmpWidth, bmpHeight, c-32, &x,&y,&q,1);//1=opengl,0=old d3d
+				}
+			}
+			++i;
+			c = *(text + i);
+		}
+		return y;
+	}
+
+	void TextRasterRenderer::renderMultiline(const char *text, F32 x, F32 y, F32 maxX, F32 maxY) {
+		S32 length = strlen(text);
+		if (length > TEXT_RENDER_MAX_MULTILINE_LENGTH) {
+			length = TEXT_RENDER_MAX_MULTILINE_LENGTH;
+		}
+		// longest string is TEXT_RENDER_MAX_MULTILINE_LENGTH
+		F32 verts[TEXT_RENDER_MAX_MULTILINE_LENGTH * 6 * 3];
+		F32 uvs[TEXT_RENDER_MAX_MULTILINE_LENGTH * 6 * 2];
+		S32 i = 0;
+		S32 lastSpaceIdx = -1;
+		F32 origX = x;
+		//F32 origY = y;
+		F32 lineHeight = getHeight() * TEXT_VERTICAL_SPACING_MULT;
+		char c = *text;
+		while (c) {
+			if (c == '\n') {
+				lastSpaceIdx = -1;
+				y += lineHeight;
+				x = origX;
+				if (y > maxY) {
+					break;
+				}
+			}
+			if (c >= 32 && c < 128) {
+				if (c == 32) {
+					lastSpaceIdx = i;
+				}
+				stbtt_aligned_quad q;
+				stbtt_GetBakedQuad(cdata, bmpWidth, bmpHeight, c-32, &x,&y,&q,1);//1=opengl,0=old d3d
+				if (x > maxX) {
+					x = origX;
+					y += lineHeight;
+					// rewind to 1 past last space
+					if (lastSpaceIdx != -1) {
+						i = lastSpaceIdx + 1;
+						lastSpaceIdx = -1;
+						c = *(text + i);
+					}
+					if (y > maxY) {
+						break;
+					} else {
+						stbtt_GetBakedQuad(cdata, bmpWidth, bmpHeight, c-32, &x,&y,&q,1);//1=opengl,0=old d3d
+					}
+				}
+				S32 pos = i * 18;
+				// 0
+				verts[pos] = q.x0;
+				verts[pos + 1] = q.y0;
+				verts[pos + 2] = 0;
+				// 1
+				verts[pos + 3] = q.x1;
+				verts[pos + 4] = q.y0;
+				verts[pos + 5] = 0;
+				// 2
+				verts[pos + 6] = q.x1;
+				verts[pos + 7] = q.y1;
+				verts[pos + 8] = 0;
+				// 0
+				verts[pos + 9] = q.x0;
+				verts[pos + 10] = q.y0;
+				verts[pos + 11] = 0;
+				// 2
+				verts[pos + 12] = q.x1;
+				verts[pos + 13] = q.y1;
+				verts[pos + 14] = 0;
+				// 3
+				verts[pos + 15] = q.x0;
+				verts[pos + 16] = q.y1;
+				verts[pos + 17] = 0;
+				pos = i * 12;
+				// 0
+				uvs[pos] = q.s0;
+				uvs[pos + 1] = q.t0;
+				// 1
+				uvs[pos + 2] = q.s1;
+				uvs[pos + 3] = q.t0;
+				// 2
+				uvs[pos + 4] = q.s1;
+				uvs[pos + 5] = q.t1;
+				// 0
+				uvs[pos + 6] = q.s0;
+				uvs[pos + 7] = q.t0;
+				// 2
+				uvs[pos + 8] = q.s1;
+				uvs[pos + 9] = q.t1;
+				// 3
+				uvs[pos + 10] = q.s0;
+				uvs[pos + 11] = q.t1;
+			}
+			++i;
+			c = *(text + i);
 		}
 		if (context->gConfig->useShaders) {
 			glVertexAttribPointer(shaderVPosition, 3, GL_FLOAT, GL_FALSE, 0, verts);
