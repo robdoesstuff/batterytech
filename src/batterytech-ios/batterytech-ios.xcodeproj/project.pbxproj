@@ -249,6 +249,8 @@
 		3D56C9A2131EDFBF00BF7F17 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D56C9A0131EDFBF00BF7F17 /* main.m */; };
 		3D56CBF11320764200BF7F17 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 3D56CBDA1320764200BF7F17 /* assets */; };
 		3D56CBF21320764200BF7F17 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 3D56CBDA1320764200BF7F17 /* assets */; };
+		3DF36F931333E15000372594 /* ScrollableContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DF36F911333E15000372594 /* ScrollableContainer.cpp */; };
+		3DF36F941333E15000372594 /* ScrollableContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DF36F911333E15000372594 /* ScrollableContainer.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -508,6 +510,8 @@
 		3DD637D712726D4400D13421 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		3DD637D912726D4900D13421 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		3DD637DB12726D5400D13421 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		3DF36F911333E15000372594 /* ScrollableContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ScrollableContainer.cpp; sourceTree = "<group>"; };
+		3DF36F921333E15000372594 /* ScrollableContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScrollableContainer.h; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* batterytech_ios-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "batterytech_ios-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -797,6 +801,8 @@
 				3D56BED0131DC0C500BF7F17 /* LinearLayout.h */,
 				3D56BED1131DC0C500BF7F17 /* Menu.cpp */,
 				3D56BED2131DC0C500BF7F17 /* Menu.h */,
+				3DF36F911333E15000372594 /* ScrollableContainer.cpp */,
+				3DF36F921333E15000372594 /* ScrollableContainer.h */,
 				3D56BED3131DC0C500BF7F17 /* SlideAnimator.cpp */,
 				3D56BED4131DC0C500BF7F17 /* SlideAnimator.h */,
 				3D56BED5131DC0C500BF7F17 /* TextField.cpp */,
@@ -1270,6 +1276,7 @@
 				3D56BFD8131DC0C500BF7F17 /* SimpleSpriteRenderer.cpp in Sources */,
 				3D56BFD9131DC0C500BF7F17 /* WorldRenderer.cpp in Sources */,
 				3D56C9A1131EDFBF00BF7F17 /* main.m in Sources */,
+				3DF36F931333E15000372594 /* ScrollableContainer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1385,6 +1392,7 @@
 				3D56C042131DC0C500BF7F17 /* SimpleSpriteRenderer.cpp in Sources */,
 				3D56C043131DC0C500BF7F17 /* WorldRenderer.cpp in Sources */,
 				3D56C9A2131EDFBF00BF7F17 /* main.m in Sources */,
+				3DF36F941333E15000372594 /* ScrollableContainer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
