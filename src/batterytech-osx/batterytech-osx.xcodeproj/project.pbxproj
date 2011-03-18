@@ -124,6 +124,7 @@
 		3D56C79D131E41FB00BF7F17 /* World.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D56C731131E41FB00BF7F17 /* World.cpp */; };
 		3D56C83E131E444C00BF7F17 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D56C83D131E444C00BF7F17 /* AudioUnit.framework */; };
 		3D56C87D131E4BD300BF7F17 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 3D56C866131E4BD300BF7F17 /* assets */; };
+		3DF36F971333E16E00372594 /* ScrollableContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DF36F951333E16E00372594 /* ScrollableContainer.cpp */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
@@ -381,6 +382,8 @@
 		3D56C732131E41FB00BF7F17 /* World.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = World.h; sourceTree = "<group>"; };
 		3D56C83D131E444C00BF7F17 /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = System/Library/Frameworks/AudioUnit.framework; sourceTree = SDKROOT; };
 		3D56C866131E4BD300BF7F17 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = assets; sourceTree = "<group>"; };
+		3DF36F951333E16E00372594 /* ScrollableContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ScrollableContainer.cpp; sourceTree = "<group>"; };
+		3DF36F961333E16E00372594 /* ScrollableContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScrollableContainer.h; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* batterytech_osx-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "batterytech_osx-Info.plist"; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* batterytech-osx.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "batterytech-osx.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -672,6 +675,8 @@
 				3D56C691131E41FB00BF7F17 /* LinearLayout.h */,
 				3D56C692131E41FB00BF7F17 /* Menu.cpp */,
 				3D56C693131E41FB00BF7F17 /* Menu.h */,
+				3DF36F951333E16E00372594 /* ScrollableContainer.cpp */,
+				3DF36F961333E16E00372594 /* ScrollableContainer.h */,
 				3D56C694131E41FB00BF7F17 /* SlideAnimator.cpp */,
 				3D56C695131E41FB00BF7F17 /* SlideAnimator.h */,
 				3D56C696131E41FB00BF7F17 /* TextField.cpp */,
@@ -1111,6 +1116,7 @@
 				3D56C79B131E41FB00BF7F17 /* SimpleSpriteRenderer.cpp in Sources */,
 				3D56C79C131E41FB00BF7F17 /* WorldRenderer.cpp in Sources */,
 				3D56C79D131E41FB00BF7F17 /* World.cpp in Sources */,
+				3DF36F971333E16E00372594 /* ScrollableContainer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
