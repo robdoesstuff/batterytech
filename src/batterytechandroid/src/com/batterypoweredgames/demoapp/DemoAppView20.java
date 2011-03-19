@@ -21,6 +21,8 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.egl.EGLContext;
 import javax.microedition.khronos.egl.EGLDisplay;
 
+import com.batterypoweredgames.batterytech.TrueColorEGLConfigChooser;
+
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.PixelFormat;
@@ -43,12 +45,20 @@ public class DemoAppView20 extends GLSurfaceView implements DemoAppView {
 	public static final boolean SUPPORT_GLES2 = true;
 	private static final boolean DEBUG = false;
 	
+	private static final int DEPTH = 16;
+	private static final int STENCIL = 0;
+	private static final boolean USE_TRUE_COLOR = false;
+
 	private DemoAppRenderer renderer;
 
 	public DemoAppView20(Activity activity) {
 		super(activity);
 		if (SUPPORT_GLES2 && checkGL20Support(activity)) {
-			initGLES2(false, 0, 0);
+			initGLES2(USE_TRUE_COLOR, DEPTH, STENCIL);
+		}
+		if (USE_TRUE_COLOR) {
+			getHolder().setFormat(PixelFormat.TRANSLUCENT);
+			setEGLConfigChooser(new TrueColorEGLConfigChooser(DEPTH, STENCIL));
 		}
 		renderer = new DemoAppRenderer(activity, this);
 		setRenderer(renderer);

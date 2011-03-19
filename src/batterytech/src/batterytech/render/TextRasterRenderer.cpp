@@ -166,8 +166,8 @@ namespace BatteryTech {
 				if (q.x1 > highestX) {
 					highestX = q.x1;
 				}
-				++text;
 			}
+			++text;
 		}
 		return highestX - lowestX;
 	}

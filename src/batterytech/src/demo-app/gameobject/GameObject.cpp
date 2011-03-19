@@ -88,14 +88,12 @@ void GameObject::contactPreSolve(b2Contact* contact, const b2Manifold* oldManifo
 		GameObject *gObjA = (GameObject*) objA;
 		if (gObjA->type == GAMEOBJECT_TYPE_BALL) {
 			preSolveVelocity = gObjA->getLinearVelocity();
-			processContact = TRUE;
 		}
 	}
 	if (objB->bodyType == PHYSICS_BODY_TYPE_GAMEOBJECT) {
 		GameObject *gObjB = (GameObject*) objB;
 		if (gObjB->type == GAMEOBJECT_TYPE_BALL) {
 			preSolveVelocity = gObjB->getLinearVelocity();
-			processContact = TRUE;
 		}
 	}
 }
@@ -108,6 +106,7 @@ void GameObject::contactPostSolve(b2Contact* contact, const b2ContactImpulse* im
 		if (gObjA->type == GAMEOBJECT_TYPE_BALL) {
 			postSolveVelocity = gObjA->getLinearVelocity();
 			impactVelocityDelta += preSolveVelocity - postSolveVelocity;
+			processContact = TRUE;
 		}
 	}
 	if (objB->bodyType == PHYSICS_BODY_TYPE_GAMEOBJECT) {
@@ -115,6 +114,7 @@ void GameObject::contactPostSolve(b2Contact* contact, const b2ContactImpulse* im
 		if (gObjB->type == GAMEOBJECT_TYPE_BALL) {
 			postSolveVelocity = gObjB->getLinearVelocity();
 			impactVelocityDelta += preSolveVelocity - postSolveVelocity;
+			processContact = TRUE;
 		}
 	}
 }

@@ -59,7 +59,7 @@ namespace BatteryTech {
 		}
 	}
 
-	void Checkbox::onClickDown() {
+	void Checkbox::onClickDown(S32 x, S32 y) {
 		checked = !checked;
 		if (checked) {
 			button->setBackgroundMenuResource(checkedResourceId);
@@ -68,7 +68,7 @@ namespace BatteryTech {
 		}
 	}
 
-	void Checkbox::onClickUp() {
+	void Checkbox::onClickUp(S32 x, S32 y) {
 
 	}
 

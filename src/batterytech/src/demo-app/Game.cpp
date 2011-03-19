@@ -110,15 +110,15 @@ void Game::update() {
 		// load sounds
 		logmsg("Loading Sounds");
 		context->audioManager->loadSound("click.ogg");
-		initialized = TRUE;
 		this->context->world->gameState = GAMESTATE_READY;
 		//context->audioManager->playStreamingSound("song1.ogg", -1, 1.0f, 1.0f, 1.0f);
 	}
-	if (context->wasSuspended) {
+	if (!initialized || context->wasSuspended) {
 		logmsg("Initializing Renderers");
 		context->worldRenderer->init(TRUE);
 		context->menuRenderer->init(TRUE);
 		context->wasSuspended = FALSE;
+		initialized = TRUE;
 	}
 }
 

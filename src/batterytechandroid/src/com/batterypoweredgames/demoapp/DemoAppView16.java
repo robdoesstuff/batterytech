@@ -16,7 +16,10 @@
 
 package com.batterypoweredgames.demoapp;
 
+import com.batterypoweredgames.batterytech.TrueColorEGLConfigChooser;
+
 import android.app.Activity;
+import android.graphics.PixelFormat;
 import android.opengl.GLSurfaceView;
 
 /**
@@ -29,8 +32,16 @@ import android.opengl.GLSurfaceView;
  */public class DemoAppView16 extends GLSurfaceView implements DemoAppView {
 	private DemoAppRenderer renderer;
 
+	private static final int DEPTH = 16;
+	private static final int STENCIL = 0;
+	private static final boolean USE_TRUE_COLOR = false;
+
 	public DemoAppView16(Activity activity) {
 		super(activity);
+		if (USE_TRUE_COLOR) {
+			getHolder().setFormat(PixelFormat.TRANSLUCENT);
+			setEGLConfigChooser(new TrueColorEGLConfigChooser(DEPTH, STENCIL));
+		}
 		renderer = new DemoAppRenderer(activity, this);
 		setRenderer(renderer);
 		setRenderMode(RENDERMODE_CONTINUOUSLY);

@@ -31,8 +31,8 @@ namespace BatteryTech {
 		Checkbox(const char *text = NULL);
 		void setBoxResourceId(S32 resourceId);
 		void setCheckedResourceId(S32 resourceId);
-		virtual void onClickDown();
-		virtual void onClickUp();
+		virtual void onClickDown(S32 x, S32 y);
+		virtual void onClickUp(S32 x, S32 y);
 		virtual void setText(const char *text);
 		virtual void update(F32 delta);
 		virtual ~Checkbox();
