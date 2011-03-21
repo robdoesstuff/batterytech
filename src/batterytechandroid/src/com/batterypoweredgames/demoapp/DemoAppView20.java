@@ -217,6 +217,7 @@ public class DemoAppView20 extends GLSurfaceView implements DemoAppView {
                 if (d < mDepthSize || s < mStencilSize)
                     continue;
 
+                // TODO - use closest, not exact!
                 // We want an *exact* match for red/green/blue/alpha
                 int r = findConfigAttrib(egl, display, config,
                         EGL10.EGL_RED_SIZE, 0);
