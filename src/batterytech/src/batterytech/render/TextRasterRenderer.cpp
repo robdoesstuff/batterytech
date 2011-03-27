@@ -157,6 +157,10 @@ namespace BatteryTech {
 		F32 lowestX = 999999;
 		F32 highestX = 0;
 		while (*text) {
+			if (*text == '\n') {
+				//newline, restart.
+				x = 0;
+			}
 			if (*text >= 32 && *text < 128) {
 				stbtt_aligned_quad q;
 				stbtt_GetBakedQuad(cdata, bmpWidth, bmpHeight, *text-32, &x,&y,&q,1);//1=opengl,0=old d3d
@@ -203,7 +207,7 @@ namespace BatteryTech {
 		F32 verts[TEXT_RENDER_MAX_LINE_LENGTH * 6 * 3];
 		F32 uvs[TEXT_RENDER_MAX_LINE_LENGTH * 6 * 2];
 		S32 i = 0;
-		while (*text) {
+		while (*text && i <= TEXT_RENDER_MAX_LINE_LENGTH) {
 			if (*text >= 32 && *text < 128) {
 				stbtt_aligned_quad q;
 				stbtt_GetBakedQuad(cdata, bmpWidth, bmpHeight, *text-32, &x,&y,&q,1);//1=opengl,0=old d3d
@@ -324,7 +328,7 @@ namespace BatteryTech {
 		//F32 origY = y;
 		F32 lineHeight = getHeight() * TEXT_VERTICAL_SPACING_MULT;
 		char c = *text;
-		while (c) {
+		while (c && i <= TEXT_RENDER_MAX_MULTILINE_LENGTH) {
 			if (c == '\n') {
 				lastSpaceIdx = -1;
 				y += lineHeight;

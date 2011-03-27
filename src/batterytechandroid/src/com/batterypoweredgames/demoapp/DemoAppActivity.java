@@ -145,6 +145,9 @@ public class DemoAppActivity extends Activity {
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_VOLUME_UP || keyCode == KeyEvent.KEYCODE_VOLUME_DOWN){
+			return false;
+		}
 		if (btechView != null) {
 			if (btechView.getRenderer() != null) {
 				// handle specials
@@ -161,6 +164,9 @@ public class DemoAppActivity extends Activity {
 
 	@Override
 	public boolean onKeyUp(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_VOLUME_UP || keyCode == KeyEvent.KEYCODE_VOLUME_DOWN){
+			return false;
+		}
 		if (btechView != null) {
 			if (btechView.getRenderer() != null) {
 				int keyChar = event.getUnicodeChar();

@@ -524,7 +524,7 @@
 								<option id="gnu.cpp.link.option.userobjs.588174265" name="Other objects" superClass="gnu.cpp.link.option.userobjs" valueType="userObjs">
 									<listOptionValue builtIn="false" value="Resources/resources.o"/>
 								</option>
-								<option id="gnu.cpp.link.option.flags.920870567" name="Linker flags" superClass="gnu.cpp.link.option.flags" value="-mwindows -static-libgcc" valueType="string"/>
+								<option id="gnu.cpp.link.option.flags.920870567" name="Linker flags" superClass="gnu.cpp.link.option.flags" value="-mwindows -static-libgcc -static-libstdc++" valueType="string"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.1441702812" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>

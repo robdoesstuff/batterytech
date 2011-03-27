@@ -144,10 +144,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 void EnableOpenGL(HWND hWnd, HDC * hDC, HGLRC * hRC);
 void DisableOpenGL(HWND hWnd, HDC hDC, HGLRC hRC);
 BOOL leftButtonDown = FALSE;
-BOOL quit = FALSE;
+BOOL32 quit = FALSE;
 HWND hWnd;
 
 extern "C" {
+
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 		LPSTR lpCmdLine, int iCmdShow) {
 	WNDCLASS wc;

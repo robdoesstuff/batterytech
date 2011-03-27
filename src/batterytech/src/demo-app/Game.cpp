@@ -95,9 +95,11 @@ void Game::update() {
 	updateInput();
 	updateState();
 	updateNetwork();
-	updatePhysics();
-	updateGameObjects();
-	updateLevel();
+	if (getWorld()->gameState == GAMESTATE_RUNNING) {
+		updatePhysics();
+		updateGameObjects();
+		updateLevel();
+	}
 	if (!initialized) {
 		// load preferences
 		loadPreferences();

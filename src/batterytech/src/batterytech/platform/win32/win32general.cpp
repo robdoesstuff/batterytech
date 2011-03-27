@@ -21,6 +21,7 @@
 using namespace std;
 using namespace BatteryTech;
 
+extern BOOL32 quit;
 static AudioManager *sndMgr;
 static WinSound *winSound;
 
@@ -238,8 +239,6 @@ S32 _platform_get_socket_last_error() {
 }
 
 void _platform_exit() {
-	// should link to boot's quit global
-	extern BOOL32 quit;
 	quit = TRUE;
 }
 
