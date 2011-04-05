@@ -414,12 +414,12 @@ namespace BatteryTech {
 						}
 					}
 					if (!stream->length) {
-						stream->tempLength += samplesDecoded & channelsUsed;
+						stream->tempLength += samplesDecoded * channelsUsed;
 					}
 					if (eofByte && bytesConsumed >= eofByte) {
 						eofByte = 0;
 						if (!stream->length) {
-							stream->length = stream->tempLength + audioBufPos;
+							stream->length = stream->tempLength;
 							stream->tempLength = 0;
 						}
 					}
@@ -518,9 +518,6 @@ namespace BatteryTech {
 				} else {
 					streamEnd = bufferEnd = pcmSound->length;
 				}
-				//char cBuf[50];
-				//sprintf(cBuf, "buf %d at %d of %d", activeAudioBuf, stream->bufferPosition, bufferEnd);
-				//logmsg(cBuf);
 				// **** entering super performance-critical code section ****
 				for (j=0; j<nbSample; j += playbackChannels) {
 					// mix with 32 bit headroom
@@ -608,6 +605,9 @@ namespace BatteryTech {
 				stream->bufferPosition = bufferPosition;
 				stream->overallPosition = overallPosition;
 				stream->resampleFracAccumulated = resampleFracAccumulated;
+				//char cBuf[50];
+				//sprintf(cBuf, "buf %d at %d of %d %d/%d", activeAudioBuf, stream->bufferPosition, bufferEnd, stream->overallPosition, streamEnd);
+				//logmsg(cBuf);
 			}
 		}
 		//fwrite(pSample, sizeof(S16), nbSample, testOutFile);
