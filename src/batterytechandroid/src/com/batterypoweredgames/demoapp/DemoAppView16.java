@@ -42,7 +42,7 @@ import android.opengl.GLSurfaceView;
 			getHolder().setFormat(PixelFormat.TRANSLUCENT);
 			setEGLConfigChooser(new TrueColorEGLConfigChooser(DEPTH, STENCIL));
 		}
-		renderer = new DemoAppRenderer(activity, this);
+		renderer = new DemoAppRenderer(activity, this, false);
 		setRenderer(renderer);
 		setRenderMode(RENDERMODE_CONTINUOUSLY);
 	}

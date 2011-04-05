@@ -53,14 +53,16 @@ public class DemoAppView20 extends GLSurfaceView implements DemoAppView {
 
 	public DemoAppView20(Activity activity) {
 		super(activity);
+		boolean usingGLES2 = false;
 		if (SUPPORT_GLES2 && checkGL20Support(activity)) {
 			initGLES2(USE_TRUE_COLOR, DEPTH, STENCIL);
+			usingGLES2 = true;
 		}
 		if (USE_TRUE_COLOR) {
 			getHolder().setFormat(PixelFormat.TRANSLUCENT);
 			setEGLConfigChooser(new TrueColorEGLConfigChooser(DEPTH, STENCIL));
 		}
-		renderer = new DemoAppRenderer(activity, this);
+		renderer = new DemoAppRenderer(activity, this, usingGLES2);
 		setRenderer(renderer);
 		setRenderMode(RENDERMODE_CONTINUOUSLY);
 	}

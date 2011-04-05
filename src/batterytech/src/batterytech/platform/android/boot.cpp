@@ -41,10 +41,10 @@ GraphicsConfiguration *gConfig;
 void determineGPUCapabilities();
 BatteryTech::SpecialKey getSpecialKey(int keyCode);
 
-void Java_com_batterypoweredgames_batterytech_Boot_init(JNIEnv* env, jobject thiz, jint width, jint height) {
+void Java_com_batterypoweredgames_batterytech_Boot_init(JNIEnv* env, jobject thiz, jint width, jint height, jboolean usingGLES2) {
 	jnienv = env;
 	javaBoot = thiz;
-	importGLInit();
+	importGLInit(usingGLES2);
 	gConfig = new GraphicsConfiguration;
 	determineGPUCapabilities();
 	btInit(gConfig, width, height);

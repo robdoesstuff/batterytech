@@ -49,10 +49,12 @@ public class DemoAppRenderer implements Renderer, InputHandler, SensorEventListe
 	private View view;
 	private boolean bootInitialized = false;
 	private SensorManager sensorMgr;
+	private boolean usingGLES2 = false;
 
-	public DemoAppRenderer(Activity activity, View view) {
+	public DemoAppRenderer(Activity activity, View view, boolean usingGLES2) {
 		this.activity = activity;
 		this.view = view;
+		this.usingGLES2 = usingGLES2;
 		this.boot = new Boot(activity, view);
 		audioBridge = new AudioBridge(boot);
 		boot.setAudioBridge(audioBridge);
@@ -105,7 +107,7 @@ public class DemoAppRenderer implements Renderer, InputHandler, SensorEventListe
 		synchronized (tickMutex) {
 			if (!bootInitialized) {
 				Log.i(TAG, "Calling boot.init()");
-				boot.init(width, height);
+				boot.init(width, height, usingGLES2);
 				bootInitialized = true;
 			}
 		}

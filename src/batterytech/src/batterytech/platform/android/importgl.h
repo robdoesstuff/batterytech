@@ -30,7 +30,7 @@ extern "C" {
  * Should be called once on application initialization.
  * Returns non-zero on success and 0 on failure.
  */
-extern int importGLInit();
+extern int importGLInit(int usingGLES2);
 
 /* Frees the handle to egl & gl functions library.
  */

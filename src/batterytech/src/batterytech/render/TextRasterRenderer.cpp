@@ -161,7 +161,7 @@ namespace BatteryTech {
 				//newline, restart.
 				x = 0;
 			}
-			if (*text >= 32 && *text < 128) {
+			if (*text >= 32 && *text < 256) {
 				stbtt_aligned_quad q;
 				stbtt_GetBakedQuad(cdata, bmpWidth, bmpHeight, *text-32, &x,&y,&q,1);//1=opengl,0=old d3d
 				if (q.x0 < lowestX) {
@@ -208,7 +208,7 @@ namespace BatteryTech {
 		F32 uvs[TEXT_RENDER_MAX_LINE_LENGTH * 6 * 2];
 		S32 i = 0;
 		while (*text && i <= TEXT_RENDER_MAX_LINE_LENGTH) {
-			if (*text >= 32 && *text < 128) {
+			if (*text >= 32 && *text < 256) {
 				stbtt_aligned_quad q;
 				stbtt_GetBakedQuad(cdata, bmpWidth, bmpHeight, *text-32, &x,&y,&q,1);//1=opengl,0=old d3d
 				S32 pos = i * 18;
@@ -290,7 +290,7 @@ namespace BatteryTech {
 				y += lineHeight;
 				x = 0;
 			}
-			if (c >= 32 && c < 128) {
+			if (c >= 32 && c < 256) {
 				if (c == 32) {
 					lastSpaceIdx = i;
 				}
@@ -337,7 +337,7 @@ namespace BatteryTech {
 					break;
 				}
 			}
-			if (c >= 32 && c < 128) {
+			if (c >= 32 && c < 256) {
 				if (c == 32) {
 					lastSpaceIdx = i;
 				}
