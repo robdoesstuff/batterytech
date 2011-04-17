@@ -33,6 +33,14 @@
 	#define glOrthof(left,right,bottom,top,near,far) glOrtho(left,right,bottom,top,near,far)
 	#define glFrustumf(xmin, xmax, ymin, ymax, zNear, zFar) glFrustum(xmin, xmax, ymin, ymax, zNear, zFar)
 
+	// OpenGL 1.5 extensions
+	extern PFNGLGENBUFFERSPROC glGenBuffers;
+	extern PFNGLBINDBUFFERPROC glBindBuffer;
+	extern PFNGLBUFFERDATAPROC glBufferData;
+	extern PFNGLBUFFERSUBDATAPROC glBufferSubData;
+	extern PFNGLISBUFFERPROC glIsBuffer;
+	extern PFNGLDELETEBUFFERSPROC glDeleteBuffers;
+
 	// OpenGL 2.0 extensions
 	extern PFNGLBLENDEQUATIONSEPARATEPROC glBlendEquationSeparate;
 	extern PFNGLDRAWBUFFERSPROC glDrawBuffers;

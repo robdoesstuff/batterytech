@@ -43,6 +43,14 @@ using namespace BatteryTech;
 #define _LPCSTR LPCWSTR
 #endif
 
+// OpenGL 1.5 extension function pointers
+PFNGLGENBUFFERSPROC glGenBuffers = NULL;
+PFNGLBINDBUFFERPROC glBindBuffer = NULL;
+PFNGLBUFFERDATAPROC glBufferData = NULL;
+PFNGLBUFFERSUBDATAPROC glBufferSubData = NULL;
+PFNGLISBUFFERPROC glIsBuffer = NULL;
+PFNGLDELETEBUFFERSPROC glDeleteBuffers = NULL;
+
 // OpenGL 2.0 extension function pointers (almost all but the VertexAttrib "s" and "d" functions are ES 2.0 compatible)
 PFNGLBLENDEQUATIONSEPARATEPROC glBlendEquationSeparate = NULL;
 PFNGLDRAWBUFFERSPROC glDrawBuffers = NULL;
@@ -401,7 +409,14 @@ void EnableOpenGL(HWND hWnd, HDC * hDC, HGLRC * hRC) {
 	logmsg(buf);
 	sprintf(buf, "OpenGL Version [%s]", version);
 	logmsg(buf);
-	logmsg("Loading OpenGL 2.0 extensions");
+	logmsg("Loading OpenGL 1.5/2.0 extensions");
+	// load 1.5 extensions
+	glGenBuffers = (PFNGLGENBUFFERSPROC) wglLoadExtension("glGenBuffers");
+	glBindBuffer = (PFNGLBINDBUFFERPROC) wglLoadExtension("glBindBuffer");
+	glBufferData = (PFNGLBUFFERDATAPROC) wglLoadExtension("glBufferData");
+	glBufferSubData = (PFNGLBUFFERSUBDATAPROC) wglLoadExtension("glBufferSubData");
+	glIsBuffer = (PFNGLISBUFFERPROC) wglLoadExtension("glIsBuffer");
+	glDeleteBuffers = (PFNGLDELETEBUFFERSPROC) wglLoadExtension("glDeleteBuffers");
 	// load extensions we need for opengl 2.0
     glBlendEquationSeparate = (PFNGLBLENDEQUATIONSEPARATEPROC) wglLoadExtension("glBlendEquationSeparate");
 	glDrawBuffers = (PFNGLDRAWBUFFERSPROC) wglLoadExtension("glDrawBuffers");
