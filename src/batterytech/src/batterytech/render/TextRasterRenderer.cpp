@@ -26,6 +26,10 @@
 #include "../batterytech_globals.h"
 #include <stdio.h>
 
+// uncomment this if there are strange text artifacts - it will put debuggable values into the text arrays which
+// will show any algorithm errors in layout if any array positions are skipped accidentally.
+// #define DEBUG_TEXT_ELEMENT_ARRAY
+
 namespace BatteryTech {
 
 	TextRasterRenderer::TextRasterRenderer(Context *context, const char *assetName, F32 fontSize) {
@@ -207,6 +211,38 @@ namespace BatteryTech {
 		F32 verts[TEXT_RENDER_MAX_LINE_LENGTH * 6 * 3];
 		F32 uvs[TEXT_RENDER_MAX_LINE_LENGTH * 6 * 2];
 		S32 i = 0;
+#ifdef DEBUG_TEXT_ELEMENT_ARRAY
+		for (S32 i = 0; i < TEXT_RENDER_MAX_LINE_LENGTH; i++) {
+			// top left
+			verts[i * 18] = verts[i * 18 + 9] = 0;
+			verts[i * 18 + 1] = verts[i * 18 + 9 + 10] = 0;
+			verts[i * 18 + 2] = verts[i * 18 + 9 + 11] = 0;
+			// top right
+			verts[i * 18 + 3] = context->gConfig->viewportWidth;
+			verts[i * 18 + 4] = 0;
+			verts[i * 18 + 5] = 0;
+			// bottom right
+			verts[i * 18 + 6] = verts[i * 18 + 12] = context->gConfig->viewportWidth;
+			verts[i * 18 + 7] = verts[i * 18 + 13] = context->gConfig->viewportHeight;
+			verts[i * 18 + 8] = verts[i * 18 + 14] = 0;
+			// bottom left
+			verts[i * 18 + 15] = 0;
+			verts[i * 18 + 16] = context->gConfig->viewportHeight;
+			verts[i * 18 + 17] = 0;
+			// 0
+			uvs[i * 12] = uvs[i * 12 + 6] = 0;
+			uvs[i * 12 + 1] = uvs[i * 12 + 7] = 0;
+			// 1
+			uvs[i * 12 + 2] = 1.0;
+			uvs[i * 12 + 3] = 0;
+			// 2
+			uvs[i * 12 + 4] = uvs[i * 12 + 8] = 1.0;
+			uvs[i * 12 + 5] = uvs[i * 12 + 9] = 1.0;
+			// 3
+			uvs[i * 12 + 10] = 0;
+			uvs[i * 12 + 11] = 1.0;
+		}
+#endif
 		while (*text && i <= TEXT_RENDER_MAX_LINE_LENGTH) {
 			if (*text >= 32 && *text < 256) {
 				stbtt_aligned_quad q;
@@ -305,7 +341,9 @@ namespace BatteryTech {
 						lastSpaceIdx = -1;
 						c = *(text + i);
 					}
-					stbtt_GetBakedQuad(cdata, bmpWidth, bmpHeight, c-32, &x,&y,&q,1);//1=opengl,0=old d3d
+					if (c >= 32 && c < 128) {
+						stbtt_GetBakedQuad(cdata, bmpWidth, bmpHeight, c-32, &x,&y,&q,1);//1=opengl,0=old d3d
+					}
 				}
 			}
 			++i;
@@ -322,8 +360,43 @@ namespace BatteryTech {
 		// longest string is TEXT_RENDER_MAX_MULTILINE_LENGTH
 		F32 verts[TEXT_RENDER_MAX_MULTILINE_LENGTH * 6 * 3];
 		F32 uvs[TEXT_RENDER_MAX_MULTILINE_LENGTH * 6 * 2];
+#ifdef DEBUG_TEXT_ELEMENT_ARRAY
+		for (S32 i = 0; i < TEXT_RENDER_MAX_MULTILINE_LENGTH; i++) {
+			// top left
+			verts[i * 18] = verts[i * 18 + 9] = 0;
+			verts[i * 18 + 1] = verts[i * 18 + 9 + 10] = 0;
+			verts[i * 18 + 2] = verts[i * 18 + 9 + 11] = 0;
+			// top right
+			verts[i * 18 + 3] = context->gConfig->viewportWidth;
+			verts[i * 18 + 4] = 0;
+			verts[i * 18 + 5] = 0;
+			// bottom right
+			verts[i * 18 + 6] = verts[i * 18 + 12] = context->gConfig->viewportWidth;
+			verts[i * 18 + 7] = verts[i * 18 + 13] = context->gConfig->viewportHeight;
+			verts[i * 18 + 8] = verts[i * 18 + 14] = 0;
+			// bottom left
+			verts[i * 18 + 15] = 0;
+			verts[i * 18 + 16] = context->gConfig->viewportHeight;
+			verts[i * 18 + 17] = 0;
+			// 0
+			uvs[i * 12] = uvs[i * 12 + 6] = 0;
+			uvs[i * 12 + 1] = uvs[i * 12 + 7] = 0;
+			// 1
+			uvs[i * 12 + 2] = 1.0;
+			uvs[i * 12 + 3] = 0;
+			// 2
+			uvs[i * 12 + 4] = uvs[i * 12 + 8] = 1.0;
+			uvs[i * 12 + 5] = uvs[i * 12 + 9] = 1.0;
+			// 3
+			uvs[i * 12 + 10] = 0;
+			uvs[i * 12 + 11] = 1.0;
+		}
+#endif
 		S32 i = 0;
+		// count the number of actually renderable characters
+		S32 renderChars = 0;
 		S32 lastSpaceIdx = -1;
+		S32 lastSpaceRenderIdx = -1;
 		F32 origX = x;
 		//F32 origY = y;
 		F32 lineHeight = getHeight() * TEXT_VERTICAL_SPACING_MULT;
@@ -331,6 +404,7 @@ namespace BatteryTech {
 		while (c && i <= TEXT_RENDER_MAX_MULTILINE_LENGTH) {
 			if (c == '\n') {
 				lastSpaceIdx = -1;
+				lastSpaceRenderIdx = -1;
 				y += lineHeight;
 				x = origX;
 				if (y > maxY) {
@@ -340,25 +414,30 @@ namespace BatteryTech {
 			if (c >= 32 && c < 256) {
 				if (c == 32) {
 					lastSpaceIdx = i;
+					lastSpaceRenderIdx = renderChars;
 				}
 				stbtt_aligned_quad q;
 				stbtt_GetBakedQuad(cdata, bmpWidth, bmpHeight, c-32, &x,&y,&q,1);//1=opengl,0=old d3d
 				if (x > maxX) {
 					x = origX;
 					y += lineHeight;
-					// rewind to 1 past last space
+					// rewind to char index after last space (but last space render char)
 					if (lastSpaceIdx != -1) {
 						i = lastSpaceIdx + 1;
+						renderChars = lastSpaceRenderIdx;
 						lastSpaceIdx = -1;
+						lastSpaceRenderIdx = -1;
 						c = *(text + i);
 					}
 					if (y > maxY) {
 						break;
 					} else {
-						stbtt_GetBakedQuad(cdata, bmpWidth, bmpHeight, c-32, &x,&y,&q,1);//1=opengl,0=old d3d
+						if (c >= 32 && c < 256) {
+							stbtt_GetBakedQuad(cdata, bmpWidth, bmpHeight, c-32, &x,&y,&q,1);//1=opengl,0=old d3d
+						}
 					}
 				}
-				S32 pos = i * 18;
+				S32 pos = renderChars * 18;
 				// 0
 				verts[pos] = q.x0;
 				verts[pos + 1] = q.y0;
@@ -383,7 +462,7 @@ namespace BatteryTech {
 				verts[pos + 15] = q.x0;
 				verts[pos + 16] = q.y1;
 				verts[pos + 17] = 0;
-				pos = i * 12;
+				pos = renderChars * 12;
 				// 0
 				uvs[pos] = q.s0;
 				uvs[pos + 1] = q.t0;
@@ -402,6 +481,10 @@ namespace BatteryTech {
 				// 3
 				uvs[pos + 10] = q.s0;
 				uvs[pos + 11] = q.t1;
+				//char buf[100];
+				//sprintf(buf, "RenderChar %d (%c) is pos %d", renderChars, c, pos);
+				//logmsg(buf);
+				++renderChars;
 			}
 			++i;
 			c = *(text + i);
@@ -420,7 +503,7 @@ namespace BatteryTech {
 			glVertexPointer(3, GL_FLOAT, 0, &verts);
 			glTexCoordPointer(2, GL_FLOAT, 0, &uvs);
 		}
-		glDrawArrays(GL_TRIANGLES, 0, length * 6);
+		glDrawArrays(GL_TRIANGLES, 0, renderChars * 6);
 	}
 
 }
