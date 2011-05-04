@@ -18,12 +18,11 @@ BatchSpriteRenderer::BatchSpriteRenderer(Context *context, const char *spriteAss
 	this->context = context;
 	this->spriteAssetName = spriteAssetName;
 	textureId = 0;
-	vertShader = fragShader = program = shaderProjMatrix =
-	shaderMVMatrix = shaderVPosition = shaderUvMap = shaderTex =
-	shaderColorFilter = 0;
+	shaderProgram = new ShaderProgram("shaders/quadshader.vert", "shaders/quadshader.frag");
 }
 
 BatchSpriteRenderer::~BatchSpriteRenderer() {
+	delete shaderProgram;
 }
 
 void BatchSpriteRenderer::init(BOOL32 newContext) {
@@ -34,31 +33,14 @@ void BatchSpriteRenderer::init(BOOL32 newContext) {
 	if (spriteAssetName && strlen(spriteAssetName) > 0) {
 		textureId = loadTexture(spriteAssetName, context);
 	}
-	if (!newContext && program) {
-		glDetachShader(program, vertShader);
-		glDetachShader(program, fragShader);
-		glDeleteShader(vertShader);
-		glDeleteShader(fragShader);
-		glDeleteProgram(program);
-	}
 	if (context->gConfig->useShaders) {
-		GLint status = 0;
-		vertShader = loadShaderFromAsset(GL_VERTEX_SHADER, "shaders/quadshader.vert");
-		fragShader = loadShaderFromAsset(GL_FRAGMENT_SHADER, "shaders/quadshader.frag");
-		program = glCreateProgram();
-		glAttachShader(program, vertShader);
-		glAttachShader(program, fragShader);
-		glLinkProgram(program);
-		glGetProgramiv(program, GL_LINK_STATUS, &status);
-		if(status == GL_FALSE){
-			logProgramInfo(program);
-		}
-		shaderVPosition = glGetAttribLocation(program, "vPosition");
-		shaderUvMap = glGetAttribLocation(program, "uvMap");
-		shaderProjMatrix = glGetUniformLocation(program, "projection_matrix");
-		shaderMVMatrix = glGetUniformLocation(program, "modelview_matrix");
-		shaderTex = glGetUniformLocation(program, "tex");
-		shaderColorFilter = glGetUniformLocation(program, "colorFilter");
+		shaderProgram->init(newContext);
+		shaderProgram->addVertexAttributeLoc("vPosition");
+		shaderProgram->addVertexAttributeLoc("uvMap");
+		shaderProgram->addUniformLoc("projection_matrix");
+		shaderProgram->addUniformLoc("modelview_matrix");
+		shaderProgram->addUniformLoc("tex");
+		shaderProgram->addUniformLoc("colorFilter");
 	}
 }
 
@@ -70,20 +52,16 @@ void BatchSpriteRenderer::startBatch() {
 	glBindTexture(GL_TEXTURE_2D, textureId);
 	glFrontFace(GL_CW);
 	if (context->gConfig->useShaders) {
-		glUseProgram(program);
-		glEnableVertexAttribArray(shaderVPosition);
-		glEnableVertexAttribArray(shaderUvMap);
-		glUniform1i(shaderTex, 0);
-		Vec4f colorFilter = context->renderContext->colorFilter;
-		glUniform4f(shaderColorFilter, colorFilter.x,colorFilter.y,colorFilter.z,colorFilter.a);
+		shaderProgram->bind();
+		glUniform1i(shaderProgram->getUniformLoc("tex"), 0);
+		Vector4f colorFilter = context->renderContext->colorFilter;
+		glUniform4f(shaderProgram->getUniformLoc("colorFilter"), colorFilter.r,colorFilter.g,colorFilter.b,colorFilter.a);
 	}
 }
 
 void BatchSpriteRenderer::endBatch() {
 	if (context->gConfig->useShaders) {
-		glDisableVertexAttribArray(shaderVPosition);
-		glDisableVertexAttribArray(shaderUvMap);
-		glUseProgram(0);
+		shaderProgram->unbind();
 	}
 }
 
@@ -95,10 +73,10 @@ void BatchSpriteRenderer::render(F32 top, F32 right, F32 bottom, F32 left) {
 			0, 0, 1, 0, 1, 1, 0, 1
 	};
 	if (context->gConfig->useShaders) {
-		glVertexAttribPointer(shaderVPosition, 3, GL_FLOAT, GL_FALSE, 0, verts);
-		glVertexAttribPointer(shaderUvMap, 2, GL_FLOAT, GL_FALSE, 0, uvs);
-		glUniformMatrix4fv(shaderProjMatrix, 1, GL_FALSE, (GLfloat*) &context->renderContext->projMatrix.m[0][0]);
-		glUniformMatrix4fv(shaderMVMatrix, 1, GL_FALSE, (GLfloat*) &context->renderContext->mvMatrix.m[0][0]);
+		glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("vPosition"), 3, GL_FLOAT, GL_FALSE, 0, verts);
+		glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("uvMap"), 2, GL_FLOAT, GL_FALSE, 0, uvs);
+		glUniformMatrix4fv(shaderProgram->getUniformLoc("projection_matrix"), 1, GL_FALSE, (GLfloat*) context->renderContext->projMatrix.data);
+		glUniformMatrix4fv(shaderProgram->getUniformLoc("modelview_matrix"), 1, GL_FALSE, (GLfloat*) context->renderContext->mvMatrix.data);
 		glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 	} else {
 		glVertexPointer(3, GL_FLOAT, 0, &verts);
@@ -119,19 +97,18 @@ void BatchSpriteRenderer::render(F32 x, F32 y, F32 width, F32 height, F32 angleR
 			0, 0, 1, 0, 1, 1, 0, 1
 	};
 	if (context->gConfig->useShaders) {
-		ESMatrix myMvMatrix;
-		esCopy(&myMvMatrix, &context->renderContext->mvMatrix);
-		esTranslate(&myMvMatrix, x, y, 0);
-		esRotate(&myMvMatrix, angleRads * (180 / PI), 0, 0, -1.0f);
-		glVertexAttribPointer(shaderVPosition, 3, GL_FLOAT, GL_FALSE, 0, verts);
-		glVertexAttribPointer(shaderUvMap, 2, GL_FLOAT, GL_FALSE, 0, uvs);
-		glUniformMatrix4fv(shaderProjMatrix, 1, GL_FALSE, (GLfloat*) &context->renderContext->projMatrix.m[0][0]);
-		glUniformMatrix4fv(shaderMVMatrix, 1, GL_FALSE, (GLfloat*) &myMvMatrix.m[0][0]);
+		Matrix4f myMvMatrix = context->renderContext->mvMatrix;
+		myMvMatrix.translate(x, y, 0);
+		myMvMatrix.rotate(angleRads * (180 / PI), 0, 0, -1.0f);
+		glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("vPosition"), 3, GL_FLOAT, GL_FALSE, 0, verts);
+		glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("uvMap"), 2, GL_FLOAT, GL_FALSE, 0, uvs);
+		glUniformMatrix4fv(shaderProgram->getUniformLoc("projection_matrix"), 1, GL_FALSE, (GLfloat*) context->renderContext->projMatrix.data);
+		glUniformMatrix4fv(shaderProgram->getUniformLoc("modelview_matrix"), 1, GL_FALSE, (GLfloat*) myMvMatrix.data);
 		glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 	} else {
 		// GL1 rendering branch
-		Vec4f colorFilter = context->renderContext->colorFilter;
-		glColor4f(colorFilter.x,colorFilter.y,colorFilter.z,colorFilter.a);
+		Vector4f colorFilter = context->renderContext->colorFilter;
+		glColor4f(colorFilter.r,colorFilter.g,colorFilter.b,colorFilter.a);
 		glPushMatrix();
 		glTranslatef(x, y, 0);
 		glRotatef(angleRads * (180 / PI), 0, 0, 1.0f);

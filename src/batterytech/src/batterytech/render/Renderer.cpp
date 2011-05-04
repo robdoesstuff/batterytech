@@ -69,10 +69,7 @@ namespace BatteryTech {
 			} else if (n == 4) {
 				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, x, y, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 			}
-			GLenum error = glGetError();
-			if (error) {
-				logmsg("GL Error");
-			}
+			checkGLError("Renderer Load Texture");
 			stbi_image_free(data);
 		}
 		_platform_free_asset(fileData);
@@ -88,7 +85,7 @@ namespace BatteryTech {
 			shaderText[assetSize] = '\0';
 			_platform_free_asset(fileData);
 			//logmsg(shaderText);
-			GLuint shader = loadShader(type, shaderText);
+			GLuint shader = loadShader(type, shaderText, assetName);
 			delete [] shaderText;
 			return shader;
 		} else {
@@ -98,7 +95,7 @@ namespace BatteryTech {
 		return 0;
 	}
 
-	GLuint Renderer::loadShader(GLenum type, const char *shaderSrc) {
+	GLuint Renderer::loadShader(GLenum type, const char *shaderSrc, const char *assetName) {
 	   GLuint shader;
 	   GLint compiled;
 	   // Create the shader object
@@ -113,6 +110,9 @@ namespace BatteryTech {
 	   // Check the compile status
 	   glGetShaderiv(shader, GL_COMPILE_STATUS, &compiled);
 	   if(!compiled) {
+		   char buf[255];
+		   sprintf(buf, "Error loading shader %s", assetName);
+		   logmsg(buf);
 		   logShaderInfo(shader);
 		   glDeleteShader(shader);
 		  return 0;
@@ -140,4 +140,14 @@ namespace BatteryTech {
 		}
 	}
 
+	void Renderer::checkGLError(const char *tag) {
+		GLenum e = glGetError();
+		// loop to clear the error stack
+		while (e != GL_NO_ERROR) {
+			char buf[50];
+			sprintf(buf, "%s - GL Error - %d", tag, e);
+			logmsg(buf);
+			e = glGetError();
+		}
+	}
 }

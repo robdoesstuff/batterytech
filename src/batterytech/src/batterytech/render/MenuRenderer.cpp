@@ -24,6 +24,7 @@
 #include "../../demo-app/UIConstants.h"
 #include "RenderContext.h"
 #include "../batterytech_globals.h"
+#include "ShaderProgram.h"
 
 namespace BatteryTech {
 
@@ -31,15 +32,14 @@ namespace BatteryTech {
 		this->context = context;
 		assetNames = new ManagedArray<const char>(MAX_UI_ASSET_NAMES);
 		textRenderer = new TextRasterRenderer(context, UI_MENU_FONT, UI_FONT_SIZE);
-		vertShader = fragShader = program = shaderProjMatrix =
-		shaderMVMatrix = shaderVPosition = shaderUvMap = shaderTex =
-		shaderColorFilter = 0;
+		shaderProgram = new ShaderProgram("shaders/quadshader.vert", "shaders/quadshader.frag");
 	}
 
 	MenuRenderer::~MenuRenderer() {
 		delete assetNames;
 		delete [] textureIds;
 		delete textRenderer;
+		delete shaderProgram;
 	}
 
 	/** Adds a texture asset or returns the ID of the one already added if equal */
@@ -70,43 +70,28 @@ namespace BatteryTech {
 			glBindTexture(GL_TEXTURE_2D, textureIds[i]);
 			loadTexture(assetNames->array[i]);
 		}
-		if (!newContext && program) {
-			glDetachShader(program, vertShader);
-			glDetachShader(program, fragShader);
-			glDeleteShader(vertShader);
-			glDeleteShader(fragShader);
-			glDeleteProgram(program);
-		}
 		if (context->gConfig->useShaders) {
-			GLint status = 0;
-			vertShader = loadShaderFromAsset(GL_VERTEX_SHADER, "shaders/quadshader.vert");
-			fragShader = loadShaderFromAsset(GL_FRAGMENT_SHADER, "shaders/quadshader.frag");
-			program = glCreateProgram();
-			glAttachShader(program, vertShader);
-			glAttachShader(program, fragShader);
-			glLinkProgram(program);
-			glGetProgramiv(program, GL_LINK_STATUS, &status);
-			if(status == GL_FALSE){
-				logProgramInfo(program);
-			}
-			shaderVPosition = glGetAttribLocation(program, "vPosition");
-			shaderUvMap = glGetAttribLocation(program, "uvMap");
-			shaderProjMatrix = glGetUniformLocation(program, "projection_matrix");
-			shaderMVMatrix = glGetUniformLocation(program, "modelview_matrix");
-			shaderTex = glGetUniformLocation(program, "tex");
-			shaderColorFilter = glGetUniformLocation(program, "colorFilter");
+			shaderProgram->init(newContext);
+			shaderProgram->addVertexAttributeLoc("vPosition");
+			shaderProgram->addVertexAttributeLoc("uvMap");
+			shaderProgram->addUniformLoc("projection_matrix");
+			shaderProgram->addUniformLoc("modelview_matrix");
+			shaderProgram->addUniformLoc("tex");
+			shaderProgram->addUniformLoc("colorFilter");
 		}
+		checkGLError("MenuRenderer init");
 	}
 
 	void MenuRenderer::render() {
+		checkGLError("MenuRenderer Start");
 		// set the menu projection
 		glEnable(GL_BLEND);
 		glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glViewport(0, 0, context->gConfig->viewportWidth, context->gConfig->viewportHeight);
 		if (context->gConfig->useShaders) {
-			esMatrixLoadIdentity(&context->renderContext->projMatrix);
-			esOrtho(&context->renderContext->projMatrix, 0, context->gConfig->width, context->gConfig->height, 0, -1, 1);
-			esMatrixLoadIdentity(&context->renderContext->mvMatrix);
+			context->renderContext->projMatrix.identity();
+			context->renderContext->projMatrix.ortho(0, context->gConfig->width, context->gConfig->height, 0, -1, 1);
+			context->renderContext->mvMatrix.identity();
 		} else {
 			glMatrixMode(GL_PROJECTION);
 			glLoadIdentity();
@@ -123,6 +108,7 @@ namespace BatteryTech {
 			render(root);
 		}
 		glDisable(GL_BLEND);
+		checkGLError("MenuRenderer End");
 	}
 
 	void MenuRenderer::render(UIComponent *component) {
@@ -137,9 +123,9 @@ namespace BatteryTech {
 			glScissor(component->left, context->gConfig->viewportHeight - component->bottom, component->right - component->left, component->bottom - component->top);
 		}
 		if (!component->isEnabled) {
-			context->renderContext->colorFilter = Vec4f(0.5f,0.5f,0.5f,1.0f);
+			context->renderContext->colorFilter = Vector4f(0.5f,0.5f,0.5f,1.0f);
 		} else {
-			context->renderContext->colorFilter = Vec4f(1,1,1,1);
+			context->renderContext->colorFilter = Vector4f(1,1,1,1);
 		}
 		// draw this component first then recurse children
 		S32 menuResourceId = component->backgroundMenuResourceId;
@@ -163,9 +149,9 @@ namespace BatteryTech {
 		}
 		if (component->text) {
 			if (component->isEnabled) {
-				context->renderContext->colorFilter = Vec4f(component->textR,component->textB,component->textG,component->textA);
+				context->renderContext->colorFilter = Vector4f(component->textR,component->textB,component->textG,component->textA);
 			} else {
-				context->renderContext->colorFilter = Vec4f(component->textR*0.5f,component->textB*0.5f,component->textG*0.5f,component->textA);
+				context->renderContext->colorFilter = Vector4f(component->textR*0.5f,component->textB*0.5f,component->textG*0.5f,component->textA);
 			}
 			activeResourceId = -1;
 			// TODO - optimize for 1 pass text
@@ -219,7 +205,7 @@ namespace BatteryTech {
 				render(components[i]);
 			}
 		}
-		context->renderContext->colorFilter = Vec4f(1,1,1,1);
+		context->renderContext->colorFilter = Vector4f(1,1,1,1);
 		if (component->isVirtualLargerThanDrawable()) {
 			glDisable(GL_SCISSOR_TEST);
 		}
@@ -238,22 +224,18 @@ namespace BatteryTech {
 		glFrontFace(GL_CW);
 		if (context->gConfig->useShaders) {
 			// this is less than efficient because of the layered text rendering
-			glUseProgram(program);
-			glEnableVertexAttribArray(shaderVPosition);
-			glEnableVertexAttribArray(shaderUvMap);
-			glVertexAttribPointer(shaderVPosition, 3, GL_FLOAT, GL_FALSE, 0, verts);
-			glVertexAttribPointer(shaderUvMap, 2, GL_FLOAT, GL_FALSE, 0, uvs);
-			glUniformMatrix4fv(shaderProjMatrix, 1, GL_FALSE, (GLfloat*) &context->renderContext->projMatrix.m[0][0]);
-			glUniformMatrix4fv(shaderMVMatrix, 1, GL_FALSE, (GLfloat*) &context->renderContext->mvMatrix.m[0][0]);
-			glUniform1i(shaderTex, 0);
-			Vec4f colorFilter = context->renderContext->colorFilter;
-			glUniform4f(shaderColorFilter, colorFilter.x,colorFilter.y,colorFilter.z,colorFilter.a);
+			shaderProgram->bind();
+			glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("vPosition"), 3, GL_FLOAT, GL_FALSE, 0, verts);
+			glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("uvMap"), 2, GL_FLOAT, GL_FALSE, 0, uvs);
+			glUniformMatrix4fv(shaderProgram->getUniformLoc("projection_matrix"), 1, GL_FALSE, (GLfloat*) context->renderContext->projMatrix.data);
+			glUniformMatrix4fv(shaderProgram->getUniformLoc("modelview_matrix"), 1, GL_FALSE, (GLfloat*) context->renderContext->mvMatrix.data);
+			glUniform1i(shaderProgram->getUniformLoc("tex"), 0);
+			Vector4f colorFilter = context->renderContext->colorFilter;
+			glUniform4f(shaderProgram->getUniformLoc("colorFilter"), colorFilter.x,colorFilter.y,colorFilter.z,colorFilter.a);
 			glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
-			glDisableVertexAttribArray(shaderVPosition);
-			glDisableVertexAttribArray(shaderUvMap);
-			glUseProgram(0);
+			shaderProgram->unbind();
 		} else {
-			Vec4f colorFilter = context->renderContext->colorFilter;
+			Vector4f colorFilter = context->renderContext->colorFilter;
 			glColor4f(colorFilter.x,colorFilter.y,colorFilter.z,colorFilter.a);
 			glVertexPointer(3, GL_FLOAT, 0, &verts);
 			glTexCoordPointer(2, GL_FLOAT, 0, &uvs);
@@ -290,10 +272,7 @@ namespace BatteryTech {
 			} else if (n == 4) {
 				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, x, y, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 			}
-			GLenum error = glGetError();
-			if (error) {
-				logmsg("GL Error");
-			}
+			checkGLError("MenuRenderer Load Texture");
 			stbi_image_free(data);
 		}
 		_platform_free_asset(fileData);

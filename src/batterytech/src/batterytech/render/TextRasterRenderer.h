@@ -25,6 +25,7 @@
 namespace BatteryTech {
 
 	class Context;
+	class ShaderProgram;
 
 	class TextRasterRenderer: public Renderer {
 	public:
@@ -81,7 +82,7 @@ namespace BatteryTech {
 		const char *aName;
 		F32 fontSize;
 		S32 bmpWidth, bmpHeight;
-		GLuint vertShader, fragShader, program, shaderProjMatrix, shaderMVMatrix, shaderVPosition, shaderUvMap, shaderTex, shaderColorFilter;
+		ShaderProgram *shaderProgram;
 	};
 
 }

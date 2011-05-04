@@ -9,11 +9,11 @@
 #define GAMECONSTANTS_H_
 
 // angle math
-#define PI 3.14159265f
+#ifndef PI
+	#define PI 3.14159265f
+#endif
 #define HALFPI PI / 2
 #define TWOPI 2 * PI
-// float error tolerance
-#define EPSILON 0.0001f
 
 #define WORLD_LEFT 0.0f
 #define WORLD_BOTTOM 0.0f

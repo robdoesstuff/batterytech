@@ -29,17 +29,19 @@
 #ifndef TRIANGULATOR_H_
 #define TRIANGULATOR_H_
 
-#include "Vec2f.h"
+#include "Vector2.h"
+
+namespace BatteryTech {
 
 class Triangulator {
 public:
 
   // triangulate a contour/polygon, make sure result is at least (contourSize - 2) * 3 in size!
-  static bool Process(Vec2f *contour, int contourSize,
-		  Vec2f *result, int *resultSize);
+  static bool Process(Vector2f *contour, int contourSize,
+		  Vector2f *result, int *resultSize);
 
   // compute area of a contour/polygon
-  static float Area(Vec2f *contour, int contourSize);
+  static float Area(Vector2f *contour, int contourSize);
 
   // decide if point Px/Py is inside triangle defined by
   // (Ax,Ay) (Bx,By) (Cx,Cy)
@@ -49,8 +51,9 @@ public:
                       float Px, float Py);
 
 private:
-  static bool Snip(Vec2f *contour, int contourSize, int u,int v,int w,int n,int *V);
+  static bool Snip(Vector2f *contour, int contourSize, int u,int v,int w,int n,int *V);
 
 };
 
+}
 #endif /* TRIANGULATOR_H_ */

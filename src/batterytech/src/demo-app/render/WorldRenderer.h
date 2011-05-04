@@ -33,7 +33,6 @@ public:
 	virtual void render(World *world);
 	virtual ~WorldRenderer();
 private:
-	void initLevel(BOOL32 newContext);
 	void renderDebugLabels(World *world);
 	TextRasterRenderer *textRenderer;
 	B2DebugRenderer *b2DebugRenderer;

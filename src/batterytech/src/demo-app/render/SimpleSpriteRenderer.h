@@ -9,6 +9,7 @@
 #define SIMPLESPRITERENDERER_H_
 
 #include <batterytech/render/Renderer.h>
+#include <batterytech/render/ShaderProgram.h>
 #include <batterytech/Context.h>
 #include <batterytech/primitives.h>
 #include <batterytech/platform/platformgl.h>
@@ -27,7 +28,7 @@ private:
 	Context *context;
 	const char *spriteAssetName;
 	GLuint textureId;
-	GLuint vertShader, fragShader, program, shaderProjMatrix, shaderMVMatrix, shaderVPosition, shaderUvMap, shaderTex, shaderColorFilter;
+	ShaderProgram *shaderProgram;
 };
 
 #endif /* SIMPLESPRITERENDERER_H_ */

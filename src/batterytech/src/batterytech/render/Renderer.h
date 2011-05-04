@@ -41,7 +41,7 @@ namespace BatteryTech {
 		/**
 		 * Loads a shader from text source
 		 */
-		GLuint loadShader(GLenum type, const char *shaderSrc);
+		GLuint loadShader(GLenum type, const char *shaderSrc, const char *assetName);
 		/**
 		 * Loads a shader from an asset
 		 */
@@ -54,6 +54,8 @@ namespace BatteryTech {
 		 * Logs the program info from the GPU
 		 */
 		void logProgramInfo(GLuint obj);
+
+		void checkGLError(const char *tag);
 	};
 
 }

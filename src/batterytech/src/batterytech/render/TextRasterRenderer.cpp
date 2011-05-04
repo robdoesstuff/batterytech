@@ -25,6 +25,7 @@
 #include "../render/RenderContext.h"
 #include "../batterytech_globals.h"
 #include <stdio.h>
+#include "ShaderProgram.h"
 
 // uncomment this if there are strange text artifacts - it will put debuggable values into the text arrays which
 // will show any algorithm errors in layout if any array positions are skipped accidentally.
@@ -38,12 +39,11 @@ namespace BatteryTech {
 		this->fontSize = fontSize * context->gConfig->uiScale;
 		bmpWidth = 0;
 		bmpHeight = 0;
-		vertShader = fragShader = program = shaderProjMatrix =
-		shaderMVMatrix = shaderVPosition = shaderUvMap = shaderTex =
-		shaderColorFilter = 0;
+		shaderProgram = new ShaderProgram("shaders/quadshader.vert", "shaders/quadshader.frag");
 	}
 
 	TextRasterRenderer::~TextRasterRenderer() {
+		delete shaderProgram;
 	}
 
 	void TextRasterRenderer::init(BOOL32 newContext) {
@@ -117,33 +117,15 @@ namespace BatteryTech {
 		} else {
 			Logger::logMsg("error loading font");
 		}
-		if (!newContext && program) {
-			glDetachShader(program, vertShader);
-			glDetachShader(program, fragShader);
-			glDeleteShader(vertShader);
-			glDeleteShader(fragShader);
-			glDeleteProgram(program);
-		}
 		if (context->gConfig->useShaders) {
-			GLint status = 0;
-			vertShader = loadShaderFromAsset(GL_VERTEX_SHADER, "shaders/quadshader.vert");
-			fragShader = loadShaderFromAsset(GL_FRAGMENT_SHADER, "shaders/quadshader.frag");
-			program = glCreateProgram();
-			glAttachShader(program, vertShader);
-			glAttachShader(program, fragShader);
-			glLinkProgram(program);
-			glGetProgramiv(program, GL_LINK_STATUS, &status);
-			if(status == GL_FALSE){
-				logProgramInfo(program);
-			}
-			shaderVPosition = glGetAttribLocation(program, "vPosition");
-			shaderUvMap = glGetAttribLocation(program, "uvMap");
-			shaderProjMatrix = glGetUniformLocation(program, "projection_matrix");
-			shaderMVMatrix = glGetUniformLocation(program, "modelview_matrix");
-			shaderTex = glGetUniformLocation(program, "tex");
-			shaderColorFilter = glGetUniformLocation(program, "colorFilter");
+			shaderProgram->init(newContext);
+			shaderProgram->addVertexAttributeLoc("vPosition");
+			shaderProgram->addVertexAttributeLoc("uvMap");
+			shaderProgram->addUniformLoc("projection_matrix");
+			shaderProgram->addUniformLoc("modelview_matrix");
+			shaderProgram->addUniformLoc("tex");
+			shaderProgram->addUniformLoc("colorFilter");
 		}
-
 	}
 
 	F32 TextRasterRenderer::getHeight() {
@@ -186,18 +168,14 @@ namespace BatteryTech {
 		glFrontFace(GL_CW);
 		glBindTexture(GL_TEXTURE_2D, ftex);
 		if (context->gConfig->useShaders) {
-			glUseProgram(program);
-			glEnableVertexAttribArray(shaderVPosition);
-			glEnableVertexAttribArray(shaderUvMap);
+			shaderProgram->bind();
 		}
 	}
 
 	void TextRasterRenderer::finishText() {
 		//glDisable(GL_BLEND);
 		if (context->gConfig->useShaders) {
-			glDisableVertexAttribArray(shaderVPosition);
-			glDisableVertexAttribArray(shaderUvMap);
-			glUseProgram(0);
+			shaderProgram->unbind();
 		}
 	}
 
@@ -296,15 +274,15 @@ namespace BatteryTech {
 			++i;
 		}
 		if (context->gConfig->useShaders) {
-			glVertexAttribPointer(shaderVPosition, 3, GL_FLOAT, GL_FALSE, 0, verts);
-			glVertexAttribPointer(shaderUvMap, 2, GL_FLOAT, GL_FALSE, 0, uvs);
-			glUniformMatrix4fv(shaderProjMatrix, 1, GL_FALSE, (GLfloat*) &context->renderContext->projMatrix.m[0][0]);
-			glUniformMatrix4fv(shaderMVMatrix, 1, GL_FALSE, (GLfloat*) &context->renderContext->mvMatrix.m[0][0]);
-			glUniform1i(shaderTex, 0);
-			Vec4f colorFilter = context->renderContext->colorFilter;
-			glUniform4f(shaderColorFilter, colorFilter.x,colorFilter.y,colorFilter.z,colorFilter.a);
+			glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("vPosition"), 3, GL_FLOAT, GL_FALSE, 0, verts);
+			glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("uvMap"), 2, GL_FLOAT, GL_FALSE, 0, uvs);
+			glUniformMatrix4fv(shaderProgram->getUniformLoc("projection_matrix"), 1, GL_FALSE, (GLfloat*) context->renderContext->projMatrix.data);
+			glUniformMatrix4fv(shaderProgram->getUniformLoc("modelview_matrix"), 1, GL_FALSE, (GLfloat*) context->renderContext->mvMatrix.data);
+			glUniform1i(shaderProgram->getUniformLoc("tex"), 0);
+			Vector4f colorFilter = context->renderContext->colorFilter;
+			glUniform4f(shaderProgram->getUniformLoc("colorFilter"), colorFilter.x,colorFilter.y,colorFilter.z,colorFilter.a);
 		} else {
-			Vec4f colorFilter = context->renderContext->colorFilter;
+			Vector4f colorFilter = context->renderContext->colorFilter;
 			glColor4f(colorFilter.x,colorFilter.y,colorFilter.z,colorFilter.a);
 			glVertexPointer(3, GL_FLOAT, 0, &verts);
 			glTexCoordPointer(2, GL_FLOAT, 0, &uvs);
@@ -490,15 +468,15 @@ namespace BatteryTech {
 			c = *(text + i);
 		}
 		if (context->gConfig->useShaders) {
-			glVertexAttribPointer(shaderVPosition, 3, GL_FLOAT, GL_FALSE, 0, verts);
-			glVertexAttribPointer(shaderUvMap, 2, GL_FLOAT, GL_FALSE, 0, uvs);
-			glUniformMatrix4fv(shaderProjMatrix, 1, GL_FALSE, (GLfloat*) &context->renderContext->projMatrix.m[0][0]);
-			glUniformMatrix4fv(shaderMVMatrix, 1, GL_FALSE, (GLfloat*) &context->renderContext->mvMatrix.m[0][0]);
-			glUniform1i(shaderTex, 0);
-			Vec4f colorFilter = context->renderContext->colorFilter;
-			glUniform4f(shaderColorFilter, colorFilter.x,colorFilter.y,colorFilter.z,colorFilter.a);
+			glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("vPosition"), 3, GL_FLOAT, GL_FALSE, 0, verts);
+			glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("uvMap"), 2, GL_FLOAT, GL_FALSE, 0, uvs);
+			glUniformMatrix4fv(shaderProgram->getUniformLoc("projection_matrix"), 1, GL_FALSE, (GLfloat*) context->renderContext->projMatrix.data);
+			glUniformMatrix4fv(shaderProgram->getUniformLoc("modelview_matrix"), 1, GL_FALSE, (GLfloat*) context->renderContext->mvMatrix.data);
+			glUniform1i(shaderProgram->getUniformLoc("tex"), 0);
+			Vector4f colorFilter = context->renderContext->colorFilter;
+			glUniform4f(shaderProgram->getUniformLoc("colorFilter"), colorFilter.x,colorFilter.y,colorFilter.z,colorFilter.a);
 		} else {
-			Vec4f colorFilter = context->renderContext->colorFilter;
+			Vector4f colorFilter = context->renderContext->colorFilter;
 			glColor4f(colorFilter.x,colorFilter.y,colorFilter.z,colorFilter.a);
 			glVertexPointer(3, GL_FLOAT, 0, &verts);
 			glTexCoordPointer(2, GL_FLOAT, 0, &uvs);

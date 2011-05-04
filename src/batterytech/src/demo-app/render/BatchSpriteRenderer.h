@@ -9,6 +9,7 @@
 #define BATCHSPRITERENDERER_H_
 
 #include <batterytech/render/Renderer.h>
+#include <batterytech/render/ShaderProgram.h>
 #include <batterytech/Context.h>
 #include <batterytech/primitives.h>
 #include <batterytech/platform/platformgl.h>
@@ -28,8 +29,8 @@ public:
 private:
 	Context *context;
 	const char *spriteAssetName;
+	ShaderProgram *shaderProgram;
 	GLuint textureId;
-	GLuint vertShader, fragShader, program, shaderProjMatrix, shaderMVMatrix, shaderVPosition, shaderUvMap, shaderTex, shaderColorFilter;
 };
 
 #endif /* SIMPLESPRITERENDERER_H_ */

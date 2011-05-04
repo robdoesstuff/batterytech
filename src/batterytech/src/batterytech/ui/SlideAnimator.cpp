@@ -47,7 +47,7 @@ namespace BatteryTech {
 
 	void SlideAnimator::drawPreComponent(Context *context) {
 		if (context->gConfig->useShaders) {
-			esCopy(&tempMatrix, &context->renderContext->mvMatrix);
+			tempMatrix = context->renderContext->mvMatrix;
 		} else {
 			glPushMatrix();
 		}
@@ -83,7 +83,7 @@ namespace BatteryTech {
 				}
 			}
 			if (context->gConfig->useShaders) {
-				esTranslate(&context->renderContext->mvMatrix, translateX, translateY, 0);
+				context->renderContext->mvMatrix.translate(translateX, translateY, 0);
 			} else {
 				glTranslatef(translateX, translateY, 0);
 			}
@@ -92,7 +92,7 @@ namespace BatteryTech {
 
 	void SlideAnimator::drawPostComponent(Context *context) {
 		if (context->gConfig->useShaders) {
-			esCopy(&context->renderContext->mvMatrix, &tempMatrix);
+			context->renderContext->mvMatrix = tempMatrix;
 		} else {
 			glPopMatrix();
 		}

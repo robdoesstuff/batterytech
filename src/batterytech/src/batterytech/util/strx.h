@@ -23,7 +23,13 @@
  */
 BOOL32 strStartsWith(const char *str, const char *start);
 
-// Copies a string into new memory of the source string's length.
+// Copies a string into new memory of the source string's length. Note - uses "new" so you must "delete" instead of free
 char* strDuplicate(const char *str);
+
+// Determines string equality, wrapper for strcmp
+BOOL32 strEquals(const char *s1, const char *s2);
+
+// Determines if needle exists in haystack, wrapper for strstr
+BOOL32 strContains(const char *haystack, const char *needle);
 
 #endif /* STRX_H_ */

@@ -23,7 +23,7 @@ void BallRenderer::init(BOOL32 newContext) {
 }
 
 void BallRenderer::render(World *world) {
-	context->renderContext->colorFilter = Vec4f(1,1,1,1);
+	context->renderContext->colorFilter = Vector4f(1,1,1,1);
 	S32 i;
 	spriteRenderer->startBatch();
 	for (i = 0; i < world->gameObjects->getSize(); i++) {

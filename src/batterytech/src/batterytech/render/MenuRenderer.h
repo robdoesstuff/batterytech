@@ -30,6 +30,7 @@ namespace BatteryTech {
 	class UIManager;
 	class TextRasterRenderer;
 	class Context;
+	class ShaderProgram;
 
 	class MenuRenderer : Renderer {
 	public:
@@ -82,7 +83,7 @@ namespace BatteryTech {
 		GLuint *textureIds;
 		S32 activeResourceId;
 		TextRasterRenderer *textRenderer;
-		GLuint vertShader, fragShader, program, shaderProjMatrix, shaderMVMatrix, shaderVPosition, shaderUvMap, shaderTex, shaderColorFilter;
+		ShaderProgram *shaderProgram;
 	};
 
 }

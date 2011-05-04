@@ -19,7 +19,7 @@
 
 #include "UIAnimator.h"
 #include "../primitives.h"
-#include "../util/esTransform.h"
+#include "../math/Matrix4.h"
 
 namespace BatteryTech {
 
@@ -41,7 +41,7 @@ namespace BatteryTech {
 		F32 animationTime;
 		SlideSide side;
 		SlideType type;
-		ESMatrix tempMatrix;
+		Matrix4f tempMatrix;
 	};
 
 }

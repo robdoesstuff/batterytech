@@ -19,6 +19,10 @@
 #include "../primitives.h"
 #include <Math.h>
 #include <stdlib.h>
+#include "../math/Vector2.h"
+#include "../math/Vector3.h"
+#include "../math/Vector4.h"
+#include "../math/Matrix4.h"
 
 #define GLES_VERSION_CONSTANT "OpenGL ES"
 #define GLES_PROFILE_COMMON "CM"
@@ -27,8 +31,12 @@
 #define GLES_EXT_VERTEX_BUFFER_OBJECT "vertex_buffer_object"
 #define ANDROID_RENDERER_PIXELFLINGER "PixelFlinger"
 
+using namespace BatteryTech;
+
 BOOL32 gles_checkExtension(const char *extension);
 
 void gles_gluPerspective(float fovy, float aspect, float zNear, float zFar);
+Vector3f gles_gluProject(const Vector3f &worldCoord, Matrix4f &mvMatrix, Matrix4f &projMatrix, const Vector2f &viewXY, const Vector2f &viewExtents);
+Vector3f gles_gluUnProject(const Vector3f &winCoord, Matrix4f &mvMatrix, Matrix4f &projMatrix, const Vector2f &viewXY, const Vector2f &viewExtents);
 
 #endif /* OPENGLES_H_ */

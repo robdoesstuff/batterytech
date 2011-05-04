@@ -50,26 +50,22 @@ void WorldRenderer::init(BOOL32 newContext) {
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 	textRenderer->init(newContext);
 	b2DebugRenderer->init(newContext);
+	ballRenderer->init(newContext);
 	//uiBGRenderer->init(newContext);
 	glViewport(0, 0, gConfig->viewportWidth, gConfig->viewportHeight);
 }
 
-void WorldRenderer::initLevel(BOOL32 newContext) {
-	ballRenderer->init(newContext);
-}
-
 void WorldRenderer::render(World *world) {
 	if (world->gameState == GAMESTATE_LOADING) {
-		initLevel(FALSE);
 		world->renderersReady = TRUE;
 	}
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
-	context->renderContext->colorFilter = Vec4f(1, 1, 1, 1);
+	context->renderContext->colorFilter = Vector4f(1, 1, 1, 1);
 	if (gConfig->useShaders) {
-		esMatrixLoadIdentity(&context->renderContext->projMatrix);
-		esOrtho(&context->renderContext->projMatrix, WORLD_LEFT, WORLD_RIGHT, WORLD_BOTTOM, WORLD_TOP, -1, 1);
-		esMatrixLoadIdentity(&context->renderContext->mvMatrix);
+		context->renderContext->projMatrix.identity();
+		context->renderContext->projMatrix.ortho(WORLD_LEFT, WORLD_RIGHT, WORLD_BOTTOM, WORLD_TOP, -1, 1);
+		context->renderContext->mvMatrix.identity();
 	} else {
 		// set up world projection
 		glMatrixMode(GL_PROJECTION);
@@ -112,9 +108,9 @@ void WorldRenderer::render(World *world) {
 			char fpsText[10];
 			sprintf(fpsText, "FPS: %d", fps);
 			if (gConfig->useShaders) {
-				esMatrixLoadIdentity(&context->renderContext->projMatrix);
-				esMatrixLoadIdentity(&context->renderContext->mvMatrix);
-				esOrtho(&context->renderContext->projMatrix, 0, gConfig->width, gConfig->height, 0, -1, 1);
+				context->renderContext->projMatrix.identity();
+				context->renderContext->mvMatrix.identity();
+				context->renderContext->projMatrix.ortho(0, gConfig->width, gConfig->height, 0, -1, 1);
 			} else {
 				glMatrixMode(GL_PROJECTION);
 				glLoadIdentity();

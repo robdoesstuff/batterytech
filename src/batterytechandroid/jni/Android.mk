@@ -22,6 +22,10 @@ my_src_files :=\
 	batterytech/render/TextRasterRenderer.cpp \
 	batterytech/render/GraphicsConfiguration.cpp \
 	batterytech/render/MenuRenderer.cpp \
+	batterytech/render/ShaderProgram.cpp \
+	batterytech/render/GLModelBinding.cpp \
+	batterytech/importers/obj/ObjImporter.cpp \
+	batterytech/importers/obj/ObjScene.cpp \
 	batterytech/platform/android/androidgeneral.cpp \
 	batterytech/platform/android/boot.cpp \
 	batterytech/platform/android/importgl.cpp \

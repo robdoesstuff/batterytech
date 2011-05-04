@@ -33,9 +33,11 @@
 #include <string.h>
 #include <assert.h>
 
-static const float EPSILON=0.0000000001f;
+static const float T_EPSILON=0.0000000001f;
 
-float Triangulator::Area(Vec2f *contour, int contourSize)
+namespace BatteryTech {
+
+float Triangulator::Area(Vector2f *contour, int contourSize)
 {
 
   int n = contourSize;
@@ -76,7 +78,7 @@ bool Triangulator::InsideTriangle(float Ax, float Ay,
   return ((aCROSSbp >= 0.0f) && (bCROSScp >= 0.0f) && (cCROSSap >= 0.0f));
 };
 
-bool Triangulator::Snip(Vec2f *contour, int contourSize, int u,int v,int w,int n,int *V)
+bool Triangulator::Snip(Vector2f *contour, int contourSize, int u,int v,int w,int n,int *V)
 {
   int p;
   float Ax, Ay, Bx, By, Cx, Cy, Px, Py;
@@ -90,7 +92,7 @@ bool Triangulator::Snip(Vec2f *contour, int contourSize, int u,int v,int w,int n
   Cx = contour[V[w]].x;
   Cy = contour[V[w]].y;
 
-  if ( EPSILON > (((Bx-Ax)*(Cy-Ay)) - ((By-Ay)*(Cx-Ax))) ) return false;
+  if ( T_EPSILON > (((Bx-Ax)*(Cy-Ay)) - ((By-Ay)*(Cx-Ax))) ) return false;
 
   for (p=0;p<n;p++)
   {
@@ -103,8 +105,8 @@ bool Triangulator::Snip(Vec2f *contour, int contourSize, int u,int v,int w,int n
   return true;
 }
 
-bool Triangulator::Process(Vec2f *contour, int contourSize,
-		Vec2f *result, int *resultSize)
+bool Triangulator::Process(Vector2f *contour, int contourSize,
+		Vector2f *result, int *resultSize)
 {
   /* allocate and initialize list of Vertices in polygon */
 
@@ -167,3 +169,4 @@ bool Triangulator::Process(Vec2f *contour, int contourSize,
   return true;
 }
 
+}

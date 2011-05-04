@@ -20,7 +20,8 @@
 
 #include "../primitives.h"
 #include "../util/esTransform.h"
-#include "../math/Vec4f.h"
+#include "../math/Vector4.h"
+#include "../math/Matrix4.h"
 
 namespace BatteryTech {
 
@@ -31,15 +32,15 @@ namespace BatteryTech {
 		/**
 		 * Current projection matrix
 		 */
-		ESMatrix projMatrix;
+		Matrix4f projMatrix;
 		/**
 		 * Current modelview matrix
 		 */
-		ESMatrix mvMatrix;
+		Matrix4f mvMatrix;
 		/**
 		 * Current color (like glColor())
 		 */
-		Vec4f colorFilter;
+		Vector4f colorFilter;
 	};
 
 }

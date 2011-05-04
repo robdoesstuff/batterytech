@@ -20,8 +20,6 @@
 namespace BatteryTech {
 
 	RenderContext::RenderContext() {
-		esMatrixLoadIdentity(&projMatrix);
-		esMatrixLoadIdentity(&mvMatrix);
 	}
 
 	RenderContext::~RenderContext() {
