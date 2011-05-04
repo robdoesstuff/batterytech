@@ -42,11 +42,11 @@ void WorldRenderer::init(BOOL32 newContext) {
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 		glDisableClientState(GL_NORMAL_ARRAY);
 		glShadeModel(GL_SMOOTH);
+		glEnable(GL_TEXTURE_2D);
 	}
 	glDisable(GL_CULL_FACE);
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_DITHER);
-	glEnable(GL_TEXTURE_2D);
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 	textRenderer->init(newContext);
 	b2DebugRenderer->init(newContext);
@@ -74,8 +74,8 @@ void WorldRenderer::render(World *world) {
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+		glEnable(GL_TEXTURE_2D);
 	}
-	glEnable(GL_TEXTURE_2D);
 	glDisable(GL_BLEND);
 	BOOL32 renderDebug = false;
 	if (world->gameState == GAMESTATE_READY) {

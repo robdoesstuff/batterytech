@@ -75,21 +75,25 @@ void btSetScreenSize(S32 width, S32 height) {
 }
 
 void btUpdate(F32 delta) {
-	updateTimes[updateTimeIdx++] = delta;
-	updateTimeIdx %= TICK_SMOOTHER_SAMPLES;
-	if (updateTimes[updateTimeIdx] != -1) {
-		// filled
-		F32 total = 0;
-		for (S32 i = 0; i < TICK_SMOOTHER_SAMPLES; i++) {
-			total += updateTimes[i];
+	if (!context->wasSuspended) {
+		updateTimes[updateTimeIdx++] = delta;
+		updateTimeIdx %= TICK_SMOOTHER_SAMPLES;
+		if (updateTimes[updateTimeIdx] != -1) {
+			// filled
+			F32 total = 0;
+			for (S32 i = 0; i < TICK_SMOOTHER_SAMPLES; i++) {
+				total += updateTimes[i];
+			}
+			F32 avg = total / TICK_SMOOTHER_SAMPLES;
+			//char buf[50];
+			//sprintf(buf, "avg %f", avg);
+			//logmsg(buf);
+			context->tickDelta = avg;
+		} else {
+			context->tickDelta = delta;
 		}
-		F32 avg = total / TICK_SMOOTHER_SAMPLES;
-		//char buf[50];
-		//sprintf(buf, "avg %f", avg);
-		//logmsg(buf);
-		context->tickDelta = avg;
 	} else {
-		context->tickDelta = delta;
+		context->tickDelta = 0;
 	}
 	//char buf[50];
 	//sprintf(buf, "update %f", delta);

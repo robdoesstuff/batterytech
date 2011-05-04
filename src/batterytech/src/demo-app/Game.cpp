@@ -96,6 +96,7 @@ void Game::update() {
 	updateState();
 	updateNetwork();
 	if (getWorld()->gameState == GAMESTATE_RUNNING) {
+		// this will skip the giant tick delta that follows a suspend
 		updatePhysics();
 		updateGameObjects();
 		updateLevel();
