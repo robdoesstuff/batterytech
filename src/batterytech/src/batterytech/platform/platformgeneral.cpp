@@ -102,3 +102,13 @@ void *get_in_addr(struct sockaddr *sa) {
 
 	return &(((struct sockaddr_in6*)sa)->sin6_addr);
 }
+
+char* _platform_load_text_asset(const char *filename) {
+	S32 size;
+	char *asset = (char*)_platform_load_asset(filename, &size);
+	char *textAsset = (char*)malloc(size + 1);
+	strncpy(textAsset, asset, size);
+	textAsset[size] = '\0';
+	_platform_free_asset((unsigned char*)asset);
+	return textAsset;
+}
