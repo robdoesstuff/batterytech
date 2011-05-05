@@ -42,7 +42,7 @@
 
 // special key definitions (not really primitives but this is a convenient header to store them in)
 namespace BatteryTech {
-	enum SpecialKey { SKEY_NULL, SKEY_BACK, SKEY_MENU, SKEY_SEARCH, SKEY_HOME, SKEY_CAMERA };
+	enum SpecialKey { SKEY_NULL, SKEY_BACK, SKEY_MENU, SKEY_SEARCH, SKEY_HOME, SKEY_CAMERA, SKEY_WHEELLEFT, SKEY_WHEELRIGHT, SKEY_WHEELUP, SKEY_WHEELDOWN };
 }
 
 #endif /* PRIMITIVES_H_ */

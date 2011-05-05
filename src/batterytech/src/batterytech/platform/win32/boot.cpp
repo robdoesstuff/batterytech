@@ -302,7 +302,7 @@ DWORD WINAPI StartThread(LPVOID iValue) {
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
 
-	int x,y;
+	int x,y,z;
 	switch (message) {
 	case WM_CHAR:
 		btKeyPressed(wParam, BatteryTech::SKEY_NULL);
@@ -330,6 +330,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 			btSetPointerState(0, true, x, y);
 		}
 		return 0;
+	case WM_MOUSEWHEEL:
+		z = GET_WHEEL_DELTA_WPARAM(wParam);
+		if (z > 0) {
+			btKeyPressed(0, BatteryTech::SKEY_WHEELUP);
+		} else {
+			btKeyPressed(0, BatteryTech::SKEY_WHEELDOWN);
+		}
 	case WM_CREATE:
 		return 0;
 	case WM_CLOSE:
