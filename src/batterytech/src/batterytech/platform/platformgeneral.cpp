@@ -17,6 +17,7 @@
 #include "platformgeneral.h"
 #include <string.h>
 #include "../Logger.h"
+#include <stdlib.h>
 
 void _platform_convert_path(const char* path, char *newPath) {
 	strcpy(newPath, path);
