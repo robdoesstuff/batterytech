@@ -37,7 +37,9 @@ static F32 updateTimes[TICK_SMOOTHER_SAMPLES];
 static S32 updateTimeIdx = 0;
 
 void btInit(GraphicsConfiguration *graphicsConfig, S32 width, S32 height) {
-	logmsg("BatteryTech 1.0 Initializing...");
+	char buf[255];
+	sprintf(buf, "BatteryTech %s Initializing...", BATTERYTECH_VERSION);
+	logmsg(buf);
 	gConfig = graphicsConfig;
 	// platform will have determined gpu capabilities and set into gConfig
 	btSetScreenSize(width, height);

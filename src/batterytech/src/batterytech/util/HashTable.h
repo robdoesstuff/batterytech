@@ -244,6 +244,7 @@ HashTable<K, V>::Bucket::Bucket(const K &key, const V &data, Bucket *next) {
 template<typename V>
 class StrHashTable : public HashTable<char*,V> {
 public:
+	StrHashTable<V> (int hashArraySize = HashTable<char*,V>::DEFAULT_HASH_ARRAY_SIZE);
 	bool contains(const char* key) const;
 	StrHashTable<V>* put(const char* key, const V &data = 0);
 	V get(const char* key);
@@ -252,6 +253,9 @@ protected:
 	typename HashTable<char*,V>::Bucket* findBucket(const char* key, bool remove) const;
 	int hash(const char* key) const;
 };
+
+template<typename V>
+StrHashTable<V>::StrHashTable(int hashArraySize) : HashTable<char*, V>(hashArraySize) {}
 
 template<typename V>
 typename HashTable<char*, V>::Bucket* StrHashTable<V>::findBucket(const char* key, bool remove) const {

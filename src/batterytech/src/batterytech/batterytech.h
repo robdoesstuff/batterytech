@@ -17,6 +17,9 @@
 #ifndef BATTERYTECH_H_
 #define BATTERYTECH_H_
 
+// The current version of BatteryTech in this distribution
+#define BATTERYTECH_VERSION "1.1d"
+
 #include "render/GraphicsConfiguration.h"
 #include "primitives.h"
 

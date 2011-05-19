@@ -19,6 +19,7 @@ package com.batterypoweredgames.input;
 import java.util.concurrent.ArrayBlockingQueue;
 
 import android.util.Log;
+import android.util.SparseIntArray;
 import android.view.MotionEvent;
 
 import com.batterypoweredgames.batterytech.Boot;
@@ -30,19 +31,58 @@ import com.batterypoweredgames.batterytech.Boot;
 public class TouchProcessorMulti implements TouchProcessor {
 	private static final String TAG = "TouchProcessorMulti";
 
+	private static final int MAX_POINTER_IDS = 10;
+
 	private int lastKnownX[] = new int[] { -100, -100, -100, -100, -100, -100, -100, -100, -100, -100 };
 	private int lastKnownY[] = new int[] { -100, -100, -100, -100, -100, -100, -100, -100, -100, -100 };
+	private SparseIntArray pointerIdMap = new SparseIntArray(MAX_POINTER_IDS * 2);
 
 	public TouchProcessorMulti() {
+	}
+
+	/**
+	 * Maps an arbitrary pointerId to the lowest available ID starting at 0.
+	 * @param pointerId the raw pointer Id
+	 * @return a consistent pointer Id
+	 */
+	private int mapPointerId(int pointerId) {
+		// check for mapping already exist
+		int mappedId = pointerIdMap.get(pointerId, -1);
+		if (mappedId != -1) {
+			//Log.d(TAG, "PointerId " + pointerId + " already mapped to " + mappedId);
+			return mappedId;
+		}
+		// add to lowest possible ID
+		for (int i = 0; i < MAX_POINTER_IDS; i++) {
+			mappedId = pointerIdMap.get(i, -1);
+			if (mappedId == -1) {
+				// Log.d(TAG, "Mapping PointerId " + pointerId + " to " + i);
+				pointerIdMap.put(pointerId, i);
+				return i;
+			}
+		}
+		return 0;
+	}
+	
+	/**
+	 * Unmaps a mapped pointer ID
+	 * @param mappedPointerId the mapped ID of the pointer.
+	 */
+	private void unmapPointerId(int mappedPointerId) {
+		int idx = pointerIdMap.indexOfValue(mappedPointerId);
+		// Log.d(TAG, "Removing mapped pointerId " + mappedPointerId);
+		if (idx > -1) {
+			pointerIdMap.removeAt(idx);
+		}
 	}
 
 	public void processTouchEvent(MotionEvent event, ArrayBlockingQueue<InputObject> inputObjectPool, InputHandler boot) {
 		try {
 			int pointerCount = event.getPointerCount();
 			for (int pointerIndex = 0; pointerIndex < pointerCount; pointerIndex++) {
-				int pointerId = event.getPointerId(pointerIndex);
-				if (pointerId > 9) {
-					// we only support 10 touch points
+				int pointerId = mapPointerId(event.getPointerId(pointerIndex));
+				if (pointerId > MAX_POINTER_IDS - 1) {
+					// we only support MAX_POINTER_IDS touch points
 					continue;
 				}
 				int maskedIndex = (event.getAction() & MotionEvent.ACTION_POINTER_ID_MASK) >> MotionEvent.ACTION_POINTER_ID_SHIFT;
@@ -108,6 +148,7 @@ public class TouchProcessorMulti implements TouchProcessor {
 			inputObject.action = InputObject.ACTION_TOUCH_UP;
 			lastKnownX[pointerId] = -100;
 			lastKnownY[pointerId] = -100;
+			unmapPointerId(pointerId);
 			break;
 		default:
 			inputObject.action = 0;

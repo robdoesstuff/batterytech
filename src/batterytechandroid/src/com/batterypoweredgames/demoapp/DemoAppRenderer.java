@@ -28,6 +28,7 @@ import android.hardware.SensorManager;
 import android.opengl.GLSurfaceView.Renderer;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 
 import com.batterypoweredgames.batterytech.AudioBridge;
 import com.batterypoweredgames.batterytech.Boot;
@@ -50,6 +51,7 @@ public class DemoAppRenderer implements Renderer, InputHandler, SensorEventListe
 	private boolean bootInitialized = false;
 	private SensorManager sensorMgr;
 	private boolean usingGLES2 = false;
+	int screenRotation;
 
 	public DemoAppRenderer(Activity activity, View view, boolean usingGLES2) {
 		this.activity = activity;
@@ -132,6 +134,9 @@ public class DemoAppRenderer implements Renderer, InputHandler, SensorEventListe
 	}
 	
 	public void onResume() {
+		WindowManager windowMgr = (WindowManager)activity.getSystemService(Activity.WINDOW_SERVICE);
+		// getOrientation() is deprecated in Android 8 but is the same as getRotation() which is the rotation from the natural orientation of the device
+		screenRotation = windowMgr.getDefaultDisplay().getOrientation();
 		synchronized (tickMutex) {		
 			boot.resume();
 		}
@@ -174,8 +179,20 @@ public class DemoAppRenderer implements Renderer, InputHandler, SensorEventListe
 	public void onSensorChanged(SensorEvent event) {
 		synchronized(tickMutex) {
 			if (boot != null && bootInitialized) {
-				boot.accelerometerChanged(event.values[0], event.values[1], event.values[2]);
+				final int[] as = ACCELEROMETER_AXIS_SWAP[screenRotation];
+				float screenX = (float)as[0] * event.values[as[2]];
+				float screenY = (float)as[1] * event.values[as[3]];
+				float screenZ = event.values[2];
+				boot.accelerometerChanged(screenX, screenY * -1, screenZ);
 			}
 		}
 	}
+	
+	// used to swap axis of accelerometer data based on screen rotation
+	static final int ACCELEROMETER_AXIS_SWAP[][] = {
+			{1, -1, 0, 1}, // ROTATION_0
+			{-1, -1, 1, 0}, // ROTATION_90
+			{-1, 1, 0, 1}, // ROTATION_180
+			{1, 1, 1, 0}}; // ROTATION_270
+
 }
