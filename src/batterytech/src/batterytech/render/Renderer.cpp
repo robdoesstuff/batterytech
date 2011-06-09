@@ -22,6 +22,8 @@
 #include <string.h>
 #include "../Context.h"
 
+#define DEBUG_RENDERER FALSE
+
 namespace BatteryTech {
 
 	Renderer::~Renderer() {
@@ -29,25 +31,32 @@ namespace BatteryTech {
 
 	GLuint Renderer::loadTexture(const char *name, Context *context) {
 		GLuint textureId;
-		logmsg("Loading texture:");
-		logmsg(name);
+		if (DEBUG_RENDERER) {
+			logmsg("Loading texture:");
+			logmsg(name);
+		}
 		int x, y, n;
 		int assetSize = 0;
 		unsigned char *fileData = _platform_load_asset(name,
 				&assetSize);
 		if (fileData) {
-			char buf[75];
-			sprintf(buf, "Loaded %i bytes of raw image data", assetSize);
-			logmsg(buf);
+			if (DEBUG_RENDERER) {
+				char buf[75];
+				sprintf(buf, "Loaded %i bytes of raw image data", assetSize);
+				logmsg(buf);
+			}
+		} else {
+			return 0;
 		}
 		unsigned char *data = stbi_load_from_memory(fileData, assetSize, &x, &y,
 				&n, 0);
 		if (data) {
 			int bytes = x * y * n * sizeof(unsigned char);
-			char buf[100];
-			sprintf(buf, "Bitmap is %ix%i color components=%i bytes=%i", x, y, n,
-					bytes);
-			logmsg(buf);
+			if (DEBUG_RENDERER) {
+				char buf[100];
+				sprintf(buf, "Bitmap is %ix%i color components=%i bytes=%i", x, y, n, bytes);
+				logmsg(buf);
+			}
 			GLuint textureIds[1];
 			glGenTextures(1, textureIds);
 			textureId = textureIds[0];

@@ -455,7 +455,7 @@ ObjUV ObjImporter::parseUV() {
 	// looking to parse 2 floats, eg 1.0 1.0
 	ObjUV ObjUV;
 	ObjUV.u = atof( strtok(NULL, WHITESPACE));
-	ObjUV.v = atof( strtok(NULL, WHITESPACE));
+	ObjUV.v = 1.0f - atof( strtok(NULL, WHITESPACE)); // Obj V is flipped to GL
 	return ObjUV;
 }
 

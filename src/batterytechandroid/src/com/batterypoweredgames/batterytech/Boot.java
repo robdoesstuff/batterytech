@@ -103,8 +103,11 @@ public class Boot {
 		return Environment.getExternalStorageDirectory().getAbsolutePath();
 	}
 
-	public void releaseBoot() {
-		release();
+	public void releaseBoot(boolean wasInitialized) {
+		if (wasInitialized) {
+			// don't release if init() was never called
+			release();
+		}
 		this.activity = null;
 		this.view = null;
 		if (this.audioWrapper != null) {

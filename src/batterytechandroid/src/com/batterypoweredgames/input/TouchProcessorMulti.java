@@ -18,11 +18,8 @@ package com.batterypoweredgames.input;
 
 import java.util.concurrent.ArrayBlockingQueue;
 
-import android.util.Log;
 import android.util.SparseIntArray;
 import android.view.MotionEvent;
-
-import com.batterypoweredgames.batterytech.Boot;
 
 /**
  * Converts multi-touch input into touch objects - for Android 2.0+
@@ -163,8 +160,8 @@ public class TouchProcessorMulti implements TouchProcessor {
 		inputObject.eventType = InputObject.EVENT_TYPE_TOUCH;
 		inputObject.action = InputObject.ACTION_TOUCH_MOVE;
 		inputObject.time = event.getHistoricalEventTime(historyItem);
-		inputObject.x = (int) event.getHistoricalX(historyItem, pointerIndex);
-		inputObject.y = (int) event.getHistoricalY(historyItem, pointerIndex);
+		inputObject.x = (int) event.getHistoricalX(pointerIndex, historyItem);
+		inputObject.y = (int) event.getHistoricalY(pointerIndex, historyItem);
 	}
 
 }

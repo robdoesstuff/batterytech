@@ -165,9 +165,10 @@ public class DemoAppRenderer implements Renderer, InputHandler, SensorEventListe
 		Log.d(TAG, "Releasing Batterytech Bootstrap");
 		synchronized (tickMutex) {		
 			if (this.boot != null) {
-				this.boot.releaseBoot();
+				this.boot.releaseBoot(bootInitialized);
 			}
 			this.boot = null;
+			bootInitialized = false;
 		}
 		this.view = null;
 		Log.d(TAG, "Release Complete");

@@ -85,6 +85,8 @@ namespace BatteryTech {
 	void MenuRenderer::render() {
 		checkGLError("MenuRenderer Start");
 		// set the menu projection
+		glDisable(GL_CULL_FACE);
+		glDisable(GL_DEPTH_TEST);
 		glEnable(GL_BLEND);
 		glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glViewport(0, 0, context->gConfig->viewportWidth, context->gConfig->viewportHeight);

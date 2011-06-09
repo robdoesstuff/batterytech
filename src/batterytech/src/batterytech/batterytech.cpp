@@ -30,8 +30,8 @@
 #include <time.h>
 #include "batterytech_globals.h"
 
-static Context *context;
-static GraphicsConfiguration *gConfig;
+static Context *context = NULL;
+static GraphicsConfiguration *gConfig = NULL;
 
 static F32 updateTimes[TICK_SMOOTHER_SAMPLES];
 static S32 updateTimeIdx = 0;

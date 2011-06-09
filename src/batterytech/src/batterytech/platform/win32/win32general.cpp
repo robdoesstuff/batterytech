@@ -39,12 +39,13 @@ unsigned char* _platform_load_asset(const char *filename, S32 *size) {
 	strcpy(myFilename, "assets\\");
 	strcat(myFilename, filename);
 	_platform_convert_path(myFilename, myFilename);
-	cout << "trying " << myFilename << endl;
+	//cout << "trying " << myFilename << endl;
 	FILE *handle;
 	unsigned char *data = 0;
 	handle = fopen(myFilename, "rb");
 	if (!handle) {
-		cout << "No file handle" << endl;
+		cout << "File not found: " << myFilename << endl;
+		return 0;
 	}
 	fseek(handle, 0L, SEEK_END);
 	*size = ftell(handle);
@@ -53,7 +54,7 @@ unsigned char* _platform_load_asset(const char *filename, S32 *size) {
 	data = (unsigned char*) malloc(sizeof(unsigned char) * *size);
 	if (data) {
 		int bytesRead = fread(data, sizeof(unsigned char), *size, handle);
-		cout << "malloc success, " << bytesRead << " bytes read of " << *size << endl;
+		// cout << "malloc success, " << bytesRead << " bytes read of " << *size << endl;
 	}
 	int error = ferror(handle);
 	if (error) {
@@ -65,6 +66,7 @@ unsigned char* _platform_load_asset(const char *filename, S32 *size) {
 	fclose(handle);
 	return data;
 }
+
 
 void _platform_free_asset(unsigned char *ptr) {
 	if (ptr) {
