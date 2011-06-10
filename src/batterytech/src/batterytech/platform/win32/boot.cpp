@@ -383,17 +383,28 @@ void EnableOpenGL(HWND hWnd, HDC * hDC, HGLRC * hRC) {
 	pfd.cDepthBits = 16;
 	pfd.iLayerType = PFD_MAIN_PLANE;
 	format = ChoosePixelFormat(*hDC, &pfd);
-	SetPixelFormat(*hDC, format, &pfd);
+	if (!format) {
+		cout << "No suitable pixel format could be found!" << endl;
+	} else {
+		if (!SetPixelFormat(*hDC, format, &pfd)) {
+			cout << "Error setting OpenGL pixel format" << endl;
+		}
+	}
 
 	// create and enable the render context (RC)
 	*hRC = wglCreateContext(*hDC);
-	wglMakeCurrent(*hDC, *hRC);
+	if (!hRC) {
+		cout << "OpenGL Context was not created successfully!" << endl;
+		// GetLastError() will have error status
+	}
+	if (!wglMakeCurrent(*hDC, *hRC)) {
+		cout << "Unable to set rendering context using wglMakeCurrent()!" << endl;
+	}
 
 	const char *extensions = (const char*) glGetString( GL_EXTENSIONS );
 
 	if( strstr( extensions, "WGL_EXT_swap_control" ) == 0 ) {
 		cout << "No swap control extension on this OS" << endl;
-		return; // Error: WGL_EXT_swap_control extension not supported on your computer.\n");
 	} else {
 		wglSwapIntervalEXT = (PFNWGLSWAPINTERVALFARPROC)wglGetProcAddress( "wglSwapIntervalEXT" );
 		if( wglSwapIntervalEXT ) {
