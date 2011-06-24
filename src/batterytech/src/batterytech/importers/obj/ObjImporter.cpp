@@ -403,7 +403,10 @@ ObjScene* ObjImporter::convertMetaToScene() {
 			// TODO - optimize vtable access to speed up
 			for (S32 k = 0; k < faceCount; k++) {
 				ObjMetaFace *face = &metaMesh->faces[k];
-				if (face->vertCount > 3) {
+				if (face->vertCount < 3) {
+					// TODO - ignore this face without screwing up indices
+					errorMessage = "Invalid face with less than 3 verts found!";
+				} else if (face->vertCount > 3) {
 					errorMessage = "Face has more than 3 vertices - not supported, ignoring extras";
 				}
 				// TODO - convert quads to triangles
