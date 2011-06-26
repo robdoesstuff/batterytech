@@ -52,7 +52,7 @@ unsigned char* _platform_load_asset(const char *filename, S32 *size) {
 	//strcpy(myFilename, filename);
 	//_convert_filename(myFilename);
 	char myFilename[255];
-	strcpy(myFilename, "assets\\");
+	strcpy(myFilename, "assets/");
 	strcat(myFilename, filename);
 	_platform_convert_path(myFilename, myFilename);
 	//cout << "trying " << myFilename << endl;
@@ -92,7 +92,7 @@ void _platform_free_asset(unsigned char *ptr) {
 
 S32 _platform_get_asset_length(const char *filename) {
 	char myFilename[255];
-	strcpy(myFilename, "assets\\");
+	strcpy(myFilename, "assets/");
 	strcat(myFilename, filename);
 	_platform_convert_path(myFilename, myFilename);
 	FILE *handle;
@@ -110,7 +110,7 @@ S32 _platform_get_asset_length(const char *filename) {
 
 S32 _platform_read_asset_chunk(const char *filename, S32 offset, unsigned char *buffer, S32 bufferLength, BOOL32 *eof) {
 	char myFilename[255];
-	strcpy(myFilename, "assets\\");
+	strcpy(myFilename, "assets/");
 	strcat(myFilename, filename);
 	_platform_convert_path(myFilename, myFilename);
 	FILE *handle;
@@ -139,8 +139,8 @@ void _convert_filename(char *filename) {
 	int arrayLength = strlen(filename);
 	int i;
 	for (i = 0; i < arrayLength; i++) {
-		if (filename[i] == '/') {
-			filename[i] = '\\';
+		if (filename[i] == '\\') {
+			filename[i] = '/';
 		}
 	}
 }
@@ -156,7 +156,7 @@ void _platform_get_external_storage_dir_name(char* buf, S32 buflen) {
 }
 
 const char* _platform_get_path_separator() {
-	return "\\";
+	return "/";
 }
 
 BOOL32 _platform_path_exists(const char* path) {
