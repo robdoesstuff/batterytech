@@ -10,7 +10,7 @@
 #include <batterytech/platform/platformgl.h>
 #include <batterytech/platform/platformgeneral.h>
 #include <batterytech/Logger.h>
-#include <Math.h>
+#include <math.h>
 #include "../UIConstants.h"
 #include "../GameUtil.h"
 #include <batterytech/render/RenderContext.h>

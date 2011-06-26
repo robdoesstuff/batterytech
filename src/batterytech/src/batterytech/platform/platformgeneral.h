@@ -45,6 +45,9 @@
 	#include "osx/osxgeneral.h"
 #endif /* MAC */
 
+#if defined(linux)
+	#include "linux/linuxgeneral.h"
+#endif
 
 //-------------- Files, IO, Paths -------------
 

@@ -17,7 +17,7 @@
 #ifndef OPENGLES_H_
 #define OPENGLES_H_
 #include "../primitives.h"
-#include <Math.h>
+#include <math.h>
 #include <stdlib.h>
 #include "../math/Vector2.h"
 #include "../math/Vector3.h"

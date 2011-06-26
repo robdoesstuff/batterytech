@@ -10,21 +10,29 @@
  */
 
 //============================================================================
-// Name        : NetworkMessageFactory.cpp
-// Description : Implement in your application and set to the NetworkManager to receive network status updates.
+// Name        : linuxgeneral.h
+// Description : linux platform general functions
+// Usage       : Include platformgeneral.h in your application code.  Do not include this directly.
 //============================================================================
 
-#ifndef NETWORKSTATUSLISTENER_H_
-#define NETWORKSTATUSLISTENER_H_
+#ifndef LINUXGENERAL_H_
+#define LINUXGENERAL_H_
 
-namespace BatteryTech {
+#if defined(linux)
 
-	class NetworkStatusListener {
-	public:
-		enum NetStatus { STATUS_NONE, STATUS_ERROR, STATUS_WAITING_FOR_CLIENTS, STATUS_FINDING_HOSTS, STATUS_VALIDATING, STATUS_CONNECTING, STATUS_CONNECTED };
-		virtual ~NetworkStatusListener(){};
-		virtual void onStatusChanged(NetworkStatusListener::NetStatus status){};
-	};
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <fcntl.h>
+#include <netdb.h>
+#include <unistd.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
 
-}
-#endif /* NETWORKSTATUSLISTENER_H_ */
+typedef int SOCKET;
+#define closesocket(socket) close(socket)
+
+// linux specific functions here
+
+#endif /* linux */
+
+#endif /* LINUXGENERAL_H_ */
