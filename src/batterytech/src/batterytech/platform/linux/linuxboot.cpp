@@ -29,6 +29,12 @@
 #include <X11/Xlib.h>
 #include <sys/time.h>
 
+// this is because CLOCK_MONOTONIC is in linux/time.h but the correct file to include is sys
+// only the indexer cares here.
+#ifndef CLOCK_MONOTONIC
+	#define CLOCK_MONOTONIC 1
+#endif
+
 using namespace std;
 using namespace BatteryTech;
 
@@ -73,7 +79,7 @@ int main(int argc, char *argv[]) {
 	cmap = XCreateColormap(dpy, root, vi->visual, AllocNone);
 
 	swa.colormap = cmap;
-	swa.event_mask = ExposureMask | KeyPressMask;
+	swa.event_mask = ExposureMask | KeyPressMask | ButtonPressMask | ButtonReleaseMask | PointerMotionMask;
 
 	win = XCreateWindow(dpy, root, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, 0, vi->depth, InputOutput,
 			vi->visual, CWColormap | CWEventMask, &swa);
@@ -91,10 +97,10 @@ int main(int argc, char *argv[]) {
 	BOOL32 initialized = FALSE;
 	timespec ts;
 	clock_gettime(CLOCK_MONOTONIC, &ts);
+	BOOL32 isLeftPointerDown = FALSE;
 	while (!quit) {
-
 		if (initialized) {
-			long int lastNs = ts.tv_nsec;
+			long lastNs = ts.tv_nsec;
 			clock_gettime(CLOCK_MONOTONIC, &ts);
 			F32 delta = (ts.tv_nsec - lastNs) / 1000000000.f;
 			btUpdate(delta);
@@ -107,18 +113,24 @@ int main(int argc, char *argv[]) {
 				XGetWindowAttributes(dpy, win, &gwa);
 				btInit(gConfig, WINDOW_WIDTH, WINDOW_HEIGHT);
 				initialized = TRUE;
-				//glViewport(0, 0, gwa.width, gwa.height);
-			}
-
-			else if (xev.type == KeyPress) {
-				glXMakeCurrent(dpy, None, NULL);
-				glXDestroyContext(dpy, glc);
-				XDestroyWindow(dpy, win);
-				XCloseDisplay(dpy);
-				exit(0);
+			} else if (xev.type == KeyPress) {
+				btKeyPressed(xev.xkey.keycode, SKEY_NULL);
+			} else if (xev.type == MotionNotify) {
+				if (isLeftPointerDown) {
+					btSetPointerState(0, TRUE, xev.xmotion.x, xev.xmotion.y);
+				}
+			} else if (xev.type == ButtonPress || xev.type == ButtonRelease) {
+				isLeftPointerDown = (xev.type == ButtonPress);
+				btSetPointerState(0, isLeftPointerDown, xev.xbutton.x, xev.xbutton.y);
 			}
 		}
-	} /* this closes while(1) { */
+	}
+	btRelease();
+	glXMakeCurrent(dpy, None, NULL);
+	glXDestroyContext(dpy, glc);
+	XDestroyWindow(dpy, win);
+	XCloseDisplay(dpy);
+	exit(0);
 	return 0;
 }
 

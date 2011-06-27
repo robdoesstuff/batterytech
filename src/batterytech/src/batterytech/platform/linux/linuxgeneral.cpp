@@ -172,7 +172,7 @@ BOOL32 _platform_path_can_write(const char* path) {
 }
 
 BOOL32 _platform_path_create(const char* path) {
-	return (mkdir(path, 0x755) == 0);
+	return (mkdir(path, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) == 0);
 }
 
 void _platform_play_vibration_effect(S32 effectId, F32 intensity) {
