@@ -38,9 +38,9 @@
 using namespace std;
 using namespace BatteryTech;
 
-#define CONSOLE CONSOLE_LOG_ENABLED_WHEN_AVAILABLE
-#define DEFAULT_WIDTH WINDOW_WIDTH
-#define DEFAULT_HEIGHT WINDOW_HEIGHT
+// TODO - add icon
+// TODO - handle close button
+// TODO - swap buffer / run main loop while window moving
 
 Display *dpy;
 Window root;
@@ -94,6 +94,8 @@ int main(int argc, char *argv[]) {
 	gConfig->supportsHWmipmapgen = true;
 	gConfig->supportsUVTransform = true;
 	gConfig->supportsVBOs = true;
+	// TODO - check for GL 2.0+
+	gConfig->supportsShaders = true;
 	BOOL32 initialized = FALSE;
 	timespec ts;
 	clock_gettime(CLOCK_MONOTONIC, &ts);
@@ -103,16 +105,21 @@ int main(int argc, char *argv[]) {
 			long lastNs = ts.tv_nsec;
 			clock_gettime(CLOCK_MONOTONIC, &ts);
 			F32 delta = (ts.tv_nsec - lastNs) / 1000000000.f;
+			if (delta < 0) {
+				delta = 0;
+			}
 			btUpdate(delta);
 			btDraw();
 			glXSwapBuffers(dpy, win);
 		}
-		if (XPending(dpy)) {
+		while (XPending(dpy)) {
 			XNextEvent(dpy, &xev);
 			if (xev.type == Expose) {
 				XGetWindowAttributes(dpy, win, &gwa);
-				btInit(gConfig, WINDOW_WIDTH, WINDOW_HEIGHT);
-				initialized = TRUE;
+				if (!initialized) {
+					btInit(gConfig, WINDOW_WIDTH, WINDOW_HEIGHT);
+					initialized = TRUE;
+				}
 			} else if (xev.type == KeyPress) {
 				btKeyPressed(xev.xkey.keycode, SKEY_NULL);
 			} else if (xev.type == MotionNotify) {
