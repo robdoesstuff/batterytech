@@ -20,6 +20,8 @@
 #include "primitives.h"
 
 /// ---------------- General -----------------
+// Log to file?  Use NULL for console-only logging
+#define BT_LOGFILE "batterytech.log"
 // Are we in debug mode? (this is currently unused in batterytech)
 #define BT_DEBUG FALSE
 // Will you support a GLES 2.0 shader pipeline if the device supports it?

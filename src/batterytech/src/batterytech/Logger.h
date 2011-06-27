@@ -23,6 +23,7 @@ class Logger {
 public:
 	Logger();
 	static void logMsg(const char* msg);
+	static void useFileOutput(const char* filename);
 	virtual ~Logger();
 };
 

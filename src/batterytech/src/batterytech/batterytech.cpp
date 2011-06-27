@@ -37,6 +37,7 @@ static F32 updateTimes[TICK_SMOOTHER_SAMPLES];
 static S32 updateTimeIdx = 0;
 
 void btInit(GraphicsConfiguration *graphicsConfig, S32 width, S32 height) {
+	Logger::useFileOutput(BT_LOGFILE);
 	char buf[255];
 	sprintf(buf, "BatteryTech %s Initializing...", BATTERYTECH_VERSION);
 	logmsg(buf);
@@ -118,7 +119,9 @@ void btDraw() {
 }
 
 void btSuspend() {
-	context->wasSuspended = TRUE;
+	if (context) {
+		context->wasSuspended = TRUE;
+	}
 }
 
 void btResume() {
