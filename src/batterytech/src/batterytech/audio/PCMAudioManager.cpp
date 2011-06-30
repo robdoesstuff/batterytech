@@ -66,14 +66,12 @@ namespace BatteryTech {
 		unsigned char *fileData = _platform_load_asset(assetName, &assetSize);
 		S32 sndId = -1;
 		if (fileData) {
-			char buf[50];
-			sprintf(buf, "Loaded %i bytes of ogg data", assetSize);
-			logmsg(buf);
 			signed short *decoded;
 			int channels, len;
 			unsigned int sampleRate = 0;
 			len = stb_vorbis_decode_memory(fileData, assetSize, &channels, &sampleRate, &decoded);
-			sprintf(buf, "OGG length=%i channels=%i rate=%i", len, channels, sampleRate);
+			char buf[1024];
+			sprintf(buf, "Loaded %s: (%i enc bytes) length=%i channels=%i rate=%i", assetName, assetSize, len, channels, sampleRate);
 			logmsg(buf);
 			sndId = loadSound(decoded, len * channels, sampleRate, channels, assetName);
 		}

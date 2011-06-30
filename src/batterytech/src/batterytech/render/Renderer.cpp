@@ -22,7 +22,7 @@
 #include <string.h>
 #include "../Context.h"
 
-#define DEBUG_RENDERER FALSE
+#define DEBUG_RENDERER TRUE
 
 namespace BatteryTech {
 
@@ -31,21 +31,14 @@ namespace BatteryTech {
 
 	GLuint Renderer::loadTexture(const char *name, Context *context) {
 		GLuint textureId;
-		if (DEBUG_RENDERER) {
-			logmsg("Loading texture:");
-			logmsg(name);
-		}
 		int x, y, n;
 		int assetSize = 0;
 		unsigned char *fileData = _platform_load_asset(name,
 				&assetSize);
-		if (fileData) {
-			if (DEBUG_RENDERER) {
-				char buf[75];
-				sprintf(buf, "Loaded %i bytes of raw image data", assetSize);
-				logmsg(buf);
-			}
-		} else {
+		if (!fileData) {
+			char buf[1024];
+			sprintf(buf, "No asset data found for %s", name);
+			logmsg(buf);
 			return 0;
 		}
 		unsigned char *data = stbi_load_from_memory(fileData, assetSize, &x, &y,
@@ -53,8 +46,8 @@ namespace BatteryTech {
 		if (data) {
 			int bytes = x * y * n * sizeof(unsigned char);
 			if (DEBUG_RENDERER) {
-				char buf[100];
-				sprintf(buf, "Bitmap is %ix%i color components=%i bytes=%i", x, y, n, bytes);
+				char buf[1024];
+				sprintf(buf, "Loaded Texture %s (%d enc bytes): %ix%i components=%i bytes=%i", name, assetSize, x, y, n, bytes);
 				logmsg(buf);
 			}
 			GLuint textureIds[1];
@@ -80,6 +73,10 @@ namespace BatteryTech {
 			}
 			checkGLError("Renderer Load Texture");
 			stbi_image_free(data);
+		} else {
+			char buf[1024];
+			sprintf(buf, "Error decoding %s (%d enc bytes)", name, assetSize);
+			logmsg(buf);
 		}
 		_platform_free_asset(fileData);
 		return textureId;

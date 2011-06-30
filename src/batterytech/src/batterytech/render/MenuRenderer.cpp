@@ -26,6 +26,8 @@
 #include "../batterytech_globals.h"
 #include "ShaderProgram.h"
 
+#define DEBUG_MENU_RENDERER TRUE
+
 namespace BatteryTech {
 
 	MenuRenderer::MenuRenderer(Context *context) : Renderer() {
@@ -246,22 +248,24 @@ namespace BatteryTech {
 	}
 
 	void MenuRenderer::loadTexture(const char *assetName) {
-		logmsg("Loading texture");
 		int x,y,n;
 		int assetSize = 0;
 		unsigned char *fileData = _platform_load_asset(assetName, &assetSize);
-		if (fileData) {
-			char buf[50];
-			sprintf(buf, "Loaded %i bytes of raw image data", assetSize);
+		if (!fileData) {
+			char buf[1024];
+			sprintf(buf, "No asset data found for %s", assetName);
 			logmsg(buf);
+			return;
 		}
 		unsigned char *data = stbi_load_from_memory(fileData, assetSize, &x, &y, &n, 0);
 		//unsigned char *data = stbi_load("assets\\text_bg_tex.jpg", &x, &y, &n, 0);
 		if (data) {
 			int bytes = x * y * n * sizeof(unsigned char);
-			char buf[50];
-			sprintf(buf, "Bitmap is %ix%i color components=%i bytes=%i",x,y,n, bytes);
-			logmsg(buf);
+			if (DEBUG_MENU_RENDERER) {
+				char buf[1024];
+				sprintf(buf, "UI - Loaded Texture %s (%d enc bytes): %ix%i components=%i bytes=%i", assetName, assetSize, x, y, n, bytes);
+				logmsg(buf);
+			}
 			if (!context->gConfig->useShaders) {
 				glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 			}
@@ -276,6 +280,10 @@ namespace BatteryTech {
 			}
 			checkGLError("MenuRenderer Load Texture");
 			stbi_image_free(data);
+		} else {
+			char buf[1024];
+			sprintf(buf, "Error decoding %s (%d enc bytes)", assetName, assetSize);
+			logmsg(buf);
 		}
 		_platform_free_asset(fileData);
 	}
