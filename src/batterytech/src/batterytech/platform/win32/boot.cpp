@@ -43,6 +43,12 @@ using namespace BatteryTech;
 #define _LPCSTR LPCWSTR
 #endif
 
+// OpenGL 1.3 extension function pointers
+PFNGLACTIVETEXTUREPROC glActiveTexture = NULL;
+PFNGLSAMPLECOVERAGEPROC glSampleCoverage = NULL;
+PFNGLCOMPRESSEDTEXIMAGE2DPROC glCompressedTexImage2D = NULL;
+PFNGLCOMPRESSEDTEXSUBIMAGE2DPROC glCompressedTexSubImage2D = NULL;
+
 // OpenGL 1.5 extension function pointers
 PFNGLGENBUFFERSPROC glGenBuffers = NULL;
 PFNGLBINDBUFFERPROC glBindBuffer = NULL;
@@ -146,6 +152,23 @@ PFNGLVERTEXATTRIB4UIVPROC glVertexAttrib4uiv = NULL;
 PFNGLVERTEXATTRIB4USVPROC glVertexAttrib4usv = NULL;
 PFNGLVERTEXATTRIBPOINTERPROC glVertexAttribPointer = NULL;
 
+// 2.0 framebuffer/renderbuffer extensions
+PFNGLISRENDERBUFFERPROC glIsRenderbuffer = NULL;
+PFNGLBINDRENDERBUFFERPROC glBindRenderbuffer = NULL;
+PFNGLDELETERENDERBUFFERSPROC glDeleteRenderbuffers = NULL;
+PFNGLGENRENDERBUFFERSPROC glGenRenderbuffers = NULL;
+PFNGLRENDERBUFFERSTORAGEPROC glRenderbufferStorage = NULL;
+PFNGLGETRENDERBUFFERPARAMETERIVPROC glGetRenderbufferParameteriv = NULL;
+PFNGLISFRAMEBUFFERPROC glIsFramebuffer = NULL;
+PFNGLBINDFRAMEBUFFERPROC glBindFramebuffer = NULL;
+PFNGLDELETEFRAMEBUFFERSPROC glDeleteFramebuffers = NULL;
+PFNGLGENFRAMEBUFFERSPROC glGenFramebuffers = NULL;
+PFNGLCHECKFRAMEBUFFERSTATUSPROC glCheckFramebufferStatus = NULL;
+PFNGLFRAMEBUFFERTEXTURE2DPROC glFramebufferTexture2D = NULL;
+PFNGLFRAMEBUFFERRENDERBUFFERPROC glFramebufferRenderbuffer = NULL;
+PFNGLGETFRAMEBUFFERATTACHMENTPARAMETERIVPROC glGetFramebufferAttachmentParameteriv = NULL;
+PFNGLGENERATEMIPMAPPROC glGenerateMipmap = NULL;
+
 // WinMain
 DWORD WINAPI StartThread(LPVOID iValue);
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
@@ -236,6 +259,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	hThread1 = CreateThread(NULL, 0, StartThread, NULL, 0, &dwGenericThread);
 	if (!hThread1) {
 		cout << "Error creating thread" << endl;
+	} else {
+		SetPriorityClass(hThread1, HIGH_PRIORITY_CLASS);
+		SetThreadPriority(hThread1, THREAD_PRIORITY_TIME_CRITICAL);
 	}
 	// program main loop
 	while (!quit) {
@@ -282,10 +308,10 @@ DWORD WINAPI StartThread(LPVOID iValue) {
 	DWORD time = timeGetTime();
 	DWORD oldTime = time;
 	while (!quit) {
-		//cout << "Ticking" << endl;
 		oldTime = time;
 		time = timeGetTime();
 		btUpdate((time - oldTime) / 1000.0f);
+		//cout << "Updating " << (time - oldTime) / 1000.0f << endl;
 		btDraw();
 		SwapBuffers(hDC);
 	}
@@ -427,7 +453,12 @@ void EnableOpenGL(HWND hWnd, HDC * hDC, HGLRC * hRC) {
 	logmsg(buf);
 	sprintf(buf, "OpenGL Version [%s]", version);
 	logmsg(buf);
-	logmsg("Loading OpenGL 1.5/2.0 extensions");
+	logmsg("Loading OpenGL 1.3/1.5/2.0 extensions");
+	// load 1.3 extensions
+	glActiveTexture = (PFNGLACTIVETEXTUREPROC) wglLoadExtension("glActiveTexture");
+	glSampleCoverage = (PFNGLSAMPLECOVERAGEPROC) wglLoadExtension("glSampleCoverage");
+	glCompressedTexImage2D = (PFNGLCOMPRESSEDTEXIMAGE2DPROC) wglLoadExtension("glCompressedTexImage2D");
+	glCompressedTexSubImage2D = (PFNGLCOMPRESSEDTEXSUBIMAGE2DPROC) wglLoadExtension("glCompressedTexSubImage2D");
 	// load 1.5 extensions
 	glGenBuffers = (PFNGLGENBUFFERSPROC) wglLoadExtension("glGenBuffers");
 	glBindBuffer = (PFNGLBINDBUFFERPROC) wglLoadExtension("glBindBuffer");
@@ -529,6 +560,23 @@ void EnableOpenGL(HWND hWnd, HDC * hDC, HGLRC * hRC) {
 	glVertexAttrib4uiv = (PFNGLVERTEXATTRIB4UIVPROC) wglLoadExtension("glVertexAttrib4uiv");
 	glVertexAttrib4usv = (PFNGLVERTEXATTRIB4USVPROC) wglLoadExtension("glVertexAttrib4usv");
 	glVertexAttribPointer = (PFNGLVERTEXATTRIBPOINTERPROC) wglLoadExtension("glVertexAttribPointer");
+
+	// now renderbuffer/framebuffer extensions
+	glIsRenderbuffer = (PFNGLISRENDERBUFFERPROC) wglLoadExtension("glIsRenderbuffer");
+	glBindRenderbuffer = (PFNGLBINDRENDERBUFFERPROC) wglLoadExtension("glBindRenderbuffer");
+	glDeleteRenderbuffers = (PFNGLDELETERENDERBUFFERSPROC) wglLoadExtension("glDeleteRenderbuffers");
+	glGenRenderbuffers = (PFNGLGENRENDERBUFFERSPROC) wglLoadExtension("glGenRenderbuffers");
+	glRenderbufferStorage = (PFNGLRENDERBUFFERSTORAGEPROC) wglLoadExtension("glRenderbufferStorage");
+	glGetRenderbufferParameteriv = (PFNGLGETRENDERBUFFERPARAMETERIVPROC) wglLoadExtension("glGetRenderbufferParameteriv");
+	glIsFramebuffer = (PFNGLISFRAMEBUFFERPROC) wglLoadExtension("glIsFramebuffer");
+	glBindFramebuffer = (PFNGLBINDFRAMEBUFFERPROC) wglLoadExtension("glBindFramebuffer");
+	glDeleteFramebuffers = (PFNGLDELETEFRAMEBUFFERSPROC) wglLoadExtension("glDeleteFramebuffers");
+	glGenFramebuffers = (PFNGLGENFRAMEBUFFERSPROC) wglLoadExtension("glGenFramebuffers");
+	glCheckFramebufferStatus = (PFNGLCHECKFRAMEBUFFERSTATUSPROC) wglLoadExtension("glCheckFramebufferStatus");
+	glFramebufferTexture2D = (PFNGLFRAMEBUFFERTEXTURE2DPROC) wglLoadExtension("glFramebufferTexture2D");
+	glFramebufferRenderbuffer = (PFNGLFRAMEBUFFERRENDERBUFFERPROC) wglLoadExtension("glFramebufferRenderbuffer");
+	glGetFramebufferAttachmentParameteriv = (PFNGLGETFRAMEBUFFERATTACHMENTPARAMETERIVPROC) wglLoadExtension("glGetFramebufferAttachmentParameteriv");
+	glGenerateMipmap = (PFNGLGENERATEMIPMAPPROC) wglLoadExtension("glGenerateMipmap");
 }
 
 // Disable OpenGL

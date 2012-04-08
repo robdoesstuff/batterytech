@@ -21,30 +21,34 @@
 
 /// ---------------- General -----------------
 // Log to file?  Use NULL for console-only logging
-#define BT_LOGFILE "batterytech.log"
+#define BT_LOGFILE "slyonball.log"
 // Are we in debug mode? (this is currently unused in batterytech)
 #define BT_DEBUG FALSE
 // Will you support a GLES 2.0 shader pipeline if the device supports it?
 #define USE_SHADERS_WHEN_SUPPORTED TRUE
 // What width are you designing your UI to?  This will become your UI width unit.
-#define REFERENCE_WIDTH 480
+#define REFERENCE_WIDTH 800
 // What height are you designing your UI to?  This will become your UI height unit.
-#define REFERENCE_HEIGHT 800
+#define REFERENCE_HEIGHT 480
 // Number of samples to average for use as the tick delta in updates
 // Many Android devices have erratic updates without smoothing.
 #define TICK_SMOOTHER_SAMPLES 15
 // Maximum number of touch/pointers we support
 #define MAX_POINTERS 10
+// Maximum number of simultaneous keys pressed we support
+#define MAX_KEYSTATES 10
 
 /// -------------- Windows -------------------
 // If a console window is available, display it?
 #define CONSOLE_LOG_ENABLED_WHEN_AVAILABLE TRUE
 // If your app were a test window, what would the width be?
-#define WINDOW_WIDTH 480
+#define WINDOW_WIDTH 1280
 // If your app were a test window, what would the height be?
 #define WINDOW_HEIGHT 800
 // If your app were a test window, what would the title be?
-#define WINDOWED_APP_NAME "BatteryTech Demo App"
+#define WINDOWED_APP_NAME "Slyon Ball"
+// If your OS has a shared documents directory, we will use this subdirectory
+#define BT_STORAGE_DIR "SlyonBall"
 
 /// -------------- UI and Text --------------
 // When rasterizing a font to a texture, this is the first width attempted.
@@ -58,7 +62,7 @@
 // Increase if necessary.
 #define MAX_UI_ASSET_NAMES 100
 // Font size in reference units for UI text
-#define UI_FONT_SIZE 32.0f
+#define UI_FONT_SIZE 40.0f
 // Maximum number of characters in a single line of text
 #define TEXT_RENDER_MAX_LINE_LENGTH 255
 // Maximum number of characters in a multiline of text
@@ -69,7 +73,7 @@
 /// -------------- audio --------------------
 // Would you like to use the platform's audio management (soundpool, mediaplayer, etc)?
 // If false, native PCM mixing will always be used.
-#define PREFER_PLATFORM_AUDIO_MANAGEMENT TRUE
+#define PREFER_PLATFORM_AUDIO_MANAGEMENT FALSE
 // Number of simultaneous audio streams for mixing sound samples
 #define MAX_AUDIO_STREAMS 20
 // Maximum number of simultaneous PCM sounds loadable when using native PCM mixing
@@ -88,5 +92,17 @@
 #define CHUNKED_READ_BUFFER_SIZE 16384
 // Do not change unless you know what you're doing.
 #define VORBIS_MAX_LEGAL_FRAME 8192
+
+/// ------------- models -------------------
+// if we want to use OpenGL ES 2.0 shader GPU-accelerated animation
+#define BATTERYTECH_INCLUDE_ASSIMP TRUE
+#define ASSIMP_GPU_ACCELERATED_RENDER TRUE
+
+// misc
+#define FORCE_SQUARE_TEXTURES FALSE
+#define FORCE_32_BIT_TEXTURES FALSE
+
+/// ------------- version ---------------
+#define BATTERYTECH_VERSION "2.0 alpha"
 
 #endif /* BATTERYTECH_GLOBALS_H_ */

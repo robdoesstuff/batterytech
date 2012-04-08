@@ -25,7 +25,9 @@ namespace BatteryTech {
 	public:
 		TextField(const char *text = NULL) : UIComponent(text){ allowNumeric = TRUE; };
 		virtual ~TextField();
-		virtual void onKeyPressed(U8 key);
+		virtual BOOL32 onKeyPressed(U8 key);
+		virtual BOOL32 onKeyDown(U8 key);
+		virtual BOOL32 onKeyUp(U8 key);
 		virtual void onSelected();
 		void setAllowNumeric(BOOL32 allowNumeric) {this->allowNumeric = allowNumeric;};
 	private:

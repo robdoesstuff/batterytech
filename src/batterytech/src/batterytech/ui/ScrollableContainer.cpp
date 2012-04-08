@@ -145,9 +145,9 @@ namespace BatteryTech {
 		}
 		lastClickX = x;
 		lastClickY = y;
-		char buf[255];
-		sprintf(buf, "ClickMove %d %d ViewOffset %f %f", x, y, viewXOffset, viewYOffset);
-		logmsg(buf);
+		//char buf[255];
+		//sprintf(buf, "ClickMove %d %d ViewOffset %f %f", x, y, viewXOffset, viewYOffset);
+		//logmsg(buf);
 	}
 
 	void ScrollableContainer::onClickUp() {

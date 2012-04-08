@@ -21,10 +21,11 @@
 #include "../ui/Layout.h"
 #include <string.h>
 #include "../Context.h"
-#include "../../demo-app/UIConstants.h"
+#include "../../game/UIConstants.h"
 #include "RenderContext.h"
 #include "../batterytech_globals.h"
 #include "ShaderProgram.h"
+#include "Texture.h"
 
 #define DEBUG_MENU_RENDERER TRUE
 
@@ -34,6 +35,8 @@ namespace BatteryTech {
 		this->context = context;
 		assetNames = new ManagedArray<const char>(MAX_UI_ASSET_NAMES);
 		textRenderer = new TextRasterRenderer(context, UI_MENU_FONT, UI_FONT_SIZE);
+		textRenderer->setStroke(UI_MENU_INNER_STROKE, UI_MENU_OUTER_STROKE);
+		textRenderer->setColorFilter(UI_MENU_FONT_COLOR);
 		shaderProgram = new ShaderProgram("shaders/quadshader.vert", "shaders/quadshader.frag");
 	}
 
@@ -69,7 +72,9 @@ namespace BatteryTech {
 		glGenTextures(assetNames->getSize(), textureIds);
 		S32 i;
 		for (i = 0; i < assetNames->getSize(); i++) {
+			Texture::textureSwitches++;
 			glBindTexture(GL_TEXTURE_2D, textureIds[i]);
+			Texture::lastTextureId = textureIds[i];
 			loadTexture(assetNames->array[i]);
 		}
 		if (context->gConfig->useShaders) {
@@ -116,6 +121,7 @@ namespace BatteryTech {
 	}
 
 	void MenuRenderer::render(UIComponent *component) {
+		if(component->isHidden) return;
 		UIAnimator *animator = component->getActiveAnimator();
 		UIManager *uiManager = context->uiManager;
 		if (animator) {
@@ -146,8 +152,10 @@ namespace BatteryTech {
 		}
 		if (menuResourceId != NO_RESOURCE) {
 			if (menuResourceId != activeResourceId) {
+				Texture::textureSwitches++;
 				glBindTexture(GL_TEXTURE_2D, textureIds[menuResourceId]);
 				activeResourceId = menuResourceId;
+				Texture::lastTextureId = textureIds[menuResourceId];
 			}
 			drawTexturedQuad(component->virtualTop, component->virtualRight, component->virtualBottom, component->virtualLeft);
 		}
@@ -157,6 +165,7 @@ namespace BatteryTech {
 			} else {
 				context->renderContext->colorFilter = Vector4f(component->textR*0.5f,component->textB*0.5f,component->textG*0.5f,component->textA);
 			}
+			// starting a text render means we're switching textures
 			activeResourceId = -1;
 			// TODO - optimize for 1 pass text
 			F32 componentWidth = component->virtualRight - component->virtualLeft;

@@ -510,10 +510,12 @@ namespace BatteryTech {
 	 }*/
    };
 
-   /// Three dimensional Vector of floats
+   /// Four dimensional Vector of floats
    typedef Vector4<float> Vector4f;
-   /// Three dimensional Vector of doubles
+   /// Four dimensional Vector of doubles
    typedef Vector4<double> Vector4d;
+   /// Four dimensional Vector of integers
+   typedef Vector4<int> Vector4i;
 
 }
 

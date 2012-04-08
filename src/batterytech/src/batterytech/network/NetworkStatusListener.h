@@ -21,9 +21,9 @@ namespace BatteryTech {
 
 	class NetworkStatusListener {
 	public:
-		enum NetStatus { STATUS_NONE, STATUS_ERROR, STATUS_WAITING_FOR_CLIENTS, STATUS_FINDING_HOSTS, STATUS_VALIDATING, STATUS_CONNECTING, STATUS_CONNECTED };
+		enum Status { STATUS_NONE, STATUS_ERROR, STATUS_WAITING_FOR_CLIENTS, STATUS_FINDING_HOSTS, STATUS_VALIDATING, STATUS_CONNECTING, STATUS_CONNECTED };
 		virtual ~NetworkStatusListener(){};
-		virtual void onStatusChanged(NetworkStatusListener::NetStatus status){};
+		virtual void onStatusChanged(NetworkStatusListener::Status status){};
 	};
 
 }

@@ -30,7 +30,7 @@ namespace BatteryTech {
 		U32 rate;
 		U8 channels;
 		S32 soundId;
-		const char *assetName;
+		char *assetName;
 	};
 
 }

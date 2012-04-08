@@ -33,6 +33,12 @@
 	#define glOrthof(left,right,bottom,top,near,far) glOrtho(left,right,bottom,top,near,far)
 	#define glFrustumf(xmin, xmax, ymin, ymax, zNear, zFar) glFrustum(xmin, xmax, ymin, ymax, zNear, zFar)
 
+	// OpenGL 1.3 extensions
+	extern PFNGLACTIVETEXTUREPROC glActiveTexture;
+	extern PFNGLSAMPLECOVERAGEPROC glSampleCoverage;
+	extern PFNGLCOMPRESSEDTEXIMAGE2DPROC glCompressedTexImage2D;
+	extern PFNGLCOMPRESSEDTEXSUBIMAGE2DPROC glCompressedTexSubImage2D;
+
 	// OpenGL 1.5 extensions
 	extern PFNGLGENBUFFERSPROC glGenBuffers;
 	extern PFNGLBINDBUFFERPROC glBindBuffer;
@@ -136,6 +142,23 @@
 	extern PFNGLVERTEXATTRIB4USVPROC glVertexAttrib4usv;
 	extern PFNGLVERTEXATTRIBPOINTERPROC glVertexAttribPointer;
 
+	// 2.0 framebuffer/renderbuffer extensions
+	extern PFNGLISRENDERBUFFERPROC glIsRenderbuffer;
+	extern PFNGLBINDRENDERBUFFERPROC glBindRenderbuffer;
+	extern PFNGLDELETERENDERBUFFERSPROC glDeleteRenderbuffers;
+	extern PFNGLGENRENDERBUFFERSPROC glGenRenderbuffers;
+	extern PFNGLRENDERBUFFERSTORAGEPROC glRenderbufferStorage;
+	extern PFNGLGETRENDERBUFFERPARAMETERIVPROC glGetRenderbufferParameteriv;
+	extern PFNGLISFRAMEBUFFERPROC glIsFramebuffer;
+	extern PFNGLBINDFRAMEBUFFERPROC glBindFramebuffer;
+	extern PFNGLDELETEFRAMEBUFFERSPROC glDeleteFramebuffers;
+	extern PFNGLGENFRAMEBUFFERSPROC glGenFramebuffers;
+	extern PFNGLCHECKFRAMEBUFFERSTATUSPROC glCheckFramebufferStatus;
+	extern PFNGLFRAMEBUFFERTEXTURE2DPROC glFramebufferTexture2D;
+	extern PFNGLFRAMEBUFFERRENDERBUFFERPROC glFramebufferRenderbuffer;
+	extern PFNGLGETFRAMEBUFFERATTACHMENTPARAMETERIVPROC glGetFramebufferAttachmentParameteriv;
+	extern PFNGLGENERATEMIPMAPPROC glGenerateMipmap;
+
 #endif /* _WIN32 */
 
 #ifdef __APPLE__
@@ -157,16 +180,6 @@
 	#define glFrustumf(xmin, xmax, ymin, ymax, zNear, zFar) glFrustum(xmin, xmax, ymin, ymax, zNear, zFar)
 #endif /* OSX */
 
-#if defined(linux)
-	#define GL_GLEXT_PROTOTYPES
-	#include <GL/gl.h>
-	#include <GL/glext.h>
-	#include <GL/glu.h>
-	#include <GL/glx.h>
-	// needed to map GLES to GL
-	#define glOrthof(left,right,bottom,top,near,far) glOrtho(left,right,bottom,top,near,far)
-	#define glFrustumf(xmin, xmax, ymin, ymax, zNear, zFar) glFrustum(xmin, xmax, ymin, ymax, zNear, zFar)
-#endif
 #include "opengles.h"
 
 #endif /* PLATFORMGENERAL_H_ */

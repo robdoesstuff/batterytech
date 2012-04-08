@@ -24,8 +24,8 @@
 #include "ui/LinearLayout.h"
 #include "render/MenuRenderer.h"
 #include "Context.h"
-#include "../demo-app/Game.h"
-#include "../demo-app/render/WorldRenderer.h"
+#include "../game/Game.h"
+#include "../game/render/WorldRenderer.h"
 #include <stdlib.h>
 #include <time.h>
 #include "batterytech_globals.h"
@@ -38,7 +38,7 @@ static S32 updateTimeIdx = 0;
 
 void btInit(GraphicsConfiguration *graphicsConfig, S32 width, S32 height) {
 	Logger::useFileOutput(BT_LOGFILE);
-	char buf[255];
+	char buf[100];
 	sprintf(buf, "BatteryTech %s Initializing...", BATTERYTECH_VERSION);
 	logmsg(buf);
 	gConfig = graphicsConfig;
@@ -114,8 +114,7 @@ void btUpdate(F32 delta) {
 
 void btDraw() {
 	//logmsg("btDraw");
-	context->worldRenderer->render(context->world);
-	context->menuRenderer->render();
+	context->worldRenderer->render();
 }
 
 void btSuspend() {
@@ -153,26 +152,58 @@ void btKeyUp(U8 key, BatteryTech::SpecialKey sKey) {
 	//char buf[20];
 	//sprintf(buf, "KeyUp=%c, (%d)", key, key);
 	//logmsg(buf);
+	for (S32 i = 0; i < MAX_KEYSTATES; i++) {
+		if (context->keyState[i].isDown && context->keyState[i].keyCode == key) {
+			context->keyState[i].isDown = FALSE;
+			context->keyState[i].keyCode = 0;
+			break;
+		}
+	}
 }
 
 void btKeyDown(U8 key, BatteryTech::SpecialKey sKey) {
 	//char buf[20];
 	//sprintf(buf, "KeyDown=%c, (%d)", key, key);
 	//logmsg(buf);
+	BOOL32 alreadyDown = FALSE;
+	for (S32 i = 0; i < MAX_KEYSTATES; i++) {
+		if (context->keyState[i].isDown && context->keyState[i].keyCode == key) {
+			alreadyDown = TRUE;
+			break;
+		}
+	}
+	if (!alreadyDown) {
+		for (S32 i = 0; i < MAX_KEYSTATES; i++) {
+			if (!context->keyState[i].isDown) {
+				context->keyState[i].isDown = TRUE;
+				context->keyState[i].keyCode = key;
+				break;
+			}
+		}
+	}
 }
 
 void btKeyPressed(U8 key, BatteryTech::SpecialKey sKey) {
 	//char buf[20];
 	//sprintf(buf, "KeyPressed=%c, (%d)", key, key);
 	//logmsg(buf);
-	context->keyPressed = key;
-	context->specialKeyPressed = sKey;
+	if (context) {
+		context->keyPressed = key;
+		context->specialKeyPressed = sKey;
+	}
 }
 
 void btAccelerometerChanged(F32 x, F32 y, F32 z) {
 	context->accelerometerState.x = x;
 	context->accelerometerState.y = y;
 	context->accelerometerState.z = z;
+}
+
+void btCallback(const char *data) {
+	if (context) {
+		strcpy(context->callbackData, data);
+		context->callbackDataReady = TRUE;
+	}
 }
 
 void btRelease() {

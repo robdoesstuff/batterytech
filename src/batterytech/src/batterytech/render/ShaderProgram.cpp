@@ -79,13 +79,13 @@ void ShaderProgram::unbind() {
 void ShaderProgram::addVertexAttributeLoc(const char *name) {
 	GLint loc = glGetAttribLocation(program, name);
 	if (loc == -1) {
-		char buf[255];
-		sprintf(buf, "Vertex Attribute %s not found or is invalid", name);
+		char buf[1024];
+		sprintf(buf, "%s-%s - add - Vertex Attribute %s not found or is invalid", vertShaderAssetName, fragShaderAssetName, name);
 		logmsg(buf);
 	} else {
-		char buf[255];
-		sprintf(buf, "Added vertex attribute %s at loc %d", name, loc);
-		logmsg(buf);
+		//char buf[255];
+		//sprintf(buf, "Added vertex attribute %s at loc %d", name, loc);
+		//logmsg(buf);
 	}
 	attribLocs->add(new ShaderNameLocMap(name, loc));
 }
@@ -93,13 +93,13 @@ void ShaderProgram::addVertexAttributeLoc(const char *name) {
 void ShaderProgram::addUniformLoc(const char *name) {
 	GLint loc = glGetUniformLocation(program, name);
 	if (loc == -1) {
-		char buf[255];
-		sprintf(buf, "Uniform %s not found or is invalid", name);
+		char buf[1024];
+		sprintf(buf, "%s-%s - add - Uniform %s not found or is invalid", vertShaderAssetName, fragShaderAssetName, name);
 		logmsg(buf);
 	} else {
-		char buf[255];
-		sprintf(buf, "Added uniform %s at loc %d", name, loc);
-		logmsg(buf);
+		//char buf[255];
+		//sprintf(buf, "Added uniform %s at loc %d", name, loc);
+		//logmsg(buf);
 	}
 	uniformLocs->add(new ShaderNameLocMap(name, loc));
 }
@@ -111,8 +111,8 @@ GLint ShaderProgram::getVertexAttributeLoc(const char *name) {
 			return attribLocs->array[i]->loc;
 		}
 	}
-	char buf[255];
-	sprintf(buf, "Vertex Attribute %s not found", name);
+	char buf[1024];
+	sprintf(buf, "%s-%s - get - Vertex Attribute %s not found", vertShaderAssetName, fragShaderAssetName, name);
 	logmsg(buf);
 	return 0;
 }
@@ -123,8 +123,8 @@ GLint ShaderProgram::getUniformLoc(const char *name) {
 			return uniformLocs->array[i]->loc;
 		}
 	}
-	char buf[255];
-	sprintf(buf, "Uniform %s not found", name);
+	char buf[1024];
+	sprintf(buf, "%s-%s - get - Uniform %s not found", vertShaderAssetName, fragShaderAssetName, name);
 	logmsg(buf);
 	return 0;
 }
@@ -149,28 +149,31 @@ GLuint ShaderProgram::loadShaderFromAsset(GLenum type, const char *assetName) {
 }
 
 GLuint ShaderProgram::loadShader(GLenum type, const char *shaderSrc, const char *assetName) {
-   GLuint shader;
-   GLint compiled;
-   // Create the shader object
-   shader = glCreateShader(type);
-   if(shader == 0) {
-	   return 0;
-   }
-   // Load the shader source
-   glShaderSource(shader, 1, &shaderSrc, NULL);
-   // Compile the shader
-   glCompileShader(shader);
-   // Check the compile status
-   glGetShaderiv(shader, GL_COMPILE_STATUS, &compiled);
-   if(!compiled) {
-	   char buf[255];
+	char buf[255];
+	sprintf(buf, "Loading Shader %s", assetName);
+	logmsg(buf);
+	GLuint shader;
+	GLint compiled;
+	// Create the shader object
+	shader = glCreateShader(type);
+	if(shader == 0) {
+		logmsg("Error - could not create shader of specified type");
+		return 0;
+	}
+	// Load the shader source
+	glShaderSource(shader, 1, &shaderSrc, NULL);
+	// Compile the shader
+	glCompileShader(shader);
+	// Check the compile status
+	glGetShaderiv(shader, GL_COMPILE_STATUS, &compiled);
+	if(!compiled) {
 	   sprintf(buf, "Error loading shader %s", assetName);
 	   logmsg(buf);
 	   logShaderInfo(shader);
 	   glDeleteShader(shader);
 	  return 0;
-   }
-   return shader;
+	}
+	return shader;
 }
 
 void ShaderProgram::logShaderInfo(GLuint obj) {

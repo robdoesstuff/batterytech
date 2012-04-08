@@ -16,9 +16,9 @@
 //============================================================================
 
 #include "Context.h"
-#include "../demo-app/Game.h"
-#include "../demo-app/World.h"
-#include "../demo-app/render/WorldRenderer.h"
+#include "../game/Game.h"
+#include "../game/World.h"
+#include "../game/render/WorldRenderer.h"
 #include "render/MenuRenderer.h"
 #include "audio/AudioManager.h"
 #include "network/NetworkManager.h"
@@ -27,12 +27,14 @@
 #include "ui/UIManager.h"
 #include "render/RenderContext.h"
 #include "batterytech_globals.h"
+#include "render/GLResourceManager.h"
 
 namespace BatteryTech {
 
 	Context::Context(GraphicsConfiguration *gConfig) {
 		this->gConfig = gConfig;
 		this->world = new World;
+		glResourceManager = new GLResourceManager(this);
 		worldRenderer = new WorldRenderer(this);
 		menuRenderer = new MenuRenderer(this);
 		audioManager = new AudioManager();
@@ -43,6 +45,7 @@ namespace BatteryTech {
 		renderContext = new RenderContext();
 		tickDelta = 0;
 		isUIConsumingPointers = FALSE;
+		isUIConsumingKeys = FALSE;
 		keyPressed = 0;
 		specialKeyPressed = SKEY_NULL;
 		showFPS = FALSE;
@@ -56,6 +59,13 @@ namespace BatteryTech {
 			pointerState[i].x = 0;
 			pointerState[i].y = 0;
 		}
+		keyState = new KeyState[MAX_KEYSTATES];
+		for (S32 i = 0; i < MAX_POINTERS; i++) {
+			keyState[i].isDown = FALSE;
+			keyState[i].keyCode = 0;
+		}
+		callbackData[0] = '\0';
+		callbackDataReady = FALSE;
 	}
 
 	Context::~Context() {
@@ -70,6 +80,8 @@ namespace BatteryTech {
 		vibrationManager = NULL;
 		delete worldRenderer;
 		worldRenderer = NULL;
+		delete glResourceManager;
+		glResourceManager = NULL;
 		delete world;
 		world = NULL;
 		delete uiManager;

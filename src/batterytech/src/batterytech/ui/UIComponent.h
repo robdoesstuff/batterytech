@@ -120,7 +120,9 @@ namespace BatteryTech {
 		virtual void dispatchClickDown(S32 x, S32 y);
 		virtual void dispatchClickMove(S32 x, S32 y);
 		virtual void dispatchClickUp();
-		virtual void dispatchKeyPressed(U8 key);
+		virtual BOOL32 dispatchKeyPressed(U8 key);
+		virtual BOOL32 dispatchKeyDown(U8 key);
+		virtual BOOL32 dispatchKeyUp(U8 key);
 		virtual void setEnterAnimator(UIAnimator *animator);
 		virtual void setMainAnimator(UIAnimator *animator);
 		virtual void setExitAnimator(UIAnimator *animator);
@@ -148,6 +150,7 @@ namespace BatteryTech {
 		BOOL32 isPressed;
 		BOOL32 removeFromView;
 		BOOL32 isClickableUnderChildren;
+		BOOL32 isHidden; 
 		S32 userId;
 		const char *clickDownSoundAsset;
 		const char *clickUpSoundAsset;
@@ -163,7 +166,10 @@ namespace BatteryTech {
 		virtual void onClickDown(S32 x, S32 y){};
 		virtual void onClickUp(){};
 		virtual void onClickMove(S32 x, S32 y){};
-		virtual void onKeyPressed(U8 key){};
+		/** Return true if the UIComponent consumed the key press */
+		virtual BOOL32 onKeyPressed(U8 key){return FALSE;};
+		virtual BOOL32 onKeyDown(U8 key){return FALSE;};
+		virtual BOOL32 onKeyUp(U8 key){return FALSE;};
 		LayoutParameters *layoutParameters;
 	private:
 		UIAnimator *enterAnimator;

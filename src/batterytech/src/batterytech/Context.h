@@ -33,6 +33,7 @@ namespace BatteryTech {
 	class VibrationManager;
 	class GraphicsConfiguration;
 	class RenderContext;
+	class GLResourceManager;
 
 	class Context {
 	public:
@@ -51,6 +52,13 @@ namespace BatteryTech {
 			F32 x;
 			F32 y;
 			F32 z;
+		};
+		/**
+		 * Represents the state of a keyboard key
+		 */
+		struct KeyState {
+			BOOL32 isDown;
+			U8 keyCode;
 		};
 		Context(GraphicsConfiguration *gConfig);
 		virtual ~Context();
@@ -78,11 +86,23 @@ namespace BatteryTech {
 		SpecialKey specialKeyPressed;
 
 		/**
+		 * For keyboard input, this is an array of the keys that are currently pressed down.  This array will be of MAX_KEYSTATES length.
+		 */
+		KeyState *keyState;
+
+		/**
 		 * Set to true if the UI is consuming the current pointers.
 		 * Your app can use this to decide if it wants to ignore touches the UI is responding to.
 		 * This is used instead of an event chain of consumption pattern.
 		 */
 		BOOL32 isUIConsumingPointers;
+
+		/**
+		 * Set to true if the UI is consuming the current input keys.
+		 * Your app can use this to decide if it wants to ignore keys the UI is responding to.
+		 * This is used instead of an event chain of consumption pattern.
+		 */
+		BOOL32 isUIConsumingKeys;
 
 		/**
 		 * The time in seconds that has passed between the last update and this update.
@@ -151,6 +171,21 @@ namespace BatteryTech {
 		 * This is the current rendering context.  Among other things, it should be used to track matrices and states.
 		 */
 		RenderContext *renderContext;
+
+		/**
+		 * This manages shared GL-related resources such as Textures, TextureRegions, Shaders, etc
+		 */
+		GLResourceManager *glResourceManager;
+
+		/**
+		 * Async callback data (see btCallback())
+		 */
+		char callbackData[1024];
+
+		/**
+		 * If there was a callback and there is callback data ready
+		 */
+		BOOL32 callbackDataReady;
 	};
 }
 

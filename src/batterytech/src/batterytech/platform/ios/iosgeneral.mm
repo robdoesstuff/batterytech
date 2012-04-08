@@ -32,6 +32,14 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <sys/ioctl.h>
+#include "../../util/strx.h"
+#include <mach/mach.h>
+#include <mach/mach_time.h>
+
+#import "batterytechViewController.h"
+#import "IAPManager.h"
+#import "OpenFeint+Dashboard.h"
+#import "OFHighScoreService.h"
 
 #define ASSETS_DIR "assets/"
 
@@ -40,6 +48,7 @@ using namespace BatteryTech;
 AudioManager *_iosSndMgr;
 UITextView *myTextView;
 batterytechKeyboardDelegate *kbDelegate;
+extern batterytechViewController *btViewController;
 
 static const char* getFilePathForAsset(const char *assetName) {
 	char *lastDot = NULL;
@@ -176,6 +185,14 @@ void _platform_get_external_storage_dir_name(char* buf, S32 buflen) {
 	const char *docDirCString = [documentsDirectory UTF8String];
 	strcpy(buf, docDirCString);
 	buf[strlen(docDirCString)] = '\0';
+ }
+
+void _platform_get_application_storage_dir_name(char* buf, S32 buflen) {
+	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+	NSString *documentsDirectory = [paths objectAtIndex:0];
+	const char *docDirCString = [documentsDirectory UTF8String];
+	strcpy(buf, docDirCString);
+	buf[strlen(docDirCString)] = '\0';
 }
 
 const char* _platform_get_path_separator() {
@@ -248,50 +265,53 @@ S32 _platform_play_streaming_sound(const char *assetName, S16 loops, F32 leftVol
 void _platform_stop_streaming_sound(const char *assetName){}
 
 void _platform_show_keyboard() {
-	NSLog(@"Showing keyboard");
-	extern UIView *batterytechRootView;
-	// create hidden textview and set as first responder
-	myTextView = [[UITextView alloc] init];
-	[batterytechRootView addSubview:myTextView];
-	myTextView.frame.size.height = 1;
-	myTextView.frame.size.width = 1;
-	kbDelegate = [[batterytechKeyboardDelegate alloc] init];
-	myTextView.delegate = kbDelegate;
-	[myTextView becomeFirstResponder];
-	
+    dispatch_async( dispatch_get_main_queue(), ^{
+        NSLog(@"Showing keyboard");
+        extern UIView *batterytechRootView;
+        // create hidden textview and set as first responder
+        myTextView = [[UITextView alloc] init];
+        [batterytechRootView addSubview:myTextView];
+        myTextView.frame.size.height = 1;
+        myTextView.frame.size.width = 1;
+        kbDelegate = [[batterytechKeyboardDelegate alloc] init];
+        myTextView.delegate = kbDelegate;
+        [myTextView becomeFirstResponder];
+    });
 }
 
 void _platform_hide_keyboard() {
-	NSLog(@"Hiding keyboard");
-	// resign responder from textview
-	// release textview and null out
-	if (myTextView) {
-		[myTextView resignFirstResponder];
-		[myTextView removeFromSuperview]; 
-		[myTextView release];
-		myTextView = NULL;
-	}
-	if (kbDelegate) {
-		[kbDelegate release];
-		kbDelegate = NULL;
-	}
-	if (FALSE) {
-		// uncomment this if you need failsafe keyboard removal
-		UIWindow* tempWindow;
-		for(int c = 0; c < [[[UIApplication sharedApplication] windows] count]; c ++)
-		{
-			tempWindow = [[[UIApplication sharedApplication] windows] objectAtIndex:c];
-			for(int i = 0; i < [tempWindow.subviews count]; i++)
-			{
-				UIView *keyboard = [tempWindow.subviews objectAtIndex:i];
-				if([[keyboard description] hasPrefix:@"<UIKeyboard"] == YES
-				   || [[keyboard description] hasPrefix:@"<UIPeripheralHostView"] == YES 
-				   || [[keyboard description] hasPrefix:@"<UISnap"] == YES ){	
-					[keyboard setHidden:TRUE];
-				}
-			}
-		}
-	}
+    dispatch_async( dispatch_get_main_queue(), ^{
+        NSLog(@"Hiding keyboard");
+        // resign responder from textview
+        // release textview and null out
+        if (myTextView) {
+            [myTextView resignFirstResponder];
+            [myTextView removeFromSuperview]; 
+            [myTextView release];
+            myTextView = NULL;
+        }
+        if (kbDelegate) {
+            [kbDelegate release];
+            kbDelegate = NULL;
+        }
+        if (FALSE) {
+            // uncomment this if you need failsafe keyboard removal
+            UIWindow* tempWindow;
+            for(int c = 0; c < [[[UIApplication sharedApplication] windows] count]; c ++)
+            {
+                tempWindow = [[[UIApplication sharedApplication] windows] objectAtIndex:c];
+                for(int i = 0; i < [tempWindow.subviews count]; i++)
+                {
+                    UIView *keyboard = [tempWindow.subviews objectAtIndex:i];
+                    if([[keyboard description] hasPrefix:@"<UIKeyboard"] == YES
+                       || [[keyboard description] hasPrefix:@"<UIPeripheralHostView"] == YES 
+                       || [[keyboard description] hasPrefix:@"<UISnap"] == YES ){	
+                        [keyboard setHidden:TRUE];
+                    }
+                }
+            }
+        }
+    });
 }
 
 void _platform_init_network() {}
@@ -360,17 +380,113 @@ void _platform_exit() {
 
 void _platform_show_ad() {
 	// Call out to your ios ad integration piece here
+    dispatch_async( dispatch_get_main_queue(), ^{
+        [btViewController showAd];
+    });
 }
 
 void _platform_hide_ad() {
 	// Call out to your ios ad integration piece here
+    dispatch_async( dispatch_get_main_queue(), ^{
+        [btViewController hideAd];
+    });
 }
 
 void _platform_hook(const char *hook, char *result, S32 resultLen) {
 	// Handle custom hooks here
+    if (strStartsWith(hook, "initOF")) {
+        dispatch_async( dispatch_get_main_queue(), ^{
+            [btViewController initOF];
+        });
+    } else if (strStartsWith(hook, "submitTime")) {
+        char *hookData = new char[512];
+        strcpy(hookData, hook);
+        dispatch_async( dispatch_get_main_queue(), ^{
+            if ([OpenFeint hasUserApprovedFeint]) {
+                strtok(hookData, " ");
+                char *leaderBoardId = strtok(NULL, " ");
+                char *timeString = strtok(NULL, " ");
+                char *levelString = strtok(NULL, " ");
+                float timeValue = atof(timeString);
+                int timeInt = (int)(timeValue * 1000);
+                [OFHighScoreService setHighScore:timeInt 
+                                 withDisplayText:[NSString stringWithFormat:@"%2.4f (lvl %s)", timeValue, levelString]
+                                  forLeaderboard:[NSString stringWithFormat:@"%s", leaderBoardId]
+                             onSuccessInvocation:nil
+                             onFailureInvocation:nil
+                 ];
+                delete [] hookData;
+            }
+        });
+    }  else if (strStartsWith(hook, "submitMPH")) {
+        char *hookData = new char[512];
+        strcpy(hookData, hook);
+        dispatch_async( dispatch_get_main_queue(), ^{
+        if ([OpenFeint hasUserApprovedFeint]) {
+            strtok(hookData, " ");
+            char *leaderBoardId = strtok(NULL, " ");
+            char *mphString = strtok(NULL, " ");
+            char *timeString = strtok(NULL, " ");
+            float mphValue = atof(mphString);
+            float timeValue = atof(timeString);
+            int mphInt = (int)(mphValue * 100);
+            [OFHighScoreService setHighScore:mphInt 
+                             withDisplayText:[NSString stringWithFormat:@"%3.1f (%2.4f)", mphValue, timeValue]
+                              forLeaderboard:[NSString stringWithFormat:@"%s", leaderBoardId]
+                         onSuccessInvocation:nil                         
+                         onFailureInvocation:nil
+             ];
+             delete [] hookData;
+        }
+        });
+    } else if (strStartsWith(hook, "showOFSettings")) {
+        dispatch_async( dispatch_get_main_queue(), ^{
+            [OpenFeint launchDashboard];
+        });
+    } else if (strStartsWith(hook, "showLeaderboards")) {
+        dispatch_async( dispatch_get_main_queue(), ^{
+            if ([OpenFeint hasUserApprovedFeint]) {
+                [OpenFeint launchDashboardWithListLeaderboardsPage];
+            } else {
+                [OpenFeint launchDashboard];
+            }
+        });
+    } else if (strStartsWith(hook, "requestPurchase")) {
+        char *hookData = new char[512];
+        strcpy(hookData, hook);
+        dispatch_async( dispatch_get_main_queue(), ^{
+            strtok(hookData, " ");
+            char *productId = strtok(NULL, " ");
+             // call SK purchase request with productId
+            IAPManager *mgr = [IAPManager getInstance];
+            if ([mgr canMakePurchases]) {
+                NSString *sku = [NSString stringWithCString:productId encoding: NSUTF8StringEncoding];
+                [mgr purchaseProduct:sku];
+            }
+            delete [] hookData;
+        });
+    }
 }
 
 BOOL32 _platform_has_special_key(BatteryTech::SpecialKey sKey) {
 	return FALSE;
 }
+
+U64 _platform_get_time_nanos() {
+	static mach_timebase_info_data_t sTimebaseInfo;
+	uint64_t time = mach_absolute_time();
+	uint64_t nanos;
+	// If this is the first time we've run, get the timebase.
+	// We can use denom == 0 to indicate that sTimebaseInfo is
+	// uninitialised because it makes no sense to have a zero
+	// denominator is a fraction.
+	if ( sTimebaseInfo.denom == 0 ) {
+		(void) mach_timebase_info(&sTimebaseInfo);
+	}
+	// Do the maths.  We hope that the multiplication doesn't
+	// overflow; the price you pay for working in fixed point.
+	nanos = time * sTimebaseInfo.numer / sTimebaseInfo.denom;
+	return nanos;
+}
+
 #endif

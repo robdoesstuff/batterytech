@@ -33,6 +33,7 @@ namespace BatteryTech {
 		 */
 		virtual void init(BOOL32 newContext) = 0;
 		virtual ~Renderer();
+		static void checkGLError(const char *tag);
 	protected:
 		/**
 		 * Loads a texture
@@ -55,7 +56,7 @@ namespace BatteryTech {
 		 */
 		void logProgramInfo(GLuint obj);
 
-		void checkGLError(const char *tag);
+		void getUniformStructName(char *out, const char *uniformBaseName, int index, const char *elementName);
 	};
 
 }

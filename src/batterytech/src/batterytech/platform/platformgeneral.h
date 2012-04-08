@@ -45,9 +45,6 @@
 	#include "osx/osxgeneral.h"
 #endif /* MAC */
 
-#if defined(linux)
-	#include "linux/linuxgeneral.h"
-#endif
 
 //-------------- Files, IO, Paths -------------
 
@@ -69,6 +66,9 @@ S32 _platform_read_asset_chunk(const char *filename, S32 offset, unsigned char *
 // Gets the path of the external storage directory
 void _platform_get_external_storage_dir_name(char* buf, S32 buflen);
 
+// Gets the path of the internal (application private) storage directory
+void _platform_get_application_storage_dir_name(char* buf, S32 buflen);
+
 // Gets the path separator character(s)
 const char* _platform_get_path_separator();
 
@@ -86,6 +86,9 @@ BOOL32 _platform_path_create(const char* path);
 
 // Converts a path into a platform's version of the path
 void _platform_convert_path(const char* path, char* newPath);
+
+// COnverts a path into UNIX-style forward slash name
+void _platform_convert_path_to_forward(const char* path, char *newPath);
 
 // Gets the basename of a path (such as /home/files/foo.txt basename is /home/files)
 void _platform_get_basename(const char* path, char *baseName);
@@ -211,6 +214,9 @@ void _platform_hook(const char *hook, char *result, S32 resultLen);
 
 // Logs a message
 void _platform_log(const char *message);
+
+// Returns a time in nanoseconds, suitable for high resolution timing and profiling
+U64 _platform_get_time_nanos();
 
 
 

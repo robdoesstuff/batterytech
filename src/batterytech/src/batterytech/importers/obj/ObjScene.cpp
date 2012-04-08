@@ -29,6 +29,7 @@ ObjScene::ObjScene() {
 ObjScene::~ObjScene() {
 	for (S32 i = 0; i < groupCount; i++) {
 		ObjGroup *group = &groups[i];
+		group->meshCount = group->meshCount;
 		for (S32 j = 0; j < group->meshCount; j++) {
 			ObjMesh *mesh = &group->meshes[j];
 			mesh->vertPositions = NULL;

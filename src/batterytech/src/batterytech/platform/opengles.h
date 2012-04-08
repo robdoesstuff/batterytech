@@ -17,7 +17,7 @@
 #ifndef OPENGLES_H_
 #define OPENGLES_H_
 #include "../primitives.h"
-#include <math.h>
+#include <Math.h>
 #include <stdlib.h>
 #include "../math/Vector2.h"
 #include "../math/Vector3.h"
@@ -36,6 +36,9 @@ using namespace BatteryTech;
 BOOL32 gles_checkExtension(const char *extension);
 
 void gles_gluPerspective(float fovy, float aspect, float zNear, float zFar);
+void gles_gluLookAt(float eyex, float eyey, float eyez,
+		float centerx, float centery, float centerz,
+		float upx, float upy, float upz);
 Vector3f gles_gluProject(const Vector3f &worldCoord, Matrix4f &mvMatrix, Matrix4f &projMatrix, const Vector2f &viewXY, const Vector2f &viewExtents);
 Vector3f gles_gluUnProject(const Vector3f &winCoord, Matrix4f &mvMatrix, Matrix4f &projMatrix, const Vector2f &viewXY, const Vector2f &viewExtents);
 

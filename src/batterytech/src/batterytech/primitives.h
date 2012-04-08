@@ -40,10 +40,6 @@
 	#include "platform/osx/osxtypes.h"
 #endif /* TARGET_OS_MAC */
 
-#if defined(linux)
-	#include "platform/linux/linuxtypes.h"
-#endif
-
 // special key definitions (not really primitives but this is a convenient header to store them in)
 namespace BatteryTech {
 	enum SpecialKey { SKEY_NULL, SKEY_BACK, SKEY_MENU, SKEY_SEARCH, SKEY_HOME, SKEY_CAMERA, SKEY_WHEELLEFT, SKEY_WHEELRIGHT, SKEY_WHEELUP, SKEY_WHEELDOWN };

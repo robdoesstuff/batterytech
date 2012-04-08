@@ -17,6 +17,10 @@
 #include <iostream>
 #include "../../primitives.h"
 #include <string.h>
+#include <Shlobj.h>
+#include "../../batterytech_globals.h"
+#include "../../util/strx.h"
+#include "../../batterytech.h"
 
 using namespace std;
 using namespace BatteryTech;
@@ -66,7 +70,6 @@ unsigned char* _platform_load_asset(const char *filename, S32 *size) {
 	fclose(handle);
 	return data;
 }
-
 
 void _platform_free_asset(unsigned char *ptr) {
 	if (ptr) {
@@ -154,7 +157,35 @@ void _platform_stop_sound() {
 }
 
 void _platform_get_external_storage_dir_name(char* buf, S32 buflen) {
-	getcwd(buf, buflen);
+	TCHAR szPath[MAX_PATH];
+	if(SUCCEEDED(SHGetFolderPath(NULL,
+	                             CSIDL_PERSONAL|CSIDL_FLAG_CREATE,
+	                             NULL,
+	                             0,
+	                             szPath))) {
+		strncpy(buf, szPath, buflen);
+		buf[buflen] = '\0';
+		strcat(buf, "\\");
+		strcat(buf, BT_STORAGE_DIR);
+	} else {
+		buf[0] = '\0';
+	}
+}
+
+void _platform_get_application_storage_dir_name(char* buf, S32 buflen) {
+	TCHAR szPath[MAX_PATH];
+	if(SUCCEEDED(SHGetFolderPath(NULL,
+	                             CSIDL_PERSONAL|CSIDL_FLAG_CREATE,
+	                             NULL,
+	                             0,
+	                             szPath))) {
+		strncpy(buf, szPath, buflen);
+		buf[buflen] = '\0';
+		strcat(buf, "\\");
+		strcat(buf, BT_STORAGE_DIR);
+	} else {
+		buf[0] = '\0';
+	}
 }
 
 const char* _platform_get_path_separator() {
@@ -253,6 +284,17 @@ void _platform_hide_ad() {
 
 void _platform_hook(const char *hook, char *result, S32 resultLen) {
 	// Handle custom hooks here
+	if (strStartsWith(hook, "requestPurchase")) {
+		// call back with success
+		char hookData[512];
+		strcpy(hookData, hook);
+		strtok(hookData, " ");
+		char *productId = strtok(NULL, " ");
+		char callback[512];
+		sprintf(callback, "purchaseSucceeded %s", productId);
+		btCallback(callback);
+		cout << callback << endl;
+	}
 }
 
 BOOL32 _platform_has_special_key(BatteryTech::SpecialKey sKey) {
@@ -329,6 +371,10 @@ char** _platform_get_ifaddrs(int *count) {
 void _platform_free_ifaddrs(char** ifaddrs, int count) {
 	delete ifaddrs[0];
 	delete [] ifaddrs;
+}
+
+U64 _platform_get_time_nanos() {
+	return (U64)timeGetTime() * (U64)1000000;
 }
 
 #endif /* _WIN32 */

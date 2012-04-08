@@ -169,7 +169,7 @@ namespace BatteryTech {
 			}
 		}
 		if (!success) {
-			//logmsg("No streams left to play on");
+			logmsg("No streams left to play on");
 		}
 		return streamId;
 	}

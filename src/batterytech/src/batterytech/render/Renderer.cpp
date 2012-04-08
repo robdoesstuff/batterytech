@@ -21,6 +21,7 @@
 #include "../Logger.h"
 #include <string.h>
 #include "../Context.h"
+#include "Texture.h"
 
 #define DEBUG_RENDERER TRUE
 
@@ -53,7 +54,9 @@ namespace BatteryTech {
 			GLuint textureIds[1];
 			glGenTextures(1, textureIds);
 			textureId = textureIds[0];
+			Texture::textureSwitches++;
 			glBindTexture(GL_TEXTURE_2D, textureId);
+			Texture::lastTextureId = textureId;
 			if (!context->gConfig->useShaders) {
 				glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 			}
@@ -150,10 +153,15 @@ namespace BatteryTech {
 		GLenum e = glGetError();
 		// loop to clear the error stack
 		while (e != GL_NO_ERROR) {
-			char buf[50];
+			char buf[255];
 			sprintf(buf, "%s - GL Error - %d", tag, e);
 			logmsg(buf);
 			e = glGetError();
 		}
 	}
+
+	void Renderer::getUniformStructName(char *out, const char *uniformBaseName, int index, const char *elementName) {
+		sprintf(out, "%s[%d].%s", uniformBaseName, index, elementName);
+	}
+
 }

@@ -33,6 +33,7 @@
 #include <net/if.h>
 #include <arpa/inet.h>
 #include <netinet/in.h>
+#include <time.h>
 
 using namespace BatteryTech;
 
@@ -49,8 +50,10 @@ unsigned char* _platform_load_asset(const char *filename, S32 *size) {
 	jmethodID loadAssetMethodID = jnienv->GetMethodID(bootClass, "loadAsset", "(Ljava/lang/String;)[B");
 	jstring jfilename = jnienv->NewStringUTF(filename);
 	jbyteArray jdata = (jbyteArray)jnienv->CallObjectMethod(javaBoot, loadAssetMethodID, jfilename);
+	jnienv->DeleteLocalRef(bootClass);
+	jnienv->DeleteLocalRef(jfilename);
 	if (!jdata) {
-		__android_log_print(ANDROID_LOG_DEBUG, "BatteryTech", "No data returned!");
+		return NULL;
 	}
 	// how much data?
 	jsize dataLength = jnienv->GetArrayLength(jdata);
@@ -61,9 +64,11 @@ unsigned char* _platform_load_asset(const char *filename, S32 *size) {
 	data = (jbyte*) malloc(sizeof(jbyte) * *size);
 	if (!data) {
 		__android_log_print(ANDROID_LOG_DEBUG, "BatteryTech", "malloc failed!");
+		return NULL;
 	}
 	jnienv->GetByteArrayRegion(jdata, 0, *size, data);
 	//memcpy(jdata, data, sizeof(unsigned char) * *size);
+	jnienv->DeleteLocalRef(jdata);
 	return (unsigned char*)data;
 }
 
@@ -99,6 +104,21 @@ S32 _platform_read_asset_chunk(const char *filename, S32 offset, unsigned char *
 	return dataLength;
 }
 
+
+void _platform_get_application_storage_dir_name(char* buf, S32 buflen) {
+	__android_log_print(ANDROID_LOG_DEBUG, "BatteryTech", "Getting Application Storage Dir");
+	extern JNIEnv* jnienv;
+	extern jobject javaBoot;
+	// pull from android java apis
+	jclass bootClass = jnienv->GetObjectClass(javaBoot);
+	jmethodID loadAssetMethodID = jnienv->GetMethodID(bootClass, "getApplicationStorageDirPath", "()Ljava/lang/String;");
+	jstring pathStringUTF = (jstring)jnienv->CallObjectMethod(javaBoot, loadAssetMethodID);
+	jboolean isCopy;
+	const char *jnibuf = jnienv->GetStringUTFChars(pathStringUTF, &isCopy);
+	strcpy(buf, jnibuf);
+	jnienv->ReleaseStringUTFChars(pathStringUTF, jnibuf);
+	__android_log_print(ANDROID_LOG_DEBUG, "BatteryTech", buf);
+}
 
 void _platform_get_external_storage_dir_name(char* buf, S32 buflen) {
 	__android_log_print(ANDROID_LOG_DEBUG, "BatteryTech", "Getting External Storage Dir");
@@ -427,6 +447,13 @@ void _platform_free_ifaddrs(char** ifaddrs, int count) {
 		delete ifaddrs[i];
 	}
 	delete [] ifaddrs;
+}
+
+// Returns a time in nanoseconds, suitable for high resolution timing and profiling
+U64 _platform_get_time_nanos() {
+   timespec ts;
+   clock_gettime(CLOCK_MONOTONIC, &ts);
+   return (uint64_t)ts.tv_sec * 1000000000LL + (uint64_t)ts.tv_nsec;
 }
 
 #endif /* ANDROID_NDK */

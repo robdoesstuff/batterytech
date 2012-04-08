@@ -32,4 +32,14 @@ BOOL32 strEquals(const char *s1, const char *s2);
 // Determines if needle exists in haystack, wrapper for strstr
 BOOL32 strContains(const char *haystack, const char *needle);
 
+// Gets the encoded length of this string
+S32 strlenUTF8(const char *str);
+
+// Converts a UTF-8 byte sequence to a unicode code point
+S32 strToUnicode(const char *str, S32 *bytesConsumed);
+
+// Converts an array of UTF-8 byte sequences to a unicode code point array
+// returns number of unicode code points in unicodeArray (<= maxLen)
+S32 strnUTF8ToUnicodeArray(const char *str, S32 *unicodeArray, const S32 maxLen);
+
 #endif /* STRX_H_ */

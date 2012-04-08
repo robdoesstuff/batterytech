@@ -43,6 +43,11 @@ namespace BatteryTech {
 			TRILINEAR
 		};
 
+		enum ShadowType {
+			SHADOWTYPE_NONE,
+			SHADOWTYPE_SHADOWMAP
+		};
+
 		/**
 		 * The scale of the UI on the current display.  1.0 = reference size.
 		 */
@@ -86,6 +91,8 @@ namespace BatteryTech {
 		 * Each platform will have a flag to set for using shaders when available.
 		 */
 		BOOL32 useShaders;
+
+		ShadowType shadowType;
 
 		// --------- GPU capabilities ------------
 		/**

@@ -31,6 +31,8 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <sys/ioctl.h>
+#include <mach/mach.h>
+#include <mach/mach_time.h>
 
 #define ASSETS_DIR "assets/"
 
@@ -165,6 +167,14 @@ void _platform_init_sound(AudioManager *audioManager) {
 }
 
 void _platform_stop_sound() {
+}
+
+void _platform_get_application_storage_dir_name(char* buf, S32 buflen) {
+	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+	NSString *documentsDirectory = [paths objectAtIndex:0];
+	const char *docDirCString = [documentsDirectory UTF8String];
+	strcpy(buf, docDirCString);
+	buf[strlen(docDirCString)] = '\0';
 }
 
 void _platform_get_external_storage_dir_name(char* buf, S32 buflen) {
@@ -325,6 +335,23 @@ void _platform_hook(const char *hook, char *result, S32 resultLen) {
 
 BOOL32 _platform_has_special_key(BatteryTech::SpecialKey sKey) {
 	return FALSE;
+}
+
+U64 _platform_get_time_nanos() {
+	static mach_timebase_info_data_t sTimebaseInfo;
+	uint64_t time = mach_absolute_time();
+	uint64_t nanos;
+	// If this is the first time we've run, get the timebase.
+	// We can use denom == 0 to indicate that sTimebaseInfo is
+	// uninitialised because it makes no sense to have a zero
+	// denominator is a fraction.
+	if ( sTimebaseInfo.denom == 0 ) {
+		(void) mach_timebase_info(&sTimebaseInfo);
+	}
+	// Do the maths.  We hope that the multiplication doesn't
+	// overflow; the price you pay for working in fixed point.
+	nanos = time * sTimebaseInfo.numer / sTimebaseInfo.denom;
+	return nanos;
 }
 
 #endif

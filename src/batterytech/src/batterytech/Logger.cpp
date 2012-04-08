@@ -17,6 +17,7 @@
 #include "Logger.h"
 #include "platform/platformgeneral.h"
 #include <stdio.h>
+#include <string.h>
 
 // static initialization
 FILE *file = NULL;

@@ -51,6 +51,7 @@
 //   Character advance/positioning
 //           stbtt_GetCodepointHMetrics()
 //           stbtt_GetFontVMetrics()
+//			 stbtt_GetFontHMetrics()
 //
 // NOTES
 //
@@ -303,7 +304,7 @@ extern int stbtt_BakeFontBitmap(const unsigned char *data, int offset,  // font 
                                 float pixel_height,                     // height of font in pixels
                                 unsigned char *pixels, int pw, int ph,  // bitmap to be filled in
                                 int first_char, int num_chars,          // characters to bake
-                                stbtt_bakedchar *chardata);             // you allocate this, it's num_chars long
+                                stbtt_bakedchar *chardata, int pad);             // you allocate this, it's num_chars long
 // if return is positive, the first unused row of the bitmap
 // if return is negative, returns the negative of the number of characters that fit
 // if return is 0, no characters fit and no rows were used
@@ -319,7 +320,8 @@ extern void stbtt_GetBakedQuad(stbtt_bakedchar *chardata, int pw, int ph,  // sa
                                int char_index,             // character to display
                                float *xpos, float *ypos,   // pointers to current position in screen pixel space
                                stbtt_aligned_quad *q,      // output: quad to draw
-                               int opengl_fillrule);       // true if opengl fill rule; false if DX9 or earlier
+                               int opengl_fillrule,		   // true if opengl fill rule; false if DX9 or earlier
+                               float scale);       		   // what size to scale the quad to
 // Call GetBakedQuad with char_index = 'character - first_char', and it
 // creates the quad you need to draw and advances the current position.
 // It's inefficient; you might want to c&p it and optimize it.
@@ -393,6 +395,8 @@ extern void stbtt_GetFontVMetrics(const stbtt_fontinfo *info, int *ascent, int *
 // lineGap is the spacing between one row's descent and the next row's ascent...
 // so you should advance the vertical position by "*ascent - *descent + *lineGap"
 //   these are expressed in unscaled coordinates
+
+extern void stbtt_GetFontHMetrics(const stbtt_fontinfo *info, unsigned int *advanceWidthMax, int *minLeftSideBearing, int *minRightSideBearing, int *xMaxExtent);
 
 extern void stbtt_GetCodepointHMetrics(const stbtt_fontinfo *info, int codepoint, int *advanceWidth, int *leftSideBearing);
 // leftSideBearing is the offset from the current horizontal position to the left edge of the character
@@ -1110,9 +1114,17 @@ void stbtt_GetCodepointHMetrics(const stbtt_fontinfo *info, int codepoint, int *
 
 void stbtt_GetFontVMetrics(const stbtt_fontinfo *info, int *ascent, int *descent, int *lineGap)
 {
-   if (ascent ) *ascent  = ttSHORT(info->data+info->hhea + 4);
+   if (ascent) *ascent  = ttSHORT(info->data+info->hhea + 4);
    if (descent) *descent = ttSHORT(info->data+info->hhea + 6);
    if (lineGap) *lineGap = ttSHORT(info->data+info->hhea + 8);
+}
+
+void stbtt_GetFontHMetrics(const stbtt_fontinfo *info, unsigned int *advanceWidthMax, int *minLeftSideBearing, int *minRightSideBearing, int *xMaxExtent)
+{
+   if (advanceWidthMax) *advanceWidthMax  = ttUSHORT(info->data+info->hhea + 10);
+   if (minLeftSideBearing) *minLeftSideBearing = ttSHORT(info->data+info->hhea + 12);
+   if (minRightSideBearing) *minRightSideBearing = ttSHORT(info->data+info->hhea + 14);
+   if (xMaxExtent) *xMaxExtent = ttSHORT(info->data+info->hhea + 16);
 }
 
 float stbtt_ScaleForPixelHeight(const stbtt_fontinfo *info, float height)
@@ -1130,17 +1142,18 @@ void stbtt_FreeShape(const stbtt_fontinfo *info, stbtt_vertex *v)
 //
 // antialiasing software rasterizer
 //
-
+//#include <stdio.h>
 void stbtt_GetGlyphBitmapBox(const stbtt_fontinfo *font, int glyph, float scale_x, float scale_y, int *ix0, int *iy0, int *ix1, int *iy1)
 {
    int x0,y0,x1,y1;
-   if (!stbtt_GetGlyphBox(font, glyph, &x0,&y0,&x1,&y1))
+    if (!stbtt_GetGlyphBox(font, glyph, &x0,&y0,&x1,&y1))
       x0=y0=x1=y1=0; // e.g. space character
    // now move to integral bboxes (treating pixels as little squares, what pixels get touched)?
    if (ix0) *ix0 =  STBTT_ifloor(x0 * scale_x);
    if (iy0) *iy0 = -STBTT_iceil (y1 * scale_y);
    if (ix1) *ix1 =  STBTT_iceil (x1 * scale_x);
    if (iy1) *iy1 = -STBTT_ifloor(y0 * scale_y);
+   //printf("Glyph %d %d %d %d %d\n", glyph, x0, y0, x1, y1);
 }
 
 void stbtt_GetCodepointBitmapBox(const stbtt_fontinfo *font, int codepoint, float scale_x, float scale_y, int *ix0, int *iy0, int *ix1, int *iy1)
@@ -1586,15 +1599,15 @@ extern int stbtt_BakeFontBitmap(const unsigned char *data, int offset,  // font 
                                 float pixel_height,                     // height of font in pixels
                                 unsigned char *pixels, int pw, int ph,  // bitmap to be filled in
                                 int first_char, int num_chars,          // characters to bake
-                                stbtt_bakedchar *chardata)
+                                stbtt_bakedchar *chardata, int pad)
 {
    float scale;
    int x,y,bottom_y, i;
    stbtt_fontinfo f;
    stbtt_InitFont(&f, data, offset);
    STBTT_memset(pixels, 0, pw*ph); // background of 0 around pixels
-   x=y=1;
-   bottom_y = 1;
+   x=y=1 + pad;
+   bottom_y = 1 + pad;
 
    scale = stbtt_ScaleForPixelHeight(&f, pixel_height);
 
@@ -1606,45 +1619,45 @@ extern int stbtt_BakeFontBitmap(const unsigned char *data, int offset,  // font 
       gw = x1-x0;
       gh = y1-y0;
       if (x + gw + 1 >= pw)
-         y = bottom_y, x = 1; // advance to next row
+         y = bottom_y, x = 1 + pad; // advance to next row
       if (y + gh + 1 >= ph) // check if it fits vertically AFTER potentially moving to next row
          return -i;
       STBTT_assert(x+gw < pw);
       STBTT_assert(y+gh < ph);
       stbtt_MakeGlyphBitmap(&f, pixels+x+y*pw, gw,gh,pw, scale,scale, g);
-      chardata[i].x0 = (stbtt_int16) x;
-      chardata[i].y0 = (stbtt_int16) y;
-      chardata[i].x1 = (stbtt_int16) (x + gw);
-      chardata[i].y1 = (stbtt_int16) (y + gh);
+      chardata[i].x0 = (stbtt_int16) x - pad;
+      chardata[i].y0 = (stbtt_int16) y - pad;
+      chardata[i].x1 = (stbtt_int16) (x + gw) + pad;
+      chardata[i].y1 = (stbtt_int16) (y + gh) + pad;
       chardata[i].xadvance = scale * advance;
-      chardata[i].xoff     = (float) x0;
-      chardata[i].yoff     = (float) y0;
-      x = x + gw + 2;
+      chardata[i].xoff     = (float) x0 + pad;
+      chardata[i].yoff     = (float) y0 + pad;
+      x = x + gw + 2 + pad * 2;
       if (y+gh+2 > bottom_y)
-         bottom_y = y+gh+2;
+         bottom_y = y+gh+2 + pad * 2;
    }
    return bottom_y;
 }
 
-void stbtt_GetBakedQuad(stbtt_bakedchar *chardata, int pw, int ph, int char_index, float *xpos, float *ypos, stbtt_aligned_quad *q, int opengl_fillrule)
+void stbtt_GetBakedQuad(stbtt_bakedchar *chardata, int pw, int ph, int char_index, float *xpos, float *ypos, stbtt_aligned_quad *q, int opengl_fillrule, float scale)
 {
    float d3d_bias = opengl_fillrule ? 0 : -0.5f;
    float ipw = 1.0f / pw, iph = 1.0f / ph;
    stbtt_bakedchar *b = chardata + char_index;
-   int round_x = STBTT_ifloor((*xpos + b->xoff) + 0.5);
-   int round_y = STBTT_ifloor((*ypos + b->yoff) + 0.5);
+   int round_x = STBTT_ifloor((*xpos + b->xoff * scale) + 0.5);
+   int round_y = STBTT_ifloor((*ypos + b->yoff * scale) + 0.5);
 
    q->x0 = round_x + d3d_bias;
    q->y0 = round_y + d3d_bias;
-   q->x1 = round_x + b->x1 - b->x0 + d3d_bias;
-   q->y1 = round_y + b->y1 - b->y0 + d3d_bias;
+   q->x1 = round_x + (b->x1 - b->x0) * scale + d3d_bias;
+   q->y1 = round_y + (b->y1 - b->y0) * scale + d3d_bias;
 
    q->s0 = b->x0 * ipw;
    q->t0 = b->y0 * iph;
    q->s1 = b->x1 * ipw;
    q->t1 = b->y1 * iph;
 
-   *xpos += b->xadvance;
+   *xpos += (b->xadvance * scale);
 }
 
 //////////////////////////////////////////////////////////////////////////////

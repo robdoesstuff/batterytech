@@ -21,6 +21,8 @@
 #include "../Logger.h"
 #include "../audio/AudioManager.h"
 #include "../VibrationManager.h"
+#include "../Context.h"
+#include "../batterytech_globals.h"
 
 namespace BatteryTech {
 
@@ -137,10 +139,12 @@ namespace BatteryTech {
 		if (activeMenuStack->lastItemIndex > -1) {
 			activeMenuStack->array[activeMenuStack->lastItemIndex]->getRootComponent()->exit();
 		}
+		selectedComponent = NULL;
 	}
 
 	void UIManager::clearMenuStack() {
 		activeMenuStack->clear();
+		selectedComponent = NULL;
 	}
 
 	void UIManager::update() {
@@ -171,12 +175,12 @@ namespace BatteryTech {
 			}
 		}
 		// update all menus
-		S32 i;
-		for (i = 0; i < activeMenuStack->getSize(); i++) {
+		for (S32 i = 0; i < activeMenuStack->getSize(); i++) {
 			Menu *menu = activeMenuStack->array[i];
 			// honor any layout requests
 			if (menu->layoutRequested) {
 				layoutMenu(menu);
+				menu->layoutRequested = FALSE;
 			}
 			// check for exit animation completion and queued menu pending show
 			if (menu->getRootComponent()->isExitDone()) {
@@ -188,8 +192,23 @@ namespace BatteryTech {
 			}
 			traverseUpdate(menu->getRootComponent());
 		}
-		if (selectedComponent && context->keyPressed) {
-			selectedComponent->dispatchKeyPressed(context->keyPressed);
+		if (selectedComponent) {
+			if (context->keyPressed) {
+				if (selectedComponent->dispatchKeyPressed(context->keyPressed)) {
+					context->isUIConsumingKeys = TRUE;
+				}
+			} else {
+				for (S32 i = 0; i < MAX_KEYSTATES; i++) {
+					Context::KeyState ks = context->keyState[i];
+					if (ks.isDown && ks.keyCode != 0) {
+						if (selectedComponent->dispatchKeyDown(ks.keyCode)) {
+							context->isUIConsumingKeys = TRUE;
+						}
+					}
+				}
+			}
+		} else {
+			context->isUIConsumingKeys = FALSE;
 		}
 		// only send special keys to the menu at the very top of the stack
 		if (context->specialKeyPressed != SKEY_NULL && activeMenuStack->getSize() > 0) {
@@ -227,7 +246,7 @@ namespace BatteryTech {
 
 	BOOL32 UIManager::traverseClickState(Menu *menu, UIComponent *component, BOOL32 down, S32 x, S32 y) {
 		// don't be clickable until animated in (this is first to catch parents first)
-		if (component->isEnterPending()) {
+		if (component->isEnterPending() || component->isExitPending()) {
 			return FALSE;
 		}
 		BOOL32 isClickUnder = FALSE;

@@ -59,8 +59,8 @@ namespace BatteryTech {
 		// know what you're doing when you call this!
 		void returnToPool(NetworkMessage *message);
 		void setMessageFactory(NetworkMessageFactory *factory);
-		NetworkStatusListener::NetStatus status;
-		NetworkStatusListener::NetStatus lastStatus;
+		NetworkStatusListener::Status status;
+		NetworkStatusListener::Status lastStatus;
 	private:
 		void startUDPListener(const char *port);
 		void stopUDPListener();

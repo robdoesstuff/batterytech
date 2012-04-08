@@ -31,6 +31,8 @@ namespace BatteryTech {
 		marginTopDips = 0;
 		left = top = right = bottom = 0;
 		virtualLeft = virtualTop = virtualRight = virtualBottom = 0;
+		layoutParameters = NULL;
+		this->isHidden = false;
 		backgroundMenuResourceId = NO_RESOURCE;
 		pressedBackgroundMenuResourceId = NO_RESOURCE;
 		selectedBackgroundMenuResourceId = NO_RESOURCE;
@@ -116,8 +118,16 @@ namespace BatteryTech {
 		onClickUp();
 	}
 
-	void UIComponent::dispatchKeyPressed(U8 key) {
-		onKeyPressed(key);
+	BOOL32 UIComponent::dispatchKeyPressed(U8 key) {
+		return onKeyPressed(key);
+	}
+
+	BOOL32 UIComponent::dispatchKeyDown(U8 key) {
+		return onKeyDown(key);
+	}
+
+	BOOL32 UIComponent::dispatchKeyUp(U8 key) {
+		return onKeyUp(key);
 	}
 
 	void UIComponent::update(F32 delta) {

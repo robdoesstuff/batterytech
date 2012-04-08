@@ -17,13 +17,21 @@
 #include "GLModelBinding.h"
 #include "../platform/platformgl.h"
 
+namespace BatteryTech {
+
 GLModelBinding::GLModelBinding() {
 	vPosVBOId = vNormalVBOId = vTexVBOId = 0;
 	vCount = 0;
 	model = NULL;
+	name = NULL;
 }
 
 GLModelBinding::~GLModelBinding() {
+	model = NULL;
+	if (name) {
+		delete [] name;
+	}
+	name = NULL;
 }
 
 void GLModelBinding::init(F32 *positions, F32 *normals, F32 *tex, S32 vCount) {
@@ -40,6 +48,21 @@ void GLModelBinding::init(F32 *positions, F32 *normals, F32 *tex, S32 vCount) {
 	glBindBuffer(GL_ARRAY_BUFFER, vTexVBOId);
 	glBufferData(GL_ARRAY_BUFFER, vCount * 2 * 4, tex, GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+
+void GLModelBinding::clearGL() {
+	if (vPosVBOId) {
+		glDeleteBuffers(1, &vPosVBOId);
+	}
+	vPosVBOId = 0;
+	if (vNormalVBOId) {
+		glDeleteBuffers(1, &vNormalVBOId);
+	}
+	vNormalVBOId = 0;
+	if (vTexVBOId) {
+		glDeleteBuffers(1, &vTexVBOId);
+	}
+	vTexVBOId = 0;
 }
 
 void GLModelBinding::bindPositionsToShader(GLint attributeLoc) {
@@ -59,4 +82,6 @@ void GLModelBinding::bindUVsToShader(GLint attributeLoc) {
 
 void GLModelBinding::unbind() {
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+
 }

@@ -19,11 +19,14 @@
 
 #include "../platform/platformgl.h"
 
+namespace BatteryTech {
+
 class GLModelBinding {
 public:
 	GLModelBinding();
 	virtual ~GLModelBinding();
 	void init(F32 *positions, F32 *normals, F32 *tex, S32 vCount);
+	void clearGL();
 	void bindPositionsToShader(GLint attributeLoc);
 	void bindNormalsToShader(GLint attributeLoc);
 	void bindUVsToShader(GLint attributeLoc);
@@ -33,6 +36,9 @@ public:
 	GLuint vTexVBOId;
 	S32 vCount;
 	void *model;
+	char *name;
 };
+
+}
 
 #endif /* GLMODELBINDING_H_ */

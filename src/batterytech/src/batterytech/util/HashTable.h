@@ -15,10 +15,12 @@
 //============================================================================
 
 #ifndef HASHTABLE_H_
-#define HASHTABLE_H
+#define HASHTABLE_H_
 
 #include <stdlib.h>
 #include <string.h>
+
+namespace BatteryTech {
 
 // Currently automatic growing is disabled.
 // Initialize this hashtable at the approximate capacity you believe you will need or performance will suffer as you lose sparsity.
@@ -54,6 +56,7 @@ protected:
 	 Doubles hash array size but currently is broken as it does not rehash (which is required for entries to match hash function)
 	 */
 	void grow();
+
 public:
 	HashTable<K, V> (int hashArraySize = DEFAULT_HASH_ARRAY_SIZE);
 	~HashTable<K, V> ();
@@ -65,6 +68,32 @@ public:
 	V remove(const K &key);
 	HashTable<K, V>* clear();
 	HashTable<K, V>* deleteElements();
+
+	int size() const {
+		return entries;
+	}
+
+	// Iterator state
+	struct Iterator {
+		int index, entriesVisited;
+		bool hasNext;
+		Bucket *bucket;
+		K key;
+	};
+
+
+	// Get the initial iterator state used for iterating the hash table with getNext().
+	Iterator getIterator() const {
+		Iterator i;
+		i.index = -1;
+		i.entriesVisited = 0;
+		i.bucket = NULL;
+		i.hasNext = entries > 0;
+		i.key = NULL;
+		return i;
+	}
+
+	V getNext(Iterator &iterator) const;
 };
 
 // The entries / hash array threshold for growing, currently disabled until rehashing is added.
@@ -76,10 +105,10 @@ HashTable<K, V>* HashTable<K, V>::operator=(HashTable<K, V> *table) {
 	Bucket *bucket = NULL;
 	this->clear();
 	// Iterate over all the buckets in <table>, copying over each entry.
-	for (int i = 0; i < table.hashArraySize; i++) {
-		bucket = table.buckets[i];
+	for (int i = 0; i < table->hashArraySize; i++) {
+		bucket = table->buckets[i];
 		while (bucket != NULL) {
-			add(bucket->key, bucket->data);
+			put(bucket->key, bucket->data);
 			bucket = bucket->next;
 		}
 	}
@@ -96,8 +125,8 @@ int HashTable<K, V>::hash(const K &key) const {
 
 template<typename K, typename V>
 void HashTable<K, V>::grow() {
-	hashArraySize = 2 * hashArraySize + 1;
-	buckets = (Bucket **) realloc(buckets, (sizeof(Bucket *) * hashArraySize));
+	//hashArraySize = 2 * hashArraySize + 1;
+	//buckets = (Bucket **) realloc(buckets, (sizeof(Bucket *) * hashArraySize));
 	// TODO rehash - this will fail without it since we use modulus!
 }
 
@@ -146,7 +175,7 @@ bool HashTable<K, V>::contains(const K &key) const {
 }
 
 template<typename K, typename V>
-typename HashTable<K, V>::Bucket* HashTable<K, V>::findBucket(const K &key, bool remove = false) const {
+typename HashTable<K, V>::Bucket* HashTable<K, V>::findBucket(const K &key, bool remove) const {
 	int hashValue = hash(key);
 	Bucket *bucket = buckets[hashValue];
 	Bucket *lastBucket = NULL;
@@ -176,6 +205,36 @@ typename HashTable<K, V>::Bucket* HashTable<K, V>::findBucket(const K &key, bool
 }
 
 template<typename K, typename V>
+V HashTable<K, V>::getNext(Iterator &iterator) const {
+	// Visit next in current bucket, if any
+	if (iterator.bucket && iterator.bucket->next) {
+		iterator.bucket = iterator.bucket->next;
+		iterator.entriesVisited++;
+		iterator.hasNext = iterator.entriesVisited < entries;
+		iterator.key = iterator.bucket->key;
+
+		return iterator.bucket->data;
+	}
+
+	// Visit the remaining buckets
+	for (int i = iterator.index + 1; i < hashArraySize; ++i) {
+		Bucket *bucket = buckets[i];
+		iterator.index = i;
+		iterator.bucket = bucket;
+		if (!bucket)
+			continue;
+
+		iterator.entriesVisited++;
+		iterator.hasNext = iterator.entriesVisited < entries;
+		iterator.key = iterator.bucket->key;
+		return iterator.bucket->data;
+	}
+
+	iterator.hasNext = false;
+	return NULL;
+}
+
+template<typename K, typename V>
 HashTable<K, V>* HashTable<K, V>::clear() {
 	for (int i = 0; i < hashArraySize; i++) {
 		Bucket *bucket = buckets[i];
@@ -187,9 +246,11 @@ HashTable<K, V>* HashTable<K, V>::clear() {
 		buckets[i] = NULL;
 	}
 	entries = 0;
+	// FIXME: This should probably use the original size that was passed in constructor, cache it?
 	hashArraySize = DEFAULT_HASH_ARRAY_SIZE;
 	// realloc back to original hash array size
 	buckets = (Bucket **) realloc(buckets, (sizeof(Bucket *) * hashArraySize));
+	memset(buckets, 0, sizeof(Bucket *) * hashArraySize);
 	return this;
 }
 
@@ -206,9 +267,11 @@ HashTable<K, V>* HashTable<K, V>::deleteElements() {
 		buckets[i] = NULL;
 	}
 	entries = 0;
+	// FIXME: This should probably use the original size that was passed in constructor, cache it?
 	hashArraySize = DEFAULT_HASH_ARRAY_SIZE;
 	// realloc back to original hash array size
 	buckets = (Bucket **) realloc(buckets, (sizeof(Bucket *) * hashArraySize));
+	memset(buckets, 0, sizeof(Bucket *) * hashArraySize);
 	return this;
 }
 
@@ -230,6 +293,8 @@ V HashTable<K, V>::remove(const K &key) {
 	V data = bucket->data;
 	// bucket allocated with new
 	delete bucket;
+	entries--;
+
 	return data;
 }
 
@@ -244,7 +309,7 @@ HashTable<K, V>::Bucket::Bucket(const K &key, const V &data, Bucket *next) {
 template<typename V>
 class StrHashTable : public HashTable<char*,V> {
 public:
-	StrHashTable<V> (int hashArraySize = HashTable<char*,V>::DEFAULT_HASH_ARRAY_SIZE);
+	StrHashTable<V> (int hashArraySize = 89);
 	bool contains(const char* key) const;
 	StrHashTable<V>* put(const char* key, const V &data = 0);
 	V get(const char* key);
@@ -308,7 +373,9 @@ StrHashTable<V>* StrHashTable<V>::put(const char* key, const V &data) {
 	}
 	int hashValue = hash(key);
 	HashTable<char*, V>::entries++;
-	typename HashTable<char*, V>::Bucket *bucket = new typename HashTable<char*, V>::Bucket((char*)key, data);
+	char *safeKey = new char[strlen(key)+1];
+	strcpy(safeKey, key);
+	typename HashTable<char*, V>::Bucket *bucket = new typename HashTable<char*, V>::Bucket((char*)safeKey, data);
 	/*
 	 If there are already buckets in the bucket list for the given hash
 	 value, prepend the new one to the existing list.  Regardless,
@@ -342,8 +409,13 @@ V StrHashTable<V>::remove(const char* key) {
 		return NULL;
 	}
 	V data = bucket->data;
+	// bucket key is string we allocated with new
+	delete [] bucket->key;
 	// bucket allocated with new
 	delete bucket;
+	HashTable<char*, V>::entries--;
 	return data;
 }
-#endif /* HASHTABLE_H */
+
+} /* end namespace BatteryTech */
+#endif /* HASHTABLE_H_ */

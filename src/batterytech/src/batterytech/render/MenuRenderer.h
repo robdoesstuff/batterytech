@@ -74,6 +74,9 @@ namespace BatteryTech {
 		 * Gets the height of the current UI font
 		 */
 		F32 getTextHeight();
+
+		TextRasterRenderer* getTextRenderer() { return textRenderer; }
+
 		virtual ~MenuRenderer();
 	private:
 		void loadTexture(const char *assetName);

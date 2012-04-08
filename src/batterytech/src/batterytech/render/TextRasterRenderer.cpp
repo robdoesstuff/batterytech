@@ -17,6 +17,7 @@
 #include "TextRasterRenderer.h"
 #include "../platform/platformgeneral.h"
 #include "../platform/platformgl.h"
+#include "../util/strx.h"
 #include "../primitives.h"
 #define STB_TRUETYPE_IMPLEMENTATION
 #include "../decoders/stb_truetype.h"
@@ -26,6 +27,8 @@
 #include "../batterytech_globals.h"
 #include <stdio.h>
 #include "ShaderProgram.h"
+#include <batterytech/util/strx.h>
+#include "Texture.h"
 
 // uncomment this if there are strange text artifacts - it will put debuggable values into the text arrays which
 // will show any algorithm errors in layout if any array positions are skipped accidentally.
@@ -35,18 +38,34 @@ namespace BatteryTech {
 
 	TextRasterRenderer::TextRasterRenderer(Context *context, const char *assetName, F32 fontSize) {
 		this->context = context;
-		aName = assetName;
+		aName = strDuplicate(assetName);
 		this->fontSize = fontSize * context->gConfig->uiScale;
 		bmpWidth = 0;
 		bmpHeight = 0;
 		shaderProgram = new ShaderProgram("shaders/quadshader.vert", "shaders/quadshader.frag");
+		innerStroke = 0;
+		outerStroke = 0;
+		color = Vector4f(1,1,1,1);
 	}
 
 	TextRasterRenderer::~TextRasterRenderer() {
 		delete shaderProgram;
+		delete [] aName;
+	}
+
+	void TextRasterRenderer::setStroke(S32 inner, S32 outer) {
+		innerStroke = inner * context->gConfig->uiScale;
+		outerStroke = outer * context->gConfig->uiScale;
+	}
+
+	void TextRasterRenderer::setColorFilter(Vector4f rgba) {
+		color = rgba;
 	}
 
 	void TextRasterRenderer::init(BOOL32 newContext) {
+		if (!newContext) {
+			return;
+		}
 		S32 bmpWidth = INITIAL_FONT_TEXTURE_WIDTH;
 		S32 bmpHeight = INITIAL_FONT_TEXTURE_HEIGHT;
 		S32 size = 0;
@@ -57,11 +76,20 @@ namespace BatteryTech {
 			BYTE8 *temp_bitmap_rgba = NULL;
 			BOOL32 fit = FALSE;
 			BOOL32 increaseToggle = FALSE;
+			S32 ascent, descent, lineGap, minLeftSideBearing, minRightSideBearing, xMaxExtent;
+			U32 advanceWidthMax;
+			stbtt_fontinfo f;
+			stbtt_InitFont(&f, data, 0);
+			stbtt_GetFontVMetrics(&f, &ascent, &descent, &lineGap);
+			stbtt_GetFontHMetrics(&f, &advanceWidthMax, &minLeftSideBearing, &minRightSideBearing, &xMaxExtent);
+			printf("Font Metrics: ascent=%d, descent=%d, lineGap=%d, awm=%d, mlsb=%d, mrsb=%d, xmax=%d\n", ascent, descent, lineGap, advanceWidthMax, minLeftSideBearing, minRightSideBearing, xMaxExtent);
+			F32 scale = stbtt_ScaleForPixelHeight(&f, fontSize);
+			printf("Bitmap Scale: %f = %f, awmScaled=%f, xmaxScaled=%f\n", fontSize, scale, advanceWidthMax*scale, xMaxExtent*scale);
 			while (!fit) {
 				// this isn't the most efficient way to do this but anything better will require modifying stb_truetype to do a dry run with no allocation
 				temp_bitmap = (unsigned char*) malloc(sizeof(unsigned char) * bmpWidth*bmpHeight);
 				temp_bitmap_rgba = (unsigned char*) malloc(sizeof(unsigned char) * bmpWidth*bmpHeight*4);
-				S32 result = stbtt_BakeFontBitmap(data, 0, fontSize, temp_bitmap, bmpWidth, bmpHeight, 32,95, cdata); // no guarantee this fits!
+				S32 result = stbtt_BakeFontBitmap(data, 0, fontSize, temp_bitmap, bmpWidth, bmpHeight, 32,95, cdata, outerStroke); // no guarantee this fits!
 				if (result <= 0) {
 					// didn't fit it all
 					increaseToggle = !increaseToggle;
@@ -91,8 +119,16 @@ namespace BatteryTech {
 					temp_bitmap_rgba[rowStart + col * 4 + 3] = alpha;
 				}
 			}
-			/*
+			if (innerStroke) {
+				applyInnerStroke(temp_bitmap, temp_bitmap_rgba, bmpWidth, bmpHeight);
+			}
+			if (outerStroke) {
+				applyOuterStroke(temp_bitmap, temp_bitmap_rgba, bmpWidth, bmpHeight);
+			}
+			// can free ttf_buffer at this point
+			free(temp_bitmap);
 			// uncomment for debugging font texture generation
+			/**
 			FILE *testOutFile;
 			testOutFile = fopen("bmp8.raw", "wb");
 			fwrite(temp_bitmap, bmpWidth * bmpHeight, 1, testOutFile);
@@ -101,10 +137,10 @@ namespace BatteryTech {
 			fwrite(temp_bitmap_rgba, bmpWidth * bmpHeight * 4, 1, testOutFile);
 			fclose(testOutFile);
 			*/
-			// can free ttf_buffer at this point
-			free(temp_bitmap);
 			glGenTextures(1, &ftex);
+			Texture::textureSwitches++;
 			glBindTexture(GL_TEXTURE_2D, ftex);
+			Texture::lastTextureId = ftex;
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, bmpWidth, bmpHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, temp_bitmap_rgba);
 			free(temp_bitmap_rgba);
@@ -128,15 +164,15 @@ namespace BatteryTech {
 		}
 	}
 
-	F32 TextRasterRenderer::getHeight() {
+	F32 TextRasterRenderer::getHeight(F32 scale) {
 		F32 x = 0;
 		F32 y = 0;
 		stbtt_aligned_quad q;
-		stbtt_GetBakedQuad(cdata, bmpWidth, bmpHeight, 'A'-32, &x,&y,&q,1);//1=opengl,0=old d3d
-		return q.y1 - q.y0;
+		stbtt_GetBakedQuad(cdata, bmpWidth, bmpHeight, 'A'-32, &x,&y,&q,1, scale);//1=opengl,0=old d3d
+		return (q.y1 - q.y0) * scale;
 	}
 
-	F32 TextRasterRenderer::measureWidth(const char *text) {
+	F32 TextRasterRenderer::measureWidth(const char *text, F32 scale) {
 		F32 x = 0;
 		F32 y = 0;
 		// high/low diff is the way to go since text often overlaps with non-fixed-width fonts
@@ -149,7 +185,7 @@ namespace BatteryTech {
 			}
 			if (*text >= 32 && *text < 256) {
 				stbtt_aligned_quad q;
-				stbtt_GetBakedQuad(cdata, bmpWidth, bmpHeight, *text-32, &x,&y,&q,1);//1=opengl,0=old d3d
+				stbtt_GetBakedQuad(cdata, bmpWidth, bmpHeight, *text-32, &x,&y,&q,1, scale);//1=opengl,0=old d3d
 				if (q.x0 < lowestX) {
 					lowestX = q.x0;
 				}
@@ -159,17 +195,20 @@ namespace BatteryTech {
 			}
 			++text;
 		}
-		return highestX - lowestX;
+		return (highestX - lowestX) * scale;
 	}
 
 	void TextRasterRenderer::startText() {
 		glEnable(GL_BLEND);
 		glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glFrontFace(GL_CW);
+		Texture::textureSwitches++;
 		glBindTexture(GL_TEXTURE_2D, ftex);
+		Texture::lastTextureId = ftex;
 		if (context->gConfig->useShaders) {
 			shaderProgram->bind();
 		}
+		context->renderContext->colorFilter = color;
 	}
 
 	void TextRasterRenderer::finishText() {
@@ -179,15 +218,16 @@ namespace BatteryTech {
 		}
 	}
 
-
-	void TextRasterRenderer::render(const char *text, F32 x, F32 y) {
+	void TextRasterRenderer::render(const char *text, F32 x, F32 y, F32 scale) {
 		S32 length = strlen(text);
-		if (length > TEXT_RENDER_MAX_LINE_LENGTH) {
-			length = TEXT_RENDER_MAX_LINE_LENGTH;
-		}
 		// longest string is TEXT_RENDER_MAX_LINE_LENGTH
 		F32 verts[TEXT_RENDER_MAX_LINE_LENGTH * 6 * 3];
 		F32 uvs[TEXT_RENDER_MAX_LINE_LENGTH * 6 * 2];
+		S32 unicodes[TEXT_RENDER_MAX_LINE_LENGTH];
+		length = strnUTF8ToUnicodeArray(text, unicodes, TEXT_RENDER_MAX_LINE_LENGTH);
+		if (length > TEXT_RENDER_MAX_LINE_LENGTH) {
+			length = TEXT_RENDER_MAX_LINE_LENGTH;
+		}
 		S32 i = 0;
 #ifdef DEBUG_TEXT_ELEMENT_ARRAY
 		for (S32 i = 0; i < TEXT_RENDER_MAX_LINE_LENGTH; i++) {
@@ -224,7 +264,7 @@ namespace BatteryTech {
 		while (*text && i <= TEXT_RENDER_MAX_LINE_LENGTH) {
 			if (*text >= 32 && *text < 256) {
 				stbtt_aligned_quad q;
-				stbtt_GetBakedQuad(cdata, bmpWidth, bmpHeight, *text-32, &x,&y,&q,1);//1=opengl,0=old d3d
+				stbtt_GetBakedQuad(cdata, bmpWidth, bmpHeight, *text-32, &x,&y,&q,1, scale);//1=opengl,0=old d3d
 				S32 pos = i * 18;
 				// 0
 				verts[pos] = q.x0;
@@ -290,10 +330,10 @@ namespace BatteryTech {
 		glDrawArrays(GL_TRIANGLES, 0, length * 6);
 	}
 
-	F32 TextRasterRenderer::measureMultilineHeight(const char *text, F32 availableWidth) {
+	F32 TextRasterRenderer::measureMultilineHeight(const char *text, F32 availableWidth, F32 scale) {
 		S32 i = 0;
 		S32 lastSpaceIdx = -1;
-		F32 lineHeight = getHeight() * TEXT_VERTICAL_SPACING_MULT;
+		F32 lineHeight = getHeight(scale) * TEXT_VERTICAL_SPACING_MULT;
 		F32 x = 0;
 		// first line's height
 		F32 y = lineHeight;
@@ -309,7 +349,7 @@ namespace BatteryTech {
 					lastSpaceIdx = i;
 				}
 				stbtt_aligned_quad q;
-				stbtt_GetBakedQuad(cdata, bmpWidth, bmpHeight, c-32, &x,&y,&q,1);//1=opengl,0=old d3d
+				stbtt_GetBakedQuad(cdata, bmpWidth, bmpHeight, c-32, &x,&y,&q,1, scale);//1=opengl,0=old d3d
 				if (x > availableWidth) {
 					x = 0;
 					y += lineHeight;
@@ -320,7 +360,7 @@ namespace BatteryTech {
 						c = *(text + i);
 					}
 					if (c >= 32 && c < 128) {
-						stbtt_GetBakedQuad(cdata, bmpWidth, bmpHeight, c-32, &x,&y,&q,1);//1=opengl,0=old d3d
+						stbtt_GetBakedQuad(cdata, bmpWidth, bmpHeight, c-32, &x,&y,&q,1, scale);//1=opengl,0=old d3d
 					}
 				}
 			}
@@ -330,7 +370,7 @@ namespace BatteryTech {
 		return y;
 	}
 
-	void TextRasterRenderer::renderMultiline(const char *text, F32 x, F32 y, F32 maxX, F32 maxY) {
+	void TextRasterRenderer::renderMultiline(const char *text, F32 x, F32 y, F32 maxX, F32 maxY, F32 scale) {
 		S32 length = strlen(text);
 		if (length > TEXT_RENDER_MAX_MULTILINE_LENGTH) {
 			length = TEXT_RENDER_MAX_MULTILINE_LENGTH;
@@ -395,7 +435,7 @@ namespace BatteryTech {
 					lastSpaceRenderIdx = renderChars;
 				}
 				stbtt_aligned_quad q;
-				stbtt_GetBakedQuad(cdata, bmpWidth, bmpHeight, c-32, &x,&y,&q,1);//1=opengl,0=old d3d
+				stbtt_GetBakedQuad(cdata, bmpWidth, bmpHeight, c-32, &x,&y,&q,1, scale);//1=opengl,0=old d3d
 				if (x > maxX) {
 					x = origX;
 					y += lineHeight;
@@ -411,7 +451,7 @@ namespace BatteryTech {
 						break;
 					} else {
 						if (c >= 32 && c < 256) {
-							stbtt_GetBakedQuad(cdata, bmpWidth, bmpHeight, c-32, &x,&y,&q,1);//1=opengl,0=old d3d
+							stbtt_GetBakedQuad(cdata, bmpWidth, bmpHeight, c-32, &x,&y,&q,1, scale);//1=opengl,0=old d3d
 						}
 					}
 				}
@@ -482,6 +522,74 @@ namespace BatteryTech {
 			glTexCoordPointer(2, GL_FLOAT, 0, &uvs);
 		}
 		glDrawArrays(GL_TRIANGLES, 0, renderChars * 6);
+	}
+
+	void TextRasterRenderer::applyOuterStroke(unsigned char* bitmap8, unsigned char* bitmap, S32 width, S32 height) {
+		S32 strokeAmt = this->outerStroke;
+		for (S32 y = 0; y < height; y++) {
+			for (S32 x = 0; x < width; x++) {
+				unsigned char color = bitmap8[y * width + x];
+				if (!color) {
+					BOOL32 hasAdjacentColor = FALSE;
+					// search adjacent for color
+					for (S32 y2 = y - strokeAmt; y2 <= y + strokeAmt; y2++) {
+						for (S32 x2 = x - strokeAmt; x2 <= x + strokeAmt; x2++) {
+							if (x2 < 0 || y2 < 0 || x2 >= width || y2 >= height) {
+								continue;
+							}
+							unsigned char color2 = bitmap8[y2 * width + x2];
+							if (color2) {
+								hasAdjacentColor = TRUE;
+								break;
+							}
+						}
+						if (hasAdjacentColor) {
+							break;
+						}
+					}
+					if (hasAdjacentColor) {
+						bitmap[(y * width + x) * 4] = 0;
+						bitmap[(y * width + x) * 4 + 1] = 0;
+						bitmap[(y * width + x) * 4 + 2] = 0;
+						bitmap[(y * width + x) * 4 + 3] = 0xFF;
+					}
+				}
+			}
+		}
+	}
+
+	void TextRasterRenderer::applyInnerStroke(unsigned char* bitmap8, unsigned char* bitmap, S32 width, S32 height) {
+		S32 strokeAmt = this->innerStroke;
+		for (S32 y = 0; y < height; y++) {
+			for (S32 x = 0; x < width; x++) {
+				unsigned char color = bitmap8[y * width + x];
+				if (color) {
+					BOOL32 hasAdjacentAlpha = FALSE;
+					// search adjacent for alpha
+					for (S32 y2 = y - strokeAmt; y2 <= y + strokeAmt; y2++) {
+						for (S32 x2 = x - strokeAmt; x2 <= x + strokeAmt; x2++) {
+							if (x2 < 0 || y2 < 0 || x2 >= width || y2 >= height) {
+								continue;
+							}
+							unsigned char color2 = bitmap8[y2 * width + x2];
+							if (!color2) {
+								hasAdjacentAlpha = TRUE;
+								break;
+							}
+						}
+						if (hasAdjacentAlpha) {
+							break;
+						}
+					}
+					if (hasAdjacentAlpha) {
+						bitmap[(y * width + x) * 4] = 0;
+						bitmap[(y * width + x) * 4 + 1] = 0;
+						bitmap[(y * width + x) * 4 + 2] = 0;
+						bitmap[(y * width + x) * 4 + 3] = 0xFF;
+					}
+				}
+			}
+		}
 	}
 
 }

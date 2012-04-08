@@ -17,6 +17,7 @@
 #include "PCMSound.h"
 #include "../platform/platformgeneral.h"
 #include <stdlib.h>
+#include "../util/strx.h"
 
 namespace BatteryTech {
 
@@ -25,7 +26,7 @@ namespace BatteryTech {
 		this->length = length;
 		this->rate = rate;
 		this->channels = channels;
-		this->assetName = assetName;
+		this->assetName = strDuplicate(assetName);
 		this->soundId = soundId;
 	}
 
@@ -35,6 +36,7 @@ namespace BatteryTech {
 			// the decoder uses malloc so we must free and not delete.
 			free(pcmData);
 		}
+		delete [] assetName;
 	}
 
 }

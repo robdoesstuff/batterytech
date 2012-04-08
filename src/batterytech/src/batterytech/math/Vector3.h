@@ -54,6 +54,7 @@
 #include <math.h>
 #include <string.h>
 #include <assert.h>
+#include "Vector4.h"
 
 #ifndef DEG2RAD
 #define DEG2RAD(x) ((x * M_PI) / 180.0)
@@ -192,6 +193,18 @@ namespace BatteryTech {
 	    y = static_cast<T>(rhs.y);
 	    z = static_cast<T>(rhs.z);
 	    return * this;
+	 }
+
+	 /**
+	  * Copy operator
+	  * @param rhs Right hand side argument of binary operator.
+	  */
+	 Vector3<T> operator=(const Vector4<T>& rhs)
+	 {
+		x = rhs.x;
+		y = rhs.y;
+		z = rhs.z;
+		return * this;
 	 }
 
 	 /**
@@ -541,6 +554,8 @@ namespace BatteryTech {
    typedef Vector3 <float> Vector3f;
    /// Three dimensional Vector of doubles
    typedef Vector3 <double> Vector3d;
+   /// Three dimensional Vector of ints
+   typedef Vector3 <int> Vector3i;
 
 }
 

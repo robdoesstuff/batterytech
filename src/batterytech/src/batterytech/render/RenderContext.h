@@ -41,6 +41,8 @@ namespace BatteryTech {
 		 * Current color (like glColor())
 		 */
 		Vector4f colorFilter;
+		Matrix4f shadowMVP;
+		Matrix4f shadowLookupMatrix;
 	};
 
 }

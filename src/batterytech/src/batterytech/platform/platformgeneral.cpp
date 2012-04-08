@@ -37,6 +37,17 @@ void _platform_convert_path(const char* path, char *newPath) {
 	}
 }
 
+void _platform_convert_path_to_forward(const char* path, char *newPath) {
+	strcpy(newPath, path);
+	int sLength = strlen(newPath);
+	int i;
+	for (i = 0; i < sLength; i++) {
+		if (newPath[i] == '\\') {
+			newPath[i] = '/';
+		}
+	}
+}
+
 void _platform_get_basename(const char* path, char *baseName) {
 	int lastSepIdx = -1;
 	const char *pathSep = _platform_get_path_separator();
@@ -80,7 +91,7 @@ void _platform_path_create_recursive(const char* path) {
 	// while basename
 	// check/create
 	// find next basename
-	char basename[255];
+	char basename[1024];
 	int idx = _platform_find_first_basename(path, basename, 0);
 	while (strlen(basename) > 0) {
 		if (!_platform_path_exists(basename)) {

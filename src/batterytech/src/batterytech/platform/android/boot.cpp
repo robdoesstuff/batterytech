@@ -145,6 +145,19 @@ void Java_com_batterypoweredgames_batterytech_Boot_fillAudioBuffer(JNIEnv* env, 
 	}
 }
 
+void Java_com_batterypoweredgames_batterytech_Boot_callback(JNIEnv* env, jobject thiz, jstring data) {
+	jnienv = env;
+	javaBoot = thiz;
+	if (data) {
+		jboolean isCopy;
+		const char *jnibuf = jnienv->GetStringUTFChars(data, &isCopy);
+		btCallback(jnibuf);
+		jnienv->ReleaseStringUTFChars(data, jnibuf);
+	}
+	jnienv = 0;
+	javaBoot = 0;
+}
+
 void determineGPUCapabilities() {
 	const char *vendor = (const char*)glGetString(GL_VENDOR);
 	const char *renderer = (const char*)glGetString(GL_RENDERER);

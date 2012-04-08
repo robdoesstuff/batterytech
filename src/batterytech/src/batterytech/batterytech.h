@@ -17,9 +17,6 @@
 #ifndef BATTERYTECH_H_
 #define BATTERYTECH_H_
 
-// The current version of BatteryTech in this distribution
-#define BATTERYTECH_VERSION "1.1d"
-
 #include "render/GraphicsConfiguration.h"
 #include "primitives.h"
 
@@ -84,6 +81,11 @@ void btResume();
  * Releases (finalizes) the application
  */
 void btRelease();
+
+/**
+ * Callback from host OS (generally has something to do with an async callback from an earlier hook like IAP)
+ */
+void btCallback(const char *data);
 
 #endif /* BATTERYTECH_H_ */
 

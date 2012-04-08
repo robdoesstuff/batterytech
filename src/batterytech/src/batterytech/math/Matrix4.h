@@ -58,6 +58,7 @@
 #include "Vector3.h"
 #include "Matrix3.h"
 #include "Vector4.h"
+#include "AABB3.h"
 
 #ifndef DEG2RAD
 #define DEG2RAD(x) ((x * M_PI) / 180.0)
@@ -102,6 +103,29 @@ namespace BatteryTech {
 	 Matrix4(const T * dt)
 	 {
 	    memcpy(data, dt, sizeof(T) * 16);
+	 }
+
+	 /**
+	  * Copy matrix values from parameters (these data must be in column
+	  * major order!)
+	  */
+	 Matrix4(const T d0, const T d1, const T d2, const T d3, const T d4, const T d5, const T d6, const T d7, const T d8, const T d9, const T d10, const T d11, const T d12, const T d13, const T d14, const T d15) {
+		 data[0] = d0;
+		 data[1] = d1;
+		 data[2] = d2;
+		 data[3] = d3;
+		 data[4] = d4;
+		 data[5] = d5;
+		 data[6] = d6;
+		 data[7] = d7;
+		 data[8] = d8;
+		 data[9] = d9;
+		 data[10] = d10;
+		 data[11] = d11;
+		 data[12] = d12;
+		 data[13] = d13;
+		 data[14] = d14;
+		 data[15] = d15;
 	 }
 
 	 /**
@@ -472,6 +496,16 @@ namespace BatteryTech {
 	  * Multiplication operator
 	  * @param rhs Right hand side argument of binary operator.
 	  */
+	 AABB3<T> operator*(const AABB3<T>& rhs) const
+	 {
+	    return AABB3<T>(*this * rhs.pMin, *this * rhs.pMax);
+	 }
+
+
+	 /**
+	  * Multiplication operator
+	  * @param rhs Right hand side argument of binary operator.
+	  */
 	 Matrix4<T> operator*(Matrix4<T>& rhs) const {
 	    static Matrix4<T> w;
 	    for (int i = 0; i < 4; i++) {
@@ -827,20 +861,79 @@ namespace BatteryTech {
 	     *this = *this * ortho;
 	 }
 
+	 void lookAt(float eyex, float eyey, float eyez,
+	 		float centerx, float centery, float centerz,
+	 		float upx, float upy, float upz) {
+	     float x[3], y[3], z[3];
+	     float mag;
+
+	     /* Make rotation matrix */
+
+	     /* Z vector */
+	     z[0] = eyex - centerx;
+	     z[1] = eyey - centery;
+	     z[2] = eyez - centerz;
+	     mag = sqrt(z[0] * z[0] + z[1] * z[1] + z[2] * z[2]);
+	     if (mag) {
+	         z[0] /= mag;
+	         z[1] /= mag;
+	         z[2] /= mag;
+	     }
+
+	     /* Y vector */
+	     y[0] = upx;
+	     y[1] = upy;
+	     y[2] = upz;
+
+	     /* X vector = Y cross Z */
+	     x[0] = y[1] * z[2] - y[2] * z[1];
+	     x[1] = -y[0] * z[2] + y[2] * z[0];
+	     x[2] = y[0] * z[1] - y[1] * z[0];
+
+	     /* Recompute Y = Z cross X */
+	     y[0] = z[1] * x[2] - z[2] * x[1];
+	     y[1] = -z[0] * x[2] + z[2] * x[0];
+	     y[2] = z[0] * x[1] - z[1] * x[0];
+
+	     mag = sqrt(x[0] * x[0] + x[1] * x[1] + x[2] * x[2]);
+	     if (mag) {
+	         x[0] /= mag;
+	         x[1] /= mag;
+	         x[2] /= mag;
+	     }
+	     mag = sqrt(y[0] * y[0] + y[1] * y[1] + y[2] * y[2]);
+	     if (mag) {
+	         y[0] /= mag;
+	         y[1] /= mag;
+	         y[2] /= mag;
+	     }
+	     data[0] = x[0];
+	     data[1] = y[0];
+	     data[2] = z[0];
+	     data[3] = 0.0;
+	     data[4] = x[1];
+	     data[5] = y[1];
+	     data[6] = z[1];
+	     data[7] = 0.0;
+	     data[8] = x[2];
+	     data[9] = y[2];
+	     data[10] = z[2];
+	     data[11] = 0.0;
+	     data[12] = -eyex;
+	     data[13] = -eyey;
+	     data[14] = -eyez;
+	     data[15] = 1.0;
+	 }
+
 	 /**
 	  * Transpose matrix.
 	  */
 	 Matrix4<T> transpose()
 	 {
-	    Matrix4<T> ret;
-	    for (int i = 0; i < 4; i++)
-	    {
-	       for (int j = 0; j < 4; j++)
-	       {
-	    	   ret.at(i,j) = at(j,i);
-	       }
-	    }
-	    return ret;
+	    return Matrix4<T>(data[0], data[4], data[8], data[12],
+	    		data[1], data[5], data[9], data[13],
+	    		data[2], data[6], data[10], data[14],
+	    		data[3], data[7], data[11], data[15]);
 	 }
 
 	 /**

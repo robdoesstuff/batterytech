@@ -65,9 +65,9 @@ namespace BatteryTech {
 				}
 			} else if (side == TOP) {
 				if (type == SLIDE_IN) {
-					translateY = amount * -height;
-				} else {
 					translateY = (1 - amount) * -height;
+				} else {
+					translateY = amount * -height;
 				}
 			} else if (side == LEFT) {
 				if (type == SLIDE_IN) {

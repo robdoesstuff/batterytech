@@ -23,19 +23,47 @@ namespace BatteryTech {
 	TextField::~TextField() {
 	}
 
-	void TextField::onKeyPressed(U8 key) {
+	BOOL32 TextField::onKeyPressed(U8 key) {
 		if (key == 8) {
 			deleteChar();
+			return TRUE;
 		} else if (key >= 32 && key < 127) {
 			if (!allowNumeric && key > 47 && key < 58) {
 				// ignore
 			} else {
 				addChar(key);
+				return TRUE;
 			}
 		} else if (key == 13 || key == 10) {
 			// enter/return/newline
 			_platform_hide_keyboard();
+			return TRUE;
 		}
+		return FALSE;
+	}
+
+	BOOL32 TextField::onKeyDown(U8 key) {
+		if (key == 8 || key == 10 || key == 13 || (key >= 32 && key < 127)) {
+			if (!allowNumeric && key > 47 && key < 58) {
+				return FALSE;
+			} else {
+				return TRUE;
+			}
+			return TRUE;
+		}
+		return FALSE;
+	}
+
+	BOOL32 TextField::onKeyUp(U8 key) {
+		if (key == 8 || key == 10 || key == 13 || (key >= 32 && key < 127)) {
+			if (!allowNumeric && key > 47 && key < 58) {
+				return FALSE;
+			} else {
+				return TRUE;
+			}
+			return TRUE;
+		}
+		return FALSE;
 	}
 
 	void TextField::addChar(U8 key) {
