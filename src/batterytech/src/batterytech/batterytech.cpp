@@ -36,6 +36,9 @@ static GraphicsConfiguration *gConfig = NULL;
 static F32 updateTimes[TICK_SMOOTHER_SAMPLES];
 static S32 updateTimeIdx = 0;
 
+// defined by BT application
+extern Context* btAppCreateContext(GraphicsConfiguration *graphicsConfig);
+
 void btInit(GraphicsConfiguration *graphicsConfig, S32 width, S32 height) {
 	Logger::useFileOutput(BT_LOGFILE);
 	char buf[100];
@@ -194,9 +197,11 @@ void btKeyPressed(U8 key, BatteryTech::SpecialKey sKey) {
 }
 
 void btAccelerometerChanged(F32 x, F32 y, F32 z) {
-	context->accelerometerState.x = x;
-	context->accelerometerState.y = y;
-	context->accelerometerState.z = z;
+	if (context) {
+		context->accelerometerState.x = x;
+		context->accelerometerState.y = y;
+		context->accelerometerState.z = z;
+	}
 }
 
 void btCallback(const char *data) {
