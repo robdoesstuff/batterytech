@@ -30,6 +30,10 @@
 #include <batterytech/VibrationManager.h>
 #include "level/LevelIO.h"
 
+Context* btAppCreateContext(GraphicsConfiguration *graphicsConfig) {
+	return new Context(graphicsConfig);
+}
+
 Game::Game(Context *context) {
 	this->context = context;
 	this->context->world->lastGameState = GAMESTATE_NONE;
