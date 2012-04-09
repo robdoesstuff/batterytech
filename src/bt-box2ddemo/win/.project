@@ -69,14 +69,14 @@
 	</natures>
 	<linkedResources>
 		<link>
+			<name>app-src</name>
+			<type>2</type>
+			<locationURI>WORKSPACE_LOC/bt-box2ddemo/app-src</locationURI>
+		</link>
+		<link>
 			<name>bt-src</name>
 			<type>2</type>
 			<locationURI>PARENT-1-PROJECT_LOC/batterytech/src</locationURI>
-		</link>
-		<link>
-			<name>shared-src</name>
-			<type>2</type>
-			<locationURI>WORKSPACE_LOC/bt-box2ddemo/shared-src</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>

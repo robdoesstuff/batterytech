@@ -1,4 +1,4 @@
-# Bleeps MinGW Win32 builder
+# BatteryTech MinGW Win32 builder
 
 SHELL=cmd.exe
 MINGW_DIR=c:\mingw
@@ -26,86 +26,61 @@ else
 endif
 
 
-SOURCE_DIR=..\slyonball\src
-CPPFLAGS=-c -Wall -I$(SOURCE_DIR)\Bullet -I$(SOURCE_DIR)\assimp\contrib -I$(SOURCE_DIR)
+APP_SOURCE_DIR=..\bt-box2ddemo\app-src
+SOURCE_DIR=..\batterytech\src
+CPPFLAGS=-c -Wall -I$(SOURCE_DIR) -I$(APP_SOURCE_DIR)
 CFLAGS=-c -Wall
 LDFLAGS=-mwindows -static-libgcc -static-libstdc++
-LINKED_LIBS=Resources\resources.o -L$(BUILD_DIR) -llua -lassimp -lgdi32 -lws2_32 -lopengl32 -lwinmm
+LINKED_LIBS=Resources\resources.o -L$(BUILD_DIR) -llua -lBOX2D -lgdi32 -lws2_32 -lopengl32 -lwinmm
 ARFLAGS=-r -c -s
 
-LUA_SOURCES=\
-	lua\lapi.c \
-	lua\lauxlib.c \
-	lua\lbaselib.c \
-	lua\lcode.c \
-	lua\ldblib.c \
-	lua\ldebug.c \
-	lua\ldo.c \
-	lua\ldump.c \
-	lua\lfunc.c \
-	lua\lgc.c \
-	lua\linit.c \
-	lua\liolib.c \
-	lua\llex.c \
-	lua\lmathlib.c \
-	lua\lmem.c \
-	lua\loadlib.c \
-	lua\lobject.c \
-	lua\lopcodes.c \
-	lua\loslib.c \
-	lua\lparser.c \
-	lua\lstate.c \
-	lua\lstring.c \
-	lua\lstrlib.c \
-	lua\ltable.c \
-	lua\ltablib.c \
-	lua\ltm.c \
-	lua\lua.c \
-	lua\luac.c \
-	lua\lundump.c \
-	lua\lvm.c \
-	lua\lzio.c \
-	lua\print.c
 
-LUA_OBJECTS=$(addprefix $(BUILD_DIR)\, $(addsuffix .o,$(LUA_SOURCES)))
-LUA_DEPS=$(LUA_OBJECTS:.o=.d)
-LUA_OBJDIRS=$(BUILD_DIR)\lua
+BOX2D_SOURCES=\
+	bt-box2d\Collision\b2BroadPhase.cpp \
+	bt-box2d\Collision\b2CollideCircle.cpp \
+	bt-box2d\Collision\b2CollidePolygon.cpp \
+	bt-box2d\Collision\b2Collision.cpp \
+	bt-box2d\Collision\b2Distance.cpp \
+	bt-box2d\Collision\b2DynamicTree.cpp \
+	bt-box2d\Collision\b2TimeOfImpact.cpp \
+	bt-box2d\Collision\Shapes\b2CircleShape.cpp \
+	bt-box2d\Collision\Shapes\b2PolygonShape.cpp \
+	bt-box2d\Common\b2BlockAllocator.cpp \
+	bt-box2d\Common\b2Math.cpp \
+	bt-box2d\Common\b2Settings.cpp \
+	bt-box2d\Common\b2StackAllocator.cpp \
+	bt-box2d\Dynamics\b2Body.cpp \
+	bt-box2d\Dynamics\b2ContactManager.cpp \
+	bt-box2d\Dynamics\b2Fixture.cpp \
+	bt-box2d\Dynamics\b2Island.cpp \
+	bt-box2d\Dynamics\b2World.cpp \
+	bt-box2d\Dynamics\b2WorldCallbacks.cpp \
+	bt-box2d\Dynamics\Contacts\b2CircleContact.cpp \
+	bt-box2d\Dynamics\Contacts\b2Contact.cpp \
+	bt-box2d\Dynamics\Contacts\b2ContactSolver.cpp \
+	bt-box2d\Dynamics\Contacts\b2PolygonAndCircleContact.cpp \
+	bt-box2d\Dynamics\Contacts\b2PolygonContact.cpp \
+	bt-box2d\Dynamics\Contacts\b2TOISolver.cpp \
+	bt-box2d\Dynamics\Joints\b2DistanceJoint.cpp \
+	bt-box2d\Dynamics\Joints\b2FrictionJoint.cpp \
+	bt-box2d\Dynamics\Joints\b2GearJoint.cpp \
+	bt-box2d\Dynamics\Joints\b2Joint.cpp \
+	bt-box2d\Dynamics\Joints\b2LineJoint.cpp \
+	bt-box2d\Dynamics\Joints\b2MouseJoint.cpp \
+	bt-box2d\Dynamics\Joints\b2PrismaticJoint.cpp \
+	bt-box2d\Dynamics\Joints\b2PulleyJoint.cpp \
+	bt-box2d\Dynamics\Joints\b2RevoluteJoint.cpp \
+	bt-box2d\Dynamics\Joints\b2WeldJoint.cpp
 
-LUA_LIB=$(BUILD_DIR)\liblua.a
+BOX2D_OBJECTS=$(addprefix $(BUILD_DIR)\, $(addsuffix .o,$(BOX2D_SOURCES)))
+BOX2D_DEPS=$(BOX2D_OBJECTS:.o=.d)
+BOX2D_OBJDIRS=$(BUILD_DIR)\bt-box2d\Collision \
+	$(BUILD_DIR)\bt-box2d\Common \
+	$(BUILD_DIR)\bt-box2d\Dynamics
 
+BOX2D_LIB=$(BUILD_DIR)\libbox2d.a
 
-ASSIMP_SOURCES=\
-	assimp\code\Assimp.cpp \
-	assimp\code\AssimpPCH.cpp \
-	assimp\code\BAIFileImporter.cpp \
-	assimp\code\BaseImporter.cpp \
-	assimp\code\BaseProcess.cpp \
-	assimp\code\ColladaLoader.cpp \
-	assimp\code\ColladaParser.cpp \
-	assimp\code\DefaultIOStream.cpp \
-	assimp\code\DefaultIOSystem.cpp \
-	assimp\code\DefaultLogger.cpp \
-	assimp\code\Importer.cpp \
-	assimp\code\MaterialSystem.cpp \
-	assimp\code\ObjFileImporter.cpp \
-	assimp\code\ObjFileMtlImporter.cpp \
-	assimp\code\ObjFileParser.cpp \
-	assimp\code\ScenePreprocessor.cpp \
-	assimp\code\SkeletonMeshBuilder.cpp \
-	assimp\code\SpatialSort.cpp \
-	assimp\code\LimitBoneWeightsProcess.cpp \
-	assimp\contrib\irrXML\irrXML.cpp \
-	assimp\contrib\ConvertUTF\ConvertUTF.c
-
-ASSIMP_OBJECTS=$(addprefix $(BUILD_DIR)\, $(addsuffix .o,$(ASSIMP_SOURCES)))
-ASSIMP_DEPS=$(ASSIMP_OBJECTS:.o=.d)
-ASSIMP_OBJDIRS=$(BUILD_DIR)\assimp\code \
-	$(BUILD_DIR)\assimp\contrib\irrXML \
-	$(BUILD_DIR)\assimp\contrib\ConvertUTF
-
-ASSIMP_LIB=$(BUILD_DIR)\libassimp.a
-
-GAME_SOURCES=\
+BT_SOURCES=\
 	batterytech\batterytech.cpp \
 	batterytech\Logger.cpp \
 	batterytech\Context.cpp \
@@ -122,7 +97,7 @@ GAME_SOURCES=\
 	batterytech\importers\assimp\BTIOSystem.cpp \
 	batterytech\importers\assimp\BTMemoryIOStream.cpp \
 	batterytech\network\NetworkManager.cpp \
-	batterytech\network\GameConnection.cpp \
+	batterytech\network\APPConnection.cpp \
 	batterytech\network\NetworkMessage.cpp \
 	batterytech\render\AssimpAnimator.cpp \
 	batterytech\render\RenderNode.cpp \
@@ -164,106 +139,103 @@ GAME_SOURCES=\
 	batterytech\util\PropertiesIO.cpp \
 	batterytech\util\strx.cpp
 	
-GAME_SOURCES +=\
-	game\Game.cpp \
-	game\GameLuaBinder.cpp \
-	game\GameUtil.cpp \
-	game\World.cpp \
-	game\ScreenControl.cpp \
-	game\gameobject\GameObject.cpp \
-	game\gameobject\GameObjectLuaBinder.cpp \
-	game\level\LevelIO.cpp \
-	game\level\Level.cpp \
-	game\input\TouchInputProcessor.cpp \
-	game\render\WorldRenderer.cpp \
-	game\render\ShadowMap.cpp \
-	game\render\BtDebugRenderer.cpp \
-	game\render\SimpleSpriteRenderer.cpp \
-	game\render\ScreenControlRenderer.cpp \
-	game\render\BatchSpriteRenderer.cpp \
-	game\render\ObjRenderer.cpp \
-	game\render\LevelRenderer.cpp \
-	game\render\Camera.cpp \
-	game\render\IndicatorRenderer.cpp \
-	game\render\RenderItem.cpp \
-	game\render\AssimpRenderer.cpp \
-	game\render\GlobalLight.cpp \
-	game\render\LocalLight.cpp \
-	game\script\LuaBinder.cpp \
-	game\menus\GameOptionsMenu.cpp \
-	game\menus\SettingsMenu.cpp \
-	game\menus\MenuButtonMenu.cpp \
-	game\menus\ErrorMenu.cpp \
-	game\menus\TopMenu.cpp
-	
-GAME_OBJECTS=$(addprefix $(BUILD_DIR)\, $(addsuffix .o,$(GAME_SOURCES)))
-GAME_DEPS=$(GAME_OBJECTS:.o=.d)
-GAME_OBJDIRS=$(BUILD_DIR)\batterytech\audio \
+BT_OBJECTS=$(addprefix $(BUILD_DIR)\, $(addsuffix .o,$(BT_SOURCES)))
+BT_DEPS=$(BT_OBJECTS:.o=.d)
+BT_OBJDIRS=$(BUILD_DIR)\batterytech\audio \
 	$(BUILD_DIR)\batterytech\decoders \
 	$(BUILD_DIR)\batterytech\importers\obj \
-	$(BUILD_DIR)\batterytech\importers\assimp \
+	$(BUILD_DIR)\batterytech\importers\BOX2D \
 	$(BUILD_DIR)\batterytech\network \
 	$(BUILD_DIR)\batterytech\platform\win32 \
 	$(BUILD_DIR)\batterytech\math \
 	$(BUILD_DIR)\batterytech\render \
 	$(BUILD_DIR)\batterytech\ui \
-	$(BUILD_DIR)\batterytech\util \
-	$(BUILD_DIR)\game\gameobject \
-	$(BUILD_DIR)\game\level \
-	$(BUILD_DIR)\game\input \
-	$(BUILD_DIR)\game\render \
-	$(BUILD_DIR)\game\script \
-	$(BUILD_DIR)\game\menus
-
-GAME_EXE=slyonball.exe
-
--include $(LUA_DEPS)
--include $(ASSIMP_DEPS)
--include $(GAME_DEPS)
-
-all: $(OUTPUT_DIR)\$(GAME_EXE)
-
-lua: $(LUA_LIB)
-
-$(LUA_LIB): $(LUA_OBJECTS)
-	$(STATIC_LINKER) $(ARFLAGS) $@ $(LUA_OBJECTS)
-
-$(LUA_OBJECTS): $(BUILD_DIR)\\%.o: $(SOURCE_DIR)\\%
-	$(CC) $(BUILD_FLAGS) $(CFLAGS) $< -o $@
-	$(CC) $(BUILD_FLAGS) $(CFLAGS) -MM -MF$(@:.o=.d) -MT$@ $<
-
-$(LUA_OBJECTS): | $(LUA_OBJDIRS)
-
-$(LUA_OBJDIRS):
-	-md $(LUA_OBJDIRS)
+	$(BUILD_DIR)\batterytech\util
 	
-assimp: $(ASSIMP_LIB)
+BT_LIB=$(BUILD_DIR)\libbatterytech.a
+	
+APP_SOURCES=\
+	Game.cpp \
+	GameUtil.cpp \
+	World.cpp \
+	gameobject\GameObject.cpp \
+	gameobject\GameObjectFactory.cpp \
+	gameobject\GameObjectMeta.cpp \
+	gameobject\GameObjectProperty.cpp \
+	gameobject\GameObjectPropertyMeta.cpp \
+	input\TouchInputProcessor.cpp \
+	level\LevelIO.cpp \
+	render\WorldRenderer.cpp \
+	render\ShadowMap.cpp \
+	render\B2DebugRenderer.cpp \
+	render\SimpleSpriteRenderer.cpp \
+	render\ScreenControlRenderer.cpp \
+	render\BatchSpriteRenderer.cpp \
+	render\BallRenderer.cpp \
+	menus\GameOptionsMenu.cpp \
+	menus\SettingsMenu.cpp \
+	menus\MenuButtonMenu.cpp \
+	menus\SoundcheckMenu.cpp \
+	menus\TopMenu.cpp
+	
+APP_OBJECTS=$(addprefix $(BUILD_DIR)\, $(addsuffix .o,$(APP_SOURCES)))
+APP_DEPS=$(APP_OBJECTS:.o=.d)
+APP_OBJDIRS=$(BUILD_DIR)\gameobject \
+	$(BUILD_DIR)\input \
+	$(BUILD_DIR)\level \
+	$(BUILD_DIR)\render \
+	$(BUILD_DIR)\menus
 
-$(ASSIMP_LIB): $(ASSIMP_OBJECTS)
-	$(STATIC_LINKER) $(ARFLAGS) $@ $(ASSIMP_OBJECTS)
+APP_EXE=btbox2ddemo.exe
 
-$(ASSIMP_OBJECTS): $(BUILD_DIR)\\%.o: $(SOURCE_DIR)\\%
+-include $(BOX2D_DEPS)
+-include $(APP_DEPS)
+-include $(BT_DEPS)
+
+all: $(OUTPUT_DIR)\$(APP_EXE)
+	
+box2d: $(BOX2D_LIB)
+
+bt: $(BT_LIB)
+
+$(BOX2D_LIB): $(BOX2D_OBJECTS)
+	$(STATIC_LINKER) $(ARFLAGS) $@ $(BOX2D_OBJECTS)
+
+$(BOX2D_OBJECTS): $(BUILD_DIR)\\%.o: $(SOURCE_DIR)\\%
 	$(CXX) $(BUILD_FLAGS) $(CPPFLAGS) $< -o $@
 	$(CXX) $(BUILD_FLAGS) $(CPPFLAGS) -MM -MF$(@:.o=.d) -MT$@ $<
 	
-$(ASSIMP_OBJECTS): | $(ASSIMP_OBJDIRS)
+$(BOX2D_OBJECTS): | $(BOX2D_OBJDIRS)
 
-$(ASSIMP_OBJDIRS):
-	-md $(ASSIMP_OBJDIRS)
+$(BOX2D_OBJDIRS):
+	-md $(BOX2D_OBJDIRS)
 
-# Combining all static libs with game+batterytech source
-$(OUTPUT_DIR)\$(GAME_EXE): $(LUA_LIB) $(ASSIMP_LIB) $(GAME_OBJECTS) Resources\resources.o
-	$(CXX) $(LDFLAGS) -o$@ $(GAME_OBJECTS) $(LINKED_LIBS)  
-	@echo Build Complete: $(OUTPUT_DIR)\$(GAME_EXE)
-	
-$(GAME_OBJECTS): $(BUILD_DIR)\\%.o: $(SOURCE_DIR)\\% 
+# BatteryTech lib
+$(BT_LIB): $(BT_OBJECTS)
+	$(STATIC_LINKER) $(ARFLAGS) $@ $(BT_OBJECTS)
+
+$(BT_OBJECTS): $(BUILD_DIR)\\%.o: $(SOURCE_DIR)\\% 
 	$(CXX) $(BUILD_FLAGS) $(CPPFLAGS) -o$@ $<
 	$(CXX) $(BUILD_FLAGS) $(CPPFLAGS) -MM -MF$(@:.o=.d) -MT$@ $<
 	
-$(GAME_OBJECTS): | $(GAME_OBJDIRS)
+$(BT_OBJECTS): | $(BT_OBJDIRS)
 
-$(GAME_OBJDIRS):
-	-md $(GAME_OBJDIRS)
+$(BT_OBJDIRS):
+	-md $(BT_OBJDIRS)
+	
+# Combining all static libs with app+batterytech source
+$(OUTPUT_DIR)\$(APP_EXE): $(BT_LIB) $(BOX2D_LIB) $(APP_OBJECTS) Resources\resources.o
+	$(CXX) $(LDFLAGS) -o$@ $(APP_OBJECTS) $(LINKED_LIBS)  
+	@echo Build Complete: $(OUTPUT_DIR)\$(APP_EXE)
+	
+$(APP_OBJECTS): $(BUILD_DIR)\\%.o: $(APP_SOURCE_DIR)\\% 
+	$(CXX) $(BUILD_FLAGS) $(CPPFLAGS) -o$@ $<
+	$(CXX) $(BUILD_FLAGS) $(CPPFLAGS) -MM -MF$(@:.o=.d) -MT$@ $<
+	
+$(APP_OBJECTS): | $(APP_OBJDIRS)
+
+$(APP_OBJDIRS):
+	-md $(APP_OBJDIRS)
 
 Resources\resources.o: Resources\resources.rc
 	$(RES_GEN) Resources\resources.rc Resources\resources.o
