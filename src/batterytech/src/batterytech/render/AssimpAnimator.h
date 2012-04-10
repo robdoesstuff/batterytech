@@ -26,7 +26,7 @@
 
 #ifdef BATTERYTECH_INCLUDE_ASSIMP
 
-#include "../../assimp/include/aiScene.h"
+#include "../../bt-assimp/include/aiScene.h"
 
 namespace BatteryTech {
 

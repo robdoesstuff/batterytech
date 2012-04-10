@@ -10,7 +10,7 @@
 #include "../../platform/platformgeneral.h"
 #include "../../Logger.h"
 #include <stdio.h>
-#include "../../assimp/include/aiPostProcess.h"
+#include "../../../bt-assimp/include/aiPostProcess.h"
 #include "BTIOSystem.h"
 
 using namespace Assimp;

@@ -8,7 +8,7 @@
 #ifndef BTMEMORYIOSTREAM_H_
 #define BTMEMORYIOSTREAM_H_
 
-#include "../../../assimp/include/IOStream.h"
+#include "../../../bt-assimp/include/IOStream.h"
 #include "../../primitives.h"
 
 namespace BatteryTech {

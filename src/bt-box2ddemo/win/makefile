@@ -18,7 +18,7 @@ DEBUG_FLAGS=-O0 -g3
 ifeq (${DEBUG},true)
 	BUILD_FLAGS=$(DEBUG_FLAGS)
 	OUTPUT_DIR=$(DEBUG_DIR)
-	BUILD_DIR=$(DEBUG_DIR)te
+	BUILD_DIR=$(DEBUG_DIR)
 else
 	BUILD_FLAGS=$(RELEASE_FLAGS)
 	OUTPUT_DIR=$(RELEASE_DIR)
@@ -97,7 +97,7 @@ BT_SOURCES=\
 	batterytech\importers\assimp\BTIOSystem.cpp \
 	batterytech\importers\assimp\BTMemoryIOStream.cpp \
 	batterytech\network\NetworkManager.cpp \
-	batterytech\network\APPConnection.cpp \
+	batterytech\network\GameConnection.cpp \
 	batterytech\network\NetworkMessage.cpp \
 	batterytech\render\AssimpAnimator.cpp \
 	batterytech\render\RenderNode.cpp \

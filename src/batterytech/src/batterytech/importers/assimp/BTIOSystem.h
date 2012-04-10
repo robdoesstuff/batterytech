@@ -8,7 +8,7 @@
 #ifndef BTIOSYSTEM_H_
 #define BTIOSYSTEM_H_
 
-#include "../../../assimp/include/IOSystem.h"
+#include "../../../bt-assimp/include/IOSystem.h"
 
 using namespace Assimp;
 

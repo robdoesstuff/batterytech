@@ -16,9 +16,6 @@
 //============================================================================
 
 #include "Context.h"
-#include "../game/Game.h"
-#include "../game/World.h"
-#include "../game/render/WorldRenderer.h"
 #include "render/MenuRenderer.h"
 #include "audio/AudioManager.h"
 #include "network/NetworkManager.h"
@@ -33,14 +30,11 @@ namespace BatteryTech {
 
 	Context::Context(GraphicsConfiguration *gConfig) {
 		this->gConfig = gConfig;
-		this->world = new World;
 		glResourceManager = new GLResourceManager(this);
-		worldRenderer = new WorldRenderer(this);
 		menuRenderer = new MenuRenderer(this);
 		audioManager = new AudioManager();
 		networkManager = new NetworkManager(this);
 		vibrationManager = new VibrationManager(this);
-		game = new Game(this);
 		uiManager = new UIManager(this);
 		renderContext = new RenderContext();
 		tickDelta = 0;
@@ -78,19 +72,12 @@ namespace BatteryTech {
 		networkManager = NULL;
 		delete vibrationManager;
 		vibrationManager = NULL;
-		delete worldRenderer;
-		worldRenderer = NULL;
 		delete glResourceManager;
 		glResourceManager = NULL;
-		delete world;
-		world = NULL;
 		delete uiManager;
 		uiManager = NULL;
 		delete renderContext;
 		renderContext = NULL;
-		logmsg("Context deleting game");
-		delete game;
-		game = NULL;
 		delete [] pointerState;
 		logmsg("Done Releasing Context");
 	}

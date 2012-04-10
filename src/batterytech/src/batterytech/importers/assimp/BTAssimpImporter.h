@@ -8,8 +8,8 @@
 #ifndef BTASSIMPIMPORTER_H_
 #define BTASSIMPIMPORTER_H_
 
-#include "../../../assimp/include/assimp.hpp"
-#include "../../../assimp/include/aiScene.h"
+#include "../../../bt-assimp/include/assimp.hpp"
+#include "../../../bt-assimp/include/aiScene.h"
 
 namespace BatteryTech {
 

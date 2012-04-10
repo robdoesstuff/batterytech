@@ -38,7 +38,7 @@ namespace BatteryTech {
 
 	class BTApplicationUpdater {
 	public:
-		virtual void update(F32 delta)=0;
+		virtual void update()=0;
 	};
 
 	class Context {

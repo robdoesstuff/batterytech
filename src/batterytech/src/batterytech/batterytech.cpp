@@ -24,8 +24,6 @@
 #include "ui/LinearLayout.h"
 #include "render/MenuRenderer.h"
 #include "Context.h"
-#include "../game/Game.h"
-#include "../game/render/WorldRenderer.h"
 #include <stdlib.h>
 #include <time.h>
 #include "batterytech_globals.h"
@@ -108,7 +106,7 @@ void btUpdate(F32 delta) {
 	//context->tickDelta = delta;
 	context->audioManager->update();
 	context->uiManager->update();
-	context->game->update();
+	context->appUpdater->update();
 	// clear key pressed.
 	context->keyPressed = 0;
 	context->specialKeyPressed = BatteryTech::SKEY_NULL;
@@ -117,7 +115,7 @@ void btUpdate(F32 delta) {
 
 void btDraw() {
 	//logmsg("btDraw");
-	context->worldRenderer->render();
+	context->appRenderer->render();
 }
 
 void btSuspend() {
