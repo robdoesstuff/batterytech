@@ -18,7 +18,7 @@ DEBUG_FLAGS=-O0 -g3
 ifeq (${DEBUG},true)
 	BUILD_FLAGS=$(DEBUG_FLAGS)
 	OUTPUT_DIR=$(DEBUG_DIR)
-	BUILD_DIR=$(DEBUG_DIR)
+	BUILD_DIR=$(DEBUG_DIR)te
 else
 	BUILD_FLAGS=$(RELEASE_FLAGS)
 	OUTPUT_DIR=$(RELEASE_DIR)
@@ -155,6 +155,7 @@ BT_OBJDIRS=$(BUILD_DIR)\batterytech\audio \
 BT_LIB=$(BUILD_DIR)\libbatterytech.a
 	
 APP_SOURCES=\
+	GameContext.cpp \
 	Game.cpp \
 	GameUtil.cpp \
 	World.cpp \

@@ -20,10 +20,6 @@
 
 #include "primitives.h"
 
-class Game;
-class WorldRenderer;
-class World;
-
 namespace BatteryTech {
 
 	class UIManager;
@@ -34,6 +30,16 @@ namespace BatteryTech {
 	class GraphicsConfiguration;
 	class RenderContext;
 	class GLResourceManager;
+
+	class BTApplicationRenderer {
+	public:
+		virtual void render()=0;
+	};
+
+	class BTApplicationUpdater {
+	public:
+		virtual void update(F32 delta)=0;
+	};
 
 	class Context {
 	public:
@@ -122,16 +128,6 @@ namespace BatteryTech {
 		BOOL32 wasSuspended;
 
 		/**
-		 * Link to your game or a wrapper to your game here.
-		 */
-		Game *game;
-
-		/**
-		 * Link to your game's world or a wrapper of your game's world here.
-		 */
-		World *world;
-
-		/**
 		 * Use this for playing sound effects and music.
 		 */
 		AudioManager *audioManager;
@@ -146,11 +142,6 @@ namespace BatteryTech {
 		 * Platform-specific implementation is required (as of batterytech 1.0, except for IOS which only has one vibe)
 		 */
 		VibrationManager *vibrationManager;
-
-		/**
-		 * Link to your game's rendering system or a wrapper to its rendering system here.
-		 */
-		WorldRenderer *worldRenderer;
 
 		/**
 		 * This is the default Batterytech UI Renderer.
@@ -186,6 +177,10 @@ namespace BatteryTech {
 		 * If there was a callback and there is callback data ready
 		 */
 		BOOL32 callbackDataReady;
+
+		BTApplicationRenderer *appRenderer;
+
+		BTApplicationUpdater *appUpdater;
 	};
 }
 

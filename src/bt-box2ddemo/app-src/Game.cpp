@@ -13,7 +13,7 @@
 #include <batterytech/primitives.h>
 #include <batterytech/platform/platformgeneral.h>
 #include <batterytech/network/NetworkManager.h>
-#include <batterytech/Context.h>
+#include "GameContext.h"
 #include "World.h"
 #include "gameobject/GameObject.h"
 #include "gameobjects/Ball.h"
@@ -31,7 +31,7 @@
 #include "level/LevelIO.h"
 
 Context* btAppCreateContext(GraphicsConfiguration *graphicsConfig) {
-	return new Context(graphicsConfig);
+	return new GameContext(graphicsConfig);
 }
 
 Game::Game(Context *context) {
