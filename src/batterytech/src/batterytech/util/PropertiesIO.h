@@ -34,10 +34,10 @@ namespace BatteryTech {
 		/**
 		 * Loads from disk an array of properties
 		 */
-		HashTable<char*, Property*>* loadPropertiesFromFile(const char* path);
-		HashTable<char*, Property*>* loadPropertiesFromAsset(const char* assetName);
+		StrHashTable<Property*>* loadPropertiesFromFile(const char* path);
+		StrHashTable<Property*>* loadPropertiesFromAsset(const char* assetName);
 	private:
-		HashTable<char*, Property*>* loadPropertiesFromMemory(const char* text);
+		StrHashTable<Property*>* loadPropertiesFromMemory(const char* text);
 	};
 
 }

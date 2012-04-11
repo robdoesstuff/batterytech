@@ -22,6 +22,7 @@
 #include "util/HashTable.h"
 #include "util/ManagedArray.h"
 #include "util/Property.h"
+#include "batterytech_entrypoints.h"
 
 namespace BatteryTech {
 
@@ -33,16 +34,6 @@ namespace BatteryTech {
 	class GraphicsConfiguration;
 	class RenderContext;
 	class GLResourceManager;
-
-	class BTApplicationRenderer {
-	public:
-		virtual void render()=0;
-	};
-
-	class BTApplicationUpdater {
-	public:
-		virtual void update()=0;
-	};
 
 	class Context {
 	public:
@@ -185,7 +176,7 @@ namespace BatteryTech {
 
 		BTApplicationUpdater *appUpdater;
 
-		HashTable<char*, Property*> *appProperties;
+		StrHashTable<Property*> *appProperties;
 	private:
 		void loadAppProperties();
 	};

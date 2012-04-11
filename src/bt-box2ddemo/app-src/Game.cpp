@@ -30,7 +30,7 @@
 #include <batterytech/VibrationManager.h>
 #include "level/LevelIO.h"
 
-Context* btAppCreateGameContext(GraphicsConfiguration *graphicsConfig) {
+Context* btAppCreateContext(GraphicsConfiguration *graphicsConfig) {
 	return new GameContext(graphicsConfig);
 }
 

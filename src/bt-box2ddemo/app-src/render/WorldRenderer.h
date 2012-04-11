@@ -17,6 +17,7 @@
 #include "B2DebugRenderer.h"
 #include "SimpleSpriteRenderer.h"
 #include "BallRenderer.h"
+#include <batterytech/batterytech_entrypoints.h>
 
 class B2DebugRenderer;
 class SimpleSpriteRenderer;
@@ -26,11 +27,12 @@ namespace BatteryTech { class TextRasterRenderer; }
 
 using namespace BatteryTech;
 
-class WorldRenderer: public Renderer {
+class WorldRenderer: public Renderer, public BTApplicationRenderer {
 public:
 	WorldRenderer(GameContext *context);
 	virtual void init(BOOL32 newGameContext);
-	virtual void render(World *world);
+	// Implementing BTApplicationUpdater::update()
+	virtual void render();
 	virtual ~WorldRenderer();
 private:
 	void renderDebugLabels(World *world);

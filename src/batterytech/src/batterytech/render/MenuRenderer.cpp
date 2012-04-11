@@ -32,7 +32,7 @@ namespace BatteryTech {
 
 	MenuRenderer::MenuRenderer(Context *context) : Renderer() {
 		this->context = context;
-		HashTable<char*, Property*> *appProperties = context->appProperties;
+		StrHashTable<Property*> *appProperties = context->appProperties;
 		assetNames = new ManagedArray<const char>(MAX_UI_ASSET_NAMES);
 		textRenderer = new TextRasterRenderer(context, appProperties->get("menu_font")->getValue(), appProperties->get("ui_font_size")->getFloatValue());
 		textRenderer->setStroke(appProperties->get("ui_menu_inner_stroke")->getFloatValue(), appProperties->get("ui_menu_outer_stroke")->getFloatValue());

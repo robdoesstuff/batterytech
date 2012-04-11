@@ -31,6 +31,8 @@ namespace BatteryTech {
 
 	Context::Context(GraphicsConfiguration *gConfig) {
 		this->gConfig = gConfig;
+		appUpdater = NULL;
+		appRenderer = NULL;
 		loadAppProperties();
 		glResourceManager = new GLResourceManager(this);
 		menuRenderer = new MenuRenderer(this);

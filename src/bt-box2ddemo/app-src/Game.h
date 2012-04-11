@@ -12,6 +12,7 @@
 #include <bt-box2d/Dynamics/b2WorldCallbacks.h>
 #include <batterytech/util/ManagedArray.h>
 #include <batterytech/network/NetworkMessageListener.h>
+#include <batterytech/batterytech_entrypoints.h>
 
 class LevelEditor;
 class GameObject;
@@ -23,10 +24,11 @@ namespace BatteryTech { class NetworkMessageFactory; }
 
 using namespace BatteryTech;
 
-class Game : b2ContactListener, b2DestructionListener, NetworkMessageListener {
+class Game : public BTApplicationUpdater, b2ContactListener, b2DestructionListener, NetworkMessageListener {
 public:
 	Game(GameContext *context);
 	virtual ~Game();
+	// Implementing BTApplicationUpdater::update()
 	virtual void update();
 	/* ----------------------- b2ContactListener Implementation ------------------------------ */
 	/// Called when two fixtures begin to touch.

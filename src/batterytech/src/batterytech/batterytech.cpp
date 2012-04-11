@@ -48,7 +48,7 @@ void btInit(GraphicsConfiguration *graphicsConfig, S32 width, S32 height) {
 	if (context) {
 		logmsg("Context already exists!!  Check for missing shutdown calls");
 	}
-	context = new Context(gConfig);
+	context = btAppCreateContext(gConfig);
 	// initialize random number generator
 	srand(time(NULL));
 	for (S32 i = 0; i < TICK_SMOOTHER_SAMPLES; i++) {
@@ -106,7 +106,9 @@ void btUpdate(F32 delta) {
 	//context->tickDelta = delta;
 	context->audioManager->update();
 	context->uiManager->update();
-	context->appUpdater->update();
+	if (context->appUpdater) {
+		context->appUpdater->update();
+	}
 	// clear key pressed.
 	context->keyPressed = 0;
 	context->specialKeyPressed = BatteryTech::SKEY_NULL;
@@ -115,7 +117,9 @@ void btUpdate(F32 delta) {
 
 void btDraw() {
 	//logmsg("btDraw");
-	context->appRenderer->render();
+	if (context->appRenderer) {
+		context->appRenderer->render();
+	}
 }
 
 void btSuspend() {

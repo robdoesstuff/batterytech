@@ -56,7 +56,8 @@ void WorldRenderer::init(BOOL32 newGameContext) {
 	glViewport(0, 0, gConfig->viewportWidth, gConfig->viewportHeight);
 }
 
-void WorldRenderer::render(World *world) {
+void WorldRenderer::render() {
+	World *world = context->world;
 	if (world->gameState == GAMESTATE_LOADING) {
 		world->renderersReady = TRUE;
 	}

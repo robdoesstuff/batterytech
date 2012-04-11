@@ -56,7 +56,7 @@ namespace BatteryTech {
 	}
 
 	// Loads properties from a file at path.  You are responsible for freeing returned data structure.
-	HashTable<char*, Property*>* PropertiesIO::loadPropertiesFromFile(const char* path) {
+	StrHashTable<Property*>* PropertiesIO::loadPropertiesFromFile(const char* path) {
 		FILE *file = fopen(path, "rb");
 		fseek(file, 0L, SEEK_END);
 		S32 size = ftell(file);
@@ -65,23 +65,23 @@ namespace BatteryTech {
 		fread(text, sizeof(char), size, file);
 		fclose(file);
 		text[size] = '\0';
-		HashTable<char*, Property*> *properties = loadPropertiesFromMemory(text);
+		StrHashTable<Property*> *properties = loadPropertiesFromMemory(text);
 		delete [] text;
 		return properties;
 	}
 
 	// Loads properties from a file at path.  You are responsible for freeing returned data structure.
-	HashTable<char*, Property*>* PropertiesIO::loadPropertiesFromAsset(const char* assetName) {
+	StrHashTable<Property*>* PropertiesIO::loadPropertiesFromAsset(const char* assetName) {
 		char *text = _platform_load_text_asset(assetName);
 		if (text) {
-			HashTable<char*, Property*> *properties = loadPropertiesFromMemory(text);
+			StrHashTable<Property*> *properties = loadPropertiesFromMemory(text);
 			_platform_free_asset((unsigned char*)text);
 			return properties;
 		}
 		return NULL;
 	}
 
-	HashTable<char*, Property*>* PropertiesIO::loadPropertiesFromMemory(const char* text) {
+	StrHashTable<Property*>* PropertiesIO::loadPropertiesFromMemory(const char* text) {
 		// read number of lines in file first to count
 		// TODO - support comments
 		char line[255];
@@ -98,7 +98,7 @@ namespace BatteryTech {
 		}
 		pos = 0;
 		isDone = FALSE;
-		HashTable<char*, Property*> *properties = new HashTable<char*, Property*>(lineCount * 1.3f);
+		StrHashTable<Property*> *properties = new StrHashTable<Property*>(lineCount * 1.3f);
 		while (!isDone) {
 			isDone = !TextFileUtil::readLine(line, text, &pos);
 			if (strlen(line) > 0) {
