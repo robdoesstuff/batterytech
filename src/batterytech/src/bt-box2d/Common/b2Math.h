@@ -19,7 +19,7 @@
 #ifndef B2_MATH_H
 #define B2_MATH_H
 
-#include <Box2D/Common/b2Settings.h>
+#include "b2Settings.h"
 
 #include <math.h>
 #include <float.h>

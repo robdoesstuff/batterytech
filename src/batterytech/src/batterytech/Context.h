@@ -19,6 +19,9 @@
 #define CONTEXT_H_
 
 #include "primitives.h"
+#include "util/HashTable.h"
+#include "util/ManagedArray.h"
+#include "util/Property.h"
 
 namespace BatteryTech {
 
@@ -181,6 +184,10 @@ namespace BatteryTech {
 		BTApplicationRenderer *appRenderer;
 
 		BTApplicationUpdater *appUpdater;
+
+		HashTable<char*, Property*> *appProperties;
+	private:
+		void loadAppProperties();
 	};
 }
 

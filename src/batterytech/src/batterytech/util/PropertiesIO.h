@@ -18,6 +18,7 @@
 #define PROPERTIESIO_H_
 
 #include "ManagedArray.h"
+#include "HashTable.h"
 #include "Property.h"
 
 namespace BatteryTech {
@@ -33,7 +34,10 @@ namespace BatteryTech {
 		/**
 		 * Loads from disk an array of properties
 		 */
-		ManagedArray<Property>* loadPropertiesFromFile(const char* path);
+		HashTable<char*, Property*>* loadPropertiesFromFile(const char* path);
+		HashTable<char*, Property*>* loadPropertiesFromAsset(const char* assetName);
+	private:
+		HashTable<char*, Property*>* loadPropertiesFromMemory(const char* text);
 	};
 
 }

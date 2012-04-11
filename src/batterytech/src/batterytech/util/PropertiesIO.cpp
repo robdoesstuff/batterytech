@@ -56,16 +56,34 @@ namespace BatteryTech {
 	}
 
 	// Loads properties from a file at path.  You are responsible for freeing returned data structure.
-	ManagedArray<Property>* PropertiesIO::loadPropertiesFromFile(const char* path) {
-		char text[1024];
+	HashTable<char*, Property*>* PropertiesIO::loadPropertiesFromFile(const char* path) {
 		FILE *file = fopen(path, "rb");
 		fseek(file, 0L, SEEK_END);
 		S32 size = ftell(file);
+		char *text = new char[size+1];
 		rewind(file);
 		fread(text, sizeof(char), size, file);
 		fclose(file);
 		text[size] = '\0';
+		HashTable<char*, Property*> *properties = loadPropertiesFromMemory(text);
+		delete [] text;
+		return properties;
+	}
+
+	// Loads properties from a file at path.  You are responsible for freeing returned data structure.
+	HashTable<char*, Property*>* PropertiesIO::loadPropertiesFromAsset(const char* assetName) {
+		char *text = _platform_load_text_asset(assetName);
+		if (text) {
+			HashTable<char*, Property*> *properties = loadPropertiesFromMemory(text);
+			_platform_free_asset((unsigned char*)text);
+			return properties;
+		}
+		return NULL;
+	}
+
+	HashTable<char*, Property*>* PropertiesIO::loadPropertiesFromMemory(const char* text) {
 		// read number of lines in file first to count
+		// TODO - support comments
 		char line[255];
 		char nameBuf[255];
 		char valueBuf[255];
@@ -80,7 +98,7 @@ namespace BatteryTech {
 		}
 		pos = 0;
 		isDone = FALSE;
-		ManagedArray<Property> *properties = new ManagedArray<Property>(lineCount);
+		HashTable<char*, Property*> *properties = new HashTable<char*, Property*>(lineCount * 1.3f);
 		while (!isDone) {
 			isDone = !TextFileUtil::readLine(line, text, &pos);
 			if (strlen(line) > 0) {
@@ -91,10 +109,9 @@ namespace BatteryTech {
 				nameBuf[sepPtr-line] = '\0';
 				strncpy(valueBuf, sepPtr+1, strlen(line)-(sepPtr-line));
 				valueBuf[strlen(line)-(sepPtr-line)] = '\0';
-				properties->add(new Property(nameBuf, valueBuf));
+				properties->put(nameBuf, new Property(nameBuf, valueBuf));
 			}
 		}
 		return properties;
 	}
-
 }

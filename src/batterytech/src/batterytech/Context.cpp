@@ -25,11 +25,13 @@
 #include "render/RenderContext.h"
 #include "batterytech_globals.h"
 #include "render/GLResourceManager.h"
+#include "util/PropertiesIO.h"
 
 namespace BatteryTech {
 
 	Context::Context(GraphicsConfiguration *gConfig) {
 		this->gConfig = gConfig;
+		loadAppProperties();
 		glResourceManager = new GLResourceManager(this);
 		menuRenderer = new MenuRenderer(this);
 		audioManager = new AudioManager();
@@ -79,7 +81,16 @@ namespace BatteryTech {
 		delete renderContext;
 		renderContext = NULL;
 		delete [] pointerState;
+		if (appProperties) {
+			appProperties->deleteElements();
+			delete appProperties;
+			appProperties = NULL;
+		}
 		logmsg("Done Releasing Context");
 	}
 
+	void Context::loadAppProperties() {
+		PropertiesIO pio;
+		appProperties = pio.loadPropertiesFromAsset(BT_CONFIGFILE);
+	}
 }

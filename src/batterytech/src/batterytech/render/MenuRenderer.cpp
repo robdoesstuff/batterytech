@@ -21,7 +21,6 @@
 #include "../ui/Layout.h"
 #include <string.h>
 #include "../Context.h"
-#include "../../game/UIConstants.h"
 #include "RenderContext.h"
 #include "../batterytech_globals.h"
 #include "ShaderProgram.h"
@@ -33,10 +32,12 @@ namespace BatteryTech {
 
 	MenuRenderer::MenuRenderer(Context *context) : Renderer() {
 		this->context = context;
+		HashTable<char*, Property*> *appProperties = context->appProperties;
 		assetNames = new ManagedArray<const char>(MAX_UI_ASSET_NAMES);
-		textRenderer = new TextRasterRenderer(context, UI_MENU_FONT, UI_FONT_SIZE);
-		textRenderer->setStroke(UI_MENU_INNER_STROKE, UI_MENU_OUTER_STROKE);
-		textRenderer->setColorFilter(UI_MENU_FONT_COLOR);
+		textRenderer = new TextRasterRenderer(context, appProperties->get("menu_font")->getValue(), appProperties->get("ui_font_size")->getFloatValue());
+		textRenderer->setStroke(appProperties->get("ui_menu_inner_stroke")->getFloatValue(), appProperties->get("ui_menu_outer_stroke")->getFloatValue());
+		// TODO - add property getVector4f()
+		textRenderer->setColorFilter(Vector4f(1.0f, 1.0f, 1.0f, 1.0f));
 		shaderProgram = new ShaderProgram("shaders/quadshader.vert", "shaders/quadshader.frag");
 	}
 

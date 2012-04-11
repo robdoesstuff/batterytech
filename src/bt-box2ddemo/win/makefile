@@ -75,8 +75,11 @@ BOX2D_SOURCES=\
 BOX2D_OBJECTS=$(addprefix $(BUILD_DIR)\, $(addsuffix .o,$(BOX2D_SOURCES)))
 BOX2D_DEPS=$(BOX2D_OBJECTS:.o=.d)
 BOX2D_OBJDIRS=$(BUILD_DIR)\bt-box2d\Collision \
+	$(BUILD_DIR)\bt-box2d\Collision\Shapes \
 	$(BUILD_DIR)\bt-box2d\Common \
-	$(BUILD_DIR)\bt-box2d\Dynamics
+	$(BUILD_DIR)\bt-box2d\Dynamics \
+	$(BUILD_DIR)\bt-box2d\Dynamics\Contacts \
+	$(BUILD_DIR)\bt-box2d\Dynamics\Joints
 
 BOX2D_LIB=$(BUILD_DIR)\libbox2d.a
 
@@ -144,7 +147,7 @@ BT_DEPS=$(BT_OBJECTS:.o=.d)
 BT_OBJDIRS=$(BUILD_DIR)\batterytech\audio \
 	$(BUILD_DIR)\batterytech\decoders \
 	$(BUILD_DIR)\batterytech\importers\obj \
-	$(BUILD_DIR)\batterytech\importers\BOX2D \
+	$(BUILD_DIR)\batterytech\importers\assimp \
 	$(BUILD_DIR)\batterytech\network \
 	$(BUILD_DIR)\batterytech\platform\win32 \
 	$(BUILD_DIR)\batterytech\math \
@@ -167,7 +170,6 @@ APP_SOURCES=\
 	input\TouchInputProcessor.cpp \
 	level\LevelIO.cpp \
 	render\WorldRenderer.cpp \
-	render\ShadowMap.cpp \
 	render\B2DebugRenderer.cpp \
 	render\SimpleSpriteRenderer.cpp \
 	render\ScreenControlRenderer.cpp \

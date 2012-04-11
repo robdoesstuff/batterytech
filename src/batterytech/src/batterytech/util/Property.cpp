@@ -16,6 +16,7 @@
 
 #include "Property.h"
 #include "strx.h"
+#include <stdlib.h>
 
 namespace BatteryTech {
 
@@ -37,6 +38,21 @@ namespace BatteryTech {
 
 	const char* Property::getValue() {
 		return value;
+	}
+
+	int Property::getIntValue() {
+		return atoi(value);
+	}
+
+	int Property::getBoolValue() {
+		if (strEquals(value, "true") || strEquals(value, "TRUE") || atoi(value)) {
+			return 1;
+		}
+		return 0;
+	}
+
+	float Property::getFloatValue() {
+		return atof(value);
 	}
 
 	void Property::setName(const char* name) {

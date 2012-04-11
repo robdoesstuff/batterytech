@@ -32,6 +32,18 @@ namespace BatteryTech {
 		 */
 		const char* getValue();
 		/**
+		 * Returns the value of the property as an integer
+		 */
+		int getIntValue();
+		/**
+		 * Returns the value of the property as a numeric boolean
+		 */
+		int getBoolValue();
+		/**
+		 * Returns the value of the property as a float
+		 */
+		float getFloatValue();
+		/**
 		 * Sets the name of the property
 		 */
 		void setName(const char* name);
