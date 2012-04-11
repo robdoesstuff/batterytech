@@ -9,10 +9,10 @@
 #include <batterytech/render/Renderer.h>
 #include <batterytech/platform/platformgl.h>
 #include <batterytech/math/Triangulator.h>
-#include <Box2D/Dynamics/b2Body.h>
-#include <Box2D/Dynamics/b2World.h>
-#include <Box2D/Dynamics/b2Fixture.h>
-#include <Box2D/Collision/Shapes/b2Shape.h>
+#include <bt-box2d/Dynamics/b2Body.h>
+#include <bt-box2d/Dynamics/b2World.h>
+#include <bt-box2d/Dynamics/b2Fixture.h>
+#include <bt-box2d/Collision/Shapes/b2Shape.h>
 #include <math.h>
 #include "../GameConstants.h"
 #include "../gameobject/GameObject.h"
@@ -20,14 +20,14 @@
 
 #define CIRCLE_TESSELATION 12
 
-B2DebugRenderer::B2DebugRenderer(Context *context) {
+B2DebugRenderer::B2DebugRenderer(GameContext *context) {
 	this->context = context;
 }
 
 B2DebugRenderer::~B2DebugRenderer() {
 }
 
-void B2DebugRenderer::init(BOOL32 newContext) {
+void B2DebugRenderer::init(BOOL32 newGameContext) {
 
 }
 

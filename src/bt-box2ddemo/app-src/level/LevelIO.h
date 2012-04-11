@@ -8,7 +8,7 @@
 #ifndef LEVELIO_H_
 #define LEVELIO_H_
 
-#include <batterytech/Context.h>
+#include "../GameContext.h"
 #include "../World.h"
 #include <stdio.h>
 
@@ -19,12 +19,12 @@ class World;
 
 class LevelIO {
 public:
-	LevelIO(Context *context);
+	LevelIO(GameContext *context);
 	virtual ~LevelIO();
 	static void getDataDirPath(char* path);
 	static void checkDataDir();
 private:
-	Context *context;
+	GameContext *context;
 };
 
 #endif /* LEVELIO_H_ */

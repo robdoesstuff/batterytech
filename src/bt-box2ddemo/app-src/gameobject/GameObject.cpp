@@ -6,13 +6,13 @@
  */
 
 #include "GameObject.h"
-#include <Box2D/Dynamics/Contacts/b2Contact.h>
+#include <bt-box2d/Dynamics/Contacts/b2Contact.h>
 #include <string.h>
 #include "GameObjectMeta.h"
 #include "GameObjectPropertyMeta.h"
 #include <batterytech/Logger.h>
 
-GameObject::GameObject(Context *context) : PhysicsBodyObject(PHYSICS_BODY_TYPE_GAMEOBJECT) {
+GameObject::GameObject(GameContext *context) : PhysicsBodyObject(PHYSICS_BODY_TYPE_GAMEOBJECT) {
 	this->context = context;
 	type = GAMEOBJECT_TYPE_NONE;
 	isActive = TRUE;

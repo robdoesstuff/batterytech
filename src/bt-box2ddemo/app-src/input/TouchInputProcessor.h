@@ -8,7 +8,7 @@
 #ifndef TOUCHINPUTPROCESSOR_H_
 #define TOUCHINPUTPROCESSOR_H_
 
-#include <batterytech/Context.h>
+#include "../GameContext.h"
 #include <batterytech/primitives.h>
 
 using namespace BatteryTech;
@@ -19,7 +19,7 @@ class TouchInputProcessor {
 public:
 	TouchInputProcessor();
 	virtual ~TouchInputProcessor();
-	void processInput(Context *context);
+	void processInput(GameContext *context);
 private:
 	BOOL32 *lastTouchDown;
 	GameObject **touchedObj;

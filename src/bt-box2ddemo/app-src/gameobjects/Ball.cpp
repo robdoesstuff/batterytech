@@ -6,8 +6,8 @@
  */
 
 #include "Ball.h"
-#include <Box2D/Collision/Shapes/b2CircleShape.h>
-#include <Box2D/Dynamics/b2Fixture.h>
+#include <bt-box2d/Collision/Shapes/b2CircleShape.h>
+#include <bt-box2d/Dynamics/b2Fixture.h>
 #include <string.h>
 #include <batterytech/audio/AudioManager.h>
 
@@ -16,10 +16,10 @@
 // static field initialization
 GameObjectMeta* Ball::meta = NULL;
 
-Ball::Ball(Context *context) : GameObject(context) {
+Ball::Ball(GameContext *context) : GameObject(context) {
 }
 
-Ball::Ball(Context *context, F32 x, F32 y, F32 angle) : GameObject(context) {
+Ball::Ball(GameContext *context, F32 x, F32 y, F32 angle) : GameObject(context) {
 	init(x, y, angle);
 }
 

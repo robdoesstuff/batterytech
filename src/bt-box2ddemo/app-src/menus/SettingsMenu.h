@@ -8,7 +8,7 @@
 #ifndef SETTINGSMENU_H_
 #define SETTINGSMENU_H_
 
-#include <batterytech/Context.h>
+#include "../GameContext.h"
 #include <batterytech/ui/Menu.h>
 #include <batterytech/ui/LinearLayout.h>
 #include <batterytech/ui/Label.h>
@@ -22,14 +22,14 @@ using namespace BatteryTech;
 
 class SettingsMenu : public Menu {
 public:
-	SettingsMenu(Context *context);
+	SettingsMenu(GameContext *context);
 	virtual ~SettingsMenu();
 	virtual void onClickUp(UIComponent *component);
 	virtual void onPreShow();
 	virtual void setData(void *data);
 	virtual void onSpecialKey(SpecialKey sKey);
 private:
-	Context *context;
+	GameContext *context;
 	Label *titleLabel;
 	Button *backButton;
 	Checkbox *soundEnabledCheckbox;

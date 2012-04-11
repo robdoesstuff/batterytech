@@ -12,7 +12,7 @@
 #include <batterytech/util/TextFileUtil.h>
 #include <string.h>
 
-LevelIO::LevelIO(Context *context) {
+LevelIO::LevelIO(GameContext *context) {
 	this->context = context;
 }
 

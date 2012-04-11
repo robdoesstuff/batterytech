@@ -20,7 +20,7 @@
 #define B2_BODY_H
 
 #include "../Common/b2Math.h"
-#include "Shapes/b2Shape.h"
+#include "../Collision/Shapes/b2Shape.h"
 #include <new>
 
 class b2Fixture;

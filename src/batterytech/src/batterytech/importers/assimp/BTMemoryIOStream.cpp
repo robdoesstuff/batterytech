@@ -5,6 +5,8 @@
  *      Author: rgreen
  */
 
+#ifdef BATTERYTECH_INCLUDE_ASSIMP
+
 #include "BTMemoryIOStream.h"
 #include "../../primitives.h"
 #include "../../platform/platformgeneral.h"
@@ -73,3 +75,5 @@ void BTMemoryIOStream::Flush() {
 }
 
 }
+
+#endif

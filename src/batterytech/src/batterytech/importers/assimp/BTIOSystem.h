@@ -8,6 +8,8 @@
 #ifndef BTIOSYSTEM_H_
 #define BTIOSYSTEM_H_
 
+#ifdef BATTERYTECH_INCLUDE_ASSIMP
+
 #include "../../../bt-assimp/include/IOSystem.h"
 
 using namespace Assimp;
@@ -29,3 +31,5 @@ private:
 
 }
 #endif /* BTIOSYSTEM_H_ */
+
+#endif

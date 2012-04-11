@@ -13,9 +13,10 @@
 #include <math.h>
 #include "../UIConstants.h"
 #include "../GameUtil.h"
+#include "../GameContext.h"
 #include <batterytech/render/RenderContext.h>
 
-WorldRenderer::WorldRenderer(Context *context) {
+WorldRenderer::WorldRenderer(GameContext *context) {
 	this->context = context;
 	this->gConfig = context->gConfig;
 	fps = 0;
@@ -34,7 +35,7 @@ WorldRenderer::~WorldRenderer() {
 	//delete uiBGRenderer;
 }
 
-void WorldRenderer::init(BOOL32 newContext) {
+void WorldRenderer::init(BOOL32 newGameContext) {
 	if (context->gConfig->useShaders) {
 	} else {
 		glEnableClientState(GL_VERTEX_ARRAY);
@@ -48,10 +49,10 @@ void WorldRenderer::init(BOOL32 newContext) {
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_DITHER);
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
-	textRenderer->init(newContext);
-	b2DebugRenderer->init(newContext);
-	ballRenderer->init(newContext);
-	//uiBGRenderer->init(newContext);
+	textRenderer->init(newGameContext);
+	b2DebugRenderer->init(newGameContext);
+	ballRenderer->init(newGameContext);
+	//uiBGRenderer->init(newGameContext);
 	glViewport(0, 0, gConfig->viewportWidth, gConfig->viewportHeight);
 }
 

@@ -10,11 +10,11 @@
 #include <batterytech/ui/SlideAnimator.h>
 #include "../UIConstants.h"
 #include "SettingsMenu.h"
-#include <batterytech/Context.h>
+#include "../GameContext.h"
 #include "../World.h"
 #include "TopMenu.h"
 
-GameOptionsMenu::GameOptionsMenu(Context *context) : Menu(GAME_OPTIONS_MENU_NAME) {
+GameOptionsMenu::GameOptionsMenu(GameContext *context) : Menu(GAME_OPTIONS_MENU_NAME) {
 	this->context = context;
 	S32 buttonBgId = context->menuRenderer->addTextureAsset(UI_BUTTON_1);
 	S32 buttonPressedBgId = context->menuRenderer->addTextureAsset(UI_BUTTON_1_PRESSED);

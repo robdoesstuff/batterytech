@@ -22,9 +22,9 @@
 #include "b2PolygonContact.h"
 #include "b2ContactSolver.h"
 
-#include "b2Collision.h"
-#include "b2TimeOfImpact.h"
-#include "Shapes/b2Shape.h"
+#include "../../Collision/b2Collision.h"
+#include "../../Collision/b2TimeOfImpact.h"
+#include "../../Collision/Shapes/b2Shape.h"
 #include "../../Common/b2BlockAllocator.h"
 #include "../b2Body.h"
 #include "../b2Fixture.h"

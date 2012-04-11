@@ -30,7 +30,7 @@ TouchInputProcessor::~TouchInputProcessor() {
 	delete [] touchedObj;
 }
 
-void TouchInputProcessor::processInput(Context *context) {
+void TouchInputProcessor::processInput(GameContext *context) {
 	if (context->world->gameState != GAMESTATE_RUNNING) {
 		return;
 	}

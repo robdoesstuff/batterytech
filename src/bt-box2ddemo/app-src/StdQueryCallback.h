@@ -8,10 +8,10 @@
 #ifndef STDQUERYCALLBACK_H_
 #define STDQUERYCALLBACK_H_
 
-#include <Box2D/Dynamics/b2WorldCallbacks.h>
-#include <Box2D/Common/b2Math.h>
-#include <Box2D/Dynamics/b2Body.h>
-#include <Box2D/Dynamics/b2Fixture.h>
+#include <bt-box2d/Dynamics/b2WorldCallbacks.h>
+#include <bt-box2d/Common/b2Math.h>
+#include <bt-box2d/Dynamics/b2Body.h>
+#include <bt-box2d/Dynamics/b2Fixture.h>
 
 class StdQueryCallback : public b2QueryCallback
 {

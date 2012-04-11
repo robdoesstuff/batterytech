@@ -10,11 +10,11 @@
 
 #include "../PhysicsBodyObject.h"
 #include <batterytech/primitives.h>
-#include <Box2D/Dynamics/Contacts/b2Contact.h>
-#include <Box2D/Dynamics/b2WorldCallbacks.h>
+#include <bt-box2d/Dynamics/Contacts/b2Contact.h>
+#include <bt-box2d/Dynamics/b2WorldCallbacks.h>
 #include "../GameConstants.h"
-#include <Box2D/Dynamics/b2Body.h>
-#include <batterytech/Context.h>
+#include <bt-box2d/Dynamics/b2Body.h>
+#include "../GameContext.h"
 #include <stdio.h>
 #include <batterytech/util/TextFileUtil.h>
 #include <batterytech/math/Vec2f.h>
@@ -26,13 +26,13 @@
 
 class World;
 class GameObjectMeta;
-namespace Batterytech { class Context; }
+class GameContext;
 
 using namespace BatteryTech;
 
 class GameObject : PhysicsBodyObject {
 public:
-	GameObject(Context *context);
+	GameObject(GameContext *context);
 	virtual ~GameObject();
 	virtual void update(){};
 	// called when contact has started with another game object
@@ -93,7 +93,7 @@ protected:
 	virtual void storePropertiesTo(FILE *file);
 	virtual void sendEvent(const char* eventName);
 	// a reference to the game context
-	Context *context;
+	GameContext *context;
 	BOOL32 processContact;
 	F32 preSolveVelocity;
 	F32 postSolveVelocity;

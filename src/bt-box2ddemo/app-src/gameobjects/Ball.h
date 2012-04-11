@@ -9,7 +9,7 @@
 #define BALL_H_
 
 #include "../gameobject/GameObject.h"
-#include <Box2D/Dynamics/b2Body.h>
+#include <bt-box2d/Dynamics/b2Body.h>
 #include "../gameobject/GameObjectMeta.h"
 
 using namespace BatteryTech;
@@ -18,8 +18,8 @@ class World;
 
 class Ball: public GameObject {
 public:
-	Ball(Context *context);
-	Ball(Context *context, F32 x, F32 y, F32 angle);
+	Ball(GameContext *context);
+	Ball(GameContext *context, F32 x, F32 y, F32 angle);
 	virtual ~Ball();
 	virtual void init(F32 x, F32 y, F32 angle);
 	virtual void update();

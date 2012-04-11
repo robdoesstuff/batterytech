@@ -10,7 +10,7 @@
 
 #include <batterytech/render/Renderer.h>
 #include <batterytech/render/TextRasterRenderer.h>
-#include <batterytech/Context.h>
+#include "../GameContext.h"
 #include <batterytech/render/GraphicsConfiguration.h>
 #include <batterytech/primitives.h>
 #include "../World.h"
@@ -28,8 +28,8 @@ using namespace BatteryTech;
 
 class WorldRenderer: public Renderer {
 public:
-	WorldRenderer(Context *context);
-	virtual void init(BOOL32 newContext);
+	WorldRenderer(GameContext *context);
+	virtual void init(BOOL32 newGameContext);
 	virtual void render(World *world);
 	virtual ~WorldRenderer();
 private:
@@ -42,7 +42,7 @@ private:
 	SimpleSpriteRenderer *uiBGRenderer;
 	BallRenderer *ballRenderer;
 	GraphicsConfiguration *gConfig;
-	Context *context;
+	GameContext *context;
 	S32 frameSamplesCollected;
 	F32 frameSampleTimeTotal;
 	S32 fps;

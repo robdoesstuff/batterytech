@@ -12,9 +12,10 @@
 #include <batterytech/Logger.h>
 #include <batterytech/util/esTransform.h>
 #include <batterytech/render/GraphicsConfiguration.h>
+#include "../GameContext.h"
 #include <batterytech/render/RenderContext.h>
 
-BatchSpriteRenderer::BatchSpriteRenderer(Context *context, const char *spriteAssetName) {
+BatchSpriteRenderer::BatchSpriteRenderer(GameContext *context, const char *spriteAssetName) {
 	this->context = context;
 	this->spriteAssetName = spriteAssetName;
 	textureId = 0;
@@ -25,8 +26,8 @@ BatchSpriteRenderer::~BatchSpriteRenderer() {
 	delete shaderProgram;
 }
 
-void BatchSpriteRenderer::init(BOOL32 newContext) {
-	if (!newContext && textureId) {
+void BatchSpriteRenderer::init(BOOL32 newGameContext) {
+	if (!newGameContext && textureId) {
 		glDeleteTextures(1, &textureId);
 		textureId = 0;
 	}
@@ -34,7 +35,7 @@ void BatchSpriteRenderer::init(BOOL32 newContext) {
 		textureId = loadTexture(spriteAssetName, context);
 	}
 	if (context->gConfig->useShaders) {
-		shaderProgram->init(newContext);
+		shaderProgram->init(newGameContext);
 		shaderProgram->addVertexAttributeLoc("vPosition");
 		shaderProgram->addVertexAttributeLoc("uvMap");
 		shaderProgram->addUniformLoc("projection_matrix");

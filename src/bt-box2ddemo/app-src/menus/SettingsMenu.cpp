@@ -15,7 +15,7 @@
 #include <string.h>
 #include "../level/LevelIO.h"
 
-SettingsMenu::SettingsMenu(Context *context) : Menu(SETTINGS_MENU_NAME) {
+SettingsMenu::SettingsMenu(GameContext *context) : Menu(SETTINGS_MENU_NAME) {
 	this->context = context;
 	S32 panelBgId = context->menuRenderer->addTextureAsset(UI_PANEL_2);
 	mainLayout = new LinearLayout(LinearLayout::VERTICAL);

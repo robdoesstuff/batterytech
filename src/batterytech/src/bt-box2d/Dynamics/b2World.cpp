@@ -24,11 +24,11 @@
 #include "Contacts/b2Contact.h"
 #include "Contacts/b2ContactSolver.h"
 #include "Contacts/b2TOISolver.h"
-#include "b2Collision.h"
-#include "b2BroadPhase.h"
-#include "Shapes/b2CircleShape.h"
-#include "Shapes/b2PolygonShape.h"
-#include "b2TimeOfImpact.h"
+#include "../Collision/b2Collision.h"
+#include "../Collision/b2BroadPhase.h"
+#include "../Collision/Shapes/b2CircleShape.h"
+#include "../Collision/Shapes/b2PolygonShape.h"
+#include "../Collision/b2TimeOfImpact.h"
 #include <new>
 
 b2World::b2World(const b2Vec2& gravity, bool doSleep)

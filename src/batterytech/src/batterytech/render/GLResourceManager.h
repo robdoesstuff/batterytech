@@ -17,7 +17,9 @@ namespace BatteryTech {
 
 	class Context;
 	class GLObjSceneBinding;
+#ifdef BATTERYTECH_INCLUDE_ASSIMP
 	class GLAssimpBinding;
+#endif
 
 	class GLResourceManager {
 	public:
@@ -37,6 +39,7 @@ namespace BatteryTech {
 		void clearObjScenes();
 		void loadObjScenes();
 		void unloadObjScenes();
+#ifdef BATTERYTECH_INCLUDE_ASSIMP
 		// Open Asset Import Library support
 		void addAssimp(const char *assetName);
 		GLAssimpBinding* getAssimp(const char *assetName);
@@ -44,6 +47,7 @@ namespace BatteryTech {
 		void clearAssimps();
 		void loadAssimps();
 		void unloadAssimps();
+#endif
 	private:
 		Context *context;
 		// array is used for serial-indexing, table is used for random access
@@ -52,8 +56,9 @@ namespace BatteryTech {
 		// we need a GLModelBinding for each group of each obj
 		ManagedArray<GLObjSceneBinding> *objSceneBindingArray;
 		StrHashTable<GLObjSceneBinding*> *objSceneBindingTable;
+#ifdef BATTERYTECH_INCLUDE_ASSIMP
 		StrHashTable<GLAssimpBinding*> *assimpBindings;
-
+#endif
 	};
 
 }

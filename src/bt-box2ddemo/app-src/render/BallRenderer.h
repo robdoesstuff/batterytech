@@ -9,7 +9,7 @@
 #define BALLRENDERER_H_
 
 #include <batterytech/render/Renderer.h>
-#include <batterytech/Context.h>
+#include "../GameContext.h"
 #include <batterytech/primitives.h>
 #include <batterytech/platform/platformgl.h>
 #include "BatchSpriteRenderer.h"
@@ -20,12 +20,12 @@ class BatchSpriteRenderer;
 
 class BallRenderer: public Renderer {
 public:
-	BallRenderer(Context *context);
+	BallRenderer(GameContext *context);
 	virtual ~BallRenderer();
-	virtual void init(BOOL32 newContext);
+	virtual void init(BOOL32 newGameContext);
 	virtual void render(World *world);
 private:
-	Context *context;
+	GameContext *context;
 	BatchSpriteRenderer *spriteRenderer;
 };
 

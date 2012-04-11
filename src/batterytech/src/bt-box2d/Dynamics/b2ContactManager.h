@@ -19,7 +19,7 @@
 #ifndef B2_CONTACT_MANAGER_H
 #define B2_CONTACT_MANAGER_H
 
-#include "b2BroadPhase.h"
+#include "../Collision/b2BroadPhase.h"
 
 class b2Contact;
 class b2ContactFilter;

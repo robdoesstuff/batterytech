@@ -9,7 +9,7 @@
 #define GAMEOBJECTFACTORY_H_
 
 #include <batterytech/primitives.h>
-#include <batterytech/Context.h>
+#include "../GameContext.h"
 #include "GameObject.h"
 #include "GameObjectMeta.h"
 #include <batterytech/math/Vec2f.h>
@@ -20,7 +20,7 @@ class GameObjectFactory {
 public:
 	GameObjectFactory();
 	virtual ~GameObjectFactory();
-	static GameObject* createGameObject(Context *context, S32 objectType, Vec2f *points);
+	static GameObject* createGameObject(GameContext *context, S32 objectType, Vec2f *points);
 };
 
 #endif /* GAMEOBJECTFACTORY_H_ */

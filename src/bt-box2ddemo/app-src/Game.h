@@ -9,7 +9,7 @@
 #define GAME_H_
 
 #include <batterytech/primitives.h>
-#include <Box2D/Dynamics/b2WorldCallbacks.h>
+#include <bt-box2d/Dynamics/b2WorldCallbacks.h>
 #include <batterytech/util/ManagedArray.h>
 #include <batterytech/network/NetworkMessageListener.h>
 
@@ -18,13 +18,14 @@ class GameObject;
 class World;
 class TouchInputProcessor;
 class LevelIO;
-namespace BatteryTech { class Context; class NetworkMessageFactory; }
+class GameContext;
+namespace BatteryTech { class NetworkMessageFactory; }
 
 using namespace BatteryTech;
 
 class Game : b2ContactListener, b2DestructionListener, NetworkMessageListener {
 public:
-	Game(Context *context);
+	Game(GameContext *context);
 	virtual ~Game();
 	virtual void update();
 	/* ----------------------- b2ContactListener Implementation ------------------------------ */
@@ -63,7 +64,7 @@ public:
 	virtual void onNetworkDisconnected();
 private:
 	void loadPreferences();
-	Context *context;
+	GameContext *context;
 	BOOL32 isFocused;
 	BOOL32 initialized;
 	TouchInputProcessor *touchInputProcessor;

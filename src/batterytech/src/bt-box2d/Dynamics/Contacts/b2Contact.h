@@ -20,8 +20,8 @@
 #define B2_CONTACT_H
 
 #include "../../Common/b2Math.h"
-#include "b2Collision.h"
-#include "Shapes/b2Shape.h"
+#include "../../Collision/b2Collision.h"
+#include "../../Collision/Shapes/b2Shape.h"
 #include "b2Contact.h"
 #include "../b2Fixture.h"
 

@@ -5,6 +5,8 @@
  *      Author: rgreen
  */
 
+#ifdef BATTERYTECH_INCLUDE_ASSIMP
+
 #include "BTIOSystem.h"
 #include "../../platform/platformgeneral.h"
 #include "../../util/strx.h"
@@ -51,3 +53,5 @@ bool BTIOSystem::ComparePaths(const char* one, const char* second) const {
 }
 
 }
+
+#endif

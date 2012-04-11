@@ -8,8 +8,8 @@
 #include "Game.h"
 #include "GameConstants.h"
 #include "GameUtil.h"
-#include <Box2D/Dynamics/b2World.h>
-#include <Box2D/Dynamics/Contacts/b2Contact.h>
+#include <bt-box2d/Dynamics/b2World.h>
+#include <bt-box2d/Dynamics/Contacts/b2Contact.h>
 #include <batterytech/primitives.h>
 #include <batterytech/platform/platformgeneral.h>
 #include <batterytech/network/NetworkManager.h>
@@ -30,11 +30,11 @@
 #include <batterytech/VibrationManager.h>
 #include "level/LevelIO.h"
 
-Context* btAppCreateContext(GraphicsConfiguration *graphicsConfig) {
+Context* btAppCreateGameContext(GraphicsConfiguration *graphicsConfig) {
 	return new GameContext(graphicsConfig);
 }
 
-Game::Game(Context *context) {
+Game::Game(GameContext *context) {
 	this->context = context;
 	this->context->world->lastGameState = GAMESTATE_NONE;
 	this->context->world->gameState = GAMESTATE_NONE;
@@ -64,6 +64,8 @@ void Game::loadPreferences() {
 	strcat(path, _platform_get_path_separator());
 	strcat(path, "settings.txt");
 	if (_platform_path_exists(path)) {
+		// TODO - fix property loading
+		/*
 		ManagedArray<Property> *props = propsIO.loadPropertiesFromFile(path);
 		// parse props
 		if (props) {
@@ -89,7 +91,7 @@ void Game::loadPreferences() {
 					}
 				}
 			}
-		}
+		}*/
 	} else {
 		logmsg("No settings file found.  Using defaults.");
 	}

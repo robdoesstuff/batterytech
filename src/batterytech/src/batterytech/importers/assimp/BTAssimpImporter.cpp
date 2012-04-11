@@ -13,6 +13,8 @@
 #include "../../../bt-assimp/include/aiPostProcess.h"
 #include "BTIOSystem.h"
 
+#ifdef BATTERYTECH_INCLUDE_ASSIMP
+
 using namespace Assimp;
 
 namespace BatteryTech {
@@ -102,3 +104,5 @@ void BTAssimpImporter::processNode(aiNode *node) {
 }
 
 }
+
+#endif

@@ -10,11 +10,13 @@
 
 #include <batterytech/Context.h>
 
+using namespace BatteryTech;
+
 class Game;
 class World;
 class WorldRenderer;
 
-class GameContext : Context {
+class GameContext : public Context {
 public:
 	GameContext(GraphicsConfiguration *gConfig);
 	virtual ~GameContext();

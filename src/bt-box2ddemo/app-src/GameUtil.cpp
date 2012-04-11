@@ -7,7 +7,7 @@
 
 #include "GameUtil.h"
 
-#include <Box2D/Collision/b2Collision.h>
+#include <bt-box2d/Collision/b2Collision.h>
 #include "StdQueryCallback.h"
 #include <batterytech/render/GraphicsConfiguration.h>
 
@@ -17,19 +17,19 @@ GameUtil::GameUtil() {
 GameUtil::~GameUtil() {
 }
 
-F32 GameUtil::screenToWorldX(S32 screenX, Context *context) {
+F32 GameUtil::screenToWorldX(S32 screenX, GameContext *context) {
 	return WORLD_LEFT + (screenX / (F32)context->gConfig->viewportWidth) * (WORLD_RIGHT - WORLD_LEFT);
 }
 
-F32 GameUtil::screenToWorldY(S32 screenY, Context *context) {
+F32 GameUtil::screenToWorldY(S32 screenY, GameContext *context) {
 	return WORLD_TOP + (screenY / (F32)context->gConfig->viewportHeight) * (WORLD_BOTTOM - WORLD_TOP);
 }
 
-S32 GameUtil::worldToScreenX(F32 worldX, Context *context) {
+S32 GameUtil::worldToScreenX(F32 worldX, GameContext *context) {
 	return (S32)(((worldX - WORLD_LEFT) / (WORLD_RIGHT - WORLD_LEFT)) * (F32)context->gConfig->viewportWidth);
 }
 
-S32 GameUtil::worldToScreenY(F32 worldY, Context *context) {
+S32 GameUtil::worldToScreenY(F32 worldY, GameContext *context) {
 	return (S32)(((worldY - WORLD_TOP) / (WORLD_BOTTOM - WORLD_TOP)) * (F32)context->gConfig->viewportHeight);
 }
 

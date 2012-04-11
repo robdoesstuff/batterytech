@@ -10,7 +10,7 @@
 
 #include <batterytech/render/Renderer.h>
 #include <batterytech/render/ShaderProgram.h>
-#include <batterytech/Context.h>
+#include "../GameContext.h"
 #include <batterytech/primitives.h>
 #include <batterytech/platform/platformgl.h>
 
@@ -18,8 +18,8 @@ using namespace BatteryTech;
 
 class BatchSpriteRenderer : Renderer {
 public:
-	BatchSpriteRenderer(Context *context, const char *spriteAssetName);
-	virtual void init(BOOL32 newContext);
+	BatchSpriteRenderer(GameContext *context, const char *spriteAssetName);
+	virtual void init(BOOL32 newGameContext);
 	virtual void startBatch();
 	virtual void endBatch();
 	virtual void render(F32 top, F32 right, F32 bottom, F32 left);
@@ -27,7 +27,7 @@ public:
 	virtual ~BatchSpriteRenderer();
 	void setSpriteAssetname(const char* spriteAssetName);
 private:
-	Context *context;
+	GameContext *context;
 	const char *spriteAssetName;
 	ShaderProgram *shaderProgram;
 	GLuint textureId;

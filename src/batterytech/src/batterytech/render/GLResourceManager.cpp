@@ -23,7 +23,9 @@ namespace BatteryTech {
 		texTable = new StrHashTable<Texture*>((int)(MAX_TEXTURES * 1.3f));
 		objSceneBindingArray = new ManagedArray<GLObjSceneBinding>(MAX_OBJSCENES);
 		objSceneBindingTable = new StrHashTable<GLObjSceneBinding*>((int)(MAX_OBJSCENES * 1.3f));
+#ifdef BATTERYTECH_INCLUDE_ASSIMP
 		assimpBindings = new StrHashTable<GLAssimpBinding*>(MAX_ASSIMPS * 1.3f);
+#endif
 	}
 
 	GLResourceManager::~GLResourceManager() {
@@ -39,9 +41,11 @@ namespace BatteryTech {
 		delete objSceneBindingTable;
 		objSceneBindingArray = NULL;
 		objSceneBindingTable = NULL;
+#ifdef BATTERYTECH_INCLUDE_ASSIMP
 		assimpBindings->deleteElements();
 		delete assimpBindings;
 		assimpBindings = NULL;
+#endif
 		context = NULL;
 	}
 
@@ -146,6 +150,7 @@ namespace BatteryTech {
 		}
 	}
 
+#ifdef BATTERYTECH_INCLUDE_ASSIMP
 	void GLResourceManager::addAssimp(const char *assetName) {
 		if (!assimpBindings->contains(assetName)) {
 			GLAssimpBinding *binding = new GLAssimpBinding(assetName);
@@ -186,5 +191,6 @@ namespace BatteryTech {
 			binding->unload(context);
 		}
 	}
+#endif
 
 }

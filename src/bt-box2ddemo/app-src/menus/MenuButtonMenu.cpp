@@ -12,7 +12,7 @@
 #include "../UIConstants.h"
 #include "TopMenu.h"
 
-MenuButtonMenu::MenuButtonMenu(Context *context) : Menu(MENU_BUTTON_MENU_NAME) {
+MenuButtonMenu::MenuButtonMenu(GameContext *context) : Menu(MENU_BUTTON_MENU_NAME) {
 	this->context = context;
 	S32 buttonBgId = context->menuRenderer->addTextureAsset(UI_BUTTON_1);
 	S32 buttonPressedBgId = context->menuRenderer->addTextureAsset(UI_BUTTON_1_PRESSED);

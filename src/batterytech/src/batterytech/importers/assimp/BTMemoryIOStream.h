@@ -8,6 +8,8 @@
 #ifndef BTMEMORYIOSTREAM_H_
 #define BTMEMORYIOSTREAM_H_
 
+#ifdef BATTERYTECH_INCLUDE_ASSIMP
+
 #include "../../../bt-assimp/include/IOStream.h"
 #include "../../primitives.h"
 
@@ -32,3 +34,5 @@ private:
 }
 
 #endif /* BTMEMORYIOSTREAM_H_ */
+
+#endif

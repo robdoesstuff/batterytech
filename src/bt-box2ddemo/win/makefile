@@ -31,7 +31,7 @@ SOURCE_DIR=..\batterytech\src
 CPPFLAGS=-c -Wall -I$(SOURCE_DIR) -I$(APP_SOURCE_DIR)
 CFLAGS=-c -Wall
 LDFLAGS=-mwindows -static-libgcc -static-libstdc++
-LINKED_LIBS=Resources\resources.o -L$(BUILD_DIR) -llua -lBOX2D -lgdi32 -lws2_32 -lopengl32 -lwinmm
+LINKED_LIBS=Resources\resources.o -L$(BUILD_DIR) -lbatterytech -lbox2d -lgdi32 -lws2_32 -lopengl32 -lwinmm
 ARFLAGS=-r -c -s
 
 
@@ -167,12 +167,12 @@ APP_SOURCES=\
 	gameobject\GameObjectMeta.cpp \
 	gameobject\GameObjectProperty.cpp \
 	gameobject\GameObjectPropertyMeta.cpp \
+	gameobjects\Ball.cpp \
 	input\TouchInputProcessor.cpp \
 	level\LevelIO.cpp \
 	render\WorldRenderer.cpp \
 	render\B2DebugRenderer.cpp \
 	render\SimpleSpriteRenderer.cpp \
-	render\ScreenControlRenderer.cpp \
 	render\BatchSpriteRenderer.cpp \
 	render\BallRenderer.cpp \
 	menus\GameOptionsMenu.cpp \
@@ -184,6 +184,7 @@ APP_SOURCES=\
 APP_OBJECTS=$(addprefix $(BUILD_DIR)\, $(addsuffix .o,$(APP_SOURCES)))
 APP_DEPS=$(APP_OBJECTS:.o=.d)
 APP_OBJDIRS=$(BUILD_DIR)\gameobject \
+	$(BUILD_DIR)\gameobjects \
 	$(BUILD_DIR)\input \
 	$(BUILD_DIR)\level \
 	$(BUILD_DIR)\render \

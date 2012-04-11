@@ -20,8 +20,8 @@
 #define B2_FIXTURE_H
 
 #include "b2Body.h"
-#include "b2Collision.h"
-#include "Shapes/b2Shape.h"
+#include "../Collision/b2Collision.h"
+#include "../Collision/Shapes/b2Shape.h"
 
 class b2BlockAllocator;
 class b2Body;

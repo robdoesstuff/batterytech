@@ -18,7 +18,7 @@
 #include "SettingsMenu.h"
 #include "SoundcheckMenu.h"
 
-TopMenu::TopMenu(Context *context) : Menu(TOP_MENU_NAME) {
+TopMenu::TopMenu(GameContext *context) : Menu(TOP_MENU_NAME) {
 	this->context = context;
 	S32 panelBgId = context->menuRenderer->addTextureAsset(UI_PANEL_2);
 	S32 buttonBgId = context->menuRenderer->addTextureAsset(UI_BUTTON_1);

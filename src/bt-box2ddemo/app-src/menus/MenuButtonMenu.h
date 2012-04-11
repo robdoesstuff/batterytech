@@ -8,7 +8,7 @@
 #ifndef MENUBUTTONMENU_H_
 #define MENUBUTTONMENU_H_
 
-#include <batterytech/Context.h>
+#include "../GameContext.h"
 #include <batterytech/ui/Menu.h>
 #include <batterytech/ui/LinearLayout.h>
 #include <batterytech/ui/Button.h>
@@ -19,13 +19,13 @@ using namespace BatteryTech;
 
 class MenuButtonMenu: public Menu {
 public:
-	MenuButtonMenu(Context *context);
+	MenuButtonMenu(GameContext *context);
 	virtual ~MenuButtonMenu();
 	virtual void onClickDown(UIComponent *component);
 	virtual void onClickUp(UIComponent *component);
 	virtual void onSpecialKey(SpecialKey sKey);
 private:
-	Context *context;
+	GameContext *context;
 	LinearLayout *buttonLayout;
 	Button *button1;
 };

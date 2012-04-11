@@ -20,7 +20,7 @@
 #define B2_CONTACT_SOLVER_H
 
 #include "../../Common/b2Math.h"
-#include "b2Collision.h"
+#include "../../Collision/b2Collision.h"
 #include "../b2Island.h"
 
 class b2Contact;

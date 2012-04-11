@@ -14,6 +14,8 @@
 // Description : Open Asset Importer to OpenGL VBO Bindings
 //============================================================================
 
+#ifdef BATTERYTECH_INCLUDE_ASSIMP
+
 #include "GLAssimpBinding.h"
 #include "../util/strx.h"
 #include "../importers/assimp/BTAssimpImporter.h"
@@ -107,5 +109,8 @@ GLAssimpMeshBinding* GLAssimpBinding::getMeshBinding(const char* name) {
 	return meshBindings->get(name);
 }
 
-
 }
+
+#endif // BATTERYTECH_INCLUDE_ASSIMP
+
+

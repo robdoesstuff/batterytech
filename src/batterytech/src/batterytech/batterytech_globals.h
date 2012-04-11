@@ -68,7 +68,7 @@
 
 /// ------------- models -------------------
 // if we are building with Assimp model support
-#define BATTERYTECH_INCLUDE_ASSIMP TRUE
+#undef BATTERYTECH_INCLUDE_ASSIMP
 // if we want to use OpenGL ES 2.0 shader GPU-accelerated animation
 #define ASSIMP_GPU_ACCELERATED_RENDER TRUE
 

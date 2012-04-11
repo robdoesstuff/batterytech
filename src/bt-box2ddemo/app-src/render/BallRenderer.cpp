@@ -9,7 +9,7 @@
 #include "../gameobjects/Ball.h"
 #include <batterytech/render/RenderContext.h>
 
-BallRenderer::BallRenderer(Context *context) {
+BallRenderer::BallRenderer(GameContext *context) {
 	this->context = context;
 	this->spriteRenderer = new BatchSpriteRenderer(context, NULL);
 }
@@ -17,9 +17,9 @@ BallRenderer::BallRenderer(Context *context) {
 BallRenderer::~BallRenderer() {
 }
 
-void BallRenderer::init(BOOL32 newContext) {
+void BallRenderer::init(BOOL32 newGameContext) {
 	spriteRenderer->setSpriteAssetname("smiley_tex.png");
-	spriteRenderer->init(newContext);
+	spriteRenderer->init(newGameContext);
 }
 
 void BallRenderer::render(World *world) {

@@ -18,7 +18,7 @@
 
 #include "b2PolygonContact.h"
 #include "../../Common/b2BlockAllocator.h"
-#include "b2TimeOfImpact.h"
+#include "../../Collision/b2TimeOfImpact.h"
 #include "../b2Body.h"
 #include "../b2Fixture.h"
 #include "../b2WorldCallbacks.h"

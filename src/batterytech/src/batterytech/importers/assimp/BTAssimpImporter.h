@@ -8,6 +8,8 @@
 #ifndef BTASSIMPIMPORTER_H_
 #define BTASSIMPIMPORTER_H_
 
+#ifdef BATTERYTECH_INCLUDE_ASSIMP
+
 #include "../../../bt-assimp/include/assimp.hpp"
 #include "../../../bt-assimp/include/aiScene.h"
 
@@ -25,4 +27,6 @@ private:
 };
 
 }
+
+#endif
 #endif /* BTASSIMPIMPORTER_H_ */

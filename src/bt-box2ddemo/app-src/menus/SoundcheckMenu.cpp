@@ -26,7 +26,7 @@
 #include "../level/LevelIO.h"
 #include "TopMenu.h"
 
-SoundcheckMenu::SoundcheckMenu(Context *context) : Menu(SOUNDCHECK_MENU_NAME) {
+SoundcheckMenu::SoundcheckMenu(GameContext *context) : Menu(SOUNDCHECK_MENU_NAME) {
 	this->context = context;
 	S32 panelBgId = context->menuRenderer->addTextureAsset(UI_PANEL_2);
 	mainLayout = new LinearLayout(LinearLayout::VERTICAL);
