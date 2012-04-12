@@ -21,6 +21,7 @@ Context* btAppCreateContext(GraphicsConfiguration *graphicsConfig) {
 
 HelloWorldApp::HelloWorldApp(Context *context) {
 	this->context = context;
+	initialized = FALSE;
 	textRenderer = new TextRasterRenderer(context, context->appProperties->get("menu_font")->getValue(), 24.0f);
 }
 
@@ -80,7 +81,8 @@ void HelloWorldApp::render() {
 			glLoadIdentity();
 		}
 		textRenderer->startText();
-		textRenderer->render("Hello World!", 300, 300, 1.0f);
+		F32 width = textRenderer->measureWidth("Hello World!");
+		textRenderer->render("Hello World!", context->gConfig->width/2 - width/2, context->gConfig->height/2 + textRenderer->getHeight(1.0f)/2, 1.0f);
 		textRenderer->finishText();
 	}
 }
