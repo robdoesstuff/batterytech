@@ -11,7 +11,8 @@
 #include <batterytech/platform/platformgeneral.h>
 #include <batterytech/Logger.h>
 #include <batterytech/platform/platformgl.h>
-
+#include <batterytech/render/MenuRenderer.h>
+#include <batterytech/render/RenderContext.h>
 #include <string.h>
 
 Context* btAppCreateContext(GraphicsConfiguration *graphicsConfig) {
@@ -45,6 +46,8 @@ void HelloWorldApp::setupGL() {
 	glDisable(GL_CULL_FACE);
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_DITHER);
+	glEnable(GL_BLEND);
+	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glViewport(0, 0, context->gConfig->viewportWidth, context->gConfig->viewportHeight);
@@ -53,9 +56,9 @@ void HelloWorldApp::setupGL() {
 void HelloWorldApp::update() {
 	if (!initialized || context->wasSuspended) {
 		logmsg("Initializing Renderers");
-		//context->worldRenderer->init(TRUE);
 		setupGL();
 		textRenderer->init(TRUE);
+		context->menuRenderer->init(TRUE);
 		context->wasSuspended = FALSE;
 		initialized = TRUE;
 	}
@@ -64,6 +67,18 @@ void HelloWorldApp::update() {
 void HelloWorldApp::render() {
 	if (initialized) {
 		glClear(GL_COLOR_BUFFER_BIT);
+		context->renderContext->colorFilter = Vector4f(1, 1, 1, 1);
+		if (context->gConfig->useShaders) {
+			context->renderContext->projMatrix.identity();
+			context->renderContext->mvMatrix.identity();
+			context->renderContext->projMatrix.ortho(0, context->gConfig->width, context->gConfig->height, 0, -1, 1);
+		} else {
+			glMatrixMode(GL_PROJECTION);
+			glLoadIdentity();
+			glOrthof(0, context->gConfig->width, context->gConfig->height, 0, -1, 1);
+			glMatrixMode(GL_MODELVIEW);
+			glLoadIdentity();
+		}
 		textRenderer->startText();
 		textRenderer->render("Hello World!", 300, 300, 1.0f);
 		textRenderer->finishText();
