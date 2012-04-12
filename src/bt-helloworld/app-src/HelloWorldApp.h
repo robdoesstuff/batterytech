@@ -10,6 +10,7 @@
 
 #include <batterytech/primitives.h>
 #include <batterytech/batterytech_entrypoints.h>
+#include <batterytech/render/TextRasterRenderer.h>
 
 namespace BatteryTech { class Context; }
 
@@ -22,8 +23,10 @@ public:
 	virtual void update();
 	virtual void render();
 private:
+	void setupGL();
 	Context *context;
 	BOOL32 initialized;
+	TextRasterRenderer *textRenderer;
 };
 
 #endif /* HELLOWORLDAPP_H_ */
