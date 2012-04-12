@@ -10,8 +10,8 @@
 
 AppContext::AppContext(GraphicsConfiguration *gConfig) : Context(gConfig) {
 	app = new HelloWorldApp(this);
-	appUpdater = game;
-	appRenderer = worldRenderer;
+	appUpdater = app;
+	appRenderer = app;
 }
 
 AppContext::~AppContext() {

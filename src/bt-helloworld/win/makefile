@@ -26,62 +26,14 @@ else
 endif
 
 
-APP_SOURCE_DIR=..\bt-box2ddemo\app-src
+APP_SOURCE_DIR=..\bt-helloworld\app-src
 SOURCE_DIR=..\batterytech\src
 CPPFLAGS=-c -Wall -I$(SOURCE_DIR) -I$(APP_SOURCE_DIR)
 CFLAGS=-c -Wall
 LDFLAGS=-mwindows -static-libgcc -static-libstdc++
-LINKED_LIBS=Resources\resources.o -L$(BUILD_DIR) -lbatterytech -lbox2d -lgdi32 -lws2_32 -lopengl32 -lwinmm
+LINKED_LIBS=Resources\resources.o -L$(BUILD_DIR) -lbatterytech -lgdi32 -lws2_32 -lopengl32 -lwinmm
 ARFLAGS=-r -c -s
 
-
-BOX2D_SOURCES=\
-	bt-box2d\Collision\b2BroadPhase.cpp \
-	bt-box2d\Collision\b2CollideCircle.cpp \
-	bt-box2d\Collision\b2CollidePolygon.cpp \
-	bt-box2d\Collision\b2Collision.cpp \
-	bt-box2d\Collision\b2Distance.cpp \
-	bt-box2d\Collision\b2DynamicTree.cpp \
-	bt-box2d\Collision\b2TimeOfImpact.cpp \
-	bt-box2d\Collision\Shapes\b2CircleShape.cpp \
-	bt-box2d\Collision\Shapes\b2PolygonShape.cpp \
-	bt-box2d\Common\b2BlockAllocator.cpp \
-	bt-box2d\Common\b2Math.cpp \
-	bt-box2d\Common\b2Settings.cpp \
-	bt-box2d\Common\b2StackAllocator.cpp \
-	bt-box2d\Dynamics\b2Body.cpp \
-	bt-box2d\Dynamics\b2ContactManager.cpp \
-	bt-box2d\Dynamics\b2Fixture.cpp \
-	bt-box2d\Dynamics\b2Island.cpp \
-	bt-box2d\Dynamics\b2World.cpp \
-	bt-box2d\Dynamics\b2WorldCallbacks.cpp \
-	bt-box2d\Dynamics\Contacts\b2CircleContact.cpp \
-	bt-box2d\Dynamics\Contacts\b2Contact.cpp \
-	bt-box2d\Dynamics\Contacts\b2ContactSolver.cpp \
-	bt-box2d\Dynamics\Contacts\b2PolygonAndCircleContact.cpp \
-	bt-box2d\Dynamics\Contacts\b2PolygonContact.cpp \
-	bt-box2d\Dynamics\Contacts\b2TOISolver.cpp \
-	bt-box2d\Dynamics\Joints\b2DistanceJoint.cpp \
-	bt-box2d\Dynamics\Joints\b2FrictionJoint.cpp \
-	bt-box2d\Dynamics\Joints\b2GearJoint.cpp \
-	bt-box2d\Dynamics\Joints\b2Joint.cpp \
-	bt-box2d\Dynamics\Joints\b2LineJoint.cpp \
-	bt-box2d\Dynamics\Joints\b2MouseJoint.cpp \
-	bt-box2d\Dynamics\Joints\b2PrismaticJoint.cpp \
-	bt-box2d\Dynamics\Joints\b2PulleyJoint.cpp \
-	bt-box2d\Dynamics\Joints\b2RevoluteJoint.cpp \
-	bt-box2d\Dynamics\Joints\b2WeldJoint.cpp
-
-BOX2D_OBJECTS=$(addprefix $(BUILD_DIR)\, $(addsuffix .o,$(BOX2D_SOURCES)))
-BOX2D_DEPS=$(BOX2D_OBJECTS:.o=.d)
-BOX2D_OBJDIRS=$(BUILD_DIR)\bt-box2d\Collision \
-	$(BUILD_DIR)\bt-box2d\Collision\Shapes \
-	$(BUILD_DIR)\bt-box2d\Common \
-	$(BUILD_DIR)\bt-box2d\Dynamics \
-	$(BUILD_DIR)\bt-box2d\Dynamics\Contacts \
-	$(BUILD_DIR)\bt-box2d\Dynamics\Joints
-
-BOX2D_LIB=$(BUILD_DIR)\libbox2d.a
 
 BT_SOURCES=\
 	batterytech\batterytech.cpp \
@@ -158,61 +110,20 @@ BT_OBJDIRS=$(BUILD_DIR)\batterytech\audio \
 BT_LIB=$(BUILD_DIR)\libbatterytech.a
 	
 APP_SOURCES=\
-	GameContext.cpp \
-	Game.cpp \
-	GameUtil.cpp \
-	World.cpp \
-	gameobject\GameObject.cpp \
-	gameobject\GameObjectFactory.cpp \
-	gameobject\GameObjectMeta.cpp \
-	gameobject\GameObjectProperty.cpp \
-	gameobject\GameObjectPropertyMeta.cpp \
-	gameobjects\Ball.cpp \
-	input\TouchInputProcessor.cpp \
-	level\LevelIO.cpp \
-	render\WorldRenderer.cpp \
-	render\B2DebugRenderer.cpp \
-	render\SimpleSpriteRenderer.cpp \
-	render\BatchSpriteRenderer.cpp \
-	render\BallRenderer.cpp \
-	menus\GameOptionsMenu.cpp \
-	menus\SettingsMenu.cpp \
-	menus\MenuButtonMenu.cpp \
-	menus\SoundcheckMenu.cpp \
-	menus\TopMenu.cpp
+	AppContext.cpp \
+	HelloWorldApp.cpp
 	
 APP_OBJECTS=$(addprefix $(BUILD_DIR)\, $(addsuffix .o,$(APP_SOURCES)))
 APP_DEPS=$(APP_OBJECTS:.o=.d)
-APP_OBJDIRS=$(BUILD_DIR)\gameobject \
-	$(BUILD_DIR)\gameobjects \
-	$(BUILD_DIR)\input \
-	$(BUILD_DIR)\level \
-	$(BUILD_DIR)\render \
-	$(BUILD_DIR)\menus
 
-APP_EXE=btbox2ddemo.exe
+APP_EXE=bthelloworld.exe
 
--include $(BOX2D_DEPS)
 -include $(APP_DEPS)
 -include $(BT_DEPS)
 
 all: $(OUTPUT_DIR)\$(APP_EXE)
 	
-box2d: $(BOX2D_LIB)
-
 bt: $(BT_LIB)
-
-$(BOX2D_LIB): $(BOX2D_OBJECTS)
-	$(STATIC_LINKER) $(ARFLAGS) $@ $(BOX2D_OBJECTS)
-
-$(BOX2D_OBJECTS): $(BUILD_DIR)\\%.o: $(SOURCE_DIR)\\%
-	$(CXX) $(BUILD_FLAGS) $(CPPFLAGS) $< -o $@
-	$(CXX) $(BUILD_FLAGS) $(CPPFLAGS) -MM -MF$(@:.o=.d) -MT$@ $<
-	
-$(BOX2D_OBJECTS): | $(BOX2D_OBJDIRS)
-
-$(BOX2D_OBJDIRS):
-	-md $(BOX2D_OBJDIRS)
 
 # BatteryTech lib
 $(BT_LIB): $(BT_OBJECTS)
@@ -228,18 +139,13 @@ $(BT_OBJDIRS):
 	-md $(BT_OBJDIRS)
 	
 # Combining all static libs with app+batterytech source
-$(OUTPUT_DIR)\$(APP_EXE): $(BT_LIB) $(BOX2D_LIB) $(APP_OBJECTS) Resources\resources.o
+$(OUTPUT_DIR)\$(APP_EXE): $(BT_LIB) $(APP_OBJECTS) Resources\resources.o
 	$(CXX) $(LDFLAGS) -o$@ $(APP_OBJECTS) $(LINKED_LIBS)  
 	@echo Build Complete: $(OUTPUT_DIR)\$(APP_EXE)
 	
 $(APP_OBJECTS): $(BUILD_DIR)\\%.o: $(APP_SOURCE_DIR)\\% 
 	$(CXX) $(BUILD_FLAGS) $(CPPFLAGS) -o$@ $<
 	$(CXX) $(BUILD_FLAGS) $(CPPFLAGS) -MM -MF$(@:.o=.d) -MT$@ $<
-	
-$(APP_OBJECTS): | $(APP_OBJDIRS)
-
-$(APP_OBJDIRS):
-	-md $(APP_OBJDIRS)
 
 Resources\resources.o: Resources\resources.rc
 	$(RES_GEN) Resources\resources.rc Resources\resources.o
