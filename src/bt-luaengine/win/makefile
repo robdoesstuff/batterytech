@@ -26,12 +26,12 @@ else
 endif
 
 
-APP_SOURCE_DIR=..\bt-helloworld\app-src
+APP_SOURCE_DIR=..\bt-luaengine\app-src
 SOURCE_DIR=..\batterytech\src
 CPPFLAGS=-c -Wall -I$(SOURCE_DIR) -I$(APP_SOURCE_DIR)
 CFLAGS=-c -Wall
 LDFLAGS=-mwindows -static-libgcc -static-libstdc++
-LINKED_LIBS=Resources\resources.o -L$(BUILD_DIR) -lbatterytech -lgdi32 -lws2_32 -lopengl32 -lwinmm
+LINKED_LIBS=Resources\resources.o -L$(BUILD_DIR) -lassimp -llua -lbatterytech -lgdi32 -lws2_32 -lopengl32 -lwinmm
 ARFLAGS=-r -c -s
 
 
