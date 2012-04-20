@@ -71,13 +71,13 @@ namespace BatteryTech {
 				vertSkinnedAtts[i].position = Vector3f(vert.x, vert.y, vert.z);
 				vertSkinnedAtts[i].normal = Vector3f(normal.x, normal.y, normal.z);
 				vertSkinnedAtts[i].uv = Vector2f(uv.x, uv.y);
-				vertSkinnedAtts[i].bones = Vector4i(0, 0, 0, 0);
+				vertSkinnedAtts[i].bones = Vector4b(0, 0, 0, 0);
 				vertSkinnedAtts[i].weights = Vector4f(0, 0, 0, 0);
 			}
 			U32 *weightCounts = new U32[mesh->mNumVertices];
 			memset(weightCounts, 0, mesh->mNumVertices * 4);
 			BOOL32 discardedWeights = FALSE;
-			for (U32 i = 0; i < mesh->mNumBones; i++) {
+			for (U8 i = 0; i < (U8)mesh->mNumBones; i++) {
 				aiBone *bone = mesh->mBones[i];
 				for (U32 j = 0; j < bone->mNumWeights; j++) {
 					U32 vertIdx = bone->mWeights[j].mVertexId;
@@ -226,13 +226,13 @@ namespace BatteryTech {
 
 	void GLAssimpMeshBinding::bindBonesToShader(GLint attributeLoc) {
 		if (hasBones) {
-			glVertexAttribPointer(attributeLoc, 4, GL_INT, GL_FALSE, sizeof(GLAssimpSkinnedMeshVertex), BUFFER_OFFSET(sizeof(Vector3f) + sizeof(Vector3f) + sizeof(Vector2f)));
+			glVertexAttribPointer(attributeLoc, 4, GL_BYTE, GL_FALSE, sizeof(GLAssimpSkinnedMeshVertex), BUFFER_OFFSET(sizeof(Vector3f) + sizeof(Vector3f) + sizeof(Vector2f)));
 		}
 	}
 
 	void GLAssimpMeshBinding::bindWeightsToShader(GLint attributeLoc) {
 		if (hasBones) {
-			glVertexAttribPointer(attributeLoc, 4, GL_FLOAT, GL_FALSE, sizeof(GLAssimpSkinnedMeshVertex), BUFFER_OFFSET(sizeof(Vector3f) + sizeof(Vector3f) + sizeof(Vector2f) + sizeof(Vector4i)));
+			glVertexAttribPointer(attributeLoc, 4, GL_FLOAT, GL_FALSE, sizeof(GLAssimpSkinnedMeshVertex), BUFFER_OFFSET(sizeof(Vector3f) + sizeof(Vector3f) + sizeof(Vector2f) + sizeof(Vector4b)));
 		}
 	}
 
@@ -245,8 +245,9 @@ namespace BatteryTech {
 	}
 
 	void GLAssimpMeshBinding::unbind() {
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+		// This hurts performance and is not necessary.
+		// glBindBuffer(GL_ARRAY_BUFFER, 0);
+		// glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
 
 }

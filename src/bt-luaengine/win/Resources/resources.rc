@@ -1,0 +1,3 @@
+#include "resources.h"
+
+AppIcon ICON "../../bt-box2ddemo/assets/icon.ico"

@@ -162,7 +162,7 @@ void AssimpAnimator::interpolate(F32 pTime) {
 	// map into anim's duration
 	F32 time = 0.0f;
 	if( anim->mDuration > 0.0) {
-		time = fmod( pTime, anim->mDuration);
+		time = fmod(pTime, (F32)anim->mDuration);
 	}
 	// now just use time
 	U32 numChannels = anim->mNumChannels;
@@ -275,7 +275,7 @@ void AssimpAnimator::applyTransforms(RenderNode *meshNode, const aiMesh *mesh, G
 		const aiVector3D &nv = mesh->mNormals[i];
 		Vector4f poseVert = Vector4f(pv.x, pv.y, pv.z, 1.0f);
 		Vector4f poseNormal = Vector4f(nv.x, nv.y, nv.z, 0);
-		const Vector4i &matIdx = vertAtts[i].bones;
+		const Vector4b &matIdx = vertAtts[i].bones;
 		const Vector4f &weights = vertAtts[i].weights;
 		vertAtts[i].position = (boneMatricesWithRootInv[matIdx.x] * poseVert) * weights.x +
 				(boneMatricesWithRootInv[matIdx.y] * poseVert) * weights.y +

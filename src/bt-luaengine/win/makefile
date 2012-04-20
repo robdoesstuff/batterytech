@@ -10,8 +10,8 @@ RELEASE_DIR=Release
 DEBUG_DIR=Debug
 #OUTPUT_DIR=$(RELEASE_DIR)
 
-RELEASE_FLAGS=-O2 -g0
-DEBUG_FLAGS=-O0 -g3
+RELEASE_FLAGS=-O2 -g0 -DBATTERYTECH_INCLUDE_ASSIMP
+DEBUG_FLAGS=-O0 -g3 -DBATTERYTECH_INCLUDE_ASSIMP
 #BUILD_FLAGS=$(RELEASE_FLAGS)
 #BUILD_DIR=$(RELEASE_DIR)
 
@@ -28,7 +28,7 @@ endif
 
 APP_SOURCE_DIR=..\bt-luaengine\app-src
 SOURCE_DIR=..\batterytech\src
-CPPFLAGS=-c -Wall -I$(SOURCE_DIR) -I$(APP_SOURCE_DIR)
+CPPFLAGS=-c -Wall -I$(SOURCE_DIR) -I$(APP_SOURCE_DIR) -I$(SOURCE_DIR)\bt-assimp\contrib
 CFLAGS=-c -Wall
 LDFLAGS=-mwindows -static-libgcc -static-libstdc++
 LINKED_LIBS=Resources\resources.o -L$(BUILD_DIR) -lassimp -llua -lbatterytech -lgdi32 -lws2_32 -lopengl32 -lwinmm
@@ -108,18 +108,128 @@ BT_OBJDIRS=$(BUILD_DIR)\batterytech\audio \
 	$(BUILD_DIR)\batterytech\util
 	
 BT_LIB=$(BUILD_DIR)\libbatterytech.a
-	
+
+
+LUA_SOURCES=\
+	bt-lua\lapi.c \
+	bt-lua\lauxlib.c \
+	bt-lua\lbaselib.c \
+	bt-lua\lcode.c \
+	bt-lua\ldblib.c \
+	bt-lua\ldebug.c \
+	bt-lua\ldo.c \
+	bt-lua\ldump.c \
+	bt-lua\lfunc.c \
+	bt-lua\lgc.c \
+	bt-lua\linit.c \
+	bt-lua\liolib.c \
+	bt-lua\llex.c \
+	bt-lua\lmathlib.c \
+	bt-lua\lmem.c \
+	bt-lua\loadlib.c \
+	bt-lua\lobject.c \
+	bt-lua\lopcodes.c \
+	bt-lua\loslib.c \
+	bt-lua\lparser.c \
+	bt-lua\lstate.c \
+	bt-lua\lstring.c \
+	bt-lua\lstrlib.c \
+	bt-lua\ltable.c \
+	bt-lua\ltablib.c \
+	bt-lua\ltm.c \
+	bt-lua\lua.c \
+	bt-lua\luac.c \
+	bt-lua\lundump.c \
+	bt-lua\lvm.c \
+	bt-lua\lzio.c \
+	bt-lua\print.c
+
+LUA_OBJECTS=$(addprefix $(BUILD_DIR)\, $(addsuffix .o,$(LUA_SOURCES)))
+LUA_DEPS=$(LUA_OBJECTS:.o=.d)
+LUA_OBJDIRS=$(BUILD_DIR)\bt-lua
+
+LUA_LIB=$(BUILD_DIR)\liblua.a
+
+ASSIMP_SOURCES=\
+	bt-assimp\code\Assimp.cpp \
+	bt-assimp\code\AssimpPCH.cpp \
+	bt-assimp\code\BAIFileImporter.cpp \
+	bt-assimp\code\BaseImporter.cpp \
+	bt-assimp\code\BaseProcess.cpp \
+	bt-assimp\code\ColladaLoader.cpp \
+	bt-assimp\code\ColladaParser.cpp \
+	bt-assimp\code\DefaultIOStream.cpp \
+	bt-assimp\code\DefaultIOSystem.cpp \
+	bt-assimp\code\DefaultLogger.cpp \
+	bt-assimp\code\Importer.cpp \
+	bt-assimp\code\MaterialSystem.cpp \
+	bt-assimp\code\ObjFileImporter.cpp \
+	bt-assimp\code\ObjFileMtlImporter.cpp \
+	bt-assimp\code\ObjFileParser.cpp \
+	bt-assimp\code\ScenePreprocessor.cpp \
+	bt-assimp\code\SkeletonMeshBuilder.cpp \
+	bt-assimp\code\SpatialSort.cpp \
+	bt-assimp\code\LimitBoneWeightsProcess.cpp \
+	bt-assimp\contrib\irrXML\irrXML.cpp \
+	bt-assimp\contrib\ConvertUTF\ConvertUTF.c
+
+ASSIMP_OBJECTS=$(addprefix $(BUILD_DIR)\, $(addsuffix .o,$(ASSIMP_SOURCES)))
+ASSIMP_DEPS=$(ASSIMP_OBJECTS:.o=.d)
+ASSIMP_OBJDIRS=$(BUILD_DIR)\bt-assimp\code \
+	$(BUILD_DIR)\bt-assimp\contrib\irrXML \
+	$(BUILD_DIR)\bt-assimp\contrib\ConvertUTF
+
+ASSIMP_LIB=$(BUILD_DIR)\libassimp.a
+
+
 APP_SOURCES=\
-	AppContext.cpp \
-	HelloWorldApp.cpp
+	GameContext.cpp \
+	Game.cpp \
+	GameLuaBinder.cpp \
+	GameUtil.cpp \
+	World.cpp \
+	ScreenControl.cpp \
+	gameobject\GameObject.cpp \
+	gameobject\GameObjectLuaBinder.cpp \
+	level\LevelIO.cpp \
+	level\Level.cpp \
+	input\TouchInputProcessor.cpp \
+	render\WorldRenderer.cpp \
+	render\ShadowMap.cpp \
+	render\BtDebugRenderer.cpp \
+	render\SimpleSpriteRenderer.cpp \
+	render\ScreenControlRenderer.cpp \
+	render\BatchSpriteRenderer.cpp \
+	render\ObjRenderer.cpp \
+	render\LevelRenderer.cpp \
+	render\Camera.cpp \
+	render\IndicatorRenderer.cpp \
+	render\RenderItem.cpp \
+	render\AssimpRenderer.cpp \
+	render\GlobalLight.cpp \
+	render\LocalLight.cpp \
+	script\LuaBinder.cpp \
+	menus\GameOptionsMenu.cpp \
+	menus\SettingsMenu.cpp \
+	menus\MenuButtonMenu.cpp \
+	menus\ErrorMenu.cpp \
+	menus\TopMenu.cpp
 	
 APP_OBJECTS=$(addprefix $(BUILD_DIR)\, $(addsuffix .o,$(APP_SOURCES)))
 APP_DEPS=$(APP_OBJECTS:.o=.d)
-
-APP_EXE=bthelloworld.exe
+APP_OBJDIRS=$(BUILD_DIR)\gameobject \
+	$(BUILD_DIR)\level \
+	$(BUILD_DIR)\input \
+	$(BUILD_DIR)\render \
+	$(BUILD_DIR)\script \
+	$(BUILD_DIR)\menus
+	
+APP_EXE=btengine.exe
 
 -include $(APP_DEPS)
 -include $(BT_DEPS)
+-include $(LUA_DEPS)
+-include $(ASSIMP_DEPS)
 
 all: $(OUTPUT_DIR)\$(APP_EXE)
 	
@@ -137,9 +247,39 @@ $(BT_OBJECTS): | $(BT_OBJDIRS)
 
 $(BT_OBJDIRS):
 	-md $(BT_OBJDIRS)
+
+# Lua
+lua: $(LUA_LIB)
+
+$(LUA_LIB): $(LUA_OBJECTS)
+	$(STATIC_LINKER) $(ARFLAGS) $@ $(LUA_OBJECTS)
+
+$(LUA_OBJECTS): $(BUILD_DIR)\\%.o: $(SOURCE_DIR)\\%
+	$(CC) $(BUILD_FLAGS) $(CFLAGS) $< -o $@
+	$(CC) $(BUILD_FLAGS) $(CFLAGS) -MM -MF$(@:.o=.d) -MT$@ $<
+
+$(LUA_OBJECTS): | $(LUA_OBJDIRS)
+
+$(LUA_OBJDIRS):
+	-md $(LUA_OBJDIRS)
 	
+# Open Asset Importer Library
+assimp: $(ASSIMP_LIB)
+
+$(ASSIMP_LIB): $(ASSIMP_OBJECTS)
+	$(STATIC_LINKER) $(ARFLAGS) $@ $(ASSIMP_OBJECTS)
+
+$(ASSIMP_OBJECTS): $(BUILD_DIR)\\%.o: $(SOURCE_DIR)\\%
+	$(CXX) $(BUILD_FLAGS) $(CPPFLAGS) $< -o $@
+	$(CXX) $(BUILD_FLAGS) $(CPPFLAGS) -MM -MF$(@:.o=.d) -MT$@ $<
+	
+$(ASSIMP_OBJECTS): | $(ASSIMP_OBJDIRS)
+
+$(ASSIMP_OBJDIRS):
+	-md $(ASSIMP_OBJDIRS)
+
 # Combining all static libs with app+batterytech source
-$(OUTPUT_DIR)\$(APP_EXE): $(BT_LIB) $(APP_OBJECTS) Resources\resources.o
+$(OUTPUT_DIR)\$(APP_EXE): $(BT_LIB) $(LUA_LIB) $(ASSIMP_LIB) $(APP_OBJECTS) Resources\resources.o
 	$(CXX) $(LDFLAGS) -o$@ $(APP_OBJECTS) $(LINKED_LIBS)  
 	@echo Build Complete: $(OUTPUT_DIR)\$(APP_EXE)
 	
@@ -147,6 +287,11 @@ $(APP_OBJECTS): $(BUILD_DIR)\\%.o: $(APP_SOURCE_DIR)\\%
 	$(CXX) $(BUILD_FLAGS) $(CPPFLAGS) -o$@ $<
 	$(CXX) $(BUILD_FLAGS) $(CPPFLAGS) -MM -MF$(@:.o=.d) -MT$@ $<
 
+$(APP_OBJECTS): | $(APP_OBJDIRS)
+
+$(APP_OBJDIRS):
+	-md $(APP_OBJDIRS)
+	
 Resources\resources.o: Resources\resources.rc
 	$(RES_GEN) Resources\resources.rc Resources\resources.o
 

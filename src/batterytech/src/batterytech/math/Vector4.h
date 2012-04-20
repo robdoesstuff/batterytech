@@ -517,6 +517,7 @@ namespace BatteryTech {
    /// Four dimensional Vector of integers
    typedef Vector4<int> Vector4i;
 
+   typedef Vector4<unsigned char> Vector4b;
 }
 
 #endif /* VECTOR4_H_ */

@@ -1,0 +1,35 @@
+Debug\bt-box2d\Dynamics\Joints\b2Joint.cpp.o: \
+ ..\batterytech\src\bt-box2d\Dynamics\Joints\b2Joint.cpp \
+ ..\batterytech\src\bt-box2d\Dynamics\Joints\/../Joints/b2Joint.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Joints\/../Joints/../../Common/b2Math.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Joints\/../Joints/../../Common/b2Settings.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Joints\/../Joints/b2DistanceJoint.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Joints\/../Joints/../Joints/b2Joint.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Joints\/../Joints/b2LineJoint.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Joints\/../Joints/b2MouseJoint.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Joints\/../Joints/b2RevoluteJoint.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Joints\/../Joints/b2PrismaticJoint.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Joints\/../Joints/b2PulleyJoint.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Joints\/../Joints/b2GearJoint.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Joints\/../Joints/b2WeldJoint.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Joints\/../Joints/b2FrictionJoint.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Joints\/../b2Body.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Joints\/../../Common/b2Math.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Joints\/../../Collision/Shapes/b2Shape.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Joints\/../../Collision/Shapes/../../Common/b2BlockAllocator.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Joints\/../../Collision/Shapes/../../Common/b2Settings.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Joints\/../../Collision/Shapes/../../Common/b2Math.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Joints\/../../Collision/Shapes/../b2Collision.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Joints\/../../Collision/Shapes/../../Common/b2Math.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Joints\/../b2World.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Joints\/../../Common/b2BlockAllocator.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Joints\/../../Common/b2StackAllocator.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Joints\/../../Common/b2Settings.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Joints\/../b2ContactManager.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Joints\/../../Collision/b2BroadPhase.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Joints\/../../Collision/../Common/b2Settings.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Joints\/../../Collision/b2Collision.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Joints\/../../Collision/b2DynamicTree.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Joints\/../b2WorldCallbacks.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Joints\/../../Common/b2Settings.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Joints\/../../Common/b2BlockAllocator.h

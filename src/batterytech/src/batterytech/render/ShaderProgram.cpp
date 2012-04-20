@@ -22,6 +22,9 @@
 
 namespace BatteryTech {
 
+int ShaderProgram::binds = 0;
+ShaderProgram* ShaderProgram::currentProgram = NULL;
+
 ShaderProgram::ShaderProgram(const char *vertShaderAssetName, const char *fragShaderAssetName) {
 	vertShader = fragShader = program = 0;
 	this->vertShaderAssetName = strdup(vertShaderAssetName);
@@ -61,6 +64,10 @@ void ShaderProgram::init(BOOL32 newContext) {
 }
 
 void ShaderProgram::bind() {
+	if( currentProgram == this ) return;
+	currentProgram = this;
+
+	binds++;
 	glUseProgram(program);
 	// enable vertex attrib arrays
 	for (S32 i = 0; i < attribLocs->getSize(); i++) {
@@ -70,10 +77,10 @@ void ShaderProgram::bind() {
 
 void ShaderProgram::unbind() {
 	// disable vertex attrib arrays
-	for (S32 i = 0; i < attribLocs->getSize(); i++) {
-		glDisableVertexAttribArray(attribLocs->array[i]->loc);
-	}
-	glUseProgram(0);
+//	for (S32 i = 0; i < attribLocs->getSize(); i++) {
+//		glDisableVertexAttribArray(attribLocs->array[i]->loc);
+//	}
+//	glUseProgram(0);
 }
 
 void ShaderProgram::addVertexAttributeLoc(const char *name) {
@@ -97,8 +104,8 @@ void ShaderProgram::addUniformLoc(const char *name) {
 		sprintf(buf, "%s-%s - add - Uniform %s not found or is invalid", vertShaderAssetName, fragShaderAssetName, name);
 		logmsg(buf);
 	} else {
-		//char buf[255];
-		//sprintf(buf, "Added uniform %s at loc %d", name, loc);
+		//char buf[1024];
+		//sprintf(buf, "%s-%s - Added uniform %s at loc %d", vertShaderAssetName, fragShaderAssetName, name, loc);
 		//logmsg(buf);
 	}
 	uniformLocs->add(new ShaderNameLocMap(name, loc));

@@ -23,7 +23,7 @@
 // Configurable parts - needs to be in assets dir
 #define BT_CONFIGFILE "batterytech_config.txt"
 // Log to file?  Use NULL for console-only logging
-#define BT_LOGFILE "slyonball.log"
+#define BT_LOGFILE "batterytech.log"
 // Are we in debug mode? (this is currently unused in batterytech)
 #define BT_DEBUG FALSE
 // Number of samples to average for use as the tick delta in updates
@@ -67,14 +67,13 @@
 #define VORBIS_MAX_LEGAL_FRAME 8192
 
 /// ------------- models -------------------
-// if we are building with Assimp model support
-#undef BATTERYTECH_INCLUDE_ASSIMP
 // if we want to use OpenGL ES 2.0 shader GPU-accelerated animation
 #define ASSIMP_GPU_ACCELERATED_RENDER TRUE
 
 // misc
 #define FORCE_SQUARE_TEXTURES FALSE
 #define FORCE_32_BIT_TEXTURES FALSE
+#define FORCE_16_BIT_RGB_TEXTURES FALSE
 
 /// ------------- version ---------------
 #define BATTERYTECH_VERSION "2.0 alpha"

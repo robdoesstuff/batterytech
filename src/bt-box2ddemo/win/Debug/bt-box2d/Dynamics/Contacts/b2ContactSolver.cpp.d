@@ -1,0 +1,34 @@
+Debug\bt-box2d\Dynamics\Contacts\b2ContactSolver.cpp.o: \
+ ..\batterytech\src\bt-box2d\Dynamics\Contacts\b2ContactSolver.cpp \
+ ..\batterytech\src\bt-box2d\Dynamics\Contacts\/b2ContactSolver.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Contacts\/../../Common/b2Math.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Contacts\/../../Common/b2Settings.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Contacts\/../../Collision/b2Collision.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Contacts\/../../Collision/../Common/b2Math.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Contacts\/../b2Island.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Contacts\/../../Common/b2Math.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Contacts\/../b2Body.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Contacts\/../../Collision/Shapes/b2Shape.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Contacts\/../../Collision/Shapes/../../Common/b2BlockAllocator.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Contacts\/../../Collision/Shapes/../../Common/b2Settings.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Contacts\/../../Collision/Shapes/../../Common/b2Math.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Contacts\/../../Collision/Shapes/../b2Collision.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Contacts\/../b2TimeStep.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Contacts\/../../Common/b2Settings.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Contacts\/b2Contact.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Contacts\/../../Collision/Shapes/b2Shape.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Contacts\/b2Contact.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Contacts\/../b2Fixture.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Contacts\/../../Collision/b2Collision.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Contacts\/../b2Body.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Contacts\/../b2Fixture.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Contacts\/../b2World.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Contacts\/../../Common/b2BlockAllocator.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Contacts\/../../Common/b2StackAllocator.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Contacts\/../b2ContactManager.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Contacts\/../../Collision/b2BroadPhase.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Contacts\/../../Collision/../Common/b2Settings.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Contacts\/../../Collision/b2Collision.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Contacts\/../../Collision/b2DynamicTree.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Contacts\/../b2WorldCallbacks.h \
+ ..\batterytech\src\bt-box2d\Dynamics\Contacts\/../../Common/b2StackAllocator.h

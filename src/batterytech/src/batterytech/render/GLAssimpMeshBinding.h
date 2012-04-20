@@ -42,9 +42,10 @@ struct GLAssimpSkinnedMeshVertex {
 	Vector3f position; // 12 bytes
 	Vector3f normal; // 12 bytes
 	Vector2f uv; // 8 bytes
-	Vector4i bones; // 16 bytes
+	Vector4b bones; // 4 bytes
 	Vector4f weights; // 16 bytes
-	// exactly 64 bytes - no padding needed
+	// 52 bytes - pad to 64
+	unsigned char padding[12];
 };
 
 class GLAssimpMeshBinding {

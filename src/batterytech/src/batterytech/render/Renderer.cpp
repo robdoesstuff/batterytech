@@ -24,6 +24,7 @@
 #include "Texture.h"
 
 #define DEBUG_RENDERER TRUE
+#define CHECK_GL_ERROR TRUE
 
 namespace BatteryTech {
 
@@ -150,6 +151,7 @@ namespace BatteryTech {
 	}
 
 	void Renderer::checkGLError(const char *tag) {
+#ifdef CHECK_GL_ERROR
 		GLenum e = glGetError();
 		// loop to clear the error stack
 		while (e != GL_NO_ERROR) {
@@ -158,6 +160,9 @@ namespace BatteryTech {
 			logmsg(buf);
 			e = glGetError();
 		}
+#else
+		return;
+#endif
 	}
 
 	void Renderer::getUniformStructName(char *out, const char *uniformBaseName, int index, const char *elementName) {

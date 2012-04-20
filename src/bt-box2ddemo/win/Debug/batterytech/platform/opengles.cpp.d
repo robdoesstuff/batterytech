@@ -1,0 +1,22 @@
+Debug\batterytech\platform\opengles.cpp.o: \
+ ..\batterytech\src\batterytech\platform\opengles.cpp \
+ ..\batterytech\src\batterytech\platform\/opengles.h \
+ ..\batterytech\src\batterytech\platform\/../primitives.h \
+ ..\batterytech\src\batterytech\platform\/../platform/win32/win32types.h \
+ ..\batterytech\src\batterytech\platform\/../math/Vector2.h \
+ ..\batterytech\src\batterytech\platform\/../math/Vector3.h \
+ ..\batterytech\src\batterytech\platform\/../math/Vector4.h \
+ ..\batterytech\src\batterytech\platform\/../math/Vector4.h \
+ ..\batterytech\src\batterytech\platform\/../math/Matrix4.h \
+ ..\batterytech\src\batterytech\platform\/../math/Vector3.h \
+ ..\batterytech\src\batterytech\platform\/../math/Matrix3.h \
+ ..\batterytech\src\batterytech\platform\/../math/Matrix4.h \
+ ..\batterytech\src\batterytech\platform\/../math/AABB3.h \
+ ..\batterytech\src\batterytech\platform\/platformgl.h \
+ ..\batterytech\src\batterytech\platform\/win32/glext.h \
+ ..\batterytech\src\batterytech\platform\/win32/wglext.h \
+ ..\batterytech\src\batterytech\platform\/opengles.h \
+ ..\batterytech\src\batterytech\platform\/platformgeneral.h \
+ ..\batterytech\src\batterytech\platform\/../audio/AudioManager.h \
+ ..\batterytech\src/batterytech/primitives.h \
+ ..\batterytech\src\batterytech\platform\/win32/win32general.h

@@ -34,8 +34,8 @@ namespace BatteryTech {
 		mipBlend = FALSE;
 		magFilter = TEX_FILTER_LINEAR;
 		minFilter = TEX_FILTER_LINEAR;
-		repeatX = FALSE;
-		repeatY = FALSE;
+		repeatX = TRUE;
+		repeatY = TRUE;
 	}
 
 	Texture::~Texture() {
@@ -76,7 +76,8 @@ namespace BatteryTech {
 					scaleDown = TRUE;
 				}
 				int bytes = x * y * n * sizeof(unsigned char);
-				unsigned char *data;
+				unsigned char *data = NULL;
+				unsigned short *shortData = NULL;
 				if (FORCE_SQUARE_TEXTURES || scaleDown) {
 					if (FORCE_SQUARE_TEXTURES) {
 						int newX = x;
@@ -122,6 +123,22 @@ namespace BatteryTech {
 						scaleDown = true;
 						data = newData;
 					}
+				} else if (FORCE_16_BIT_RGB_TEXTURES) {
+					if (n == 3) {
+						bytes = x * y * 2;
+						shortData = new unsigned short[bytes/2];
+						for (S32 i = 0; i < x*y; i++) {
+							unsigned char r8 = data[i*3];
+							unsigned char g8 = data[i*3+1];
+							unsigned char b8 = data[i*3+2];
+							shortData[i] = ((unsigned short)(0xF8 & r8) << 8) | ((unsigned short)(0xFC & g8) << 3) | ((unsigned short)(0xF8 & b8) >> 3);
+						}
+						if (scaleDown) {
+							delete [] data;
+						}
+						data = NULL;
+						scaleDown = true;
+					}
 				}
 				if (DEBUG_TEXTURE) {
 					char buf[1024];
@@ -145,13 +162,13 @@ namespace BatteryTech {
 					glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 				}
 				if (minFilter == Texture::TEX_FILTER_NEAREST) {
-					if (mipmap) {
+					if (mipmap && data) {
 						glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
 					} else {
 						glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 					}
 				} else {
-					if (mipmap) {
+					if (mipmap && data) {
 						if (context->gConfig->textureFilter == GraphicsConfiguration::TRILINEAR) {
 							glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 						} else {
@@ -162,11 +179,16 @@ namespace BatteryTech {
 					}
 				}
 				if (n == 3) {
-					glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, x, y, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+					if (FORCE_16_BIT_RGB_TEXTURES) {
+						glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, x, y, 0, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, shortData);
+					} else {
+						glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, x, y, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+					}
 				} else if (n == 4) {
 					glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, x, y, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 				}
-				if (mipmap) {
+				// TODO - we don't currently support mipmapping 16 bit textures - need color conversion
+				if (mipmap && data) {
 					char buf[1024];
 					sprintf(buf, "Mipmapping texture %s", assetName);
 					logmsg(buf);
@@ -192,7 +214,12 @@ namespace BatteryTech {
 				Renderer::checkGLError("Renderer Load Texture");
 				stbi_image_free(dataRaw);
 				if (scaleDown) {
-					delete [] data;
+					if (data) {
+						delete [] data;
+					}
+					if (shortData) {
+						delete [] shortData;
+					}
 				}
 				this->width = x;
 				this->height = y;

@@ -50,6 +50,8 @@ public:
 	void addUniformLoc(const char *name);
 	GLint getVertexAttributeLoc(const char *name);
 	GLint getUniformLoc(const char *name);
+    static int binds;
+    static ShaderProgram* currentProgram;
 protected:
 	/**
 	 * Loads a shader from text source
