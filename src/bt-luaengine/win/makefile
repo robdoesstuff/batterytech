@@ -8,12 +8,9 @@ STATIC_LINKER=$(MINGW_DIR)\bin\ar.exe
 RES_GEN=$(MINGW_DIR)\bin\windres.exe
 RELEASE_DIR=Release
 DEBUG_DIR=Debug
-#OUTPUT_DIR=$(RELEASE_DIR)
 
 RELEASE_FLAGS=-O2 -g0 -DBATTERYTECH_INCLUDE_ASSIMP
 DEBUG_FLAGS=-O0 -g3 -DBATTERYTECH_INCLUDE_ASSIMP
-#BUILD_FLAGS=$(RELEASE_FLAGS)
-#BUILD_DIR=$(RELEASE_DIR)
 
 ifeq (${DEBUG},true)
 	BUILD_FLAGS=$(DEBUG_FLAGS)
@@ -31,7 +28,8 @@ SOURCE_DIR=..\batterytech\src
 CPPFLAGS=-c -Wall -I$(SOURCE_DIR) -I$(APP_SOURCE_DIR) -I$(SOURCE_DIR)\bt-assimp\contrib
 CFLAGS=-c -Wall
 LDFLAGS=-mwindows -static-libgcc -static-libstdc++
-LINKED_LIBS=Resources\resources.o -L$(BUILD_DIR) -lassimp -llua -lbatterytech -lgdi32 -lws2_32 -lopengl32 -lwinmm
+# important - order matters to GCC when one static lib is dep on another, so always do -lbatterytech first!
+LINKED_LIBS=Resources\resources.o -L$(BUILD_DIR) -lbatterytech -lassimp -llua -lgdi32 -lws2_32 -lopengl32 -lwinmm
 ARFLAGS=-r -c -s
 
 
@@ -241,7 +239,7 @@ $(BT_LIB): $(BT_OBJECTS)
 
 $(BT_OBJECTS): $(BUILD_DIR)\\%.o: $(SOURCE_DIR)\\% 
 	$(CXX) $(BUILD_FLAGS) $(CPPFLAGS) -o$@ $<
-	$(CXX) $(BUILD_FLAGS) $(CPPFLAGS) -MM -MF$(@:.o=.d) -MT$@ $<
+	$(CXX) $(BUILD_FLAGS) $(CPPFLAGS) -MM -MF$(@:.o=.d) -MT$@ $< 
 	
 $(BT_OBJECTS): | $(BT_OBJDIRS)
 
@@ -279,7 +277,7 @@ $(ASSIMP_OBJDIRS):
 	-md $(ASSIMP_OBJDIRS)
 
 # Combining all static libs with app+batterytech source
-$(OUTPUT_DIR)\$(APP_EXE): $(BT_LIB) $(LUA_LIB) $(ASSIMP_LIB) $(APP_OBJECTS) Resources\resources.o
+$(OUTPUT_DIR)\$(APP_EXE): $(ASSIMP_LIB) $(LUA_LIB) $(BT_LIB) $(APP_OBJECTS) Resources\resources.o
 	$(CXX) $(LDFLAGS) -o$@ $(APP_OBJECTS) $(LINKED_LIBS)  
 	@echo Build Complete: $(OUTPUT_DIR)\$(APP_EXE)
 	

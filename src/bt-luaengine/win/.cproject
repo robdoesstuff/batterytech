@@ -57,22 +57,6 @@
 							</tool>
 						</toolChain>
 					</folderInfo>
-					<folderInfo id="cdt.managedbuild.config.gnu.mingw.exe.debug.1059803180.848697698" name="/" resourcePath="app-src">
-						<toolChain id="cdt.managedbuild.toolchain.gnu.mingw.exe.debug.1330088567" name="MinGW GCC" superClass="cdt.managedbuild.toolchain.gnu.mingw.exe.debug" unusedChildren="">
-							<tool id="cdt.managedbuild.tool.gnu.assembler.mingw.exe.debug.566631458" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.mingw.exe.debug.1272211581">
-								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1066953573" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
-							</tool>
-							<tool id="cdt.managedbuild.tool.gnu.archiver.mingw.base.1792584657" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.mingw.base.1932900332"/>
-							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.mingw.exe.debug.852905398" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.mingw.exe.debug.1397330756">
-								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.2030530176" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
-							</tool>
-							<tool id="cdt.managedbuild.tool.gnu.c.compiler.mingw.exe.debug.1674231631" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.mingw.exe.debug.941617358">
-								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.2050220369" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
-							</tool>
-							<tool id="cdt.managedbuild.tool.gnu.c.linker.mingw.exe.debug.933531212" name="MinGW C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.mingw.exe.debug.929383268"/>
-							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.mingw.exe.debug.336624595" name="MinGW C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.mingw.exe.debug.718649349"/>
-						</toolChain>
-					</folderInfo>
 					<sourceEntries>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="bt-src"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="app-src"/>
@@ -682,7 +666,7 @@
 					<folderInfo id="cdt.managedbuild.config.gnu.mingw.exe.release.1668778329." name="/" resourcePath="">
 						<toolChain id="cdt.managedbuild.toolchain.gnu.mingw.exe.release.1273594072" name="MinGW GCC" superClass="cdt.managedbuild.toolchain.gnu.mingw.exe.release">
 							<targetPlatform id="cdt.managedbuild.target.gnu.platform.mingw.exe.release.585685540" name="Debug Platform" superClass="cdt.managedbuild.target.gnu.platform.mingw.exe.release"/>
-							<builder cleanBuildTarget="cleandebug" command="make" id="cdt.managedbuild.target.gnu.builder.base.861334966" incrementalBuildTarget="DEBUG=true all" managedBuildOn="false" parallelBuildOn="true" parallelizationNumber="8" superClass="cdt.managedbuild.target.gnu.builder.base"/>
+							<builder cleanBuildTarget="cleanrelease" command="mingw32-make" id="cdt.managedbuild.target.gnu.builder.base.861334966" incrementalBuildTarget="all" keepEnvironmentInBuildfile="false" managedBuildOn="false" name="Gnu Make Builder" parallelBuildOn="true" parallelizationNumber="8" superClass="cdt.managedbuild.target.gnu.builder.base"/>
 							<tool id="cdt.managedbuild.tool.gnu.assembler.mingw.exe.release.1339772401" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.mingw.exe.release">
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1453843593" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
