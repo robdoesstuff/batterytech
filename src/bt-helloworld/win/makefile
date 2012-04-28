@@ -112,7 +112,8 @@ BT_LIB=$(BUILD_DIR)\libbatterytech.a
 APP_SOURCES=\
 	AppContext.cpp \
 	HelloWorldApp.cpp \
-	RenderUtil.cpp
+	RenderUtil.cpp \
+	WinHooks.cpp
 	
 	
 APP_OBJECTS=$(addprefix $(BUILD_DIR)\, $(addsuffix .o,$(APP_SOURCES)))

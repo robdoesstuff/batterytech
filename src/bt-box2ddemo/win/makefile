@@ -179,7 +179,8 @@ APP_SOURCES=\
 	menus\SettingsMenu.cpp \
 	menus\MenuButtonMenu.cpp \
 	menus\SoundcheckMenu.cpp \
-	menus\TopMenu.cpp
+	menus\TopMenu.cpp \
+	WinHooks.cpp
 	
 APP_OBJECTS=$(addprefix $(BUILD_DIR)\, $(addsuffix .o,$(APP_SOURCES)))
 APP_DEPS=$(APP_OBJECTS:.o=.d)
