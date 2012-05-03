@@ -14,7 +14,7 @@
 // Description : BatteryTech's view for Android 2.0+ - capable of OpenGL ES 1.0/1.1 and 2.0
 //============================================================================
 
-package com.batterypoweredgames.demoapp;
+package com.batterypoweredgames.batterytech;
 
 import javax.microedition.khronos.egl.EGL10;
 import javax.microedition.khronos.egl.EGLConfig;
@@ -38,7 +38,7 @@ import android.util.Log;
  * @author rgreen
  *
  */
-public class DemoAppView20 extends GLSurfaceView implements DemoAppView {
+public class BatteryTechView20 extends GLSurfaceView implements BatteryTechView {
 	private static final String TAG = "DemoAppView";
 	
 	// Set to false if you only want GLES 1.0/1.1 rendering
@@ -49,20 +49,20 @@ public class DemoAppView20 extends GLSurfaceView implements DemoAppView {
 	private static final int STENCIL = 0;
 	private static final boolean USE_TRUE_COLOR = false;
 
-	private DemoAppRenderer renderer;
+	private BatteryTechRenderer renderer;
 
-	public DemoAppView20(Activity activity) {
+	public BatteryTechView20(BatteryTechActivity activity) {
 		super(activity);
 		boolean usingGLES2 = false;
+		if (USE_TRUE_COLOR) {
+			getHolder().setFormat(PixelFormat.TRANSLUCENT);
+			//setEGLConfigChooser(new TrueColorEGLConfigChooser(DEPTH, STENCIL));
+		}
 		if (SUPPORT_GLES2 && checkGL20Support(activity)) {
 			initGLES2(USE_TRUE_COLOR, DEPTH, STENCIL);
 			usingGLES2 = true;
 		}
-		if (USE_TRUE_COLOR) {
-			getHolder().setFormat(PixelFormat.TRANSLUCENT);
-			setEGLConfigChooser(new TrueColorEGLConfigChooser(DEPTH, STENCIL));
-		}
-		renderer = new DemoAppRenderer(activity, this, usingGLES2);
+		renderer = new BatteryTechRenderer(activity, this, usingGLES2);
 		setRenderer(renderer);
 		setRenderMode(RENDERMODE_CONTINUOUSLY);
 	}
@@ -70,7 +70,7 @@ public class DemoAppView20 extends GLSurfaceView implements DemoAppView {
 	/* (non-Javadoc)
 	 * @see com.batterypoweredgames.demoapp.DemoAppView#getRenderer()
 	 */
-	public DemoAppRenderer getRenderer() {
+	public BatteryTechRenderer getRenderer() {
 		return renderer;
 	}
 	

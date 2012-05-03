@@ -14,11 +14,11 @@
 // Description : An implementation of this will be the main view of BatteryTech
 //============================================================================
 
-package com.batterypoweredgames.demoapp;
+package com.batterypoweredgames.batterytech;
 
-public interface DemoAppView {
+public interface BatteryTechView {
 
-	public abstract DemoAppRenderer getRenderer();
+	public abstract BatteryTechRenderer getRenderer();
 
 	public abstract void onPause();
 

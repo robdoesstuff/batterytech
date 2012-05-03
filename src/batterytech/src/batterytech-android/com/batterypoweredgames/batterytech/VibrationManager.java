@@ -14,7 +14,7 @@
 // Description : Generic Vibration Manager.
 // Usage       : Implement your own vibration patterns for Android here.
 //============================================================================
-package com.batterypoweredgames.demoapp;
+package com.batterypoweredgames.batterytech;
 
 import android.content.Context;
 import android.os.Vibrator;

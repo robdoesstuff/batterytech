@@ -22,9 +22,6 @@ package com.batterypoweredgames.batterytech;
 import java.io.IOException;
 import java.io.InputStream;
 
-import com.batterypoweredgames.demoapp.VibrationManager;
-
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.os.Environment;
@@ -35,18 +32,18 @@ import android.view.inputmethod.InputMethodManager;
 public class Boot {
 	private static final String TAG = "Boot";
 
-	private Activity activity;
+	private BatteryTechActivity activity;
 	private AudioWrapper audioWrapper;
 	private View view;
 	private AudioBridge audioBridge;
 	private VibrationManager vibrationManager;
 	public boolean audioTrackStartedViaNative;
 
-	public Boot(Activity activity, View view) {
+	public Boot(BatteryTechActivity activity, View view) {
 		this.activity = activity;
 		this.view = view;
 		audioTrackStartedViaNative = false;
-		vibrationManager = new VibrationManager(activity);
+		vibrationManager = activity.createVibrationManager();
 	}
 
 	public void setAudioBridge(AudioBridge audioBridge) {
@@ -255,15 +252,21 @@ public class Boot {
 	}
 
 	public void showAd() {
-		// integrate with your android ad provider here
+		if (activity.getHookHandler() != null) {
+			activity.getHookHandler().showAd();
+		}
 	}
 
 	public void hideAd() {
-		// integrate with your android ad provider here
+		if (activity.getHookHandler() != null) {
+			activity.getHookHandler().hideAd();
+		}
 	}
 	
 	public String hook(String hook) {
-		// handle any custom hooks for Android here
+		if (activity.getHookHandler() != null) {
+			return activity.getHookHandler().hook(hook);
+		}
 		return "";
 	}
 

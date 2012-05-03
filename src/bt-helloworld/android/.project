@@ -57,5 +57,10 @@
 			<type>2</type>
 			<locationURI>WORKSPACE_LOC/bt-helloworld/assets</locationURI>
 		</link>
+		<link>
+			<name>batterytech-android</name>
+			<type>2</type>
+			<locationURI>WORKSPACE_LOC/batterytech/src/batterytech-android</locationURI>
+		</link>
 	</linkedResources>
 </projectDescription>

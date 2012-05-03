@@ -14,7 +14,7 @@
 // Description : The BatteryTech renderer for Android
 //============================================================================
 
-package com.batterypoweredgames.demoapp;
+package com.batterypoweredgames.batterytech;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -35,11 +35,11 @@ import com.batterypoweredgames.batterytech.Boot;
 import com.batterypoweredgames.input.InputHandler;
 import com.batterypoweredgames.input.InputObject;
 
-public class DemoAppRenderer implements Renderer, InputHandler, SensorEventListener {
+public class BatteryTechRenderer implements Renderer, InputHandler, SensorEventListener {
 	private static final String TAG = "DemoAppRenderer";
 	
 	static {
-		System.loadLibrary(DemoAppActivity.APP_LIB_NAME);
+		System.loadLibrary(BatteryTechActivity.APP_LIB_NAME);
 	}
 
 	private Activity activity;
@@ -53,7 +53,7 @@ public class DemoAppRenderer implements Renderer, InputHandler, SensorEventListe
 	private boolean usingGLES2 = false;
 	int screenRotation;
 
-	public DemoAppRenderer(Activity activity, View view, boolean usingGLES2) {
+	public BatteryTechRenderer(BatteryTechActivity activity, View view, boolean usingGLES2) {
 		this.activity = activity;
 		this.view = view;
 		this.usingGLES2 = usingGLES2;

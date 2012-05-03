@@ -14,7 +14,7 @@
 // Description : BatteryTech's view for Android 1.6 - only capable of OpenGL ES 1.0/1.1
 //============================================================================
 
-package com.batterypoweredgames.demoapp;
+package com.batterypoweredgames.batterytech;
 
 import com.batterypoweredgames.batterytech.TrueColorEGLConfigChooser;
 
@@ -29,25 +29,25 @@ import android.opengl.GLSurfaceView;
  * 
  * @author rgreen
  *
- */public class DemoAppView16 extends GLSurfaceView implements DemoAppView {
-	private DemoAppRenderer renderer;
+ */public class BatteryTechView16 extends GLSurfaceView implements BatteryTechView {
+	private BatteryTechRenderer renderer;
 
 	private static final int DEPTH = 16;
 	private static final int STENCIL = 0;
 	private static final boolean USE_TRUE_COLOR = false;
 
-	public DemoAppView16(Activity activity) {
+	public BatteryTechView16(BatteryTechActivity activity) {
 		super(activity);
 		if (USE_TRUE_COLOR) {
 			getHolder().setFormat(PixelFormat.TRANSLUCENT);
 			setEGLConfigChooser(new TrueColorEGLConfigChooser(DEPTH, STENCIL));
 		}
-		renderer = new DemoAppRenderer(activity, this, false);
+		renderer = new BatteryTechRenderer(activity, this, false);
 		setRenderer(renderer);
 		setRenderMode(RENDERMODE_CONTINUOUSLY);
 	}
 	
-	public DemoAppRenderer getRenderer() {
+	public BatteryTechRenderer getRenderer() {
 		return renderer;
 	}
 	
