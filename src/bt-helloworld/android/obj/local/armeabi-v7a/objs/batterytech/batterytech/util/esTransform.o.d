@@ -1,8 +1,8 @@
 obj/local/armeabi-v7a/objs/batterytech/batterytech/util/esTransform.o: \
- jni/../../batterytech/src/batterytech/util/esTransform.cpp \
- jni/../../batterytech/src/batterytech/util/esTransform.h \
- jni/../../batterytech/src/batterytech/util/../platform/platformgl.h \
- jni/../../batterytech/src/batterytech/util/../platform/android/importgl.h \
+ ../batterytech/src/batterytech/util/esTransform.cpp \
+ ../batterytech/src/batterytech/util/esTransform.h \
+ ../batterytech/src/batterytech/util/../platform/platformgl.h \
+ ../batterytech/src/batterytech/util/../platform/android/importgl.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/GLES/gl.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/GLES/glplatform.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/KHR/khrplatform.h \
@@ -13,9 +13,9 @@ obj/local/armeabi-v7a/objs/batterytech/batterytech/util/esTransform.o: \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/GLES2/gl2.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/GLES2/gl2platform.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/GLES2/gl2ext.h \
- jni/../../batterytech/src/batterytech/util/../platform/opengles.h \
- jni/../../batterytech/src/batterytech/util/../platform/../primitives.h \
- jni/../../batterytech/src/batterytech/util/../platform/../platform/android/androidtypes.h \
+ ../batterytech/src/batterytech/util/../platform/opengles.h \
+ ../batterytech/src/batterytech/util/../platform/../primitives.h \
+ ../batterytech/src/batterytech/util/../platform/../platform/android/androidtypes.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/Math.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/sys/cdefs.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/sys/cdefs_elf.h \
@@ -41,23 +41,23 @@ obj/local/armeabi-v7a/objs/batterytech/batterytech/util/esTransform.o: \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/alloca.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/strings.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/memory.h \
- jni/../../batterytech/src/batterytech/util/../platform/../math/Vector2.h \
+ ../batterytech/src/batterytech/util/../platform/../math/Vector2.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/math.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/assert.h \
- jni/../../batterytech/src/batterytech/util/../platform/../math/Vector3.h \
- jni/../../batterytech/src/batterytech/util/../platform/../math/Vector4.h \
- jni/../../batterytech/src/batterytech/util/../platform/../math/Vector4.h \
- jni/../../batterytech/src/batterytech/util/../platform/../math/Matrix4.h \
- jni/../../batterytech/src/batterytech/util/../platform/../math/Vector3.h \
- jni/../../batterytech/src/batterytech/util/../platform/../math/Matrix3.h \
- jni/../../batterytech/src/batterytech/util/../platform/../math/Matrix4.h \
- jni/../../batterytech/src/batterytech/util/../platform/../math/AABB3.h
+ ../batterytech/src/batterytech/util/../platform/../math/Vector3.h \
+ ../batterytech/src/batterytech/util/../platform/../math/Vector4.h \
+ ../batterytech/src/batterytech/util/../platform/../math/Vector4.h \
+ ../batterytech/src/batterytech/util/../platform/../math/Matrix4.h \
+ ../batterytech/src/batterytech/util/../platform/../math/Vector3.h \
+ ../batterytech/src/batterytech/util/../platform/../math/Matrix3.h \
+ ../batterytech/src/batterytech/util/../platform/../math/Matrix4.h \
+ ../batterytech/src/batterytech/util/../platform/../math/AABB3.h
 
-jni/../../batterytech/src/batterytech/util/esTransform.h:
+../batterytech/src/batterytech/util/esTransform.h:
 
-jni/../../batterytech/src/batterytech/util/../platform/platformgl.h:
+../batterytech/src/batterytech/util/../platform/platformgl.h:
 
-jni/../../batterytech/src/batterytech/util/../platform/android/importgl.h:
+../batterytech/src/batterytech/util/../platform/android/importgl.h:
 
 /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/GLES/gl.h:
 
@@ -79,11 +79,11 @@ jni/../../batterytech/src/batterytech/util/../platform/android/importgl.h:
 
 /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/GLES2/gl2ext.h:
 
-jni/../../batterytech/src/batterytech/util/../platform/opengles.h:
+../batterytech/src/batterytech/util/../platform/opengles.h:
 
-jni/../../batterytech/src/batterytech/util/../platform/../primitives.h:
+../batterytech/src/batterytech/util/../platform/../primitives.h:
 
-jni/../../batterytech/src/batterytech/util/../platform/../platform/android/androidtypes.h:
+../batterytech/src/batterytech/util/../platform/../platform/android/androidtypes.h:
 
 /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/Math.h:
 
@@ -135,24 +135,24 @@ jni/../../batterytech/src/batterytech/util/../platform/../platform/android/andro
 
 /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/memory.h:
 
-jni/../../batterytech/src/batterytech/util/../platform/../math/Vector2.h:
+../batterytech/src/batterytech/util/../platform/../math/Vector2.h:
 
 /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/math.h:
 
 /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/assert.h:
 
-jni/../../batterytech/src/batterytech/util/../platform/../math/Vector3.h:
+../batterytech/src/batterytech/util/../platform/../math/Vector3.h:
 
-jni/../../batterytech/src/batterytech/util/../platform/../math/Vector4.h:
+../batterytech/src/batterytech/util/../platform/../math/Vector4.h:
 
-jni/../../batterytech/src/batterytech/util/../platform/../math/Vector4.h:
+../batterytech/src/batterytech/util/../platform/../math/Vector4.h:
 
-jni/../../batterytech/src/batterytech/util/../platform/../math/Matrix4.h:
+../batterytech/src/batterytech/util/../platform/../math/Matrix4.h:
 
-jni/../../batterytech/src/batterytech/util/../platform/../math/Vector3.h:
+../batterytech/src/batterytech/util/../platform/../math/Vector3.h:
 
-jni/../../batterytech/src/batterytech/util/../platform/../math/Matrix3.h:
+../batterytech/src/batterytech/util/../platform/../math/Matrix3.h:
 
-jni/../../batterytech/src/batterytech/util/../platform/../math/Matrix4.h:
+../batterytech/src/batterytech/util/../platform/../math/Matrix4.h:
 
-jni/../../batterytech/src/batterytech/util/../platform/../math/AABB3.h:
+../batterytech/src/batterytech/util/../platform/../math/AABB3.h:

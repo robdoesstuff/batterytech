@@ -1,9 +1,9 @@
 obj/local/armeabi/objs/batterytech/batterytech/util/Property.o: \
- jni/../../batterytech/src/batterytech/util/Property.cpp \
- jni/../../batterytech/src/batterytech/util/Property.h \
- jni/../../batterytech/src/batterytech/util/strx.h \
- jni/../../batterytech/src/batterytech/util/../primitives.h \
- jni/../../batterytech/src/batterytech/util/../platform/android/androidtypes.h \
+ ../batterytech/src/batterytech/util/Property.cpp \
+ ../batterytech/src/batterytech/util/Property.h \
+ ../batterytech/src/batterytech/util/strx.h \
+ ../batterytech/src/batterytech/util/../primitives.h \
+ ../batterytech/src/batterytech/util/../platform/android/androidtypes.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/stdlib.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/sys/cdefs.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/sys/cdefs_elf.h \
@@ -26,13 +26,13 @@ obj/local/armeabi/objs/batterytech/batterytech/util/Property.o: \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/sys/sysmacros.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/memory.h
 
-jni/../../batterytech/src/batterytech/util/Property.h:
+../batterytech/src/batterytech/util/Property.h:
 
-jni/../../batterytech/src/batterytech/util/strx.h:
+../batterytech/src/batterytech/util/strx.h:
 
-jni/../../batterytech/src/batterytech/util/../primitives.h:
+../batterytech/src/batterytech/util/../primitives.h:
 
-jni/../../batterytech/src/batterytech/util/../platform/android/androidtypes.h:
+../batterytech/src/batterytech/util/../platform/android/androidtypes.h:
 
 /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/stdlib.h:
 

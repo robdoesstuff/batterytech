@@ -10,12 +10,12 @@
 #include "../../platform/platformgeneral.h"
 #include "../../Logger.h"
 #include <stdio.h>
-#include "../../../bt-assimp/include/aiPostProcess.h"
-#include "BTIOSystem.h"
-
 #ifdef BATTERYTECH_INCLUDE_ASSIMP
 
 using namespace Assimp;
+#include "../../../bt-assimp/include/aiPostProcess.h"
+#include "BTIOSystem.h"
+
 
 namespace BatteryTech {
 

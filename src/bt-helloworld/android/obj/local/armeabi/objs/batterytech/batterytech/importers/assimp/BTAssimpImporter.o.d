@@ -1,13 +1,13 @@
 obj/local/armeabi/objs/batterytech/batterytech/importers/assimp/BTAssimpImporter.o: \
- jni/../../batterytech/src/batterytech/importers/assimp/BTAssimpImporter.cpp \
- jni/../../batterytech/src/batterytech/importers/assimp/BTAssimpImporter.h \
- jni/../../batterytech/src/batterytech/importers/assimp/../../primitives.h \
- jni/../../batterytech/src/batterytech/importers/assimp/../../platform/android/androidtypes.h \
- jni/../../batterytech/src/batterytech/importers/assimp/../../platform/platformgeneral.h \
- jni/../../batterytech/src/batterytech/importers/assimp/../../platform/../audio/AudioManager.h \
- jni/../../batterytech/src/batterytech/primitives.h \
- jni/../../batterytech/src/batterytech/importers/assimp/../../platform/../primitives.h \
- jni/../../batterytech/src/batterytech/importers/assimp/../../platform/android/androidgeneral.h \
+ ../batterytech/src/batterytech/importers/assimp/BTAssimpImporter.cpp \
+ ../batterytech/src/batterytech/importers/assimp/BTAssimpImporter.h \
+ ../batterytech/src/batterytech/importers/assimp/../../primitives.h \
+ ../batterytech/src/batterytech/importers/assimp/../../platform/android/androidtypes.h \
+ ../batterytech/src/batterytech/importers/assimp/../../platform/platformgeneral.h \
+ ../batterytech/src/batterytech/importers/assimp/../../platform/../audio/AudioManager.h \
+ ../batterytech/src/batterytech/primitives.h \
+ ../batterytech/src/batterytech/importers/assimp/../../platform/../primitives.h \
+ ../batterytech/src/batterytech/importers/assimp/../../platform/android/androidgeneral.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/sys/types.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/stdint.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/sys/_types.h \
@@ -66,24 +66,24 @@ obj/local/armeabi/objs/batterytech/batterytech/importers/assimp/BTAssimpImporter
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/linux/ipv6.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/netinet/in6.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/arpa/inet.h \
- jni/../../batterytech/src/batterytech/importers/assimp/../../Logger.h \
+ ../batterytech/src/batterytech/importers/assimp/../../Logger.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/stdio.h
 
-jni/../../batterytech/src/batterytech/importers/assimp/BTAssimpImporter.h:
+../batterytech/src/batterytech/importers/assimp/BTAssimpImporter.h:
 
-jni/../../batterytech/src/batterytech/importers/assimp/../../primitives.h:
+../batterytech/src/batterytech/importers/assimp/../../primitives.h:
 
-jni/../../batterytech/src/batterytech/importers/assimp/../../platform/android/androidtypes.h:
+../batterytech/src/batterytech/importers/assimp/../../platform/android/androidtypes.h:
 
-jni/../../batterytech/src/batterytech/importers/assimp/../../platform/platformgeneral.h:
+../batterytech/src/batterytech/importers/assimp/../../platform/platformgeneral.h:
 
-jni/../../batterytech/src/batterytech/importers/assimp/../../platform/../audio/AudioManager.h:
+../batterytech/src/batterytech/importers/assimp/../../platform/../audio/AudioManager.h:
 
-jni/../../batterytech/src/batterytech/primitives.h:
+../batterytech/src/batterytech/primitives.h:
 
-jni/../../batterytech/src/batterytech/importers/assimp/../../platform/../primitives.h:
+../batterytech/src/batterytech/importers/assimp/../../platform/../primitives.h:
 
-jni/../../batterytech/src/batterytech/importers/assimp/../../platform/android/androidgeneral.h:
+../batterytech/src/batterytech/importers/assimp/../../platform/android/androidgeneral.h:
 
 /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/sys/types.h:
 
@@ -201,6 +201,6 @@ jni/../../batterytech/src/batterytech/importers/assimp/../../platform/android/an
 
 /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/arpa/inet.h:
 
-jni/../../batterytech/src/batterytech/importers/assimp/../../Logger.h:
+../batterytech/src/batterytech/importers/assimp/../../Logger.h:
 
 /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/stdio.h:

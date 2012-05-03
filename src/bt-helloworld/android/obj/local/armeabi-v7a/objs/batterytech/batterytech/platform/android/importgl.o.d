@@ -1,6 +1,6 @@
 obj/local/armeabi-v7a/objs/batterytech/batterytech/platform/android/importgl.o: \
- jni/../../batterytech/src/batterytech/platform/android/importgl.cpp \
- jni/../../batterytech/src/batterytech/platform/android/importgl.h \
+ ../batterytech/src/batterytech/platform/android/importgl.cpp \
+ ../batterytech/src/batterytech/platform/android/importgl.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/GLES/gl.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/GLES/glplatform.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/KHR/khrplatform.h \
@@ -31,7 +31,7 @@ obj/local/armeabi-v7a/objs/batterytech/batterytech/platform/android/importgl.o: 
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/memory.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/dlfcn.h
 
-jni/../../batterytech/src/batterytech/platform/android/importgl.h:
+../batterytech/src/batterytech/platform/android/importgl.h:
 
 /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/GLES/gl.h:
 

@@ -1,16 +1,16 @@
 obj/local/armeabi-v7a/objs/batterytech/batterytech/audio/PCMAudioManager.o: \
- jni/../../batterytech/src/batterytech/audio/PCMAudioManager.cpp \
- jni/../../batterytech/src/batterytech/audio/PCMAudioManager.h \
- jni/../../batterytech/src/batterytech/audio/../primitives.h \
- jni/../../batterytech/src/batterytech/audio/../platform/android/androidtypes.h \
- jni/../../batterytech/src/batterytech/audio/PCMSound.h \
- jni/../../batterytech/src/batterytech/audio/PCMStream.h \
- jni/../../batterytech/src/batterytech/audio/../batterytech_globals.h \
- jni/../../batterytech/src/batterytech/audio/../primitives.h \
- jni/../../batterytech/src/batterytech/audio/../util/ManagedArray.h \
- jni/../../batterytech/src/batterytech/audio/../util/../primitives.h \
- jni/../../batterytech/src/batterytech/audio/../Logger.h \
- jni/../../batterytech/src/batterytech/audio/../decoders/stb_vorbis.h \
+ ../batterytech/src/batterytech/audio/PCMAudioManager.cpp \
+ ../batterytech/src/batterytech/audio/PCMAudioManager.h \
+ ../batterytech/src/batterytech/audio/../primitives.h \
+ ../batterytech/src/batterytech/audio/../platform/android/androidtypes.h \
+ ../batterytech/src/batterytech/audio/PCMSound.h \
+ ../batterytech/src/batterytech/audio/PCMStream.h \
+ ../batterytech/src/batterytech/audio/../batterytech_globals.h \
+ ../batterytech/src/batterytech/audio/../primitives.h \
+ ../batterytech/src/batterytech/audio/../util/ManagedArray.h \
+ ../batterytech/src/batterytech/audio/../util/../primitives.h \
+ ../batterytech/src/batterytech/audio/../Logger.h \
+ ../batterytech/src/batterytech/audio/../decoders/stb_vorbis.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/stdio.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/sys/cdefs.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/sys/cdefs_elf.h \
@@ -27,11 +27,11 @@ obj/local/armeabi-v7a/objs/batterytech/batterytech/audio/PCMAudioManager.o: \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/linux/types.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/machine/kernel.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/sys/sysmacros.h \
- jni/../../batterytech/src/batterytech/audio/../platform/platformgeneral.h \
- jni/../../batterytech/src/batterytech/audio/../platform/../audio/AudioManager.h \
- jni/../../batterytech/src/batterytech/primitives.h \
- jni/../../batterytech/src/batterytech/audio/../platform/../primitives.h \
- jni/../../batterytech/src/batterytech/audio/../platform/android/androidgeneral.h \
+ ../batterytech/src/batterytech/audio/../platform/platformgeneral.h \
+ ../batterytech/src/batterytech/audio/../platform/../audio/AudioManager.h \
+ ../batterytech/src/batterytech/primitives.h \
+ ../batterytech/src/batterytech/audio/../platform/../primitives.h \
+ ../batterytech/src/batterytech/audio/../platform/android/androidgeneral.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/sys/socket.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/linux/socket.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/asm/socket.h \
@@ -77,27 +77,27 @@ obj/local/armeabi-v7a/objs/batterytech/batterytech/audio/PCMAudioManager.o: \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/arpa/inet.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/assert.h
 
-jni/../../batterytech/src/batterytech/audio/PCMAudioManager.h:
+../batterytech/src/batterytech/audio/PCMAudioManager.h:
 
-jni/../../batterytech/src/batterytech/audio/../primitives.h:
+../batterytech/src/batterytech/audio/../primitives.h:
 
-jni/../../batterytech/src/batterytech/audio/../platform/android/androidtypes.h:
+../batterytech/src/batterytech/audio/../platform/android/androidtypes.h:
 
-jni/../../batterytech/src/batterytech/audio/PCMSound.h:
+../batterytech/src/batterytech/audio/PCMSound.h:
 
-jni/../../batterytech/src/batterytech/audio/PCMStream.h:
+../batterytech/src/batterytech/audio/PCMStream.h:
 
-jni/../../batterytech/src/batterytech/audio/../batterytech_globals.h:
+../batterytech/src/batterytech/audio/../batterytech_globals.h:
 
-jni/../../batterytech/src/batterytech/audio/../primitives.h:
+../batterytech/src/batterytech/audio/../primitives.h:
 
-jni/../../batterytech/src/batterytech/audio/../util/ManagedArray.h:
+../batterytech/src/batterytech/audio/../util/ManagedArray.h:
 
-jni/../../batterytech/src/batterytech/audio/../util/../primitives.h:
+../batterytech/src/batterytech/audio/../util/../primitives.h:
 
-jni/../../batterytech/src/batterytech/audio/../Logger.h:
+../batterytech/src/batterytech/audio/../Logger.h:
 
-jni/../../batterytech/src/batterytech/audio/../decoders/stb_vorbis.h:
+../batterytech/src/batterytech/audio/../decoders/stb_vorbis.h:
 
 /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/stdio.h:
 
@@ -131,15 +131,15 @@ jni/../../batterytech/src/batterytech/audio/../decoders/stb_vorbis.h:
 
 /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/sys/sysmacros.h:
 
-jni/../../batterytech/src/batterytech/audio/../platform/platformgeneral.h:
+../batterytech/src/batterytech/audio/../platform/platformgeneral.h:
 
-jni/../../batterytech/src/batterytech/audio/../platform/../audio/AudioManager.h:
+../batterytech/src/batterytech/audio/../platform/../audio/AudioManager.h:
 
-jni/../../batterytech/src/batterytech/primitives.h:
+../batterytech/src/batterytech/primitives.h:
 
-jni/../../batterytech/src/batterytech/audio/../platform/../primitives.h:
+../batterytech/src/batterytech/audio/../platform/../primitives.h:
 
-jni/../../batterytech/src/batterytech/audio/../platform/android/androidgeneral.h:
+../batterytech/src/batterytech/audio/../platform/android/androidgeneral.h:
 
 /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/sys/socket.h:
 

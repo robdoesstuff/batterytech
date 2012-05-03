@@ -1,12 +1,12 @@
 obj/local/armeabi/objs/batterytech/batterytech/network/NetworkManager.o: \
- jni/../../batterytech/src/batterytech/network/NetworkManager.cpp \
- jni/../../batterytech/src/batterytech/network/NetworkManager.h \
- jni/../../batterytech/src/batterytech/platform/platformgeneral.h \
- jni/../../batterytech/src/batterytech/platform/../audio/AudioManager.h \
- jni/../../batterytech/src/batterytech/primitives.h \
- jni/../../batterytech/src/batterytech/platform/android/androidtypes.h \
- jni/../../batterytech/src/batterytech/platform/../primitives.h \
- jni/../../batterytech/src/batterytech/platform/android/androidgeneral.h \
+ ../batterytech/src/batterytech/network/NetworkManager.cpp \
+ ../batterytech/src/batterytech/network/NetworkManager.h \
+ ../batterytech/src/batterytech/platform/platformgeneral.h \
+ ../batterytech/src/batterytech/platform/../audio/AudioManager.h \
+ ../batterytech/src/batterytech/primitives.h \
+ ../batterytech/src/batterytech/platform/android/androidtypes.h \
+ ../batterytech/src/batterytech/platform/../primitives.h \
+ ../batterytech/src/batterytech/platform/android/androidgeneral.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/sys/types.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/stdint.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/sys/_types.h \
@@ -65,9 +65,9 @@ obj/local/armeabi/objs/batterytech/batterytech/network/NetworkManager.o: \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/linux/ipv6.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/netinet/in6.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/arpa/inet.h \
- jni/../../batterytech/src/batterytech/util/ManagedArray.h \
- jni/../../batterytech/src/batterytech/util/../primitives.h \
- jni/../../batterytech/src/batterytech/network/NetworkStatusListener.h \
+ ../batterytech/src/batterytech/util/ManagedArray.h \
+ ../batterytech/src/batterytech/util/../primitives.h \
+ ../batterytech/src/batterytech/network/NetworkStatusListener.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/errno.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/linux/errno.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/asm/errno.h \
@@ -78,31 +78,31 @@ obj/local/armeabi/objs/batterytech/batterytech/network/NetworkManager.o: \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/alloca.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/strings.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/memory.h \
- jni/../../batterytech/src/batterytech/Logger.h \
- jni/../../batterytech/src/batterytech/network/GameConnection.h \
- jni/../../batterytech/src/batterytech/network/NetworkMessage.h \
- jni/../../batterytech/src/batterytech/network/NetworkMessageListener.h \
- jni/../../batterytech/src/batterytech/Context.h \
- jni/../../batterytech/src/batterytech/primitives.h \
- jni/../../batterytech/src/batterytech/util/HashTable.h \
- jni/../../batterytech/src/batterytech/util/ManagedArray.h \
- jni/../../batterytech/src/batterytech/util/Property.h \
- jni/../../batterytech/src/batterytech/batterytech_entrypoints.h \
- jni/../../batterytech/src/batterytech/network/NetworkMessageFactory.h
+ ../batterytech/src/batterytech/Logger.h \
+ ../batterytech/src/batterytech/network/GameConnection.h \
+ ../batterytech/src/batterytech/network/NetworkMessage.h \
+ ../batterytech/src/batterytech/network/NetworkMessageListener.h \
+ ../batterytech/src/batterytech/Context.h \
+ ../batterytech/src/batterytech/primitives.h \
+ ../batterytech/src/batterytech/util/HashTable.h \
+ ../batterytech/src/batterytech/util/ManagedArray.h \
+ ../batterytech/src/batterytech/util/Property.h \
+ ../batterytech/src/batterytech/batterytech_entrypoints.h \
+ ../batterytech/src/batterytech/network/NetworkMessageFactory.h
 
-jni/../../batterytech/src/batterytech/network/NetworkManager.h:
+../batterytech/src/batterytech/network/NetworkManager.h:
 
-jni/../../batterytech/src/batterytech/platform/platformgeneral.h:
+../batterytech/src/batterytech/platform/platformgeneral.h:
 
-jni/../../batterytech/src/batterytech/platform/../audio/AudioManager.h:
+../batterytech/src/batterytech/platform/../audio/AudioManager.h:
 
-jni/../../batterytech/src/batterytech/primitives.h:
+../batterytech/src/batterytech/primitives.h:
 
-jni/../../batterytech/src/batterytech/platform/android/androidtypes.h:
+../batterytech/src/batterytech/platform/android/androidtypes.h:
 
-jni/../../batterytech/src/batterytech/platform/../primitives.h:
+../batterytech/src/batterytech/platform/../primitives.h:
 
-jni/../../batterytech/src/batterytech/platform/android/androidgeneral.h:
+../batterytech/src/batterytech/platform/android/androidgeneral.h:
 
 /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/sys/types.h:
 
@@ -220,11 +220,11 @@ jni/../../batterytech/src/batterytech/platform/android/androidgeneral.h:
 
 /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/arpa/inet.h:
 
-jni/../../batterytech/src/batterytech/util/ManagedArray.h:
+../batterytech/src/batterytech/util/ManagedArray.h:
 
-jni/../../batterytech/src/batterytech/util/../primitives.h:
+../batterytech/src/batterytech/util/../primitives.h:
 
-jni/../../batterytech/src/batterytech/network/NetworkStatusListener.h:
+../batterytech/src/batterytech/network/NetworkStatusListener.h:
 
 /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/errno.h:
 
@@ -246,24 +246,24 @@ jni/../../batterytech/src/batterytech/network/NetworkStatusListener.h:
 
 /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/memory.h:
 
-jni/../../batterytech/src/batterytech/Logger.h:
+../batterytech/src/batterytech/Logger.h:
 
-jni/../../batterytech/src/batterytech/network/GameConnection.h:
+../batterytech/src/batterytech/network/GameConnection.h:
 
-jni/../../batterytech/src/batterytech/network/NetworkMessage.h:
+../batterytech/src/batterytech/network/NetworkMessage.h:
 
-jni/../../batterytech/src/batterytech/network/NetworkMessageListener.h:
+../batterytech/src/batterytech/network/NetworkMessageListener.h:
 
-jni/../../batterytech/src/batterytech/Context.h:
+../batterytech/src/batterytech/Context.h:
 
-jni/../../batterytech/src/batterytech/primitives.h:
+../batterytech/src/batterytech/primitives.h:
 
-jni/../../batterytech/src/batterytech/util/HashTable.h:
+../batterytech/src/batterytech/util/HashTable.h:
 
-jni/../../batterytech/src/batterytech/util/ManagedArray.h:
+../batterytech/src/batterytech/util/ManagedArray.h:
 
-jni/../../batterytech/src/batterytech/util/Property.h:
+../batterytech/src/batterytech/util/Property.h:
 
-jni/../../batterytech/src/batterytech/batterytech_entrypoints.h:
+../batterytech/src/batterytech/batterytech_entrypoints.h:
 
-jni/../../batterytech/src/batterytech/network/NetworkMessageFactory.h:
+../batterytech/src/batterytech/network/NetworkMessageFactory.h:

@@ -1,6 +1,6 @@
 obj/local/armeabi-v7a/objs/batterytech/batterytech/decoders/stb_image.o: \
- jni/../../batterytech/src/batterytech/decoders/stb_image.c \
- jni/../../batterytech/src/batterytech/decoders/stb_image.h \
+ ../batterytech/src/batterytech/decoders/stb_image.c \
+ ../batterytech/src/batterytech/decoders/stb_image.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/stdio.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/sys/cdefs.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/sys/cdefs_elf.h \
@@ -32,7 +32,7 @@ obj/local/armeabi-v7a/objs/batterytech/batterytech/decoders/stb_image.o: \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/memory.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/assert.h
 
-jni/../../batterytech/src/batterytech/decoders/stb_image.h:
+../batterytech/src/batterytech/decoders/stb_image.h:
 
 /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/stdio.h:
 

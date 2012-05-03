@@ -1,10 +1,10 @@
 obj/local/armeabi-v7a/objs/batterytech/batterytech/util/PropertiesIO.o: \
- jni/../../batterytech/src/batterytech/util/PropertiesIO.cpp \
- jni/../../batterytech/src/batterytech/util/PropertiesIO.h \
- jni/../../batterytech/src/batterytech/util/ManagedArray.h \
- jni/../../batterytech/src/batterytech/util/../primitives.h \
- jni/../../batterytech/src/batterytech/util/../platform/android/androidtypes.h \
- jni/../../batterytech/src/batterytech/util/HashTable.h \
+ ../batterytech/src/batterytech/util/PropertiesIO.cpp \
+ ../batterytech/src/batterytech/util/PropertiesIO.h \
+ ../batterytech/src/batterytech/util/ManagedArray.h \
+ ../batterytech/src/batterytech/util/../primitives.h \
+ ../batterytech/src/batterytech/util/../platform/android/androidtypes.h \
+ ../batterytech/src/batterytech/util/HashTable.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/stdlib.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/sys/cdefs.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/sys/cdefs_elf.h \
@@ -26,12 +26,12 @@ obj/local/armeabi-v7a/objs/batterytech/batterytech/util/PropertiesIO.o: \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/machine/kernel.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/sys/sysmacros.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/memory.h \
- jni/../../batterytech/src/batterytech/util/Property.h \
- jni/../../batterytech/src/batterytech/util/../platform/platformgeneral.h \
- jni/../../batterytech/src/batterytech/util/../platform/../audio/AudioManager.h \
- jni/../../batterytech/src/batterytech/primitives.h \
- jni/../../batterytech/src/batterytech/util/../platform/../primitives.h \
- jni/../../batterytech/src/batterytech/util/../platform/android/androidgeneral.h \
+ ../batterytech/src/batterytech/util/Property.h \
+ ../batterytech/src/batterytech/util/../platform/platformgeneral.h \
+ ../batterytech/src/batterytech/util/../platform/../audio/AudioManager.h \
+ ../batterytech/src/batterytech/primitives.h \
+ ../batterytech/src/batterytech/util/../platform/../primitives.h \
+ ../batterytech/src/batterytech/util/../platform/android/androidgeneral.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/sys/socket.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/linux/socket.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/asm/socket.h \
@@ -73,19 +73,19 @@ obj/local/armeabi-v7a/objs/batterytech/batterytech/util/PropertiesIO.o: \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/linux/ipv6.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/netinet/in6.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/arpa/inet.h \
- jni/../../batterytech/src/batterytech/util/../Logger.h \
+ ../batterytech/src/batterytech/util/../Logger.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/stdio.h \
- jni/../../batterytech/src/batterytech/util/TextFileUtil.h
+ ../batterytech/src/batterytech/util/TextFileUtil.h
 
-jni/../../batterytech/src/batterytech/util/PropertiesIO.h:
+../batterytech/src/batterytech/util/PropertiesIO.h:
 
-jni/../../batterytech/src/batterytech/util/ManagedArray.h:
+../batterytech/src/batterytech/util/ManagedArray.h:
 
-jni/../../batterytech/src/batterytech/util/../primitives.h:
+../batterytech/src/batterytech/util/../primitives.h:
 
-jni/../../batterytech/src/batterytech/util/../platform/android/androidtypes.h:
+../batterytech/src/batterytech/util/../platform/android/androidtypes.h:
 
-jni/../../batterytech/src/batterytech/util/HashTable.h:
+../batterytech/src/batterytech/util/HashTable.h:
 
 /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/stdlib.h:
 
@@ -129,17 +129,17 @@ jni/../../batterytech/src/batterytech/util/HashTable.h:
 
 /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/memory.h:
 
-jni/../../batterytech/src/batterytech/util/Property.h:
+../batterytech/src/batterytech/util/Property.h:
 
-jni/../../batterytech/src/batterytech/util/../platform/platformgeneral.h:
+../batterytech/src/batterytech/util/../platform/platformgeneral.h:
 
-jni/../../batterytech/src/batterytech/util/../platform/../audio/AudioManager.h:
+../batterytech/src/batterytech/util/../platform/../audio/AudioManager.h:
 
-jni/../../batterytech/src/batterytech/primitives.h:
+../batterytech/src/batterytech/primitives.h:
 
-jni/../../batterytech/src/batterytech/util/../platform/../primitives.h:
+../batterytech/src/batterytech/util/../platform/../primitives.h:
 
-jni/../../batterytech/src/batterytech/util/../platform/android/androidgeneral.h:
+../batterytech/src/batterytech/util/../platform/android/androidgeneral.h:
 
 /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/sys/socket.h:
 
@@ -223,8 +223,8 @@ jni/../../batterytech/src/batterytech/util/../platform/android/androidgeneral.h:
 
 /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/arpa/inet.h:
 
-jni/../../batterytech/src/batterytech/util/../Logger.h:
+../batterytech/src/batterytech/util/../Logger.h:
 
 /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/stdio.h:
 
-jni/../../batterytech/src/batterytech/util/TextFileUtil.h:
+../batterytech/src/batterytech/util/TextFileUtil.h:

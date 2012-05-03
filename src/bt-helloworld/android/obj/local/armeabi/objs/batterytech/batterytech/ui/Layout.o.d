@@ -1,11 +1,11 @@
 obj/local/armeabi/objs/batterytech/batterytech/ui/Layout.o: \
- jni/../../batterytech/src/batterytech/ui/Layout.cpp \
- jni/../../batterytech/src/batterytech/ui/Layout.h \
- jni/../../batterytech/src/batterytech/ui/UIComponent.h \
- jni/../../batterytech/src/batterytech/ui/../primitives.h \
- jni/../../batterytech/src/batterytech/ui/../platform/android/androidtypes.h \
- jni/../../batterytech/src/batterytech/ui/LayoutParameters.h \
- jni/../../batterytech/src/batterytech/ui/../Logger.h \
+ ../batterytech/src/batterytech/ui/Layout.cpp \
+ ../batterytech/src/batterytech/ui/Layout.h \
+ ../batterytech/src/batterytech/ui/UIComponent.h \
+ ../batterytech/src/batterytech/ui/../primitives.h \
+ ../batterytech/src/batterytech/ui/../platform/android/androidtypes.h \
+ ../batterytech/src/batterytech/ui/LayoutParameters.h \
+ ../batterytech/src/batterytech/ui/../Logger.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/stdio.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/sys/cdefs.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/sys/cdefs_elf.h \
@@ -22,23 +22,23 @@ obj/local/armeabi/objs/batterytech/batterytech/ui/Layout.o: \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/linux/types.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/machine/kernel.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/sys/sysmacros.h \
- jni/../../batterytech/src/batterytech/ui/../util/ManagedArray.h \
- jni/../../batterytech/src/batterytech/ui/../util/../primitives.h \
- jni/../../batterytech/src/batterytech/ui/UIAnimator.h \
- jni/../../batterytech/src/batterytech/ui/../render/GraphicsConfiguration.h \
- jni/../../batterytech/src/batterytech/ui/../render/../primitives.h
+ ../batterytech/src/batterytech/ui/../util/ManagedArray.h \
+ ../batterytech/src/batterytech/ui/../util/../primitives.h \
+ ../batterytech/src/batterytech/ui/UIAnimator.h \
+ ../batterytech/src/batterytech/ui/../render/GraphicsConfiguration.h \
+ ../batterytech/src/batterytech/ui/../render/../primitives.h
 
-jni/../../batterytech/src/batterytech/ui/Layout.h:
+../batterytech/src/batterytech/ui/Layout.h:
 
-jni/../../batterytech/src/batterytech/ui/UIComponent.h:
+../batterytech/src/batterytech/ui/UIComponent.h:
 
-jni/../../batterytech/src/batterytech/ui/../primitives.h:
+../batterytech/src/batterytech/ui/../primitives.h:
 
-jni/../../batterytech/src/batterytech/ui/../platform/android/androidtypes.h:
+../batterytech/src/batterytech/ui/../platform/android/androidtypes.h:
 
-jni/../../batterytech/src/batterytech/ui/LayoutParameters.h:
+../batterytech/src/batterytech/ui/LayoutParameters.h:
 
-jni/../../batterytech/src/batterytech/ui/../Logger.h:
+../batterytech/src/batterytech/ui/../Logger.h:
 
 /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/stdio.h:
 
@@ -72,12 +72,12 @@ jni/../../batterytech/src/batterytech/ui/../Logger.h:
 
 /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/sys/sysmacros.h:
 
-jni/../../batterytech/src/batterytech/ui/../util/ManagedArray.h:
+../batterytech/src/batterytech/ui/../util/ManagedArray.h:
 
-jni/../../batterytech/src/batterytech/ui/../util/../primitives.h:
+../batterytech/src/batterytech/ui/../util/../primitives.h:
 
-jni/../../batterytech/src/batterytech/ui/UIAnimator.h:
+../batterytech/src/batterytech/ui/UIAnimator.h:
 
-jni/../../batterytech/src/batterytech/ui/../render/GraphicsConfiguration.h:
+../batterytech/src/batterytech/ui/../render/GraphicsConfiguration.h:
 
-jni/../../batterytech/src/batterytech/ui/../render/../primitives.h:
+../batterytech/src/batterytech/ui/../render/../primitives.h:

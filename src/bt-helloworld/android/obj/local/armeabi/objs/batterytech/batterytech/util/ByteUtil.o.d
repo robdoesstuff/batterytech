@@ -1,12 +1,12 @@
 obj/local/armeabi/objs/batterytech/batterytech/util/ByteUtil.o: \
- jni/../../batterytech/src/batterytech/util/ByteUtil.cpp \
- jni/../../batterytech/src/batterytech/util/ByteUtil.h \
- jni/../../batterytech/src/batterytech/primitives.h \
- jni/../../batterytech/src/batterytech/platform/android/androidtypes.h \
- jni/../../batterytech/src/batterytech/platform/platformgeneral.h \
- jni/../../batterytech/src/batterytech/platform/../audio/AudioManager.h \
- jni/../../batterytech/src/batterytech/platform/../primitives.h \
- jni/../../batterytech/src/batterytech/platform/android/androidgeneral.h \
+ ../batterytech/src/batterytech/util/ByteUtil.cpp \
+ ../batterytech/src/batterytech/util/ByteUtil.h \
+ ../batterytech/src/batterytech/primitives.h \
+ ../batterytech/src/batterytech/platform/android/androidtypes.h \
+ ../batterytech/src/batterytech/platform/platformgeneral.h \
+ ../batterytech/src/batterytech/platform/../audio/AudioManager.h \
+ ../batterytech/src/batterytech/platform/../primitives.h \
+ ../batterytech/src/batterytech/platform/android/androidgeneral.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/sys/types.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/stdint.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/sys/_types.h \
@@ -66,19 +66,19 @@ obj/local/armeabi/objs/batterytech/batterytech/util/ByteUtil.o: \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/netinet/in6.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/arpa/inet.h
 
-jni/../../batterytech/src/batterytech/util/ByteUtil.h:
+../batterytech/src/batterytech/util/ByteUtil.h:
 
-jni/../../batterytech/src/batterytech/primitives.h:
+../batterytech/src/batterytech/primitives.h:
 
-jni/../../batterytech/src/batterytech/platform/android/androidtypes.h:
+../batterytech/src/batterytech/platform/android/androidtypes.h:
 
-jni/../../batterytech/src/batterytech/platform/platformgeneral.h:
+../batterytech/src/batterytech/platform/platformgeneral.h:
 
-jni/../../batterytech/src/batterytech/platform/../audio/AudioManager.h:
+../batterytech/src/batterytech/platform/../audio/AudioManager.h:
 
-jni/../../batterytech/src/batterytech/platform/../primitives.h:
+../batterytech/src/batterytech/platform/../primitives.h:
 
-jni/../../batterytech/src/batterytech/platform/android/androidgeneral.h:
+../batterytech/src/batterytech/platform/android/androidgeneral.h:
 
 /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/sys/types.h:
 

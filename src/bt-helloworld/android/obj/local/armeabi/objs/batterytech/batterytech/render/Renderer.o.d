@@ -1,8 +1,8 @@
 obj/local/armeabi/objs/batterytech/batterytech/render/Renderer.o: \
- jni/../../batterytech/src/batterytech/render/Renderer.cpp \
- jni/../../batterytech/src/batterytech/render/Renderer.h \
- jni/../../batterytech/src/batterytech/render/../platform/platformgl.h \
- jni/../../batterytech/src/batterytech/render/../platform/android/importgl.h \
+ ../batterytech/src/batterytech/render/Renderer.cpp \
+ ../batterytech/src/batterytech/render/Renderer.h \
+ ../batterytech/src/batterytech/render/../platform/platformgl.h \
+ ../batterytech/src/batterytech/render/../platform/android/importgl.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/GLES/gl.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/GLES/glplatform.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/KHR/khrplatform.h \
@@ -13,9 +13,9 @@ obj/local/armeabi/objs/batterytech/batterytech/render/Renderer.o: \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/GLES2/gl2.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/GLES2/gl2platform.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/GLES2/gl2ext.h \
- jni/../../batterytech/src/batterytech/render/../platform/opengles.h \
- jni/../../batterytech/src/batterytech/render/../platform/../primitives.h \
- jni/../../batterytech/src/batterytech/render/../platform/../platform/android/androidtypes.h \
+ ../batterytech/src/batterytech/render/../platform/opengles.h \
+ ../batterytech/src/batterytech/render/../platform/../primitives.h \
+ ../batterytech/src/batterytech/render/../platform/../platform/android/androidtypes.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/Math.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/sys/cdefs.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/sys/cdefs_elf.h \
@@ -41,25 +41,25 @@ obj/local/armeabi/objs/batterytech/batterytech/render/Renderer.o: \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/alloca.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/strings.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/memory.h \
- jni/../../batterytech/src/batterytech/render/../platform/../math/Vector2.h \
+ ../batterytech/src/batterytech/render/../platform/../math/Vector2.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/math.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/assert.h \
- jni/../../batterytech/src/batterytech/render/../platform/../math/Vector3.h \
- jni/../../batterytech/src/batterytech/render/../platform/../math/Vector4.h \
- jni/../../batterytech/src/batterytech/render/../platform/../math/Vector4.h \
- jni/../../batterytech/src/batterytech/render/../platform/../math/Matrix4.h \
- jni/../../batterytech/src/batterytech/render/../platform/../math/Vector3.h \
- jni/../../batterytech/src/batterytech/render/../platform/../math/Matrix3.h \
- jni/../../batterytech/src/batterytech/render/../platform/../math/Matrix4.h \
- jni/../../batterytech/src/batterytech/render/../platform/../math/AABB3.h \
- jni/../../batterytech/src/batterytech/render/../primitives.h \
- jni/../../batterytech/src/batterytech/render/GraphicsConfiguration.h \
- jni/../../batterytech/src/batterytech/render/../decoders/stb_image.h \
+ ../batterytech/src/batterytech/render/../platform/../math/Vector3.h \
+ ../batterytech/src/batterytech/render/../platform/../math/Vector4.h \
+ ../batterytech/src/batterytech/render/../platform/../math/Vector4.h \
+ ../batterytech/src/batterytech/render/../platform/../math/Matrix4.h \
+ ../batterytech/src/batterytech/render/../platform/../math/Vector3.h \
+ ../batterytech/src/batterytech/render/../platform/../math/Matrix3.h \
+ ../batterytech/src/batterytech/render/../platform/../math/Matrix4.h \
+ ../batterytech/src/batterytech/render/../platform/../math/AABB3.h \
+ ../batterytech/src/batterytech/render/../primitives.h \
+ ../batterytech/src/batterytech/render/GraphicsConfiguration.h \
+ ../batterytech/src/batterytech/render/../decoders/stb_image.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/stdio.h \
- jni/../../batterytech/src/batterytech/render/../platform/platformgeneral.h \
- jni/../../batterytech/src/batterytech/render/../platform/../audio/AudioManager.h \
- jni/../../batterytech/src/batterytech/primitives.h \
- jni/../../batterytech/src/batterytech/render/../platform/android/androidgeneral.h \
+ ../batterytech/src/batterytech/render/../platform/platformgeneral.h \
+ ../batterytech/src/batterytech/render/../platform/../audio/AudioManager.h \
+ ../batterytech/src/batterytech/primitives.h \
+ ../batterytech/src/batterytech/render/../platform/android/androidgeneral.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/sys/socket.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/linux/socket.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/asm/socket.h \
@@ -95,21 +95,21 @@ obj/local/armeabi/objs/batterytech/batterytech/render/Renderer.o: \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/linux/ipv6.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/netinet/in6.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/arpa/inet.h \
- jni/../../batterytech/src/batterytech/render/../Logger.h \
- jni/../../batterytech/src/batterytech/render/../Context.h \
- jni/../../batterytech/src/batterytech/render/../primitives.h \
- jni/../../batterytech/src/batterytech/render/../util/HashTable.h \
- jni/../../batterytech/src/batterytech/render/../util/ManagedArray.h \
- jni/../../batterytech/src/batterytech/render/../util/../primitives.h \
- jni/../../batterytech/src/batterytech/render/../util/Property.h \
- jni/../../batterytech/src/batterytech/render/../batterytech_entrypoints.h \
- jni/../../batterytech/src/batterytech/render/Texture.h
+ ../batterytech/src/batterytech/render/../Logger.h \
+ ../batterytech/src/batterytech/render/../Context.h \
+ ../batterytech/src/batterytech/render/../primitives.h \
+ ../batterytech/src/batterytech/render/../util/HashTable.h \
+ ../batterytech/src/batterytech/render/../util/ManagedArray.h \
+ ../batterytech/src/batterytech/render/../util/../primitives.h \
+ ../batterytech/src/batterytech/render/../util/Property.h \
+ ../batterytech/src/batterytech/render/../batterytech_entrypoints.h \
+ ../batterytech/src/batterytech/render/Texture.h
 
-jni/../../batterytech/src/batterytech/render/Renderer.h:
+../batterytech/src/batterytech/render/Renderer.h:
 
-jni/../../batterytech/src/batterytech/render/../platform/platformgl.h:
+../batterytech/src/batterytech/render/../platform/platformgl.h:
 
-jni/../../batterytech/src/batterytech/render/../platform/android/importgl.h:
+../batterytech/src/batterytech/render/../platform/android/importgl.h:
 
 /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/GLES/gl.h:
 
@@ -131,11 +131,11 @@ jni/../../batterytech/src/batterytech/render/../platform/android/importgl.h:
 
 /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/GLES2/gl2ext.h:
 
-jni/../../batterytech/src/batterytech/render/../platform/opengles.h:
+../batterytech/src/batterytech/render/../platform/opengles.h:
 
-jni/../../batterytech/src/batterytech/render/../platform/../primitives.h:
+../batterytech/src/batterytech/render/../platform/../primitives.h:
 
-jni/../../batterytech/src/batterytech/render/../platform/../platform/android/androidtypes.h:
+../batterytech/src/batterytech/render/../platform/../platform/android/androidtypes.h:
 
 /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/Math.h:
 
@@ -187,43 +187,43 @@ jni/../../batterytech/src/batterytech/render/../platform/../platform/android/and
 
 /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/memory.h:
 
-jni/../../batterytech/src/batterytech/render/../platform/../math/Vector2.h:
+../batterytech/src/batterytech/render/../platform/../math/Vector2.h:
 
 /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/math.h:
 
 /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/assert.h:
 
-jni/../../batterytech/src/batterytech/render/../platform/../math/Vector3.h:
+../batterytech/src/batterytech/render/../platform/../math/Vector3.h:
 
-jni/../../batterytech/src/batterytech/render/../platform/../math/Vector4.h:
+../batterytech/src/batterytech/render/../platform/../math/Vector4.h:
 
-jni/../../batterytech/src/batterytech/render/../platform/../math/Vector4.h:
+../batterytech/src/batterytech/render/../platform/../math/Vector4.h:
 
-jni/../../batterytech/src/batterytech/render/../platform/../math/Matrix4.h:
+../batterytech/src/batterytech/render/../platform/../math/Matrix4.h:
 
-jni/../../batterytech/src/batterytech/render/../platform/../math/Vector3.h:
+../batterytech/src/batterytech/render/../platform/../math/Vector3.h:
 
-jni/../../batterytech/src/batterytech/render/../platform/../math/Matrix3.h:
+../batterytech/src/batterytech/render/../platform/../math/Matrix3.h:
 
-jni/../../batterytech/src/batterytech/render/../platform/../math/Matrix4.h:
+../batterytech/src/batterytech/render/../platform/../math/Matrix4.h:
 
-jni/../../batterytech/src/batterytech/render/../platform/../math/AABB3.h:
+../batterytech/src/batterytech/render/../platform/../math/AABB3.h:
 
-jni/../../batterytech/src/batterytech/render/../primitives.h:
+../batterytech/src/batterytech/render/../primitives.h:
 
-jni/../../batterytech/src/batterytech/render/GraphicsConfiguration.h:
+../batterytech/src/batterytech/render/GraphicsConfiguration.h:
 
-jni/../../batterytech/src/batterytech/render/../decoders/stb_image.h:
+../batterytech/src/batterytech/render/../decoders/stb_image.h:
 
 /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/stdio.h:
 
-jni/../../batterytech/src/batterytech/render/../platform/platformgeneral.h:
+../batterytech/src/batterytech/render/../platform/platformgeneral.h:
 
-jni/../../batterytech/src/batterytech/render/../platform/../audio/AudioManager.h:
+../batterytech/src/batterytech/render/../platform/../audio/AudioManager.h:
 
-jni/../../batterytech/src/batterytech/primitives.h:
+../batterytech/src/batterytech/primitives.h:
 
-jni/../../batterytech/src/batterytech/render/../platform/android/androidgeneral.h:
+../batterytech/src/batterytech/render/../platform/android/androidgeneral.h:
 
 /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/sys/socket.h:
 
@@ -295,20 +295,20 @@ jni/../../batterytech/src/batterytech/render/../platform/android/androidgeneral.
 
 /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/arpa/inet.h:
 
-jni/../../batterytech/src/batterytech/render/../Logger.h:
+../batterytech/src/batterytech/render/../Logger.h:
 
-jni/../../batterytech/src/batterytech/render/../Context.h:
+../batterytech/src/batterytech/render/../Context.h:
 
-jni/../../batterytech/src/batterytech/render/../primitives.h:
+../batterytech/src/batterytech/render/../primitives.h:
 
-jni/../../batterytech/src/batterytech/render/../util/HashTable.h:
+../batterytech/src/batterytech/render/../util/HashTable.h:
 
-jni/../../batterytech/src/batterytech/render/../util/ManagedArray.h:
+../batterytech/src/batterytech/render/../util/ManagedArray.h:
 
-jni/../../batterytech/src/batterytech/render/../util/../primitives.h:
+../batterytech/src/batterytech/render/../util/../primitives.h:
 
-jni/../../batterytech/src/batterytech/render/../util/Property.h:
+../batterytech/src/batterytech/render/../util/Property.h:
 
-jni/../../batterytech/src/batterytech/render/../batterytech_entrypoints.h:
+../batterytech/src/batterytech/render/../batterytech_entrypoints.h:
 
-jni/../../batterytech/src/batterytech/render/Texture.h:
+../batterytech/src/batterytech/render/Texture.h:

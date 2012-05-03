@@ -1,6 +1,6 @@
 obj/local/armeabi-v7a/objs/batterytech/batterytech/util/TextFileUtil.o: \
- jni/../../batterytech/src/batterytech/util/TextFileUtil.cpp \
- jni/../../batterytech/src/batterytech/util/TextFileUtil.h \
+ ../batterytech/src/batterytech/util/TextFileUtil.cpp \
+ ../batterytech/src/batterytech/util/TextFileUtil.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/stdio.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/sys/cdefs.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/sys/cdefs_elf.h \
@@ -17,10 +17,10 @@ obj/local/armeabi-v7a/objs/batterytech/batterytech/util/TextFileUtil.o: \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/linux/types.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/machine/kernel.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/sys/sysmacros.h \
- jni/../../batterytech/src/batterytech/util/../primitives.h \
- jni/../../batterytech/src/batterytech/util/../platform/android/androidtypes.h
+ ../batterytech/src/batterytech/util/../primitives.h \
+ ../batterytech/src/batterytech/util/../platform/android/androidtypes.h
 
-jni/../../batterytech/src/batterytech/util/TextFileUtil.h:
+../batterytech/src/batterytech/util/TextFileUtil.h:
 
 /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/stdio.h:
 
@@ -54,6 +54,6 @@ jni/../../batterytech/src/batterytech/util/TextFileUtil.h:
 
 /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/sys/sysmacros.h:
 
-jni/../../batterytech/src/batterytech/util/../primitives.h:
+../batterytech/src/batterytech/util/../primitives.h:
 
-jni/../../batterytech/src/batterytech/util/../platform/android/androidtypes.h:
+../batterytech/src/batterytech/util/../platform/android/androidtypes.h:

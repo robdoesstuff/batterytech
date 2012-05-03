@@ -1,6 +1,6 @@
 obj/local/armeabi/objs/batterytech/batterytech/decoders/stb_vorbis.o: \
- jni/../../batterytech/src/batterytech/decoders/stb_vorbis.c \
- jni/../../batterytech/src/batterytech/decoders/stb_vorbis.h \
+ ../batterytech/src/batterytech/decoders/stb_vorbis.c \
+ ../batterytech/src/batterytech/decoders/stb_vorbis.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/stdio.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/sys/cdefs.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/sys/cdefs_elf.h \
@@ -32,7 +32,7 @@ obj/local/armeabi/objs/batterytech/batterytech/decoders/stb_vorbis.o: \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/machine/limits.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/sys/syslimits.h
 
-jni/../../batterytech/src/batterytech/decoders/stb_vorbis.h:
+../batterytech/src/batterytech/decoders/stb_vorbis.h:
 
 /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/stdio.h:
 

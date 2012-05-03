@@ -1,7 +1,7 @@
 obj/local/armeabi-v7a/objs/batterytech/batterytech/math/Triangulator.o: \
- jni/../../batterytech/src/batterytech/math/Triangulator.cpp \
- jni/../../batterytech/src/batterytech/math/Triangulator.h \
- jni/../../batterytech/src/batterytech/math/Vector2.h \
+ ../batterytech/src/batterytech/math/Triangulator.cpp \
+ ../batterytech/src/batterytech/math/Triangulator.h \
+ ../batterytech/src/batterytech/math/Vector2.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/math.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/sys/cdefs.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/sys/cdefs_elf.h \
@@ -33,9 +33,9 @@ obj/local/armeabi-v7a/objs/batterytech/batterytech/math/Triangulator.o: \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/strings.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/memory.h
 
-jni/../../batterytech/src/batterytech/math/Triangulator.h:
+../batterytech/src/batterytech/math/Triangulator.h:
 
-jni/../../batterytech/src/batterytech/math/Vector2.h:
+../batterytech/src/batterytech/math/Vector2.h:
 
 /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/math.h:
 

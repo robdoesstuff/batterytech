@@ -1,11 +1,11 @@
 obj/local/armeabi/objs/batterytech/batterytech/ui/TextField.o: \
- jni/../../batterytech/src/batterytech/ui/TextField.cpp \
- jni/../../batterytech/src/batterytech/ui/TextField.h \
- jni/../../batterytech/src/batterytech/ui/UIComponent.h \
- jni/../../batterytech/src/batterytech/ui/../primitives.h \
- jni/../../batterytech/src/batterytech/ui/../platform/android/androidtypes.h \
- jni/../../batterytech/src/batterytech/ui/LayoutParameters.h \
- jni/../../batterytech/src/batterytech/ui/../Logger.h \
+ ../batterytech/src/batterytech/ui/TextField.cpp \
+ ../batterytech/src/batterytech/ui/TextField.h \
+ ../batterytech/src/batterytech/ui/UIComponent.h \
+ ../batterytech/src/batterytech/ui/../primitives.h \
+ ../batterytech/src/batterytech/ui/../platform/android/androidtypes.h \
+ ../batterytech/src/batterytech/ui/LayoutParameters.h \
+ ../batterytech/src/batterytech/ui/../Logger.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/stdio.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/sys/cdefs.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/sys/cdefs_elf.h \
@@ -22,18 +22,18 @@ obj/local/armeabi/objs/batterytech/batterytech/ui/TextField.o: \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/linux/types.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/machine/kernel.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/sys/sysmacros.h \
- jni/../../batterytech/src/batterytech/ui/../util/ManagedArray.h \
- jni/../../batterytech/src/batterytech/ui/../util/../primitives.h \
- jni/../../batterytech/src/batterytech/ui/UIAnimator.h \
- jni/../../batterytech/src/batterytech/ui/../render/GraphicsConfiguration.h \
- jni/../../batterytech/src/batterytech/ui/../render/../primitives.h \
+ ../batterytech/src/batterytech/ui/../util/ManagedArray.h \
+ ../batterytech/src/batterytech/ui/../util/../primitives.h \
+ ../batterytech/src/batterytech/ui/UIAnimator.h \
+ ../batterytech/src/batterytech/ui/../render/GraphicsConfiguration.h \
+ ../batterytech/src/batterytech/ui/../render/../primitives.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/string.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/malloc.h \
- jni/../../batterytech/src/batterytech/ui/../platform/platformgeneral.h \
- jni/../../batterytech/src/batterytech/ui/../platform/../audio/AudioManager.h \
- jni/../../batterytech/src/batterytech/primitives.h \
- jni/../../batterytech/src/batterytech/ui/../platform/../primitives.h \
- jni/../../batterytech/src/batterytech/ui/../platform/android/androidgeneral.h \
+ ../batterytech/src/batterytech/ui/../platform/platformgeneral.h \
+ ../batterytech/src/batterytech/ui/../platform/../audio/AudioManager.h \
+ ../batterytech/src/batterytech/primitives.h \
+ ../batterytech/src/batterytech/ui/../platform/../primitives.h \
+ ../batterytech/src/batterytech/ui/../platform/android/androidgeneral.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/sys/socket.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/linux/socket.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/asm/socket.h \
@@ -76,17 +76,17 @@ obj/local/armeabi/objs/batterytech/batterytech/ui/TextField.o: \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/netinet/in6.h \
  /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/arpa/inet.h
 
-jni/../../batterytech/src/batterytech/ui/TextField.h:
+../batterytech/src/batterytech/ui/TextField.h:
 
-jni/../../batterytech/src/batterytech/ui/UIComponent.h:
+../batterytech/src/batterytech/ui/UIComponent.h:
 
-jni/../../batterytech/src/batterytech/ui/../primitives.h:
+../batterytech/src/batterytech/ui/../primitives.h:
 
-jni/../../batterytech/src/batterytech/ui/../platform/android/androidtypes.h:
+../batterytech/src/batterytech/ui/../platform/android/androidtypes.h:
 
-jni/../../batterytech/src/batterytech/ui/LayoutParameters.h:
+../batterytech/src/batterytech/ui/LayoutParameters.h:
 
-jni/../../batterytech/src/batterytech/ui/../Logger.h:
+../batterytech/src/batterytech/ui/../Logger.h:
 
 /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/stdio.h:
 
@@ -120,29 +120,29 @@ jni/../../batterytech/src/batterytech/ui/../Logger.h:
 
 /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/sys/sysmacros.h:
 
-jni/../../batterytech/src/batterytech/ui/../util/ManagedArray.h:
+../batterytech/src/batterytech/ui/../util/ManagedArray.h:
 
-jni/../../batterytech/src/batterytech/ui/../util/../primitives.h:
+../batterytech/src/batterytech/ui/../util/../primitives.h:
 
-jni/../../batterytech/src/batterytech/ui/UIAnimator.h:
+../batterytech/src/batterytech/ui/UIAnimator.h:
 
-jni/../../batterytech/src/batterytech/ui/../render/GraphicsConfiguration.h:
+../batterytech/src/batterytech/ui/../render/GraphicsConfiguration.h:
 
-jni/../../batterytech/src/batterytech/ui/../render/../primitives.h:
+../batterytech/src/batterytech/ui/../render/../primitives.h:
 
 /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/string.h:
 
 /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/malloc.h:
 
-jni/../../batterytech/src/batterytech/ui/../platform/platformgeneral.h:
+../batterytech/src/batterytech/ui/../platform/platformgeneral.h:
 
-jni/../../batterytech/src/batterytech/ui/../platform/../audio/AudioManager.h:
+../batterytech/src/batterytech/ui/../platform/../audio/AudioManager.h:
 
-jni/../../batterytech/src/batterytech/primitives.h:
+../batterytech/src/batterytech/primitives.h:
 
-jni/../../batterytech/src/batterytech/ui/../platform/../primitives.h:
+../batterytech/src/batterytech/ui/../platform/../primitives.h:
 
-jni/../../batterytech/src/batterytech/ui/../platform/android/androidgeneral.h:
+../batterytech/src/batterytech/ui/../platform/android/androidgeneral.h:
 
 /cygdrive/c/Android_NDK/platforms/android-8/arch-arm/usr/include/sys/socket.h:
 
