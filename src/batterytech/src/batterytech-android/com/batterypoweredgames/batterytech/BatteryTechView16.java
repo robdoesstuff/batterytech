@@ -32,15 +32,12 @@ import android.opengl.GLSurfaceView;
  */public class BatteryTechView16 extends GLSurfaceView implements BatteryTechView {
 	private BatteryTechRenderer renderer;
 
-	private static final int DEPTH = 16;
-	private static final int STENCIL = 0;
-	private static final boolean USE_TRUE_COLOR = false;
-
 	public BatteryTechView16(BatteryTechActivity activity) {
 		super(activity);
-		if (USE_TRUE_COLOR) {
+		GLSettings settings = activity.createGLSettings();
+		if (settings.useTrueColor()) {
 			getHolder().setFormat(PixelFormat.TRANSLUCENT);
-			setEGLConfigChooser(new TrueColorEGLConfigChooser(DEPTH, STENCIL));
+			setEGLConfigChooser(new TrueColorEGLConfigChooser(settings.getDepthBits(), settings.getStencilBits()));
 		}
 		renderer = new BatteryTechRenderer(activity, this, false);
 		setRenderer(renderer);

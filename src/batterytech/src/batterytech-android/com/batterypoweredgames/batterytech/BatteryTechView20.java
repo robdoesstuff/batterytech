@@ -41,25 +41,20 @@ import android.util.Log;
 public class BatteryTechView20 extends GLSurfaceView implements BatteryTechView {
 	private static final String TAG = "DemoAppView";
 	
-	// Set to false if you only want GLES 1.0/1.1 rendering
-	public static final boolean SUPPORT_GLES2 = true;
 	private static final boolean DEBUG = false;
 	
-	private static final int DEPTH = 16;
-	private static final int STENCIL = 0;
-	private static final boolean USE_TRUE_COLOR = false;
-
 	private BatteryTechRenderer renderer;
 
 	public BatteryTechView20(BatteryTechActivity activity) {
 		super(activity);
 		boolean usingGLES2 = false;
-		if (USE_TRUE_COLOR) {
+		GLSettings settings = activity.createGLSettings();
+		if (settings.useTrueColor()) {
 			getHolder().setFormat(PixelFormat.TRANSLUCENT);
 			//setEGLConfigChooser(new TrueColorEGLConfigChooser(DEPTH, STENCIL));
 		}
-		if (SUPPORT_GLES2 && checkGL20Support(activity)) {
-			initGLES2(USE_TRUE_COLOR, DEPTH, STENCIL);
+		if (settings.supportGLES2() && checkGL20Support(activity)) {
+			initGLES2(settings.useTrueColor(), settings.getDepthBits(), settings.getStencilBits());
 			usingGLES2 = true;
 		}
 		renderer = new BatteryTechRenderer(activity, this, usingGLES2);

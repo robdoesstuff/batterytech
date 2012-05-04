@@ -180,9 +180,27 @@ public class BatteryTechActivity extends Activity {
 		return super.onKeyUp(keyCode, event);
 	}
 	
-	// Override this to implement your own hooks!
+	/**
+	 * Allows a BatteryTech application to provide a Hook handler for additional Android feature integration or 3rd party library integration
+	 * Override this and implement a BatteryTechHookHandler to use custom hooks
+	 * 
+	 * @return an instance of a BatteryTechHookHandler
+	 */
 	public BatteryTechHookHandler getHookHandler() { return null; }
 	
-	// Override this to implement your own vibration manager
+	/**
+	 * Allows a BatteryTech application to provide a custom vibration manager
+	 * Override this and extend the default VibrationManager to customize
+	 * 
+	 * @return a subclass of VibrationManager
+	 */
 	public VibrationManager createVibrationManager() { return new VibrationManager(this); }
+	
+	/**
+	 * Allows a BatteryTech application to use different OpenGL ES Settings, such as 2.0.
+	 * Override this and extend the default GLSettings to customize
+	 * 
+	 * @return a subclass of GLSettings
+	 */
+	public GLSettings createGLSettings() { return new GLSettings(); }
 }
