@@ -187,6 +187,7 @@ APP_SOURCES=\
 	GameUtil.cpp \
 	World.cpp \
 	ScreenControl.cpp \
+	WinHooks.cpp \
 	gameobject\GameObject.cpp \
 	gameobject\GameObjectLuaBinder.cpp \
 	level\LevelIO.cpp \
