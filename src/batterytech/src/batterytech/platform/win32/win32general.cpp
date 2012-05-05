@@ -29,6 +29,16 @@ extern BOOL32 quit;
 static AudioManager *sndMgr;
 static WinSound *winSound;
 
+// These should be implemented in WinHooks.cpp
+extern void winHook(const char *hook, char *result, S32 resultLen);
+extern void winShowAd();
+extern void winHideAd();
+extern void winPlayVibrationEffect(S32 effectId, F32 intensity);
+extern void winStartVibrationEffect(S32 effectId, F32 intensity);
+extern void winStopVibrationEffect(S32 effectId);
+extern void winStopAllVibrationEffects();
+// End of WinHooks.cpp
+
 void _convert_filename(char *filename);
 
 void _platform_log(const char* message) {
@@ -209,19 +219,19 @@ BOOL32 _platform_path_create(const char* path) {
 }
 
 void _platform_play_vibration_effect(S32 effectId, F32 intensity) {
-	//cout << "Playing vibration effect " << effectId << " at " << intensity << endl;
+	winPlayVibrationEffect(effectId, intensity);
 }
 
 void _platform_start_vibration_effect(S32 effectId, F32 intensity) {
-	//cout << "Starting vibration effect " << effectId << " at " << intensity << endl;
+	winStartVibrationEffect(effectId, intensity);
 }
 
 void _platform_stop_vibration_effect(S32 effectId) {
-	//cout << "Stopping vibration effect " << effectId << endl;
+	winStopVibrationEffect(effectId);
 }
 
 void _platform_stop_all_vibration_effects() {
-	//cout << "Stopping all vibration effects" << endl;
+	winStopAllVibrationEffects();
 }
 
 BOOL32 _platform_implements_soundpool() {
@@ -276,25 +286,14 @@ void _platform_exit() {
 }
 
 void _platform_show_ad() {
-	// Call out to your windows ad integration piece here
+	winShowAd();
 }
 void _platform_hide_ad() {
-	// Call out to your windows ad integration piece here
+	winHideAd();
 }
 
 void _platform_hook(const char *hook, char *result, S32 resultLen) {
-	// Handle custom hooks here
-	if (strStartsWith(hook, "requestPurchase")) {
-		// call back with success
-		char hookData[512];
-		strcpy(hookData, hook);
-		strtok(hookData, " ");
-		char *productId = strtok(NULL, " ");
-		char callback[512];
-		sprintf(callback, "purchaseSucceeded %s", productId);
-		btCallback(callback);
-		cout << callback << endl;
-	}
+	winHook(hook, result, resultLen);
 }
 
 BOOL32 _platform_has_special_key(BatteryTech::SpecialKey sKey) {
