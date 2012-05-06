@@ -84,6 +84,7 @@ static int lua_getTimeMillis(lua_State *L);
 static int lua_setSoundEnabled(lua_State *L);
 static int lua_setVibrationEnabled(lua_State *L);
 static int lua_showFPS(lua_State *L);
+static int lua_setShadowType(lua_State *L);
 
 static GameContext* static_context;
 
@@ -159,6 +160,7 @@ lua_State* LuaBinder::newState(GameContext *context) {
 	registerFunction(L, "setSoundEnabled", lua_setSoundEnabled); // return: time in ns
 	registerFunction(L, "setVibrationEnabled", lua_setVibrationEnabled); // return: time in ns
 	registerFunction(L, "showFPS", lua_showFPS); // return: time in ns
+	registerFunction(L, "setShadowType", lua_setShadowType); // return: time in ns
 	return L;
 }
 
@@ -1035,14 +1037,22 @@ static int lua_getTimeMillis(lua_State *L) {
 
 static int lua_setSoundEnabled(lua_State *L) {
 	static_context->audioManager->setEnabled(lua_toboolean(L, 1));
+	return 0;
 }
 
 static int lua_setVibrationEnabled(lua_State *L) {
 	static_context->vibrationManager->setEnabled(lua_toboolean(L, 1));
+	return 0;
 }
 
 static int lua_showFPS(lua_State *L) {
 	static_context->showFPS = lua_toboolean(L, 1);
+	return 0;
+}
+
+static int lua_setShadowType(lua_State *L) {
+	//static_context->gConfig->shadowType = lua_tointeger(L, 1);
+	return 0;
 }
 
 Vector2f lua_toVector2f(lua_State *L, S32 startIdx) {

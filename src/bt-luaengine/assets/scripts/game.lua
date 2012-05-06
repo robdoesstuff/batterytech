@@ -6,8 +6,6 @@ GAMESTATE_LOADING = 2
 
 MODE_MAINMENU = 0
 
-MUSIC = 0
-
 -- called from engine when the Game is initializing
 function Game:init()
 	logmsg("Game init()")
@@ -17,6 +15,7 @@ function Game:init()
 	setSoundEnabled(true)
 	setVibrationEnabled(true)
 	showFPS(true)
+	setShadowType(0)
 end
 
 function Game:setMode(mode)
