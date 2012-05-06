@@ -16,7 +16,7 @@
 #include "../level/LevelIO.h"
 #include "../Game.h"
 
-#define ERROR_BG "ui/error_bg.jpg"
+#define ERROR_BG "ui/panel1_tex.png"
 #define DEFAULT_WIDTH 700
 
 ErrorMenu::ErrorMenu(GameContext *context) : Menu(ERROR_MENU_NAME) {

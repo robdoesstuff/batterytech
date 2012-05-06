@@ -23,7 +23,6 @@
 #include <bt-assimp/include/aiScene.h>
 #include <batterytech/render/GLResourceManager.h>
 #include <batterytech/render/GLAssimpBinding.h>
-#include "menus/SettingsMenu.h"
 
 #define LUA_GAME "Game"
 #define LUA_GAME_MT "GameMetaTable"
@@ -63,7 +62,6 @@ static int lua_Game_addLocalLight(lua_State *L);
 static int lua_Game_setLocalLightParam(lua_State *L);
 static int lua_Game_clearLocalLights(lua_State *L);
 static int lua_Game_addLocalLightsFromAssimp(lua_State *L);
-static int lua_Game_showOptions(lua_State *L);
 
 static const luaL_reg lua_methods[] = {
 	{ "getInstance", lua_Game_getInstance },
@@ -94,7 +92,6 @@ static const luaL_reg lua_methods[] = {
 	{ "setLocalLightParam", lua_Game_setLocalLightParam },
 	{ "clearLocalLights", lua_Game_clearLocalLights },
 	{ "addLocalLightsFromAssimp", lua_Game_addLocalLightsFromAssimp },
-	{ "showOptions", lua_Game_showOptions },
 	{ 0, 0 } };
 
 static const luaL_reg metatable[] = {
@@ -837,12 +834,6 @@ static int lua_Game_setRenderItemParam(lua_State *L) {
 			item->flags = item->flags & ~RENDERITEM_FLAG_NODES_CULL_FRUSTUM_TEST;
 		}
 	}
-	return 0;
-}
-
-static int lua_Game_showOptions(lua_State *L) {
-	static_context->uiManager->clearMenuStack();
-	static_context->uiManager->showMenu(SETTINGS_MENU_NAME);
 	return 0;
 }
 

@@ -16,8 +16,6 @@
 #include "World.h"
 #include "gameobject/GameObject.h"
 #include <batterytech/ui/Menu.h>
-#include "menus/TopMenu.h"
-#include "menus/SettingsMenu.h"
 #include "menus/ErrorMenu.h"
 #include <batterytech/util/PropertiesIO.h>
 #include "render/WorldRenderer.h"
@@ -161,10 +159,6 @@ void Game::update() {
 			// load preferences
 			loadPreferences();
 			initializeLua();
-			logmsg("Initializing Menus");
-			context->uiManager->addMenu(new TopMenu(context));
-			context->uiManager->addMenu(new SettingsMenu(context));
-            _platform_hook("initOF", NULL, 0);
 		}
 		if (!initialized || context->wasSuspended) {
 			logmsg("Initializing Renderers");

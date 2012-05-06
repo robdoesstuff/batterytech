@@ -208,11 +208,7 @@ APP_SOURCES=\
 	render\GlobalLight.cpp \
 	render\LocalLight.cpp \
 	script\LuaBinder.cpp \
-	menus\GameOptionsMenu.cpp \
-	menus\SettingsMenu.cpp \
-	menus\MenuButtonMenu.cpp \
-	menus\ErrorMenu.cpp \
-	menus\TopMenu.cpp
+	menus\ErrorMenu.cpp
 	
 APP_OBJECTS=$(addprefix $(BUILD_DIR)\, $(addsuffix .o,$(APP_SOURCES)))
 APP_DEPS=$(APP_OBJECTS:.o=.d)

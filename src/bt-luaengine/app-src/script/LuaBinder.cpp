@@ -24,6 +24,7 @@
 #include "../render/WorldRenderer.h"
 #include "../level/LevelIO.h"
 #include "../menus/ErrorMenu.h"
+#include <batterytech/VibrationManager.h>
 
 using namespace BatteryTech;
 
@@ -80,6 +81,9 @@ static int lua_showMessageDialog(lua_State *L);
 static int lua_platformHook(lua_State *L);
 static int lua_platformExit(lua_State *L);
 static int lua_getTimeMillis(lua_State *L);
+static int lua_setSoundEnabled(lua_State *L);
+static int lua_setVibrationEnabled(lua_State *L);
+static int lua_showFPS(lua_State *L);
 
 static GameContext* static_context;
 
@@ -152,6 +156,9 @@ lua_State* LuaBinder::newState(GameContext *context) {
 	registerFunction(L, "showMessageDialog", lua_showMessageDialog); // param: title, message
 	registerFunction(L, "platformExit", lua_platformExit); // param: title, message
 	registerFunction(L, "getTimeMillis", lua_getTimeMillis); // return: time in ns
+	registerFunction(L, "setSoundEnabled", lua_setSoundEnabled); // return: time in ns
+	registerFunction(L, "setVibrationEnabled", lua_setVibrationEnabled); // return: time in ns
+	registerFunction(L, "showFPS", lua_showFPS); // return: time in ns
 	return L;
 }
 
@@ -1024,6 +1031,18 @@ static int lua_platformExit(lua_State *L) {
 static int lua_getTimeMillis(lua_State *L) {
 	lua_pushinteger(L, _platform_get_time_nanos() / 1000000);
 	return 1;
+}
+
+static int lua_setSoundEnabled(lua_State *L) {
+	static_context->audioManager->setEnabled(lua_toboolean(L, 1));
+}
+
+static int lua_setVibrationEnabled(lua_State *L) {
+	static_context->vibrationManager->setEnabled(lua_toboolean(L, 1));
+}
+
+static int lua_showFPS(lua_State *L) {
+	static_context->showFPS = lua_toboolean(L, 1);
 }
 
 Vector2f lua_toVector2f(lua_State *L, S32 startIdx) {
