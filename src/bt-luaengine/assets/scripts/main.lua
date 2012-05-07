@@ -1,6 +1,9 @@
 -- This is the first script that will be run by BT Lua Engine.
 
 execScript("scripts/game.lua")
+execScript("scripts/mainmenu.lua")
+execScript("scripts/play.lua")
+execScript("scripts/options.lua")
 execScript("scripts/util.lua")
 execScript("scripts/resources.lua")
 

@@ -7,6 +7,8 @@
 
 
 addTexture("smiley_tex.png")
+addTexture("ui/button1_tex.png")
+addTexture("ui/button1_pressed_tex.png")
 
 -- tag, assetname, size, innerstroke, outerstroke, color
 addFont("red", "ui/digital.ttf", 27, 0, 1, 255,0,0,255)
