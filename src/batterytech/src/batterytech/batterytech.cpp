@@ -27,6 +27,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include "batterytech_globals.h"
+#include "util/strx.h"
 
 static Context *context = NULL;
 static GraphicsConfiguration *gConfig = NULL;
@@ -43,18 +44,17 @@ void btInit(GraphicsConfiguration *graphicsConfig, S32 width, S32 height) {
 	sprintf(buf, "BatteryTech %s Initializing...", BATTERYTECH_VERSION);
 	logmsg(buf);
 	gConfig = graphicsConfig;
-	// platform will have determined gpu capabilities and set into gConfig
-	btSetScreenSize(width, height);
 	if (context) {
 		logmsg("Context already exists!!  Check for missing shutdown calls");
 	}
 	context = btAppCreateContext(gConfig);
+	btSetScreenSize(width, height);
 	// initialize random number generator
 	srand(time(NULL));
 	for (S32 i = 0; i < TICK_SMOOTHER_SAMPLES; i++) {
 		updateTimes[i] = -1;
 	}
-	if (graphicsConfig->supportsShaders && USE_SHADERS_WHEN_SUPPORTED) {
+	if (graphicsConfig->supportsShaders && context->appProperties->get("use_shaders")->getBoolValue()) {
 		graphicsConfig->useShaders = TRUE;
 		logmsg("Using Shaders");
 	} else {
@@ -69,8 +69,8 @@ void btSetScreenSize(S32 width, S32 height) {
 	gConfig->height = height;
 	gConfig->viewportWidth = width;
 	gConfig->viewportHeight = height;
-	gConfig->scaleX2d = width / (F32)REFERENCE_WIDTH;
-	gConfig->scaleY2d = height / (F32)REFERENCE_HEIGHT;
+	gConfig->scaleX2d = width / context->appProperties->get("reference_width")->getFloatValue();
+	gConfig->scaleY2d = height / context->appProperties->get("reference_height")->getFloatValue();
 	if (width > height) {
 		gConfig->uiScale = gConfig->scaleY2d;
 	} else {
@@ -220,4 +220,8 @@ void btRelease() {
 	delete context;
 	context = NULL;
 	logmsg("Batterytech Release Complete");
+}
+
+Context* btGetContext() {
+	return context;
 }

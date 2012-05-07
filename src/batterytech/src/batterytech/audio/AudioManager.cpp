@@ -26,14 +26,16 @@
 #include <stdio.h>
 #include "PCMAudioManager.h"
 #include "../batterytech_globals.h"
+#include "../Context.h"
 
 namespace BatteryTech {
 
-	AudioManager::AudioManager() {
+	AudioManager::AudioManager(Context *context) {
+		this->context = context;
 		usingPlatformAudioManagement = FALSE;
 		pcmSoundMgr = NULL;
 		enabled = TRUE;
-		if (PREFER_PLATFORM_AUDIO_MANAGEMENT && _platform_implements_soundpool()) {
+		if (context->appProperties->get("prefer_platform_audio_management")->getBoolValue() && _platform_implements_soundpool()) {
 			usingPlatformAudioManagement = TRUE;
 			_platform_init_audiomanagement(MAX_AUDIO_STREAMS);
 		} else {

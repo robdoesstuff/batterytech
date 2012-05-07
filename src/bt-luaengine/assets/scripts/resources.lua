@@ -6,7 +6,7 @@
 -- addFont(tag, assetName, size, inner stroke, outer stroke, r,g,b,a)
 
 
-addTexture("smiley_tex.png")
+addTexture("textures/smiley_tex.png")
 addTexture("ui/button1_tex.png")
 addTexture("ui/button1_pressed_tex.png")
 

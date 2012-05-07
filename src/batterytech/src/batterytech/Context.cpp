@@ -36,7 +36,7 @@ namespace BatteryTech {
 		loadAppProperties();
 		glResourceManager = new GLResourceManager(this);
 		menuRenderer = new MenuRenderer(this);
-		audioManager = new AudioManager();
+		audioManager = new AudioManager(this);
 		networkManager = new NetworkManager(this);
 		vibrationManager = new VibrationManager(this);
 		uiManager = new UIManager(this);

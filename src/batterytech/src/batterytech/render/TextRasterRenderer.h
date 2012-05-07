@@ -91,6 +91,7 @@ namespace BatteryTech {
 		ShaderProgram *shaderProgram;
 		S32 innerStroke, outerStroke;
 		Vector4f color;
+		F32 vertSpaceMult;
 	};
 
 }

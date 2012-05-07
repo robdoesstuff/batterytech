@@ -26,11 +26,12 @@
 
 namespace BatteryTech {
 
+	class Context;
 	class PCMAudioManager;
 
 	class AudioManager {
 	public:
-		AudioManager();
+		AudioManager(Context *context);
 		virtual ~AudioManager();
 		/**
 		 * Loads a sound.  Must be called before the sound can be played unless it is a streaming sound.
@@ -111,6 +112,7 @@ namespace BatteryTech {
 		 */
 		void update();
 	private:
+		Context *context;
 		S32 getSoundId(const char *assetName);
 		BOOL32 usingPlatformAudioManagement;
 		PCMAudioManager *pcmSoundMgr;

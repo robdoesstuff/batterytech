@@ -20,6 +20,8 @@
 #include "render/GraphicsConfiguration.h"
 #include "primitives.h"
 
+namespace BatteryTech { class Context; }
+
 /*
  * Called once to initialize the engine
  */
@@ -86,6 +88,11 @@ void btRelease();
  * Callback from host OS (generally has something to do with an async callback from an earlier hook like IAP)
  */
 void btCallback(const char *data);
+
+/**
+ * Gets the static instance of the application context
+ */
+BatteryTech::Context* btGetContext();
 
 #endif /* BATTERYTECH_H_ */
 

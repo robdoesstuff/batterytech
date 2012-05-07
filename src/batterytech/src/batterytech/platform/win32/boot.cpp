@@ -29,13 +29,10 @@
 #include <fcntl.h>
 #include <io.h>
 #include "../../batterytech_globals.h"
+#include "../../Context.h"
 
 using namespace std;
 using namespace BatteryTech;
-
-#define CONSOLE CONSOLE_LOG_ENABLED_WHEN_AVAILABLE
-#define DEFAULT_WIDTH WINDOW_WIDTH
-#define DEFAULT_HEIGHT WINDOW_HEIGHT
 
 #ifdef __MINGW32__
 #define _LPCSTR LPCSTR
@@ -180,36 +177,33 @@ HWND hWnd;
 
 extern "C" {
 
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
-		LPSTR lpCmdLine, int iCmdShow) {
+void setupConsole() {
+	// set up console
+	int iConsoleHandle;
+	long lStdHandle;
+	FILE* pFile;
+	CONSOLE_SCREEN_BUFFER_INFO CSBIConsoleInfo;
+	AllocConsole();
+	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE),  &CSBIConsoleInfo);
+	CSBIConsoleInfo.dwSize.Y = 1024;SetConsoleScreenBufferSize(GetStdHandle(STD_OUTPUT_HANDLE), CSBIConsoleInfo.dwSize);
+	//Redirect to the console
+	lStdHandle = reinterpret_cast<long>(GetStdHandle(STD_OUTPUT_HANDLE));
+	iConsoleHandle = _open_osfhandle(lStdHandle, _O_TEXT);
+	pFile = _fdopen( iConsoleHandle, "w" );
+	*stdout = *pFile;
+	setvbuf( stdout, NULL, _IONBF, 0 );
+	lStdHandle = reinterpret_cast<long>(GetStdHandle(STD_ERROR_HANDLE));
+	iConsoleHandle = _open_osfhandle(lStdHandle, _O_TEXT);
+	pFile = _fdopen( iConsoleHandle, "w" );
+	*stderr = *pFile;
+	setvbuf( stderr, NULL, _IONBF, 0 );
+	std::ios::sync_with_stdio();
+}
+
+void createWindow(HINSTANCE hInstance, long width, long height, const char *title) {
 	WNDCLASS wc;
-	MSG msg;
 	DWORD dwExStyle; // Window Extended Style
 	DWORD dwStyle; // Window Style
-
-	if (CONSOLE) {
-		// set up console
-		int iConsoleHandle;
-		long lStdHandle;
-		FILE* pFile;
-		CONSOLE_SCREEN_BUFFER_INFO CSBIConsoleInfo;
-		AllocConsole();
-		GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE),  &CSBIConsoleInfo);
-		CSBIConsoleInfo.dwSize.Y = 1024;SetConsoleScreenBufferSize(GetStdHandle(STD_OUTPUT_HANDLE), CSBIConsoleInfo.dwSize);
-		//Redirect to the console
-		lStdHandle = reinterpret_cast<long>(GetStdHandle(STD_OUTPUT_HANDLE));
-		iConsoleHandle = _open_osfhandle(lStdHandle, _O_TEXT);
-		pFile = _fdopen( iConsoleHandle, "w" );
-		*stdout = *pFile;
-		setvbuf( stdout, NULL, _IONBF, 0 );
-		lStdHandle = reinterpret_cast<long>(GetStdHandle(STD_ERROR_HANDLE));
-		iConsoleHandle = _open_osfhandle(lStdHandle, _O_TEXT);
-		pFile = _fdopen( iConsoleHandle, "w" );
-		*stderr = *pFile;
-		setvbuf( stderr, NULL, _IONBF, 0 );
-		std::ios::sync_with_stdio();
-	}
-
 	// register window class
 	wc.style = CS_OWNDC;
 	wc.lpfnWndProc = WndProc;
@@ -221,16 +215,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	wc.hCursor = LoadCursor(NULL, IDC_ARROW );
 	wc.hbrBackground = (HBRUSH) GetStockObject(BLACK_BRUSH);
 	wc.lpszMenuName = NULL;
-	wc.lpszClassName = (_LPCSTR)"DemoApp";
+	wc.lpszClassName = (_LPCSTR)"BTApp";
 	RegisterClass(&wc);
 
 	dwExStyle = WS_EX_APPWINDOW | WS_EX_WINDOWEDGE;
 	dwStyle = WS_OVERLAPPEDWINDOW & ~(WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_THICKFRAME);
 	RECT WindowRect;
 	WindowRect.left = (long) 0;
-	WindowRect.right = (long) DEFAULT_WIDTH;
+	WindowRect.right = (long) width;
 	WindowRect.top = (long) 0;
-	WindowRect.bottom = (long) DEFAULT_HEIGHT;
+	WindowRect.bottom = (long) height;
 	AdjustWindowRectEx(&WindowRect, dwStyle, FALSE, dwExStyle); // Adjust Window To True Requested Size
 	// create main window
 	/*hWnd = CreateWindow(
@@ -241,12 +235,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	DWORD dwWidth = GetSystemMetrics(SM_CXFULLSCREEN);
 	DWORD dwHeight = GetSystemMetrics(SM_CYFULLSCREEN);
 	hWnd = CreateWindowEx(dwExStyle, // Extended Style For The Window
-			(_LPCSTR)"DemoApp", // Class Name
-			(_LPCSTR)WINDOWED_APP_NAME, // Window Title
+			(_LPCSTR)"BTApp", // Class Name
+			(_LPCSTR)title, // Window Title
 			WS_CLIPSIBLINGS | // Required Window Style
 					WS_CLIPCHILDREN | // Required Window Style
 					WS_VISIBLE | dwStyle, // Selected Window Style
-					dwWidth / 2 - DEFAULT_WIDTH / 2, dwHeight /2 - DEFAULT_HEIGHT / 2, // Window Position
+					dwWidth / 2 - width / 2, dwHeight /2 - height / 2, // Window Position
 			WindowRect.right - WindowRect.left, // Calculate Adjusted Window Width
 			WindowRect.bottom - WindowRect.top, // Calculate Adjusted Window Height
 			NULL, // No Parent Window
@@ -254,6 +248,30 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 			hInstance, // Instance
 			NULL);
 
+}
+
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
+		LPSTR lpCmdLine, int iCmdShow) {
+	MSG msg;
+
+	// what modern PC video card doesn't support shaders?
+	GraphicsConfiguration *gConfig = new GraphicsConfiguration;
+	gConfig->supportsHWmipmapgen = true;
+	gConfig->supportsUVTransform = true;
+	gConfig->supportsVBOs = true;
+	// with windows we assume shader support but will correct it later if this is wrong
+	gConfig->supportsShaders = true;
+	btInit(gConfig, 0, 0);
+	Context *context = btGetContext();
+	S32 windowWidth = context->appProperties->get("window_width")->getIntValue();
+	S32 windowHeight = context->appProperties->get("window_height")->getIntValue();
+	BOOL32 console = context->appProperties->get("console_log_enabled_when_available")->getBoolValue();
+	btSetScreenSize(windowWidth, windowHeight);
+	if (console) {
+		setupConsole();
+	}
+	// createWindow(hInstance, windowWidth, windowHeight, context->appProperties->get("windowed_app_name")->getValue());
+	createWindow(hInstance, windowWidth, windowHeight, "Window name");
 	HANDLE hThread1;
 	DWORD dwGenericThread;
 	hThread1 = CreateThread(NULL, 0, StartThread, NULL, 0, &dwGenericThread);
@@ -279,6 +297,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	WaitForSingleObject(hThread1, INFINITE);
 	// destroy the window explicitly
 	DestroyWindow(hWnd);
+	//delete gConfig;
+	//gConfig = NULL;
 	return msg.wParam;
 }
 
@@ -286,25 +306,19 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
 DWORD WINAPI StartThread(LPVOID iValue) {
 	cout << "Starting Game Thread" << endl;
-	GraphicsConfiguration *gConfig;
 	HGLRC hRC;
 	HDC hDC;
 	// enable OpenGL for the window
 	cout << "Enabling OpenGL" << endl;
 	EnableOpenGL(hWnd, &hDC, &hRC);
-	gConfig = new GraphicsConfiguration;
-	gConfig->supportsHWmipmapgen = true;
-	gConfig->supportsUVTransform = true;
-	gConfig->supportsVBOs = true;
-	// what modern PC video card doesn't support shaders?
 	if (glCreateShader) {
 		logmsg("Shaders supported");
-		gConfig->supportsShaders = true;
+		btGetContext()->gConfig->supportsShaders = true;
 	} else {
 		logmsg("Shaders not supported");
-		gConfig->supportsShaders = false;
+		btGetContext()->gConfig->supportsShaders = false;
+		btGetContext()->gConfig->useShaders = FALSE;
 	}
-	btInit(gConfig, DEFAULT_WIDTH, DEFAULT_HEIGHT);
 	DWORD time = timeGetTime();
 	DWORD oldTime = time;
 	while (!quit) {
@@ -319,8 +333,6 @@ DWORD WINAPI StartThread(LPVOID iValue) {
 	btRelease();
 	// shutdown OpenGL
 	DisableOpenGL(hWnd, hDC, hRC);
-	delete gConfig;
-	gConfig = NULL;
 	return 0;
 }
 
@@ -575,7 +587,9 @@ void EnableOpenGL(HWND hWnd, HDC * hDC, HGLRC * hRC) {
 	glCheckFramebufferStatus = (PFNGLCHECKFRAMEBUFFERSTATUSPROC) wglLoadExtension("glCheckFramebufferStatus");
 	glFramebufferTexture2D = (PFNGLFRAMEBUFFERTEXTURE2DPROC) wglLoadExtension("glFramebufferTexture2D");
 	glFramebufferRenderbuffer = (PFNGLFRAMEBUFFERRENDERBUFFERPROC) wglLoadExtension("glFramebufferRenderbuffer");
-	glGetFramebufferAttachmentParameteriv = (PFNGLGETFRAMEBUFFERATTACHMENTPARAMETERIVPROC) wglLoadExtension("glGetFramebufferAttachmentParameteriv");
+	glGetFramebufferAttachmentParameteriv = (PFNGLGETFRAMEBUFFERATTACHMENTPARAMETERIVPROC) wglLoadExtension
+
+("glGetFramebufferAttachmentParameteriv");
 	glGenerateMipmap = (PFNGLGENERATEMIPMAPPROC) wglLoadExtension("glGenerateMipmap");
 }
 

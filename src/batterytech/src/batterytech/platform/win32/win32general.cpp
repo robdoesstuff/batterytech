@@ -21,6 +21,7 @@
 #include "../../batterytech_globals.h"
 #include "../../util/strx.h"
 #include "../../batterytech.h"
+#include "../../Context.h"
 
 using namespace std;
 using namespace BatteryTech;
@@ -176,7 +177,7 @@ void _platform_get_external_storage_dir_name(char* buf, S32 buflen) {
 		strncpy(buf, szPath, buflen);
 		buf[buflen] = '\0';
 		strcat(buf, "\\");
-		strcat(buf, BT_STORAGE_DIR);
+		strcat(buf, btGetContext()->appProperties->get("storage_dir")->getValue());
 	} else {
 		buf[0] = '\0';
 	}
@@ -192,7 +193,7 @@ void _platform_get_application_storage_dir_name(char* buf, S32 buflen) {
 		strncpy(buf, szPath, buflen);
 		buf[buflen] = '\0';
 		strcat(buf, "\\");
-		strcat(buf, BT_STORAGE_DIR);
+		strcat(buf, btGetContext()->appProperties->get("storage_dir")->getValue());
 	} else {
 		buf[0] = '\0';
 	}

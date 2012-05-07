@@ -78,43 +78,4 @@
 /// ------------- version ---------------
 #define BATTERYTECH_VERSION "2.0 alpha"
 
-
-
-
-// TODO - move to config file
-
-// Will you support a GLES 2.0 shader pipeline if the device supports it?
-#define USE_SHADERS_WHEN_SUPPORTED TRUE
-// What width are you designing your UI to?  This will become your UI width unit.
-#define REFERENCE_WIDTH 800
-// What height are you designing your UI to?  This will become your UI height unit.
-#define REFERENCE_HEIGHT 480
-
-/// -------------- Windows -------------------
-// If a console window is available, display it?
-#define CONSOLE_LOG_ENABLED_WHEN_AVAILABLE TRUE
-// If your app were a test window, what would the width be?
-#define WINDOW_WIDTH 1280
-// If your app were a test window, what would the height be?
-#define WINDOW_HEIGHT 800
-// If your app were a test window, what would the title be?
-#define WINDOWED_APP_NAME "Slyon Ball"
-// If your OS has a shared documents directory, we will use this subdirectory
-#define BT_STORAGE_DIR "SlyonBall"
-
-/// -------------- UI and Text --------------
-// When rasterizing a font to a texture, this is the first width attempted.
-#define INITIAL_FONT_TEXTURE_WIDTH 256
-// When rasterizing a font to a texture, this is the first height attempted
-#define INITIAL_FONT_TEXTURE_HEIGHT 256
-// Font size in reference units for UI text
-#define UI_FONT_SIZE 40.0f
-// How much vertical space to give multiline text
-#define TEXT_VERTICAL_SPACING_MULT 1.2f
-
-/// -------------- audio --------------------
-// Would you like to use the platform's audio management (soundpool, mediaplayer, etc)?
-// If false, native PCM mixing will always be used.
-#define PREFER_PLATFORM_AUDIO_MANAGEMENT FALSE
-
 #endif /* BATTERYTECH_GLOBALS_H_ */

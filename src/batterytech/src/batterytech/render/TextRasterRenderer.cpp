@@ -39,7 +39,7 @@ namespace BatteryTech {
 	TextRasterRenderer::TextRasterRenderer(Context *context, const char *assetName, F32 fontSize) {
 		this->context = context;
 		aName = strDuplicate(assetName);
-		this->fontSize = fontSize * context->gConfig->uiScale;
+		this->fontSize = fontSize;
 		bmpWidth = 0;
 		bmpHeight = 0;
 		shaderProgram = new ShaderProgram("shaders/quadshader.vert", "shaders/quadshader.frag");
@@ -66,8 +66,9 @@ namespace BatteryTech {
 		if (!newContext) {
 			return;
 		}
-		S32 bmpWidth = INITIAL_FONT_TEXTURE_WIDTH;
-		S32 bmpHeight = INITIAL_FONT_TEXTURE_HEIGHT;
+		S32 bmpWidth = context->appProperties->get("initial_font_texture_width")->getIntValue();
+		S32 bmpHeight = context->appProperties->get("initial_font_texture_height")->getIntValue();
+		vertSpaceMult = context->appProperties->get("text_vertical_spacing_multiplier")->getFloatValue();
 		S32 size = 0;
 		BYTE8 *data;
 		data = _platform_load_asset(aName, &size);
@@ -83,13 +84,14 @@ namespace BatteryTech {
 			stbtt_GetFontVMetrics(&f, &ascent, &descent, &lineGap);
 			stbtt_GetFontHMetrics(&f, &advanceWidthMax, &minLeftSideBearing, &minRightSideBearing, &xMaxExtent);
 			printf("Font Metrics: ascent=%d, descent=%d, lineGap=%d, awm=%d, mlsb=%d, mrsb=%d, xmax=%d\n", ascent, descent, lineGap, advanceWidthMax, minLeftSideBearing, minRightSideBearing, xMaxExtent);
-			F32 scale = stbtt_ScaleForPixelHeight(&f, fontSize);
-			printf("Bitmap Scale: %f = %f, awmScaled=%f, xmaxScaled=%f\n", fontSize, scale, advanceWidthMax*scale, xMaxExtent*scale);
+			F32 scaledFontSize = fontSize * context->gConfig->uiScale;
+			F32 scale = stbtt_ScaleForPixelHeight(&f, scaledFontSize);
+			printf("Bitmap Scale: %f = %f, awmScaled=%f, xmaxScaled=%f\n", scaledFontSize, scale, advanceWidthMax*scale, xMaxExtent*scale);
 			while (!fit) {
 				// this isn't the most efficient way to do this but anything better will require modifying stb_truetype to do a dry run with no allocation
 				temp_bitmap = (unsigned char*) malloc(sizeof(unsigned char) * bmpWidth*bmpHeight);
 				temp_bitmap_rgba = (unsigned char*) malloc(sizeof(unsigned char) * bmpWidth*bmpHeight*4);
-				S32 result = stbtt_BakeFontBitmap(data, 0, fontSize, temp_bitmap, bmpWidth, bmpHeight, 32,95, cdata, outerStroke); // no guarantee this fits!
+				S32 result = stbtt_BakeFontBitmap(data, 0, scaledFontSize, temp_bitmap, bmpWidth, bmpHeight, 32,95, cdata, outerStroke); // no guarantee this fits!
 				if (result <= 0) {
 					// didn't fit it all
 					increaseToggle = !increaseToggle;
@@ -324,13 +326,15 @@ namespace BatteryTech {
 			glVertexPointer(3, GL_FLOAT, 0, &verts);
 			glTexCoordPointer(2, GL_FLOAT, 0, &uvs);
 		}
-		glDrawArrays(GL_TRIANGLES, 0, length * 6);
+		if (length > 0) {
+			glDrawArrays(GL_TRIANGLES, 0, length * 6);
+		}
 	}
 
 	F32 TextRasterRenderer::measureMultilineHeight(const char *text, F32 availableWidth, F32 scale) {
 		S32 i = 0;
 		S32 lastSpaceIdx = -1;
-		F32 lineHeight = getHeight(scale) * TEXT_VERTICAL_SPACING_MULT;
+		F32 lineHeight = getHeight(scale) * vertSpaceMult;
 		F32 x = 0;
 		// first line's height
 		F32 y = lineHeight;
@@ -414,7 +418,7 @@ namespace BatteryTech {
 		S32 lastSpaceRenderIdx = -1;
 		F32 origX = x;
 		//F32 origY = y;
-		F32 lineHeight = getHeight() * TEXT_VERTICAL_SPACING_MULT;
+		F32 lineHeight = getHeight() * vertSpaceMult;
 		char c = *text;
 		while (c && i <= TEXT_RENDER_MAX_MULTILINE_LENGTH) {
 			if (c == '\n') {
@@ -518,7 +522,9 @@ namespace BatteryTech {
 			glVertexPointer(3, GL_FLOAT, 0, &verts);
 			glTexCoordPointer(2, GL_FLOAT, 0, &uvs);
 		}
-		glDrawArrays(GL_TRIANGLES, 0, renderChars * 6);
+		if (renderChars > 0) {
+			glDrawArrays(GL_TRIANGLES, 0, renderChars * 6);
+		}
 	}
 
 	void TextRasterRenderer::applyOuterStroke(unsigned char* bitmap8, unsigned char* bitmap, S32 width, S32 height) {
