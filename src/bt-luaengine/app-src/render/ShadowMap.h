@@ -12,6 +12,7 @@
 #include <batterytech/math/Vector4.h>
 #include <batterytech/primitives.h>
 #include <batterytech/platform/platformgl.h>
+#include <batterytech/render/GraphicsConfiguration.h>
 
 class GameContext;
 using namespace BatteryTech;
@@ -33,6 +34,8 @@ private:
    	GLuint renderBuffer;
     GLuint shadowTexture;
     BOOL32 hasDepthTexture;
+    GLuint shadowWidth, shadowHeight;
+    GraphicsConfiguration::ShadowType currentShadowType;
 };
 
 #endif /* ShadowMap_H_ */

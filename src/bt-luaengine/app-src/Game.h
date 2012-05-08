@@ -41,6 +41,7 @@ public:
 	virtual void onNetworkDisconnected();
 	GameLuaBinder *luaBinder;
 	TouchInputProcessor *touchInputProcessor;
+	BOOL32 needsReset;
 private:
 	GameContext *context;
 	BOOL32 isFocused;

@@ -5,7 +5,21 @@ MainMenu = {}
 function MainMenu.new()
 	local self = table.copy(MainMenu)
 	self.buttons = {}
-	local button = makeButton(500, 300, 280, 100, "test")
+	local button = makeButton(500, 300, 280, 100, "Play")
+	button.onClickUp = function()
+		game:setMode(MODE_PLAY)
+	end
+	table.insert(self.buttons, button)
+	button = makeButton(500, 410, 280, 100, "Options")
+	button.onClickUp = function()
+		game:setMode(MODE_OPTIONS)
+	end
+	table.insert(self.buttons, button)
+	button = makeButton(500, 520, 280, 100, "Reload")
+	button.onClickUp = function()
+		logmsg("Reload")
+		game:engineReset()
+	end
 	table.insert(self.buttons, button)
 	return self
 end

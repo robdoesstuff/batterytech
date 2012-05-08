@@ -14,8 +14,9 @@
 #include <batterytech/render/ShaderProgram.h>
 #include "RenderItem.h"
 
-class GameContext;
 using namespace BatteryTech;
+
+class GameContext;
 
 class SimpleSpriteRenderer : Renderer {
 public:

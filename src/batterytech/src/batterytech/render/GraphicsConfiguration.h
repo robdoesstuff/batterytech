@@ -45,8 +45,10 @@ namespace BatteryTech {
 
 		enum ShadowType {
 			SHADOWTYPE_NONE,
-			SHADOWTYPE_SHADOWMAP
+			SHADOWTYPE_SHADOWMAP,
+			SHADOWTYPE_SHADOWMAP_HQ
 		};
+
 
 		/**
 		 * The scale of the UI on the current display.  1.0 = reference size.

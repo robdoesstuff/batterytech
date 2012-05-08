@@ -64,6 +64,7 @@ static int lua_Game_setLocalLightParam(lua_State *L);
 static int lua_Game_clearLocalLights(lua_State *L);
 static int lua_Game_addLocalLightsFromAssimp(lua_State *L);
 static int lua_Game_measureText(lua_State *L);
+static int lua_Game_engineReset(lua_State *L);
 
 static const luaL_reg lua_methods[] = {
 	{ "getInstance", lua_Game_getInstance },
@@ -95,6 +96,7 @@ static const luaL_reg lua_methods[] = {
 	{ "clearLocalLights", lua_Game_clearLocalLights },
 	{ "addLocalLightsFromAssimp", lua_Game_addLocalLightsFromAssimp },
 	{ "measureText", lua_Game_measureText },
+	{ "engineReset", lua_Game_engineReset },
 	{ 0, 0 } };
 
 static const luaL_reg metatable[] = {
@@ -842,7 +844,7 @@ static int lua_Game_setRenderItemParam(lua_State *L) {
 
 // game, tag, text -- returns width/height
 static int lua_Game_measureText(lua_State *L) {
-	Game *game = *(Game**)lua_touserdata(L, 1);
+	// Game *game = *(Game**)lua_touserdata(L, 1);
 	const char *tag = lua_tostring(L, 2);
 	const char *text = lua_tostring(L, 3);
 	F32 scale = 1.0f;
@@ -858,6 +860,11 @@ static int lua_Game_measureText(lua_State *L) {
 		lua_pushnumber(L, 0);
 	}
 	return 2;
+}
+
+static int lua_Game_engineReset(lua_State *L) {
+	static_context->game->needsReset = TRUE;
+	return 0;
 }
 
 // --------------- metamethods ----------------

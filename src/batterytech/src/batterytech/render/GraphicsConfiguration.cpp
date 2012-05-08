@@ -34,7 +34,7 @@ namespace BatteryTech {
 		supportsHWmipmapgen = FALSE;
 		supportsUVTransform = FALSE;
 		supportsShaders = FALSE;
-		shadowType = SHADOWTYPE_SHADOWMAP;
+		shadowType = SHADOWTYPE_NONE;
 	}
 
 	GraphicsConfiguration::~GraphicsConfiguration() {

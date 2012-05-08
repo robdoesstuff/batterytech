@@ -481,7 +481,7 @@ void AssimpRenderer::renderShadow(RenderItem* item) {
 
 void AssimpRenderer::renderNodeShadow(RenderNode *node, GLAssimpBinding *binding, RenderItem *item, Matrix4f mv) {
 	Matrix4f myMv = mv * node->globalTransform;
-    if (node->meshCount && !node->isBone) {
+    if (node->meshCount && !node->isBone && !strStartsWith(node->name, "noshadow")) {
 		for (U32 i = 0; i < node->meshCount; i++) {
 			U32 meshIdx = node->meshIndices[i];
 			GLAssimpMeshBinding *meshBinding = binding->meshBindingPtrs[meshIdx];

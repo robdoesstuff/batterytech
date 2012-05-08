@@ -15,8 +15,11 @@
 #include "GlobalLight.h"
 #include <batterytech/render/Renderer.h>
 
-#define SHADOWMAP_WIDTH    1024
-#define SHADOWMAP_HEIGHT   1024
+#define SHADOWMAP_WIDTH    512
+#define SHADOWMAP_HEIGHT   512
+
+#define SHADOWMAP_HQ_WIDTH    1024
+#define SHADOWMAP_HQ_HEIGHT   1024
 
 // bias moves from unit cube [-1,1] to [0,1]
 const Matrix4f biasMatrix(
@@ -38,7 +41,10 @@ ShadowMap::~ShadowMap() {
 }
 
 void ShadowMap::init(BOOL32 newContext) {
-	if (newContext) {   
+	if (newContext) {
+		shadowTexture = 0;
+		renderBuffer = 0;
+		shadowFrameBuffer = 0;
 		logmsg("Initializing ShadowMap");
 		generateShadowFBO();    
 	}
@@ -46,9 +52,35 @@ void ShadowMap::init(BOOL32 newContext) {
 
 void ShadowMap::generateShadowFBO() {
 	Renderer::checkGLError("ShadowMap start generateShadowFBO()");
-	int shadowMapWidth = SHADOWMAP_WIDTH;
-	int shadowMapHeight = SHADOWMAP_HEIGHT;
-
+	if (context->gConfig->shadowType == GraphicsConfiguration::SHADOWTYPE_SHADOWMAP) {
+		shadowWidth = SHADOWMAP_WIDTH;
+		shadowHeight = SHADOWMAP_HEIGHT;
+	} else if (context->gConfig->shadowType == GraphicsConfiguration::SHADOWTYPE_SHADOWMAP_HQ) {
+		shadowWidth = SHADOWMAP_HQ_WIDTH;
+		shadowHeight = SHADOWMAP_HQ_HEIGHT;
+	} else {
+		// no shadowmap
+		shadowWidth = 0;
+		shadowHeight = 0;
+		context->renderContext->shadowMVP.identity();
+		context->renderContext->shadowLookupMatrix.identity();
+	}
+	currentShadowType = context->gConfig->shadowType;
+	if (shadowTexture) {
+		glDeleteTextures(1, &shadowTexture);
+		shadowTexture = 0;
+	}
+	if (renderBuffer) {
+		glDeleteRenderbuffers(1, &renderBuffer);
+		renderBuffer = 0;
+	}
+	if (shadowFrameBuffer) {
+		glDeleteFramebuffers(1, &shadowFrameBuffer);
+		shadowFrameBuffer = 0;
+	}
+	if (!shadowWidth || !shadowHeight) {
+		return;
+	}
 	// Create the texture we'll use to store our depth values
 	glGenTextures(1, &shadowTexture);
 	glBindTexture(GL_TEXTURE_2D, shadowTexture);
@@ -59,7 +91,7 @@ void ShadowMap::generateShadowFBO() {
 	glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );
 	// We'll use an RGBA texture to store the depths in the shadow map
 //	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, shadowMapWidth, shadowMapHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, shadowMapWidth, shadowMapHeight, 0, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, shadowWidth, shadowHeight, 0, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, NULL);
 	// clear bound texture
 	glBindTexture(GL_TEXTURE_2D, 0);
 	Renderer::checkGLError("ShadowMap create shadow texture");
@@ -68,7 +100,7 @@ void ShadowMap::generateShadowFBO() {
 	glGenRenderbuffers(1, &renderBuffer);
 	glBindRenderbuffer(GL_RENDERBUFFER, renderBuffer);
      // Allocate 16-bit depth buffer
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, shadowMapWidth, shadowMapHeight);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, shadowWidth, shadowHeight);
     // clear bound renderbuffer 
     glBindRenderbuffer(GL_RENDERBUFFER, 0);
 	Renderer::checkGLError("ShadowMap create renderbuffer");
@@ -93,11 +125,17 @@ void ShadowMap::generateShadowFBO() {
 }
 
 void ShadowMap::bindForMapCreation() {
+	if (currentShadowType != context->gConfig->shadowType) {
+		generateShadowFBO();
+	}
+	if (context->gConfig->shadowType == GraphicsConfiguration::SHADOWTYPE_NONE) {
+		return;
+	}
 	Renderer::checkGLError("ShadowMap start bindForMapCreation()");
 	//First step: Render from the light POV to a FBO, store depth values only
 	glBindFramebuffer(GL_FRAMEBUFFER, shadowFrameBuffer);	//Rendering offscreen
 	// Viewport is now the size of the shadowmap texture
-	glViewport(0,0,SHADOWMAP_WIDTH,SHADOWMAP_HEIGHT);
+	glViewport(0,0,shadowWidth,shadowHeight);
 	// Clear previous frame values
 	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 	// depth buffer is cleared before binding back to main fb
@@ -110,7 +148,7 @@ void ShadowMap::bindForMapCreation() {
 	Vector3f lightOrigin = context->world->globalLight->origin;
 	Vector2f nearFar = context->world->globalLight->shadowFrustumNearFar;
 	// app specifies near and far Z
-	proj.perspective(45,(float)SHADOWMAP_WIDTH/(float)SHADOWMAP_HEIGHT, nearFar.x, nearFar.y);
+	proj.perspective(45,(float)shadowWidth/(float)shadowHeight, nearFar.x, nearFar.y);
 	Vector3f lookAt = (lightOrigin + (context->world->globalLight->direction*-1.0f)*10.0f);
 	Vector3f up(0,0,1);
 	if (up.dot(lightOrigin - lookAt) == 1.0f) {
@@ -133,6 +171,9 @@ void ShadowMap::bindForMapCreation() {
 }
 
 void ShadowMap::unbindAfterMapCreation() {
+	if (context->gConfig->shadowType == GraphicsConfiguration::SHADOWTYPE_NONE) {
+		return;
+	}
 	// Back to default viewport
 	glViewport(0,0,context->gConfig->viewportWidth,context->gConfig->viewportHeight);
 	// Now rendering from the camera POV, using the FBO to generate shadows
@@ -145,6 +186,9 @@ void ShadowMap::unbindAfterMapCreation() {
 }
 
 void ShadowMap::bindForSceneRender() {
+	if (context->gConfig->shadowType == GraphicsConfiguration::SHADOWTYPE_NONE) {
+		return;
+	}
 	Renderer::checkGLError("ShadowMap start bindForSceneRender()");
 	// bind our shadowmap to texture 2
     glActiveTexture(GL_TEXTURE2);
@@ -155,6 +199,9 @@ void ShadowMap::bindForSceneRender() {
 }
 
 void ShadowMap::unbindAfterSceneRender() {
+	if (context->gConfig->shadowType == GraphicsConfiguration::SHADOWTYPE_NONE) {
+		return;
+	}
     glActiveTexture(GL_TEXTURE2);
     glBindTexture(GL_TEXTURE_2D, 0);
     glActiveTexture(GL_TEXTURE0);
@@ -162,6 +209,9 @@ void ShadowMap::unbindAfterSceneRender() {
 }
 
 void ShadowMap::bindAsTexture() {
+	if (context->gConfig->shadowType == GraphicsConfiguration::SHADOWTYPE_NONE) {
+		return;
+	}
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D,shadowTexture);
 }

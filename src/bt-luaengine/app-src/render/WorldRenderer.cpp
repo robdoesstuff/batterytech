@@ -123,9 +123,7 @@ void WorldRenderer::init(BOOL32 newContext) {
 	checkGLError("WorldRenderer Init");
 	context->world->renderersReady = TRUE;
 	Texture::textureSwitches = 0;
-	if (context->gConfig->shadowType == GraphicsConfiguration::SHADOWTYPE_SHADOWMAP) {
-		shadowMap->init(newContext);
-	}
+	shadowMap->init(newContext);
 }
 
 void WorldRenderer::render() {
@@ -181,7 +179,7 @@ void WorldRenderer::render() {
 			}
 		}
         // first thing we should do is deal with any FBO rendering
-		if (context->gConfig->shadowType == GraphicsConfiguration::SHADOWTYPE_SHADOWMAP && has3DObjects) {
+		if (context->gConfig->shadowType != GraphicsConfiguration::SHADOWTYPE_NONE && has3DObjects) {
             shadowMap->bindForMapCreation();
     		for (S32 i = 0; i < world->renderItemsUsed; i++) {
     			RenderItem *item = &world->renderItems[i];
@@ -221,7 +219,7 @@ void WorldRenderer::render() {
 	   	checkGLError("WorldRenderer After 2DBG");
 		// now 3D
         
-		if (context->gConfig->shadowType == GraphicsConfiguration::SHADOWTYPE_SHADOWMAP && has3DObjects) {
+		if (context->gConfig->shadowType != GraphicsConfiguration::SHADOWTYPE_NONE && has3DObjects) {
 			shadowMap->bindForSceneRender();
 		}
 	    glEnable(GL_CULL_FACE);
@@ -262,7 +260,7 @@ void WorldRenderer::render() {
         assimpRenderer->unbind();
         
 	   	checkGLError("WorldRenderer After Transparent 3D");
-        if (context->gConfig->shadowType == GraphicsConfiguration::SHADOWTYPE_SHADOWMAP && has3DObjects) {
+        if (context->gConfig->shadowType != GraphicsConfiguration::SHADOWTYPE_NONE && has3DObjects) {
         	shadowMap->unbindAfterSceneRender();
         }
     	checkGLError("WorldRenderer After 3D");

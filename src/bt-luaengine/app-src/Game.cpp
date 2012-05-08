@@ -42,6 +42,7 @@ Game::Game(GameContext *context) {
 	luaBinder = NULL;
 	touchInputProcessor = new TouchInputProcessor();
 	isInError = FALSE;
+	needsReset = FALSE;
 }
 
 Game::~Game() {
@@ -60,6 +61,7 @@ Game::~Game() {
 	// menus are freed by uimanager
 	delete luaBinder;
 	luaBinder = NULL;
+	needsReset = FALSE;
 	logmsg("Done Releasing Game");
 }
 
@@ -124,6 +126,10 @@ void Game::update() {
 		lua_settop(luaBinder->L, 0);
 		// Don't do anything but keep the lua stack clear
 		return;
+	}
+	if (needsReset) {
+		reset();
+		needsReset = FALSE;
 	}
 	if (context->callbackDataReady) {
 		//context->callbackData;
