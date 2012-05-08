@@ -23,6 +23,7 @@
 #include <bt-assimp/include/aiScene.h>
 #include <batterytech/render/GLResourceManager.h>
 #include <batterytech/render/GLAssimpBinding.h>
+#include "render/WorldRenderer.h"
 
 #define LUA_GAME "Game"
 #define LUA_GAME_MT "GameMetaTable"
@@ -62,6 +63,7 @@ static int lua_Game_addLocalLight(lua_State *L);
 static int lua_Game_setLocalLightParam(lua_State *L);
 static int lua_Game_clearLocalLights(lua_State *L);
 static int lua_Game_addLocalLightsFromAssimp(lua_State *L);
+static int lua_Game_measureText(lua_State *L);
 
 static const luaL_reg lua_methods[] = {
 	{ "getInstance", lua_Game_getInstance },
@@ -92,6 +94,7 @@ static const luaL_reg lua_methods[] = {
 	{ "setLocalLightParam", lua_Game_setLocalLightParam },
 	{ "clearLocalLights", lua_Game_clearLocalLights },
 	{ "addLocalLightsFromAssimp", lua_Game_addLocalLightsFromAssimp },
+	{ "measureText", lua_Game_measureText },
 	{ 0, 0 } };
 
 static const luaL_reg metatable[] = {
@@ -835,6 +838,26 @@ static int lua_Game_setRenderItemParam(lua_State *L) {
 		}
 	}
 	return 0;
+}
+
+// game, tag, text -- returns width/height
+static int lua_Game_measureText(lua_State *L) {
+	Game *game = *(Game**)lua_touserdata(L, 1);
+	const char *tag = lua_tostring(L, 2);
+	const char *text = lua_tostring(L, 3);
+	F32 scale = 1.0f;
+	if (lua_isnumber(L, 4)) {
+		scale = lua_tonumber(L, 4);
+	}
+	TextRasterRenderer *renderer = static_context->worldRenderer->getTextRenderer(tag);
+	if (renderer) {
+		lua_pushnumber(L, renderer->measureWidth(text, scale));
+		lua_pushnumber(L, renderer->getHeight(scale));
+	} else {
+		lua_pushnumber(L, 0);
+		lua_pushnumber(L, 0);
+	}
+	return 2;
 }
 
 // --------------- metamethods ----------------

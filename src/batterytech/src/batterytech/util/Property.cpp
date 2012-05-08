@@ -69,4 +69,19 @@ namespace BatteryTech {
 		this->value = strDuplicate(value);
 	}
 
+	Vector4f Property::getVector4fValue() {
+		if (value) {
+			char *tok = strtok(value, " ");
+			Vector4f v;
+			int i = 0;
+			while (tok && i < 4) {
+				v[i] = atof(tok);
+				tok = strtok(NULL, " ");
+				i++;
+			}
+			return v;
+		}
+		return Vector4f(0,0,0,0);
+	}
+
 }

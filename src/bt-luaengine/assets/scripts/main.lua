@@ -6,6 +6,8 @@ execScript("scripts/play.lua")
 execScript("scripts/options.lua")
 execScript("scripts/util.lua")
 execScript("scripts/resources.lua")
+execScript("scripts/touchcontrol.lua")
+execScript("scripts/uifactory.lua")
 
 -- place any other scripts you want executed here
 

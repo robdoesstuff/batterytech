@@ -17,6 +17,8 @@
 #ifndef PROPERTY_H_
 #define PROPERTY_H_
 
+#include "../math/Vector4.h"
+
 namespace BatteryTech {
 
 	class Property {
@@ -51,9 +53,13 @@ namespace BatteryTech {
 		 * Sets the value of the property
 		 */
 		void setValue(const char* value);
+		/**
+		 * Returns the value of the property as a Vector4f
+		 */
+		Vector4f getVector4fValue();
 	private:
-		const char* name;
-		const char* value;
+		char* name;
+		char* value;
 	};
 
 }
