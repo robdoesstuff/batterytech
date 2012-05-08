@@ -200,9 +200,7 @@ APP_SOURCES=\
 	render\ScreenControlRenderer.cpp \
 	render\BatchSpriteRenderer.cpp \
 	render\ObjRenderer.cpp \
-	render\LevelRenderer.cpp \
 	render\Camera.cpp \
-	render\IndicatorRenderer.cpp \
 	render\RenderItem.cpp \
 	render\AssimpRenderer.cpp \
 	render\GlobalLight.cpp \

@@ -46,9 +46,6 @@ end
 
 -- called from engine to render the game
 function Game:render(state)
-	game:render2D("textures/smiley_tex.png", 200, 200, 200, 200, 0)
-	game:render2D("textures/smiley_tex.png", 300, 200, 200, 200, 0)
-	game:render2D("textures/smiley_tex.png", 400, 200, 200, 200, 0)
 	self.currentModule:render()
 end
 

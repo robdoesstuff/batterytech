@@ -7,6 +7,7 @@
 
 
 addTexture("textures/smiley_tex.png")
+addTexture("textures/btluaenginelogo.png")
 addTexture("ui/button1_tex.png")
 addTexture("ui/button1_pressed_tex.png")
 
