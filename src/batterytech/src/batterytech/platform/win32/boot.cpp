@@ -270,16 +270,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	if (console) {
 		setupConsole();
 	}
-	// createWindow(hInstance, windowWidth, windowHeight, context->appProperties->get("windowed_app_name")->getValue());
-	createWindow(hInstance, windowWidth, windowHeight, "Window name");
+	createWindow(hInstance, windowWidth, windowHeight, context->appProperties->get("windowed_app_name")->getValue());
 	HANDLE hThread1;
 	DWORD dwGenericThread;
 	hThread1 = CreateThread(NULL, 0, StartThread, NULL, 0, &dwGenericThread);
 	if (!hThread1) {
 		cout << "Error creating thread" << endl;
 	} else {
-		SetPriorityClass(hThread1, HIGH_PRIORITY_CLASS);
-		SetThreadPriority(hThread1, THREAD_PRIORITY_TIME_CRITICAL);
+		SetPriorityClass(hInstance, HIGH_PRIORITY_CLASS);
+		SetThreadPriority(hThread1, THREAD_PRIORITY_HIGHEST);
 	}
 	// program main loop
 	while (!quit) {
@@ -293,12 +292,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 				DispatchMessage(&msg);
 			}
 		}
+		::Sleep(16);
 	}
 	WaitForSingleObject(hThread1, INFINITE);
 	// destroy the window explicitly
 	DestroyWindow(hWnd);
-	//delete gConfig;
-	//gConfig = NULL;
+	delete gConfig;
+	gConfig = NULL;
 	return msg.wParam;
 }
 
@@ -321,13 +321,18 @@ DWORD WINAPI StartThread(LPVOID iValue) {
 	}
 	DWORD time = timeGetTime();
 	DWORD oldTime = time;
+	DWORD timeDeltaMs;
 	while (!quit) {
 		oldTime = time;
 		time = timeGetTime();
-		btUpdate((time - oldTime) / 1000.0f);
+		timeDeltaMs = time - oldTime;
+		btUpdate(timeDeltaMs / 1000.0f);
 		//cout << "Updating " << (time - oldTime) / 1000.0f << endl;
 		btDraw();
 		SwapBuffers(hDC);
+		::Sleep(16); // limit to 60fps on PC.
+		// A better thing to do would be to use a high res timer and actually calc out the amount of time to wait.
+		// However the target is mobile and will always have less CPU so this could give a better indication of FPS drop.
 	}
 	// stop sound process before releasing app
 	btRelease();
@@ -446,13 +451,13 @@ void EnableOpenGL(HWND hWnd, HDC * hDC, HGLRC * hRC) {
 	} else {
 		wglSwapIntervalEXT = (PFNWGLSWAPINTERVALFARPROC)wglGetProcAddress( "wglSwapIntervalEXT" );
 		if( wglSwapIntervalEXT ) {
-			cout << "VSync enabled" << endl;
-			wglSwapIntervalEXT(1);
+			// cout << "VSync enabled" << endl;
+			wglSwapIntervalEXT(0);
 		}
 		glxSwapIntervalSGI = (PFNGLXSWAPINTERVALFARPROC)wglGetProcAddress( "glxSwapIntervalSGI" );
 		if( glxSwapIntervalSGI ) {
-			cout << "VSync enabled" << endl;
-			glxSwapIntervalSGI(1);
+			// cout << "VSync enabled" << endl;
+			glxSwapIntervalSGI(0);
 		}
 	}
 	const char *vendor = (const char*)glGetString(GL_VENDOR);

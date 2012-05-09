@@ -79,7 +79,7 @@ function UIButton:update(delta)
 		else
 			-- fire down event
 				if self.onClickDown then
-					self.onClickDown()
+					self:onClickDown()
 				end
 			self.isPressed = true
 		end
@@ -91,7 +91,7 @@ function UIButton:update(delta)
 			else
 				-- fire up event
 				if self.onClickUp then
-					self.onClickUp()
+					self:onClickUp()
 				end
 			end
 		end

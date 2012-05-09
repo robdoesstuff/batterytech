@@ -24,6 +24,8 @@ function Game:init()
 	setVibrationEnabled(true)
 	showFPS(true)
 	setShadowType(0)
+	self.smileyX = 0
+	self.smileyRotation = 0
 end
 
 function Game:setMode(mode)
@@ -59,6 +61,16 @@ end
 
 function Game:screenControlPointerUp(name, x, y)
 	self.currentModule:screenControlPointerUp(name, x, y)
-
 end
 
+function Game:drawSmileys()
+	local vpWidth, vpHeight = getViewportSize()
+	sw, sh = scaleForUI(60, 60)
+	for i = 0, 5 do
+		local myX = self.smileyX + i * .2
+		myX = myX % 1
+		local smileyScaleX = vpWidth * myX
+		local smileyScaleY = vpHeight - sh/2
+		game:render2D("textures/smiley_tex.png", smileyScaleX, smileyScaleY, sw, sh, self.smileyRotation)
+	end
+end
