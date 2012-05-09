@@ -41,9 +41,9 @@ static int lua_clearTextures(lua_State *L);
 static int lua_addObj(lua_State *L);
 static int lua_removeObj(lua_State *L);
 static int lua_clearObjs(lua_State *L);
-static int lua_addDynamic(lua_State *L);
-static int lua_removeDynamic(lua_State *L);
-static int lua_clearDynamics(lua_State *L);
+static int lua_addAssimp(lua_State *L);
+static int lua_removeAssimp(lua_State *L);
+static int lua_clearAssimps(lua_State *L);
 static int lua_addSound(lua_State *L);
 static int lua_playSound(lua_State *L);
 static int lua_stopSound(lua_State *L);
@@ -113,9 +113,12 @@ lua_State* LuaBinder::newState(GameContext *context) {
 	registerFunction(L, "addObj", lua_addObj); // param: string objAssetName
 	registerFunction(L, "removeObj", lua_removeObj); // param: string objAssetName
 	registerFunction(L, "clearObjs", lua_clearObjs);
-	registerFunction(L, "addDynamic", lua_addDynamic); // param: string objAssetName
-	registerFunction(L, "removeDynamic", lua_removeDynamic); // param: string objAssetName
-	registerFunction(L, "clearDynamics", lua_clearDynamics);
+	registerFunction(L, "addDynamic", lua_addAssimp); // param: string objAssetName
+	registerFunction(L, "removeDynamic", lua_removeAssimp); // param: string objAssetName
+	registerFunction(L, "clearDynamics", lua_clearAssimps);
+	registerFunction(L, "addAssimp", lua_addAssimp); // param: string assimpAssetName
+	registerFunction(L, "removeAssimp", lua_removeAssimp); // param: string assimpAssetName
+	registerFunction(L, "clearAssimps", lua_clearAssimps);
 	registerFunction(L, "addSound", lua_addSound);
 	registerFunction(L, "playSound", lua_playSound);
 	registerFunction(L, "stopSound", lua_stopSound);
@@ -634,19 +637,19 @@ static int lua_clearObjs(lua_State *L) {
 	return 0;
 }
 
-static int lua_addDynamic(lua_State *L) {
+static int lua_addAssimp(lua_State *L) {
 	const char *assetName = lua_tostring(L, 1);
 	static_context->glResourceManager->addAssimp(assetName);
 	return 0;
 }
 
-static int lua_removeDynamic(lua_State *L) {
+static int lua_removeAssimp(lua_State *L) {
 	const char *assetName = lua_tostring(L, 1);
 	static_context->glResourceManager->removeAssimp(assetName);
 	return 0;
 }
 
-static int lua_clearDynamics(lua_State *L) {
+static int lua_clearAssimps(lua_State *L) {
 	static_context->glResourceManager->clearAssimps();
 	return 0;
 }

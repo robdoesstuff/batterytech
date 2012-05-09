@@ -48,7 +48,7 @@ static int lua_Game_renderStaticObjM(lua_State *L);
 static int lua_Game_renderText2D(lua_State *L);
 static int lua_Game_render2D(lua_State *L);
 static int lua_Game_render2DBG(lua_State *L);
-static int lua_Game_renderDynamicM(lua_State *L);
+static int lua_Game_renderAssimpM(lua_State *L);
 static int lua_Game_renderBB(lua_State *L);
 static int lua_Game_setShadowLightOrigin(lua_State *L);
 static int lua_Game_setShadowColorAndEpsilon(lua_State *L);
@@ -77,7 +77,8 @@ static const luaL_reg lua_methods[] = {
 	{ "loadLevelFromFile", lua_Game_loadLevelFromFile },
 	{ "quit", lua_Game_quit },
 	{ "renderStaticObjM", lua_Game_renderStaticObjM },
-	{ "renderDynamicM", lua_Game_renderDynamicM },
+	{ "renderAssimpM", lua_Game_renderAssimpM },
+	{ "renderDynamicM", lua_Game_renderAssimpM }, // legacy
 	{ "renderText2D", lua_Game_renderText2D },
 	{ "render2D", lua_Game_render2D },
 	{ "render2DBG", lua_Game_render2DBG },
@@ -477,7 +478,7 @@ static int lua_Game_renderStaticObjM(lua_State *L) {
 }
 
 // GameObject, animatorIdx, objName, groupName, textureAssetname, isOpaque, Column-Major World Transform 4x4, model scale
-static int lua_Game_renderDynamicM(lua_State *L) {
+static int lua_Game_renderAssimpM(lua_State *L) {
 	//Game *game = *(Game**)lua_touserdata(L, 1);
 	if (static_context->world->renderItemsUsed == MAX_RENDERITEMS) {
 		lua_pushinteger(L, -1);

@@ -10,9 +10,10 @@ addTexture("textures/smiley_tex.png")
 addTexture("textures/box_surface.jpg")
 addTexture("textures/box_star.jpg")
 addTexture("textures/btluaenginelogo.png")
+addTexture("textures/minimap_atlas.png")
 addTexture("ui/button1_tex.png")
 addTexture("ui/button1_pressed_tex.png")
-addDynamic("models/box.obj")
+addAssimp("models/box.obj")
 
 
 -- tag, assetname, size, innerstroke, outerstroke, color

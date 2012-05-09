@@ -4,12 +4,14 @@ PLAY_STATE_START = 0
 PLAY_STATE_PLAY = 1
 PLAY_STATE_FINISH = 2
 
-PLAY_MOVE_SPEED = 15
-PLAY_TURN_SPEED = math.pi
+PLAY_MOVE_SPEED = 15.0
+PLAY_TURN_SPEED = 2.0
 
 PLAY_WORLD_WIDTH = 50
 PLAY_WORLD_LENGTH = 50
 PLAY_BOX_SIZE = 2
+
+PLAY_MINIMAP_SIZE = 200
 
 TAU = 2 * math.pi
 TO_DEGREES = 180 / math.pi
@@ -37,7 +39,7 @@ end
 function Play:show()
 	self.x = 0
 	self.y = 0
-	self.dir = 0
+	self.dir = math.pi
 	self.state = PLAY_STATE_PLAY
 	self.controlFwd = 0
 	self.controlTurn = 0
@@ -86,6 +88,7 @@ function Play:update(tickDelta)
 		local moveDist = tickDelta * self.controlFwd * PLAY_MOVE_SPEED
 		self.y = self.y + math.cos(-self.dir) * moveDist
 		self.x = self.x + math.sin(-self.dir) * moveDist
+		-- keep the player in bounds
 		if self.x > PLAY_WORLD_WIDTH then
 			self.x = PLAY_WORLD_WIDTH
 		end
@@ -99,7 +102,27 @@ function Play:update(tickDelta)
 			self.y = -PLAY_WORLD_LENGTH
 		end
 		self.timeLeft = self.timeLeft - tickDelta
+		-- collision test
+		for i = 1, #self.boxes do
+			local box = self.boxes[i]
+			-- check to see if its null if we removed the box
+			if not box then break end
+			local boxLeft = box.x - PLAY_BOX_SIZE/2
+			local boxRight = boxLeft + PLAY_BOX_SIZE
+			local boxTop = box.y + PLAY_BOX_SIZE/2
+			local boxBottom = boxTop - PLAY_BOX_SIZE
+			if self.x < boxLeft or self.x > boxRight or self.y > boxTop or self.y < boxBottom then
+				-- not intersecting
+			else
+				table.remove(self.boxes, i)
+				self:collectBox()
+			end
+		end
 	end
+end
+
+function Play:collectBox()
+	self.boxesCollected = self.boxesCollected + 1
 end
 
 function Play:render()
@@ -118,18 +141,39 @@ function Play:render()
 	-- draw boxes
 	for i = 1, #self.boxes do
 		local box = self.boxes[i]
-		game:renderDynamicM(nil, 0, "models/box.obj", nil, "textures/box_star.jpg", true, 1,0,0,0,0,1,0,0,0,0,1,0,box.x,box.y,PLAY_BOX_SIZE/2,1, PLAY_BOX_SIZE,PLAY_BOX_SIZE,PLAY_BOX_SIZE, self.boxrot)
+		game:renderAssimpM(nil, 0, "models/box.obj", nil, "textures/box_star.jpg", true, 1,0,0,0,0,1,0,0,0,0,1,0,box.x,box.y,PLAY_BOX_SIZE/2,1, PLAY_BOX_SIZE,PLAY_BOX_SIZE,PLAY_BOX_SIZE, self.boxrot)
 	end
 	-- draw playing surface
-	game:renderDynamicM(nil, 0, "models/box.obj", nil, "textures/box_surface.jpg", true, 1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1, 100.0,100.0,1.0, 0)
+	game:renderAssimpM(nil, 0, "models/box.obj", nil, "textures/box_surface.jpg", true, 1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1, 100.0,100.0,1.0, 0)
 	local timeString = string.format("Time: %2d", self.timeLeft)
 	local renderIdx = game:renderText2D("ui", timeString, scaleX(640), scaleY(50))
 	game:setRenderItemParam(renderIdx, "align", "center")
 	renderIdx = game:renderText2D("ui", self.boxesCollected .. "/" .. self.boxesTotal, scaleX(1250), scaleY(50))
 	game:setRenderItemParam(renderIdx, "align", "right")
+	-- minimap
+	local mmx,mmy = scaleXY(105, 200)
+	local w,h = scaleXY(PLAY_MINIMAP_SIZE, PLAY_MINIMAP_SIZE)
+	renderIdx = game:render2D("textures/minimap_atlas.png", mmx,mmy, w,h)
+	game:setRenderItemParam(renderIdx, "uvs", 0.0, 0.5, 0.5, 1.0)
+	
+	w,h = scaleXY(25, 25)
+	local worldToMinimapWidthScale = PLAY_MINIMAP_SIZE / (PLAY_WORLD_WIDTH*2)
+	local worldToMinimapHeightScale = PLAY_MINIMAP_SIZE / (PLAY_WORLD_LENGTH*2)
+	for i = 1, #self.boxes do
+		local box = self.boxes[i]
+		local x,y = scaleXY(-(box.x * worldToMinimapWidthScale), box.y * worldToMinimapHeightScale)
+		renderIdx = game:render2D("textures/minimap_atlas.png", mmx + x, mmy + y, w,h)
+		game:setRenderItemParam(renderIdx, "uvs", 0.0, 0.0, 0.5, 0.5)
+	end
+	local x,y = scaleXY(-(self.x * worldToMinimapWidthScale), self.y * worldToMinimapHeightScale)
+	renderIdx = game:render2D("textures/minimap_atlas.png", mmx + x, mmy + y, w,h, -self.dir-math.pi)
+	game:setRenderItemParam(renderIdx, "uvs", 0.5, 0.0, 1.0, 0.5)
+	
+	-- buttons
 	for i,v in ipairs(self.buttons) do
 		v:render()
 	end
+	
 end
 
 
