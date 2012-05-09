@@ -8,7 +8,9 @@ TouchControl = {
 	pressedAsset = nil,
 	label = nil,
 	isPressed = false,
-	fontTag = nil
+	uvs = nil,
+	fontTag = nil,
+	rotation = 0
 }
 
 function TouchControl.new(left, top, width, height)
@@ -38,7 +40,11 @@ function TouchControl:render()
 	local asset = self.normalAsset
 	if self.isPressed then asset = self.pressedAsset end
 	if asset then
-		game:render2D(asset, self.left + self.width/2, self.top + self.height/2, self.width, self.height, 0)
+		local itemIdx = game:render2D(asset, self.left + self.width/2, self.top + self.height/2, self.width, self.height, self.rotation * (math.pi/180))
+		if self.uvs then
+			local uvs = self.uvs
+			game:setRenderItemParam(itemIdx, "uvs", uvs[1],uvs[2],uvs[3],uvs[4])
+		end
 	end
 	if self.label then
 		local fontTag = "ui"
