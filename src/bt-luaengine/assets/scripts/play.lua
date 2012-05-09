@@ -77,6 +77,7 @@ function Play.new()
 	self.wasInput = false
 	self.success = false
 	self.level = 1
+	self.nextRandomNoiseTime = math.random(1,3)
 	return self
 end
 
@@ -89,6 +90,7 @@ function Play:show()
 	self.controlFwd = 0
 	self.controlTurn = 0
 	self.panelAnim = 0
+	playSound("sounds/whoosh.ogg")
 end
 
 function Play:setupLevel()
@@ -97,7 +99,6 @@ function Play:setupLevel()
 	if self.timeLeft < 30 then
 		self.timeLeft = 30
 	end
-	self.boxesTotal = 1
 	self.boxesCollected = 0
 	self.boxes = {}
 	for i = 1, self.boxesTotal do
@@ -122,17 +123,29 @@ function Play:update(tickDelta)
 		end
 		-- on key or mouse start
 		if not self.wasInput and (getPointerState(0) or getKeyState(0)) then
-			self:startGame()
+			if self.panelAnim < 1 then
+				self.panelAnim = 1
+			else
+				self:startGame()
+			end
 		end
 	elseif self.state == PLAY_STATE_FINISH then
+		if self.panelAnim < 1 then
+			self.panelAnim = self.panelAnim + tickDelta * 3
+			if self.panelAnim > 1 then self.panelAnim = 1 end
+		end
 		if not self.wasInput and (getPointerState(0) or getKeyState(0)) then
-			if self.success then
-				self.state = PLAY_STATE_START
-				self.level = self.level + 1
-				self:setupLevel()
+			if self.panelAnim < 1 then
+				self.panelAnim = 1
 			else
-				self.state = PLAY_STATE_START
-				self:setupLevel()
+				if self.success then
+					self.state = PLAY_STATE_START
+					self.level = self.level + 1
+					self:setupLevel()
+				else
+					self.state = PLAY_STATE_START
+					self:setupLevel()
+				end
 			end
 		end
 	end
@@ -219,6 +232,11 @@ function Play:updatePlayState(tickDelta)
 			self:levelFailed()
 		end
 	end
+	self.nextRandomNoiseTime = self.nextRandomNoiseTime - tickDelta
+	if self.nextRandomNoiseTime < 0 then
+		self.nextRandomNoiseTime = math.random(12,18)
+		playSound("sounds/space_noises.ogg", 0, 0.25, math.random(0.9,1.1))
+	end
 end
 
 function Play:startGame()
@@ -227,16 +245,23 @@ end
 
 function Play:collectBox()
 	self.boxesCollected = self.boxesCollected + 1
+	playSound("sounds/laser_echo.ogg")
 end
 
 function Play:levelComplete()
+	stopSound("sounds/space_noises.ogg")
 	self.state = PLAY_STATE_FINISH
 	self.success = true
+	self.panelAnim = 0
+	playSound("sounds/whoosh.ogg")
 end
 
 function Play:levelFailed()
+	stopSound("sounds/space_noises.ogg")
 	self.state = PLAY_STATE_FINISH
 	self.success = false
+	self.panelAnim = 0
+	playSound("sounds/whoosh.ogg")
 end
 
 function Play:render()

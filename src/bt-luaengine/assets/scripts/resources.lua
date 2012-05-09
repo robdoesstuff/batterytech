@@ -22,6 +22,7 @@ addAssimp("models/box.obj")
 -- tag, assetname, size, innerstroke, outerstroke, color
 addFont("title", "ui/digital.ttf", 100, 1, 1, 255,255,255,255)
 
-addSound("sound/ball_hit.ogg")
-addSound("sound/lion_hit.ogg")
-addSound("sound/brick_break.ogg")
+addSound("sounds/click.ogg")
+addSound("sounds/laser_echo.ogg")
+addSound("sounds/space_noises.ogg")
+addSound("sounds/whoosh.ogg")

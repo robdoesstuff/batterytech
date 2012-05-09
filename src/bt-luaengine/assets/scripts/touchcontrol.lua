@@ -83,6 +83,7 @@ function UIButton:update(delta)
 		if x < self.left or x > self.left + self.width or y < self.top or y > self.top + self.height then
 			-- nothing
 		else
+			playSound("sounds/click.ogg")
 			-- fire down event
 				if self.onClickDown then
 					self:onClickDown()
