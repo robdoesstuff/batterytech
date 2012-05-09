@@ -42,11 +42,11 @@ public:
 	GameLuaBinder *luaBinder;
 	TouchInputProcessor *touchInputProcessor;
 	BOOL32 needsReset;
+	BOOL32 isInError;
 private:
 	GameContext *context;
 	BOOL32 isFocused;
 	BOOL32 initialized;
-	BOOL32 isInError;
 	GameObject* makeBox(Vector3f pos);
 	void loadPreferences();
 	void initializeLua();

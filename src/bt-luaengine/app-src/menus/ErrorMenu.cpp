@@ -17,7 +17,7 @@
 #include "../Game.h"
 
 #define ERROR_BG "ui/panel1_tex.png"
-#define DEFAULT_WIDTH 700
+#define DEFAULT_WIDTH 1000
 
 ErrorMenu::ErrorMenu(GameContext *context) : Menu(ERROR_MENU_NAME) {
 	this->context = context;
@@ -28,31 +28,31 @@ ErrorMenu::ErrorMenu(GameContext *context) : Menu(ERROR_MENU_NAME) {
 	okButton = new Button("Ok");
 	okButton->userId = 1;
 	okButton->setLayoutParameters(new LayoutParameters(LayoutParameters::HORIZONTAL_CENTER, LayoutParameters::TOP));
-	okButton->setSize(120, 60);
-	okButton->setMargins(5);
+	okButton->setSize(240, 120);
+	okButton->setMargins(10);
 	okButton->setBackgroundMenuResource(buttonBgId);
 	okButton->setPressedBackgroundMenuResource(buttonPressedBgId);
 	okButton->setClickDownSoundAsset(UI_CLICK_DOWN_ASSETNAME);
 	restartButton = new Button("Restart");
 	restartButton->userId = 2;
 	restartButton->setLayoutParameters(new LayoutParameters(LayoutParameters::HORIZONTAL_CENTER, LayoutParameters::TOP));
-	restartButton->setSize(120, 60);
-	restartButton->setMargins(5);
+	restartButton->setSize(240, 120);
+	restartButton->setMargins(10);
 	restartButton->setBackgroundMenuResource(buttonBgId);
 	restartButton->setPressedBackgroundMenuResource(buttonPressedBgId);
 	restartButton->setClickDownSoundAsset(UI_CLICK_DOWN_ASSETNAME);
 	titleLabel = new Label("Title");
-	titleLabel->setHeight(60);
-	titleLabel->setMargins(10);
+	titleLabel->setHeight(120);
+	titleLabel->setMargins(20);
 	titleLabel->setWidth(FILL);
 	titleLabel->setLayoutParameters(new LayoutParameters(LayoutParameters::HORIZONTAL_CENTER, LayoutParameters::TOP));
 	titleLabel->setTextAlignment(UIComponent::HORIZONTAL_CENTER, UIComponent::TOP);
 	errorMessage = new Label("ErrorMessage");
 	errorMessage->setHeight(WRAP);
 	errorMessage->setWidth(FILL);
-	errorMessage->setPadding(10);
+	errorMessage->setPadding(20);
 	errorMessage->setLayoutParameters(new LayoutParameters(LayoutParameters::HORIZONTAL_CENTER, LayoutParameters::TOP));
-	mainLayout->setHeight(250);
+	mainLayout->setHeight(650);
 	mainLayout->setWidth(DEFAULT_WIDTH);
 	mainLayout->setBackgroundMenuResource(panelBgId);
 	mainLayout->setLayoutParameters(new LayoutParameters(LayoutParameters::HORIZONTAL_CENTER, LayoutParameters::VERTICAL_CENTER));
@@ -83,11 +83,11 @@ void ErrorMenu::onClickUp(UIComponent *component) {
 	} else if (component == restartButton) {
 		context->game->clearError();
 		context->game->reset();
-		context->uiManager->popMenu();
 	}
 }
 
 void ErrorMenu::onPreShow() {
+	layoutRequested = TRUE;
 }
 
 void ErrorMenu::setData(void *data) {

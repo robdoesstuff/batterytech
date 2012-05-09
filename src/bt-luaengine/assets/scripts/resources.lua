@@ -7,9 +7,12 @@
 
 
 addTexture("textures/smiley_tex.png")
+addTexture("textures/box_surface.jpg")
 addTexture("textures/btluaenginelogo.png")
 addTexture("ui/button1_tex.png")
 addTexture("ui/button1_pressed_tex.png")
+addDynamic("models/box.obj")
+
 
 -- tag, assetname, size, innerstroke, outerstroke, color
 addFont("title", "ui/digital.ttf", 100, 1, 1, 255,255,255,255)

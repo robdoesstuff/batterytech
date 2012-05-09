@@ -51,18 +51,18 @@ function Game:render(state)
 	self.currentModule:render()
 end
 
+-- ScreenControls are just C versions of TouchControls.  
+-- Use either, but lua-managed ones may be easier for you
 function Game:screenControlPointerDown(name, x, y)
-	self.currentModule:screenControlPointerDown(name, x, y)
 end
 
 function Game:screenControlPointerMove(name, x, y)
-	self.currentModule:screenControlPointerMove(name, x, y)
 end
 
 function Game:screenControlPointerUp(name, x, y)
-	self.currentModule:screenControlPointerUp(name, x, y)
 end
 
+-- Some common stuff to multiple modules
 function Game:drawSmileys()
 	local vpWidth, vpHeight = getViewportSize()
 	sw, sh = scaleForUI(60, 60)

@@ -46,7 +46,22 @@ WorldRenderer::WorldRenderer(GameContext *context) {
 	//context->glResourceManager->addTexture("common/textbox_bg_tex.png");
 	loadingScreenDisplayed = FALSE;
 	preLoad = FALSE;
-	loadingTex = new Texture(context, "ui/Loading_Screen/LoadingScreen.jpg", FALSE);
+	loadingTex = new Texture(context, context->appProperties->get("loading_texture")->getValue(), FALSE);
+	loadingSize = Vector2f(512, 256);
+	Property *p = context->appProperties->get("loading_width");
+	if (p) {
+		loadingSize.x = p->getFloatValue();
+	}
+	p = context->appProperties->get("loading_height");
+	if (p) {
+		loadingSize.y = p->getFloatValue();
+	}
+	p = context->appProperties->get("clear_color");
+	if (p) {
+		clearColor = p->getVector4fValue();
+	} else {
+		clearColor = Vector4f(1.0, 1.0, 1.0, 1.0);
+	}
 }
 
 WorldRenderer::~WorldRenderer() {
@@ -86,7 +101,7 @@ void WorldRenderer::setupGL() {
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_DITHER);
 	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+	glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
 	glViewport(0, 0, gConfig->viewportWidth, gConfig->viewportHeight);
 	spriteRenderer->init(TRUE);
 }
@@ -159,10 +174,12 @@ void WorldRenderer::render() {
 	if (world->gameState == GAMESTATE_READY || world->gameState == GAMESTATE_RUNNING) {
 		// call out to lua to receive the list of rendering instructions.
 		world->renderItemsUsed = 0;
-		if (world->gameState == GAMESTATE_READY) {
-			context->game->luaBinder->render(0);
-		} else {
-			context->game->luaBinder->render(1);
+		if (!context->game->isInError) {
+			if (world->gameState == GAMESTATE_READY) {
+				context->game->luaBinder->render(0);
+			} else {
+				context->game->luaBinder->render(1);
+			}
 		}
 		// we should know or camera position now
         context->renderContext->colorFilter = Vector4f(1, 1, 1, 1);
@@ -343,6 +360,7 @@ void WorldRenderer::render() {
 		}
 	} else if (world->gameState == GAMESTATE_LOADING) {
 		logmsg("Rendering Loading Screen");
+		glClear(GL_COLOR_BUFFER_BIT);
 		glEnable(GL_BLEND);
 		// glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glDisable(GL_DEPTH_TEST);
@@ -355,8 +373,8 @@ void WorldRenderer::render() {
 		//sprintf(buf, "Loading textureID = %d, gConfig dimensions=%d, %d", loadingTex->textureId, gConfig->width, gConfig->height);
 		//logmsg(buf);
 		//render loading image centered scaled up from 512x256
-		F32 loadWidth = 512 * gConfig->uiScale;
-		F32 loadHeight = 256 * gConfig->uiScale;
+		F32 loadWidth = this->loadingSize.x * gConfig->uiScale;
+		F32 loadHeight = this->loadingSize.y * gConfig->uiScale;
 		spriteRenderer->render(gConfig->height/2 - loadHeight/2, gConfig->width/2 + loadWidth/2, gConfig->height/2 + loadHeight/2, gConfig->width/2 - loadWidth/2);
 	}
 //	char buf[50];

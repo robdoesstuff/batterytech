@@ -59,12 +59,4 @@ function MainMenu:render()
 	game:drawSmileys()
 end
 
-function MainMenu:screenControlPointerDown(name, x, y)
-end
-
-function MainMenu:screenControlPointerMove(name, x, y)
-end
-
-function MainMenu:screenControlPointerUp(name, x, y)
-end
 

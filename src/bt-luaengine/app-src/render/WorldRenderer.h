@@ -19,6 +19,8 @@
 #include <batterytech/util/HashTable.h>
 #include "ShadowMap.h"
 #include <batterytech/batterytech_entrypoints.h>
+#include <batterytech/math/Vector2.h>
+#include <batterytech/math/Vector4.h>
 
 class SimpleSpriteRenderer;
 class ObjRenderer;
@@ -62,6 +64,8 @@ private:
 	BOOL32 loadingScreenDisplayed;
 	BOOL32 preLoad;
 	Texture *loadingTex;
+	Vector2f loadingSize;
+	Vector4f clearColor;
 };
 
 #endif /* WORLDRENDERER_H_ */

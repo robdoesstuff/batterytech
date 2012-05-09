@@ -76,7 +76,7 @@ void World::clear() {
 		}
 		gameObjects->clear();
 	}
-	logmsg("Clearing bullet world");
+	// logmsg("Clearing bullet world");
 	//if (btWorld) {
 	//	delete btWorld;
 	//}

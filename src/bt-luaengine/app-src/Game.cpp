@@ -117,40 +117,11 @@ void Game::loadPreferences() {
 		}
 		*/
 	} else {
-		logmsg("No settings file found.  Using defaults.");
+		//logmsg("No settings file found.  Using defaults.");
 	}
 }
 
 void Game::update() {
-	if (isInError) {
-		lua_settop(luaBinder->L, 0);
-		// Don't do anything but keep the lua stack clear
-		return;
-	}
-	if (needsReset) {
-		reset();
-		needsReset = FALSE;
-	}
-	if (context->callbackDataReady) {
-		//context->callbackData;
-		if (strStartsWith(context->callbackData, "purchaseSucceeded")) {
-			char *tok = strtok(context->callbackData, " ");
-			tok = strtok(NULL, " ");
-			if (tok) {
-				luaBinder->callGlobalVA("purchaseResult", "bs>", TRUE, tok);
-			}
-		} else if (strStartsWith(context->callbackData, "purchaseFailed")) {
-			char *tok = strtok(context->callbackData, " ");
-			tok = strtok(NULL, " ");
-			if (tok) {
-				luaBinder->callGlobalVA("purchaseResult", "bs>", FALSE, tok);
-			}
-		}
-		context->callbackDataReady = FALSE;
-		context->callbackData[0] = '\0';
-	}
-	updateInput();
-	updateState();
 	if (!initialized || context->wasSuspended) {
 		if (context->world->gameState != GAMESTATE_LOADING) {
 			// if we're resuming, we want to go back to whatever state we were just in after we load.
@@ -176,7 +147,36 @@ void Game::update() {
 			context->worldRenderer->init(FALSE);
 		}
 	}
+	updateInput();
+	updateState();
 	// updateNetwork();
+	if (needsReset) {
+		reset();
+		needsReset = FALSE;
+	}
+	if (isInError) {
+		lua_settop(luaBinder->L, 0);
+		// Don't do anything with lua but keep the stack clear
+		return;
+	}
+	if (context->callbackDataReady) {
+		//context->callbackData;
+		if (strStartsWith(context->callbackData, "purchaseSucceeded")) {
+			char *tok = strtok(context->callbackData, " ");
+			tok = strtok(NULL, " ");
+			if (tok) {
+				luaBinder->callGlobalVA("purchaseResult", "bs>", TRUE, tok);
+			}
+		} else if (strStartsWith(context->callbackData, "purchaseFailed")) {
+			char *tok = strtok(context->callbackData, " ");
+			tok = strtok(NULL, " ");
+			if (tok) {
+				luaBinder->callGlobalVA("purchaseResult", "bs>", FALSE, tok);
+			}
+		}
+		context->callbackDataReady = FALSE;
+		context->callbackData[0] = '\0';
+	}
 	if (luaBinder && context->world->gameState == GAMESTATE_RUNNING) {
 		luaBinder->update();
 	}
@@ -195,18 +195,20 @@ void Game::initializeLua() {
 
 void Game::reset() {
 	logmsg("Resetting Game");
+	context->uiManager->clearMenuStack();
 	getWorld()->clear();
 	getWorld()->screenControls->deleteElements();
 	if (context && context->world && context->world->luaState) {
 		LuaBinder::closeState(context->world->luaState);
 		context->world->luaState = NULL;
 	}
+	clearError();
 	delete luaBinder;
 	luaBinder = NULL;
-	initializeLua();
-	this->context->world->gameState = GAMESTATE_READY;
 	context->worldRenderer->init(FALSE);
 	context->menuRenderer->init(FALSE);
+	initializeLua();
+	this->context->world->gameState = GAMESTATE_READY;
 	logmsg("Done Resetting Game");
 }
 
@@ -221,12 +223,14 @@ void Game::updateState() {
 		logmsg("Clearing World");
 		world->clear();
 		logmsg("Done cleaning up.");
-		luaBinder->reset(TRUE);
-		context->uiManager->clearMenuStack();
+		context->world->gameState = GAMESTATE_RUNNING;
+		if (!isInError) {
+			luaBinder->reset(TRUE);
+			context->uiManager->clearMenuStack();
+			context->game->luaBinder->setMode(GAMEMODE_MAINMENU);
+		}
 		// normally we'd show the top menu here
 		// context->uiManager->showMenu(TOP_MENU_NAME);
-		context->world->gameState = GAMESTATE_RUNNING;
-		context->game->luaBinder->setMode(GAMEMODE_MAINMENU);
 		//getWorld()->gameState = GAMESTATE_LOADING;
 	} else if (gameState == GAMESTATE_RUNNING) {
 		// lua will take it from here.

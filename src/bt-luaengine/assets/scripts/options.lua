@@ -59,12 +59,4 @@ function Options:render()
 	game:drawSmileys()
 end
 
-function Options:screenControlPointerDown(name, x, y)
-end
-
-function Options:screenControlPointerMove(name, x, y)
-end
-
-function Options:screenControlPointerUp(name, x, y)
-end
 
