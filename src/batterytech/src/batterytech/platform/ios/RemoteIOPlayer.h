@@ -10,17 +10,18 @@
  */
 
 //============================================================================
-// Name        : boot.h
-// Description : iOS bootstrap
+// Name        : RemoteIOPlayer.h
+// Description : Hooks IOS AudioUnit up to PCMSoundManager
 //============================================================================
 
-#ifndef BOOT_H_
-#define BOOT_H_
+#import <Foundation/Foundation.h>
 
-#ifdef __APPLE__
-#include <TargetConditionals.h>
-#endif
-#if TARGET_OS_IPHONE
+@interface RemoteIOPlayer : NSObject {
+}
 
-#endif /* TARGET_OS_IPHONE */
-#endif /* BOOT_H_ */
+-(OSStatus)start;
+-(OSStatus)stop;
+-(void)cleanUp;
+-(void)initialiseAudio;
+
+@end

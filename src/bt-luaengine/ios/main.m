@@ -10,15 +10,16 @@
  */
 
 //============================================================================
-// Name        : boot.mm
-// Description : iOS bootstrap
+// Name        : main.m
+// Description : IOS App Startup
 //============================================================================
 
-#ifdef __APPLE__
-#include <TargetConditionals.h>
-#endif
-#if TARGET_OS_IPHONE
+#import <UIKit/UIKit.h>
 
-#include "boot.h"
-
-#endif
+int main(int argc, char *argv[]) {
+    
+    NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
+    int retVal = UIApplicationMain(argc, argv, nil, nil);
+    [pool release];
+    return retVal;
+}
