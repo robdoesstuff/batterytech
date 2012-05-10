@@ -2,8 +2,8 @@
 use_shaders=true
 reference_width=1280
 reference_height=800
-window_width=1024
-window_height=768
+window_width=1280
+window_height=800
 console_log_enabled_when_available=true
 windowed_app_name=BatteryTech 2.0 Lua Engine
 storage_dir=BatteryTech Lua Engine

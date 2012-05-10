@@ -430,7 +430,7 @@ void AssimpRenderer::renderNode(RenderNode *node, GLAssimpBinding *binding, Matr
 
 void AssimpRenderer::bindMaterial(RenderItem *item, GLAssimpMeshBinding *meshBinding, GLAssimpBinding *binding) {
 	// only override the texture if the texture attribute is null
-	if (item->attr1[0] == '\0') {
+	if (item->textureName[0] == '\0') {
 		// bind the diffuse texture specified in the material using the relative path to the imported asset
 		char texturePath[1024];
 		strcpy(texturePath, binding->importedAssetBasename);
