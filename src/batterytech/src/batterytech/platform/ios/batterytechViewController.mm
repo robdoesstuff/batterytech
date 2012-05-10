@@ -53,15 +53,10 @@ double getCurrentTime() {
 	return ((double)nanos / 1000000000.0);
 }
 
-#define IPAD_AD_TOKEN @"agltb3B1Yi1pbmNyDQsSBFNpdGUYobPnEww"
-#define IPHONE_AD_TOKEN @"agltb3B1Yi1pbmNyDQsSBFNpdGUYgpfmEww"
-
 @implementation batterytechViewController
 
 @synthesize context;
 @synthesize player;
-@synthesize adBannerView;
-@synthesize adBannerViewIsLoaded;
 
 - (void)awakeFromNib
 {
@@ -148,14 +143,6 @@ double getCurrentTime() {
 	UIAccelerometer *accel = [UIAccelerometer sharedAccelerometer];
 	accel.updateInterval = 1/30.0f;
 	accel.delegate = self;
-    IAPManager *mgr = [IAPManager getInstance];
-    if ([mgr canMakePurchases]) {
-        [mgr loadStore];
-        logmsg("Loaded Store");
-    } else {
-        logmsg("IAP not supported");
-    }
-    [self createAd];
     isContextInitialized = TRUE;
 }
 
@@ -171,7 +158,6 @@ double getCurrentTime() {
         [EAGLContext setCurrentContext:nil];
 	}
     [self removeAd];
-    [OpenFeint shutdown];
     [context release];
 	[player cleanUp];
 	[player release];
@@ -180,75 +166,12 @@ double getCurrentTime() {
 }
 
 - (void)showAd {
-    if (adBannerViewIsLoaded) {
-        CGRect frame = [adBannerView frame];
-        [adBannerView setFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
-    }
 }
 
 - (void)hideAd {
-    if (adBannerViewIsLoaded) {
-        CGRect frame = [adBannerView frame];
-        [adBannerView setFrame:CGRectMake(0, -100, frame.size.width, frame.size.height-100)];
-    }
 }
 
 - (void)showFullscreenAd {
-    NSString *adString;
-    if (vpWidth >= 1024) {
-        adString = IPAD_AD_TOKEN;
-    }
-    else {
-        adString = IPHONE_AD_TOKEN;
-    }
-    
-    MPInterstitialAdController *interstitialController = 
-    [MPInterstitialAdController interstitialAdControllerForAdUnitId:adString];
-    interstitialController.parent = self;
-    
-    [interstitialController loadAd];    
-}
-
-#pragma mark MPInterstitialAdControllerDelegate Methods
-
-// present the ad as soon as it is ready
-- (void)interstitialDidLoadAd:(MPInterstitialAdController *)interstitial
-{
-	[interstitial show];
-}
-
-// dismiss the ad appropriately and release the object
-- (void)dismissInterstitial:(MPInterstitialAdController *)interstitial
-{
-	[self dismissModalViewControllerAnimated:YES];
-	[MPInterstitialAdController removeSharedInterstitialAdController:interstitial];
-}
-
-- (void)createAd {
-     // Instantiate the MPAdView with your ad unit ID.
-    adBannerView = [[MPAdView alloc] initWithAdUnitId:@"agltb3B1Yi1pbmNyDQsSBFNpdGUYm9jwEgw" 
-                                            size:CGSizeMake([(EAGLView *)self.view getFBWidth], 50)];
-    
-    // Register your view controller as the MPAdView's delegate.
-    adBannerView.delegate = self;
-    
-    // Set the ad view's frame (in our case, to occupy the bottom of the screen).
-    [adBannerView setFrame:CGRectOffset([adBannerView frame], 0, -100)];
-    
-    // Add the ad view to your controller's view hierarchy. 
-    [self.view addSubview:adBannerView];
-    
-    // Call for an ad.
-    [adBannerView loadAd];
-    adBannerViewIsLoaded = true;
-}
-
-- (void)removeAd {
-    if (self.adBannerView) {
-        [adBannerView removeFromSuperview];
-        self.adBannerView = nil;
-        adBannerViewIsLoaded = false;
-    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -467,48 +390,6 @@ double getCurrentTime() {
     if (isContextInitialized) {
         btAccelerometerChanged(-9.8f*x,-9.8f*y,-9.8f*z);
     }
-}
-
-- (void)initOF {
-    NSDictionary* settings = [NSDictionary dictionaryWithObjectsAndKeys:
-                              [NSNumber numberWithInt:UIInterfaceOrientationLandscapeRight],OpenFeintSettingDashboardOrientation, 
-                              @"Slyon Street Tuner",OpenFeintSettingShortDisplayName, 
-                              [NSNumber numberWithBool:YES],OpenFeintSettingEnablePushNotifications,
-                              [NSNumber numberWithBool:YES],OpenFeintSettingDisableUserGeneratedContent, 
-                              self.view.window,OpenFeintSettingPresentationWindow, 
-                              [NSNumber numberWithInt:OFDevelopmentMode_RELEASE], OpenFeintSettingDevelopmentMode,
-                              nil]; 
-    OFDelegatesContainer* delegates = [OFDelegatesContainer containerWithOpenFeintDelegate:self
-                                                                      andChallengeDelegate:NULL
-                                                                   andNotificationDelegate:NULL];
-    [OpenFeint initializeWithProductKey:@"Mfmq6LcQRZafdXJwJHX5qw"
-                              andSecret:@"iZtMj05FBVPU73PKhtpKbUUJwiRLxEepwnAGeSm55Ik"
-                         andDisplayName:@"Slyon Street Tuner"
-                            andSettings:settings
-                           andDelegates:delegates];
-}
-
-- (void)onSuccess {
-    
-}
-
-#pragma mark MPAdViewDelegate Methods
-
-- (UIViewController *)viewControllerForPresentingModalView
-{
-    return self;
-}
-
-#pragma mark OpenFeint Delegate methods
-
-- (BOOL) isOpenFeintNotificationAllowed:(OFNotificationData*)notificationData{
-	return YES;
-}
-
-- (void)handleDisallowedNotification:(OFNotificationData*)notificationData{
-}
-
-- (void) notificationChangeState:(char)state tag:(int)tag {
 }
 
 @end

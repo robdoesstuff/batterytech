@@ -26,13 +26,9 @@
 
 #import "RemoteIOPlayer.h"
 
-#import "MPAdView.h"
-#import "OpenFeint.h"
-#import "MPInterstitialAdController.h"
-
 #define MAX_TOUCHES 10
 
-@interface batterytechViewController : UIViewController <UIAccelerometerDelegate, MPAdViewDelegate, OpenFeintDelegate, MPInterstitialAdControllerDelegate, OFNotificationDelegate> {
+@interface batterytechViewController : UIViewController <UIAccelerometerDelegate> {
     EAGLContext *context;
      
     BOOL animating;
@@ -48,11 +44,7 @@
     NSThread *animationThread;
 	RemoteIOPlayer *player;
 	UITouch **touchIds;
-    MPAdView *adBannerView;
-    BOOL adBannerViewIsLoaded;
-    NSString *kADBannerContentSizeIdentifierPortrait;
-    NSString *kADBannerContentSizeIdentifierLandscape;
-    int vpWidth;
+     int vpWidth;
     int vpHeight;
 }
 
@@ -60,8 +52,6 @@
 @property (nonatomic) NSInteger animationFrameInterval;
 @property (nonatomic, retain) RemoteIOPlayer *player;
 @property (nonatomic, retain) EAGLContext *context;
-@property (nonatomic, retain) MPAdView *adBannerView;
-@property (nonatomic) BOOL adBannerViewIsLoaded;
 
 - (void)startAnimation;
 - (void)stopAnimation;
@@ -70,7 +60,6 @@
 - (void)showAd;
 - (void)showFullscreenAd;
 - (void)hideAd;
-- (void)initOF;
 - (void)runMainLoop;
 - (void)drawFrame;
 

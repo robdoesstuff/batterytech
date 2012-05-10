@@ -37,9 +37,6 @@
 #include <mach/mach_time.h>
 
 #import "batterytechViewController.h"
-#import "IAPManager.h"
-#import "OpenFeint+Dashboard.h"
-#import "OFHighScoreService.h"
 
 #define ASSETS_DIR "assets/"
 
@@ -271,8 +268,8 @@ void _platform_show_keyboard() {
         // create hidden textview and set as first responder
         myTextView = [[UITextView alloc] init];
         [batterytechRootView addSubview:myTextView];
-        myTextView.frame.size.height = 1;
-        myTextView.frame.size.width = 1;
+        //myTextView.frame.size.height = 1;
+        //myTextView.frame.size.width = 1;
         kbDelegate = [[batterytechKeyboardDelegate alloc] init];
         myTextView.delegate = kbDelegate;
         [myTextView becomeFirstResponder];
@@ -394,78 +391,6 @@ void _platform_hide_ad() {
 
 void _platform_hook(const char *hook, char *result, S32 resultLen) {
 	// Handle custom hooks here
-    if (strStartsWith(hook, "initOF")) {
-        dispatch_async( dispatch_get_main_queue(), ^{
-            [btViewController initOF];
-        });
-    } else if (strStartsWith(hook, "submitTime")) {
-        char *hookData = new char[512];
-        strcpy(hookData, hook);
-        dispatch_async( dispatch_get_main_queue(), ^{
-            if ([OpenFeint hasUserApprovedFeint]) {
-                strtok(hookData, " ");
-                char *leaderBoardId = strtok(NULL, " ");
-                char *timeString = strtok(NULL, " ");
-                char *levelString = strtok(NULL, " ");
-                float timeValue = atof(timeString);
-                int timeInt = (int)(timeValue * 1000);
-                [OFHighScoreService setHighScore:timeInt 
-                                 withDisplayText:[NSString stringWithFormat:@"%2.4f (lvl %s)", timeValue, levelString]
-                                  forLeaderboard:[NSString stringWithFormat:@"%s", leaderBoardId]
-                             onSuccessInvocation:nil
-                             onFailureInvocation:nil
-                 ];
-                delete [] hookData;
-            }
-        });
-    }  else if (strStartsWith(hook, "submitMPH")) {
-        char *hookData = new char[512];
-        strcpy(hookData, hook);
-        dispatch_async( dispatch_get_main_queue(), ^{
-        if ([OpenFeint hasUserApprovedFeint]) {
-            strtok(hookData, " ");
-            char *leaderBoardId = strtok(NULL, " ");
-            char *mphString = strtok(NULL, " ");
-            char *timeString = strtok(NULL, " ");
-            float mphValue = atof(mphString);
-            float timeValue = atof(timeString);
-            int mphInt = (int)(mphValue * 100);
-            [OFHighScoreService setHighScore:mphInt 
-                             withDisplayText:[NSString stringWithFormat:@"%3.1f (%2.4f)", mphValue, timeValue]
-                              forLeaderboard:[NSString stringWithFormat:@"%s", leaderBoardId]
-                         onSuccessInvocation:nil                         
-                         onFailureInvocation:nil
-             ];
-             delete [] hookData;
-        }
-        });
-    } else if (strStartsWith(hook, "showOFSettings")) {
-        dispatch_async( dispatch_get_main_queue(), ^{
-            [OpenFeint launchDashboard];
-        });
-    } else if (strStartsWith(hook, "showLeaderboards")) {
-        dispatch_async( dispatch_get_main_queue(), ^{
-            if ([OpenFeint hasUserApprovedFeint]) {
-                [OpenFeint launchDashboardWithListLeaderboardsPage];
-            } else {
-                [OpenFeint launchDashboard];
-            }
-        });
-    } else if (strStartsWith(hook, "requestPurchase")) {
-        char *hookData = new char[512];
-        strcpy(hookData, hook);
-        dispatch_async( dispatch_get_main_queue(), ^{
-            strtok(hookData, " ");
-            char *productId = strtok(NULL, " ");
-             // call SK purchase request with productId
-            IAPManager *mgr = [IAPManager getInstance];
-            if ([mgr canMakePurchases]) {
-                NSString *sku = [NSString stringWithCString:productId encoding: NSUTF8StringEncoding];
-                [mgr purchaseProduct:sku];
-            }
-            delete [] hookData;
-        });
-    }
 }
 
 BOOL32 _platform_has_special_key(BatteryTech::SpecialKey sKey) {
