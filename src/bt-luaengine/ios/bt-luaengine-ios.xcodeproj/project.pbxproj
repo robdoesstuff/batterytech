@@ -183,7 +183,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1D6058910D05DD3D006BFB54 /* Slyon Street Tuner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Slyon Street Tuner.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D6058910D05DD3D006BFB54 /* BatteryTech Lua Engine Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BatteryTech Lua Engine Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		28AD733E0D9D9553002E5188 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		28EC4C5811D54ECE0027AA9F /* batterytechViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = batterytechViewController.xib; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* batterytech_ios_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = batterytech_ios_Prefix.pch; sourceTree = "<group>"; };
@@ -628,7 +628,7 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1D6058910D05DD3D006BFB54 /* Slyon Street Tuner.app */,
+				1D6058910D05DD3D006BFB54 /* BatteryTech Lua Engine Demo.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1381,7 +1381,7 @@
 			);
 			name = "bt-luaengine-ios";
 			productName = "bt-luaengine-ios";
-			productReference = 1D6058910D05DD3D006BFB54 /* Slyon Street Tuner.app */;
+			productReference = 1D6058910D05DD3D006BFB54 /* BatteryTech Lua Engine Demo.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -1621,7 +1621,7 @@
 					"-all_load",
 					"-Objc",
 				);
-				PRODUCT_NAME = "Slyon Street Tuner";
+				PRODUCT_NAME = "BatteryTech Lua Engine Demo";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)";
@@ -1656,7 +1656,7 @@
 					"-all_load",
 					"-Objc",
 				);
-				PRODUCT_NAME = "Slyon Street Tuner";
+				PRODUCT_NAME = "BatteryTech Lua Engine Demo";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)";
