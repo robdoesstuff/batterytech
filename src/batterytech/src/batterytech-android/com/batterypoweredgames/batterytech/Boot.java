@@ -100,6 +100,10 @@ public class Boot {
 		return Environment.getExternalStorageDirectory().getAbsolutePath();
 	}
 
+	public String getApplicationStorageDirPath() {
+		return activity.getFilesDir().getAbsolutePath();
+	}
+
 	public void releaseBoot(boolean wasInitialized) {
 		if (wasInitialized) {
 			// don't release if init() was never called
@@ -270,6 +274,23 @@ public class Boot {
 		return "";
 	}
 
+	public void onSuspend() {
+		suspend();
+		//vibrationManager.onPause();
+		if (audioWrapper != null) {
+			audioWrapper.onPause();
+		}
+	}
+	
+	public void onResume() {
+		if (audioWrapper != null) {
+			audioWrapper.onResume();
+		}
+		//vibrationManager.onResume();
+		resume();
+	}
+
+
 	public native void init(int width, int height, boolean usingGLES2);
 	public native void release();
 	public native void update(float delta);
@@ -282,4 +303,5 @@ public class Boot {
 	public native void keyDown(int keyChar, int keyCode);
 	public native void keyPressed(int keyChar, int keyCode);
 	public native void accelerometerChanged(float x, float y, float z);
+	public native void callback(String data);
 }

@@ -271,6 +271,38 @@ public class AudioWrapper {
 		this.enabled = enabled;
 	}
 	
+	public void onPause() {
+		if (soundPool != null) {
+			for (SoundStream sStream : loopingStreamIds) {
+				//soundPool.stop(sStream.streamId);
+				soundPool.pause(sStream.streamId);
+			}
+		}
+		if (streamingPlayers != null) {
+			for (String assetName : streamingPlayers.keySet()) {
+				MediaPlayer mp = streamingPlayers.get(assetName);
+				if (mp.isPlaying()) {
+					mp.pause();
+				}
+			}
+		}
+	}
+	
+	public void onResume() {
+		if (soundPool != null) {
+			for (SoundStream sStream : loopingStreamIds) {
+				//soundPool.stop(sStream.streamId);
+				soundPool.resume(sStream.streamId);
+			}
+		}
+		if (streamingPlayers != null) {
+			for (String assetName : streamingPlayers.keySet()) {
+				MediaPlayer mp = streamingPlayers.get(assetName);
+				mp.start();
+			}
+		}
+	}
+
 	private static class SoundStream {
 		private String assetName;
 		private int streamId;

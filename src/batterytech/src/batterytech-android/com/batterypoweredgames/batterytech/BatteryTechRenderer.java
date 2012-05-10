@@ -120,7 +120,7 @@ public class BatteryTechRenderer implements Renderer, InputHandler, SensorEventL
 
 	public void onPause() {
 		synchronized (tickMutex) {		
-			boot.suspend();
+			boot.onSuspend();
 		}
 		if (sensorMgr != null) {
 			sensorMgr.unregisterListener(this);
@@ -138,7 +138,7 @@ public class BatteryTechRenderer implements Renderer, InputHandler, SensorEventL
 		// getOrientation() is deprecated in Android 8 but is the same as getRotation() which is the rotation from the natural orientation of the device
 		screenRotation = windowMgr.getDefaultDisplay().getOrientation();
 		synchronized (tickMutex) {		
-			boot.resume();
+			boot.onResume();
 		}
 		sensorMgr = (SensorManager) activity.getSystemService(Context.SENSOR_SERVICE);
 		Sensor sensor = sensorMgr.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -154,6 +154,12 @@ public class BatteryTechRenderer implements Renderer, InputHandler, SensorEventL
 		}
 	}
 	
+	public void callback(String callbackData) {
+		synchronized (tickMutex) {		
+			boot.callback(callbackData);
+		}
+	}
+
 	public void release() {
 		Log.d(TAG, "Releasing");
 		this.activity = null;
