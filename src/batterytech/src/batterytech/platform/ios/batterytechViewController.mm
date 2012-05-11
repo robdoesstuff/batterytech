@@ -22,7 +22,6 @@
 #include <batterytech/batterytech.h>
 #include <batterytech/render/GraphicsConfiguration.h>
 #include <batterytech/Logger.h>
-#include "IAPManager.h"
 
 #define USE_GLES2_WHEN_AVAILABLE TRUE
 
@@ -150,7 +149,7 @@ double getCurrentTime() {
 {
     isContextInitialized = FALSE;
     animating = FALSE;
-    @synchronized(self) {
+    @synchronized(self.view) {
         btRelease();
     }
     // Tear down context.
@@ -262,7 +261,7 @@ double getCurrentTime() {
 - (void)drawFrame {
 	lastTime = currentTime;
 	currentTime = getCurrentTime();
-    @synchronized(self) {
+    @synchronized(self.view) {
         if (animating) {
             btUpdate(currentTime - lastTime);
             //NSLog(@"btUpdate %f", currentTime - lastTime);

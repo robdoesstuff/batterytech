@@ -268,8 +268,7 @@ void _platform_show_keyboard() {
         // create hidden textview and set as first responder
         myTextView = [[UITextView alloc] init];
         [batterytechRootView addSubview:myTextView];
-        //myTextView.frame.size.height = 1;
-        //myTextView.frame.size.width = 1;
+        [myTextView setFrame:CGRectMake(0, 0,1,1)];
         kbDelegate = [[batterytechKeyboardDelegate alloc] init];
         myTextView.delegate = kbDelegate;
         [myTextView becomeFirstResponder];
