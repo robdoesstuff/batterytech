@@ -10,16 +10,12 @@
  */
 
 //============================================================================
-// Name        : main.m
-// Description : IOS App Startup
+// Name        : MyBTViewController.h
+// Description : IOS Custom View Controller
 //============================================================================
 
-#import <UIKit/UIKit.h>
+#import "batterytechViewController.h"
 
-int main(int argc, char *argv[]) {
-    
-    NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
-    int retVal = UIApplicationMain(argc, argv, nil, nil);
-    [pool release];
-    return retVal;
-}
+@interface MyBTViewController : batterytechViewController
+
+@end
