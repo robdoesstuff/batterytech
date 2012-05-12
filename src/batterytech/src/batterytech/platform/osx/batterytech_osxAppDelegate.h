@@ -10,26 +10,22 @@
  */
 
 //============================================================================
-// Name        : batterytechAppDelegate.h
-// Description : IOS Batterytech App Delegate
+// Name        : batterytech_osxAppDelegate.h
+// Description : OSX App Delegate
 //============================================================================
 
 #ifdef __APPLE__
 #include <TargetConditionals.h>
 #endif
-#if TARGET_OS_IPHONE
+#if TARGET_OS_MAC && !TARGET_OS_IPHONE
 
-#import <UIKit/UIKit.h>
+#import <Cocoa/Cocoa.h>
 
-@class batterytechViewController;
-
-@interface batterytechAppDelegate : NSObject <UIApplicationDelegate> {
-    UIWindow *window;
-    batterytechViewController *viewController;
+@interface batterytech_osxAppDelegate : NSObject <NSApplicationDelegate> {
+    NSWindow *window;
 }
 
-@property (nonatomic, retain) IBOutlet UIWindow *window;
-@property (nonatomic, retain) IBOutlet batterytechViewController *viewController;
+@property (assign) IBOutlet NSWindow *window;
 
 @end
 

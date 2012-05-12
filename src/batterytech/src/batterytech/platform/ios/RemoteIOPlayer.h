@@ -14,6 +14,11 @@
 // Description : Hooks IOS AudioUnit up to PCMSoundManager
 //============================================================================
 
+#ifdef __APPLE__
+#include <TargetConditionals.h>
+#endif
+#if TARGET_OS_IPHONE
+
 #import <Foundation/Foundation.h>
 
 @interface RemoteIOPlayer : NSObject {
@@ -25,3 +30,5 @@
 -(void)initialiseAudio;
 
 @end
+
+#endif

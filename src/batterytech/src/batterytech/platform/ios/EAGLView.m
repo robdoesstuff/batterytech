@@ -14,6 +14,11 @@
 // Description : Wraps GLES EGL for IOS - handles init and swap
 //============================================================================
 
+#ifdef __APPLE__
+#include <TargetConditionals.h>
+#endif
+#if TARGET_OS_IPHONE
+
 #import <QuartzCore/QuartzCore.h>
 
 #import "EAGLView.h"
@@ -217,3 +222,5 @@
 }
 
 @end
+
+#endif

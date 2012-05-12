@@ -14,6 +14,11 @@
 // Description : Wraps GLES EGL for IOS - handles init and swap
 //============================================================================
 
+#ifdef __APPLE__
+#include <TargetConditionals.h>
+#endif
+#if TARGET_OS_IPHONE
+
 #import <UIKit/UIKit.h>
 
 #import <OpenGLES/ES1/gl.h>
@@ -48,3 +53,5 @@
 - (void) configureScale;
 
 @end
+
+#endif

@@ -14,6 +14,11 @@
 // Description : IOS Batterytech App Delegate
 //============================================================================
 
+#ifdef __APPLE__
+#include <TargetConditionals.h>
+#endif
+#if TARGET_OS_IPHONE
+
 #import "batterytechAppDelegate.h"
 #import "batterytechViewController.h"
 
@@ -69,3 +74,5 @@
 }
 
 @end
+
+#endif

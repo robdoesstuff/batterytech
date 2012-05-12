@@ -10,26 +10,24 @@
  */
 
 //============================================================================
-// Name        : batterytechAppDelegate.h
-// Description : IOS Batterytech App Delegate
+// Name        : RemoteIOPlayer.h
+// Description : Hooks OSX AudioUnit up to PCMSoundManager
 //============================================================================
 
 #ifdef __APPLE__
 #include <TargetConditionals.h>
 #endif
-#if TARGET_OS_IPHONE
+#if TARGET_OS_MAC && !TARGET_OS_IPHONE
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
-@class batterytechViewController;
-
-@interface batterytechAppDelegate : NSObject <UIApplicationDelegate> {
-    UIWindow *window;
-    batterytechViewController *viewController;
+@interface RemoteIOPlayer : NSObject {
 }
 
-@property (nonatomic, retain) IBOutlet UIWindow *window;
-@property (nonatomic, retain) IBOutlet batterytechViewController *viewController;
+-(OSStatus)start;
+-(OSStatus)stop;
+-(void)cleanUp;
+-(void)initialiseAudio;
 
 @end
 

@@ -11,13 +11,13 @@
 
 //============================================================================
 // Name        : RemoteIOPlayer.mm
-// Description : Hooks IOS AudioUnit up to PCMSoundManager
+// Description : Hooks OSX AudioUnit up to PCMSoundManager
 //============================================================================
 
 #ifdef __APPLE__
 #include <TargetConditionals.h>
 #endif
-#if TARGET_OS_IPHONE
+#if TARGET_OS_MAC && !TARGET_OS_IPHONE
 
 #import "RemoteIOPlayer.h"
 #include <AudioUnit/AudioUnit.h>
@@ -74,7 +74,7 @@ static OSStatus playbackCallback(void *inRefCon,
 	// Describe audio component
 	AudioComponentDescription desc;
 	desc.componentType = kAudioUnitType_Output;
-	desc.componentSubType = kAudioUnitSubType_RemoteIO;
+	//desc.componentSubType = kAudioUnitSubType_RemoteIO;
 	desc.componentFlags = 0;
 	desc.componentFlagsMask = 0;
 	desc.componentManufacturer = kAudioUnitManufacturer_Apple;

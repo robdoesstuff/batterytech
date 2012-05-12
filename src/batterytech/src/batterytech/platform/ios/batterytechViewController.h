@@ -14,6 +14,11 @@
 // Description : Primary driver class for Batterytech on IOS
 //============================================================================
 
+#ifdef __APPLE__
+#include <TargetConditionals.h>
+#endif
+#if TARGET_OS_IPHONE
+
 #import <UIKit/UIKit.h>
 #import <OpenGLES/EAGL.h>
 
@@ -64,3 +69,5 @@
 - (bool) useGLES2;
 - (bool) forceLandscape;
 @end
+
+#endif

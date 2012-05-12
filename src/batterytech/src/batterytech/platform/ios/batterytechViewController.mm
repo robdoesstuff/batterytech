@@ -14,6 +14,11 @@
 // Description : Primary driver class for Batterytech on IOS
 //============================================================================
 
+#ifdef __APPLE__
+#include <TargetConditionals.h>
+#endif
+#if TARGET_OS_IPHONE
+
 #import "batterytechViewController.h"
 #import <QuartzCore/QuartzCore.h>
 #include <mach/mach.h>
@@ -399,3 +404,4 @@ double getCurrentTime() {
 
 @end
 
+#endif
