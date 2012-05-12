@@ -23,8 +23,6 @@
 #include <batterytech/render/GraphicsConfiguration.h>
 #include <batterytech/Logger.h>
 
-#define USE_GLES2_WHEN_AVAILABLE TRUE
-
 using namespace BatteryTech;
 
 static GraphicsConfiguration *gConfig;
@@ -56,6 +54,7 @@ double getCurrentTime() {
 
 @synthesize context;
 @synthesize player;
+@synthesize animating;
 
 - (void)awakeFromNib
 {
@@ -68,7 +67,7 @@ double getCurrentTime() {
 	}
 	gConfig = new GraphicsConfiguration;
 	EAGLContext *aContext = NULL;
-	if (USE_GLES2_WHEN_AVAILABLE) {
+	if ([self useGLES2]) {
 		aContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
 	}
 	if (!aContext) {
@@ -119,11 +118,9 @@ double getCurrentTime() {
 	gConfig->supportsHWmipmapgen = TRUE;
 	gConfig->supportsVBOs = TRUE;
 	gConfig->supportsUVTransform = TRUE;
-	// TODO - why do we need to reverse these for landscape?? Should be width, height
-    bool forceLandscape = TRUE;
 	vpHeight = [(EAGLView *)self.view getFBHeight];
 	vpWidth = [(EAGLView *)self.view getFBWidth];
-    if (forceLandscape) {
+    if ([self forceLandscape]) {
         if (vpWidth < vpHeight) {
             // this is portrait and will be rotated to landscape - flip the values
             int temp = vpWidth;
@@ -156,21 +153,11 @@ double getCurrentTime() {
     if ([EAGLContext currentContext] == context) {
         [EAGLContext setCurrentContext:nil];
 	}
-    [self removeAd];
     [context release];
 	[player cleanUp];
 	[player release];
 	delete [] touchIds;
     [super dealloc];
-}
-
-- (void)showAd {
-}
-
-- (void)hideAd {
-}
-
-- (void)showFullscreenAd {
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -389,6 +376,25 @@ double getCurrentTime() {
     if (isContextInitialized) {
         btAccelerometerChanged(-9.8f*x,-9.8f*y,-9.8f*z);
     }
+}
+
+// Hooks, subclass with your own view controller and implement
+
+- (void)showAd {
+}
+
+- (void)hideAd {
+}
+
+- (void)hook:(const char*)hookData withResult:(char*) result withResultLen:(int) resultLen {
+}
+
+- (bool) useGLES2 {
+    return false;
+}
+
+- (bool) forceLandscape {
+    return false;
 }
 
 @end

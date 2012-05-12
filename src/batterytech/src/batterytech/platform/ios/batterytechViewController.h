@@ -44,7 +44,7 @@
     NSThread *animationThread;
 	RemoteIOPlayer *player;
 	UITouch **touchIds;
-     int vpWidth;
+    int vpWidth;
     int vpHeight;
 }
 
@@ -55,12 +55,12 @@
 
 - (void)startAnimation;
 - (void)stopAnimation;
-- (void)createAd;
-- (void)removeAd;
-- (void)showAd;
-- (void)showFullscreenAd;
-- (void)hideAd;
 - (void)runMainLoop;
 - (void)drawFrame;
-
+// now for hooks and customizations
+- (void) showAd;
+- (void) hideAd;
+- (void) hook:(const char*)hookData withResult:(char*) result withResultLen:(int) resultLen;
+- (bool) useGLES2;
+- (bool) forceLandscape;
 @end
