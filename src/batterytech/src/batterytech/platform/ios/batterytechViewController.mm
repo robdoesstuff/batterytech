@@ -166,10 +166,8 @@ double getCurrentTime() {
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-     //NSLog(@"viewWillAppear");
-    [self startAnimation];
+     NSLog(@"viewWillAppear");
     [super viewWillAppear:animated];
-	btResume();
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -179,6 +177,8 @@ double getCurrentTime() {
     } else {
         NSLog(@"batterytechViewController is first responder.");
     }
+    [self startAnimation];
+	btResume();
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

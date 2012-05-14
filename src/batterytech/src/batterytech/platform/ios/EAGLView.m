@@ -14,11 +14,6 @@
 // Description : Wraps GLES EGL for IOS - handles init and swap
 //============================================================================
 
-#ifdef __APPLE__
-#include <TargetConditionals.h>
-#endif
-#if TARGET_OS_IPHONE
-
 #import <QuartzCore/QuartzCore.h>
 
 #import "EAGLView.h"
@@ -41,6 +36,12 @@
 //The EAGL view is stored in the nib file. When it's unarchived it's sent -initWithCoder:.
 - (id)initWithCoder:(NSCoder*)coder
 {
+    NSLog(@"EAGLView initWithCoder");
+    framebufferWidth = 0;
+    framebufferHeight = 0;
+    defaultFramebuffer = 0;
+    colorRenderbuffer = 0;
+    depthRenderbuffer = 0;
     self = [super initWithCoder:coder];
 	if (self)
     {
@@ -123,8 +124,10 @@
     @synchronized(self) {
         if (context && !defaultFramebuffer)
         {
-            [EAGLContext setCurrentContext:context];
-            
+            if (![EAGLContext setCurrentContext:context]) {
+                NSLog(@"*** in createFramebuffer - setCurrentContext failed!");
+            }
+             
             // Create default framebuffer object.
             glGenFramebuffers(1, &defaultFramebuffer);
             glBindFramebuffer(GL_FRAMEBUFFER, defaultFramebuffer);
@@ -136,15 +139,18 @@
             glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_WIDTH, &framebufferWidth);
             glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_HEIGHT, &framebufferHeight);
             glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, colorRenderbuffer);
-           
+            
             // depth buffer
             glGenRenderbuffers(1, &depthRenderbuffer);
             glBindRenderbuffer(GL_RENDERBUFFER, depthRenderbuffer);
             glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, framebufferWidth, framebufferHeight);
             glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRenderbuffer);
             
-            if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+            NSLog(@"Creating a frame buffer of size %dx%d", framebufferWidth, framebufferHeight);
+            if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
                 NSLog(@"Failed to make complete framebuffer object %x", glCheckFramebufferStatus(GL_FRAMEBUFFER));
+                [self deleteFramebuffer];
+            }
         }
     }
 }
@@ -152,20 +158,22 @@
 - (void)deleteFramebuffer
 {
     @synchronized(self) {
-        if (context)
-        {
+        if (context) {
             [EAGLContext setCurrentContext:context];
-            
-            if (defaultFramebuffer)
-            {
+            if (defaultFramebuffer) {
+                NSLog(@"Deleting framebuffer %d", defaultFramebuffer);
                 glDeleteFramebuffers(1, &defaultFramebuffer);
                 defaultFramebuffer = 0;
             }
-            
-            if (colorRenderbuffer)
-            {
+            if (colorRenderbuffer) {
+                NSLog(@"Deleting color renderbuffer %d", colorRenderbuffer);
                 glDeleteRenderbuffers(1, &colorRenderbuffer);
                 colorRenderbuffer = 0;
+            }
+            if (depthRenderbuffer) {
+                NSLog(@"Deleting depth renderbuffer %d", depthRenderbuffer);
+                glDeleteRenderbuffers(1, &depthRenderbuffer);
+                depthRenderbuffer = 0;
             }
         }
     }
@@ -177,13 +185,13 @@
         if (context)
         {
             [EAGLContext setCurrentContext:context];
-            
-            if (!defaultFramebuffer)
+            if (!defaultFramebuffer) {
                 [self createFramebuffer];
-            
-            glBindFramebuffer(GL_FRAMEBUFFER, defaultFramebuffer);
-            
-            glViewport(0, 0, framebufferWidth, framebufferHeight);
+            }
+            if (defaultFramebuffer) {
+                glBindFramebuffer(GL_FRAMEBUFFER, defaultFramebuffer);
+                glViewport(0, 0, framebufferWidth, framebufferHeight);
+            }
         }
     }
 }
@@ -192,16 +200,14 @@
 {
     @synchronized(self) {
         BOOL success = FALSE;
-        
-        if (context)
-        {
+        if (context) {
             [EAGLContext setCurrentContext:context];
-            
-            glBindRenderbuffer(GL_RENDERBUFFER, colorRenderbuffer);
-            
-            success = [context presentRenderbuffer:GL_RENDERBUFFER];
+            if (colorRenderbuffer) {
+                glBindRenderbuffer(GL_RENDERBUFFER, colorRenderbuffer);
+                success = [context presentRenderbuffer:GL_RENDERBUFFER];
+            }
         }
-        
+        if (!success) { NSLog(@"presentFramebuffer failed"); };
         return success;
     }
 }
@@ -222,5 +228,3 @@
 }
 
 @end
-
-#endif
