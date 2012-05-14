@@ -21,7 +21,7 @@ void RenderUtil::setupGL(AppContext *context) {
 	glEnable(GL_BLEND);
 	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
 	glViewport(0, 0, context->gConfig->viewportWidth, context->gConfig->viewportHeight);
 }
 
