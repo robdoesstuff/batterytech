@@ -1,3 +1,0 @@
-sound_enabled=1
-vibes_enabled=1
-show_fps=0
