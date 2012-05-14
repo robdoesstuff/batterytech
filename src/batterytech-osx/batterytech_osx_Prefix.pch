@@ -1,7 +1,0 @@
-//
-// Prefix header for all source files of the 'batterytech-osx' target in the 'batterytech-osx' project
-//
-
-#ifdef __OBJC__
-    #import <Cocoa/Cocoa.h>
-#endif
