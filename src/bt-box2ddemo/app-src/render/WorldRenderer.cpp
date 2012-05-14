@@ -15,6 +15,7 @@
 #include "../GameUtil.h"
 #include "../GameContext.h"
 #include <batterytech/render/RenderContext.h>
+#include <batterytech/render/MenuRenderer.h>
 
 WorldRenderer::WorldRenderer(GameContext *context) {
 	this->context = context;
@@ -94,6 +95,8 @@ void WorldRenderer::render() {
 			// level editing and debugging
 			b2DebugRenderer->render(world);
 		}
+		// BT UI
+		context->menuRenderer->render();
 		// text overlay
 		frameSampleTimeTotal += context->tickDelta;
 		frameSamplesCollected++;

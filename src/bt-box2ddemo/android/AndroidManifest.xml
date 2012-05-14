@@ -11,8 +11,8 @@
         android:label="@string/app_name" >
         <activity
             android:label="@string/app_name"
-            android:name="com.batterypoweredgames.box2ddemo.MyActivity"
-            android:screenOrientation="landscape" >
+            android:name="com.batterypoweredgames.batterytech.BatteryTechActivity"
+            android:screenOrientation="portrait" >
             <intent-filter >
                 <action android:name="android.intent.action.MAIN" />
 

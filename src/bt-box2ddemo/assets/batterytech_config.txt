@@ -1,15 +1,15 @@
 
 use_shaders=true
-reference_width=800
-reference_height=480
-window_width=1280
+reference_width=480
+reference_height=800
+window_width=480
 window_height=800
-CONSOLE_LOG_ENABLED_WHEN_AVAILABLE=true
-WINDOWED_APP_NAME=BatteryTech 2.0 Demo
+console_log_enabled_when_available=true
+windowed_app_name=BatteryTech 2.0 Demo
 storage_dir=BatteryTech Box2D Demo
 initial_font_texture_width=256
 initial_font_texture_height=256
-ui_font_size=40.0
+ui_font_size=32.0
 text_vertical_spacing_multiplier=1.2
 prefer_platform_audio_management=false
 menu_font=ui/digital.ttf

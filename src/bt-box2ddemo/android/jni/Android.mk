@@ -65,16 +65,16 @@ my_src_files :=\
 	batterytech/util/PropertiesIO.cpp \
 	batterytech/util/strx.cpp
 
-LOCAL_CFLAGS := -DANDROID_NDK -DBATTERYTECH_INCLUDE_ASSIMP
+LOCAL_CFLAGS := -DANDROID_NDK
 LOCAL_MODULE    := batterytech
 LOCAL_SRC_FILES := $(my_src_files)	
 LOCAL_LDLIBS := -ldl -llog
-LOCAL_C_INCLUDES := $(LOCAL_PATH) $(LOCAL_PATH)/bt-assimp/contrib
+LOCAL_C_INCLUDES := $(LOCAL_PATH)
 
 include $(BUILD_STATIC_LIBRARY)
 
 
-# lua
+# box2d
 
 include $(CLEAR_VARS)
 
@@ -82,124 +82,84 @@ LOCAL_PATH := ../batterytech/src
 
 # List all of your local source files here that you want included in this build
 my_src_files :=\
-	bt-lua/lapi.c \
-	bt-lua/lauxlib.c \
-	bt-lua/lbaselib.c \
-	bt-lua/lcode.c \
-	bt-lua/ldblib.c \
-	bt-lua/ldebug.c \
-	bt-lua/ldo.c \
-	bt-lua/ldump.c \
-	bt-lua/lfunc.c \
-	bt-lua/lgc.c \
-	bt-lua/linit.c \
-	bt-lua/liolib.c \
-	bt-lua/llex.c \
-	bt-lua/lmathlib.c \
-	bt-lua/lmem.c \
-	bt-lua/loadlib.c \
-	bt-lua/lobject.c \
-	bt-lua/lopcodes.c \
-	bt-lua/loslib.c \
-	bt-lua/lparser.c \
-	bt-lua/lstate.c \
-	bt-lua/lstring.c \
-	bt-lua/lstrlib.c \
-	bt-lua/ltable.c \
-	bt-lua/ltablib.c \
-	bt-lua/ltm.c \
-	bt-lua/lua.c \
-	bt-lua/luac.c \
-	bt-lua/lundump.c \
-	bt-lua/lvm.c \
-	bt-lua/lzio.c \
-	bt-lua/print.c
+	bt-box2d/Collision/b2BroadPhase.cpp \
+	bt-box2d/Collision/b2CollideCircle.cpp \
+	bt-box2d/Collision/b2CollidePolygon.cpp \
+	bt-box2d/Collision/b2Collision.cpp \
+	bt-box2d/Collision/b2Distance.cpp \
+	bt-box2d/Collision/b2DynamicTree.cpp \
+	bt-box2d/Collision/b2TimeOfImpact.cpp \
+	bt-box2d/Collision/Shapes/b2CircleShape.cpp \
+	bt-box2d/Collision/Shapes/b2PolygonShape.cpp \
+	bt-box2d/Common/b2BlockAllocator.cpp \
+	bt-box2d/Common/b2Math.cpp \
+	bt-box2d/Common/b2Settings.cpp \
+	bt-box2d/Common/b2StackAllocator.cpp \
+	bt-box2d/Dynamics/b2Body.cpp \
+	bt-box2d/Dynamics/b2ContactManager.cpp \
+	bt-box2d/Dynamics/b2Fixture.cpp \
+	bt-box2d/Dynamics/b2Island.cpp \
+	bt-box2d/Dynamics/b2World.cpp \
+	bt-box2d/Dynamics/b2WorldCallbacks.cpp \
+	bt-box2d/Dynamics/Contacts/b2CircleContact.cpp \
+	bt-box2d/Dynamics/Contacts/b2Contact.cpp \
+	bt-box2d/Dynamics/Contacts/b2ContactSolver.cpp \
+	bt-box2d/Dynamics/Contacts/b2PolygonAndCircleContact.cpp \
+	bt-box2d/Dynamics/Contacts/b2PolygonContact.cpp \
+	bt-box2d/Dynamics/Contacts/b2TOISolver.cpp \
+	bt-box2d/Dynamics/Joints/b2DistanceJoint.cpp \
+	bt-box2d/Dynamics/Joints/b2FrictionJoint.cpp \
+	bt-box2d/Dynamics/Joints/b2GearJoint.cpp \
+	bt-box2d/Dynamics/Joints/b2Joint.cpp \
+	bt-box2d/Dynamics/Joints/b2LineJoint.cpp \
+	bt-box2d/Dynamics/Joints/b2MouseJoint.cpp \
+	bt-box2d/Dynamics/Joints/b2PrismaticJoint.cpp \
+	bt-box2d/Dynamics/Joints/b2PulleyJoint.cpp \
+	bt-box2d/Dynamics/Joints/b2RevoluteJoint.cpp \
+	bt-box2d/Dynamics/Joints/b2WeldJoint.cpp
 
 LOCAL_CFLAGS := -DANDROID_NDK
-LOCAL_MODULE    := lua
+LOCAL_MODULE    := box2d
 LOCAL_SRC_FILES := $(my_src_files)	
 
 include $(BUILD_STATIC_LIBRARY)
-
-# assimp
-
-include $(CLEAR_VARS)
-
-LOCAL_PATH := ../batterytech/src
-
-# List all of your local source files here that you want included in this build
-my_src_files :=\
-	bt-assimp/code/Assimp.cpp \
-	bt-assimp/code/AssimpPCH.cpp \
-	bt-assimp/code/BAIFileImporter.cpp \
-	bt-assimp/code/BaseImporter.cpp \
-	bt-assimp/code/BaseProcess.cpp \
-	bt-assimp/code/ColladaLoader.cpp \
-	bt-assimp/code/ColladaParser.cpp \
-	bt-assimp/code/DefaultIOStream.cpp \
-	bt-assimp/code/DefaultIOSystem.cpp \
-	bt-assimp/code/DefaultLogger.cpp \
-	bt-assimp/code/Importer.cpp \
-	bt-assimp/code/MaterialSystem.cpp \
-	bt-assimp/code/ObjFileImporter.cpp \
-	bt-assimp/code/ObjFileMtlImporter.cpp \
-	bt-assimp/code/ObjFileParser.cpp \
-	bt-assimp/code/ScenePreprocessor.cpp \
-	bt-assimp/code/SkeletonMeshBuilder.cpp \
-	bt-assimp/code/SpatialSort.cpp \
-	bt-assimp/code/LimitBoneWeightsProcess.cpp \
-	bt-assimp/contrib/irrXML/irrXML.cpp \
-	bt-assimp/contrib/ConvertUTF/ConvertUTF.c
-
-LOCAL_CFLAGS := -DANDROID_NDK -DBATTERYTECH_INCLUDE_ASSIMP
-LOCAL_MODULE    := assimp
-LOCAL_SRC_FILES := $(my_src_files)	
-LOCAL_C_INCLUDES := $(LOCAL_PATH) $(LOCAL_PATH)/bt-assimp/contrib
-
-include $(BUILD_STATIC_LIBRARY)
-
 
 # Now for the app-specific portion
 
 include $(CLEAR_VARS)
 
-LOCAL_PATH := ../bt-luaengine/app-src
+LOCAL_PATH := ../bt-box2ddemo/app-src
 
 my_src_files :=\
 	GameContext.cpp \
 	Game.cpp \
-	GameLuaBinder.cpp \
 	GameUtil.cpp \
 	World.cpp \
-	ScreenControl.cpp \
-	WinHooks.cpp \
 	gameobject/GameObject.cpp \
-	gameobject/GameObjectLuaBinder.cpp \
-	level/LevelIO.cpp \
-	level/Level.cpp \
+	gameobject/GameObjectFactory.cpp \
+	gameobject/GameObjectMeta.cpp \
+	gameobject/GameObjectProperty.cpp \
+	gameobject/GameObjectPropertyMeta.cpp \
+	gameobjects/Ball.cpp \
 	input/TouchInputProcessor.cpp \
+	level/LevelIO.cpp \
 	render/WorldRenderer.cpp \
-	render/ShadowMap.cpp \
-	render/BtDebugRenderer.cpp \
+	render/B2DebugRenderer.cpp \
 	render/SimpleSpriteRenderer.cpp \
-	render/ScreenControlRenderer.cpp \
 	render/BatchSpriteRenderer.cpp \
-	render/ObjRenderer.cpp \
-	render/Camera.cpp \
-	render/RenderItem.cpp \
-	render/AssimpRenderer.cpp \
-	render/GlobalLight.cpp \
-	render/LocalLight.cpp \
-	script/LuaBinder.cpp \
-	menus/ErrorMenu.cpp
+	render/BallRenderer.cpp \
+	menus/GameOptionsMenu.cpp \
+	menus/SettingsMenu.cpp \
+	menus/MenuButtonMenu.cpp \
+	menus/SoundcheckMenu.cpp \
+	menus/TopMenu.cpp
 
 LOCAL_MODULE    := batterytech-app
-LOCAL_CFLAGS := -DANDROID_NDK -DBATTERYTECH_INCLUDE_ASSIMP
-LOCAL_C_INCLUDES := ../batterytech/src ../batterytech/src/bt-assimp/contrib
+LOCAL_CFLAGS := -DANDROID_NDK
+LOCAL_C_INCLUDES := ../batterytech/src
 LOCAL_SRC_FILES := $(my_src_files)
 LOCAL_LDLIBS := -ldl -llog
-LOCAL_STATIC_LIBRARIES := batterytech assimp lua
-# LOCAL_ALLOW_UNDEFINED_SYMBOLS := true
+LOCAL_STATIC_LIBRARIES := batterytech box2d
 
 include $(BUILD_SHARED_LIBRARY)
 

@@ -142,7 +142,8 @@ void Game::updateState() {
 	} else if (gameState == GAMESTATE_RUNNING) {
 		// running state is level loaded and playing a game.
 		if (stateChanged) {
-			context->uiManager->clearMenuStack();
+			//context->uiManager->clearMenuStack();
+			logmsg("Showing top menu");
 			context->uiManager->showMenu(TOP_MENU_NAME);
 		}
 		// watch for state change conditions
