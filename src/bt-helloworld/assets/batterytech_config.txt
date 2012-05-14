@@ -1,7 +1,7 @@
-use_shaders=true
-reference_width=1280
+use_shaders=false
+reference_width=480
 reference_height=800
-window_width=1280
+window_width=480
 window_height=800
 console_log_enabled_when_available=true
 windowed_app_name=BatteryTech 2.0 Hello World

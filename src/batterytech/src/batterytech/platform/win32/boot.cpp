@@ -215,7 +215,7 @@ void createWindow(HINSTANCE hInstance, long width, long height, const char *titl
 	wc.hCursor = LoadCursor(NULL, IDC_ARROW );
 	wc.hbrBackground = (HBRUSH) GetStockObject(BLACK_BRUSH);
 	wc.lpszMenuName = NULL;
-	wc.lpszClassName = (_LPCSTR)"BTApp";
+	wc.lpszClassName = (LPCSTR)"BTApp";
 	RegisterClass(&wc);
 
 	dwExStyle = WS_EX_APPWINDOW | WS_EX_WINDOWEDGE;
@@ -235,8 +235,8 @@ void createWindow(HINSTANCE hInstance, long width, long height, const char *titl
 	DWORD dwWidth = GetSystemMetrics(SM_CXFULLSCREEN);
 	DWORD dwHeight = GetSystemMetrics(SM_CYFULLSCREEN);
 	hWnd = CreateWindowEx(dwExStyle, // Extended Style For The Window
-			(_LPCSTR)"BTApp", // Class Name
-			(_LPCSTR)title, // Window Title
+			(LPCSTR)"BTApp", // Class Name
+			(LPCSTR)title, // Window Title
 			WS_CLIPSIBLINGS | // Required Window Style
 					WS_CLIPCHILDREN | // Required Window Style
 					WS_VISIBLE | dwStyle, // Selected Window Style

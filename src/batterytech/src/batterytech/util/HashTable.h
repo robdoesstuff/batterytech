@@ -315,7 +315,7 @@ public:
 	V get(const char* key);
 	V remove(const char* key);
 protected:
-	typename HashTable<char*,V>::Bucket* findBucket(const char* key, bool remove) const;
+	typename StrHashTable<V>::Bucket* findBucket(const char* key, bool remove) const;
 	int hash(const char* key) const;
 };
 
@@ -323,7 +323,7 @@ template<typename V>
 StrHashTable<V>::StrHashTable(int hashArraySize) : HashTable<char*, V>(hashArraySize) {}
 
 template<typename V>
-typename HashTable<char*, V>::Bucket* StrHashTable<V>::findBucket(const char* key, bool remove) const {
+typename StrHashTable<V>::Bucket* StrHashTable<V>::findBucket(const char* key, bool remove) const {
 	int hashValue = hash(key);
 	typename HashTable<char*, V>::Bucket *bucket = HashTable<char*, V>::buckets[hashValue];
 	typename HashTable<char*, V>::Bucket *lastBucket = NULL;

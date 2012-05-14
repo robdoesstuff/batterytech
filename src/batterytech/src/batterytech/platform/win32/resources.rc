@@ -16,4 +16,4 @@
 
 #include "resources.h"
 
-AppIcon ICON "../../../../assets/icon.ico"
+AppIcon ICON "../../bt-helloworld/assets/icon.ico"
