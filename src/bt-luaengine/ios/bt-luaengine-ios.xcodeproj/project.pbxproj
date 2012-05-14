@@ -20,6 +20,7 @@
 		3DD9492914784B1600DFA1A3 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DD637D912726D4900D13421 /* QuartzCore.framework */; };
 		3DD9492A14784B1600DFA1A3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DD637DB12726D5400D13421 /* Foundation.framework */; };
 		3DD9492B14784B1600DFA1A3 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D1C197F127536B600A353B4 /* AudioToolbox.framework */; };
+		3DDCA9AC1560B44D00FB1F6C /* batterytechViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DDCA9AB1560B44D00FB1F6C /* batterytechViewController.xib */; };
 		3DE02B60155DCB7700C19727 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DE02B5F155DCB7700C19727 /* main.m */; };
 		3DE02CCF155DCB9B00C19727 /* AudioManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DE02B63155DCB9B00C19727 /* AudioManager.cpp */; };
 		3DE02CD0155DCB9B00C19727 /* PCMAudioManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DE02B65155DCB9B00C19727 /* PCMAudioManager.cpp */; };
@@ -180,7 +181,6 @@
 		3DE02DAE155DCD6700C19727 /* World.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DE02D91155DCD6700C19727 /* World.cpp */; };
 		3DF3D632155DF15A00B78035 /* MyBTViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DF3D630155DF15A00B78035 /* MyBTViewController.m */; };
 		3DF3D633155DF15A00B78035 /* MyBTViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DF3D631155DF15A00B78035 /* MyBTViewController.xib */; };
-		3DF3D635155DF9D900B78035 /* batterytechViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DF3D634155DF9D900B78035 /* batterytechViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -199,6 +199,7 @@
 		3DD637D712726D4400D13421 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		3DD637D912726D4900D13421 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		3DD637DB12726D5400D13421 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		3DDCA9AB1560B44D00FB1F6C /* batterytechViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = batterytechViewController.xib; sourceTree = SOURCE_ROOT; };
 		3DE02B5F155DCB7700C19727 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		3DE02B63155DCB9B00C19727 /* AudioManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AudioManager.cpp; sourceTree = "<group>"; };
 		3DE02B64155DCB9B00C19727 /* AudioManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioManager.h; sourceTree = "<group>"; };
@@ -596,7 +597,6 @@
 		3DF3D62F155DF15A00B78035 /* MyBTViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyBTViewController.h; sourceTree = "<group>"; };
 		3DF3D630155DF15A00B78035 /* MyBTViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyBTViewController.m; sourceTree = "<group>"; };
 		3DF3D631155DF15A00B78035 /* MyBTViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyBTViewController.xib; sourceTree = "<group>"; };
-		3DF3D634155DF9D900B78035 /* batterytechViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = batterytechViewController.xib; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* batterytech_ios-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "batterytech_ios-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -623,6 +623,7 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				3DDCA9AB1560B44D00FB1F6C /* batterytechViewController.xib */,
 				3DE02B5F155DCB7700C19727 /* main.m */,
 				3DF3D62F155DF15A00B78035 /* MyBTViewController.h */,
 				3DF3D630155DF15A00B78035 /* MyBTViewController.m */,
@@ -854,7 +855,6 @@
 		3DE02BA4155DCB9B00C19727 /* ios */ = {
 			isa = PBXGroup;
 			children = (
-				3DF3D634155DF9D900B78035 /* batterytechViewController.xib */,
 				3DE02BA6155DCB9B00C19727 /* batterytechAppDelegate.h */,
 				3DE02BA7155DCB9B00C19727 /* batterytechAppDelegate.m */,
 				3DE02BA8155DCB9B00C19727 /* batterytechKeyboardDelegate.h */,
@@ -1437,7 +1437,7 @@
 				3DE02D30155DCB9B00C19727 /* aiMatrix4x4.inl in Resources */,
 				3DE02D31155DCB9B00C19727 /* aiVector3D.inl in Resources */,
 				3DF3D633155DF15A00B78035 /* MyBTViewController.xib in Resources */,
-				3DF3D635155DF9D900B78035 /* batterytechViewController.xib in Resources */,
+				3DDCA9AC1560B44D00FB1F6C /* batterytechViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
