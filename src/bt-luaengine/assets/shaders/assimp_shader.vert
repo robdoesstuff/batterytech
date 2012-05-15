@@ -34,7 +34,9 @@ uniform directional_light dirLight;
 //uniform int pointLightCount;
 uniform mat4 projection_matrix;
 uniform mat4 modelview_matrix;
+#ifdef SHADOWMAP
 uniform mat4 shadow_matrix;
+#endif
 uniform mat3 inv_matrix;
 uniform vec4 fog_and_uv_offset;
 uniform vec3 cameraPos;
@@ -46,7 +48,9 @@ attribute vec3 vUV;
 varying vec2 uvCoord;
 varying vec4 vColor;
 //varying float fogAmount;
+#ifdef SHADOWMAP
 varying vec4 shadowCoord;
+#endif
 
 vec4 compute_directional_light(vec3 normal) {
 	vec4 computed_color = vec4(c_zero, c_zero, c_zero, c_zero);
@@ -111,9 +115,11 @@ void main() {
 	vec4 ecPosition = modelview_matrix * vec4(vPosition.xyz, 1.0);
 	vec3 ecNormal = normalize(inv_matrix * vNormal);
 	vec3 ecPos3 = (vec3(ecPosition)) / ecPosition.w;
+	#ifdef SHADOWMAP
 	shadowCoord = shadow_matrix * ecPosition;
 	// perspective division of homogenized shadow coord should bring it into 0-1 range
 	shadowCoord = shadowCoord / shadowCoord.w;
+	#endif
 	gl_Position = projection_matrix * ecPosition;
 	vColor = compute_directional_light(ecNormal);
 	// vColor = vec4(0,0,0,0);

@@ -18,17 +18,22 @@ struct directional_light {
 const float c_one = 1.0;
 
 uniform sampler2D tex;
+#ifdef SHADOWMAP
 uniform sampler2D shadowTexture; // depth texture generated from light source perspective
+uniform vec4 shadowColorEpsilon; // xyz are color, w is epsilon
+#endif
 uniform vec4 colorFilter;
 uniform vec4 fogColor;
 uniform directional_light dirLight;
-uniform vec4 shadowColorEpsilon; // xyz are color, w is epsilon
 
 varying vec2 uvCoord;
 varying vec4 vColor;
 //varying float fogAmount;
+#ifdef SHADOWMAP
 varying vec4 shadowCoord; // projected coordinates to shadow map
+#endif
 
+#ifdef SHADOWMAP
 float getShadowFactor(vec4 lightZ) {
 	vec4 packedZValue = texture2D(shadowTexture, lightZ.xy);
 	// unpack the value stored to get the depth. 
@@ -39,15 +44,20 @@ float getShadowFactor(vec4 lightZ) {
 	float shadow = dot(packedZValue, bitShifts);
 	return float(shadow + shadowColorEpsilon.w > lightZ.z);
 }
+#endif
 
 void main() {
 	// vec4 fogMult = vec4(fogAmount, fogAmount, fogAmount, 1.0);
+#ifdef SHADOWMAP
 	vec4 shadowColor = vec4(shadowColorEpsilon.rgb, c_one);
 	float sc = getShadowFactor(shadowCoord);
 	// if the projected shadow is further away than the surface the shadow was created from, it must be in the shadow
 	shadowColor = (vec4(c_one, c_one, c_one, c_one) - shadowColor) * sc + shadowColor;
-	//gl_FragColor = texture2D(tex, uvCoord);
 	gl_FragColor = texture2D(tex, uvCoord) * colorFilter * vColor * shadowColor;
+#else
+	gl_FragColor = texture2D(tex, uvCoord) * colorFilter * vColor;
+#endif
+	//gl_FragColor = texture2D(tex, uvCoord);
 	//  gl_FragColor = vec4(shadowColor.rgb,1.0);
 	//gl_FragColor = texture2D(tex, uvCoord) * colorFilter * vColor * fogMult * shadowColor + (1.0-fogAmount) * fogColor;
 }
