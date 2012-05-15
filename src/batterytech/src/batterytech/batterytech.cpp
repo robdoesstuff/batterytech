@@ -34,12 +34,14 @@ static GraphicsConfiguration *gConfig = NULL;
 
 static F32 updateTimes[TICK_SMOOTHER_SAMPLES];
 static S32 updateTimeIdx = 0;
+static BOOL32 btReady = FALSE;
 
 // defined by BT application
 extern Context* btAppCreateContext(GraphicsConfiguration *graphicsConfig);
 
 void btInit(GraphicsConfiguration *graphicsConfig, S32 width, S32 height) {
 	Logger::useFileOutput(BT_LOGFILE);
+	btReady = FALSE;
 	char buf[100];
 	sprintf(buf, "BatteryTech %s Initializing...", BATTERYTECH_VERSION);
 	logmsg(buf);
@@ -48,6 +50,15 @@ void btInit(GraphicsConfiguration *graphicsConfig, S32 width, S32 height) {
 		logmsg("Context already exists!!  Check for missing shutdown calls");
 	}
 	context = btAppCreateContext(gConfig);
+	if (context->appProperties) {
+		btReady = TRUE;
+	} else {
+		logmsg("No Application Properties available.  Not Ready.");
+		logmsg("Possible issues are:");
+		logmsg("1) missing config file from assets");
+		logmsg("2) running binary from a directory without assets available");
+		return;
+	}
 	btSetScreenSize(width, height);
 	// initialize random number generator
 	srand(time(NULL));
@@ -64,6 +75,9 @@ void btInit(GraphicsConfiguration *graphicsConfig, S32 width, S32 height) {
 }
 
 void btSetScreenSize(S32 width, S32 height) {
+	if (!btReady) {
+		return;
+	}
 	//logmsg("btSetScreenSize");
 	gConfig->width = width;
 	gConfig->height = height;
@@ -79,6 +93,9 @@ void btSetScreenSize(S32 width, S32 height) {
 }
 
 void btUpdate(F32 delta) {
+	if (!btReady) {
+		return;
+	}
 	if (!context->wasSuspended) {
 		updateTimes[updateTimeIdx++] = delta;
 		updateTimeIdx %= TICK_SMOOTHER_SAMPLES;
@@ -116,6 +133,9 @@ void btUpdate(F32 delta) {
 
 
 void btDraw() {
+	if (!btReady) {
+		return;
+	}
 	//logmsg("btDraw");
 	if (context->appRenderer) {
 		context->appRenderer->render();

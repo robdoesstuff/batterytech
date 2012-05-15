@@ -33,7 +33,11 @@ namespace BatteryTech {
 		this->gConfig = gConfig;
 		appUpdater = NULL;
 		appRenderer = NULL;
+		appProperties = NULL;
 		loadAppProperties();
+		if (!appProperties) {
+			return;
+		}
 		glResourceManager = new GLResourceManager(this);
 		menuRenderer = new MenuRenderer(this);
 		audioManager = new AudioManager(this);
@@ -94,5 +98,10 @@ namespace BatteryTech {
 	void Context::loadAppProperties() {
 		PropertiesIO pio;
 		appProperties = pio.loadPropertiesFromAsset(BT_CONFIGFILE);
+		if (!appProperties) {
+			char buf[512];
+			sprintf(buf, "%s not found!  Unable to start BatteryTech Application.", BT_CONFIGFILE);
+			logmsg(buf);
+		}
 	}
 }

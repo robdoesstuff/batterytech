@@ -21,6 +21,9 @@ Context* btAppCreateContext(GraphicsConfiguration *graphicsConfig) {
 HelloWorldApp::HelloWorldApp(AppContext *context) {
 	this->context = context;
 	initialized = FALSE;
+	if (!context->appProperties) {
+		return;
+	}
 	textRenderer = new TextRasterRenderer(context, context->appProperties->get("menu_font")->getValue(), 
                                           context->appProperties->get("ui_font_size")->getFloatValue());
 }

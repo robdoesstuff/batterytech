@@ -11,6 +11,12 @@
 #include "render/WorldRenderer.h"
 
 GameContext::GameContext(GraphicsConfiguration *gConfig) : Context(gConfig) {
+	if (!appProperties) {
+		world = NULL;
+		game = NULL;
+		worldRenderer = NULL;
+		return;
+	}
 	world = new World;
 	game = new Game(this);
 	worldRenderer = new WorldRenderer(this);
