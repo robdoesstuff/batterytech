@@ -40,7 +40,7 @@ my_src_files :=\
 	batterytech/render/GLAssimpMeshBinding.cpp \
 	batterytech/render/Texture.cpp \
 	batterytech/platform/android/androidgeneral.cpp \
-	batterytech/platform/android/boot.cpp \
+	batterytech/platform/android/androidboot.cpp \
 	batterytech/platform/android/importgl.cpp \
 	batterytech/platform/opengles.cpp \
 	batterytech/platform/platformgeneral.cpp \
