@@ -84,9 +84,6 @@
     <ClCompile Include="..\..\batterytech\src\batterytech\platform\android\androidgeneral.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\batterytech\src\batterytech\platform\android\boot.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\batterytech\src\batterytech\platform\android\importgl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -100,9 +97,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\batterytech\src\batterytech\platform\platformgeneral.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\batterytech\src\batterytech\platform\win32\boot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\batterytech\src\batterytech\platform\win32\win32general.cpp">
@@ -211,6 +205,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\batterytech\src\batterytech\VibrationManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\batterytech\src\batterytech\platform\win32\winboot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

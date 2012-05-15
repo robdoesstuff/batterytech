@@ -218,7 +218,7 @@ void Game::updateState() {
 	if (getWorld()->lastGameState != gameState) {
 		stateChanged = TRUE;
 	}
-	if (gameState == GAMESTATE_READY and stateChanged) {
+	if (gameState == GAMESTATE_READY && stateChanged) {
 		World *world = getWorld();
 		logmsg("Clearing World");
 		world->clear();

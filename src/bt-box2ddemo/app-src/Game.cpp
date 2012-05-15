@@ -59,7 +59,7 @@ Game::~Game() {
 
 void Game::loadPreferences() {
 	PropertiesIO propsIO;
-	char path[255];
+	char path[512];
 	LevelIO::getDataDirPath(path);
 	strcat(path, _platform_get_path_separator());
 	strcat(path, "settings.txt");

@@ -12,7 +12,7 @@
 #include <batterytech/primitives.h>
 #include <batterytech/platform/platformgl.h>
 #include <batterytech/render/ShaderProgram.h>
-#include "../../bt-assimp/include/aiScene.h"
+#include <bt-assimp/include/aiScene.h>
 #include <batterytech/render/RenderNode.h>
 
 using namespace BatteryTech;

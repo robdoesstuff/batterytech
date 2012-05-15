@@ -954,6 +954,7 @@ static int lua_showAd(lua_State *L) {
 	} else {
 		_platform_hide_ad();
 	}
+	return 0;
 }
 
 static int lua_requestPurchase(lua_State *L) {

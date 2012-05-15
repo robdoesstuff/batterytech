@@ -140,7 +140,7 @@ void SimpleSpriteRenderer::render(RenderItem *item) {
 		}
 	}
 	F32 olda = context->renderContext->colorFilter.a;
-	if(!(item->flags & RENDERITEM_FLAG_IS_OPAQUE) and item->alpha < 1) {
+	if(!(item->flags & RENDERITEM_FLAG_IS_OPAQUE) && item->alpha < 1) {
 		context->renderContext->colorFilter.a = item->alpha;
 	}
 	if (context->gConfig->useShaders) {

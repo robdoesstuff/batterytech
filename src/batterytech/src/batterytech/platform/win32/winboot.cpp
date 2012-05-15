@@ -263,17 +263,28 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	gConfig->supportsShaders = true;
 	btInit(gConfig, 0, 0);
 	Context *context = btGetContext();
-	S32 windowWidth = context->appProperties->get("window_width")->getIntValue();
-	S32 windowHeight = context->appProperties->get("window_height")->getIntValue();
-	BOOL32 console = context->appProperties->get("console_log_enabled_when_available")->getBoolValue();
-	btSetScreenSize(windowWidth, windowHeight);
+	HANDLE hThread1 = NULL;
+	DWORD dwGenericThread;
+	S32 windowWidth = 640;
+	S32 windowHeight = 640;
+	const char *windowName = "BatteryTech";
+	BOOL32 console = TRUE;
+	if (context->appProperties) {
+		windowWidth = context->appProperties->get("window_width")->getIntValue();
+		windowHeight = context->appProperties->get("window_height")->getIntValue();
+		console = context->appProperties->get("console_log_enabled_when_available")->getBoolValue();
+		btSetScreenSize(windowWidth, windowHeight);
+		windowName = context->appProperties->get("windowed_app_name")->getValue();
+	}
+	createWindow(hInstance, windowWidth, windowHeight, windowName);
 	if (console) {
 		setupConsole();
 	}
-	createWindow(hInstance, windowWidth, windowHeight, context->appProperties->get("windowed_app_name")->getValue());
-	HANDLE hThread1;
-	DWORD dwGenericThread;
-	hThread1 = CreateThread(NULL, 0, StartThread, NULL, 0, &dwGenericThread);
+	if (!context->appProperties) {
+		cout << "Something went wrong initializing BatteryTech before the console was opened.  Check batterytech.log for details" << endl;
+	} else {
+		hThread1 = CreateThread(NULL, 0, StartThread, NULL, 0, &dwGenericThread);
+	}
 	if (!hThread1) {
 		cout << "Error creating thread" << endl;
 	} else {

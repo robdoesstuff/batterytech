@@ -163,7 +163,7 @@ void btSetPointerState(S32 pointerId, BOOL32 down, S32 x, S32 y) {
 	}
 	logmsg(buf);
 	*/
-	if (!context) {
+	if (!context || !btReady) {
 		return;
 	}
 	if (pointerId < 10 && pointerId > -1) {
@@ -177,6 +177,9 @@ void btKeyUp(U8 key, BatteryTech::SpecialKey sKey) {
 	//char buf[20];
 	//sprintf(buf, "KeyUp=%c, (%d)", key, key);
 	//logmsg(buf);
+	if (!context || !btReady) {
+		return;
+	}
 	for (S32 i = 0; i < MAX_KEYSTATES; i++) {
 		if (context->keyState[i].isDown && context->keyState[i].keyCode == key) {
 			context->keyState[i].isDown = FALSE;
@@ -190,6 +193,9 @@ void btKeyDown(U8 key, BatteryTech::SpecialKey sKey) {
 	//char buf[20];
 	//sprintf(buf, "KeyDown=%c, (%d)", key, key);
 	//logmsg(buf);
+	if (!context || !btReady) {
+		return;
+	}
 	BOOL32 alreadyDown = FALSE;
 	for (S32 i = 0; i < MAX_KEYSTATES; i++) {
 		if (context->keyState[i].isDown && context->keyState[i].keyCode == key) {
@@ -219,7 +225,7 @@ void btKeyPressed(U8 key, BatteryTech::SpecialKey sKey) {
 }
 
 void btAccelerometerChanged(F32 x, F32 y, F32 z) {
-	if (context) {
+	if (context && btReady) {
 		context->accelerometerState.x = x;
 		context->accelerometerState.y = y;
 		context->accelerometerState.z = z;

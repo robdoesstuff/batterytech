@@ -90,14 +90,13 @@
     <ClCompile Include="..\..\batterytech\src\batterytech\network\NetworkManager.cpp" />
     <ClCompile Include="..\..\batterytech\src\batterytech\network\NetworkMessage.cpp" />
     <ClCompile Include="..\..\batterytech\src\batterytech\platform\android\androidgeneral.cpp" />
-    <ClCompile Include="..\..\batterytech\src\batterytech\platform\android\boot.cpp" />
     <ClCompile Include="..\..\batterytech\src\batterytech\platform\android\importgl.cpp" />
     <ClCompile Include="..\..\batterytech\src\batterytech\platform\linux\linuxboot.cpp" />
     <ClCompile Include="..\..\batterytech\src\batterytech\platform\linux\linuxgeneral.cpp" />
     <ClCompile Include="..\..\batterytech\src\batterytech\platform\opengles.cpp" />
     <ClCompile Include="..\..\batterytech\src\batterytech\platform\platformgeneral.cpp" />
-    <ClCompile Include="..\..\batterytech\src\batterytech\platform\win32\boot.cpp" />
     <ClCompile Include="..\..\batterytech\src\batterytech\platform\win32\win32general.cpp" />
+    <ClCompile Include="..\..\batterytech\src\batterytech\platform\win32\winboot.cpp" />
     <ClCompile Include="..\..\batterytech\src\batterytech\platform\win32\WinSound.cpp" />
     <ClCompile Include="..\..\batterytech\src\batterytech\render\AssimpAnimator.cpp" />
     <ClCompile Include="..\..\batterytech\src\batterytech\render\GLAssimpBinding.cpp" />

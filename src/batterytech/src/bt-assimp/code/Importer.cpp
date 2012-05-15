@@ -1174,6 +1174,7 @@ const aiScene* Importer::ApplyPostProcessing(unsigned int pFlags)
 #endif  // no validation
 
 		// If the extra verbose mode is active, execute the ValidateDataStructureStep again - after each step
+		/*
 		if (pimpl->bExtraVerbose)	{
 			DefaultLogger::get()->debug("Verbose Import: revalidating data structures");
 
@@ -1183,7 +1184,7 @@ const aiScene* Importer::ApplyPostProcessing(unsigned int pFlags)
 				DefaultLogger::get()->error("Verbose Import: failed to revalidate data structures");
 				break; 
 			}
-		}
+		}*/
 #endif // ! DEBUG
 	}
 
