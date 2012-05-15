@@ -16,7 +16,7 @@ GameObjectFactory::~GameObjectFactory() {
 }
 
 /* Creates an initialized object - used when creating in editor */
-GameObject* GameObjectFactory::createGameObject(GameContext *context, S32 objectType, Vec2f *points) {
+GameObject* GameObjectFactory::createGameObject(GameContext *context, S32 objectType, Vector2f *points) {
 	if (objectType == GAMEOBJECT_TYPE_BALL) {
 		return new Ball(context, points[0].x, points[0].y, 0);
 	}

@@ -52,7 +52,7 @@ World* GameObject::getWorld() {
 }
 
 // not weighting for volume, just centering on min/max
-Vec2f GameObject::calcCenter(Vec2f *points, S32 count) {
+Vector2f GameObject::calcCenter(Vector2f *points, S32 count) {
 	F32 minX = 99999999.9f;
 	F32 minY = 99999999.9f;
 	F32 maxX = -99999999.9f;
@@ -72,7 +72,7 @@ Vec2f GameObject::calcCenter(Vec2f *points, S32 count) {
 			maxY = points[i].y;
 		}
 	}
-	return Vec2f(minX + (maxX - minX) / 2, minY + (maxY - minY) / 2);
+	return Vector2f(minX + (maxX - minX) / 2, minY + (maxY - minY) / 2);
 }
 
 void GameObject::contactStarted(b2Contact* contact) {

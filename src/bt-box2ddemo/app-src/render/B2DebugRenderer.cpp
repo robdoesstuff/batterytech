@@ -162,15 +162,15 @@ void B2DebugRenderer::renderLine(F32 x, F32 y, F32 angle, F32 length) {
 	glPopMatrix();
 }
 
-void B2DebugRenderer::renderDrawLines(ManagedArray<Vec2f> *points) {
+void B2DebugRenderer::renderDrawLines(ManagedArray<Vector2f> *points) {
 	glColor4f(0, 1, 0, 1);
 	S32 vertCount = points->getSize() - 1;
 	// 200 is max
 	F32 glVerts[200 * 3 * 2];
 	S32 i;
-	Vec2f vert2;
+	Vector2f vert2;
 	for (i = 0; i < vertCount; i++) {
-		Vec2f vert = *(points->array[i]);
+		Vector2f vert = *(points->array[i]);
 		vert2 = *(points->array[i + 1]);
 		glVerts[i * 6] = vert.x;
 		glVerts[i * 6 + 1] = vert.y;

@@ -12,7 +12,7 @@
 #include <bt-box2d/Dynamics/b2Body.h>
 #include <bt-box2d/Collision/Shapes/b2CircleShape.h>
 #include <bt-box2d/Collision/Shapes/b2PolygonShape.h>
-#include <batterytech/math/Vec2f.h>
+#include <batterytech/math/Vector2.h>
 #include <batterytech/util/ManagedArray.h>
 
 class World;
@@ -31,7 +31,7 @@ private:
 	void renderCircleShape(b2Body *body, b2CircleShape *shape);
 	void renderOrientationLine(b2Body *body);
 	void renderLine(F32 x, F32 y, F32 angle, F32 length);
-	void renderDrawLines(ManagedArray<Vec2f> *points);
+	void renderDrawLines(ManagedArray<Vector2f> *points);
 	GameContext *context;
 };
 

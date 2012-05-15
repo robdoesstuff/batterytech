@@ -457,9 +457,9 @@ struct Vector2
 // Typedef shortcuts for 2D vector
 //-------------------------------------
 /// Two dimensional Vector of floats
-typedef class Vector2 <float> Vector2f;
+typedef Vector2 <float> Vector2f;
 /// Two dimensional Vector of doubles
-typedef class Vector2 <double> Vector2d;
+typedef Vector2 <double> Vector2d;
 
 }
 
