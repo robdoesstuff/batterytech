@@ -1,0 +1,24 @@
+Welcome to BatteryTech 2.0 alpha code preview!
+
+While we work on detailed documentation, please utilize this document to navigate through the various projects and sources included.
+
+src = the main source
+src/batterytech/src/batterytech = BatteryTech core library
+src/batterytech/src/batterytech-android = BatteryTech Android Java sources
+src/batterytech/src/bt-assimp - Assimp Library (modified), used for 3D Models
+src/batterytech/src/bt-box2d - Box2D Library (modified), used for 2D Physics
+src/batterytech/src/bt-bullet - Bullet Physics Library (modified), used for 3D Physics
+src/batterytech/src/bt-lua - Lua interpreter library (modified), used for script integration
+src/bt-box2ddemo = Box2D Demo Project
+src/bt-helloworld = Hello World Project
+src/bt-luaengine = BatteryTech-based Lua-based 2D/3D Game Engine
+doc = this documentation directory
+licenses = 3rd party library licenses
+
+within each project in src, you will find an android, ios, osx and win directory.  Inside each of these directories exists a standard project for the platform.  In the case of windows, the win directory is an Eclipse/CDT project and inside exists a VS2010 project.
+All projects should be runnable.  Please report any issues to support@batterypoweredgames.com
+
+
+
+Good documentation is coming and will be included in BatteryTech 2.0 final!
+

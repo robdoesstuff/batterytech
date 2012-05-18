@@ -36,7 +36,7 @@ import com.batterypoweredgames.input.InputHandler;
 import com.batterypoweredgames.input.InputObject;
 
 public class BatteryTechRenderer implements Renderer, InputHandler, SensorEventListener {
-	private static final String TAG = "DemoAppRenderer";
+	private static final String TAG = "BatteryTechRenderer";
 	
 	static {
 		System.loadLibrary(BatteryTechActivity.APP_LIB_NAME);

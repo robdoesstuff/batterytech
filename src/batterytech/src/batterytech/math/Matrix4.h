@@ -343,7 +343,7 @@ namespace BatteryTech {
 
 	 /**
 	  * Copies the rotational portion to a matrix 3
-	  * @param rhs Right hand side argument of binary operator.
+	  * @param mat3 Right hand side argument of binary operator.
 	  */
 	 void toMatrix3(Matrix3<T>& mat3) const {
 		 mat3.data[0] = data[0];

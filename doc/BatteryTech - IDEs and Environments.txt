@@ -1,0 +1,85 @@
+*
+* BatteryTech Supported IDEs and Environments
+*
+**********************************
+
+One method to build cross-platform is to have a generic project that holds the common codebase and then have platform and IDE-specific projects that build specifically for that target.  BatteryTech demo app is set up that way.  For any platform to build, you must also have the base batterytech project which contains the source code that all other projects use. 
+
+
+* Windows using Eclipse CDT / MinGW
+
+The demo app executable is built using the provided project.  Requirements:
+
+Eclipse 3.6+
+CDT (C/C++ support plugin for eclipse)
+MinGW
+place both batterytech and batterytech-win32 in your workspace.  The win32 project links to the base project via the src folder.
+
+
+* Windows using Visual Studio 2010
+
+BatteryTech and demo app compile under VS2010 using the provided project.  Before opening for the first time, make sure you:
+
+- copy all source directories from batterytech\src into batterytech-VS2010\btdemo
+
+To build a new project from scratch, the following settings are required:
+
+C/C++
+- General - Additional Include Directories = $(SolutionDir)\projectname --Make sure here to point to the root of the source trees
+- Preprocessor - Preprocessor Definitions = WIN32;_WINDOWS --and everything else that was there. NOT _CONSOLE
+- Code Generation - Enable C++ Exceptions = No --unless you have proper Android support and know what you're doing
+- Precompiled Headers - Enable Precompiled Headers = No --unless you know what you're doing
+- Output Files - Object File Name = $(IntDir)/%(RelativeDir)/ --this is critical or you will have linker problems / dupe bins
+- Advanced - Compile As = Compile as C++ Code (/TP)
+
+Linker
+- Input - Additional Dependencies = ws2_32.lib;gdi32.lib;opengl32.lib;winmm.lib;%(AdditionalDependencies)
+- System - Subsystem = Windows (/SUBSYSTEM:WINDOWS)
+
+Note - There is a single issue with WinXP with VS and that is the POSIX networking support. Currently you will get a linker error with inet_ntop. If you aren't using networking, please just comment out the one line calling that in BatteryTech until we resolve the issue. If this is critical, please let us know and we'll work to get it resolved more quickly.
+
+
+* Android
+
+The demo android apk is built using the provided project.  Requirements:
+
+Eclipse 3.6+
+Android SDK with 2.2 platform installed
+Android NDK r4 or later (r5b or later recommended)
+Eclipse CDT
+Cygwin (minimal install with dev packages is normally what works)
+
+Configuration:
+
+- place both batterytech and batterytech-android in your workspace. 
+- Edit the builders for batterytech-android (right click on project, properties, Builders)
+-- Edit builder NDK_Cleaner
+--- change Location, Working Directory and paths in Arguments to match the install locations and workspace locations on your local machine
+-- Edit builder NDK_Builder
+--- change Location, Working Directory and paths in Arguments to match the install locations and workspace locations on your local machine
+
+Note - Cygwin converts drive letters into paths "/cygdrive/<driveletter>/"
+
+
+* OSX
+
+A project is included to build the demo app in OSX.  Requirements:
+
+Xcode 3.2+
+
+Configuration:
+
+- place both batterytech and batterytech-osx projects into your xcode projects dir
+- check to ensure that the linked source from batterytech is showing up correctly in the batterytech-osx project.  If not, relink by deleting the source references and drag-and-dropping the source from batterytech into batterytech-osx.
+
+
+* iOS
+
+A project is included to build the demo app in OSX.  Requirements:
+
+Xcode 3.2+
+
+Configuration:
+
+- place both batterytech and batterytech-ios projects into your xcode projects dir
+- check to ensure that the linked source from batterytech is showing up correctly in the batterytech-ios project.  If not, relink by deleting the source references and drag-and-dropping the source from batterytech into batterytech-ios.

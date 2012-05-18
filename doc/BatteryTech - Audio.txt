@@ -1,0 +1,73 @@
+*
+* BatteryTech Audio
+*
+**********************************
+
+BT implements audio in 2 different ways.  It provides its own OGG decoding, pcm mixing and playback services and it also supports calling platform-specific functions when supported.  In environments like Win32, there are no one-stop shops for playing OGGs in a way that would be good for games, but in Android, there are services like the SoundPool and MediaPlayer classes.  BT supports both of those if you choose to use them.
+
+The macro PREFER_PLATFORM_AUDIO_MANAGEMENT in batterytech_globals.h defines the behavior.  If set to true, then sound playing calls will use platform facilities such as Android's SoundPool when available.  If set to false, BT's PCM audio services will be used instead.  As of BT 1.0, only Android has platform audio management support.  It will likely be added for iOS and OSX at some point in the form of OpenAL.
+
+
+* AudioManager
+
+The class to use to play sound and music is AudioManager.  Many of the settings in batterytech_globals affect the behavior of AudioManager, including the buffering of streaming audio, maximum number of sounds loaded and maximum number of simultaneous sounds playing and mixing.
+
+AudioManager routes calls to play sound either to an internal PCMAudioManager or to the platform's audio playing services.  Again, this simply depends on the platform's capabilities and the value of PREFER_PLATFORM_AUDIO_MANAGEMENT.
+
+AudioManager supports 2 types of audio:  Regular sounds and streaming sounds.  Regular sounds are things like clicks, hits, gunshots, etc.  They are things you want to play immedately with lowest latency.  Streaming sounds will be decoded-while played.  It is only recommended to use them for music, voice tracks or other sounds too big to load all at once into memory as a regular sound.  Regular sounds need to be loaded before they can be played.  A level-loading state is an appropriate place to load the sounds.  When using BT audio, the sounds are decoded from OGG into PCM and mixed using a high performance mixer.
+
+An instance of AudioManager is available via the Context.
+
+
+* Playing Regular Sounds
+
+The following AudioManager functions are used to play regular sounds:
+void loadSound(const char *assetName);
+S32 playSound(const char *assetName, S16 loops, F32 leftVol, F32 rightVol, F32 rate);
+void stopSound(S32 streamId);
+void stopSound(const char *assetName);
+void stopAllSounds();
+void unloadSound(const char *assetName);
+
+First, load your sound:
+
+context->audioManager->loadSound("MySound.ogg");
+
+this will load assets/MySound.ogg.  It is a synchronous method and the sound will be ready to play immediately after loading.
+
+To play your sound, you have a few things to specify.  Loops is the number of times the sound will loop before stopping automatically.  0 loops plays it just once.  1 loop plays it twice fully.  -1 loops plays until the sound it stopped explicitly using any of the 3 stopSound methods above.  Rate is a percentage playback rate.  2.0 will play the sound twice as fast as it normally is.  1.0 is the normal rate.  It is not supported to attempt to play it at a rate of 0 or less.  Volume ranges are from 0 to 1.0 for max volume.
+
+context->audioManager->playSound("MySound.ogg", 0, 1.0, 1.0, 1.0);
+
+this will play assets/MySound.ogg 1 time at maximum left and right volume at the regular playback rate.
+
+When you play your sound, you will get a streamId back.  This is not the same thing as a streaming sound.  It is simply the currently playing "instance" of this specific call to play the sound.  To ease management code, there is another method to use which takes the assetname again.  It will stop all sounds playing of that asset, so it is very good for most instances unless the same sound is playing more than once and you don't want to stop all of the streams for that sound.
+
+Unloading your sound will free the memory that was allocated for the PCM.  Please calculate out how much memory your sounds will be using as a product of rate, length, channels and 16 bit depth.  Using 22khz mono sounds is recommended for mobile as it saves space and tends to be a good balance of quality and size.
+
+context->audioManager->unloadSound("MySound.ogg");
+
+and the sound is unloaded from memory.
+
+
+* Playing Streaming Sounds
+
+The following AudioManager functions are used to play streaming sounds:
+
+void playStreamingSound(const char *assetName, S16 loops, F32 leftVol, F32 rightVol, F32 rate);
+void stopStreamingSound(const char *assetName);
+
+It's very simple.  The API is the same as regular sounds, except there is no loading or unloading.  Do not load a streaming sound.  It will just waste memory, and in extreme cases, will run your app completely out of memory.
+
+context->audioManager->playStreamingSound("SomeMusic.ogg", -1, 1.0, 1.0, 1.0);
+
+starts the music looping infinitely.
+
+context->audioManager->stopStreamingSound("SomeMusic.ogg");
+
+stops the music.
+
+
+* Other notes
+
+As of BT 1.0, PCM mixing output for all platforms are configured to play audio back at 44.1khz, stereo, 16 bit.  If you do not want that, you will need to change it for all platforms and update the settings in batterytech_globals.h to reflect your settings.  A future version of BT may support per-platform settings.
