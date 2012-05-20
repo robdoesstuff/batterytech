@@ -36,9 +36,11 @@ namespace BatteryTech {
  	 * Add more buffers and decrease buffer size to decrease decoding lag in the main loop.
  	 *
  	 * Example:
- 	 * context->audioManager->loadSound("sounds/mysound.ogg")
+ 	 * \code
+ 	 * context->audioManager->loadSound("sounds/mysound.ogg");
  	 * context->audioManager->playSound("sounds/mysound.ogg", 0, 1.0, 1.0, 1.0);
- 	 * context->audioManager->unloadSound("sounds/mysound.ogg")
+ 	 * context->audioManager->unloadSound("sounds/mysound.ogg");
+ 	 * \endcode
  	 *
 	 */
 	class AudioManager {

@@ -52,6 +52,16 @@
  * Reading may happen from an Android APK, iOS/OSX Bundle or a plain old Windows, Linux or other file system.  Many of the supported input systems
  * can not be written to so it is recommended that an application developer always plan on writing to external or application storage (whichever is more
  * appropriate) instead of ever assuming that the input files may ever be written to.
+ *
+ * Loading and freeing an asset example:
+ * \code
+ * S32 size;
+ * unsigned char* data = _platform_load_asset("myasset.dat", &size);
+ * if (data) {
+ *     // process data of size
+ * }
+ * _platform_free_asset(data);
+ * \endcode
  * @{
  */
 
@@ -189,6 +199,13 @@ void _platform_path_create_recursive(const char* path);
  * _platform audio functions are available primarily to serve the \ref BatteryTech::AudioManager.
  * For most applications, \ref BatteryTech::AudioManager is the desired interface to use and can
  * be accessed through the application's \ref BatteryTech::Context.
+ *
+ * Example:
+ * \code
+ * context->audioManager->loadSound("sounds/mysound.ogg");
+ * context->audioManager->playSound("sounds/mysound.ogg", 0, 1.0, 1.0, 1.0);
+ * context->audioManager->unloadSound("sounds/mysound.ogg");
+ * \endcode
  *
  * @{
  */
