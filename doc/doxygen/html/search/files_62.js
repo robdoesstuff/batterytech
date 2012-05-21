@@ -1,6 +1,7 @@
 var searchData=
 [
   ['batterytech_2ecpp',['batterytech.cpp',['../batterytech_8cpp.html',1,'']]],
+  ['batterytech_2edox',['batterytech.dox',['../batterytech_8dox.html',1,'']]],
   ['batterytech_2eh',['batterytech.h',['../batterytech_8h.html',1,'']]],
   ['batterytech_5fentrypoints_2eh',['batterytech_entrypoints.h',['../batterytech__entrypoints_8h.html',1,'']]],
   ['batterytech_5fglobals_2eh',['batterytech_globals.h',['../batterytech__globals_8h.html',1,'']]],

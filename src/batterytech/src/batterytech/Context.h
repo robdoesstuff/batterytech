@@ -76,7 +76,6 @@ namespace BatteryTech {
 		/**
 		 * For keyboard input, this is the last key the user pressed and is cleared by the UI library once consumed.
 		 * As of Batterytech 1.0 - key events are not queued so if the user types faster than the FPS of the app, keys will be missed.
-		 * There are threading issues to queuing that are not addressible until thread support is added to batterytech.
 		 */
 		U8 keyPressed;
 

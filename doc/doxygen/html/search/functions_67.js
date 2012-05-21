@@ -2,7 +2,7 @@ var searchData=
 [
   ['gameconnection',['GameConnection',['../class_battery_tech_1_1_game_connection.html#aa135e6d2cd960ea9dc277096d942844d',1,'BatteryTech::GameConnection']]],
   ['get',['get',['../class_battery_tech_1_1_hash_table.html#a4e5046557611681acc827549997ac80c',1,'BatteryTech::HashTable::get()'],['../class_battery_tech_1_1_str_hash_table.html#a513f7bf8d6ab1eb3f050a41689b6bdcb',1,'BatteryTech::StrHashTable::get()']]],
-  ['get_5fin_5faddr',['get_in_addr',['../group___networking.html#ga294867ba9d7ff47e39d421134d8e12ab',1,'get_in_addr(struct sockaddr *sa):&#160;platformgeneral.cpp'],['../group___networking.html#ga294867ba9d7ff47e39d421134d8e12ab',1,'get_in_addr(struct sockaddr *sa):&#160;platformgeneral.cpp']]],
+  ['get_5fin_5faddr',['get_in_addr',['../platformgeneral_8cpp.html#a294867ba9d7ff47e39d421134d8e12ab',1,'get_in_addr(struct sockaddr *sa):&#160;platformgeneral.cpp'],['../group___networking.html#ga294867ba9d7ff47e39d421134d8e12ab',1,'get_in_addr(struct sockaddr *sa):&#160;platformgeneral.cpp']]],
   ['getactiveanimator',['getActiveAnimator',['../class_battery_tech_1_1_u_i_component.html#aed8357f3f08021f5937cd7e088b4968a',1,'BatteryTech::UIComponent']]],
   ['getboolvalue',['getBoolValue',['../class_battery_tech_1_1_property.html#a25dedb1283e2fcf23314d3890e52deab',1,'BatteryTech::Property']]],
   ['getdesiredheight',['getDesiredHeight',['../class_battery_tech_1_1_linear_layout.html#af03bf53244a6b251f8b7cd8ca6664863',1,'BatteryTech::LinearLayout::getDesiredHeight()'],['../class_battery_tech_1_1_u_i_component.html#a6750b88d576a1d2cdc491f176ee3eacc',1,'BatteryTech::UIComponent::getDesiredHeight()']]],

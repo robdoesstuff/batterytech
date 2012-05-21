@@ -19,29 +19,6 @@
 #define PRIMITIVES_H_
 
 /**
- * \defgroup Primitives Primitive Types
- *
- * \brief BatteryTech defines primitive types for cross-platform compatibility.
- *
- * Common typedefs include:\n
- * \ref S8, \ref S16 and \ref S32 = Signed 8, 16 and 32 bit integers respectively\n
- * \ref U8, \ref U16 and \ref U32 = Unsigned 8, 16 and 32 bit integers respectively\n
- * \ref BOOL32 for booleans with \ref TRUE and \ref FALSE as values\n
- * \ref F32 and \ref F64 = 32 bit and 64 bit floating point number\n
- *
- * Example:
- * \code
- * BOOL32 found = FALSE;
- * for (S32 i = 0; i < numObjects; i++) {
- *     if (matches(objects[i])) {
- *         found = TRUE;
- *         break;
- *     }
- * }
- * \endcode
- * \see \ref primitives.h for detailed information
- *
- *
  * \file
  * \ingroup Primitives
  * \brief Cross-platform Primitive definitions.  Include \ref batterytech/primitives.h and not a platform-specific implementation to use.

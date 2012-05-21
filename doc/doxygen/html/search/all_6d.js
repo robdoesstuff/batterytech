@@ -2,7 +2,6 @@ var searchData=
 [
   ['m',['m',['../struct_e_s_matrix.html#adb5199f24f5686b1bc82b52197d8fe75',1,'ESMatrix::m()'],['../glext_8h.html#af593500c283bf1a787a6f947f503a5c2',1,'m():&#160;glext.h'],['../opengles_8cpp.html#ad1fefc30502b40fc6aebcb46d0a3b262',1,'M():&#160;opengles.cpp']]],
   ['magfilter',['magFilter',['../class_battery_tech_1_1_texture.html#ace27c4bafa0394974ca4706df3690ed2',1,'BatteryTech::Texture']]],
-  ['mainpage_2edox',['mainpage.dox',['../mainpage_8dox.html',1,'']]],
   ['managedarray',['ManagedArray',['../class_battery_tech_1_1_managed_array.html',1,'BatteryTech']]],
   ['managedarray',['ManagedArray',['../class_battery_tech_1_1_managed_array.html#a0edc79fcc2109f1fbe125e37474e91c3',1,'BatteryTech::ManagedArray']]],
   ['managedarray_2eh',['ManagedArray.h',['../_managed_array_8h.html',1,'']]],

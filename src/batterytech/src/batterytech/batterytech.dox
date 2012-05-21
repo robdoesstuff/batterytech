@@ -1,0 +1,189 @@
+// this file is only for doxygen
+
+/*! \mainpage Welcome to BatteryTech SDK
+ *
+ * \section starting_sec Getting Started
+ *
+ * This is some info on getting started
+ *
+ * \section install_sec Installation
+ *
+ * \subsection step1 Step 1: Opening the box
+ *
+ * etc...
+ */
+
+
+// now let's define groups
+
+/**
+ * \defgroup Entry Application Entry Points
+ * \brief How your application comes to life through BatteryTech SDK
+ */
+ 
+/**
+ * \defgroup FileIO File Asset Reading and Writing
+ * \brief File Assets, File IO, Directories and Paths
+ *
+ * Reading may happen from an Android APK, iOS/OSX Bundle or a plain old Windows, Linux or other file system.  Many of the supported input systems
+ * can not be written to so it is recommended that an application developer always plan on writing to external or application storage (whichever is more
+ * appropriate) instead of ever assuming that the input files may ever be written to.
+ *
+ * Loading and freeing an asset example:
+ * \code
+ * S32 size;
+ * unsigned char* data = _platform_load_asset("myasset.dat", &size);
+ * if (data) {
+ *     // process data of size
+ * }
+ * _platform_free_asset(data);
+ * \endcode
+ */
+ 
+ /**
+ * \defgroup UserInput User Input
+ * \brief Getting User Input
+ * \defgroup Touch Touch Input
+ * \brief Touch and Pointer Input Support
+ * \ingroup UserInput
+ * \defgroup Keyboard Keyboard
+ * \brief Keyboard Support
+ * \ingroup UserInput
+ * \defgroup Accelerometer Accelerometer
+ * \brief Accelerometer Support
+ * \ingroup UserInput
+ * \addtogroup UserInput
+ *
+ * User Input comes in many forms.  The standard ways that BatteryTech supports it are in the following forms:
+ * Touch and Pointer Input, Keyboard Input and Accelerometer Input
+ */
+ 
+ /**
+ * \addtogroup Keyboard
+ *
+ * Most mobile platforms have virtual keyboards that we can use in place of real keyboards.  Different platforms have different special keys that
+ * we can check for the existance of.
+ *
+ * Reading keyboard input can be done in one of two ways:
+ *
+ * Some example code:
+ * \code
+ * U8 key = context->keyPressed;
+ * if (key) {
+ *     // key is the most recent key pressed
+ * }
+ * if (context->specialKeyPressed) {
+ *     if (context->specialKeyPressed == SKEY_BACK) {
+ *         // go back
+ *     }
+ * }
+ * \endcode
+ *
+ * And for multikey checks:
+ * \code
+ * for (S32 i = 0; i < MAX_KEYSTATES; i++) {
+ *     KeyState ks = context->keyState[i];
+ *     if (ks.isDown) {
+ *         // ks.keyCode is the key that's down right now
+ *     }
+ * }
+ * \endcode
+ *
+ */
+
+/**
+ * \defgroup UI User Interface Library
+ * \brief OpenGL-based User Interface Library
+ */
+ 
+/**
+ * \defgroup Audio Audio playback and management
+ * \brief Audio Sample and (local) Streaming playback
+ *
+ * BatteryTech supports OGG-Vorbis exclusively.
+ *
+ * _platform audio functions are available primarily to serve the \ref BatteryTech::AudioManager.
+ * For most applications, \ref BatteryTech::AudioManager is the desired interface to use and can
+ * be accessed through the application's \ref BatteryTech::Context.
+ *
+ * Example:
+ * \code
+ * context->audioManager->loadSound("sounds/mysound.ogg");
+ * context->audioManager->playSound("sounds/mysound.ogg", 0, 1.0, 1.0, 1.0);
+ * context->audioManager->unloadSound("sounds/mysound.ogg");
+ * \endcode
+ */
+ 
+ /**
+ * \defgroup Networking Networking
+ * \brief POSIX Socket-based network support
+ *
+ * Most platforms natively support standard BSD or POSIX sockets but for those that don't, simply including \ref platformgeneral.h will include, define or redefine
+ * macros to support POSIX.  Applications can count on standard functions such as socket, bind, setsockopt, send, recv, inet_pton, inet_ntop, getaddrinfo and getnameinfo
+ *
+ * A few specific functions that are not defined as part of the POSIX sockets specification are implemented as _platform functions and documented here.
+ *
+ * For more information on using Berkeley/POSIX sockets, please visit the wikipedia link in the see also section.
+ *
+ * BatteryTech includes a default implementation of message-based client/host game networking in the following classes:
+ * \ref BatteryTech::NetworkManager, \ref BatteryTech::GameConnection, \ref BatteryTech::NetworkMessage
+ *
+ * \see http://en.wikipedia.org/wiki/Berkeley_socket
+ */
+ 
+ /**
+ * \defgroup Vibration Vibration Control
+ * \brief Support for vibration effect playback
+ *
+ * Most systems do not have robust vibration control, but specifically on Android, there are systems such as Immersion Technology's Motiv or UHL
+ * which can play a variety of effects at various intensities.  Such systems will need to be integrated on the Android platform side.  Stock Android
+ * vibration support can also be integrated instead.  Please follow the instructions in the section on Integrating platform-specific systems for
+ * additional information.
+ */
+ 
+/*! \defgroup Primitives Primitive Types
+ *
+ * \brief BatteryTech defines primitive types for cross-platform compatibility.
+ *
+ * Common typedefs include:\n
+ * \ref S8, \ref S16 and \ref S32 = Signed 8, 16 and 32 bit integers respectively\n
+ * \ref U8, \ref U16 and \ref U32 = Unsigned 8, 16 and 32 bit integers respectively\n
+ * \ref BOOL32 for booleans with \ref TRUE and \ref FALSE as values\n
+ * \ref F32 and \ref F64 = 32 bit and 64 bit floating point number\n
+ *
+ * Example:
+ * \code
+ * BOOL32 found = FALSE;
+ * for (S32 i = 0; i < numObjects; i++) {
+ *     if (matches(objects[i])) {
+ *         found = TRUE;
+ *         break;
+ *     }
+ * }
+ * \endcode
+ * \see \ref primitives.h for detailed information
+ */
+ 
+ /**
+ * \defgroup Hooks Platform Hooks
+ * \brief Customizing per-platform and integrating with 3rd party systems
+ * \defgroup AndroidHooks Customizing Android
+ * \brief Customizing Android with platform hooks
+ * \ingroup Hooks
+ * \defgroup iosHooks Customizing iOS
+ * \brief Customizing iOS with platform hooks
+ * \ingroup Hooks
+ * \defgroup winHooks Customizing Windows
+ * \brief Customizing Windows with platform hooks
+ * \ingroup Hooks
+ * \defgroup OSXHooks Customizing OSX
+ * \brief Customizing OSX with platform hooks
+ * \ingroup Hooks
+ */
+ 
+ /**
+ * \defgroup OtherPlatform Other Platform Functions
+ * \brief Various functions that aren't covered in other modules
+ *
+ */
+ 

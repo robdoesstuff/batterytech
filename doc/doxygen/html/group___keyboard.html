@@ -86,18 +86,40 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 
 <div class="header">
-  <div class="summary">
-<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">Keyboard</div>  </div>
-</div><!--header-->
+<div class="ingroups"><a class="el" href="group___user_input.html">User Input</a></div></div><!--header-->
 <div class="contents">
-<table class="memberdecls">
-<tr><td colspan="2"><h2><a name="func-members"></a>
-Functions</h2></td></tr>
+
+<p>Keyboard Support.  
+<a href="#details">More...</a></p>
+<hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
+<p>Most mobile platforms have virtual keyboards that we can use in place of real keyboards. Different platforms have different special keys that we can check for the existance of.</p>
+<p>Reading keyboard input can be done in one of two ways:</p>
+<p>Some example code: </p>
+<div class="fragment"><pre class="fragment"> <a class="code" href="primitives_8h.html#acd85e891f8abe13e2e0c5785454972ac" title="An unsigned 8 bit integer.">U8</a> key = context-&gt;keyPressed;
+ <span class="keywordflow">if</span> (key) {
+     <span class="comment">// key is the most recent key pressed</span>
+ }
+ <span class="keywordflow">if</span> (context-&gt;specialKeyPressed) {
+     <span class="keywordflow">if</span> (context-&gt;specialKeyPressed == SKEY_BACK) {
+         <span class="comment">// go back</span>
+     }
+ }
+</pre></div><p>And for multikey checks: </p>
+<div class="fragment"><pre class="fragment"> <span class="keywordflow">for</span> (<a class="code" href="primitives_8h.html#a7fd0f901ce5fa28f2315830b2c4aea34" title="A signed 32 bit integer.">S32</a> i = 0; i &lt; <a class="code" href="batterytech__globals_8h.html#afe7064e04b86b9d33f493094b89729ef">MAX_KEYSTATES</a>; i++) {
+     KeyState ks = context-&gt;keyState[i];
+     <span class="keywordflow">if</span> (ks.isDown) {
+         <span class="comment">// ks.keyCode is the key that&#39;s down right now</span>
+     }
+ }
+</pre></div> <table class="memberdecls">
 <tr class="memitem:ga8580dfbd921fe22ba3dc74c87ce2bf0a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glext_8h.html#a3db05964a3cc4410f35b7ea2b7eb850d">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___keyboard.html#ga8580dfbd921fe22ba3dc74c87ce2bf0a">_platform_show_keyboard</a> ()</td></tr>
+<tr class="memdesc:ga8580dfbd921fe22ba3dc74c87ce2bf0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shows the soft keyboard.  <a href="#ga8580dfbd921fe22ba3dc74c87ce2bf0a"></a><br/></td></tr>
 <tr class="memitem:ga7cfa5fe65dcedec1b039e06d63176e4b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glext_8h.html#a3db05964a3cc4410f35b7ea2b7eb850d">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___keyboard.html#ga7cfa5fe65dcedec1b039e06d63176e4b">_platform_hide_keyboard</a> ()</td></tr>
+<tr class="memdesc:ga7cfa5fe65dcedec1b039e06d63176e4b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hides the soft keyboard.  <a href="#ga7cfa5fe65dcedec1b039e06d63176e4b"></a><br/></td></tr>
 <tr class="memitem:gaaf2b4779b75256dccbdb06fdfc0f13fc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="primitives_8h.html#a4e430bd419df1d91b447c49d0974b8d8">BOOL32</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___keyboard.html#gaaf2b4779b75256dccbdb06fdfc0f13fc">_platform_has_special_key</a> (BatteryTech::SpecialKey sKey)</td></tr>
+<tr class="memdesc:gaaf2b4779b75256dccbdb06fdfc0f13fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks for existance of special key.  <a href="#gaaf2b4779b75256dccbdb06fdfc0f13fc"></a><br/></td></tr>
 </table>
 <hr/><h2>Function Documentation</h2>
 <a class="anchor" id="gaaf2b4779b75256dccbdb06fdfc0f13fc"></a>
@@ -114,6 +136,14 @@ Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
+<p>The special key correlates with the special key in <a class="el" href="class_battery_tech_1_1_context.html#acb95096567ffb630cf4a1a9f065f9f85">BatteryTech::Context::specialKeyPressed</a></p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sKey</td><td>The special key to check for </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns:</dt><dd><a class="el" href="primitives_8h.html#aa8cecfc5c5c054d2875c03e77b7be15d">TRUE</a> if special key is on this platform, <a class="el" href="primitives_8h.html#aa93f0eb578d23995850d61f7d61c55c1">FALSE</a> if not </dd></dl>
 
 </div>
 </div>
@@ -146,6 +176,7 @@ Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
+<p>If no virtual keyboard exists, nothing will be shown. </p>
 
 </div>
 </div>
@@ -153,7 +184,7 @@ Functions</h2></td></tr>
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun May 20 2012 20:23:28 for BatteryTech SDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon May 21 2012 00:08:33 for BatteryTech SDK by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.0
 </small></address>

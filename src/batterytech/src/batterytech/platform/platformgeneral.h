@@ -45,27 +45,12 @@
 	#include "osx/osxgeneral.h"
 #endif /* MAC */
 
+//-------------- Files, IO, Paths -------------
+
 /**
- * \defgroup FileIO File Asset Reading and Writing
- * \brief File Assets, File IO, Directories and Paths
- *
- * Reading may happen from an Android APK, iOS/OSX Bundle or a plain old Windows, Linux or other file system.  Many of the supported input systems
- * can not be written to so it is recommended that an application developer always plan on writing to external or application storage (whichever is more
- * appropriate) instead of ever assuming that the input files may ever be written to.
- *
- * Loading and freeing an asset example:
- * \code
- * S32 size;
- * unsigned char* data = _platform_load_asset("myasset.dat", &size);
- * if (data) {
- *     // process data of size
- * }
- * _platform_free_asset(data);
- * \endcode
+ * \ingroup FileIO
  * @{
  */
-
-//-------------- Files, IO, Paths -------------
 
 /** \brief Loads an asset from disk
  *
@@ -190,27 +175,13 @@ void _platform_path_create_recursive(const char* path);
 
 /*@}*/
 
-/**
- * \defgroup Audio Audio playback and management
- * \brief Audio Sample and (local) Streaming playback
- *
- * BatteryTech supports OGG-Vorbis exclusively.
- *
- * _platform audio functions are available primarily to serve the \ref BatteryTech::AudioManager.
- * For most applications, \ref BatteryTech::AudioManager is the desired interface to use and can
- * be accessed through the application's \ref BatteryTech::Context.
- *
- * Example:
- * \code
- * context->audioManager->loadSound("sounds/mysound.ogg");
- * context->audioManager->playSound("sounds/mysound.ogg", 0, 1.0, 1.0, 1.0);
- * context->audioManager->unloadSound("sounds/mysound.ogg");
- * \endcode
- *
- * @{
- */
 
 //-------------- Audio -------------
+
+/**
+ * \ingroup Audio
+ * @{
+ */
 
 /** \brief Initializes platform PCM sound (platform-specific implementation)
  * \param audioManager the \ref BatteryTech::AudioManager
@@ -306,22 +277,15 @@ S32 _platform_play_streaming_sound(const char *assetName, S16 loops, F32 leftVol
  */
 void _platform_stop_streaming_sound(const char *assetName);
 
-
 /*@}*/
 
-/**
- * \defgroup Vibration Vibration Control
- * \brief Support for vibration effect playback
- *
- * Most systems do not have robust vibration control, but specifically on Android, there are systems such as Immersion Technology's Motiv or UHL
- * which can play a variety of effects at various intensities.  Such systems will need to be integrated on the Android platform side.  Stock Android
- * vibration support can also be integrated instead.  Please follow the instructions in the section on Integrating platform-specific systems for
- * additional information.
- *
- * @{
- */
 
 //-------------- Vibration -------------
+
+/**
+ * \ingroup Vibration
+ * @{
+ */
 
 /** \brief Plays a vibration effect
  *
@@ -348,29 +312,15 @@ void _platform_stop_vibration_effect(S32 effectId);
  */
 void _platform_stop_all_vibration_effects();
 
-
-
 /*@}*/
 
-/**
- * \defgroup Networking Networking
- * \brief POSIX Socket-based network support
- *
- * Most platforms natively support standard BSD or POSIX sockets but for those that don't, simply including \ref platformgeneral.h will include, define or redefine
- * macros to support POSIX.  Applications can count on standard functions such as socket, bind, setsockopt, send, recv, inet_pton, inet_ntop, getaddrinfo and getnameinfo
- *
- * A few specific functions that are not defined as part of the POSIX sockets specification are implemented as _platform functions and documented here.
- *
- * For more information on using Berkeley/POSIX sockets, please visit the wikipedia link in the see also section.
- *
- * BatteryTech includes a default implementation of message-based client/host game networking in the following classes:
- * \ref BatteryTech::NetworkManager, \ref BatteryTech::GameConnection, \ref BatteryTech::NetworkMessage
- *
- * \see http://en.wikipedia.org/wiki/Berkeley_socket
- * @{
- */
 
 //-------------- Networking -------------
+
+/**
+ * \ingroup Networking
+ * @{
+ */
 
 /** \brief Initializes networking for platforms that need it
  *
@@ -435,50 +385,113 @@ void *get_in_addr(struct sockaddr *sa);
 
 /*@}*/
 
+//--------------- Keyboard ---------------
+
 /**
- * \defgroup Keyboard Keyboard
+ * \ingroup Keyboard
  * @{
  */
 
-//--------------- Keyboard ---------------
-
-// Shows the soft keyboard
+/** \brief Shows the soft keyboard
+ *
+ * If no virtual keyboard exists, nothing will be shown.
+ *
+ */
 void _platform_show_keyboard();
 
-// Hides the soft keyboard
+/** \brief Hides the soft keyboard
+ *
+ */
 void _platform_hide_keyboard();
 
-// Checks for existance of special key
+/** \brief Checks for existance of special key
+ *
+ * The special key correlates with the special key in \ref BatteryTech::Context::specialKeyPressed
+ *
+ * \param sKey The special key to check for
+ * \returns \ref TRUE if special key is on this platform, \ref FALSE if not
+ */
 BOOL32 _platform_has_special_key(BatteryTech::SpecialKey sKey);
-
 
 /*@}*/
 
+//-------------- Other --------------
 /**
- * \defgroup OtherPlatform Other Platform Functions
+ * \ingroup OtherPlatform
  * @{
  */
-//-------------- Other --------------
 
-// Exits the application
+/** \brief Exits the application (where applicable)
+ *
+ * Many platforms don't support this
+ */
 void _platform_exit();
 
-// Shows an ad (requires platform-specific and ad-sdk support)
-void _platform_show_ad();
 
-// Hides an ad (requires platform-specific and ad-sdk support)
-void _platform_hide_ad();
-
-// Any platform customizations can be done through this hook inteface.  All hooks require code on the platform.
-void _platform_hook(const char *hook, char *result, S32 resultLen);
-
-// Logs a message
+/** \brief Logs a message
+ * In combination with sprintf, it's simple to construct log messages with no memory allocations
+ *
+ * Example:
+ * \code
+ * buf[1024]; // large enough to ensure no overflow
+ * sprintf(buf, "This is a log message involving %d and %f", i, j);
+ * logmsg(buf);
+ * \endcode
+ */
 void _platform_log(const char *message);
 
-// Returns a time in nanoseconds, suitable for high resolution timing and profiling
+/** \brief Returns a time in nanoseconds, suitable for high resolution timing and profiling
+ *
+ * This function is designed specifically for profiling
+ *
+ * Example:
+ * \code
+ * U64 startTime = _platform_get_time_nanos();
+ *  // run some code
+ * U64 endTime = _platform_get_time_nanos();
+ * buf[200];
+ * sprintf(buf, "Function took %u ns", (endTime - startTime));
+ * logmsg(buf);
+ * \endcode
+ * \return time in nanoseconds
+ */
 U64 _platform_get_time_nanos();
 
 /**@}*/
 
+/**
+ * \ingroup Hooks
+ * @{
+ */
+
+/** \brief Shows an ad (requires platform-specific and ad-sdk support)
+ *
+ */
+void _platform_show_ad();
+
+/** \brief Hides an ad (requires platform-specific and ad-sdk support)
+ *
+ */
+void _platform_hide_ad();
+
+/** \brief Any platform customizations can be done through this hook inteface.
+ *
+ * All hooks require code on the platform.
+ *
+ * \param hook The hook data
+ * \param result The result (if the hook is synchronous, otherwise Context::callbackData will hold the result)
+ * \param resultLen The length of the result buffer
+ *
+ * Example:
+ * \code
+ * char resultBuffer[10];
+ * _platform_hook("hasFrontCamera", resultBuffer, 10);
+ * if (strEquals(resultBuffer, "true")) {
+ *     logmsg("has front camera");
+ * }
+ * \endcode
+ */
+void _platform_hook(const char *hook, char *result, S32 resultLen);
+/**@}*/
 
 #endif /* PLATFORMGENERAL_H_ */
