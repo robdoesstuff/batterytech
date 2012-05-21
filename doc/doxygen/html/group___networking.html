@@ -92,16 +92,32 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">Networking</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>POSIX Socket-based network support.  
+<a href="#details">More...</a></p>
+<hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
+<p>Most platforms natively support standard BSD or POSIX sockets but for those that don't, simply including <a class="el" href="platformgeneral_8h.html">platformgeneral.h</a> will include, define or redefine macros to support POSIX. Applications can count on standard functions such as socket, bind, setsockopt, send, recv, inet_pton, inet_ntop, getaddrinfo and getnameinfo</p>
+<p>A few specific functions that are not defined as part of the POSIX sockets specification are implemented as _platform functions and documented here.</p>
+<p>For more information on using Berkeley/POSIX sockets, please visit the wikipedia link in the see also section.</p>
+<p>BatteryTech includes a default implementation of message-based client/host game networking in the following classes: <a class="el" href="class_battery_tech_1_1_network_manager.html">BatteryTech::NetworkManager</a>, <a class="el" href="class_battery_tech_1_1_game_connection.html">BatteryTech::GameConnection</a>, <a class="el" href="class_battery_tech_1_1_network_message.html">BatteryTech::NetworkMessage</a></p>
+<dl class="section see"><dt>See also:</dt><dd><a href="http://en.wikipedia.org/wiki/Berkeley_socket">http://en.wikipedia.org/wiki/Berkeley_socket</a> </dd></dl>
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:gae9f3a4ef82abb9d4a8dd139a345d8abf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glext_8h.html#a3db05964a3cc4410f35b7ea2b7eb850d">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___networking.html#gae9f3a4ef82abb9d4a8dd139a345d8abf">_platform_init_network</a> ()</td></tr>
+<tr class="memdesc:gae9f3a4ef82abb9d4a8dd139a345d8abf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes networking for platforms that need it.  <a href="#gae9f3a4ef82abb9d4a8dd139a345d8abf"></a><br/></td></tr>
 <tr class="memitem:ga7241fdd7d05e9e523cc7d9d163b6e2c6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glext_8h.html#a3db05964a3cc4410f35b7ea2b7eb850d">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___networking.html#ga7241fdd7d05e9e523cc7d9d163b6e2c6">_platform_release_network</a> ()</td></tr>
+<tr class="memdesc:ga7241fdd7d05e9e523cc7d9d163b6e2c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Releases networking for platforms that need it.  <a href="#ga7241fdd7d05e9e523cc7d9d163b6e2c6"></a><br/></td></tr>
 <tr class="memitem:ga22b1fe367a4ceecca0d85fa6da32f052"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glext_8h.html#a3db05964a3cc4410f35b7ea2b7eb850d">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___networking.html#ga22b1fe367a4ceecca0d85fa6da32f052">_platform_make_non_blocking</a> (SOCKET socket)</td></tr>
+<tr class="memdesc:ga22b1fe367a4ceecca0d85fa6da32f052"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makes a socket non-blocking.  <a href="#ga22b1fe367a4ceecca0d85fa6da32f052"></a><br/></td></tr>
 <tr class="memitem:ga5974178e7dd82c907f4fd0ba54125c8e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="primitives_8h.html#a7fd0f901ce5fa28f2315830b2c4aea34">S32</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___networking.html#ga5974178e7dd82c907f4fd0ba54125c8e">_platform_get_socket_last_error</a> ()</td></tr>
+<tr class="memdesc:ga5974178e7dd82c907f4fd0ba54125c8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the last socket error state.  <a href="#ga5974178e7dd82c907f4fd0ba54125c8e"></a><br/></td></tr>
 <tr class="memitem:ga26f28a6df9f892b175c9bc02b46bf2cb"><td class="memItemLeft" align="right" valign="top">char **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___networking.html#ga26f28a6df9f892b175c9bc02b46bf2cb">_platform_get_ifaddrs</a> (int *<a class="el" href="glext_8h.html#a4e867eee5910f6b2df6123b47ab70dae">count</a>)</td></tr>
+<tr class="memdesc:ga26f28a6df9f892b175c9bc02b46bf2cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a list of network interface addresses.  <a href="#ga26f28a6df9f892b175c9bc02b46bf2cb"></a><br/></td></tr>
 <tr class="memitem:ga90e415c4cce7a7e171b21dee1e86e805"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glext_8h.html#a3db05964a3cc4410f35b7ea2b7eb850d">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___networking.html#ga90e415c4cce7a7e171b21dee1e86e805">_platform_free_ifaddrs</a> (char **ifaddrs, int <a class="el" href="glext_8h.html#a4e867eee5910f6b2df6123b47ab70dae">count</a>)</td></tr>
+<tr class="memdesc:ga90e415c4cce7a7e171b21dee1e86e805"><td class="mdescLeft">&#160;</td><td class="mdescRight">Frees the list of interface addresses acquired by _platform_get_ifaddrs.  <a href="#ga90e415c4cce7a7e171b21dee1e86e805"></a><br/></td></tr>
 <tr class="memitem:ga294867ba9d7ff47e39d421134d8e12ab"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glext_8h.html#a3db05964a3cc4410f35b7ea2b7eb850d">void</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___networking.html#ga294867ba9d7ff47e39d421134d8e12ab">get_in_addr</a> (struct sockaddr *sa)</td></tr>
+<tr class="memdesc:ga294867ba9d7ff47e39d421134d8e12ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the internet address of a sockaddr structure.  <a href="#ga294867ba9d7ff47e39d421134d8e12ab"></a><br/></td></tr>
 </table>
 <hr/><h2>Function Documentation</h2>
 <a class="anchor" id="ga90e415c4cce7a7e171b21dee1e86e805"></a>
@@ -128,6 +144,13 @@ Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ifaddrs</td><td>The list of ifaddrs acquired by <a class="el" href="group___networking.html#ga26f28a6df9f892b175c9bc02b46bf2cb">_platform_get_ifaddrs</a> </td></tr>
+    <tr><td class="paramname">count</td><td>The count set by <a class="el" href="group___networking.html#ga26f28a6df9f892b175c9bc02b46bf2cb">_platform_get_ifaddrs</a> </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -145,6 +168,14 @@ Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
+<p>You must free the list returned by <a class="el" href="group___networking.html#ga90e415c4cce7a7e171b21dee1e86e805">_platform_free_ifaddrs</a> when done</p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">count</td><td>OUT - number of ifaddrs </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns:</dt><dd>a list of socket interface addresses </dd></dl>
 
 </div>
 </div>
@@ -161,6 +192,7 @@ Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
+<dl class="section return"><dt>Returns:</dt><dd>An error code or EWOULDBLOCK if socket is non-blocking </dd></dl>
 
 </div>
 </div>
@@ -177,6 +209,7 @@ Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
+<p>This is called by <a class="el" href="class_battery_tech_1_1_network_manager.html">BatteryTech::NetworkManager</a> but should custom network code be used, this function should always be called before other network functions because it is required by certain platforms such as Windows to initialize sockets before they can be used. </p>
 
 </div>
 </div>
@@ -194,6 +227,12 @@ Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">socket</td><td>The socket to make non-blocking </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -210,6 +249,7 @@ Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
+<p>This is called by <a class="el" href="class_battery_tech_1_1_network_manager.html">BatteryTech::NetworkManager</a> bu should custom network code be used, this function should always be called before application shutdown to release networking resources for certain platforms such as Windows. </p>
 
 </div>
 </div>
@@ -227,6 +267,20 @@ Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
+<p>A sockaddr structure is used throughout standard BSD sockets but translating to an internet address is platform-specific.</p>
+<p>Here is an example to find the hostname from a packet received via udp: </p>
+<div class="fragment"><pre class="fragment">  <span class="keyword">struct </span>sockaddr_storage their_addr;
+  recvfrom(udpListenerSocket, <a class="code" href="glext_8h.html#aa3b73d9ca9f2e2396cbeae1ce6ce14be">buf</a>, <a class="code" href="_network_manager_8cpp.html#a13f1b0997650b75647b68dcd0136c886">UDPBUFLEN</a>-1 , 0, (<span class="keyword">struct</span> sockaddr *)&amp;their_addr, &amp;addr_len))
+        <span class="keyword">const</span> <span class="keywordtype">char</span> *hostname = inet_ntop(their_addr.ss_family,
+                <a class="code" href="group___networking.html#ga294867ba9d7ff47e39d421134d8e12ab" title="Gets the internet address of a sockaddr structure.">get_in_addr</a>((<span class="keyword">struct</span> sockaddr *)&amp;their_addr),
+                <a class="code" href="glext_8h.html#ad585a1393cfa368fa9dc3d8ebff640d5">s</a>, <span class="keyword">sizeof</span> <a class="code" href="glext_8h.html#ad585a1393cfa368fa9dc3d8ebff640d5">s</a>);
+</pre></div><dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sa</td><td>The socket address to look up </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns:</dt><dd>The internet address of the socket </dd></dl>
 
 </div>
 </div>
@@ -234,7 +288,7 @@ Functions</h2></td></tr>
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri May 18 2012 00:57:57 for BatteryTech SDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun May 20 2012 20:23:28 for BatteryTech SDK by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.0
 </small></address>

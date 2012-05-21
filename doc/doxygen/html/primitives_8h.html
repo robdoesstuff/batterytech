@@ -101,7 +101,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <p>Cross-platform Primitive definitions. Include <a class="el" href="primitives_8h.html">batterytech/primitives.h</a> and not a platform-specific implementation to use.  
 <a href="#details">More...</a></p>
-
+<hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
+<div class="textblock"><p>Cross-platform primitives are a safe way to ensure that any structs or data pushed through network or through disk will be consistent across different definitions of the raw C primitive types. It doesn't help with endianness but currently all supported platforms use little endian so it shouldn't be an issue until we support a big endian platform.</p>
+<p>Example: </p>
+<div class="fragment"><pre class="fragment"> <a class="code" href="primitives_8h.html#a4e430bd419df1d91b447c49d0974b8d8" title="A 32 bit boolean value.">BOOL32</a> found = <a class="code" href="primitives_8h.html#aa93f0eb578d23995850d61f7d61c55c1" title="False.">FALSE</a>;
+ <span class="keywordflow">for</span> (<a class="code" href="primitives_8h.html#a7fd0f901ce5fa28f2315830b2c4aea34" title="A signed 32 bit integer.">S32</a> i = 0; i &lt; numObjects; i++) {
+     <span class="keywordflow">if</span> (matches(objects[i])) {
+         found = <a class="code" href="primitives_8h.html#aa8cecfc5c5c054d2875c03e77b7be15d" title="True.">TRUE</a>;
+         <span class="keywordflow">break</span>;
+     }
+ }
+</pre></div> </div>
 <p><a href="primitives_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="enum-members"></a>
@@ -121,12 +131,13 @@ Enumerations</h2></td></tr>
 <b>BatteryTech::SKEY_WHEELDOWN</b>
 <br/>
  }</td></tr>
+<tr class="memdesc:a8730f82a438dfdcafa4c0e5afeac14f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Special Key Definitions.  <a href="namespace_battery_tech.html#a8730f82a438dfdcafa4c0e5afeac14f3">More...</a><br/></td></tr>
 <tr class="memitem:aa8cecfc5c5c054d2875c03e77b7be15d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="primitives_8h.html#aa8cecfc5c5c054d2875c03e77b7be15d">TRUE</a>&#160;&#160;&#160;1</td></tr>
 <tr class="memdesc:aa8cecfc5c5c054d2875c03e77b7be15d"><td class="mdescLeft">&#160;</td><td class="mdescRight">True.  <a href="#aa8cecfc5c5c054d2875c03e77b7be15d"></a><br/></td></tr>
 <tr class="memitem:aa93f0eb578d23995850d61f7d61c55c1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="primitives_8h.html#aa93f0eb578d23995850d61f7d61c55c1">FALSE</a>&#160;&#160;&#160;0</td></tr>
 <tr class="memdesc:aa93f0eb578d23995850d61f7d61c55c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">False.  <a href="#aa93f0eb578d23995850d61f7d61c55c1"></a><br/></td></tr>
 <tr class="memitem:a070d2ce7b6bb7e5c05602aa8c308d0c4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4">NULL</a>&#160;&#160;&#160;0</td></tr>
-<tr class="memdesc:a070d2ce7b6bb7e5c05602aa8c308d0c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">The absence of anything.  <a href="#a070d2ce7b6bb7e5c05602aa8c308d0c4"></a><br/></td></tr>
+<tr class="memdesc:a070d2ce7b6bb7e5c05602aa8c308d0c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Standard null, suitable for pointers.  <a href="#a070d2ce7b6bb7e5c05602aa8c308d0c4"></a><br/></td></tr>
 <tr class="memitem:a236c9a098c0726c63b9aa793ac6133cc"><td class="memItemLeft" align="right" valign="top">typedef signed char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="primitives_8h.html#a236c9a098c0726c63b9aa793ac6133cc">S8</a></td></tr>
 <tr class="memdesc:a236c9a098c0726c63b9aa793ac6133cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">A signed 8 bit integer.  <a href="#a236c9a098c0726c63b9aa793ac6133cc"></a><br/></td></tr>
 <tr class="memitem:acd85e891f8abe13e2e0c5785454972ac"><td class="memItemLeft" align="right" valign="top">typedef unsigned char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="primitives_8h.html#acd85e891f8abe13e2e0c5785454972ac">U8</a></td></tr>
@@ -152,10 +163,7 @@ Enumerations</h2></td></tr>
 <tr class="memitem:a4e430bd419df1d91b447c49d0974b8d8"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="primitives_8h.html#ad528a3232945741d92a6fda108d0881a">U32</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="primitives_8h.html#a4e430bd419df1d91b447c49d0974b8d8">BOOL32</a></td></tr>
 <tr class="memdesc:a4e430bd419df1d91b447c49d0974b8d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">A 32 bit boolean value.  <a href="#a4e430bd419df1d91b447c49d0974b8d8"></a><br/></td></tr>
 </table>
-<hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
-<div class="textblock"><p>Cross-platform Primitive definitions. Include <a class="el" href="primitives_8h.html">batterytech/primitives.h</a> and not a platform-specific implementation to use. </p>
-<p>Cross-platform primitives are a safe way to ensure that any structs or data pushed through network or through disk will be consistent across different definitions of the raw C primitive types. It doesn't help with endianness but currently all supported platforms use little endian so it shouldn't be an issue until we support a big endian platform. </p>
-</div><hr/><h2>Define Documentation</h2>
+<hr/><h2>Define Documentation</h2>
 <a class="anchor" id="aa93f0eb578d23995850d61f7d61c55c1"></a>
 <div class="memitem">
 <div class="memproto">
@@ -166,8 +174,7 @@ Enumerations</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
-<p>False. </p>
+<p>False </p>
 
 </div>
 </div>
@@ -181,8 +188,7 @@ Enumerations</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
-<p>The absence of anything. </p>
+<p>Standard null, suitable for pointers </p>
 
 </div>
 </div>
@@ -196,8 +202,7 @@ Enumerations</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
-<p>True. </p>
+<p>True </p>
 
 </div>
 </div>
@@ -212,8 +217,7 @@ Enumerations</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
-<p>A 32 bit boolean value. </p>
+<p>A 32 bit boolean value </p>
 
 </div>
 </div>
@@ -227,8 +231,7 @@ Enumerations</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
-<p>An unsigned byte. </p>
+<p>An unsigned byte </p>
 
 </div>
 </div>
@@ -242,8 +245,7 @@ Enumerations</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
-<p>A 32 bit floating point number. </p>
+<p>A 32 bit floating point number </p>
 
 </div>
 </div>
@@ -257,8 +259,7 @@ Enumerations</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
-<p>A 64 bit floating point number. </p>
+<p>A 64 bit floating point number </p>
 
 </div>
 </div>
@@ -272,8 +273,7 @@ Enumerations</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
-<p>A signed 16 bit integer. </p>
+<p>A signed 16 bit integer </p>
 
 </div>
 </div>
@@ -287,8 +287,7 @@ Enumerations</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
-<p>A signed 32 bit integer. </p>
+<p>A signed 32 bit integer </p>
 
 </div>
 </div>
@@ -302,8 +301,7 @@ Enumerations</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
-<p>A signed 64 bit integer. </p>
+<p>A signed 64 bit integer </p>
 
 </div>
 </div>
@@ -317,8 +315,7 @@ Enumerations</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
-<p>A signed 8 bit integer. </p>
+<p>A signed 8 bit integer </p>
 
 </div>
 </div>
@@ -332,8 +329,7 @@ Enumerations</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
-<p>An unsigned 16 bit integer. </p>
+<p>An unsigned 16 bit integer </p>
 
 </div>
 </div>
@@ -347,8 +343,7 @@ Enumerations</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
-<p>An unsigned 32 bit integer. </p>
+<p>An unsigned 32 bit integer </p>
 
 </div>
 </div>
@@ -362,8 +357,7 @@ Enumerations</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
-<p>An unsigned 64 bit integer. </p>
+<p>An unsigned 64 bit integer </p>
 
 </div>
 </div>
@@ -377,8 +371,7 @@ Enumerations</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
-<p>An unsigned 8 bit integer. </p>
+<p>An unsigned 8 bit integer </p>
 
 </div>
 </div>
@@ -386,7 +379,7 @@ Enumerations</h2></td></tr>
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri May 18 2012 00:57:56 for BatteryTech SDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun May 20 2012 20:23:28 for BatteryTech SDK by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.0
 </small></address>

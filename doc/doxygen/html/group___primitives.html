@@ -95,6 +95,22 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <p>BatteryTech defines primitive types for cross-platform compatibility.  
 <a href="#details">More...</a></p>
+<hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
+<p>Common typedefs include:<br/>
+ <a class="el" href="primitives_8h.html#a236c9a098c0726c63b9aa793ac6133cc">S8</a>, <a class="el" href="primitives_8h.html#a41b6ff03f2eb9f9a60f1417dc54cf44d">S16</a> and <a class="el" href="primitives_8h.html#a7fd0f901ce5fa28f2315830b2c4aea34">S32</a> = Signed 8, 16 and 32 bit integers respectively<br/>
+ <a class="el" href="primitives_8h.html#acd85e891f8abe13e2e0c5785454972ac">U8</a>, <a class="el" href="primitives_8h.html#aa01b3be6e49ff185039be8049ac5b290">U16</a> and <a class="el" href="primitives_8h.html#ad528a3232945741d92a6fda108d0881a">U32</a> = Unsigned 8, 16 and 32 bit integers respectively<br/>
+ <a class="el" href="primitives_8h.html#a4e430bd419df1d91b447c49d0974b8d8">BOOL32</a> for booleans with <a class="el" href="primitives_8h.html#aa8cecfc5c5c054d2875c03e77b7be15d">TRUE</a> and <a class="el" href="primitives_8h.html#aa93f0eb578d23995850d61f7d61c55c1">FALSE</a> as values<br/>
+ <a class="el" href="primitives_8h.html#ad47a6c3871edfa71ee0057c3a7184161">F32</a> and <a class="el" href="primitives_8h.html#a972df6d080065ed1e5cafc6dfb4368bd">F64</a> = 32 bit and 64 bit floating point number<br/>
+</p>
+<p>Example: </p>
+<div class="fragment"><pre class="fragment"> <a class="code" href="primitives_8h.html#a4e430bd419df1d91b447c49d0974b8d8" title="A 32 bit boolean value.">BOOL32</a> found = <a class="code" href="primitives_8h.html#aa93f0eb578d23995850d61f7d61c55c1" title="False.">FALSE</a>;
+ <span class="keywordflow">for</span> (<a class="code" href="primitives_8h.html#a7fd0f901ce5fa28f2315830b2c4aea34" title="A signed 32 bit integer.">S32</a> i = 0; i &lt; numObjects; i++) {
+     <span class="keywordflow">if</span> (matches(objects[i])) {
+         found = <a class="code" href="primitives_8h.html#aa8cecfc5c5c054d2875c03e77b7be15d" title="True.">TRUE</a>;
+         <span class="keywordflow">break</span>;
+     }
+ }
+</pre></div> <dl class="section see"><dt>See also:</dt><dd><a class="el" href="primitives_8h.html">primitives.h</a> for detailed information </dd></dl>
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="files"></a>
 Files</h2></td></tr>
@@ -102,13 +118,11 @@ Files</h2></td></tr>
 <tr class="memdesc:primitives_8h"><td class="mdescLeft">&#160;</td><td class="mdescRight"><p>Cross-platform Primitive definitions. Include <a class="el" href="primitives_8h.html">batterytech/primitives.h</a> and not a platform-specific implementation to use. </p>
 <br/></td></tr>
 </table>
-<hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
-<p>BatteryTech defines primitive types for cross-platform compatibility. </p>
 </div><!-- contents -->
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri May 18 2012 00:57:57 for BatteryTech SDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun May 20 2012 20:23:28 for BatteryTech SDK by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.0
 </small></address>

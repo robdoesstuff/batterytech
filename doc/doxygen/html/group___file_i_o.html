@@ -95,7 +95,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <p>File Assets, File IO, Directories and Paths.  
 <a href="#details">More...</a></p>
-<table class="memberdecls">
+<hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
+<p>Reading may happen from an Android APK, iOS/OSX Bundle or a plain old Windows, Linux or other file system. Many of the supported input systems can not be written to so it is recommended that an application developer always plan on writing to external or application storage (whichever is more appropriate) instead of ever assuming that the input files may ever be written to.</p>
+<p>Loading and freeing an asset example: </p>
+<div class="fragment"><pre class="fragment"> <a class="code" href="primitives_8h.html#a7fd0f901ce5fa28f2315830b2c4aea34" title="A signed 32 bit integer.">S32</a> <a class="code" href="glext_8h.html#a3d1e3edfcf61ca2d831883e1afbad89e">size</a>;
+ <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>* <a class="code" href="glext_8h.html#ae71d2e007af6a1d1ed622d3e8be266e2">data</a> = <a class="code" href="group___file_i_o.html#gab472429e264a3c0fcbac22fee7f9aacf" title="Loads an asset from disk.">_platform_load_asset</a>(<span class="stringliteral">&quot;myasset.dat&quot;</span>, &amp;size);
+ <span class="keywordflow">if</span> (data) {
+     <span class="comment">// process data of size</span>
+ }
+ <a class="code" href="group___file_i_o.html#gafa7af0b8f8a73775852bc75d783a078e" title="Frees asset data allocated by _platform_load_asset or _platform_load_text_asset.">_platform_free_asset</a>(data);
+</pre></div> <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:gab472429e264a3c0fcbac22fee7f9aacf"><td class="memItemLeft" align="right" valign="top">unsigned char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___file_i_o.html#gab472429e264a3c0fcbac22fee7f9aacf">_platform_load_asset</a> (const char *filename, <a class="el" href="primitives_8h.html#a7fd0f901ce5fa28f2315830b2c4aea34">S32</a> *<a class="el" href="glext_8h.html#a3d1e3edfcf61ca2d831883e1afbad89e">size</a>)</td></tr>
@@ -131,9 +140,6 @@ Functions</h2></td></tr>
 <tr class="memitem:gaaa8aae92ad3f4e9a391c5c41bed28772"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glext_8h.html#a3db05964a3cc4410f35b7ea2b7eb850d">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___file_i_o.html#gaaa8aae92ad3f4e9a391c5c41bed28772">_platform_path_create_recursive</a> (const char *<a class="el" href="glext_8h.html#a23ffbd2c127adf1c57bc2667fdedb1c9">path</a>)</td></tr>
 <tr class="memdesc:gaaa8aae92ad3f4e9a391c5c41bed28772"><td class="mdescLeft">&#160;</td><td class="mdescRight">Recursively creates a path (use with caution.)  <a href="#gaaa8aae92ad3f4e9a391c5c41bed28772"></a><br/></td></tr>
 </table>
-<hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
-<p>File Assets, File IO, Directories and Paths. </p>
-<p>Reading may happen from an Android APK, iOS/OSX Bundle or a plain old Windows, Linux or other file system. Many of the supported input systems can not be written to so it is recommended that an application developer always plan on writing to external or application storage (whichever is more appropriate) instead of ever assuming that the input files may ever be written to. </p>
 <hr/><h2>Function Documentation</h2>
 <a class="anchor" id="gaaeaae19f3605cfba4409233c7ece5597"></a>
 <div class="memitem">
@@ -159,8 +165,6 @@ Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
-<p>Converts a path into a platform's version of the path. </p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramname">path</td><td>The path with any path separator </td></tr>
@@ -195,8 +199,6 @@ Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
-<p>Converts a path into UNIX-style forward slash name. </p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramname">path</td><td>The path with any path separator </td></tr>
@@ -221,8 +223,6 @@ Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
-<p>Frees asset data allocated by <a class="el" href="group___file_i_o.html#gab472429e264a3c0fcbac22fee7f9aacf">_platform_load_asset</a> or <a class="el" href="group___file_i_o.html#ga9c2600089f874430ea2eea9524b66364">_platform_load_text_asset</a>. </p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramname">ptr</td><td>The data to free </td></tr>
@@ -256,8 +256,6 @@ Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
-<p>Gets the path of the internal (application private) storage directory. </p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramname">buf</td><td>The output buffer to copy the path into </td></tr>
@@ -282,8 +280,6 @@ Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
-<p>Gets the data length of a file asset. </p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramname">filename</td><td>The name of the file relative to the assets directory </td></tr>
@@ -318,8 +314,6 @@ Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
-<p>Gets the basename of a path. </p>
 <p>Example: /home/files/foo.txt basename is /home/files</p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
@@ -355,8 +349,6 @@ Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
-<p>Gets the path of the external storage directory. </p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramname">buf</td><td>The output buffer to copy the path into </td></tr>
@@ -380,8 +372,6 @@ Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
-<p>Gets the path separator character(s) </p>
 <dl class="section return"><dt>Returns:</dt><dd>The backslash, slash or other separator characters </dd></dl>
 
 </div>
@@ -410,8 +400,6 @@ Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
-<p>Loads an asset from disk. </p>
 <p>use <a class="el" href="group___file_i_o.html#gafa7af0b8f8a73775852bc75d783a078e">_platform_free_asset</a> to free the data once done.</p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
@@ -438,8 +426,6 @@ Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
-<p>Loads a text-based asset from disk. </p>
 <p>Does not strip out LF,CR or other chars. use <a class="el" href="group___file_i_o.html#gafa7af0b8f8a73775852bc75d783a078e">_platform_free_asset</a> to free the data once done, casting data to unsigned char*</p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
@@ -465,8 +451,6 @@ Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
-<p>Checks for readability of path. </p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramname">path</td><td>the absolute path to check </td></tr>
@@ -491,8 +475,6 @@ Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
-<p>Checks for writability of path. </p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramname">path</td><td>the absolute path to check </td></tr>
@@ -517,8 +499,6 @@ Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
-<p>Creates a path (if permission allows) </p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramname">path</td><td>The path to create </td></tr>
@@ -543,8 +523,6 @@ Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
-<p>Recursively creates a path (use with caution.) </p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramname">path</td><td>The absolute path to create </td></tr>
@@ -568,8 +546,6 @@ Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
-<p>Checks for existance of path. </p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramname">path</td><td>the absolute path to check </td></tr>
@@ -622,8 +598,6 @@ Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
-<p>Reads a portion of an asset from disk. </p>
 <p>starts at offset and ending at EOF or once bufferLength is filled</p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
@@ -643,7 +617,7 @@ Functions</h2></td></tr>
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri May 18 2012 00:57:57 for BatteryTech SDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun May 20 2012 20:23:28 for BatteryTech SDK by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.0
 </small></address>

@@ -109,7 +109,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <p>Use this class to load and trigger sound effects and play music.  
  <a href="class_battery_tech_1_1_audio_manager.html#details">More...</a></p>
-
+<hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
+<div class="textblock"><p>This is the primary point of sound and streaming audio playback management for users. If "prefer_platform_audio_management" in batterytech_config.txt is set to "true", this will attempt to use platform facilities instead of raw PCM playback when available. If it is set to false, this will always use raw PCM mixing and playback. When using raw PCM playback, streaming sounds will decode in real-time chunks of <a class="el" href="batterytech__globals_8h.html#a5459ba5913cdca17944ea93c8f065d69">PCM_AUDIO_STREAM_BUFFER_SIZE</a>. Add more buffers and decrease buffer size to decrease decoding lag in the main loop.</p>
+<p>Example: </p>
+<div class="fragment"><pre class="fragment"> context-&gt;<a class="code" href="class_battery_tech_1_1_context.html#a5fd26f7d4d96885f20b689e09bda7d27">audioManager</a>-&gt;<a class="code" href="class_battery_tech_1_1_audio_manager.html#ab02244163aab64546732c0ed7edb6ca9" title="Loads a sound.">loadSound</a>(<span class="stringliteral">&quot;sounds/mysound.ogg&quot;</span>);
+ context-&gt;<a class="code" href="class_battery_tech_1_1_context.html#a5fd26f7d4d96885f20b689e09bda7d27">audioManager</a>-&gt;<a class="code" href="class_battery_tech_1_1_audio_manager.html#aa0310b229534242d66bfcfb24d2848bf" title="Plays a sound that was loaded calling loadSound prior.">playSound</a>(<span class="stringliteral">&quot;sounds/mysound.ogg&quot;</span>, 0, 1.0, 1.0, 1.0);
+ context-&gt;<a class="code" href="class_battery_tech_1_1_context.html#a5fd26f7d4d96885f20b689e09bda7d27">audioManager</a>-&gt;<a class="code" href="class_battery_tech_1_1_audio_manager.html#a36a7bd18a340e5100068951ae6eb2b40" title="Unloads a sound that was previously loaded by loadSound.">unloadSound</a>(<span class="stringliteral">&quot;sounds/mysound.ogg&quot;</span>);
+</pre></div> </div>
 <p><code>#include &lt;<a class="el" href="_audio_manager_8h_source.html">batterytech/audio/AudioManager.h</a>&gt;</code></p>
 
 <p><a href="class_battery_tech_1_1_audio_manager-members.html">List of all members.</a></p>
@@ -149,11 +155,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aca0d303b636921b0f60dade3ef4d18b5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glext_8h.html#a3db05964a3cc4410f35b7ea2b7eb850d">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_battery_tech_1_1_audio_manager.html#aca0d303b636921b0f60dade3ef4d18b5">update</a> ()</td></tr>
 <tr class="memdesc:aca0d303b636921b0f60dade3ef4d18b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Needed to fill streaming sound buffers and is normally called from the BatteryTech update system.  <a href="#aca0d303b636921b0f60dade3ef4d18b5"></a><br/></td></tr>
 </table>
-<hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
-<div class="textblock"><p>Use this class to load and trigger sound effects and play music. </p>
-<p>This is the primary point of sound and streaming audio playback management for users. If "prefer_platform_audio_management" in batterytech_config.txt is set to "true", this will attempt to use platform facilities instead of raw PCM playback when available. If it is set to false, this will always use raw PCM mixing and playback. When using raw PCM playback, streaming sounds will decode in real-time chunks of <a class="el" href="batterytech__globals_8h.html#a5459ba5913cdca17944ea93c8f065d69">PCM_AUDIO_STREAM_BUFFER_SIZE</a>. Add more buffers and decrease buffer size to decrease decoding lag in the main loop.</p>
-<p>Example: context-&gt;audioManager-&gt;loadSound("sounds/mysound.ogg") context-&gt;audioManager-&gt;playSound("sounds/mysound.ogg", 0, 1.0, 1.0, 1.0); context-&gt;audioManager-&gt;unloadSound("sounds/mysound.ogg") </p>
-</div><hr/><h2>Constructor &amp; Destructor Documentation</h2>
+<hr/><h2>Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a1562e420647bc90f6ba81ed34581e8af"></a>
 <div class="memitem">
 <div class="memproto">
@@ -213,8 +215,6 @@ Public Member Functions</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Used by platform to route PCM data. Do not use or modify or things may break. </p>
-
 </div>
 </div>
 <a class="anchor" id="a149f1ff0b02e650e132dde04b0e6ee85"></a>
@@ -230,8 +230,6 @@ Public Member Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
-<p>Is audio enabled? </p>
 <dl class="section return"><dt>Returns:</dt><dd><a class="el" href="primitives_8h.html#aa8cecfc5c5c054d2875c03e77b7be15d">TRUE</a> if enabled, <a class="el" href="primitives_8h.html#aa93f0eb578d23995850d61f7d61c55c1">FALSE</a> if not </dd></dl>
 
 </div>
@@ -250,8 +248,6 @@ Public Member Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
-<p>Loads a sound. </p>
 <p>Must be called before the sound can be played unless it is a streaming sound. Do not call for large, streaming sounds. Sound can be VERY memory consuming as it is decoded to PCM. To calculate how much memory it is using, Multiply the sound length, rate and channels by 2 (for 16 bit). 60 seconds of 44.1khz mono = 5.3MB! For mobile, try to use 22.1khz mono sounds and trim empty sound off the ends to save space. Platform-specific implementations (when not using native PCM mixing) may not decode all sounds to memory.</p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
@@ -304,8 +300,6 @@ Public Member Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
-<p>Plays a sound that was loaded calling <a class="el" href="class_battery_tech_1_1_audio_manager.html#ab02244163aab64546732c0ed7edb6ca9">loadSound</a> prior. </p>
 <p>Each sound is played on a stream and needs to have already been loaded by <a class="el" href="class_battery_tech_1_1_audio_manager.html#ab02244163aab64546732c0ed7edb6ca9">loadSound</a></p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
@@ -363,8 +357,6 @@ Public Member Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
-<p>Plays a streaming sound. Streaming sounds should NOT be loaded ahead of time. </p>
 <p>The sound will be decoded in small chunks while playing. See <a class="el" href="batterytech__globals_8h.html">batterytech_globals.h</a> for decoding performance settings.</p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
@@ -394,8 +386,6 @@ Public Member Functions</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Enable or Disable audio here. </p>
-
 </div>
 </div>
 <a class="anchor" id="ae20ab3e0d7def00735b950c7316486c9"></a>
@@ -422,8 +412,6 @@ Public Member Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
-<p>Changes the number of loops for a sound's stream ID. </p>
 <p>Works on normal and streaming sound. May not work with platform-implemented streaming sound.</p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
@@ -459,8 +447,6 @@ Public Member Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
-<p>Changes the playback rate for a sound's stream. </p>
 <p>Works on normal and streaming sound. May not work with platform-implemented streaming sound.</p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
@@ -502,8 +488,6 @@ Public Member Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
-<p>Changes the volume for a sound's stream. </p>
 <p>Works on normal and streaming sound. May not work with platform-implemented streaming sound.</p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
@@ -530,8 +514,6 @@ Public Member Functions</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Stops all currently playing sounds started with <a class="el" href="class_battery_tech_1_1_audio_manager.html#aa0310b229534242d66bfcfb24d2848bf">playSound</a>. </p>
-
 </div>
 </div>
 <a class="anchor" id="a3640d2466fac6c35fdc39837b6127174"></a>
@@ -548,8 +530,6 @@ Public Member Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
-<p>Stops a sound's playback stream. </p>
 <p>Sorry for the confusion, but this is <em>not</em> the function to call to stop streaming sound.</p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
@@ -574,8 +554,6 @@ Public Member Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
-<p>Stops the sound's stream using the assetName. </p>
 <p>This is the recommended function to use to stop because you don't need to hold a streamId as a reference. This is also not the function to call to stop streaming audio, but rather a sound started with <a class="el" href="class_battery_tech_1_1_audio_manager.html#aa0310b229534242d66bfcfb24d2848bf">playSound</a></p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
@@ -600,8 +578,6 @@ Public Member Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
-<p>Stops a streaming sound that was started with <a class="el" href="class_battery_tech_1_1_audio_manager.html#afeed1d73d583766c77d4042d94c85605">playStreamingSound</a>. </p>
 <p>Do not use with non-streaming sounds.</p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
@@ -626,8 +602,6 @@ Public Member Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
-<p>Unloads a sound that was previously loaded by <a class="el" href="class_battery_tech_1_1_audio_manager.html#ab02244163aab64546732c0ed7edb6ca9">loadSound</a>. </p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramname">assetName</td><td>The asset filename of the sound that was loaded by <a class="el" href="class_battery_tech_1_1_audio_manager.html#ab02244163aab64546732c0ed7edb6ca9">loadSound</a> </td></tr>
@@ -651,8 +625,6 @@ Public Member Functions</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Needed to fill streaming sound buffers and is normally called from the BatteryTech update system. </p>
-
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
@@ -663,7 +635,7 @@ Public Member Functions</h2></td></tr>
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri May 18 2012 00:57:57 for BatteryTech SDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun May 20 2012 20:23:28 for BatteryTech SDK by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.0
 </small></address>

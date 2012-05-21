@@ -130,7 +130,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00032"></a><a class="code" href="class_battery_tech_1_1_hash_table_1_1_bucket.html#aadb62af37b969f33677e618640d90cd5">00032</a>                 K <a class="code" href="class_battery_tech_1_1_hash_table_1_1_bucket.html#aadb62af37b969f33677e618640d90cd5">key</a>;
 <a name="l00033"></a><a class="code" href="class_battery_tech_1_1_hash_table_1_1_bucket.html#a9ae830876d723ae76cbe5836a6ee42fb">00033</a>                 V <a class="code" href="class_battery_tech_1_1_hash_table_1_1_bucket.html#a9ae830876d723ae76cbe5836a6ee42fb">data</a>;
 <a name="l00034"></a><a class="code" href="class_battery_tech_1_1_hash_table_1_1_bucket.html#adbd68ee594d76069934621da7909f94e">00034</a>                 <a class="code" href="class_battery_tech_1_1_hash_table_1_1_bucket.html">Bucket</a> *<a class="code" href="class_battery_tech_1_1_hash_table_1_1_bucket.html#adbd68ee594d76069934621da7909f94e">next</a>;
-<a name="l00035"></a>00035                 <a class="code" href="class_battery_tech_1_1_hash_table_1_1_bucket.html#a1d9b1f68132ed246b87a336fb715b390">Bucket</a>(<span class="keyword">const</span> K &amp;<a class="code" href="class_battery_tech_1_1_hash_table_1_1_bucket.html#aadb62af37b969f33677e618640d90cd5">key</a>, <span class="keyword">const</span> V &amp;<a class="code" href="glext_8h.html#ae71d2e007af6a1d1ed622d3e8be266e2">data</a>, <a class="code" href="class_battery_tech_1_1_hash_table_1_1_bucket.html">Bucket</a> *<a class="code" href="class_battery_tech_1_1_hash_table_1_1_bucket.html#adbd68ee594d76069934621da7909f94e">next</a> = <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="The absence of anything.">NULL</a>);
+<a name="l00035"></a>00035                 <a class="code" href="class_battery_tech_1_1_hash_table_1_1_bucket.html#a1d9b1f68132ed246b87a336fb715b390">Bucket</a>(<span class="keyword">const</span> K &amp;<a class="code" href="class_battery_tech_1_1_hash_table_1_1_bucket.html#aadb62af37b969f33677e618640d90cd5">key</a>, <span class="keyword">const</span> V &amp;<a class="code" href="glext_8h.html#ae71d2e007af6a1d1ed622d3e8be266e2">data</a>, <a class="code" href="class_battery_tech_1_1_hash_table_1_1_bucket.html">Bucket</a> *<a class="code" href="class_battery_tech_1_1_hash_table_1_1_bucket.html#adbd68ee594d76069934621da7909f94e">next</a> = <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="Standard null, suitable for pointers.">NULL</a>);
 <a name="l00036"></a>00036         }**<a class="code" href="class_battery_tech_1_1_hash_table.html#aa193de69818156baaccec73e28451d3a">buckets</a>;
 <a name="l00037"></a>00037 
 <a name="l00038"></a>00038         <span class="comment">// The size of the hash array (see DEFAULT_HASH_ARRAY_SIZE)</span>
@@ -185,9 +185,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00087"></a>00087                 Iterator i;
 <a name="l00088"></a>00088                 i.<a class="code" href="struct_battery_tech_1_1_hash_table_1_1_iterator.html#afabffe699d19d0fcbc12bad875c04f61">index</a> = -1;
 <a name="l00089"></a>00089                 i.entriesVisited = 0;
-<a name="l00090"></a>00090                 i.bucket = <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="The absence of anything.">NULL</a>;
+<a name="l00090"></a>00090                 i.bucket = <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="Standard null, suitable for pointers.">NULL</a>;
 <a name="l00091"></a>00091                 i.hasNext = <a class="code" href="class_battery_tech_1_1_hash_table.html#ae40148935aba49a8ea37627212d9a79e">entries</a> &gt; 0;
-<a name="l00092"></a>00092                 i.key = <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="The absence of anything.">NULL</a>;
+<a name="l00092"></a>00092                 i.key = <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="Standard null, suitable for pointers.">NULL</a>;
 <a name="l00093"></a>00093                 <span class="keywordflow">return</span> i;
 <a name="l00094"></a>00094         }
 <a name="l00095"></a>00095 
@@ -200,12 +200,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00102"></a>00102 
 <a name="l00103"></a>00103 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> K, <span class="keyword">typename</span> V&gt;
 <a name="l00104"></a><a class="code" href="class_battery_tech_1_1_hash_table.html#ad35f20a0a9a6bc9871f7ae4998cccc2a">00104</a> <a class="code" href="class_battery_tech_1_1_hash_table.html">HashTable&lt;K, V&gt;</a>* <a class="code" href="class_battery_tech_1_1_hash_table.html#ad35f20a0a9a6bc9871f7ae4998cccc2a">HashTable&lt;K, V&gt;::operator=</a>(<a class="code" href="class_battery_tech_1_1_hash_table.html">HashTable&lt;K, V&gt;</a> *<a class="code" href="glext_8h.html#a65df8075f44f790953a8a10f65eba61f">table</a>) {
-<a name="l00105"></a>00105         <a class="code" href="class_battery_tech_1_1_hash_table_1_1_bucket.html">Bucket</a> *bucket = <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="The absence of anything.">NULL</a>;
+<a name="l00105"></a>00105         <a class="code" href="class_battery_tech_1_1_hash_table_1_1_bucket.html">Bucket</a> *bucket = <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="Standard null, suitable for pointers.">NULL</a>;
 <a name="l00106"></a>00106         this-&gt;clear();
 <a name="l00107"></a>00107         <span class="comment">// Iterate over all the buckets in &lt;table&gt;, copying over each entry.</span>
 <a name="l00108"></a>00108         <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; table-&gt;<a class="code" href="class_battery_tech_1_1_hash_table.html#a1eba927ad99d43b3dfd1dc6b53ef9d98">hashArraySize</a>; i++) {
 <a name="l00109"></a>00109                 bucket = table-&gt;<a class="code" href="class_battery_tech_1_1_hash_table.html#aa193de69818156baaccec73e28451d3a">buckets</a>[i];
-<a name="l00110"></a>00110                 <span class="keywordflow">while</span> (bucket != <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="The absence of anything.">NULL</a>) {
+<a name="l00110"></a>00110                 <span class="keywordflow">while</span> (bucket != <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="Standard null, suitable for pointers.">NULL</a>) {
 <a name="l00111"></a>00111                         put(bucket-&gt;<a class="code" href="class_battery_tech_1_1_hash_table_1_1_bucket.html#aadb62af37b969f33677e618640d90cd5">key</a>, bucket-&gt;<a class="code" href="class_battery_tech_1_1_hash_table_1_1_bucket.html#a9ae830876d723ae76cbe5836a6ee42fb">data</a>);
 <a name="l00112"></a>00112                         bucket = bucket-&gt;<a class="code" href="class_battery_tech_1_1_hash_table_1_1_bucket.html#adbd68ee594d76069934621da7909f94e">next</a>;
 <a name="l00113"></a>00113                 }
@@ -230,11 +230,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00132"></a>00132 
 <a name="l00133"></a>00133 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> K, <span class="keyword">typename</span> V&gt;
 <a name="l00134"></a><a class="code" href="class_battery_tech_1_1_hash_table.html#a3c2f51d4117c4fe436c2a8e770400fa9">00134</a> <a class="code" href="class_battery_tech_1_1_hash_table.html">HashTable&lt;K, V&gt;</a>::~HashTable&lt;K, V&gt;() {
-<a name="l00135"></a>00135         <a class="code" href="class_battery_tech_1_1_hash_table_1_1_bucket.html">Bucket</a> *currentBucket = <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="The absence of anything.">NULL</a>;
-<a name="l00136"></a>00136         <a class="code" href="class_battery_tech_1_1_hash_table_1_1_bucket.html">Bucket</a> *nextBucket = <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="The absence of anything.">NULL</a>;
+<a name="l00135"></a>00135         <a class="code" href="class_battery_tech_1_1_hash_table_1_1_bucket.html">Bucket</a> *currentBucket = <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="Standard null, suitable for pointers.">NULL</a>;
+<a name="l00136"></a>00136         <a class="code" href="class_battery_tech_1_1_hash_table_1_1_bucket.html">Bucket</a> *nextBucket = <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="Standard null, suitable for pointers.">NULL</a>;
 <a name="l00137"></a>00137         <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; hashArraySize; i++) {
 <a name="l00138"></a>00138                 currentBucket = buckets[i];
-<a name="l00139"></a>00139                 <span class="keywordflow">while</span> (currentBucket != <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="The absence of anything.">NULL</a>) {
+<a name="l00139"></a>00139                 <span class="keywordflow">while</span> (currentBucket != <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="Standard null, suitable for pointers.">NULL</a>) {
 <a name="l00140"></a>00140                         nextBucket = currentBucket-&gt;<a class="code" href="class_battery_tech_1_1_hash_table_1_1_bucket.html#adbd68ee594d76069934621da7909f94e">next</a>;
 <a name="l00141"></a>00141                         <span class="comment">// buckets are allocated with new</span>
 <a name="l00142"></a>00142                         <span class="keyword">delete</span> currentBucket;
@@ -260,7 +260,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00162"></a>00162         <span class="keywordtype">int</span> hashValue = hash(key);
 <a name="l00163"></a>00163         entries++;
 <a name="l00164"></a>00164         <a class="code" href="class_battery_tech_1_1_hash_table_1_1_bucket.html">Bucket</a> *bucket = <span class="keyword">new</span> <a class="code" href="class_battery_tech_1_1_hash_table_1_1_bucket.html">Bucket</a>(key, data);
-<a name="l00165"></a>00165         <span class="keywordflow">if</span> (buckets[hashValue] != <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="The absence of anything.">NULL</a>) {
+<a name="l00165"></a>00165         <span class="keywordflow">if</span> (buckets[hashValue] != <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="Standard null, suitable for pointers.">NULL</a>) {
 <a name="l00166"></a>00166                 bucket-&gt;<a class="code" href="class_battery_tech_1_1_hash_table_1_1_bucket.html#adbd68ee594d76069934621da7909f94e">next</a> = buckets[hashValue];
 <a name="l00167"></a>00167         }
 <a name="l00168"></a>00168         buckets[hashValue] = bucket;
@@ -269,15 +269,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00171"></a>00171 
 <a name="l00172"></a>00172 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> K, <span class="keyword">typename</span> V&gt;
 <a name="l00173"></a><a class="code" href="class_battery_tech_1_1_hash_table.html#ad9749a2f03849fc4e35fb8d409c8ee57">00173</a> <span class="keywordtype">bool</span> <a class="code" href="class_battery_tech_1_1_hash_table.html#ad9749a2f03849fc4e35fb8d409c8ee57">HashTable&lt;K, V&gt;::contains</a>(<span class="keyword">const</span> K &amp;key)<span class="keyword"> const </span>{
-<a name="l00174"></a>00174         <span class="keywordflow">return</span> findBucket(key, <span class="keyword">false</span>) != <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="The absence of anything.">NULL</a>;
+<a name="l00174"></a>00174         <span class="keywordflow">return</span> findBucket(key, <span class="keyword">false</span>) != <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="Standard null, suitable for pointers.">NULL</a>;
 <a name="l00175"></a>00175 }
 <a name="l00176"></a>00176 
 <a name="l00177"></a>00177 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> K, <span class="keyword">typename</span> V&gt;
 <a name="l00178"></a><a class="code" href="class_battery_tech_1_1_hash_table.html#aeb76fdb8b6e2f6c0d757fa3a421ec8d3">00178</a> <span class="keyword">typename</span> <a class="code" href="class_battery_tech_1_1_hash_table_1_1_bucket.html">HashTable&lt;K, V&gt;::Bucket</a>* <a class="code" href="class_battery_tech_1_1_hash_table.html#aeb76fdb8b6e2f6c0d757fa3a421ec8d3">HashTable&lt;K, V&gt;::findBucket</a>(<span class="keyword">const</span> K &amp;key, <span class="keywordtype">bool</span> <span class="keyword">remove</span>)<span class="keyword"> const </span>{
 <a name="l00179"></a>00179         <span class="keywordtype">int</span> hashValue = hash(key);
 <a name="l00180"></a>00180         <a class="code" href="class_battery_tech_1_1_hash_table_1_1_bucket.html">Bucket</a> *bucket = buckets[hashValue];
-<a name="l00181"></a>00181         <a class="code" href="class_battery_tech_1_1_hash_table_1_1_bucket.html">Bucket</a> *lastBucket = <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="The absence of anything.">NULL</a>;
-<a name="l00182"></a>00182         <span class="keywordflow">while</span> (bucket != <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="The absence of anything.">NULL</a>) {
+<a name="l00181"></a>00181         <a class="code" href="class_battery_tech_1_1_hash_table_1_1_bucket.html">Bucket</a> *lastBucket = <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="Standard null, suitable for pointers.">NULL</a>;
+<a name="l00182"></a>00182         <span class="keywordflow">while</span> (bucket != <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="Standard null, suitable for pointers.">NULL</a>) {
 <a name="l00183"></a>00183                 <span class="keywordflow">if</span> (bucket-&gt;<a class="code" href="class_battery_tech_1_1_hash_table_1_1_bucket.html#aadb62af37b969f33677e618640d90cd5">key</a> == key) {
 <a name="l00184"></a>00184                         <span class="keywordflow">if</span> (<span class="keyword">remove</span>) {
 <a name="l00185"></a>00185                                 <span class="comment">//relink</span>
@@ -288,10 +288,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00190"></a>00190                                                 buckets[hashValue] = bucket-&gt;<a class="code" href="class_battery_tech_1_1_hash_table_1_1_bucket.html#adbd68ee594d76069934621da7909f94e">next</a>;
 <a name="l00191"></a>00191                                         }
 <a name="l00192"></a>00192                                 } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (lastBucket) {
-<a name="l00193"></a>00193                                         lastBucket-&gt;<a class="code" href="class_battery_tech_1_1_hash_table_1_1_bucket.html#adbd68ee594d76069934621da7909f94e">next</a> = <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="The absence of anything.">NULL</a>;
+<a name="l00193"></a>00193                                         lastBucket-&gt;<a class="code" href="class_battery_tech_1_1_hash_table_1_1_bucket.html#adbd68ee594d76069934621da7909f94e">next</a> = <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="Standard null, suitable for pointers.">NULL</a>;
 <a name="l00194"></a>00194                                 } <span class="keywordflow">else</span> {
 <a name="l00195"></a>00195                                         <span class="comment">// no next, no last, is only bucket in hash array element</span>
-<a name="l00196"></a>00196                                         buckets[hashValue] = <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="The absence of anything.">NULL</a>;
+<a name="l00196"></a>00196                                         buckets[hashValue] = <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="Standard null, suitable for pointers.">NULL</a>;
 <a name="l00197"></a>00197                                 }
 <a name="l00198"></a>00198                         }
 <a name="l00199"></a>00199                         <span class="keywordflow">return</span> bucket;
@@ -299,7 +299,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00201"></a>00201                 lastBucket = bucket;
 <a name="l00202"></a>00202                 bucket = bucket-&gt;<a class="code" href="class_battery_tech_1_1_hash_table_1_1_bucket.html#adbd68ee594d76069934621da7909f94e">next</a>;
 <a name="l00203"></a>00203         }
-<a name="l00204"></a>00204         <span class="keywordflow">return</span> <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="The absence of anything.">NULL</a>;
+<a name="l00204"></a>00204         <span class="keywordflow">return</span> <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="Standard null, suitable for pointers.">NULL</a>;
 <a name="l00205"></a>00205 }
 <a name="l00206"></a>00206 
 <a name="l00207"></a>00207 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> K, <span class="keyword">typename</span> V&gt;
@@ -329,19 +329,19 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00231"></a>00231         }
 <a name="l00232"></a>00232 
 <a name="l00233"></a>00233         iterator.<a class="code" href="struct_battery_tech_1_1_hash_table_1_1_iterator.html#ac8e1a45d2a8ee3242ac0a73c44082473">hasNext</a> = <span class="keyword">false</span>;
-<a name="l00234"></a>00234         <span class="keywordflow">return</span> <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="The absence of anything.">NULL</a>;
+<a name="l00234"></a>00234         <span class="keywordflow">return</span> <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="Standard null, suitable for pointers.">NULL</a>;
 <a name="l00235"></a>00235 }
 <a name="l00236"></a>00236 
 <a name="l00237"></a>00237 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> K, <span class="keyword">typename</span> V&gt;
 <a name="l00238"></a><a class="code" href="class_battery_tech_1_1_hash_table.html#ae7ae970206d61f1f70c5eb96dd765ed3">00238</a> <a class="code" href="class_battery_tech_1_1_hash_table.html">HashTable&lt;K, V&gt;</a>* <a class="code" href="class_battery_tech_1_1_hash_table.html#ae7ae970206d61f1f70c5eb96dd765ed3">HashTable&lt;K, V&gt;::clear</a>() {
 <a name="l00239"></a>00239         <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; hashArraySize; i++) {
 <a name="l00240"></a>00240                 <a class="code" href="class_battery_tech_1_1_hash_table_1_1_bucket.html">Bucket</a> *bucket = buckets[i];
-<a name="l00241"></a>00241                 <span class="keywordflow">while</span> (bucket != <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="The absence of anything.">NULL</a>) {
+<a name="l00241"></a>00241                 <span class="keywordflow">while</span> (bucket != <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="Standard null, suitable for pointers.">NULL</a>) {
 <a name="l00242"></a>00242                         <a class="code" href="class_battery_tech_1_1_hash_table_1_1_bucket.html">Bucket</a> *next_bucket = bucket-&gt;<a class="code" href="class_battery_tech_1_1_hash_table_1_1_bucket.html#adbd68ee594d76069934621da7909f94e">next</a>;
 <a name="l00243"></a>00243                         <span class="keyword">delete</span> bucket;
 <a name="l00244"></a>00244                         bucket = next_bucket;
 <a name="l00245"></a>00245                 }
-<a name="l00246"></a>00246                 buckets[i] = <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="The absence of anything.">NULL</a>;
+<a name="l00246"></a>00246                 buckets[i] = <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="Standard null, suitable for pointers.">NULL</a>;
 <a name="l00247"></a>00247         }
 <a name="l00248"></a>00248         entries = 0;
 <a name="l00249"></a>00249         <span class="comment">// FIXME: This should probably use the original size that was passed in constructor, cache it?</span>
@@ -356,13 +356,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00258"></a><a class="code" href="class_battery_tech_1_1_hash_table.html#af7f2c980dd4a178ab7c7d8f950af87dc">00258</a> <a class="code" href="class_battery_tech_1_1_hash_table.html">HashTable&lt;K, V&gt;</a>* <a class="code" href="class_battery_tech_1_1_hash_table.html#af7f2c980dd4a178ab7c7d8f950af87dc">HashTable&lt;K, V&gt;::deleteElements</a>() {
 <a name="l00259"></a>00259         <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; hashArraySize; i++) {
 <a name="l00260"></a>00260                 <a class="code" href="class_battery_tech_1_1_hash_table_1_1_bucket.html">Bucket</a> *bucket = buckets[i];
-<a name="l00261"></a>00261                 <span class="keywordflow">while</span> (bucket != <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="The absence of anything.">NULL</a>) {
+<a name="l00261"></a>00261                 <span class="keywordflow">while</span> (bucket != <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="Standard null, suitable for pointers.">NULL</a>) {
 <a name="l00262"></a>00262                         <a class="code" href="class_battery_tech_1_1_hash_table_1_1_bucket.html">Bucket</a> *next_bucket = bucket-&gt;<a class="code" href="class_battery_tech_1_1_hash_table_1_1_bucket.html#adbd68ee594d76069934621da7909f94e">next</a>;
 <a name="l00263"></a>00263                         <span class="keyword">delete</span> bucket-&gt;<a class="code" href="class_battery_tech_1_1_hash_table_1_1_bucket.html#a9ae830876d723ae76cbe5836a6ee42fb">data</a>;
 <a name="l00264"></a>00264                         <span class="keyword">delete</span> bucket;
 <a name="l00265"></a>00265                         bucket = next_bucket;
 <a name="l00266"></a>00266                 }
-<a name="l00267"></a>00267                 buckets[i] = <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="The absence of anything.">NULL</a>;
+<a name="l00267"></a>00267                 buckets[i] = <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="Standard null, suitable for pointers.">NULL</a>;
 <a name="l00268"></a>00268         }
 <a name="l00269"></a>00269         entries = 0;
 <a name="l00270"></a>00270         <span class="comment">// FIXME: This should probably use the original size that was passed in constructor, cache it?</span>
@@ -377,7 +377,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00279"></a><a class="code" href="class_battery_tech_1_1_hash_table.html#a4e5046557611681acc827549997ac80c">00279</a> V <a class="code" href="class_battery_tech_1_1_hash_table.html#a4e5046557611681acc827549997ac80c">HashTable&lt;K, V&gt;::get</a>(<span class="keyword">const</span> K &amp;key) {
 <a name="l00280"></a>00280         <a class="code" href="class_battery_tech_1_1_hash_table_1_1_bucket.html">Bucket</a> *bucket = findBucket(key, <span class="keyword">false</span>);
 <a name="l00281"></a>00281         <span class="keywordflow">if</span> (!bucket) {
-<a name="l00282"></a>00282                 <span class="keywordflow">return</span> <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="The absence of anything.">NULL</a>;
+<a name="l00282"></a>00282                 <span class="keywordflow">return</span> <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="Standard null, suitable for pointers.">NULL</a>;
 <a name="l00283"></a>00283         }
 <a name="l00284"></a>00284         <span class="keywordflow">return</span> bucket-&gt;<a class="code" href="class_battery_tech_1_1_hash_table_1_1_bucket.html#a9ae830876d723ae76cbe5836a6ee42fb">data</a>;
 <a name="l00285"></a>00285 }
@@ -386,7 +386,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00288"></a><a class="code" href="class_battery_tech_1_1_hash_table.html#a1b7d6933a2079ee31654f70de4b55488">00288</a> V <a class="code" href="class_battery_tech_1_1_hash_table.html#a1b7d6933a2079ee31654f70de4b55488">HashTable&lt;K, V&gt;::remove</a>(<span class="keyword">const</span> K &amp;key) {
 <a name="l00289"></a>00289         <a class="code" href="class_battery_tech_1_1_hash_table_1_1_bucket.html">Bucket</a> *bucket = findBucket(key, <span class="keyword">true</span>);
 <a name="l00290"></a>00290         <span class="keywordflow">if</span> (!bucket) {
-<a name="l00291"></a>00291                 <span class="keywordflow">return</span> <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="The absence of anything.">NULL</a>;
+<a name="l00291"></a>00291                 <span class="keywordflow">return</span> <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="Standard null, suitable for pointers.">NULL</a>;
 <a name="l00292"></a>00292         }
 <a name="l00293"></a>00293         V <a class="code" href="glext_8h.html#ae71d2e007af6a1d1ed622d3e8be266e2">data</a> = bucket-&gt;<a class="code" href="class_battery_tech_1_1_hash_table_1_1_bucket.html#a9ae830876d723ae76cbe5836a6ee42fb">data</a>;
 <a name="l00294"></a>00294         <span class="comment">// bucket allocated with new</span>
@@ -424,8 +424,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00326"></a><a class="code" href="class_battery_tech_1_1_str_hash_table.html#a9b22bc7cb92086717d0ca11a2de4927e">00326</a> <span class="keyword">typename</span> <a class="code" href="class_battery_tech_1_1_str_hash_table.html">StrHashTable&lt;V&gt;::Bucket</a>* <a class="code" href="class_battery_tech_1_1_str_hash_table.html#a9b22bc7cb92086717d0ca11a2de4927e">StrHashTable&lt;V&gt;::findBucket</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* key, <span class="keywordtype">bool</span> <span class="keyword">remove</span>)<span class="keyword"> const </span>{
 <a name="l00327"></a>00327         <span class="keywordtype">int</span> hashValue = hash(key);
 <a name="l00328"></a>00328         <span class="keyword">typename</span> <a class="code" href="class_battery_tech_1_1_hash_table.html">HashTable&lt;char*, V&gt;::Bucket</a> *bucket = <a class="code" href="class_battery_tech_1_1_hash_table.html">HashTable&lt;char*, V&gt;::buckets</a>[hashValue];
-<a name="l00329"></a>00329         <span class="keyword">typename</span> <a class="code" href="class_battery_tech_1_1_hash_table.html">HashTable&lt;char*, V&gt;::Bucket</a> *lastBucket = <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="The absence of anything.">NULL</a>;
-<a name="l00330"></a>00330         <span class="keywordflow">while</span> (bucket != <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="The absence of anything.">NULL</a>) {
+<a name="l00329"></a>00329         <span class="keyword">typename</span> <a class="code" href="class_battery_tech_1_1_hash_table.html">HashTable&lt;char*, V&gt;::Bucket</a> *lastBucket = <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="Standard null, suitable for pointers.">NULL</a>;
+<a name="l00330"></a>00330         <span class="keywordflow">while</span> (bucket != <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="Standard null, suitable for pointers.">NULL</a>) {
 <a name="l00331"></a>00331                 <span class="keywordflow">if</span> (strcmp(bucket-&gt;key,key) == 0) {
 <a name="l00332"></a>00332                         <span class="keywordflow">if</span> (<span class="keyword">remove</span>) {
 <a name="l00333"></a>00333                                 <span class="comment">//relink</span>
@@ -436,17 +436,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00338"></a>00338                                                 <a class="code" href="class_battery_tech_1_1_hash_table.html">HashTable&lt;char*, V&gt;::buckets</a>[hashValue] = bucket-&gt;next;
 <a name="l00339"></a>00339                                         }
 <a name="l00340"></a>00340                                 } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (lastBucket) {
-<a name="l00341"></a>00341                                         lastBucket-&gt;next = <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="The absence of anything.">NULL</a>;
+<a name="l00341"></a>00341                                         lastBucket-&gt;next = <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="Standard null, suitable for pointers.">NULL</a>;
 <a name="l00342"></a>00342                                 } <span class="keywordflow">else</span> {
 <a name="l00343"></a>00343                                         <span class="comment">// no next, no last, is only bucket in hash array element</span>
-<a name="l00344"></a>00344                                         <a class="code" href="class_battery_tech_1_1_hash_table.html">HashTable&lt;char*, V&gt;::buckets</a>[hashValue] = <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="The absence of anything.">NULL</a>;
+<a name="l00344"></a>00344                                         <a class="code" href="class_battery_tech_1_1_hash_table.html">HashTable&lt;char*, V&gt;::buckets</a>[hashValue] = <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="Standard null, suitable for pointers.">NULL</a>;
 <a name="l00345"></a>00345                                 }
 <a name="l00346"></a>00346                         }
 <a name="l00347"></a>00347                         <span class="keywordflow">return</span> bucket;
 <a name="l00348"></a>00348                 }
 <a name="l00349"></a>00349                 bucket = bucket-&gt;next;
 <a name="l00350"></a>00350         }
-<a name="l00351"></a>00351         <span class="keywordflow">return</span> <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="The absence of anything.">NULL</a>;
+<a name="l00351"></a>00351         <span class="keywordflow">return</span> <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="Standard null, suitable for pointers.">NULL</a>;
 <a name="l00352"></a>00352 }
 <a name="l00353"></a>00353 
 <a name="l00354"></a>00354 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> V&gt;
@@ -479,7 +479,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00381"></a>00381 <span class="comment">         value, prepend the new one to the existing list.  Regardless,</span>
 <a name="l00382"></a>00382 <span class="comment">         update the Bucket pointer in the hash array.</span>
 <a name="l00383"></a>00383 <span class="comment">         */</span>
-<a name="l00384"></a>00384         <span class="keywordflow">if</span> (<a class="code" href="class_battery_tech_1_1_hash_table.html">HashTable&lt;char*, V&gt;::buckets</a>[hashValue] != <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="The absence of anything.">NULL</a>) {
+<a name="l00384"></a>00384         <span class="keywordflow">if</span> (<a class="code" href="class_battery_tech_1_1_hash_table.html">HashTable&lt;char*, V&gt;::buckets</a>[hashValue] != <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="Standard null, suitable for pointers.">NULL</a>) {
 <a name="l00385"></a>00385                 bucket-&gt;next = <a class="code" href="class_battery_tech_1_1_hash_table.html">HashTable&lt;char*, V&gt;::buckets</a>[hashValue];
 <a name="l00386"></a>00386         }
 <a name="l00387"></a>00387         <a class="code" href="class_battery_tech_1_1_hash_table.html">HashTable&lt;char*, V&gt;::buckets</a>[hashValue] = bucket;
@@ -488,14 +488,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00390"></a>00390 
 <a name="l00391"></a>00391 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> V&gt;
 <a name="l00392"></a><a class="code" href="class_battery_tech_1_1_str_hash_table.html#aa257ef3fb1985f71b113019944e5c4b0">00392</a> <span class="keywordtype">bool</span> <a class="code" href="class_battery_tech_1_1_str_hash_table.html#aa257ef3fb1985f71b113019944e5c4b0">StrHashTable&lt;V&gt;::contains</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* key)<span class="keyword"> const </span>{
-<a name="l00393"></a>00393         <span class="keywordflow">return</span> findBucket(key, <span class="keyword">false</span>) != <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="The absence of anything.">NULL</a>;
+<a name="l00393"></a>00393         <span class="keywordflow">return</span> findBucket(key, <span class="keyword">false</span>) != <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="Standard null, suitable for pointers.">NULL</a>;
 <a name="l00394"></a>00394 }
 <a name="l00395"></a>00395 
 <a name="l00396"></a>00396 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> V&gt;
 <a name="l00397"></a><a class="code" href="class_battery_tech_1_1_str_hash_table.html#a513f7bf8d6ab1eb3f050a41689b6bdcb">00397</a> V <a class="code" href="class_battery_tech_1_1_str_hash_table.html#a513f7bf8d6ab1eb3f050a41689b6bdcb">StrHashTable&lt;V&gt;::get</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* key) {
 <a name="l00398"></a>00398         <span class="keyword">typename</span> <a class="code" href="class_battery_tech_1_1_hash_table.html">HashTable&lt;char*, V&gt;::Bucket</a> *bucket = findBucket(key, <span class="keyword">false</span>);
 <a name="l00399"></a>00399         <span class="keywordflow">if</span> (!bucket) {
-<a name="l00400"></a>00400                 <span class="keywordflow">return</span> <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="The absence of anything.">NULL</a>;
+<a name="l00400"></a>00400                 <span class="keywordflow">return</span> <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="Standard null, suitable for pointers.">NULL</a>;
 <a name="l00401"></a>00401         }
 <a name="l00402"></a>00402         <span class="keywordflow">return</span> bucket-&gt;data;
 <a name="l00403"></a>00403 }
@@ -504,7 +504,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00406"></a><a class="code" href="class_battery_tech_1_1_str_hash_table.html#a7323d6bbe2829f8c8e7c6d713ef264b0">00406</a> V <a class="code" href="class_battery_tech_1_1_str_hash_table.html#a7323d6bbe2829f8c8e7c6d713ef264b0">StrHashTable&lt;V&gt;::remove</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* key) {
 <a name="l00407"></a>00407         <span class="keyword">typename</span> <a class="code" href="class_battery_tech_1_1_hash_table.html">HashTable&lt;char*, V&gt;::Bucket</a> *bucket = findBucket(key, <span class="keyword">true</span>);
 <a name="l00408"></a>00408         <span class="keywordflow">if</span> (!bucket) {
-<a name="l00409"></a>00409                 <span class="keywordflow">return</span> <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="The absence of anything.">NULL</a>;
+<a name="l00409"></a>00409                 <span class="keywordflow">return</span> <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="Standard null, suitable for pointers.">NULL</a>;
 <a name="l00410"></a>00410         }
 <a name="l00411"></a>00411         V <a class="code" href="glext_8h.html#ae71d2e007af6a1d1ed622d3e8be266e2">data</a> = bucket-&gt;data;
 <a name="l00412"></a>00412         <span class="comment">// bucket key is string we allocated with new</span>
@@ -521,7 +521,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri May 18 2012 00:57:56 for BatteryTech SDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun May 20 2012 20:23:27 for BatteryTech SDK by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.0
 </small></address>

@@ -311,21 +311,41 @@ void _platform_stop_streaming_sound(const char *assetName);
 
 /**
  * \defgroup Vibration Vibration Control
+ * \brief Support for vibration effect playback
+ *
+ * Most systems do not have robust vibration control, but specifically on Android, there are systems such as Immersion Technology's Motiv or UHL
+ * which can play a variety of effects at various intensities.  Such systems will need to be integrated on the Android platform side.  Stock Android
+ * vibration support can also be integrated instead.  Please follow the instructions in the section on Integrating platform-specific systems for
+ * additional information.
+ *
  * @{
  */
 
 //-------------- Vibration -------------
 
-// Plays a vibration effect (effect implementation is platform-specific)
+/** \brief Plays a vibration effect
+ *
+ * \param effectId The effect ID number to play (implementation-specific)
+ * \param intensity The intensity to play the effect at (implementation-specific)
+ */
 void _platform_play_vibration_effect(S32 effectId, F32 intensity);
 
-// Starts a repeating vibration effect (effect implementation is platform-specific)
+/** \brief Starts a repeating vibration effect
+ *
+ * \param effectId The effect ID number to play (implementation-specific)
+ * \param intensity The intensity to play the effect at (implementation-specific)
+ */
 void _platform_start_vibration_effect(S32 effectId, F32 intensity);
 
-// Stops a repeating vibration effect (effect implementation is platform-specific)
+/** \brief Stops a repeating vibration effect
+ *
+ * \param effectId The effect ID number to stop (implementation-specific)
+ */
 void _platform_stop_vibration_effect(S32 effectId);
 
-// Stops all vibration effects (effect implementation is platform-specific)
+/** \brief Stops all vibratoin effects
+ *
+ */
 void _platform_stop_all_vibration_effects();
 
 
@@ -334,30 +354,82 @@ void _platform_stop_all_vibration_effects();
 
 /**
  * \defgroup Networking Networking
+ * \brief POSIX Socket-based network support
+ *
+ * Most platforms natively support standard BSD or POSIX sockets but for those that don't, simply including \ref platformgeneral.h will include, define or redefine
+ * macros to support POSIX.  Applications can count on standard functions such as socket, bind, setsockopt, send, recv, inet_pton, inet_ntop, getaddrinfo and getnameinfo
+ *
+ * A few specific functions that are not defined as part of the POSIX sockets specification are implemented as _platform functions and documented here.
+ *
+ * For more information on using Berkeley/POSIX sockets, please visit the wikipedia link in the see also section.
+ *
+ * BatteryTech includes a default implementation of message-based client/host game networking in the following classes:
+ * \ref BatteryTech::NetworkManager, \ref BatteryTech::GameConnection, \ref BatteryTech::NetworkMessage
+ *
+ * \see http://en.wikipedia.org/wiki/Berkeley_socket
  * @{
  */
 
 //-------------- Networking -------------
 
-// Initializes networking for platforms that need it
+/** \brief Initializes networking for platforms that need it
+ *
+ * This is called by \ref BatteryTech::NetworkManager but should custom network code be used, this function should always be called before other network
+ * functions because it is required by certain platforms such as Windows to initialize sockets before they can be used.
+ */
 void _platform_init_network();
 
-// Releases networking for platforms that need it
+/** \brief Releases networking for platforms that need it
+ *
+ * This is called by \ref BatteryTech::NetworkManager bu should custom network code be used, this function should always be called before application shutdown
+ * to release networking resources for certain platforms such as Windows.
+ */
 void _platform_release_network();
 
-// Makes a socket non-blocking
+/** \brief Makes a socket non-blocking
+ *
+ * \param socket The socket to make non-blocking
+ */
 void _platform_make_non_blocking(SOCKET socket);
 
-// Gets the last socket error state
+/** \brief Gets the last socket error state
+ *
+ * \return An error code or EWOULDBLOCK if socket is non-blocking
+ */
 S32 _platform_get_socket_last_error();
 
-// Gets a list of network interface addresses, returning number of which into count
+/** \brief Gets a list of network interface addresses
+ *
+ * You must free the list returned by \ref _platform_free_ifaddrs when done
+ *
+ * \param count OUT - number of ifaddrs
+ * \return a list of socket interface addresses
+ */
 char** _platform_get_ifaddrs(int *count);
 
-// Frees the list of interface addresses acquired by _platform_get_ifaddrs
+/** \brief Frees the list of interface addresses acquired by _platform_get_ifaddrs
+ *
+ * \param ifaddrs The list of ifaddrs acquired by \ref _platform_get_ifaddrs
+ * \param count The count set by \ref _platform_get_ifaddrs
+ */
 void _platform_free_ifaddrs(char** ifaddrs, int count);
 
-// Gets the internet address of a sockaddr structure
+/** \brief Gets the internet address of a sockaddr structure
+ *
+ * A sockaddr structure is used throughout standard BSD sockets but translating to an internet address is platform-specific.
+ *
+ * Here is an example to find the hostname from a packet received via udp:
+ * \code
+ *  struct sockaddr_storage their_addr;
+ *  recvfrom(udpListenerSocket, buf, UDPBUFLEN-1 , 0, (struct sockaddr *)&their_addr, &addr_len))
+ *	const char *hostname = inet_ntop(their_addr.ss_family,
+ *		get_in_addr((struct sockaddr *)&their_addr),
+ *		s, sizeof s);
+ * \endcode
+ *
+ * \param sa The socket address to look up
+ * \return The internet address of the socket
+ */
 void *get_in_addr(struct sockaddr *sa);
 
 
