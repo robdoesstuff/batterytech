@@ -54,6 +54,7 @@ var searchData=
   ['ortho',['ortho',['../struct_battery_tech_1_1_matrix4.html#a29fe9b143574bf17ca1efe3f631a7f13',1,'BatteryTech::Matrix4']]],
   ['osxgeneral_2eh',['osxgeneral.h',['../osxgeneral_8h.html',1,'']]],
   ['osxtypes_2eh',['osxtypes.h',['../osxtypes_8h.html',1,'']]],
+  ['other_20platform_20functions',['Other Platform Functions',['../group___other_platform.html',1,'']]],
   ['outw',['outW',['../glext_8h.html#a96a3a28dfe777a73f4956bdd24eac110',1,'glext.h']]],
   ['outx',['outX',['../glext_8h.html#ad456d85656f943078bc66c1814c2c073',1,'glext.h']]],
   ['outy',['outY',['../glext_8h.html#ab117d69745dd2957030b968f6ee21c4d',1,'glext.h']]],

@@ -5,6 +5,7 @@ var searchData=
   ['backgroundmenuresourceid',['backgroundMenuResourceId',['../class_battery_tech_1_1_u_i_component.html#afe7b8974a19c34ab6077c409d6eeb146',1,'BatteryTech::UIComponent']]],
   ['backlog',['BACKLOG',['../_network_manager_8cpp.html#aeefbbafa97642defe3ee6c3080b7d66f',1,'NetworkManager.cpp']]],
   ['basevertex',['basevertex',['../glext_8h.html#ac5fb3e0685b82086ceab09f11fac93fa',1,'glext.h']]],
+  ['batterytech',['BatteryTech',['../namespace_battery_tech.html',1,'']]],
   ['batterytech_2ecpp',['batterytech.cpp',['../batterytech_8cpp.html',1,'']]],
   ['batterytech_2edox',['batterytech.dox',['../batterytech_8dox.html',1,'']]],
   ['batterytech_2eh',['batterytech.h',['../batterytech_8h.html',1,'']]],

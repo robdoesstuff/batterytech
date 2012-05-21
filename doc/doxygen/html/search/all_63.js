@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['customizing_20android',['Customizing Android',['../group___android_hooks.html',1,'']]],
   ['c',['c',['../union_battery_tech_1_1_byte_util_1_1_union64.html#a7f994d5e2b28703d54535885ea1bac15',1,'BatteryTech::ByteUtil::Union64::c()'],['../union_battery_tech_1_1_byte_util_1_1_union32.html#a21e3eca191852db8dbf75ee1bdfd0ccf',1,'BatteryTech::ByteUtil::Union32::c()'],['../union_battery_tech_1_1_byte_util_1_1_union16.html#a7526b857d11e346998a9d332e03618be',1,'BatteryTech::ByteUtil::Union16::c()'],['../glext_8h.html#a1f2d7f8147412c43ba2303a56f97ee73',1,'c():&#160;glext.h']]],
   ['callbackdata',['callbackData',['../class_battery_tech_1_1_context.html#ad221e59d5557f457a3cbe47fc3ce5dda',1,'BatteryTech::Context']]],
   ['callbackdataready',['callbackDataReady',['../class_battery_tech_1_1_context.html#ac1f686d82c2c24bffe37754bdcd1466f',1,'BatteryTech::Context']]],
@@ -62,5 +63,8 @@ var searchData=
   ['createrotationaroundaxis',['createRotationAroundAxis',['../struct_battery_tech_1_1_matrix3.html#ac49cd4a0babf0b38459c25cc891d8ade',1,'BatteryTech::Matrix3::createRotationAroundAxis()'],['../struct_battery_tech_1_1_matrix4.html#aa55a769f42ab0f03e59b230feb18dfc4',1,'BatteryTech::Matrix4::createRotationAroundAxis()']]],
   ['createtranslation',['createTranslation',['../struct_battery_tech_1_1_matrix4.html#a884ff8e9b9d8c51a0423d5f6f2ffbe6d',1,'BatteryTech::Matrix4']]],
   ['cross',['cross',['../struct_battery_tech_1_1_vector3.html#a4eb95d6a546dd11666abb1502f79033e',1,'BatteryTech::Vector3']]],
-  ['currentprogram',['currentProgram',['../class_battery_tech_1_1_shader_program.html#a7312922ef371c1d51b31a1f581fc2ef9',1,'BatteryTech::ShaderProgram']]]
+  ['currentprogram',['currentProgram',['../class_battery_tech_1_1_shader_program.html#a7312922ef371c1d51b31a1f581fc2ef9',1,'BatteryTech::ShaderProgram']]],
+  ['customizing_20ios',['Customizing iOS',['../group__ios_hooks.html',1,'']]],
+  ['customizing_20osx',['Customizing OSX',['../group___o_s_x_hooks.html',1,'']]],
+  ['customizing_20windows',['Customizing Windows',['../group__win_hooks.html',1,'']]]
 ];
