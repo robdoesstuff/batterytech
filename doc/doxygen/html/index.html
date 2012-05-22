@@ -80,18 +80,42 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">Welcome to <a class="el" href="namespace_battery_tech.html">BatteryTech</a> SDK </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><h1><a class="anchor" id="starting_sec"></a>
-Getting Started</h1>
-<p>This is some info on getting started</p>
-<h1><a class="anchor" id="install_sec"></a>
-Installation</h1>
-<h2><a class="anchor" id="step1"></a>
-Step 1: Opening the box</h2>
-<p>etc... </p>
+<div class="textblock"><h1><a class="anchor" id="overview_sec"></a>
+Platform Overview</h1>
+<p>Included in the archive you downloaded you will find several directories of source. These directories are divided on the top level into libraries and projects.<br/>
+</p>
+<ul>
+<li>batterytech</li>
+<li>* src/batterytech = <a class="el" href="namespace_battery_tech.html">BatteryTech</a> core library</li>
+<li>* src/batterytech-android = <a class="el" href="namespace_battery_tech.html">BatteryTech</a> Android/Java classes</li>
+<li>* src/bt-assimp = Modified Assimp Library</li>
+<li>* src/bt-box2d = Modified Box2D Library</li>
+<li>* src/bt-bullet = Modified Bullet Physics Library</li>
+<li>* src/bt-lua = Modified Lua Library</li>
+<li>bt-helloworld = Hello World Project</li>
+<li>bt-box2ddemo = Box2D Demo all in C++</li>
+<li>bt-luaengine = The <a class="el" href="namespace_battery_tech.html">BatteryTech</a> Lua Game Engine</li>
+</ul>
+<p>The components of the core library are covered in the Modules section of this documentation. Please review the list of topics in that section for details.</p>
+<h1><a class="anchor" id="project_sec"></a>
+Anatomy of a BatteryTech project</h1>
+<p>Taking a look at the contents of bt-helloworld, you will find several directories:</p>
+<ul>
+<li>android = The Android Eclipse project</li>
+<li>app-src = The Project's source files</li>
+<li>assets = The Project's assets (images, sounds, fonts, configuration, etc)</li>
+<li>ios = The iOS XCode project</li>
+<li>osx = The OSX XCode project</li>
+<li>win = Eclipse/CDT and Visual Studio 2010 projects</li>
+</ul>
+<p>Please open the various projects in their respective IDEs and examine how source and assets are linked across projects. The common approach is to link common source from any of the <a class="el" href="namespace_battery_tech.html">BatteryTech</a> libraries along with application-specific source to create the final executable.</p>
+<h1><a class="anchor" id="tools_sec"></a>
+Tools support</h1>
+<p><a class="el" href="namespace_battery_tech.html">BatteryTech</a> adds support for a file format we call .BAI which stands for "Binary Asset Importer" and is effectively a light serialized format of the aiScene structure that the Open Asset Importer provides. We provide a tool called BAIConvert which can take OBJ and DAE (or other formats if you link in the source from Assimp) and output a BAI which will usually be smaller, be optimized and load faster than the original file. It is a format suitable for production use. </p>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue May 22 2012 14:34:05 for BatteryTech SDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue May 22 2012 14:54:42 for BatteryTech SDK by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1
 </small></address>

@@ -2,17 +2,44 @@
 
 namespace BatteryTech {
 
-/*! \mainpage Welcome to BatteryTech SDK
+/** \mainpage Welcome to BatteryTech SDK
  *
- * \section starting_sec Getting Started
+ * \section overview_sec Platform Overview
  *
- * This is some info on getting started
+ * Included in the archive you downloaded you will find several directories of source.  These directories are divided on the top level into libraries and projects.\n
+ * * batterytech
+ * * * src/batterytech = BatteryTech core library
+ * * * src/batterytech-android = BatteryTech Android/Java classes
+ * * * src/bt-assimp = Modified Assimp Library
+ * * * src/bt-box2d = Modified Box2D Library
+ * * * src/bt-bullet = Modified Bullet Physics Library
+ * * * src/bt-lua = Modified Lua Library
+ * * bt-helloworld = Hello World Project
+ * * bt-box2ddemo = Box2D Demo all in C++
+ * * bt-luaengine = The BatteryTech Lua Game Engine
  *
- * \section install_sec Installation
+ * The components of the core library are covered in the Modules section of this documentation.  Please review the list of topics in that section for details.
  *
- * \subsection step1 Step 1: Opening the box
+ * \section project_sec Anatomy of a BatteryTech project
  *
- * etc...
+ * Taking a look at the contents of bt-helloworld, you will find several directories:
+ * * android = The Android Eclipse project
+ * * app-src = The Project's source files
+ * * assets = The Project's assets (images, sounds, fonts, configuration, etc)
+ * * ios = The iOS XCode project
+ * * osx = The OSX XCode project
+ * * win = Eclipse/CDT and Visual Studio 2010 projects
+ *
+ * Please open the various projects in their respective IDEs and examine how source and assets are linked across projects.  The common approach is to link common
+ * source from any of the BatteryTech libraries along with application-specific source to create the final executable.
+ *
+ * \section tools_sec Tools support
+ *
+ * BatteryTech adds support for a file format we call .BAI which stands for "Binary Asset Importer" and is effectively a light serialized format of the aiScene
+ * structure that the Open Asset Importer provides.  We provide a tool called BAIConvert which can take OBJ and DAE (or other formats if you link in the source
+ * from Assimp) and output a BAI which will usually be smaller, be optimized and load faster than the original file.  It is a format suitable for production use.
+ *
+ *
  */
 
 
