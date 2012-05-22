@@ -92,10 +92,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a>  </div>
   <div class="headertitle">
-<div class="title">BatteryTech::Menu Class Reference</div>  </div>
+<div class="title">BatteryTech::Menu Class Reference<div class="ingroups"><a class="el" href="group___u_i.html">User Interface Library</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 
+<p>A UI <a class="el" href="class_battery_tech_1_1_menu.html" title="A UI Menu.">Menu</a>.  
+ <a href="class_battery_tech_1_1_menu.html#details">More...</a></p>
+<hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
+<div class="textblock"><p>Every menu has one root <a class="el" href="class_battery_tech_1_1_u_i_component.html" title="A User Interface ComponentThis is the foundation and base class of all User Interface Components in t...">UIComponent</a> of which all other UIComponents must be children or have parents that are children of.</p>
+<p>Only one menu at a time may be active (top of the menu stack) and menus may be pushed and popped off the stack. This works well for simple systems but does have limitations for how much compositing of multiple menus the screen may have. It is recommended to use shared layouts and components across different menus should the need for such complex UI systems arise. Another option is to instantiate additional UIManagers for larger, more customized UIs that need to support multiple active menus. </p>
+</div>
 <p><code>#include &lt;<a class="el" href="_menu_8h_source.html">batterytech/ui/Menu.h</a>&gt;</code></p>
 
 <p><a href="class_battery_tech_1_1_menu-members.html">List of all members.</a></p>
@@ -439,7 +445,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>The menu's ID (used by <a class="el" href="class_battery_tech_1_1_u_i_manager.html">UIManager</a>) </p>
+<p>The menu's ID (used by <a class="el" href="class_battery_tech_1_1_u_i_manager.html" title="A class which manages a set of Menus.">UIManager</a>) </p>
 
 </div>
 </div>
@@ -463,7 +469,7 @@ Public Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon May 21 2012 18:38:37 for BatteryTech SDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue May 22 2012 14:34:05 for BatteryTech SDK by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1
 </small></address>

@@ -83,10 +83,22 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <p>Customizing OSX with platform hooks.  
 <a href="#details">More...</a></p>
-</div><!-- contents -->
+<p>OSX Projects have a file called "osxhooks.mm" which allows a developer to implement hook functionality for OSX specifically for an application.</p>
+<div class="fragment"><div class="line"> <span class="keywordtype">void</span> <a class="code" href="group___hooks.html#ga662ce5f90aa1929272b8cf762fa375f3" title="Shows an ad (requires platform-specific and ad-sdk support)">_platform_show_ad</a>() {</div>
+<div class="line">        <span class="comment">// Call out to your ios ad integration piece here</span></div>
+<div class="line"> }</div>
+<div class="line"></div>
+<div class="line"> <span class="keywordtype">void</span> <a class="code" href="group___hooks.html#gaa9ebe3ffe128ddfd2686a7e8f3c5a68e" title="Hides an ad (requires platform-specific and ad-sdk support)">_platform_hide_ad</a>() {</div>
+<div class="line">        <span class="comment">// Call out to your ios ad integration piece here</span></div>
+<div class="line"> }</div>
+<div class="line"></div>
+<div class="line"> <span class="keywordtype">void</span> <a class="code" href="group___hooks.html#ga1bac3aa6df015cb5b34d7a380d852874" title="Any platform customizations can be done through this hook inteface.">_platform_hook</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *hook, <span class="keywordtype">char</span> *result, <a class="code" href="primitives_8h.html#a7fd0f901ce5fa28f2315830b2c4aea34" title="A signed 32 bit integer.">S32</a> resultLen) {</div>
+<div class="line">        <span class="comment">// Handle custom hooks here</span></div>
+<div class="line"> }</div>
+</div><!-- fragment --> </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon May 21 2012 18:38:36 for BatteryTech SDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue May 22 2012 14:34:05 for BatteryTech SDK by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1
 </small></address>

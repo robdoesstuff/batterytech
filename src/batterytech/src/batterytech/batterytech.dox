@@ -20,7 +20,56 @@ namespace BatteryTech {
 
 /**
  * \defgroup Entry Application Entry Points
- * \brief How your application comes to life through BatteryTech SDK
+ * \brief How your application comes to life
+ *
+ * A state-driven application such as a game generally has 2 phases:  Updating (calculating positions, object states, processing, triggering, etc) and Rendering to screen.
+ *
+ * Almost every game or high-performance application can be efficiently driven off of this paradigm, so BatteryTech requires that the following classes are extended:
+ *
+ * \ref BTApplicationUpdater which is used to update the application state\n
+ * \ref BTApplicationRenderer which is used to render the application with OpenGL ES\n
+ * BT gains access to your implementations of these two classes via an extended context which a BT app must provide via a global implementation of the following:\n
+ * \ref btAppCreateContext
+ *
+ * Here is a basic example:
+ * \code
+ *  // AppContext.h
+ * class AppContext : public Context {
+ * public:
+ *     AppContext(GraphicsConfiguration *gConfig);
+ *     virtual ~AppContext();
+ *     HelloWorldApp *app;
+ * };
+ *  //
+ *  // AppContext.cpp
+ * AppContext::AppContext(GraphicsConfiguration *gConfig) : Context(gConfig) {
+ *     app = new HelloWorldApp(this);
+ *     appUpdater = app;
+ *     appRenderer = app;
+ * }
+ * //
+ * AppContext::~AppContext() {
+ *     delete app;
+ *     app = NULL;
+ * }
+ * //
+ *  // App.h
+ * class App : public BTApplicationUpdater, public BTApplicationRenderer {
+ * public:
+ *     HelloWorldApp(AppContext *context);
+ *     virtual ~HelloWorldApp();
+ *     virtual void update();
+ *     virtual void render();
+ * }
+ * //
+ *  // App.cpp
+ * Context* btAppCreateContext(GraphicsConfiguration *graphicsConfig) {
+ *     return new GameContext(graphicsConfig);
+ * }
+ * \endcode
+ *
+ * So you can have a single class extend both BTApplicationUpdater and BTApplicationRenderer, or you also have the option of having different classes extend
+ * each of those classes respectively.  However you want to set up your entry, you have complete control of that by extending Context with your application's context.
  */
  
 /**
@@ -380,17 +429,179 @@ namespace BatteryTech {
  /**
  * \defgroup Hooks Platform Hooks
  * \brief Customizing per-platform and integrating with 3rd party systems
+ *
  * \defgroup AndroidHooks Customizing Android
  * \brief Customizing Android with platform hooks
+ *
+ * Customizing your Android build is as simple as extending BatteryTechActivity and adding your customizations or overriding the hook methods.
+ *
+ * Example:
+ * \code{.java}
+ * class MyActivity extends BatteryTechActivity implements BatteryTechHookHandler {
+ *
+ *	@Override
+ *	public BatteryTechHookHandler getHookHandler() {
+ *		// with this, we are declaring that this class will be handling the hook functions
+ *		return this;
+ *	}
+ *
+ * 	@Override
+ *	public GLSettings createGLSettings() {
+ * 		// we need to use only GLES 2.0 for this application
+ * 		return new GLSettings() {
+ * 			@Override
+ * 			public boolean supportGLES2() {
+ * 				return true;
+ * 			}
+ * 		};
+ * 	}
+ *
+ * 	public void showAd() {
+ * 		// integrate with your ad provider
+ * 	}
+ *
+ * 	public void hideAd() {
+ * 		// integrate with your ad provider
+ * 	}
+ *
+ * 	public String hook(String hook) {
+ * 		// easily handle custom behavior here
+ * 		if (hook.startsWith("showCameraPreview")) {
+ * 			// insert our camera preview under the batterytech view
+ * 		} else if (hook.startsWith("hideCameraPreview")) {
+ * 			// if shown, remove our camera preview
+ * 		}
+ * 	}
+ * }
+ * \endcode
+ *
+ * In addition to the extension capabilities, you have a standard Android project of which you can use out-of-the-box solutions for a number of 3rd party providers.
+ * Please review the standard Android developer documentation for details about customizing the manifest or selecting deployment options.
+ *
  * \ingroup Hooks
+ *
  * \defgroup iosHooks Customizing iOS
  * \brief Customizing iOS with platform hooks
+ *
+ * Your iOS build comes in the form of a standard XCode project of which there is a single view controller, batterytechViewController.  Extending batterytechViewController
+ * gives you the flexibility to add other views over or under your EAGLView (the primary view BT uses) or integrate with 3rd party products.
+ *
+ * Example:
+ * \code
+ *  // MyBTViewController.h
+ * #import "batterytechViewController.h"
+ *
+ * @interface MyBTViewController : batterytechViewController
+ * @end
+ *  //
+ *  //
+ *  // MyBTViewController.m
+ *
+ *  #import "MyBTViewController.h"
+ *
+ *  @interface MyBTViewController ()
+ *  @end
+ *
+ *  @implementation MyBTViewController
+ *  - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+ *  {
+ *      self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+ *      if (self) {
+ *          // Custom initialization
+ *      }
+ *      return self;
+ *  }
+ *
+ *  - (void)viewDidLoad
+ *  {
+ *      [super viewDidLoad];
+ *      // Do any additional setup after loading the view from its nib.
+ *  }
+ *
+ *  - (void)viewDidUnload
+ *  {
+ *      [super viewDidUnload];
+ *      // Release any retained subviews of the main view.
+ *      // e.g. self.myOutlet = nil;
+ *  }
+ *
+ *  // BatteryTech overrides (the reason we created this subclass)
+ *
+ *  - (void)showAd {
+ *  }
+ *
+ *  - (void)hideAd {
+ *  }
+ *
+ *  - (void)hook:(const char*)hookData withResult:(char*) result withResultLen:(int) resultLen {
+ *  	if (strStartsWith(hookData, "showCameraPreview")) {
+ *  		// fire up the camera preview and insert the view into the chain
+ *  	} else if (strStartsWith(hookData, "hideCameraPreview")) {
+ *  		// if we're showing the camera, hide it now
+ *  	}
+ *  }
+ *
+ *  - (bool) useGLES2 {
+ *      return TRUE;
+ *  }
+ *
+ *  - (bool) forceLandscape {
+ *      return TRUE;
+ *  }
+ *
+ *  @end
+ * \endcode
+ *
+ * Because a standard XCode project is used, virtually any library or third party application can be integrated with your BT App using standard techniques.  Please consult
+ * Apple's developer documentation for additional details about developing for iOS.
+ *
  * \ingroup Hooks
+ *
  * \defgroup winHooks Customizing Windows
  * \brief Customizing Windows with platform hooks
+ *
+ * Every BatteryTech application includes a file called WinHooks.cpp which defines the hook functionality for the Windows platform.
+ *
+ * Here is a quick example of a loopback to give a positive purchase result:
+ *
+ * \code
+ * void winHook(const char *hook, char *result, S32 resultLen) {
+ * 	// Handle custom hooks here
+ * 	if (strStartsWith(hook, "requestPurchase")) {
+ * 		// call back with success
+ * 		char hookData[512];
+ * 		strcpy(hookData, hook);
+ * 		strtok(hookData, " ");
+ * 		char *productId = strtok(NULL, " ");
+ * 		char callback[512];
+ * 		sprintf(callback, "purchaseSucceeded %s", productId);
+ * 		btCallback(callback);
+ * 		cout << callback << endl;
+ * 	}
+ * }
+ * \endcode
+ *
  * \ingroup Hooks
+ *
  * \defgroup OSXHooks Customizing OSX
  * \brief Customizing OSX with platform hooks
+ *
+ * OSX Projects have a file called "osxhooks.mm" which allows a developer to implement hook functionality for OSX specifically for an application.
+ *
+ * \code
+ * void _platform_show_ad() {
+ * 	// Call out to your ios ad integration piece here
+ * }
+ *
+ * void _platform_hide_ad() {
+ * 	// Call out to your ios ad integration piece here
+ * }
+ *
+ * void _platform_hook(const char *hook, char *result, S32 resultLen) {
+ * 	// Handle custom hooks here
+ * }
+ * \endcode
+ *
  * \ingroup Hooks
  */
  

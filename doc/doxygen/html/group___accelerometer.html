@@ -83,10 +83,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <p>Accelerometer Support.  
 <a href="#details">More...</a></p>
-</div><!-- contents -->
+<p>Most mobile platforms come standard with accelerometers and for those, we have them enabled and feeding data into your <a class="el" href="namespace_battery_tech.html">BatteryTech</a> app by default.</p>
+<p>The most recent data is always available in <a class="el" href="class_battery_tech_1_1_context.html#af7346931412357055ffa524515bc8842">Context::accelerometerState</a>. The data is normalized across all platforms so no special handling code is needed to use it consistently.</p>
+<p>Example: </p>
+<div class="fragment"><div class="line"> AccelerometerState accel = context-&gt;accelerometerState;</div>
+<div class="line">   <span class="comment">// accel.x, accel.y and accel.z are all you need!</span></div>
+</div><!-- fragment --> </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon May 21 2012 18:38:36 for BatteryTech SDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue May 22 2012 14:34:05 for BatteryTech SDK by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1
 </small></address>

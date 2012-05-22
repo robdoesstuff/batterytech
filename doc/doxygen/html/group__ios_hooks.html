@@ -83,10 +83,75 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <p>Customizing iOS with platform hooks.  
 <a href="#details">More...</a></p>
+<p>Your iOS build comes in the form of a standard XCode project of which there is a single view controller, batterytechViewController. Extending batterytechViewController gives you the flexibility to add other views over or under your EAGLView (the primary view BT uses) or integrate with 3rd party products.</p>
+<p>Example: </p>
+<div class="fragment"><div class="line">  <span class="comment">// MyBTViewController.h</span></div>
+<div class="line"><span class="preprocessor"> #import &quot;<a class="code" href="batterytech_view_controller_8h.html">batterytechViewController.h</a>&quot;</span></div>
+<div class="line"></div>
+<div class="line"> <span class="keyword">@interface </span>MyBTViewController : batterytechViewController</div>
+<div class="line"> @<a class="code" href="glext_8h.html#a432111147038972f06e049e18a837002">end</a></div>
+<div class="line">  <span class="comment">//</span></div>
+<div class="line">  <span class="comment">//</span></div>
+<div class="line">  <span class="comment">// MyBTViewController.m</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">  #import &quot;MyBTViewController.h&quot;</span></div>
+<div class="line"><span class="preprocessor"></span></div>
+<div class="line">  @interface MyBTViewController ()</div>
+<div class="line">  @<a class="code" href="glext_8h.html#a432111147038972f06e049e18a837002">end</a></div>
+<div class="line"></div>
+<div class="line">  @implementation MyBTViewController</div>
+<div class="line">  - (<a class="code" href="glext_8h.html#ae52362b10d585638f5b96140e90f1b7a">id</a>)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil</div>
+<div class="line">  {</div>
+<div class="line">      <span class="keyword">self</span> = [<span class="keyword">super</span> initWithNibName:nibNameOrNil bundle:nibBundleOrNil];</div>
+<div class="line">      <span class="keywordflow">if</span> (<span class="keyword">self</span>) {</div>
+<div class="line">          <span class="comment">// Custom initialization</span></div>
+<div class="line">      }</div>
+<div class="line">      <span class="keywordflow">return</span> <span class="keyword">self</span>;</div>
+<div class="line">  }</div>
+<div class="line"></div>
+<div class="line">  - (<a class="code" href="glext_8h.html#aa088430624f5301325a9973083d70226">void</a>)viewDidLoad</div>
+<div class="line">  {</div>
+<div class="line">      [<span class="keyword">super</span> viewDidLoad];</div>
+<div class="line">      <span class="comment">// Do any additional setup after loading the view from its nib.</span></div>
+<div class="line">  }</div>
+<div class="line"></div>
+<div class="line">  - (<a class="code" href="glext_8h.html#aa088430624f5301325a9973083d70226">void</a>)viewDidUnload</div>
+<div class="line">  {</div>
+<div class="line">      [<span class="keyword">super</span> viewDidUnload];</div>
+<div class="line">      <span class="comment">// Release any retained subviews of the main view.</span></div>
+<div class="line">      <span class="comment">// e.g. self.myOutlet = nil;</span></div>
+<div class="line">  }</div>
+<div class="line"></div>
+<div class="line">  <span class="comment">// BatteryTech overrides (the reason we created this subclass)</span></div>
+<div class="line"></div>
+<div class="line">  - (<a class="code" href="glext_8h.html#aa088430624f5301325a9973083d70226">void</a>)showAd {</div>
+<div class="line">  }</div>
+<div class="line"></div>
+<div class="line">  - (<a class="code" href="glext_8h.html#aa088430624f5301325a9973083d70226">void</a>)hideAd {</div>
+<div class="line">  }</div>
+<div class="line"></div>
+<div class="line">  - (<a class="code" href="glext_8h.html#aa088430624f5301325a9973083d70226">void</a>)hook:(const <span class="keywordtype">char</span>*)hookData withResult:(<span class="keywordtype">char</span>*) result withResultLen:(<span class="keywordtype">int</span>) resultLen {</div>
+<div class="line">        <span class="keywordflow">if</span> (<a class="code" href="strx_8cpp.html#ac7afb780057d7ec7f59764b3b273c318">strStartsWith</a>(hookData, <span class="stringliteral">&quot;showCameraPreview&quot;</span>)) {</div>
+<div class="line">                <span class="comment">// fire up the camera preview and insert the view into the chain</span></div>
+<div class="line">        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code" href="strx_8cpp.html#ac7afb780057d7ec7f59764b3b273c318">strStartsWith</a>(hookData, <span class="stringliteral">&quot;hideCameraPreview&quot;</span>)) {</div>
+<div class="line">                <span class="comment">// if we&#39;re showing the camera, hide it now</span></div>
+<div class="line">        }</div>
+<div class="line">  }</div>
+<div class="line"></div>
+<div class="line">  - (bool) useGLES2 {</div>
+<div class="line">      <span class="keywordflow">return</span> <a class="code" href="primitives_8h.html#aa8cecfc5c5c054d2875c03e77b7be15d" title="True.">TRUE</a>;</div>
+<div class="line">  }</div>
+<div class="line"></div>
+<div class="line">  - (bool) forceLandscape {</div>
+<div class="line">      <span class="keywordflow">return</span> <a class="code" href="primitives_8h.html#aa8cecfc5c5c054d2875c03e77b7be15d" title="True.">TRUE</a>;</div>
+<div class="line">  }</div>
+<div class="line"></div>
+<div class="line">  <span class="keyword">@end</span></div>
+</div><!-- fragment --><p>Because a standard XCode project is used, virtually any library or third party application can be integrated with your BT App using standard techniques. Please consult Apple's developer documentation for additional details about developing for iOS. </p>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon May 21 2012 18:38:36 for BatteryTech SDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue May 22 2012 14:34:05 for BatteryTech SDK by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1
 </small></address>

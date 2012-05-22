@@ -83,10 +83,23 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <p>Touch and Pointer Input Support.  
 <a href="#details">More...</a></p>
-</div><!-- contents -->
+<p>BT uses platform-independent touch remapping and a simple polling model to make it extremely easy for you to access multitouch data for up to 10 touch points. On desktop platforms, mouse input is mapped to the first available touch point so the same code will work for everything.</p>
+<p>Example for reading a single touch point </p>
+<div class="fragment"><div class="line"> PointerState state = context-&gt;pointerState[0];</div>
+<div class="line"> <span class="keywordflow">if</span> (state.isDown) {</div>
+<div class="line">   <span class="comment">// touch is down at state.x, state.y</span></div>
+<div class="line"> }</div>
+</div><!-- fragment --><p>And handling multi touch isn't really any harder. Here's an example to allow for multiple touches on multiple objects: </p>
+<div class="fragment"><div class="line"> <span class="keywordflow">for</span> (<a class="code" href="primitives_8h.html#a7fd0f901ce5fa28f2315830b2c4aea34" title="A signed 32 bit integer.">S32</a> i = 0; i &lt; <a class="code" href="batterytech__globals_8h.html#ac507ef396a03f08c9f7c83c2732ec284">MAX_POINTERS</a>; i++) {</div>
+<div class="line">   PointerState state = context-&gt;pointerState[i];</div>
+<div class="line">   <span class="keywordflow">if</span> (state.isDown) {</div>
+<div class="line">     checkObjectTouchIntersection(state.x, state.y);</div>
+<div class="line">   }</div>
+<div class="line"> }</div>
+</div><!-- fragment --> </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon May 21 2012 18:38:36 for BatteryTech SDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue May 22 2012 14:34:05 for BatteryTech SDK by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1
 </small></address>

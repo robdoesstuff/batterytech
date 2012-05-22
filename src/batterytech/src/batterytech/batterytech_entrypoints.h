@@ -17,13 +17,33 @@
 #ifndef BATTERYTECH_ENTRYPOINTS_H_
 #define BATTERYTECH_ENTRYPOINTS_H_
 
+/** \brief Entry point for rendering a BatteryTech application
+ *
+ * This class needs to be extended and added to an extended Context to provide rendering capabilities.
+ * \ingroup Entry
+ */
 class BTApplicationRenderer {
 public:
+	/** \brief Renders the application
+	 *
+	 */
 	virtual void render()=0;
 };
 
+/** \brief Entry point for updating a BatteryTech application
+ *
+ * In a normal state-driven application, update is where the processing logic should be.  It is a good practice to keep all rendering code separate, but
+ * of course calculations needed to drive rendering later can be fine in phase.
+ *
+ * This class needs to be extended and added to an extended Context to provide update capabilities.
+ * \ingroup Entry
+ */
 class BTApplicationUpdater {
 public:
+	/** \brief Updates the application
+	 *
+	 * Time delta in seconds from the last update is available via Context::tickDelta
+	 */
 	virtual void update()=0;
 };
 

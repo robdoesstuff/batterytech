@@ -95,10 +95,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a>  </div>
   <div class="headertitle">
-<div class="title">BatteryTech::UIComponent Class Reference</div>  </div>
+<div class="title">BatteryTech::UIComponent Class Reference<div class="ingroups"><a class="el" href="group___u_i.html">User Interface Library</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 
+<p>A User Interface ComponentThis is the foundation and base class of all User Interface Components in the <a class="el" href="namespace_battery_tech.html">BatteryTech</a> UI Library.  
+ <a href="class_battery_tech_1_1_u_i_component.html#details">More...</a></p>
+<hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
+<div class="textblock"><p>UIComponents may be independent, they may be layouts or they may have any number of child components. </p>
+</div>
 <p><code>#include &lt;<a class="el" href="_u_i_component_8h_source.html">batterytech/ui/UIComponent.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for BatteryTech::UIComponent:</div>
@@ -106,13 +111,13 @@ Inheritance diagram for BatteryTech::UIComponent:</div>
  <div class="center">
   <img src="class_battery_tech_1_1_u_i_component.png" usemap="#BatteryTech::UIComponent_map" alt=""/>
   <map id="BatteryTech::UIComponent_map" name="BatteryTech::UIComponent_map">
-<area href="class_battery_tech_1_1_button.html" alt="BatteryTech::Button" shape="rect" coords="0,56,198,80"/>
-<area href="class_battery_tech_1_1_label.html" alt="BatteryTech::Label" shape="rect" coords="208,56,406,80"/>
-<area href="class_battery_tech_1_1_layout.html" alt="BatteryTech::Layout" shape="rect" coords="416,56,614,80"/>
-<area href="class_battery_tech_1_1_text_field.html" alt="BatteryTech::TextField" shape="rect" coords="624,56,822,80"/>
-<area href="class_battery_tech_1_1_linear_layout.html" alt="BatteryTech::LinearLayout" shape="rect" coords="312,112,510,136"/>
-<area href="class_battery_tech_1_1_scrollable_container.html" alt="BatteryTech::ScrollableContainer" shape="rect" coords="520,112,718,136"/>
-<area href="class_battery_tech_1_1_checkbox.html" alt="BatteryTech::Checkbox" shape="rect" coords="312,168,510,192"/>
+<area href="class_battery_tech_1_1_button.html" title="A Button      ." alt="BatteryTech::Button" shape="rect" coords="0,56,198,80"/>
+<area href="class_battery_tech_1_1_label.html" title="A Text Label      ." alt="BatteryTech::Label" shape="rect" coords="208,56,406,80"/>
+<area href="class_battery_tech_1_1_layout.html" title="Base class for a layout      ." alt="BatteryTech::Layout" shape="rect" coords="416,56,614,80"/>
+<area href="class_battery_tech_1_1_text_field.html" title="Editable Text Field      ." alt="BatteryTech::TextField" shape="rect" coords="624,56,822,80"/>
+<area href="class_battery_tech_1_1_linear_layout.html" title="A dynamic layout which can be nested and is either Vertical or Horizontal." alt="BatteryTech::LinearLayout" shape="rect" coords="312,112,510,136"/>
+<area href="class_battery_tech_1_1_scrollable_container.html" title="A container that makes any children scrollable      ." alt="BatteryTech::ScrollableContainer" shape="rect" coords="520,112,718,136"/>
+<area href="class_battery_tech_1_1_checkbox.html" title="A Checkbox      ." alt="BatteryTech::Checkbox" shape="rect" coords="312,168,510,192"/>
 </map>
  </div></div>
 
@@ -132,19 +137,32 @@ Public Types</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a3112967888fe03ff57ca7802686826bc"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_battery_tech_1_1_u_i_component.html#a3112967888fe03ff57ca7802686826bc">UIComponent</a> (const char *<a class="el" href="class_battery_tech_1_1_u_i_component.html#a6538ec6b20a132dee7c7529a9660771f">text</a>=<a class="el" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4">NULL</a>)</td></tr>
+<tr class="memdesc:a3112967888fe03ff57ca7802686826bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <a class="el" href="class_battery_tech_1_1_u_i_component.html" title="A User Interface ComponentThis is the foundation and base class of all User Interface Components in t...">UIComponent</a>.  <a href="#a3112967888fe03ff57ca7802686826bc"></a><br/></td></tr>
 <tr class="memitem:ae20361b0bdce39c97f2afef1246d59ae"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_battery_tech_1_1_u_i_component.html#ae20361b0bdce39c97f2afef1246d59ae">~UIComponent</a> ()</td></tr>
 <tr class="memitem:ab6d1468d44fa7c802940f0a061f4a29c"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="glext_8h.html#a3db05964a3cc4410f35b7ea2b7eb850d">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_battery_tech_1_1_u_i_component.html#ab6d1468d44fa7c802940f0a061f4a29c">setWidth</a> (<a class="el" href="primitives_8h.html#a7fd0f901ce5fa28f2315830b2c4aea34">S32</a> <a class="el" href="class_battery_tech_1_1_u_i_component.html#ac224753eb8a9b9de892464e20463af7f">widthDips</a>)</td></tr>
+<tr class="memdesc:ab6d1468d44fa7c802940f0a061f4a29c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the width of this component.  <a href="#ab6d1468d44fa7c802940f0a061f4a29c"></a><br/></td></tr>
 <tr class="memitem:a6bf707f0d25d63279bfd70a121cc6ace"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="glext_8h.html#a3db05964a3cc4410f35b7ea2b7eb850d">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_battery_tech_1_1_u_i_component.html#a6bf707f0d25d63279bfd70a121cc6ace">setHeight</a> (<a class="el" href="primitives_8h.html#a7fd0f901ce5fa28f2315830b2c4aea34">S32</a> <a class="el" href="class_battery_tech_1_1_u_i_component.html#a98f8ef688cd2caf5de9c88082e9fa265">heightDips</a>)</td></tr>
+<tr class="memdesc:a6bf707f0d25d63279bfd70a121cc6ace"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the height of this component.  <a href="#a6bf707f0d25d63279bfd70a121cc6ace"></a><br/></td></tr>
 <tr class="memitem:a8fbadb7407c4efead2d224e3261c2671"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="glext_8h.html#a3db05964a3cc4410f35b7ea2b7eb850d">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_battery_tech_1_1_u_i_component.html#a8fbadb7407c4efead2d224e3261c2671">setSize</a> (<a class="el" href="primitives_8h.html#a7fd0f901ce5fa28f2315830b2c4aea34">S32</a> <a class="el" href="class_battery_tech_1_1_u_i_component.html#ac224753eb8a9b9de892464e20463af7f">widthDips</a>, <a class="el" href="primitives_8h.html#a7fd0f901ce5fa28f2315830b2c4aea34">S32</a> <a class="el" href="class_battery_tech_1_1_u_i_component.html#a98f8ef688cd2caf5de9c88082e9fa265">heightDips</a>)</td></tr>
+<tr class="memdesc:a8fbadb7407c4efead2d224e3261c2671"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the size of this component.  <a href="#a8fbadb7407c4efead2d224e3261c2671"></a><br/></td></tr>
 <tr class="memitem:ac28f12defb20badf601c59b16d02e2dd"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="glext_8h.html#a3db05964a3cc4410f35b7ea2b7eb850d">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_battery_tech_1_1_u_i_component.html#ac28f12defb20badf601c59b16d02e2dd">setPadding</a> (<a class="el" href="primitives_8h.html#a7fd0f901ce5fa28f2315830b2c4aea34">S32</a> paddingDips)</td></tr>
+<tr class="memdesc:ac28f12defb20badf601c59b16d02e2dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the padding of this component.  <a href="#ac28f12defb20badf601c59b16d02e2dd"></a><br/></td></tr>
 <tr class="memitem:a3d1e06c57afea432b4093c55a3796492"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="glext_8h.html#a3db05964a3cc4410f35b7ea2b7eb850d">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_battery_tech_1_1_u_i_component.html#a3d1e06c57afea432b4093c55a3796492">setMargins</a> (<a class="el" href="primitives_8h.html#a7fd0f901ce5fa28f2315830b2c4aea34">S32</a> marginDips)</td></tr>
+<tr class="memdesc:a3d1e06c57afea432b4093c55a3796492"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the margins of this component.  <a href="#a3d1e06c57afea432b4093c55a3796492"></a><br/></td></tr>
 <tr class="memitem:a19bb77b8e45af0e2d1afa306dd956d71"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="glext_8h.html#a3db05964a3cc4410f35b7ea2b7eb850d">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_battery_tech_1_1_u_i_component.html#a19bb77b8e45af0e2d1afa306dd956d71">setLayoutParameters</a> (<a class="el" href="class_battery_tech_1_1_layout_parameters.html">LayoutParameters</a> *<a class="el" href="class_battery_tech_1_1_u_i_component.html#a95fe326d38f250b670a3b0c6aaa9e564">layoutParameters</a>)</td></tr>
+<tr class="memdesc:a19bb77b8e45af0e2d1afa306dd956d71"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets how this component is to be laid out in its parent.  <a href="#a19bb77b8e45af0e2d1afa306dd956d71"></a><br/></td></tr>
 <tr class="memitem:acffcb73c551b22699a4fa29b43a0fe07"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="glext_8h.html#a3db05964a3cc4410f35b7ea2b7eb850d">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_battery_tech_1_1_u_i_component.html#acffcb73c551b22699a4fa29b43a0fe07">setBackgroundMenuResource</a> (<a class="el" href="primitives_8h.html#a7fd0f901ce5fa28f2315830b2c4aea34">S32</a> menuResourceId)</td></tr>
+<tr class="memdesc:acffcb73c551b22699a4fa29b43a0fe07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the optional background menu resource.  <a href="#acffcb73c551b22699a4fa29b43a0fe07"></a><br/></td></tr>
 <tr class="memitem:a79eb4e998aff94c600fec7149aedba5c"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="glext_8h.html#a3db05964a3cc4410f35b7ea2b7eb850d">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_battery_tech_1_1_u_i_component.html#a79eb4e998aff94c600fec7149aedba5c">setPressedBackgroundMenuResource</a> (<a class="el" href="primitives_8h.html#a7fd0f901ce5fa28f2315830b2c4aea34">S32</a> menuResourceId)</td></tr>
+<tr class="memdesc:a79eb4e998aff94c600fec7149aedba5c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the optional pressed background menu resource.  <a href="#a79eb4e998aff94c600fec7149aedba5c"></a><br/></td></tr>
 <tr class="memitem:ac491ec07f27bfbab6d6ea3825023f846"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="glext_8h.html#a3db05964a3cc4410f35b7ea2b7eb850d">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_battery_tech_1_1_u_i_component.html#ac491ec07f27bfbab6d6ea3825023f846">setSelectedBackgroundMenuResource</a> (<a class="el" href="primitives_8h.html#a7fd0f901ce5fa28f2315830b2c4aea34">S32</a> menuResourceId)</td></tr>
+<tr class="memdesc:ac491ec07f27bfbab6d6ea3825023f846"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the optional selected background menu resource.  <a href="#ac491ec07f27bfbab6d6ea3825023f846"></a><br/></td></tr>
 <tr class="memitem:a361a2b767326115c343c7034e4208869"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="glext_8h.html#a3db05964a3cc4410f35b7ea2b7eb850d">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_battery_tech_1_1_u_i_component.html#a361a2b767326115c343c7034e4208869">setText</a> (const char *<a class="el" href="class_battery_tech_1_1_u_i_component.html#a6538ec6b20a132dee7c7529a9660771f">text</a>)</td></tr>
+<tr class="memdesc:a361a2b767326115c343c7034e4208869"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the label or text of this component.  <a href="#a361a2b767326115c343c7034e4208869"></a><br/></td></tr>
 <tr class="memitem:a827bf5c8411eddf0761e845663e62ffb"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="glext_8h.html#a3db05964a3cc4410f35b7ea2b7eb850d">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_battery_tech_1_1_u_i_component.html#a827bf5c8411eddf0761e845663e62ffb">setTextAlignment</a> (<a class="el" href="class_battery_tech_1_1_u_i_component.html#a12e871d7901edbbf9dd0c081bb60e8d6">HorizontalAlignment</a> horizAlignment, <a class="el" href="class_battery_tech_1_1_u_i_component.html#a18094801be65cbd73e9b5401bebbdade">VerticalAlignment</a> vertAlignment)</td></tr>
+<tr class="memdesc:a827bf5c8411eddf0761e845663e62ffb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Specifies how the text of this component is to be aligned.  <a href="#a827bf5c8411eddf0761e845663e62ffb"></a><br/></td></tr>
 <tr class="memitem:a0ce8315364679ff07460571122ee481a"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="glext_8h.html#a3db05964a3cc4410f35b7ea2b7eb850d">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_battery_tech_1_1_u_i_component.html#a0ce8315364679ff07460571122ee481a">addComponent</a> (<a class="el" href="class_battery_tech_1_1_u_i_component.html">UIComponent</a> *component)</td></tr>
+<tr class="memdesc:a0ce8315364679ff07460571122ee481a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a child component to this component.  <a href="#a0ce8315364679ff07460571122ee481a"></a><br/></td></tr>
 <tr class="memitem:a4fb6bc7148661d93dec1475a4cb317f3"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="primitives_8h.html#a7fd0f901ce5fa28f2315830b2c4aea34">S32</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_battery_tech_1_1_u_i_component.html#a4fb6bc7148661d93dec1475a4cb317f3">getDesiredWidth</a> (<a class="el" href="class_battery_tech_1_1_context.html">Context</a> *context, <a class="el" href="primitives_8h.html#a7fd0f901ce5fa28f2315830b2c4aea34">S32</a> widthAvailable, <a class="el" href="primitives_8h.html#a7fd0f901ce5fa28f2315830b2c4aea34">S32</a> heightAvailable)</td></tr>
 <tr class="memitem:a6750b88d576a1d2cdc491f176ee3eacc"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="primitives_8h.html#a7fd0f901ce5fa28f2315830b2c4aea34">S32</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_battery_tech_1_1_u_i_component.html#a6750b88d576a1d2cdc491f176ee3eacc">getDesiredHeight</a> (<a class="el" href="class_battery_tech_1_1_context.html">Context</a> *context, <a class="el" href="primitives_8h.html#a7fd0f901ce5fa28f2315830b2c4aea34">S32</a> widthAvailable, <a class="el" href="primitives_8h.html#a7fd0f901ce5fa28f2315830b2c4aea34">S32</a> heightAvailable)</td></tr>
 <tr class="memitem:ac7927de7f663f081f161ff503691421b"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="class_battery_tech_1_1_layout_parameters.html">LayoutParameters</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_battery_tech_1_1_u_i_component.html#ac7927de7f663f081f161ff503691421b">getLayoutParameters</a> ()</td></tr>
@@ -155,13 +173,16 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a0bcf7effaf6e9766791cd8c045080e3e"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="glext_8h.html#a3db05964a3cc4410f35b7ea2b7eb850d">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_battery_tech_1_1_u_i_component.html#a0bcf7effaf6e9766791cd8c045080e3e">scrollVirtualBounds</a> (<a class="el" href="primitives_8h.html#a7fd0f901ce5fa28f2315830b2c4aea34">S32</a> <a class="el" href="glext_8h.html#a0cdec8e97a75ee9458b23d152bf962d4">x</a>, <a class="el" href="primitives_8h.html#a7fd0f901ce5fa28f2315830b2c4aea34">S32</a> <a class="el" href="glext_8h.html#a74d80fd479c0f6d0153c709949a089ef">y</a>)</td></tr>
 <tr class="memitem:a9aba87e232032cc796ee073523f4eb2b"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="primitives_8h.html#a4e430bd419df1d91b447c49d0974b8d8">BOOL32</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_battery_tech_1_1_u_i_component.html#a9aba87e232032cc796ee073523f4eb2b">isVirtualLargerThanDrawable</a> ()</td></tr>
 <tr class="memitem:a15081efedd08fe7db66712952d5dbd90"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="glext_8h.html#a3db05964a3cc4410f35b7ea2b7eb850d">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_battery_tech_1_1_u_i_component.html#a15081efedd08fe7db66712952d5dbd90">setTextColor</a> (<a class="el" href="primitives_8h.html#ad47a6c3871edfa71ee0057c3a7184161">F32</a> <a class="el" href="glext_8h.html#abe08814c2f72843fde4d8df41440d5a0">r</a>, <a class="el" href="primitives_8h.html#ad47a6c3871edfa71ee0057c3a7184161">F32</a> <a class="el" href="glext_8h.html#a9cd653b1648845554169fbc3a3f6d37a">g</a>, <a class="el" href="primitives_8h.html#ad47a6c3871edfa71ee0057c3a7184161">F32</a> <a class="el" href="glext_8h.html#a6eba317e3cf44d6d26c04a5a8f197dcb">b</a>, <a class="el" href="primitives_8h.html#ad47a6c3871edfa71ee0057c3a7184161">F32</a> <a class="el" href="glext_8h.html#ac8729153468b5dcf13f971b21d84d4e5">a</a>)</td></tr>
+<tr class="memdesc:a15081efedd08fe7db66712952d5dbd90"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the text color of this component.  <a href="#a15081efedd08fe7db66712952d5dbd90"></a><br/></td></tr>
 <tr class="memitem:a9f62d14020d88b260d74904d290d32d9"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="glext_8h.html#a3db05964a3cc4410f35b7ea2b7eb850d">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_battery_tech_1_1_u_i_component.html#a9f62d14020d88b260d74904d290d32d9">enter</a> ()</td></tr>
 <tr class="memitem:a8b640fd602284686a5d97e57383776f6"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="glext_8h.html#a3db05964a3cc4410f35b7ea2b7eb850d">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_battery_tech_1_1_u_i_component.html#a8b640fd602284686a5d97e57383776f6">exit</a> ()</td></tr>
 <tr class="memitem:a1be6068fc2bc9aada56fdef612031711"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="glext_8h.html#a3db05964a3cc4410f35b7ea2b7eb850d">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_battery_tech_1_1_u_i_component.html#a1be6068fc2bc9aada56fdef612031711">onSelected</a> ()</td></tr>
+<tr class="memdesc:a1be6068fc2bc9aada56fdef612031711"><td class="mdescLeft">&#160;</td><td class="mdescRight">will be called if this component becomes selected  <a href="#a1be6068fc2bc9aada56fdef612031711"></a><br/></td></tr>
 <tr class="memitem:a6f1a1aaecabd574e33e91f8bea25a894"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="primitives_8h.html#a4e430bd419df1d91b447c49d0974b8d8">BOOL32</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_battery_tech_1_1_u_i_component.html#a6f1a1aaecabd574e33e91f8bea25a894">isEnterPending</a> ()</td></tr>
 <tr class="memitem:a2506fd145581e5253167b57f78ca473c"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="primitives_8h.html#a4e430bd419df1d91b447c49d0974b8d8">BOOL32</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_battery_tech_1_1_u_i_component.html#a2506fd145581e5253167b57f78ca473c">isExitPending</a> ()</td></tr>
 <tr class="memitem:ae15f5586c582d344e29d42d0a4e20f21"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="primitives_8h.html#a4e430bd419df1d91b447c49d0974b8d8">BOOL32</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_battery_tech_1_1_u_i_component.html#ae15f5586c582d344e29d42d0a4e20f21">isExitDone</a> ()</td></tr>
 <tr class="memitem:a4f352e4d13a60eca2a9c8fbbc8ca7457"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="glext_8h.html#a3db05964a3cc4410f35b7ea2b7eb850d">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_battery_tech_1_1_u_i_component.html#a4f352e4d13a60eca2a9c8fbbc8ca7457">update</a> (<a class="el" href="primitives_8h.html#ad47a6c3871edfa71ee0057c3a7184161">F32</a> delta)</td></tr>
+<tr class="memdesc:a4f352e4d13a60eca2a9c8fbbc8ca7457"><td class="mdescLeft">&#160;</td><td class="mdescRight">Will be called when system updates.  <a href="#a4f352e4d13a60eca2a9c8fbbc8ca7457"></a><br/></td></tr>
 <tr class="memitem:a944213231563dd93d3c617af8347c3d3"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="glext_8h.html#a3db05964a3cc4410f35b7ea2b7eb850d">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_battery_tech_1_1_u_i_component.html#a944213231563dd93d3c617af8347c3d3">dispatchClickDown</a> (<a class="el" href="primitives_8h.html#a7fd0f901ce5fa28f2315830b2c4aea34">S32</a> <a class="el" href="glext_8h.html#a0cdec8e97a75ee9458b23d152bf962d4">x</a>, <a class="el" href="primitives_8h.html#a7fd0f901ce5fa28f2315830b2c4aea34">S32</a> <a class="el" href="glext_8h.html#a74d80fd479c0f6d0153c709949a089ef">y</a>)</td></tr>
 <tr class="memitem:a2a0c2eff2356b4c72e815d96ed74d3a2"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="glext_8h.html#a3db05964a3cc4410f35b7ea2b7eb850d">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_battery_tech_1_1_u_i_component.html#a2a0c2eff2356b4c72e815d96ed74d3a2">dispatchClickMove</a> (<a class="el" href="primitives_8h.html#a7fd0f901ce5fa28f2315830b2c4aea34">S32</a> <a class="el" href="glext_8h.html#a0cdec8e97a75ee9458b23d152bf962d4">x</a>, <a class="el" href="primitives_8h.html#a7fd0f901ce5fa28f2315830b2c4aea34">S32</a> <a class="el" href="glext_8h.html#a74d80fd479c0f6d0153c709949a089ef">y</a>)</td></tr>
 <tr class="memitem:a37fa7b2f1c3efac8fa63b50849ae66d6"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="glext_8h.html#a3db05964a3cc4410f35b7ea2b7eb850d">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_battery_tech_1_1_u_i_component.html#a37fa7b2f1c3efac8fa63b50849ae66d6">dispatchClickUp</a> ()</td></tr>
@@ -169,13 +190,19 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a661cd120b1795fd0f9b3fd0680b59776"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="primitives_8h.html#a4e430bd419df1d91b447c49d0974b8d8">BOOL32</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_battery_tech_1_1_u_i_component.html#a661cd120b1795fd0f9b3fd0680b59776">dispatchKeyDown</a> (<a class="el" href="primitives_8h.html#acd85e891f8abe13e2e0c5785454972ac">U8</a> key)</td></tr>
 <tr class="memitem:a4e631561de6e571bba09af7566f57edf"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="primitives_8h.html#a4e430bd419df1d91b447c49d0974b8d8">BOOL32</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_battery_tech_1_1_u_i_component.html#a4e631561de6e571bba09af7566f57edf">dispatchKeyUp</a> (<a class="el" href="primitives_8h.html#acd85e891f8abe13e2e0c5785454972ac">U8</a> key)</td></tr>
 <tr class="memitem:a2a7e9181f26379a0374513c1c22fcdb4"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="glext_8h.html#a3db05964a3cc4410f35b7ea2b7eb850d">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_battery_tech_1_1_u_i_component.html#a2a7e9181f26379a0374513c1c22fcdb4">setEnterAnimator</a> (<a class="el" href="class_battery_tech_1_1_u_i_animator.html">UIAnimator</a> *animator)</td></tr>
+<tr class="memdesc:a2a7e9181f26379a0374513c1c22fcdb4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the enter animator for this component.  <a href="#a2a7e9181f26379a0374513c1c22fcdb4"></a><br/></td></tr>
 <tr class="memitem:a2c3df0b182498ed0961ffae8fa8be6da"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="glext_8h.html#a3db05964a3cc4410f35b7ea2b7eb850d">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_battery_tech_1_1_u_i_component.html#a2c3df0b182498ed0961ffae8fa8be6da">setMainAnimator</a> (<a class="el" href="class_battery_tech_1_1_u_i_animator.html">UIAnimator</a> *animator)</td></tr>
+<tr class="memdesc:a2c3df0b182498ed0961ffae8fa8be6da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the main animator for this component.  <a href="#a2c3df0b182498ed0961ffae8fa8be6da"></a><br/></td></tr>
 <tr class="memitem:a567e4eb18d282ac2fd61739cbca947c5"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="glext_8h.html#a3db05964a3cc4410f35b7ea2b7eb850d">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_battery_tech_1_1_u_i_component.html#a567e4eb18d282ac2fd61739cbca947c5">setExitAnimator</a> (<a class="el" href="class_battery_tech_1_1_u_i_animator.html">UIAnimator</a> *animator)</td></tr>
-<tr class="memitem:aed8357f3f08021f5937cd7e088b4968a"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="class_battery_tech_1_1_u_i_animator.html">UIAnimator</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_battery_tech_1_1_u_i_component.html#aed8357f3f08021f5937cd7e088b4968a">getActiveAnimator</a> ()</td></tr>
+<tr class="memdesc:a567e4eb18d282ac2fd61739cbca947c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the exit animator for this component.  <a href="#a567e4eb18d282ac2fd61739cbca947c5"></a><br/></td></tr>
 <tr class="memitem:adf6149122ea7ab95c39b6398c6ebafc5"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="glext_8h.html#a3db05964a3cc4410f35b7ea2b7eb850d">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_battery_tech_1_1_u_i_component.html#adf6149122ea7ab95c39b6398c6ebafc5">setClickDownSoundAsset</a> (const char *assetName)</td></tr>
+<tr class="memdesc:adf6149122ea7ab95c39b6398c6ebafc5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the sound asset to play when the component is clicked down on.  <a href="#adf6149122ea7ab95c39b6398c6ebafc5"></a><br/></td></tr>
 <tr class="memitem:a81b932ad3b2fb0a4f4be1b7a63e1deaf"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="glext_8h.html#a3db05964a3cc4410f35b7ea2b7eb850d">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_battery_tech_1_1_u_i_component.html#a81b932ad3b2fb0a4f4be1b7a63e1deaf">setClickUpSoundAsset</a> (const char *assetName)</td></tr>
+<tr class="memdesc:a81b932ad3b2fb0a4f4be1b7a63e1deaf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the sound asset to play when the component is clicked up on.  <a href="#a81b932ad3b2fb0a4f4be1b7a63e1deaf"></a><br/></td></tr>
 <tr class="memitem:a713f4b0796e89673c2b90cd41e4e7190"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="glext_8h.html#a3db05964a3cc4410f35b7ea2b7eb850d">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_battery_tech_1_1_u_i_component.html#a713f4b0796e89673c2b90cd41e4e7190">setClickDownVibeEffectId</a> (<a class="el" href="primitives_8h.html#a7fd0f901ce5fa28f2315830b2c4aea34">S32</a> vibeEffectId)</td></tr>
+<tr class="memdesc:a713f4b0796e89673c2b90cd41e4e7190"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the vibration effect to play when the component is clicked down on.  <a href="#a713f4b0796e89673c2b90cd41e4e7190"></a><br/></td></tr>
 <tr class="memitem:a82bc18b20f7847be1451b47747fa1851"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="glext_8h.html#a3db05964a3cc4410f35b7ea2b7eb850d">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_battery_tech_1_1_u_i_component.html#a82bc18b20f7847be1451b47747fa1851">setClickUpVibeEffectId</a> (<a class="el" href="primitives_8h.html#a7fd0f901ce5fa28f2315830b2c4aea34">S32</a> vibeEffectId)</td></tr>
+<tr class="memdesc:a82bc18b20f7847be1451b47747fa1851"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the vibration effect to play when the component is clicked up on.  <a href="#a82bc18b20f7847be1451b47747fa1851"></a><br/></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -298,6 +325,12 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<dl class="params"><dt>Parameters:</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">text</td><td>The (optional) label </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -346,6 +379,7 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>UIComponents may have up to MAX_UI_SUBCOMPONENTS children. This function is how you set up a hierarchy of components </p>
 
 <p>Reimplemented in <a class="el" href="class_battery_tech_1_1_scrollable_container.html#ac31e9cb067a3a87fecb171aac0d0f1b6">BatteryTech::ScrollableContainer</a>.</p>
 
@@ -546,29 +580,6 @@ Protected Attributes</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="glext_8h.html#a3db05964a3cc4410f35b7ea2b7eb850d">void</a> BatteryTech::UIComponent::exit </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="aed8357f3f08021f5937cd7e088b4968a"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_battery_tech_1_1_u_i_animator.html">UIAnimator</a> * BatteryTech::UIComponent::getActiveAnimator </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -962,7 +973,7 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Return true if the <a class="el" href="class_battery_tech_1_1_u_i_component.html">UIComponent</a> consumed the key press </p>
+<p>Return true if the <a class="el" href="class_battery_tech_1_1_u_i_component.html" title="A User Interface ComponentThis is the foundation and base class of all User Interface Components in t...">UIComponent</a> consumed the key press </p>
 
 <p>Reimplemented in <a class="el" href="class_battery_tech_1_1_text_field.html#a3f10b8b0361cdb3438694b83ad1e77af">BatteryTech::TextField</a>.</p>
 
@@ -1108,6 +1119,8 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>If a resource is set here, it will be loaded and drawn as the background for this component. A resource ID is acquired through <a class="el" href="class_battery_tech_1_1_menu_renderer.html#a108dd24b147fc00e0b508af3b06606e6">MenuRenderer::addTextureAsset</a></p>
+<dl class="section see"><dt>See also:</dt><dd><a class="el" href="class_battery_tech_1_1_menu_renderer.html#a108dd24b147fc00e0b508af3b06606e6">MenuRenderer::addTextureAsset</a> </dd></dl>
 
 </div>
 </div>
@@ -1274,6 +1287,12 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<dl class="params"><dt>Parameters:</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">animator</td><td>The animator to run for the component entering the scene </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1298,6 +1317,12 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<dl class="params"><dt>Parameters:</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">animator</td><td>The animator to run just before the component exits </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1322,6 +1347,12 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<dl class="params"><dt>Parameters:</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">heightDips</td><td>The height in reference-scaled pixels, FILL or WRAP </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1346,6 +1377,12 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<dl class="params"><dt>Parameters:</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">layoutParameters</td><td>The parameters for layout </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1370,6 +1407,12 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<dl class="params"><dt>Parameters:</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">animator</td><td>The animator to run after the component has entered and before the component has exited </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1394,6 +1437,12 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<dl class="params"><dt>Parameters:</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">marginDips</td><td>The top, right, bottom and left margin on reference-scaled pixels </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1418,6 +1467,12 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<dl class="params"><dt>Parameters:</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">paddingDips</td><td>The top, right, bottom and left padding on reference-scaled pixels </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1442,6 +1497,8 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>If a resource is set here, it will be loaded and drawn as the background when this component is in a pressed state. A resource ID is acquired through <a class="el" href="class_battery_tech_1_1_menu_renderer.html#a108dd24b147fc00e0b508af3b06606e6">MenuRenderer::addTextureAsset</a></p>
+<dl class="section see"><dt>See also:</dt><dd><a class="el" href="class_battery_tech_1_1_menu_renderer.html#a108dd24b147fc00e0b508af3b06606e6">MenuRenderer::addTextureAsset</a> </dd></dl>
 
 </div>
 </div>
@@ -1466,6 +1523,8 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>If a resource is set here, it will be loaded and drawn as the background when this component is in a selected state. A resource ID is acquired through <a class="el" href="class_battery_tech_1_1_menu_renderer.html#a108dd24b147fc00e0b508af3b06606e6">MenuRenderer::addTextureAsset</a></p>
+<dl class="section see"><dt>See also:</dt><dd><a class="el" href="class_battery_tech_1_1_menu_renderer.html#a108dd24b147fc00e0b508af3b06606e6">MenuRenderer::addTextureAsset</a> </dd></dl>
 
 </div>
 </div>
@@ -1500,6 +1559,13 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<dl class="params"><dt>Parameters:</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">widthDips</td><td>The width in reference-scaled pixels, FILL or WRAP </td></tr>
+    <tr><td class="paramname">heightDips</td><td>The height in reference-scaled pixels, FILL or WRAP </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1524,6 +1590,12 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<dl class="params"><dt>Parameters:</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">text</td><td>The label, may be NULL </td></tr>
+  </table>
+  </dd>
+</dl>
 
 <p>Reimplemented in <a class="el" href="class_battery_tech_1_1_checkbox.html#a9baf615ae6c4dd1fe982d70bbd69c05c">BatteryTech::Checkbox</a>.</p>
 
@@ -1560,6 +1632,13 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<dl class="params"><dt>Parameters:</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">horizAlignment</td><td>The horizontal alignment </td></tr>
+    <tr><td class="paramname">vertAlignment</td><td>The vertical alignment </td></tr>
+  </table>
+  </dd>
+</dl>
 
 <p>Reimplemented in <a class="el" href="class_battery_tech_1_1_checkbox.html#a7cb74902225c9ce3782876c4841556fc">BatteryTech::Checkbox</a>.</p>
 
@@ -1608,6 +1687,15 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<dl class="params"><dt>Parameters:</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">r</td><td>The red value 0-1 </td></tr>
+    <tr><td class="paramname">g</td><td>The green value 0-1 </td></tr>
+    <tr><td class="paramname">b</td><td>The blue value 0-1 </td></tr>
+    <tr><td class="paramname">a</td><td>The alpha value 0-1 </td></tr>
+  </table>
+  </dd>
+</dl>
 
 <p>Reimplemented in <a class="el" href="class_battery_tech_1_1_checkbox.html#a7b51ae70bb37520a20839ec9331275aa">BatteryTech::Checkbox</a>.</p>
 
@@ -1680,6 +1768,12 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<dl class="params"><dt>Parameters:</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">widthDips</td><td>The width in reference-scaled pixels, FILL or WRAP </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1705,7 +1799,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Reimplemented in <a class="el" href="class_battery_tech_1_1_checkbox.html#a05a9014c7091d1ab5c2876dcd31c3f17">BatteryTech::Checkbox</a>, <a class="el" href="class_battery_tech_1_1_linear_layout.html#a07adf85af784f5d1dc4db6221d033563">BatteryTech::LinearLayout</a>, and <a class="el" href="class_battery_tech_1_1_button.html#a1f934bc67495d402fcec701532fd1c0f">BatteryTech::Button</a>.</p>
+<p>Reimplemented in <a class="el" href="class_battery_tech_1_1_linear_layout.html#a07adf85af784f5d1dc4db6221d033563">BatteryTech::LinearLayout</a>, <a class="el" href="class_battery_tech_1_1_checkbox.html#a05a9014c7091d1ab5c2876dcd31c3f17">BatteryTech::Checkbox</a>, and <a class="el" href="class_battery_tech_1_1_button.html#a1f934bc67495d402fcec701532fd1c0f">BatteryTech::Button</a>.</p>
 
 </div>
 </div>
@@ -2305,7 +2399,7 @@ Protected Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon May 21 2012 18:38:37 for BatteryTech SDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue May 22 2012 14:34:05 for BatteryTech SDK by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1
 </small></address>
