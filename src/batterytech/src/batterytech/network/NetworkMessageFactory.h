@@ -23,9 +23,22 @@ namespace BatteryTech {
 
 	class NetworkMessage;
 
+	/** \brief An abstract message factory
+	 * \ingroup Networking
+	 * \class NetworkMessageFactory
+	 *
+	 *
+	 * When a message comes in from the network, the subclass of this must create a NetworkMessage instance matching the messageType.
+	 *
+	 * \see NetworkManager
+	 */
 	class NetworkMessageFactory {
 	public:
 		virtual ~NetworkMessageFactory(){};
+		/** \brief Creates the message
+		 *
+		 * \param messageType The user-defined type of the message
+		 */
 		virtual NetworkMessage* createMessage(S32 messageType)=0;
 	};
 

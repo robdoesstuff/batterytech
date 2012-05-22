@@ -27,15 +27,41 @@ namespace BatteryTech {
 
 	class NetworkManager;
 
+	/** \brief Manages an active game connection in either host or client mode
+	 *
+	 * Once the network manager has made a connection, it will create a GameConnection to the other side.  This GameConnection is what is used to transmit and receive
+	 * data from a specific client or to the server.  Normally you don't need to do anything with this class because NetworkManager will use it internally to marshall
+	 * data and manage the connection.
+	 *
+	 * \see NetworkManager
+	 */
 	class GameConnection {
 	public:
 		enum State { CONNECTING, WAITING_FOR_VALIDATION, VALIDATED, CLOSED };
 		enum Mode { MODE_HOST, MODE_CLIENT };
+		/** \brief Creates a new GameConnection
+		 * \param socket The network socket
+		 * \param mode The Mode
+		 * \param netMgr The NetworkManager managing this connection
+		 */
 		GameConnection(SOCKET socket, Mode mode, NetworkManager *netMgr);
 		virtual ~GameConnection();
+		/** \brief Closes the connection
+		 *
+		 */
 		virtual void closeConnection();
+		/** \brief Updates the connection
+		 *
+		 */
 		virtual void update();
+		/** \brief Checks for errors
+		 *
+		 */
 		void checkErrors();
+		/** \brief Sends messages through the connection
+		 *
+		 * \param messages The list of messages to send
+		 */
 		void sendMessages(ManagedArray<NetworkMessage> *messages);
 		SOCKET sock;
 		State state;

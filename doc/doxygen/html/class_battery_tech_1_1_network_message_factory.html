@@ -91,10 +91,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a>  </div>
   <div class="headertitle">
-<div class="title">BatteryTech::NetworkMessageFactory Class Reference</div>  </div>
+<div class="title">BatteryTech::NetworkMessageFactory Class Reference<div class="ingroups"><a class="el" href="group___networking.html">Networking</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 
+<p>An abstract message factory.  
+ <a href="class_battery_tech_1_1_network_message_factory.html#details">More...</a></p>
+<hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
+<div class="textblock"><p>When a message comes in from the network, the subclass of this must create a <a class="el" href="class_battery_tech_1_1_network_message.html" title="A Network Message.">NetworkMessage</a> instance matching the messageType.</p>
+<dl class="section see"><dt>See also:</dt><dd><a class="el" href="class_battery_tech_1_1_network_manager.html" title="Peer Discovery and Host/Client networking.">NetworkManager</a> </dd></dl>
+</div>
 <p><code>#include &lt;<a class="el" href="_network_message_factory_8h_source.html">batterytech/network/NetworkMessageFactory.h</a>&gt;</code></p>
 
 <p><a href="class_battery_tech_1_1_network_message_factory-members.html">List of all members.</a></p>
@@ -103,6 +109,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a0928562aa4cea1660e50074c86df9086"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_battery_tech_1_1_network_message_factory.html#a0928562aa4cea1660e50074c86df9086">~NetworkMessageFactory</a> ()</td></tr>
 <tr class="memitem:a72d6a9f5243e8e9badbd9fb2027495c2"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="class_battery_tech_1_1_network_message.html">NetworkMessage</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_battery_tech_1_1_network_message_factory.html#a72d6a9f5243e8e9badbd9fb2027495c2">createMessage</a> (<a class="el" href="primitives_8h.html#a7fd0f901ce5fa28f2315830b2c4aea34">S32</a> messageType)=0</td></tr>
+<tr class="memdesc:a72d6a9f5243e8e9badbd9fb2027495c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates the message.  <a href="#a72d6a9f5243e8e9badbd9fb2027495c2"></a><br/></td></tr>
 </table>
 <hr/><h2>Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a0928562aa4cea1660e50074c86df9086"></a>
@@ -150,6 +157,12 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<dl class="params"><dt>Parameters:</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">messageType</td><td>The user-defined type of the message </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -159,7 +172,7 @@ Public Member Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon May 21 2012 15:32:57 for BatteryTech SDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon May 21 2012 18:21:07 for BatteryTech SDK by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1
 </small></address>

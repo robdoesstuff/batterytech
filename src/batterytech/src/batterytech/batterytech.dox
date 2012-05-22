@@ -100,7 +100,15 @@
  * \defgroup Audio Audio playback and management
  * \brief Audio Sample and (local) Streaming playback
  *
- * BatteryTech supports OGG-Vorbis exclusively.
+ * BT implements audio in 2 different ways.  It provides its own OGG decoding, pcm mixing and playback services and it also supports calling platform-specific 
+ * functions when supported.  In environments like Win32, there are no one-stop shops for playing OGGs in a way that would be good for games, but in Android, 
+ * there are services like the SoundPool and MediaPlayer classes.  BT supports both of those if you choose to use them.
+ *
+ * The setting "prefer_platform_audio_management" in batterytech_config.txt defines the behavior.  If set to true, then sound playing calls will use platform 
+ * facilities such as Android's SoundPool when available.  If set to false, BT's PCM audio services will be used instead.  As of BT 2.0, only Android has 
+ * platform audio management support.  It will likely be added for iOS and OSX at some point in the form of OpenAL.
+ *
+ * Formats: BatteryTech supports OGG-Vorbis exclusively.
  *
  * _platform audio functions are available primarily to serve the \ref BatteryTech::AudioManager.
  * For most applications, \ref BatteryTech::AudioManager is the desired interface to use and can

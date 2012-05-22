@@ -86,7 +86,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <p>Audio Sample and (local) Streaming playback.  
 <a href="#details">More...</a></p>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
-<p><a class="el" href="namespace_battery_tech.html">BatteryTech</a> supports OGG-Vorbis exclusively.</p>
+<p>BT implements audio in 2 different ways. It provides its own OGG decoding, pcm mixing and playback services and it also supports calling platform-specific functions when supported. In environments like Win32, there are no one-stop shops for playing OGGs in a way that would be good for games, but in Android, there are services like the SoundPool and MediaPlayer classes. BT supports both of those if you choose to use them.</p>
+<p>The setting "prefer_platform_audio_management" in batterytech_config.txt defines the behavior. If set to true, then sound playing calls will use platform facilities such as Android's SoundPool when available. If set to false, BT's PCM audio services will be used instead. As of BT 2.0, only Android has platform audio management support. It will likely be added for iOS and OSX at some point in the form of OpenAL.</p>
+<p>Formats: <a class="el" href="namespace_battery_tech.html">BatteryTech</a> supports OGG-Vorbis exclusively.</p>
 <p>_platform audio functions are available primarily to serve the <a class="el" href="class_battery_tech_1_1_audio_manager.html">BatteryTech::AudioManager</a>. For most applications, <a class="el" href="class_battery_tech_1_1_audio_manager.html">BatteryTech::AudioManager</a> is the desired interface to use and can be accessed through the application's <a class="el" href="class_battery_tech_1_1_context.html">BatteryTech::Context</a>.</p>
 <p>Example: </p>
 <div class="fragment"><div class="line"> context-&gt;audioManager-&gt;loadSound(<span class="stringliteral">&quot;sounds/mysound.ogg&quot;</span>);</div>
@@ -567,7 +569,7 @@ Classes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon May 21 2012 15:32:57 for BatteryTech SDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon May 21 2012 18:21:07 for BatteryTech SDK by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1
 </small></address>

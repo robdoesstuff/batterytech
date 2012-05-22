@@ -19,10 +19,20 @@
 
 namespace BatteryTech {
 
+	/** \brief Implement this to listen for network status changes
+	 * \ingroup Networking
+	 * \class NetworkStatusListener
+	 *
+	 * Use in conjunction with NetworkManager
+	 * \see NetworkManager
+	 */
 	class NetworkStatusListener {
 	public:
 		enum Status { STATUS_NONE, STATUS_ERROR, STATUS_WAITING_FOR_CLIENTS, STATUS_FINDING_HOSTS, STATUS_VALIDATING, STATUS_CONNECTING, STATUS_CONNECTED };
 		virtual ~NetworkStatusListener(){};
+		/** \brief Called when the network status has changes
+		 * \param status The new network status
+		 */
 		virtual void onStatusChanged(NetworkStatusListener::Status status){};
 	};
 

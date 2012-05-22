@@ -97,6 +97,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
+<p>Manages an active game connection in either host or client mode.  
+ <a href="class_battery_tech_1_1_game_connection.html#details">More...</a></p>
+<hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
+<div class="textblock"><p>Once the network manager has made a connection, it will create a <a class="el" href="class_battery_tech_1_1_game_connection.html" title="Manages an active game connection in either host or client mode.">GameConnection</a> to the other side. This <a class="el" href="class_battery_tech_1_1_game_connection.html" title="Manages an active game connection in either host or client mode.">GameConnection</a> is what is used to transmit and receive data from a specific client or to the server. Normally you don't need to do anything with this class because <a class="el" href="class_battery_tech_1_1_network_manager.html" title="Peer Discovery and Host/Client networking.">NetworkManager</a> will use it internally to marshall data and manage the connection. </p>
+</div>
 <p><code>#include &lt;<a class="el" href="_game_connection_8h_source.html">batterytech/network/GameConnection.h</a>&gt;</code></p>
 
 <p><a href="class_battery_tech_1_1_game_connection-members.html">List of all members.</a></p>
@@ -115,11 +120,16 @@ Public Types</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:aa135e6d2cd960ea9dc277096d942844d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_battery_tech_1_1_game_connection.html#aa135e6d2cd960ea9dc277096d942844d">GameConnection</a> (SOCKET socket, <a class="el" href="class_battery_tech_1_1_game_connection.html#adf436796bf74910a5717c536d35405d8">Mode</a> <a class="el" href="glext_8h.html#a1e71d9c196e4683cc06c4b54d53f7ef5">mode</a>, <a class="el" href="class_battery_tech_1_1_network_manager.html">NetworkManager</a> *netMgr)</td></tr>
+<tr class="memdesc:aa135e6d2cd960ea9dc277096d942844d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new <a class="el" href="class_battery_tech_1_1_game_connection.html" title="Manages an active game connection in either host or client mode.">GameConnection</a>.  <a href="#aa135e6d2cd960ea9dc277096d942844d"></a><br/></td></tr>
 <tr class="memitem:abb444cf423ebd170d06ba9566daa3159"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_battery_tech_1_1_game_connection.html#abb444cf423ebd170d06ba9566daa3159">~GameConnection</a> ()</td></tr>
 <tr class="memitem:a9180afe18ffcbed53088b29206eb5114"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="glext_8h.html#a3db05964a3cc4410f35b7ea2b7eb850d">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_battery_tech_1_1_game_connection.html#a9180afe18ffcbed53088b29206eb5114">closeConnection</a> ()</td></tr>
+<tr class="memdesc:a9180afe18ffcbed53088b29206eb5114"><td class="mdescLeft">&#160;</td><td class="mdescRight">Closes the connection.  <a href="#a9180afe18ffcbed53088b29206eb5114"></a><br/></td></tr>
 <tr class="memitem:a01e6b648a542a0a412a22857878d4a35"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="glext_8h.html#a3db05964a3cc4410f35b7ea2b7eb850d">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_battery_tech_1_1_game_connection.html#a01e6b648a542a0a412a22857878d4a35">update</a> ()</td></tr>
+<tr class="memdesc:a01e6b648a542a0a412a22857878d4a35"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates the connection.  <a href="#a01e6b648a542a0a412a22857878d4a35"></a><br/></td></tr>
 <tr class="memitem:ac76eb013c0ef75bfa8edb1ce5cc5db6c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glext_8h.html#a3db05964a3cc4410f35b7ea2b7eb850d">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_battery_tech_1_1_game_connection.html#ac76eb013c0ef75bfa8edb1ce5cc5db6c">checkErrors</a> ()</td></tr>
+<tr class="memdesc:ac76eb013c0ef75bfa8edb1ce5cc5db6c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks for errors.  <a href="#ac76eb013c0ef75bfa8edb1ce5cc5db6c"></a><br/></td></tr>
 <tr class="memitem:a57eda3947b21b056823e19810c1db4e0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glext_8h.html#a3db05964a3cc4410f35b7ea2b7eb850d">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_battery_tech_1_1_game_connection.html#a57eda3947b21b056823e19810c1db4e0">sendMessages</a> (<a class="el" href="class_battery_tech_1_1_managed_array.html">ManagedArray</a>&lt; <a class="el" href="class_battery_tech_1_1_network_message.html">NetworkMessage</a> &gt; *messages)</td></tr>
+<tr class="memdesc:a57eda3947b21b056823e19810c1db4e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sends messages through the connection.  <a href="#a57eda3947b21b056823e19810c1db4e0"></a><br/></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -202,6 +212,14 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<dl class="params"><dt>Parameters:</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">socket</td><td>The network socket </td></tr>
+    <tr><td class="paramname">mode</td><td>The Mode </td></tr>
+    <tr><td class="paramname">netMgr</td><td>The <a class="el" href="class_battery_tech_1_1_network_manager.html" title="Peer Discovery and Host/Client networking.">NetworkManager</a> managing this connection </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -241,7 +259,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
+<pre class="fragment">              </pre> 
 </div>
 </div>
 <a class="anchor" id="a9180afe18ffcbed53088b29206eb5114"></a>
@@ -264,7 +282,7 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
+<pre class="fragment">              </pre> 
 </div>
 </div>
 <a class="anchor" id="a57eda3947b21b056823e19810c1db4e0"></a>
@@ -280,6 +298,12 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<dl class="params"><dt>Parameters:</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">messages</td><td>The list of messages to send </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -303,7 +327,7 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
+<pre class="fragment">              </pre> 
 </div>
 </div>
 <hr/><h2>Member Data Documentation</h2>
@@ -350,7 +374,7 @@ Public Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon May 21 2012 15:32:57 for BatteryTech SDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon May 21 2012 18:21:07 for BatteryTech SDK by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1
 </small></address>

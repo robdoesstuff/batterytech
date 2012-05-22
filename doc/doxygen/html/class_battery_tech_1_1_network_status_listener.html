@@ -92,10 +92,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a>  </div>
   <div class="headertitle">
-<div class="title">BatteryTech::NetworkStatusListener Class Reference</div>  </div>
+<div class="title">BatteryTech::NetworkStatusListener Class Reference<div class="ingroups"><a class="el" href="group___networking.html">Networking</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 
+<p>Implement this to listen for network status changesUse in conjunction with <a class="el" href="class_battery_tech_1_1_network_manager.html" title="Peer Discovery and Host/Client networking.">NetworkManager</a>.  
+ <a href="class_battery_tech_1_1_network_status_listener.html#details">More...</a></p>
+<hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
+<div class="textblock"><dl class="section see"><dt>See also:</dt><dd><a class="el" href="class_battery_tech_1_1_network_manager.html" title="Peer Discovery and Host/Client networking.">NetworkManager</a> </dd></dl>
+</div>
 <p><code>#include &lt;<a class="el" href="_network_status_listener_8h_source.html">batterytech/network/NetworkStatusListener.h</a>&gt;</code></p>
 
 <p><a href="class_battery_tech_1_1_network_status_listener-members.html">List of all members.</a></p>
@@ -118,6 +123,7 @@ Public Types</h2></td></tr>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a00f719ff76269262118853838e874ca2"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_battery_tech_1_1_network_status_listener.html#a00f719ff76269262118853838e874ca2">~NetworkStatusListener</a> ()</td></tr>
 <tr class="memitem:a9a413329f9ec1917f1b1e4052448a844"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="glext_8h.html#a3db05964a3cc4410f35b7ea2b7eb850d">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_battery_tech_1_1_network_status_listener.html#a9a413329f9ec1917f1b1e4052448a844">onStatusChanged</a> (<a class="el" href="class_battery_tech_1_1_network_status_listener.html#acc3b6838f688b9fce131b9dfd2c87203">NetworkStatusListener::Status</a> status)</td></tr>
+<tr class="memdesc:a9a413329f9ec1917f1b1e4052448a844"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called when the network status has changes.  <a href="#a9a413329f9ec1917f1b1e4052448a844"></a><br/></td></tr>
 </table>
 <hr/><h2>Member Enumeration Documentation</h2>
 <a class="anchor" id="acc3b6838f688b9fce131b9dfd2c87203"></a>
@@ -196,6 +202,12 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<dl class="params"><dt>Parameters:</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">status</td><td>The new network status </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -205,7 +217,7 @@ Public Member Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon May 21 2012 15:32:57 for BatteryTech SDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon May 21 2012 18:21:07 for BatteryTech SDK by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1
 </small></address>

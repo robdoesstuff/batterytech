@@ -21,12 +21,22 @@ namespace BatteryTech {
 
 	class NetworkMessage;
 
+	/** \brief Implement this to receive network messages
+	 * \ingroup Networking
+	 * \class NetworkMessageListener
+	 *
+	 * \see NetworkManager
+	 */
 	class NetworkMessageListener {
 	public:
 		virtual ~NetworkMessageListener(){};
-		// called when a new network message has arrived.
+		/** \brief called when a new network message has arrived.
+		 * \param message The network message
+		 */
 		virtual void onNetworkMessage(NetworkMessage* message){};
-		// called when the network connection has disconnected.
+		/** \brief called when the network connection has disconnected.
+		 *
+		 */
 		virtual void onNetworkDisconnected(){};
 	};
 

@@ -35,13 +35,43 @@ namespace BatteryTech {
  	 * When using raw PCM playback, streaming sounds will decode in real-time chunks of \ref PCM_AUDIO_STREAM_BUFFER_SIZE.
  	 * Add more buffers and decrease buffer size to decrease decoding lag in the main loop.
  	 *
- 	 * Example:
+ 	 * Many of the settings in batterytech_globals affect the behavior of AudioManager, including the buffering of streaming audio, maximum number of
+ 	 * sounds loaded and maximum number of simultaneous sounds playing and mixing.  AudioManager routes calls to play sound either to an internal
+ 	 * PCMAudioManager or to the platform's audio playing services.  Again, this simply depends on the platform's capabilities and the value of
+ 	 * "prefer_platform_audio_management" in batterytech_config.txt. AudioManager supports 2 types of audio:  Regular sounds and streaming sounds.
+ 	 * Regular sounds are things like clicks, hits, gunshots, etc.  They are things you want to play immedately with lowest latency.  Streaming sounds
+ 	 * will be decoded-while played.  It is only recommended to use them for music, voice tracks or other sounds too big to load all at once into
+ 	 * memory as a regular sound.  Regular sounds need to be loaded before they can be played.  A level-loading state is an appropriate place to
+ 	 * load the sounds.  When using BT audio, the sounds are decoded from OGG into PCM and mixed using a high performance mixer.
+ 	 * An instance of AudioManager is available via the Context.
+ 	 *
+ 	 * Playing Regular Sounds Example:
  	 * \code
+ 	 *  // First, load your sound:
  	 * context->audioManager->loadSound("sounds/mysound.ogg");
+ 	 *  // this will load assets/MySound.ogg.  It is a synchronous method and the sound will be ready to play immediately after loading.
+ 	 *  // To play your sound, you have a few things to specify.  Loops is the number of times the sound will loop before stopping automatically.
+ 	 *  // 0 loops plays it just once.  1 loop plays it twice fully.  -1 loops plays until the sound it stopped explicitly using any of the 3
+ 	 *  // stopSound functions.  This plays max volume, standard (1.0) rate.
  	 * context->audioManager->playSound("sounds/mysound.ogg", 0, 1.0, 1.0, 1.0);
+ 	 *  // Unloading your sound will free the memory that was allocated for the PCM.
+ 	 *  // Please calculate out how much memory your sounds will be using as a product of rate, length, channels and 16 bit depth.
+ 	 *  // Using 22khz mono sounds is recommended for mobile as it saves space and tends to be a good balance of quality and size.
  	 * context->audioManager->unloadSound("sounds/mysound.ogg");
  	 * \endcode
  	 *
+ 	 * Streaming Sound Example:
+ 	 * \code
+ 	 *  // start the music looping infinitely.
+ 	 * context->audioManager->playStreamingSound("SomeMusic.ogg", -1, 1.0, 1.0, 1.0);
+	 *  // now stop the music
+	 * context->audioManager->stopStreamingSound("SomeMusic.ogg");
+ 	 * \endcode
+ 	 *
+ 	 * Other notes:\n
+ 	 * As of BT 2.0, PCM mixing output for all platforms are configured to play audio back at 44.1khz, stereo, 16 bit.  If you do not want that,
+ 	 * you will need to change it for all platforms and update the settings in batterytech_globals.h to reflect your settings.  A future version
+ 	 * of BT may support per-platform settings.
 	 */
 	class AudioManager {
 	public:
