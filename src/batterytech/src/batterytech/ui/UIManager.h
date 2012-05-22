@@ -29,6 +29,13 @@ namespace BatteryTech {
 	class Context;
 	class Menu;
 
+	/** \brief A class which manages a set of Menus
+	 *
+	 * UIManager is responsible for managing the menu stack, dispatching input and updating the active UIComponents
+	 *
+	 * \ingroup UI
+	 * \class UIManager
+	 */
 	class UIManager {
 	public:
 		UIManager(Context *context);

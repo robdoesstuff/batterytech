@@ -24,6 +24,18 @@
 
 namespace BatteryTech {
 
+	/** \brief A UI Menu
+	 *
+	 * Every menu has one root UIComponent of which all other UIComponents must be children or have parents that are children of.
+	 *
+	 * Only one menu at a time may be active (top of the menu stack) and menus may be pushed and popped off the stack.  This works well for
+	 * simple systems but does have limitations for how much compositing of multiple menus the screen may have.  It is recommended to use
+	 * shared layouts and components across different menus should the need for such complex UI systems arise.  Another option is to instantiate
+	 * additional UIManagers for larger, more customized UIs that need to support multiple active menus.
+	 *
+	 * \ingroup UI
+	 * \class Menu
+	 */
 	class Menu {
 	public:
 		/**

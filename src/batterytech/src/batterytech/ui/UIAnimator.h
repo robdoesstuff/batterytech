@@ -27,6 +27,10 @@ namespace BatteryTech {
 	class UIComponent;
 	class Context;
 
+	/** \brief UIAnimator Base class for bolt-on animator components
+	 * \ingroup UI
+	 * \class UIAnimator
+	 */
 	class UIAnimator {
 	public:
 		UIAnimator();

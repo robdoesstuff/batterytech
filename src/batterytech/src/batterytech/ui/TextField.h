@@ -21,6 +21,10 @@
 
 namespace BatteryTech {
 
+	/** \brief Editable Text Field
+	 * \ingroup UI
+	 * \class TextField
+	 */
 	class TextField: public UIComponent {
 	public:
 		TextField(const char *text = NULL) : UIComponent(text){ allowNumeric = TRUE; };

@@ -22,6 +22,11 @@
 
 namespace BatteryTech {
 
+	/** \brief Standard Layout Parameters
+	 * \ingroup UI
+	 * \class LayoutParameters
+	 *
+	 */
 	class LayoutParameters {
 	public:
 		enum HorizontalAlignment { LEFT, HORIZONTAL_CENTER, RIGHT };

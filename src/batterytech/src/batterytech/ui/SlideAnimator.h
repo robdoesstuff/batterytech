@@ -25,6 +25,10 @@ namespace BatteryTech {
 
 	class Context;
 
+	/** \brief SlideAnimator Adds slide-in and slide-out effects to UIComponents
+	 * \ingroup UI
+	 * \class SlideAnimator
+	 */
 	class SlideAnimator : public UIAnimator {
 	public:
 		enum SlideSide { LEFT, TOP, RIGHT, BOTTOM };

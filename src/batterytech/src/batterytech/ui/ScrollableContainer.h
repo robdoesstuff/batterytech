@@ -22,6 +22,10 @@
 
 namespace BatteryTech {
 
+	/** \brief A container that makes any children scrollable
+	 * \ingroup UI
+	 * \class ScrollableContainer
+	 */
 	class ScrollableContainer : public Layout {
 	public:
 		ScrollableContainer(const char *text);

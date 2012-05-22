@@ -21,6 +21,10 @@
 
 namespace BatteryTech {
 
+	/** \brief A Text Label
+	 * \ingroup UI
+	 * \class Label
+	 */
 	class Label: public UIComponent {
 	public:
 		Label(const char *text = NULL) : UIComponent(text){};

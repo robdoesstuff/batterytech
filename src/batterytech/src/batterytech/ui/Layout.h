@@ -22,6 +22,10 @@
 
 namespace BatteryTech {
 
+	/** \brief Base class for a layout
+	 * \ingroup UI
+	 * \class Layout
+	 */
 	class Layout: public UIComponent {
 	public:
 		Layout(const char *text = NULL) : UIComponent(text){};

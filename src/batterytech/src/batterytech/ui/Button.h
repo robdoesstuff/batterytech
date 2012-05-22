@@ -21,6 +21,10 @@
 
 namespace BatteryTech {
 
+	/** \brief A Button
+	 * \ingroup UI
+	 * \class Button
+	 */
 	class Button: public UIComponent {
 	public:
 		Button(const char *text = NULL);

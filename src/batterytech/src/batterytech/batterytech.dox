@@ -1,5 +1,7 @@
 // this file is only for doxygen
 
+namespace BatteryTech {
+
 /*! \mainpage Welcome to BatteryTech SDK
  *
  * \section starting_sec Getting Started
@@ -59,6 +61,31 @@
  */
  
  /**
+  * \addtogroup Touch
+  *
+  * BT uses platform-independent touch remapping and a simple polling model to make it extremely easy for you to access multitouch data for up to
+  * 10 touch points.  On desktop platforms, mouse input is mapped to the first available touch point so the same code will work for everything.
+  *
+  * Example for reading a single touch point
+  * \code
+  * PointerState state = context->pointerState[0];
+  * if (state.isDown) {
+  *   // touch is down at state.x, state.y
+  * }
+  * \endcode
+  *
+  * And handling multi touch isn't really any harder.  Here's an example to allow for multiple touches on multiple objects:
+  * \code
+  * for (S32 i = 0; i < MAX_POINTERS; i++) {
+  *   PointerState state = context->pointerState[i];
+  *   if (state.isDown) {
+  *     checkObjectTouchIntersection(state.x, state.y);
+  *   }
+  * }
+  * \endcode
+  */
+
+ /**
  * \addtogroup Keyboard
  *
  * Most mobile platforms have virtual keyboards that we can use in place of real keyboards.  Different platforms have different special keys that
@@ -92,6 +119,21 @@
  */
 
 /**
+ * \addtogroup Accelerometer
+ *
+ * Most mobile platforms come standard with accelerometers and for those, we have them enabled and feeding data into your BatteryTech app by default.
+ *
+ * The most recent data is always available in Context::accelerometerState.  The data is normalized across all platforms so no special handling code
+ * is needed to use it consistently.
+ *
+ * Example:
+ * \code
+ * AccelerometerState accel = context->accelerometerState;
+ *   // accel.x, accel.y and accel.z are all you need!
+ * \endcode
+ */
+
+/**
  * \defgroup UI User Interface Library
  * \brief OpenGL-based User Interface Library
  * 
@@ -99,47 +141,53 @@
  * It is designed primarily to provide menus for mobile games using GLES.  It is very lightweight, has very few components and can do this job very well.
  * 
  * 
- * * UIComponent
+ * * Base Components
  * 
- * A UIComponent is a piece of text, button, panel, layout or any other thing that you will find on a UI.  Every BTUI component like Button, Checkbox, etc, 
- * extends UIComponent.
+ * A \ref UIComponent is a piece of text, button, panel, layout or any other thing that you will find on a UI.  Every BTUI component like Button, Checkbox, etc,
+ * extends \ref UIComponent.
  * 
  * 
  * * Menus
  * 
- * BTUI is menu-centric.  Menus are the controller and hold the top level UIComponent.  Menus receive the user input for all components that they hold.  
- * Menus instantiate components into a layout.  Each menu in an app must be instantiated and added to the UIManager.
+ * BTUI is menu-centric.  A \ref Menu is the controller and holds the top level \ref UIComponent.  Menus receive the user input for all components that they hold.
+ * Menus instantiate components into a layout.  Each menu in an app must be instantiated and added to the \ref UIManager.
  * 
  * 
- * * UIManager
+ * * Menu Management
  * 
- * UIManager is used to show and hide menus.  It does a little more than that, though.  It also has a menu stack that it manages.  Every time you show a 
+ * \ref UIManager is used to show and hide menus.  It does a little more than that, though.  It also has a menu stack that it manages.  Every time you show a
  * menu, it pushes that menu onto a stack.  This means you can drill-down in menus and not worry about what menu the last one came from.  Let's examine 
  * the methods quickly:
  * 
+ * \code
  * S32 addMenu(Menu *menu);
  * void showMenu(const char *name);
  * void showMenu(const char *name, void *data);
  * void popMenu();
  * void clearMenuStack();
+ * \endcode
  * 
  * The first method, addMenu() is what you call from your game to put an instance of a menu in the pool.  Each menu will only have one instance of it which 
  * is held throughout the application.  The advantage of this is that the menu will hold its state until the application is closed.  Typical usage:
  * 
- *  * context->uiManager->addMenu(new TopMenu());
+ * \code
+ * context->uiManager->addMenu(new TopMenu());
+ * \endcode
  * 
  * The UIManager will free your menus for you when it is freed, so you don't need to hang on to references to them unless you need them for a different reason.  
  * Just know that it will free for you.
  * 
  * After a menu has been added, showing it is as simple as:
  * 
+ * \code
  * context->uiManager->showMenu(TOP_MENU_NAME); // TOP_MENU_NAME would be declared either in constants or in the TopMenu header itself.
+ * \endcode
  * 
  * Now the menu will be showing and it will also be on top the menu stack in UIManager.  The menu itself can have a click handler that can remove it from the 
  * stack, like so:
- * 
+ * \code
  * context->uiManager->popMenu();
- * 
+ * \endcode
  * If the stack was empty before showing that menu, nothing will be shown, but if it had any items, the top most item is now the menu displayed in front.
  * 
  * showMenu() can also take a second argument, data.  Being a void pointer, you can send a pointer to anything using this function.  What happens when you use 
@@ -149,20 +197,24 @@
  * 
  * * Layouts
  * 
- * The most important thing to understand about BTUI is the LinearLayout.  This UIComponent is the do-all layout and it can be nested, which makes for limitless 
+ * The most important thing to understand about BTUI is the \ref LinearLayout.  This \ref UIComponent is the do-all layout and it can be nested, which makes for limitless
  * layout possibilities.  A LinearLayout can be either vertical or horizontal.  Vertical layout stacks the items one on top of another, or bottom up, centered 
  * or any combination of the 3.  Horizontal layout does the same, but using left-to-right placement.
  * 
+ * \code
  * mainLayout = new LinearLayout(LinearLayout::VERTICAL);
+ * \endcode
  * 
- * is a typical way of creating a LinearLayout.  This one will be in the vertical orientation.  Specify HORIZONTAL for horizontal.  Each object added will have 
+ * is a typical way of creating a \ref LinearLayout.  This one will be in the vertical orientation.  Specify HORIZONTAL for horizontal.  Each object added will have
  * its own positioning in the layout and that is specified by the LayoutParameters set to that specific object.  
  * 
+ * \code
  * backButton->setLayoutParameters(new LayoutParameters(LayoutParameters::HORIZONTAL_CENTER, LayoutParameters::TOP));
+ * \endcode
  * 
  * will set the back button to be centered horizontally and added to the top.  See LayoutParameters.h for all possible options.
  * 
- * Each UIComponent will also specify Size, Margins and Padding.  All units are in what we call "Reference units."
+ * Each \ref UIComponent will also specify Size, Margins and Padding.  All units are in what we call "Reference units."
  * 
  * 
  * * Reference Units
@@ -215,9 +267,11 @@
  * There is one stock animator (SlideAnimator) that slides components in and out of the menu.  It is used in the demo app and should be a good place to look to 
  * learn how to use it.  For custom animators, you will need to extend UIAnimator and implement the following functions:
  * 
+ * \code
  * virtual void update(F32 delta){};
  * virtual void drawPreComponent(Context *context){};
  * virtual void drawPostComponent(Context *context){};
+ * \endcode
  * 
  * update is called every engine tick with delta being the time difference from the last tick.
  * drawPreComponent is called before the normal drawing routing of UIComponent.
@@ -226,9 +280,11 @@
  * 
  * Each component specifies the animator it will use and for what part of its display the animator will be applied to:
  * 
+ * \code
  * virtual void setEnterAnimator(UIAnimator *animator);
  * virtual void setMainAnimator(UIAnimator *animator);
  * virtual void setExitAnimator(UIAnimator *animator);
+ * \endcode
  * 
  * The "Enter" animator is run when the menu is being shown.
  * The "Main" animator is run constantly while the component is being shown.
@@ -237,7 +293,7 @@
  * 
  * * Scrollable Container
  * 
- * The ScrollableContainer class is a layout that can only have one UIComponent.  To make a block of text scrollable, simple create a ScrollableContainer, add 
+ * The \ref ScrollableContainer class is a layout that can only have one UIComponent.  To make a block of text scrollable, simple create a ScrollableContainer, add
  * the text to it and set the layouts appropriately to allow for multiline text wrapping.  You may add a LinearLayout to the ScrollableContainer instead of a 
  * normal UIComponent allowing for multiple components to be scrolled together, which can include labels, buttons, checkboxes or any other component.  Rendering 
  * is achieved through the use of glScissor.  Please keep in mind that as of BatteryTech 1.0c, all components in a ScrollableContainer are always rendered in the 
@@ -344,3 +400,5 @@
  *
  */
  
+}
+

@@ -26,6 +26,18 @@ namespace BatteryTech {
 
 	class Context;
 
+	/** \brief A dynamic layout which can be nested and is either Vertical or Horizontal
+	 *
+	 * In Vertical mode, this layout will stack children on top of each other.  In Horizontal mode, this layout will set children side-by-side.
+	 *
+	 * Children can be aligned to the top, center or bottom vertically as well as left, center and right horizontally all mutually inclusive which
+	 * allows for a number of layout options, including top, center and bottom of the screen for a full screen layout with dynamic height for the
+	 * center component.  This is a very powerful layout and with nesting, virtually any layout result with the exception of a dynamic row/column
+	 * grid can be achieved.
+	 *
+	 * \ingroup UI
+	 * \class LinearLayout
+	 */
 	class LinearLayout: public Layout {
 	public:
 		enum LayoutDirection { VERTICAL, HORIZONTAL };

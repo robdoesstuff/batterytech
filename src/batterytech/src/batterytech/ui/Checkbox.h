@@ -26,6 +26,10 @@
 
 namespace BatteryTech {
 
+	/** \brief A Checkbox
+	 * \ingroup UI
+	 * \class Checkbox
+	 */
 	class Checkbox: public LinearLayout {
 	public:
 		Checkbox(const char *text = NULL);
