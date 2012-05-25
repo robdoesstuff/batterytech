@@ -18,6 +18,11 @@
 
 #import "EAGLView.h"
 
+#ifdef __APPLE__
+#include <TargetConditionals.h>
+#endif
+#if TARGET_OS_IPHONE
+
 @interface EAGLView (PrivateMethods)
 - (void)createFramebuffer;
 - (void)deleteFramebuffer;
@@ -228,3 +233,5 @@
 }
 
 @end
+
+#endif
