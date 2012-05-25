@@ -221,7 +221,7 @@ double getCurrentTime() {
 }
 
 - (void)startAnimation {
-    @synchronized(self) {
+    @synchronized(self.view) {
         if (!animating) {
             animating = TRUE;
             animationThread = [[NSThread alloc] initWithTarget:self selector:@selector(runMainLoop) object:nil];
@@ -231,7 +231,7 @@ double getCurrentTime() {
 }
 
 - (void)stopAnimation {
-    @synchronized(self) {
+    @synchronized(self.view) {
         if (animating) {
              animating = FALSE;
         }
@@ -255,9 +255,9 @@ double getCurrentTime() {
 	currentTime = getCurrentTime();
     @synchronized(self.view) {
         if (animating) {
+            [(EAGLView *)self.view setFramebuffer];
             btUpdate(currentTime - lastTime);
             //NSLog(@"btUpdate %f", currentTime - lastTime);
-            [(EAGLView *)self.view setFramebuffer];
             btDraw();
             [(EAGLView *)self.view presentFramebuffer];
         }
@@ -275,7 +275,7 @@ double getCurrentTime() {
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
 {
-    if (toInterfaceOrientation == UIInterfaceOrientationLandscapeRight) {
+    if (toInterfaceOrientation == UIInterfaceOrientationLandscapeRight && [self forceLandscape]) {
         return TRUE;
     } else {
         return FALSE;
