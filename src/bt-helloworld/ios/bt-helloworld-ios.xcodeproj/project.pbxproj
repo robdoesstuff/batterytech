@@ -45,7 +45,6 @@
 		3DE02CDF155DCB9B00C19727 /* NetworkManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DE02B95155DCB9B00C19727 /* NetworkManager.cpp */; };
 		3DE02CE0155DCB9B00C19727 /* NetworkMessage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DE02B97155DCB9B00C19727 /* NetworkMessage.cpp */; };
 		3DE02CE1155DCB9B00C19727 /* androidgeneral.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DE02B9E155DCB9B00C19727 /* androidgeneral.cpp */; };
-		3DE02CE2155DCB9B00C19727 /* boot.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DE02BA1155DCB9B00C19727 /* boot.cpp */; };
 		3DE02CE3155DCB9B00C19727 /* importgl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DE02BA2155DCB9B00C19727 /* importgl.cpp */; };
 		3DE02CE5155DCB9B00C19727 /* batterytechAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DE02BA7155DCB9B00C19727 /* batterytechAppDelegate.m */; };
 		3DE02CE6155DCB9B00C19727 /* batterytechKeyboardDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3DE02BA9155DCB9B00C19727 /* batterytechKeyboardDelegate.mm */; };
@@ -58,7 +57,6 @@
 		3DE02CEE155DCB9B00C19727 /* opengles.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DE02BBA155DCB9B00C19727 /* opengles.cpp */; };
 		3DE02CEF155DCB9B00C19727 /* osxgeneral.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3DE02BBE155DCB9B00C19727 /* osxgeneral.mm */; };
 		3DE02CF0155DCB9B00C19727 /* platformgeneral.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DE02BC0155DCB9B00C19727 /* platformgeneral.cpp */; };
-		3DE02CF1155DCB9B00C19727 /* boot.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DE02BC4155DCB9B00C19727 /* boot.cpp */; };
 		3DE02CF2155DCB9B00C19727 /* resources.rc in Resources */ = {isa = PBXBuildFile; fileRef = 3DE02BC7155DCB9B00C19727 /* resources.rc */; };
 		3DE02CF3155DCB9B00C19727 /* win32general.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DE02BC9155DCB9B00C19727 /* win32general.cpp */; };
 		3DE02CF4155DCB9B00C19727 /* WinSound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DE02BCC155DCB9B00C19727 /* WinSound.cpp */; };
@@ -96,8 +94,6 @@
 		3DE02D14155DCB9B00C19727 /* strx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DE02C13155DCB9B00C19727 /* strx.cpp */; };
 		3DE02D15155DCB9B00C19727 /* TextFileUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DE02C15155DCB9B00C19727 /* TextFileUtil.cpp */; };
 		3DE02D16155DCB9B00C19727 /* VibrationManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DE02C17155DCB9B00C19727 /* VibrationManager.cpp */; };
-		3DF3D632155DF15A00B78035 /* MyBTViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DF3D630155DF15A00B78035 /* MyBTViewController.m */; };
-		3DF3D633155DF15A00B78035 /* MyBTViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DF3D631155DF15A00B78035 /* MyBTViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -179,7 +175,6 @@
 		3DE02B9E155DCB9B00C19727 /* androidgeneral.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = androidgeneral.cpp; sourceTree = "<group>"; };
 		3DE02B9F155DCB9B00C19727 /* androidgeneral.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = androidgeneral.h; sourceTree = "<group>"; };
 		3DE02BA0155DCB9B00C19727 /* androidtypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = androidtypes.h; sourceTree = "<group>"; };
-		3DE02BA1155DCB9B00C19727 /* boot.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = boot.cpp; sourceTree = "<group>"; };
 		3DE02BA2155DCB9B00C19727 /* importgl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = importgl.cpp; sourceTree = "<group>"; };
 		3DE02BA3155DCB9B00C19727 /* importgl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = importgl.h; sourceTree = "<group>"; };
 		3DE02BA6155DCB9B00C19727 /* batterytechAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = batterytechAppDelegate.h; sourceTree = "<group>"; };
@@ -207,7 +202,6 @@
 		3DE02BC0155DCB9B00C19727 /* platformgeneral.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = platformgeneral.cpp; sourceTree = "<group>"; };
 		3DE02BC1155DCB9B00C19727 /* platformgeneral.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = platformgeneral.h; sourceTree = "<group>"; };
 		3DE02BC2155DCB9B00C19727 /* platformgl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = platformgl.h; sourceTree = "<group>"; };
-		3DE02BC4155DCB9B00C19727 /* boot.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = boot.cpp; sourceTree = "<group>"; };
 		3DE02BC5155DCB9B00C19727 /* glext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glext.h; sourceTree = "<group>"; };
 		3DE02BC6155DCB9B00C19727 /* resources.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = resources.h; sourceTree = "<group>"; };
 		3DE02BC7155DCB9B00C19727 /* resources.rc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = resources.rc; sourceTree = "<group>"; };
@@ -289,9 +283,6 @@
 		3DE02C16155DCB9B00C19727 /* TextFileUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextFileUtil.h; sourceTree = "<group>"; };
 		3DE02C17155DCB9B00C19727 /* VibrationManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VibrationManager.cpp; sourceTree = "<group>"; };
 		3DE02C18155DCB9B00C19727 /* VibrationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VibrationManager.h; sourceTree = "<group>"; };
-		3DF3D62F155DF15A00B78035 /* MyBTViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyBTViewController.h; sourceTree = "<group>"; };
-		3DF3D630155DF15A00B78035 /* MyBTViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyBTViewController.m; sourceTree = "<group>"; };
-		3DF3D631155DF15A00B78035 /* MyBTViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyBTViewController.xib; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* batterytech_ios-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "batterytech_ios-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -320,9 +311,6 @@
 			children = (
 				3DDCA9AB1560B44D00FB1F6C /* batterytechViewController.xib */,
 				3DE02B5F155DCB7700C19727 /* main.m */,
-				3DF3D62F155DF15A00B78035 /* MyBTViewController.h */,
-				3DF3D630155DF15A00B78035 /* MyBTViewController.m */,
-				3DF3D631155DF15A00B78035 /* MyBTViewController.xib */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -553,7 +541,6 @@
 				3DE02B9E155DCB9B00C19727 /* androidgeneral.cpp */,
 				3DE02B9F155DCB9B00C19727 /* androidgeneral.h */,
 				3DE02BA0155DCB9B00C19727 /* androidtypes.h */,
-				3DE02BA1155DCB9B00C19727 /* boot.cpp */,
 				3DE02BA2155DCB9B00C19727 /* importgl.cpp */,
 				3DE02BA3155DCB9B00C19727 /* importgl.h */,
 			);
@@ -604,7 +591,6 @@
 		3DE02BC3155DCB9B00C19727 /* win32 */ = {
 			isa = PBXGroup;
 			children = (
-				3DE02BC4155DCB9B00C19727 /* boot.cpp */,
 				3DE02BC5155DCB9B00C19727 /* glext.h */,
 				3DE02BC6155DCB9B00C19727 /* resources.h */,
 				3DE02BC7155DCB9B00C19727 /* resources.rc */,
@@ -764,7 +750,6 @@
 				3D56BB381311C97D00BF7F17 /* icon-57.png in Resources */,
 				3D56BBFC1311D4D400BF7F17 /* MainWindow-iPad.xib in Resources */,
 				3DE02CF2155DCB9B00C19727 /* resources.rc in Resources */,
-				3DF3D633155DF15A00B78035 /* MyBTViewController.xib in Resources */,
 				3DDCA9AC1560B44D00FB1F6C /* batterytechViewController.xib in Resources */,
 				3DDCA9BF1560B7EB00FB1F6C /* assets in Resources */,
 			);
@@ -797,7 +782,6 @@
 				3DE02CDF155DCB9B00C19727 /* NetworkManager.cpp in Sources */,
 				3DE02CE0155DCB9B00C19727 /* NetworkMessage.cpp in Sources */,
 				3DE02CE1155DCB9B00C19727 /* androidgeneral.cpp in Sources */,
-				3DE02CE2155DCB9B00C19727 /* boot.cpp in Sources */,
 				3DE02CE3155DCB9B00C19727 /* importgl.cpp in Sources */,
 				3DE02CE5155DCB9B00C19727 /* batterytechAppDelegate.m in Sources */,
 				3DE02CE6155DCB9B00C19727 /* batterytechKeyboardDelegate.mm in Sources */,
@@ -810,7 +794,6 @@
 				3DE02CEE155DCB9B00C19727 /* opengles.cpp in Sources */,
 				3DE02CEF155DCB9B00C19727 /* osxgeneral.mm in Sources */,
 				3DE02CF0155DCB9B00C19727 /* platformgeneral.cpp in Sources */,
-				3DE02CF1155DCB9B00C19727 /* boot.cpp in Sources */,
 				3DE02CF3155DCB9B00C19727 /* win32general.cpp in Sources */,
 				3DE02CF4155DCB9B00C19727 /* WinSound.cpp in Sources */,
 				3DE02CF5155DCB9B00C19727 /* AssimpAnimator.cpp in Sources */,
@@ -847,7 +830,6 @@
 				3DE02D14155DCB9B00C19727 /* strx.cpp in Sources */,
 				3DE02D15155DCB9B00C19727 /* TextFileUtil.cpp in Sources */,
 				3DE02D16155DCB9B00C19727 /* VibrationManager.cpp in Sources */,
-				3DF3D632155DF15A00B78035 /* MyBTViewController.m in Sources */,
 				3DDCA9BA1560B5DA00FB1F6C /* AppContext.cpp in Sources */,
 				3DDCA9BB1560B5DA00FB1F6C /* HelloWorldApp.cpp in Sources */,
 				3DDCA9BC1560B5DA00FB1F6C /* RenderUtil.cpp in Sources */,

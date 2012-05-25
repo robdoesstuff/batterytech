@@ -19,6 +19,7 @@ void RenderUtil::setupGL(AppContext *context) {
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_DITHER);
 	glEnable(GL_BLEND);
+    glFrontFace(GL_CW);
 	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -26,7 +27,8 @@ void RenderUtil::setupGL(AppContext *context) {
 }
 
 void RenderUtil::startGLRender(AppContext *context) {
-	glClear(GL_COLOR_BUFFER_BIT);
+	glViewport(0, 0, context->gConfig->viewportWidth, context->gConfig->viewportHeight);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	context->renderContext->colorFilter = Vector4f(1, 1, 1, 1);
 	if (context->gConfig->useShaders) {
 		context->renderContext->projMatrix.identity();

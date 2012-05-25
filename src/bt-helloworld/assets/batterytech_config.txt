@@ -1,6 +1,6 @@
 use_shaders=false
-reference_width=480
-reference_height=800
+reference_width=800
+reference_height=480
 window_width=480
 window_height=800
 console_log_enabled_when_available=true
