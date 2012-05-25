@@ -61,7 +61,7 @@
 }
 
 - (bool) forceLandscape {
-    return TRUE;
+    return FALSE;
 }
 
 @end

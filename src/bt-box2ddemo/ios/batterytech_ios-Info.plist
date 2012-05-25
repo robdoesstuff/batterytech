@@ -41,7 +41,7 @@
 	<key>NSMainNibFile~ipad</key>
 	<string>MainWindow-iPad</string>
 	<key>UIInterfaceOrientation</key>
-	<string>UIInterfaceOrientationLandscapeRight</string>
+	<string>UIInterfaceOrientationPortrait</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
@@ -50,7 +50,7 @@
 	<true/>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
-		<string>UIInterfaceOrientationLandscapeRight</string>
+		<string>UIInterfaceOrientationPortrait</string>
 	</array>
 	<key>UTExportedTypeDeclarations</key>
 	<array/>
