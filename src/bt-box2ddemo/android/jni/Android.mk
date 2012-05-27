@@ -4,7 +4,7 @@
 # BatteryTech static lib
 
 include $(CLEAR_VARS)
-LOCAL_PATH := ../batterytech/src
+LOCAL_PATH := ../../batterytech/src
 
 my_src_files :=\
 	batterytech/batterytech.cpp \
@@ -78,7 +78,7 @@ include $(BUILD_STATIC_LIBRARY)
 
 include $(CLEAR_VARS)
 
-LOCAL_PATH := ../batterytech/src
+LOCAL_PATH := ../../batterytech/src
 
 # List all of your local source files here that you want included in this build
 my_src_files :=\
@@ -128,7 +128,7 @@ include $(BUILD_STATIC_LIBRARY)
 
 include $(CLEAR_VARS)
 
-LOCAL_PATH := ../bt-box2ddemo/app-src
+LOCAL_PATH := ../app-src
 
 my_src_files :=\
 	GameContext.cpp \
@@ -156,7 +156,7 @@ my_src_files :=\
 
 LOCAL_MODULE    := batterytech-app
 LOCAL_CFLAGS := -DANDROID_NDK
-LOCAL_C_INCLUDES := ../batterytech/src
+LOCAL_C_INCLUDES := ../../batterytech/src
 LOCAL_SRC_FILES := $(my_src_files)
 LOCAL_LDLIBS := -ldl -llog
 LOCAL_STATIC_LIBRARIES := batterytech box2d

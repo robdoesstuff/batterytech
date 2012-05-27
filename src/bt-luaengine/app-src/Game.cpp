@@ -173,6 +173,8 @@ void Game::update() {
 			if (tok) {
 				luaBinder->callGlobalVA("purchaseResult", "bs>", FALSE, tok);
 			}
+		} else {
+			luaBinder->callGlobalVA("callback", "s>", context->callbackData);
 		}
 		context->callbackDataReady = FALSE;
 		context->callbackData[0] = '\0';
