@@ -26,8 +26,8 @@ else
 endif
 
 
-APP_SOURCE_DIR=..\bt-helloworld\app-src
-SOURCE_DIR=..\batterytech\src
+APP_SOURCE_DIR=..\app-src
+SOURCE_DIR=..\..\batterytech\src
 CPPFLAGS=-c -Wall -I$(SOURCE_DIR) -I$(APP_SOURCE_DIR)
 CFLAGS=-c -Wall
 LDFLAGS=-mwindows -static-libgcc -static-libstdc++

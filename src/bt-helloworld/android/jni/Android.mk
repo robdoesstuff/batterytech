@@ -2,7 +2,7 @@
 
 include $(CLEAR_VARS)
 
-LOCAL_PATH := ../batterytech/src
+LOCAL_PATH := ../../batterytech/src
 
 # List all of your local source files here that you want included in this build
 my_src_files :=\
@@ -75,7 +75,7 @@ include $(BUILD_STATIC_LIBRARY)
 
 include $(CLEAR_VARS)
 
-LOCAL_PATH := ../bt-helloworld/app-src
+LOCAL_PATH := ../app-src
 
 my_src_files :=\
 	AppContext.cpp \
@@ -84,7 +84,7 @@ my_src_files :=\
 
 LOCAL_MODULE    := batterytech-app
 LOCAL_CFLAGS := -DANDROID_NDK \
-                -I ../batterytech/src
+                -I ../../batterytech/src
 LOCAL_SRC_FILES := $(my_src_files)
 LOCAL_LDLIBS := -ldl -llog
 LOCAL_STATIC_LIBRARIES := batterytech
