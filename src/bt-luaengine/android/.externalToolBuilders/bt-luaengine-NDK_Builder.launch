@@ -4,8 +4,9 @@
 <booleanAttribute key="org.eclipse.debug.ui.ATTR_LAUNCH_IN_BACKGROUND" value="false"/>
 <booleanAttribute key="org.eclipse.ui.externaltools.ATTR_BUILDER_ENABLED" value="true"/>
 <stringAttribute key="org.eclipse.ui.externaltools.ATTR_BUILD_SCOPE" value="${working_set:&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&#13;&#10;&lt;resources&gt;&#13;&#10;&lt;item path=&quot;/batterytech&quot; type=&quot;4&quot;/&gt;&#13;&#10;&lt;item path=&quot;/bt-luaengine&quot; type=&quot;4&quot;/&gt;&#13;&#10;&lt;item path=&quot;/bt-luaengine-android&quot; type=&quot;4&quot;/&gt;&#13;&#10;&lt;item path=&quot;/bt-luaengine-win&quot; type=&quot;4&quot;/&gt;&#13;&#10;&lt;/resources&gt;}"/>
-<stringAttribute key="org.eclipse.ui.externaltools.ATTR_LOCATION" value="${ShellProgram}"/>
+<stringAttribute key="org.eclipse.ui.externaltools.ATTR_LOCATION" value="${NDK_Build}"/>
 <stringAttribute key="org.eclipse.ui.externaltools.ATTR_RUN_BUILD_KINDS" value="full,incremental,"/>
-<stringAttribute key="org.eclipse.ui.externaltools.ATTR_TOOL_ARGUMENTS" value="--login -c &quot;cd ${UnixWorkspace}/bt-luaengine/android &amp;&amp; ${UnixNDK}/ndk-build --jobs 8&quot;"/>
+<stringAttribute key="org.eclipse.ui.externaltools.ATTR_TOOL_ARGUMENTS" value="--jobs 8"/>
 <booleanAttribute key="org.eclipse.ui.externaltools.ATTR_TRIGGERS_CONFIGURED" value="true"/>
+<stringAttribute key="org.eclipse.ui.externaltools.ATTR_WORKING_DIRECTORY" value="${project_loc}"/>
 </launchConfiguration>

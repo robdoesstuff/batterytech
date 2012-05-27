@@ -30,6 +30,10 @@
 					<value>mingw32-make</value>
 				</dictionary>
 				<dictionary>
+					<key>org.eclipse.cdt.make.core.buildLocation</key>
+					<value>${project_loc}</value>
+				</dictionary>
+				<dictionary>
 					<key>org.eclipse.cdt.make.core.cleanBuildTarget</key>
 					<value>cleandebug</value>
 				</dictionary>
