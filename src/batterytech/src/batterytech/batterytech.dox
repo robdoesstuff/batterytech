@@ -35,8 +35,9 @@ namespace BatteryTech {
  * * osx = The OSX XCode project
  * * win = Eclipse/CDT and Visual Studio 2010 projects
  *
- * Please open the various projects in their respective IDEs and examine how source and assets are linked across projects.  The common approach is to link common
- * source from any of the %BatteryTech libraries along with application-specific source to create the final executable.
+ * Please visit \ref ProjectSetup for information on opening the various projects in their respective IDEs.  Once you have your projects running, please examine how source
+ * and assets are linked across projects.  The common approach is to link common source from any of the %BatteryTech libraries along with application-specific source to
+ * create the final executable.
  *
  * \section tools_sec Tools support
  *
@@ -108,6 +109,8 @@ namespace BatteryTech {
  *
  * Please refer to specific documentation under \ref ProjectSetup for your platform or IDE to get set up.
  *
+ *
+ *
  * \addtogroup EclipseSetup
  *
  * \section eclipse_dl_sec Downloading and Installing Eclipse
@@ -124,6 +127,8 @@ namespace BatteryTech {
  * 2) Select Root Directory (wherever you unzipped %BatteryTech into)/src/batterytech\n
  * 3) Check "Copy projects into workspace" - This will make a copy of all the core batterytech source and libraries in your workspace.
  *
+ * \image html eclipse_import_existing_projects.JPG
+ *
  * Now for each project that you want to import, repeat the steps:\n
  * 1) File->Import->General->Existing Projects Into Workspace\n
  * 2) Select Root Directory (wherever you unzipped %BatteryTech into)/bt-helloworld - or other bt-project
@@ -134,6 +139,13 @@ namespace BatteryTech {
  * * bt-helloworld
  * * bt-otherprojects...
  *
+ * Now you should see these root projects (Assuming you want to build all 3 demos)
+ * \image html eclipse_root_projects.JPG
+ * Expanding the batterytech folder should look like this:
+ * \image html eclipse_root_projects_bt_expanded.JPG
+ * Expanding a project like helloworld should look like this:
+ * \image html eclipse_root_projects_hw_expanded.JPG
+ *
  * While each of the bt projects has sub-projects for specific platforms, Eclipse does not support sub projects so a specific step is needed
  * to enable.
  *
@@ -141,6 +153,49 @@ namespace BatteryTech {
  *
  * Windows/MinGW - Setup Environment and import the Windows/MinGW projects - \ref MinGWSetup\n
  * Android - Setup Environment and import the Android projects - \ref AndroidSetup
+ *
+ *
+ *
+ * \addtogroup AndroidSetup
+ *
+ * \section android_dl_sec Downloading and Installing Android SDK, NDK and ADT
+ *
+ * The Android SDK is the basic toolset to compile and build Java-based Android applications.  Download and install the appropriate distribution from here - http://developer.android.com/sdk/index.html\n
+ * The Android NDK is the toolchain for compiling and building C-based Android applications.  Download and install the appropriate distribution from here - http://developer.android.com/sdk/ndk/index.html\n
+ * The Android ADT is the eclipse plugin that integrates SDK with Eclipse.  Follow the directions here to install - http://developer.android.com/sdk/eclipse-adt.html#installing\n
+ *
+ * The SDK and NDK may come as only an archive file.  We typically unzip these files into an easy to access directory like C:\\Android_NDK and C:\\Android_SDK.  Please note the locations that you install to.
+ *
+ * You may need to perform additional steps for Android in order to have proper USB and Android version 2.2 support.  All of our Android projects use Android API Level 8.  You can install support for that
+ * API level via Eclipse, by going to Window->Android SDK Manager and checking the appropriate package and installing.
+ *
+ * \section android_ndk_build_var_sec Setting the NDK_Build variable
+ * We need to tell our project builders where our NDK build script is.  This is a file that ships with the Android NDK.  On Windows, it is called ndk-build.cmd.  On other systems, it is just named ndk-build
+ *
+ * In Eclipse, go to Window->Preferences->Run/Debug->String Substitions and add the following:\n
+ * Variable = NDK_Build\n
+ * Value = c:\\Android_NDK\\ndk-build.cmd <-- This is if you are in Windows and have unzipped the NDK into that path.  Please use the correct path where you unzipped NDK and only use the .cmd file for Windows.
+ * \image html eclipse_ndk_build_string.JPG
+ *
+ * \section android_projects Importing Android Projects
+ *
+ * For each %BatteryTech application project you want to import, you must have already imported the root project.  If you haven't done that,
+ * please see the instructions in \ref EclipseSetup
+ *
+ * Because Eclipse can't have sub-projects, we will need to tell it where the Android project lies.  To do that, you just:\n
+ * 1) File->Import...\n
+ * 2) General->Existing Projects Into Workspace\n
+ * 3) Navigate to your workspace where you copied the project in then to the android directory\n
+ * 4) Select the android directory\n
+ * 5) Select the project which should be named like bt-helloworld-android and Import.
+ *
+ * \image html eclipse_import_android_project.JPG
+ *
+ * You should now be able to compile and run the project.  Repeat this process for any other projects you want to import for Android.
+ *
+ * It is normal to sometimes see an environment error on first import.  Project->clean should resolve the issues.  If it does not, double check your environment to make sure everything
+ * is downloaded and installed properly, make sure you set the NDK builder string and make sure you have support for the matching Android API version of the projects (8).
+ *
  *
  *
  * \addtogroup MinGWSetup
@@ -178,8 +233,32 @@ namespace BatteryTech {
  * 4) Select the win directory\n
  * 5) Select the project which should be named like bt-helloworld-win and Import.
  *
+ * \image html eclipse_import_win_project.JPG
+ *
  * You should now be able to compile and run the project.  Repeat this process for any other projects you want to import for Windows.
  *
+ * Here is what a complete Windows/MinGW workspace looks like after all projects are imported.
+ *
+ * \image html eclipse_all_projects.JPG
+ *
+ *
+ *
+ * \addtogroup VSProjectSetup
+ *
+ * Visual Studio 2010 setup is very easy.  While you will still need Eclipse for Android builds, you can do the vast majority of development in VS with native Windows binaries.
+ * VS is not required for Windows builds as the Eclipse/MinGW option exists and developers more experienced with Eclipse may prefer that option, though initial setup is more
+ * complex. Please refer to \ref MinGWSetup for installation instructions for that route.
+ *
+ * To use VS2010, assuming you have downloaded, installed and registered the software from Microsoft, you just need to open the solution files of the demo projects.  While the compile
+ * may report a number of warnings, the builds should work out-of-the-box for both Release and Debug.
+ *
+ *
+ * \addtogroup XCodeSetup
+ *
+ * Building your OSX or iOS projects with XCode is easy.  Just open the existing XCode project files that ship with %BatteryTech in the ios or osx directories, build and run.
+ *
+ * The source and assets for these projects is located in the parent folder, like bt-helloworld, so you can't just copy the ios or osx folder out without relinking.  All projects
+ * depend on the root batterytech folder being available in the same directory as the project, so make sure to preserve that directory structure or relink files after moving.
  *
  */
 

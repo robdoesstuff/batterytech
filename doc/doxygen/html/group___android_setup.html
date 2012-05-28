@@ -83,10 +83,41 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <p>Setting up the demo projects for Android.  
 <a href="#details">More...</a></p>
+<h1><a class="anchor" id="android_dl_sec"></a>
+Downloading and Installing Android SDK, NDK and ADT</h1>
+<p>The Android SDK is the basic toolset to compile and build Java-based Android applications. Download and install the appropriate distribution from here - <a href="http://developer.android.com/sdk/index.html">http://developer.android.com/sdk/index.html</a><br/>
+ The Android NDK is the toolchain for compiling and building C-based Android applications. Download and install the appropriate distribution from here - <a href="http://developer.android.com/sdk/ndk/index.html">http://developer.android.com/sdk/ndk/index.html</a><br/>
+ The Android ADT is the eclipse plugin that integrates SDK with Eclipse. Follow the directions here to install - <a href="http://developer.android.com/sdk/eclipse-adt.html#installing">http://developer.android.com/sdk/eclipse-adt.html#installing</a><br/>
+</p>
+<p>The SDK and NDK may come as only an archive file. We typically unzip these files into an easy to access directory like C:\Android_NDK and C:\Android_SDK. Please note the locations that you install to.</p>
+<p>You may need to perform additional steps for Android in order to have proper USB and Android version 2.2 support. All of our Android projects use Android API Level 8. You can install support for that API level via Eclipse, by going to Window-&gt;Android SDK Manager and checking the appropriate package and installing.</p>
+<h1><a class="anchor" id="android_ndk_build_var_sec"></a>
+Setting the NDK_Build variable</h1>
+<p>We need to tell our project builders where our NDK build script is. This is a file that ships with the Android NDK. On Windows, it is called ndk-build.cmd. On other systems, it is just named ndk-build</p>
+<p>In Eclipse, go to Window-&gt;Preferences-&gt;Run/Debug-&gt;String Substitions and add the following:<br/>
+ Variable = NDK_Build<br/>
+ Value = c:\Android_NDK\ndk-build.cmd &lt;&ndash; This is if you are in Windows and have unzipped the NDK into that path. Please use the correct path where you unzipped NDK and only use the .cmd file for Windows. </p>
+<div class="image">
+<img src="eclipse_ndk_build_string.JPG" alt="eclipse_ndk_build_string.JPG"/>
+</div>
+<h1><a class="anchor" id="android_projects"></a>
+Importing Android Projects</h1>
+<p>For each BatteryTech application project you want to import, you must have already imported the root project. If you haven't done that, please see the instructions in <a class="el" href="group___eclipse_setup.html">Eclipse Setup</a></p>
+<p>Because Eclipse can't have sub-projects, we will need to tell it where the Android project lies. To do that, you just:<br/>
+ 1) File-&gt;Import...<br/>
+ 2) General-&gt;Existing Projects Into Workspace<br/>
+ 3) Navigate to your workspace where you copied the project in then to the android directory<br/>
+ 4) Select the android directory<br/>
+ 5) Select the project which should be named like bt-helloworld-android and Import.</p>
+<div class="image">
+<img src="eclipse_import_android_project.JPG" alt="eclipse_import_android_project.JPG"/>
+</div>
+<p>You should now be able to compile and run the project. Repeat this process for any other projects you want to import for Android.</p>
+<p>It is normal to sometimes see an environment error on first import. Project-&gt;clean should resolve the issues. If it does not, double check your environment to make sure everything is downloaded and installed properly, make sure you set the NDK builder string and make sure you have support for the matching Android API version of the projects (8). </p>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon May 28 2012 00:07:18 for BatteryTech SDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon May 28 2012 12:04:50 for BatteryTech SDK by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1
 </small></address>
