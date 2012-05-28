@@ -6,6 +6,7 @@ var searchData=
   ['gameconnection_2ecpp',['GameConnection.cpp',['../_game_connection_8cpp.html',1,'']]],
   ['gameconnection_2eh',['GameConnection.h',['../_game_connection_8h.html',1,'']]],
   ['gconfig',['gConfig',['../class_battery_tech_1_1_context.html#a43e526e64bc041cc821400156b326674',1,'BatteryTech::Context']]],
+  ['getting_20started',['Getting Started',['../group___general_setup.html',1,'']]],
   ['get',['get',['../class_battery_tech_1_1_hash_table.html#a4e5046557611681acc827549997ac80c',1,'BatteryTech::HashTable::get()'],['../class_battery_tech_1_1_str_hash_table.html#a513f7bf8d6ab1eb3f050a41689b6bdcb',1,'BatteryTech::StrHashTable::get()']]],
   ['get_5fin_5faddr',['get_in_addr',['../platformgeneral_8cpp.html#a294867ba9d7ff47e39d421134d8e12ab',1,'get_in_addr(struct sockaddr *sa):&#160;platformgeneral.cpp'],['../group___networking.html#ga294867ba9d7ff47e39d421134d8e12ab',1,'get_in_addr(struct sockaddr *sa):&#160;platformgeneral.cpp']]],
   ['getboolvalue',['getBoolValue',['../class_battery_tech_1_1_property.html#a25dedb1283e2fcf23314d3890e52deab',1,'BatteryTech::Property']]],

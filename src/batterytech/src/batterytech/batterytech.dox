@@ -2,21 +2,26 @@
 
 namespace BatteryTech {
 
-/** \mainpage Welcome to BatteryTech SDK
+/** \mainpage Welcome to %BatteryTech SDK
+ *
+ * \section gettingstarted_sec Getting Started
+ *
+ * First-time users will need to ensure that they have a working development environment to compile and run the included projects.  Please visit \ref ProjectSetup
+ * for detailed instructions on setting up your environment for development using %BatteryTech SDK.
  *
  * \section overview_sec Platform Overview
  *
  * Included in the archive you downloaded you will find several directories of source.  These directories are divided on the top level into libraries and projects.\n
  * * batterytech
- * * * src/batterytech = BatteryTech core library
- * * * src/batterytech-android = BatteryTech Android/Java classes
+ * * * src/batterytech = %BatteryTech core library
+ * * * src/batterytech-android = %BatteryTech Android/Java classes
  * * * src/bt-assimp = Modified Assimp Library
  * * * src/bt-box2d = Modified Box2D Library
  * * * src/bt-bullet = Modified Bullet Physics Library
  * * * src/bt-lua = Modified Lua Library
  * * bt-helloworld = Hello World Project
  * * bt-box2ddemo = Box2D Demo all in C++
- * * bt-luaengine = The BatteryTech Lua Game Engine
+ * * bt-luaengine = The %BatteryTech Lua Game Engine
  *
  * The components of the core library are covered in the Modules section of this documentation.  Please review the list of topics in that section for details.
  *
@@ -31,11 +36,11 @@ namespace BatteryTech {
  * * win = Eclipse/CDT and Visual Studio 2010 projects
  *
  * Please open the various projects in their respective IDEs and examine how source and assets are linked across projects.  The common approach is to link common
- * source from any of the BatteryTech libraries along with application-specific source to create the final executable.
+ * source from any of the %BatteryTech libraries along with application-specific source to create the final executable.
  *
  * \section tools_sec Tools support
  *
- * BatteryTech adds support for a file format we call .BAI which stands for "Binary Asset Importer" and is effectively a light serialized format of the aiScene
+ * %BatteryTech adds support for a file format we call .BAI which stands for "Binary Asset Importer" and is effectively a light serialized format of the aiScene
  * structure that the Open Asset Importer provides.  We provide a tool called BAIConvert which can take OBJ and DAE (or other formats if you link in the source
  * from Assimp) and output a BAI which will usually be smaller, be optimized and load faster than the original file.  It is a format suitable for production use.
  *
@@ -45,13 +50,112 @@ namespace BatteryTech {
 
 // now let's define groups
 
+/** \defgroup ProjectSetup Projects and Environments
+ * \brief Getting the various projects, IDEs and development environments set up
+ *
+ * \defgroup GeneralSetup Getting Started
+ * \brief Overview of environments and general information on getting started
+ * \ingroup ProjectSetup
+ *
+ * \defgroup EclipseSetup Eclipse Setup
+ * \brief Getting set up for Android or Windows development in Eclipse
+ * \ingroup ProjectSetup
+ *
+ * \defgroup AndroidSetup Android Project Setup
+ * \brief Setting up the demo projects for Android
+ * \ingroup ProjectSetup
+ *
+ * \defgroup MinGWSetup Windows in Eclipse Project Setup
+ * \brief Setting up the demo projects for Windows using Eclipse and MinGW
+ * \ingroup ProjectSetup
+ *
+ * \defgroup VSProjectSetup Windows in Visual Studio 2010 Setup
+ * \brief Setting up the demo projects for Windows using Visual Studio 2010
+ * \ingroup ProjectSetup
+ *
+ * \defgroup XCodeSetup iOS and OSX Project Setup using XCode 4
+ * \brief Setting up the demo projects for iOS or OSX using XCode 4
+ * \ingroup ProjectSetup
+ *
+ * \addtogroup GeneralSetup
+ *
+ * %BatteryTech ships with 3 projects:\n
+ * * Hello World
+ * * Box2D Demo
+ * * Game Engine w/Lua
+ *
+ * While the 3 projects internally are quite different, they all share a common environment and if you set up and get one running, you can
+ * set up either of the other two.  We highly recommend that you get the desired example project working to ensure your environment
+ * is set up correctly before moving forward.  Instructions for your specific platform and IDE are provided in the \ref ProjectSetup docs.
+ *
+ * Once you have one or more of the projects working and if you intent to make significant changes, we then recommend that you copy the
+ * project, rename it to the desired product name and work from there to make your changes and develop your code base.
+ *
+ * Each project will be referred to as the root project.  For instance, bt-helloworld is the root of all of the different IDE's hello world
+ * projects.  bt-helloworld/android holds the Android project and bt-helloworld/win holds the Windows projects.  These projects depend on that
+ * directory structure for their relative paths throughout all projects, so it's highly recommended that you preserve the following root directories
+ * in any environment you use:
+ *
+ * batterytech (which has src/batterytech, src/bt-* libs)\n
+ * bt-box2ddemo (which has win, ios, android, etc)\n
+ * bt-helloworld (which has win, ios, android, etc)\n
+ * bt-luaengine (which has win, ios, android, etc)\n
+ *
+ * The first directory is the %BatteryTech core and 3rd party libraries.  It should always be present in every IDE as each project needs to link
+ * to that source code to compile.  The other top level directories are root project directories and you only need the specific projects you intend to
+ * build.  %BatteryTech itself is not a standalone application and can not be built separately from a project.  If you are looking for the %BatteryTech Game Engine,
+ * build bt-luaengine.
+ *
+ * Please refer to specific documentation under \ref ProjectSetup for your platform or IDE to get set up.
+ *
+ * \addtogroup EclipseSetup
+ *
+ * \section eclipse_dl_sec Downloading and Installing Eclipse
+ *
+ * Download and install the latest Eclipse Classic or Eclipse IDE for Java Developers from http://www.eclipse.org/downloads
+ *
+ * If you do not have Java on your system, you will need to download and install Java 5 or newer before you can use Eclipse - http://java.com/en/download/index.jsp
+ *
+ * \section eclipse_import Importing Projects into Eclipse
+ *
+ * After you run Eclipse and specify your workspace, you will need to import the root batterytech project and any example projects you want to compile and run.
+ *
+ * 1) File->Import->General->Existing Projects Into Workspace\n
+ * 2) Select Root Directory (wherever you unzipped %BatteryTech into)/src/batterytech\n
+ * 3) Check "Copy projects into workspace" - This will make a copy of all the core batterytech source and libraries in your workspace.
+ *
+ * Now for each project that you want to import, repeat the steps:\n
+ * 1) File->Import->General->Existing Projects Into Workspace\n
+ * 2) Select Root Directory (wherever you unzipped %BatteryTech into)/bt-helloworld - or other bt-project
+ * 3) Check "Copy projects into workspace" - This will make a copy of the project root in your workspace
+ *
+ * After you have completed this, you should only see the following in your project explorer (assuming you have no other existing projects)
+ * * batterytech
+ * * bt-helloworld
+ * * bt-otherprojects...
+ *
+ * While each of the bt projects has sub-projects for specific platforms, Eclipse does not support sub projects so a specific step is needed
+ * to enable.
+ *
+ * \section eclipse_next_step_sec Next Steps:
+ *
+ * Windows/MinGW - Setup Environment and import the Windows/MinGW projects - \ref MinGWSetup\n
+ * Android - Setup Environment and import the Android projects - \ref AndroidSetup
+ *
+ * \section mingw_dl_sec Downloading and Installing MinGW and Eclipse CDT
+ *
+ *
+ *
+ */
+
+
 /**
  * \defgroup Entry Application Entry Points
  * \brief How your application comes to life
  *
  * A state-driven application such as a game generally has 2 phases:  Updating (calculating positions, object states, processing, triggering, etc) and Rendering to screen.
  *
- * Almost every game or high-performance application can be efficiently driven off of this paradigm, so BatteryTech requires that the following classes are extended:
+ * Almost every game or high-performance application can be efficiently driven off of this paradigm, so %BatteryTech requires that the following classes are extended:
  *
  * \ref BTApplicationUpdater which is used to update the application state\n
  * \ref BTApplicationRenderer which is used to render the application with OpenGL ES\n
@@ -132,7 +236,7 @@ namespace BatteryTech {
  * \ingroup UserInput
  * \addtogroup UserInput
  *
- * User Input comes in many forms.  The standard ways that BatteryTech supports it are in the following forms:
+ * User Input comes in many forms.  The standard ways that %BatteryTech supports it are in the following forms:
  * Touch and Pointer Input, Keyboard Input and Accelerometer Input
  */
  
@@ -197,7 +301,7 @@ namespace BatteryTech {
 /**
  * \addtogroup Accelerometer
  *
- * Most mobile platforms come standard with accelerometers and for those, we have them enabled and feeding data into your BatteryTech app by default.
+ * Most mobile platforms come standard with accelerometers and for those, we have them enabled and feeding data into your %BatteryTech app by default.
  *
  * The most recent data is always available in Context::accelerometerState.  The data is normalized across all platforms so no special handling code
  * is needed to use it consistently.
@@ -372,7 +476,7 @@ namespace BatteryTech {
  * The \ref ScrollableContainer class is a layout that can only have one UIComponent.  To make a block of text scrollable, simple create a ScrollableContainer, add
  * the text to it and set the layouts appropriately to allow for multiline text wrapping.  You may add a LinearLayout to the ScrollableContainer instead of a 
  * normal UIComponent allowing for multiple components to be scrolled together, which can include labels, buttons, checkboxes or any other component.  Rendering 
- * is achieved through the use of glScissor.  Please keep in mind that as of BatteryTech 1.0c, all components in a ScrollableContainer are always rendered in the 
+ * is achieved through the use of glScissor.  Please keep in mind that as of %BatteryTech 1.0c, all components in a ScrollableContainer are always rendered in the
  * clipped space, which may be a performance problem depending on your content.  Future optimizations may determine which objects or lines of text are occluded 
  * and forego rendering on them.
  */
@@ -389,7 +493,7 @@ namespace BatteryTech {
  * facilities such as Android's SoundPool when available.  If set to false, BT's PCM audio services will be used instead.  As of BT 2.0, only Android has 
  * platform audio management support.  It will likely be added for iOS and OSX at some point in the form of OpenAL.
  *
- * Formats: BatteryTech supports OGG-Vorbis exclusively.
+ * Formats: %BatteryTech supports OGG-Vorbis exclusively.
  *
  * _platform audio functions are available primarily to serve the \ref BatteryTech::AudioManager.
  * For most applications, \ref BatteryTech::AudioManager is the desired interface to use and can
@@ -414,7 +518,7 @@ namespace BatteryTech {
  *
  * For more information on using Berkeley/POSIX sockets, please visit the wikipedia link in the see also section.
  *
- * BatteryTech includes a default implementation of message-based client/host game networking in the following classes:
+ * %BatteryTech includes a default implementation of message-based client/host game networking in the following classes:
  * \ref BatteryTech::NetworkManager, \ref BatteryTech::GameConnection, \ref BatteryTech::NetworkMessage
  *
  * \see http://en.wikipedia.org/wiki/Berkeley_socket
@@ -432,7 +536,7 @@ namespace BatteryTech {
  
 /*! \defgroup Primitives Primitive Types
  *
- * \brief BatteryTech defines primitive types for cross-platform compatibility.
+ * \brief %BatteryTech defines primitive types for cross-platform compatibility.
  *
  * Common typedefs include:\n
  * \ref S8, \ref S16 and \ref S32 = Signed 8, 16 and 32 bit integers respectively\n

@@ -1,6 +1,8 @@
 var searchData=
 [
-  ['welcome_20to_20batterytech_20sdk',['Welcome to BatteryTech SDK',['../index.html',1,'']]],
+  ['welcome_20to_20_25batterytech_20sdk',['Welcome to %BatteryTech SDK',['../index.html',1,'']]],
+  ['windows_20in_20eclipse_20project_20setup',['Windows in Eclipse Project Setup',['../group___min_g_w_setup.html',1,'']]],
+  ['windows_20in_20visual_20studio_202010_20setup',['Windows in Visual Studio 2010 Setup',['../group___v_s_project_setup.html',1,'']]],
   ['w',['w',['../struct_battery_tech_1_1_quaternion.html#a13ec722a300c85c45a43ee280f4720fb',1,'BatteryTech::Quaternion::w()'],['../struct_battery_tech_1_1_vector4.html#a14887b14d16874279223daa201940203',1,'BatteryTech::Vector4::w()'],['../glext_8h.html#adb12a0d439f32ca388b2c806150cc54d',1,'w():&#160;glext.h']]],
   ['w1',['w1',['../glext_8h.html#ab5b747bf5adb1f9134337c30b9a4ce84',1,'glext.h']]],
   ['w2',['w2',['../glext_8h.html#a1ca5aca787be24213d9591fdf074b094',1,'glext.h']]],
