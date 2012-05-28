@@ -116,9 +116,9 @@ namespace BatteryTech {
  *
  * If you do not have Java on your system, you will need to download and install Java 5 or newer before you can use Eclipse - http://java.com/en/download/index.jsp
  *
- * \section eclipse_import Importing Projects into Eclipse
+ * \section eclipse_import Importing Root Projects into Eclipse
  *
- * After you run Eclipse and specify your workspace, you will need to import the root batterytech project and any example projects you want to compile and run.
+ * After you run Eclipse and specify your workspace, you will need to import the root batterytech project and any example project roots you want to compile and run.
  *
  * 1) File->Import->General->Existing Projects Into Workspace\n
  * 2) Select Root Directory (wherever you unzipped %BatteryTech into)/src/batterytech\n
@@ -142,8 +142,43 @@ namespace BatteryTech {
  * Windows/MinGW - Setup Environment and import the Windows/MinGW projects - \ref MinGWSetup\n
  * Android - Setup Environment and import the Android projects - \ref AndroidSetup
  *
+ *
+ * \addtogroup MinGWSetup
+ *
+ * MinGW (Minimal GNU Windows) provides a set of libraries and a toolchain for building Windows binaries without Visual Studio.\n
+ * CDT is an Eclipse plugin that allows for C/C++ development.  Together you can compile and debug native windows binaries from Eclipse.
+ *
  * \section mingw_dl_sec Downloading and Installing MinGW and Eclipse CDT
  *
+ *
+ * Download MinGW from their site and install - http://www.mingw.org/
+ *
+ * It is highly recommended that you add the MinGW bin directory to your system path so that "mingw32-make.exe" is accessible without specifying the path.
+ *
+ * CDT Installation instructions are at - http://eclipse.org/cdt/downloads.php but in short, you can do the following from Eclipse:
+ * 1) Help->Install New Software\n
+ * 2) Click Add... on right to add a new repository\n
+ * 3) Enter CDT as name and http://download.eclipse.org/tools/cdt/releases/indigo as URL\n
+ * 4) Select appropriate packages and install\n
+ * OR\n
+ * 1) Help->Install New Software\n
+ * 2) Select "Helios" or "Indigo" or newest Eclipse version update site from dropdown\n
+ * 3) Navigate through Programming Languages - C++ Development Tools\n
+ * 4) Select appropriate packages and install\n
+ *
+ * \section win_projects Importing Windows Projects
+ *
+ * For each %BatteryTech application project you want to import, you must have already imported the root project.  If you haven't done that,
+ * please see the instructions in \ref EclipseSetup
+ *
+ * Because Eclipse can't have sub-projects, we will need to tell it where the CDT/Windows project lies.  To do that, you just:\n
+ * 1) File->Import...\n
+ * 2) General->Existing Projects Into Workspace\n
+ * 3) Navigate to your workspace where you copied the project in then to the win directory\n
+ * 4) Select the win directory\n
+ * 5) Select the project which should be named like bt-helloworld-win and Import.
+ *
+ * You should now be able to compile and run the project.  Repeat this process for any other projects you want to import for Windows.
  *
  *
  */

@@ -83,10 +83,36 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <p>Setting up the demo projects for Windows using Eclipse and MinGW.  
 <a href="#details">More...</a></p>
+<p>MinGW (Minimal GNU Windows) provides a set of libraries and a toolchain for building Windows binaries without Visual Studio.<br/>
+ CDT is an Eclipse plugin that allows for C/C++ development. Together you can compile and debug native windows binaries from Eclipse.</p>
+<h1><a class="anchor" id="mingw_dl_sec"></a>
+Downloading and Installing MinGW and Eclipse CDT</h1>
+<p>Download MinGW from their site and install - <a href="http://www.mingw.org/">http://www.mingw.org/</a></p>
+<p>It is highly recommended that you add the MinGW bin directory to your system path so that "mingw32-make.exe" is accessible without specifying the path.</p>
+<p>CDT Installation instructions are at - <a href="http://eclipse.org/cdt/downloads.php">http://eclipse.org/cdt/downloads.php</a> but in short, you can do the following from Eclipse: 1) Help-&gt;Install New Software<br/>
+ 2) Click Add... on right to add a new repository<br/>
+ 3) Enter CDT as name and <a href="http://download.eclipse.org/tools/cdt/releases/indigo">http://download.eclipse.org/tools/cdt/releases/indigo</a> as URL<br/>
+ 4) Select appropriate packages and install<br/>
+ OR<br/>
+ 1) Help-&gt;Install New Software<br/>
+ 2) Select "Helios" or "Indigo" or newest Eclipse version update site from dropdown<br/>
+ 3) Navigate through Programming Languages - C++ Development Tools<br/>
+ 4) Select appropriate packages and install<br/>
+</p>
+<h1><a class="anchor" id="win_projects"></a>
+Importing Windows Projects</h1>
+<p>For each BatteryTech application project you want to import, you must have already imported the root project. If you haven't done that, please see the instructions in <a class="el" href="group___eclipse_setup.html">Eclipse Setup</a></p>
+<p>Because Eclipse can't have sub-projects, we will need to tell it where the CDT/Windows project lies. To do that, you just:<br/>
+ 1) File-&gt;Import...<br/>
+ 2) General-&gt;Existing Projects Into Workspace<br/>
+ 3) Navigate to your workspace where you copied the project in then to the win directory<br/>
+ 4) Select the win directory<br/>
+ 5) Select the project which should be named like bt-helloworld-win and Import.</p>
+<p>You should now be able to compile and run the project. Repeat this process for any other projects you want to import for Windows. </p>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun May 27 2012 17:22:26 for BatteryTech SDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon May 28 2012 00:07:18 for BatteryTech SDK by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1
 </small></address>
