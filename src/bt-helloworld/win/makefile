@@ -1,19 +1,15 @@
 # BatteryTech MinGW Win32 builder
 
 SHELL=cmd.exe
-MINGW_DIR=c:\mingw
-CC=$(MINGW_DIR)\bin\gcc.exe
-CXX=$(MINGW_DIR)\bin\g++.exe
-STATIC_LINKER=$(MINGW_DIR)\bin\ar.exe
-RES_GEN=$(MINGW_DIR)\bin\windres.exe
+CC=mingw32-gcc.exe
+CXX=mingw32-g++.exe
+STATIC_LINKER=ar.exe
+RES_GEN=windres.exe
 RELEASE_DIR=Release
 DEBUG_DIR=Debug
-#OUTPUT_DIR=$(RELEASE_DIR)
 
 RELEASE_FLAGS=-O2 -g0
 DEBUG_FLAGS=-O0 -g3
-#BUILD_FLAGS=$(RELEASE_FLAGS)
-#BUILD_DIR=$(RELEASE_DIR)
 
 ifeq (${DEBUG},true)
 	BUILD_FLAGS=$(DEBUG_FLAGS)
