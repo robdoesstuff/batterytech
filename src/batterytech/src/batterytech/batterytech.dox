@@ -208,7 +208,9 @@ namespace BatteryTech {
  *
  * Download MinGW from their site and install - http://www.mingw.org/
  *
- * It is highly recommended that you add the MinGW bin directory to your system path so that "mingw32-make.exe" is accessible without specifying the path.
+ * * It is required that you add the MinGW bin directory to your system path so that "mingw32-make.exe" and the rest of the mingw executables are accessible without specifying the path.
+ * To add to your path, Click on Start, Right click on Computer->Properties, Advanced System Settings, Environment Variables and edit the Path in System Variables.  Make sure to put the
+ * "bin" directory, so for example if you install to C:\\MinGW, put C:\\MinGW\\bin into the path with a semicolon to separate from other path entries.
  *
  * CDT Installation instructions are at - http://eclipse.org/cdt/downloads.php but in short, you can do the following from Eclipse:
  * 1) Help->Install New Software\n

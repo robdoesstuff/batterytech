@@ -88,7 +88,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <h1><a class="anchor" id="mingw_dl_sec"></a>
 Downloading and Installing MinGW and Eclipse CDT</h1>
 <p>Download MinGW from their site and install - <a href="http://www.mingw.org/">http://www.mingw.org/</a></p>
-<p>It is highly recommended that you add the MinGW bin directory to your system path so that "mingw32-make.exe" is accessible without specifying the path.</p>
+<ul>
+<li>It is required that you add the MinGW bin directory to your system path so that "mingw32-make.exe" and the rest of the mingw executables are accessible without specifying the path. To add to your path, Click on Start, Right click on Computer-&gt;Properties, Advanced System Settings, Environment Variables and edit the Path in System Variables. Make sure to put the "bin" directory, so for example if you install to C:\MinGW, put C:\MinGW\bin into the path with a semicolon to separate from other path entries.</li>
+</ul>
 <p>CDT Installation instructions are at - <a href="http://eclipse.org/cdt/downloads.php">http://eclipse.org/cdt/downloads.php</a> but in short, you can do the following from Eclipse: 1) Help-&gt;Install New Software<br/>
  2) Click Add... on right to add a new repository<br/>
  3) Enter CDT as name and <a href="http://download.eclipse.org/tools/cdt/releases/indigo">http://download.eclipse.org/tools/cdt/releases/indigo</a> as URL<br/>
@@ -119,7 +121,7 @@ Importing Windows Projects</h1>
  </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon May 28 2012 12:04:50 for BatteryTech SDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon May 28 2012 17:14:27 for BatteryTech SDK by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1
 </small></address>
