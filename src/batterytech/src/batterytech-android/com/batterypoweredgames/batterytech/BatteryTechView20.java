@@ -56,6 +56,12 @@ public class BatteryTechView20 extends GLSurfaceView implements BatteryTechView 
 		if (settings.supportGLES2() && checkGL20Support(activity)) {
 			initGLES2(settings.useTrueColor(), settings.getDepthBits(), settings.getStencilBits());
 			usingGLES2 = true;
+		} else {
+			if (settings.useTrueColor()) {
+				setEGLConfigChooser(8, 8, 8, 8, settings.getDepthBits(), settings.getStencilBits());
+			} else {
+				setEGLConfigChooser(5, 6, 5, 0, settings.getDepthBits(), settings.getStencilBits());
+			}
 		}
 		renderer = new BatteryTechRenderer(activity, this, usingGLES2);
 		setRenderer(renderer);
