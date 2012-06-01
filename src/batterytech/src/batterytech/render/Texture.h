@@ -22,47 +22,29 @@
 
 namespace BatteryTech {
 
-	class Context;
-
+	/**
+	 * \brief An OpenGL Texture
+	 *
+	 * Implementations of Texture such as AssetTexture load or represent texture data in OpenGL and offer ways to bind and use the texture.
+	 */
 	class Texture {
-		struct ktx_header {
-			char identifier[12];
-			GLuint endianness;
-			GLuint glType;
-			GLuint glTypeSize;
-			GLuint glFormat;
-			GLuint glInternalFormat;
-			GLuint glBaseInternalFormat;
-			GLuint pixelWidth;
-			GLuint pixelHeight;
-			GLuint pixelDepth;
-			GLuint numberOfArrayElements;
-			GLuint numberOfFaces;
-			GLuint numberOfMipmapLevels;
-			GLuint bytesOfKeyValueData;
-		};
-
 	public:
 		enum TextureFilter { TEX_FILTER_NEAREST, TEX_FILTER_LINEAR };
-		Texture(Context *context, const char *assetName, BOOL32 loadOnDemand=FALSE);
+		Texture(const char *assetName);
 		virtual ~Texture();
-		void invalidateGL();
-		void load(BOOL32 force=FALSE);
-		void unload();
-		void bind();
-		char *assetName;
-		GLuint textureId;
-		BOOL32 mipmap;
-		BOOL32 mipBlend;
-		TextureFilter magFilter, minFilter;
-		BOOL32 repeatX, repeatY;
-		size_t width, height;
+		virtual void invalidateGL()=0;
+		virtual void load(BOOL32 force=FALSE)=0;
+		virtual void unload()=0;
+		virtual void bind()=0;
+		virtual BOOL32 isLoaded()=0;
+		virtual S32 getWidth()=0;
+		virtual S32 getHeight()=0;
 		static U32 textureSwitches;
 		static GLuint lastTextureId;
-		Context *context;
-		BOOL32 loadOnDemand;
-	private:
-		ktx_header readKTXHeader(const unsigned char *data);
+		char *assetName;
+		BOOL32 mipmap;
+		TextureFilter magFilter, minFilter;
+		BOOL32 repeatX, repeatY;
 	};
 
 }

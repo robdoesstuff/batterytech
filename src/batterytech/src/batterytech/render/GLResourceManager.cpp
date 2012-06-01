@@ -19,6 +19,7 @@
 #include "GLAssimpBinding.h"
 #include "../Logger.h"
 #include <stdio.h>
+#include "AssetTexture.h"
 
 #define MAX_TEXTURES 300
 #define MAX_OBJSCENES 100
@@ -68,7 +69,9 @@ namespace BatteryTech {
 
 	void GLResourceManager::addTexture(const char *assetName, BOOL32 loadOnDemand) {
 		if (!texTable->contains(assetName)) {
-			Texture *texture = new Texture(context, assetName, loadOnDemand);
+			Texture *texture = new AssetTexture(context, assetName, loadOnDemand);
+			// AssetTexture = asset-backed texture
+			// AtlasMappedTexture = virtualized texture coordinate system using assetName pointing to a real texture
 			texArray->add(texture);
 			// use the texture-allocated string as key, texture itself will clean it up (removal should be synchronized)
 			texTable->put(texture->assetName, texture);
