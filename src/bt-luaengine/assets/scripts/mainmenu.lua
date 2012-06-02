@@ -53,6 +53,9 @@ function MainMenu:render()
 	end
 	game:render2D("textures/btluaenginelogo.png", vpWidth/2, scaleY(150), sw*animAmt * 1.1, sh*animAmt * 1.1, 0)
 	-- game:render2D("textures/smiley_tex.png", 200, 200, 200, 200, 0)
+	game:render2D("textures/1normal.png", 200, 200, 120, 120, 0)
+	local idx = game:render2D("textures/Untitled-1.png", 400, 200, 176, 432, 0)
+	-- game:setRenderItemParam(idx, "uvs", 0, 0, .5, .5)
 	for i,v in ipairs(self.buttons) do
 		v:render()
 	end

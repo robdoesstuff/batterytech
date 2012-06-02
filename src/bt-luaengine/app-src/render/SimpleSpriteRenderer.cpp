@@ -130,13 +130,18 @@ void SimpleSpriteRenderer::render(RenderItem *item) {
 	F32 verts[] = {
 			left, top, z, right, top, z, right, bottom, z, left, bottom, z
 	};
-	F32 uvs[] = {
-			myUvs.x, myUvs.y, myUvs.z, myUvs.y, myUvs.z, myUvs.w, myUvs.x, myUvs.w
+	Vector2f uvs[] = { Vector2f(myUvs.x, myUvs.y), Vector2f(myUvs.z, myUvs.y),
+			Vector2f(myUvs.z, myUvs.w), Vector2f(myUvs.x, myUvs.w)
 	};
 	if (item->textureName[0]) {
 		Texture *texture = context->glResourceManager->getTexture(item->textureName);
 		if (texture) {
 			texture->bind();
+			Matrix4f tMat = texture->getMatrix();
+			// transform the UVs into texture space (to support atlased images)
+			for (S32 i = 0; i < 4; i++) {
+				uvs[i] = tMat * uvs[i];
+			}
 		}
 	}
 	F32 olda = context->renderContext->colorFilter.a;

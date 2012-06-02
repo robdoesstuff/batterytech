@@ -74,8 +74,7 @@ template <class T>
 struct Vector2
 {
   public:
- union
- {
+ union {
 	   /**
 	* First element of vector, alias for X-coordinate.
 	*/
@@ -86,10 +85,9 @@ struct Vector2
 	* For textures notation.
 	*/
 	   T s;
- };
+ } ;
 
- union
- {
+ union {
 	   /**
 	* Second element of vector, alias for Y-coordinate.
 	*/
@@ -100,7 +98,7 @@ struct Vector2
 	* For textures notation.
 	*/
 	   T t;
- };
+ } ;
 
  //----------------[ constructors ]--------------------------
  /**

@@ -75,6 +75,7 @@ namespace BatteryTech {
 		S32 dataPos = 0;
 		char texAssetName[1024];
 		char basePath[512];
+		char logbuf[512];
 		// convert assetName to our path
 		_platform_convert_path(assetName, basePath);
 		_platform_get_basename(basePath, basePath);
@@ -109,12 +110,13 @@ namespace BatteryTech {
 			} else if (strEquals(keyBuf, "image.assetname")) {
 				// finish up previous one
 				if (vTex) {
+					sprintf(logbuf, "Atlas Mapped Texture %s orig size %d %d tsize %d %d offsets %d %d", vTex->assetName, vTex->origSize.x, vTex->origSize.y, vTex->trimmedSize.x, vTex->trimmedSize.y, vTex->cornerOffset.x, vTex->cornerOffset.y);
+					logmsg(logbuf);
 					vTex->createMat();
 				}
 				// add path to btx onto assetname
 				strcpy(texAssetName, basePath);
 				strcat(texAssetName, valueBuf);
-				loadImageData(texAssetName);
 				vTex = new AtlasMappedTexture(context, this, texAssetName);
 				context->glResourceManager->addTexture(vTex);
 			} else if (strEquals(keyBuf, "image.uvs")) {
@@ -155,6 +157,12 @@ namespace BatteryTech {
 				char *height = strtok(NULL, " ");
 				vTex->trimmedSize = Vector2i(atoi(width), atoi(height));
 			}
+		}
+		// and now last one
+		if (vTex) {
+			sprintf(logbuf, "Atlas Mapped Texture %s orig size %d %d tsize %d %d offsets %d %d", vTex->assetName, vTex->origSize.x, vTex->origSize.y, vTex->trimmedSize.x, vTex->trimmedSize.y, vTex->cornerOffset.x, vTex->cornerOffset.y);
+			logmsg(logbuf);
+			vTex->createMat();
 		}
 		_platform_free_asset((unsigned char*)data);
 	}
