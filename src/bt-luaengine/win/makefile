@@ -66,6 +66,7 @@ BT_SOURCES=\
 	batterytech\render\GLAssimpMeshBinding.cpp \
 	batterytech\render\Texture.cpp \
 	batterytech\render\AssetTexture.cpp \
+	batterytech\render\AtlasMappedTexture.cpp \
 	batterytech\platform\win32\win32general.cpp \
 	batterytech\platform\win32\winboot.cpp \
 	batterytech\platform\win32\WinSound.cpp \
