@@ -55,6 +55,7 @@
 #include <math.h>
 #include <string.h>
 #include <assert.h>
+#include "Vector2.h"
 #include "Vector3.h"
 #include "Matrix3.h"
 #include "Vector4.h"
@@ -489,6 +490,21 @@ namespace BatteryTech {
 	       data[0] * rhs.x + data[4] * rhs.y + data[8] * rhs.z,
 	       data[1] * rhs.x + data[5] * rhs.y + data[9] * rhs.z,
 	       data[2] * rhs.x + data[6] * rhs.y + data[10] * rhs.z
+	       );
+	 }
+
+	 /**
+	  * Multiplication operator
+	  *
+	  * This 2D Vector operation translates, scales and rotates the vector
+	  *
+	  * @param rhs Right hand side argument of binary operator.
+	  */
+	 Vector2<T> operator*(const Vector2<T>& rhs) const
+	 {
+	    return Vector2<T>(
+	       data[0] * rhs.x + data[4] * rhs.y + data[12],
+	       data[1] * rhs.x + data[5] * rhs.y + data[13]
 	       );
 	 }
 

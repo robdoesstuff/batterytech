@@ -460,7 +460,8 @@ struct Vector2
 typedef Vector2 <float> Vector2f;
 /// Two dimensional Vector of doubles
 typedef Vector2 <double> Vector2d;
-
+/// Two dimension Vector of ints
+typedef Vector2 <int> Vector2i;
 }
 
 #endif /* VECTOR2_H_ */

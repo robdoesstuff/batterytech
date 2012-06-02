@@ -19,6 +19,7 @@
 
 #include "../primitives.h"
 #include "../platform/platformgl.h"
+#include "../math/Matrix4.h"
 
 namespace BatteryTech {
 
@@ -39,6 +40,7 @@ namespace BatteryTech {
 		virtual BOOL32 isLoaded()=0;
 		virtual S32 getWidth()=0;
 		virtual S32 getHeight()=0;
+		virtual Matrix4f getMatrix()=0;
 		static U32 textureSwitches;
 		static GLuint lastTextureId;
 		char *assetName;

@@ -64,6 +64,25 @@ BOOL32 strContains(const char *haystack, const char *needle) {
 	return TRUE;
 }
 
+char* strTrim(char *str, S32 *length) {
+	S32 strLength = strlen(str);
+	char *retStr = str;
+	for (S32 i = 0; i < strLength; i++) {
+		if (str[i] != ' ' && str[i] != '\t') {
+			retStr = &str[i];
+			break;
+		}
+	}
+	for (S32 i = strLength-1; i > -1; i--) {
+		S32 c = str[i];
+		if (c != ' ' && c != '\t') {
+			*length = i+1 - (retStr-str);
+			break;
+		}
+	}
+	return retStr;
+}
+
 // Gets the encoded length of this string
 S32 strlenUTF8(const char *str) {
 	S32 chars = 0;

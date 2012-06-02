@@ -162,6 +162,8 @@ void _platform_convert_path_to_forward(const char* path, char *newPath);
  *
  * Example: /home/files/foo.txt basename is /home/files
  *
+ * Note - The path must be using the platform's path separator.  See _platform_convert_path
+ *
  * \param path The path to use
  * \param baseName output - The base name of the path
  */

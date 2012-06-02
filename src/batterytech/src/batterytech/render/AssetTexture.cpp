@@ -23,12 +23,18 @@
 #include "../Logger.h"
 #include "../util/BitmapUtil.h"
 #include "../batterytech_globals.h"
+#include "../util/TextFileUtil.h"
+#include "AtlasMappedTexture.h"
+#include "GLResourceManager.h"
 
 #define DEBUG_TEXTURE TRUE
 #define HALF_SIZE_WIDTH 854
 #define HALF_SIZE_HEIGHT 480
 
 namespace BatteryTech {
+
+	// define our static matrix
+	Matrix4f AssetTexture::mat;
 
 	AssetTexture::AssetTexture(Context *context, const char *assetName, BOOL32 loadOnDemand) : Texture(assetName) {
 		this->context = context;
@@ -54,17 +60,147 @@ namespace BatteryTech {
 			// already loaded
 			return;
 		}
+		if (strContains(assetName, ".btx") || strContains(assetName, ".BTX")) {
+			loadBTXAtlas();
+		} else {
+			loadImageData(assetName);
+		}
+	}
+
+	void AssetTexture::loadBTXAtlas() {
+		char *data = _platform_load_text_asset(assetName);
+		char lineBuf[1024];
+		char keyBuf[64];
+		char valueBuf[1024];
+		S32 dataPos = 0;
+		char texAssetName[1024];
+		char basePath[512];
+		// convert assetName to our path
+		_platform_convert_path(assetName, basePath);
+		_platform_get_basename(basePath, basePath);
+		// add path separator IE: "/ui/"
+		strcat(basePath, _platform_get_path_separator());
+		// now let's do this in forward-slash so we don't have to do any more converting
+		_platform_convert_path_to_forward(basePath, basePath);
+		AtlasMappedTexture *vTex = NULL;
+		while (TextFileUtil::readLine(lineBuf, data, &dataPos)) {
+			// parse key/value from line
+			char *untrimmedkey = strtok(lineBuf, "=");
+			char *untrimmedval = strtok(NULL, "=");
+			S32 length = 0;
+			char *trimmedKey = strTrim(untrimmedkey, &length);
+			strncpy(keyBuf, trimmedKey, length);
+			keyBuf[length] = '\0';
+			char *trimmedValue = strTrim(untrimmedval, &length);
+			strncpy(valueBuf, trimmedValue, length);
+			valueBuf[length] = '\0';
+			// now interpret the key and cast the value
+			if (strEquals(keyBuf, "btx")) {
+				// right now we only support btx 1.0
+				if (!strEquals(valueBuf, "1.0")) {
+					logmsg("Unsupported version of btx!  This version of BatteryTech SDK only supports BTX 1.0");
+					break;
+				}
+			} else if (strEquals(keyBuf, "texture.assetname")) {
+				// add path to btx onto assetname
+				strcpy(texAssetName, basePath);
+				strcat(texAssetName, valueBuf);
+				loadImageData(texAssetName);
+			} else if (strEquals(keyBuf, "image.assetname")) {
+				// finish up previous one
+				if (vTex) {
+					vTex->createMat();
+				}
+				// add path to btx onto assetname
+				strcpy(texAssetName, basePath);
+				strcat(texAssetName, valueBuf);
+				loadImageData(texAssetName);
+				vTex = new AtlasMappedTexture(context, this, texAssetName);
+				context->glResourceManager->addTexture(vTex);
+			} else if (strEquals(keyBuf, "image.uvs")) {
+				char *u1 = strtok(valueBuf, " ");
+				char *v1 = strtok(NULL, " ");
+				char *u2 = strtok(NULL, " ");
+				char *v2 = strtok(NULL, " ");
+				char *u3 = strtok(NULL, " ");
+				char *v3 = strtok(NULL, " ");
+				char *u4 = strtok(NULL, " ");
+				char *v4 = strtok(NULL, " ");
+				vTex->uvs[0] = Vector2f(atof(u1), atof(v1));
+				vTex->uvs[1] = Vector2f(atof(u2), atof(v2));
+				vTex->uvs[2] = Vector2f(atof(u3), atof(v3));
+				vTex->uvs[3] = Vector2f(atof(u4), atof(v4));
+			} else if (strEquals(keyBuf, "image.rotated")) {
+				if (strEquals(valueBuf, "true")) {
+					vTex->rotated = TRUE;
+				} else {
+					vTex->rotated = FALSE;
+				}
+			} else if (strEquals(keyBuf, "image.trimmed")) {
+				if (strEquals(valueBuf, "true")) {
+					vTex->trimmed = TRUE;
+				} else {
+					vTex->trimmed = FALSE;
+				}
+			} else if (strEquals(keyBuf, "image.origsize")) {
+				char *width = strtok(valueBuf, " ");
+				char *height = strtok(NULL, " ");
+				vTex->origSize = Vector2i(atoi(width), atoi(height));
+			} else if (strEquals(keyBuf, "image.offset")) {
+				char *x = strtok(valueBuf, " ");
+				char *y = strtok(NULL, " ");
+				vTex->cornerOffset = Vector2i(atoi(x), atoi(y));
+			} else if (strEquals(keyBuf, "image.trimmedsize")) {
+				char *width = strtok(valueBuf, " ");
+				char *height = strtok(NULL, " ");
+				vTex->trimmedSize = Vector2i(atoi(width), atoi(height));
+			}
+		}
+		_platform_free_asset((unsigned char*)data);
+	}
+
+	void AssetTexture::invalidateGL() {
+		// it means we lost our GL context
+		textureId = 0;
+	}
+
+	void AssetTexture::unload() {
+		if (textureId) {
+			glDeleteTextures(1, &textureId);
+			textureId = 0;
+		}
+	}
+
+	void AssetTexture::bind() {
+		if (textureId == 0 && loadOnDemand) {
+			load(TRUE);
+		}
+		if (Texture::lastTextureId != textureId) {
+			Texture::textureSwitches++;
+			glBindTexture(GL_TEXTURE_2D, textureId);
+			Texture::lastTextureId = textureId;
+		}
+		//char buf[1024];
+		//sprintf(buf, "Bound to textureId %d", textureId);
+		//logmsg(buf);
+	}
+
+	BOOL32 AssetTexture::isLoaded() {
+		return (textureId != 0);
+	}
+
+	void AssetTexture::loadImageData(const char *imageAssetName) {
 		S32 x, y, n;
 		S32 assetSize = 0;
-		unsigned char *fileData = _platform_load_asset(assetName, &assetSize);
+		unsigned char *fileData = _platform_load_asset(imageAssetName, &assetSize);
 		this->width = this->height = 0;
 		if (!fileData) {
 			char buf[1024];
-			sprintf(buf, "No asset data found for %s", assetName);
+			sprintf(buf, "No asset data found for %s", imageAssetName);
 			logmsg(buf);
 			return;
 		}
-		if (!strContains(assetName, ".ktx") && !strContains(assetName, ".KTX")) {
+		if (!strContains(imageAssetName, ".ktx") && !strContains(imageAssetName, ".KTX")) {
 			unsigned char *dataRaw = stbi_load_from_memory(fileData, assetSize, &x, &y, &n, 0);
 			if (dataRaw) {
 				BOOL32 scaleDown = FALSE;
@@ -139,7 +275,7 @@ namespace BatteryTech {
 				}
 				if (DEBUG_TEXTURE) {
 					char buf[1024];
-					sprintf(buf, "Loaded Texture %s (%d enc bytes): %ix%i components=%i bytes=%i", assetName, assetSize, x, y, n, bytes);
+					sprintf(buf, "Loaded Texture %s (%d enc bytes): %ix%i components=%i bytes=%i", imageAssetName, assetSize, x, y, n, bytes);
 					logmsg(buf);
 				}
 				GLuint textureIds[1];
@@ -187,7 +323,7 @@ namespace BatteryTech {
 				// TODO - we don't currently support mipmapping 16 bit textures - need color conversion
 				if (mipmap && data) {
 					char buf[1024];
-					sprintf(buf, "Mipmapping texture %s", assetName);
+					sprintf(buf, "Mipmapping texture %s", imageAssetName);
 					logmsg(buf);
 					int mipLevel = 0;
 					unsigned char *mipData = new unsigned char[bytes/4];
@@ -222,7 +358,7 @@ namespace BatteryTech {
 				this->height = y;
 			} else {
 				char buf[1024];
-				sprintf(buf, "Error decoding %s (%d enc bytes)", assetName, assetSize);
+				sprintf(buf, "Error decoding %s (%d enc bytes)", imageAssetName, assetSize);
 				logmsg(buf);
 			}
 		} else {
@@ -253,39 +389,5 @@ namespace BatteryTech {
 			Renderer::checkGLError("Renderer Load Compressed Texture");
 		}
 		_platform_free_asset(fileData);
-	}
-
-	void AssetTexture::loadBTXAtlas(const char *data) {
-
-	}
-
-	void AssetTexture::invalidateGL() {
-		// it means we lost our GL context
-		textureId = 0;
-	}
-
-	void AssetTexture::unload() {
-		if (textureId) {
-			glDeleteTextures(1, &textureId);
-			textureId = 0;
-		}
-	}
-
-	void AssetTexture::bind() {
-		if (textureId == 0 && loadOnDemand) {
-			load(TRUE);
-		}
-		if (Texture::lastTextureId != textureId) {
-			Texture::textureSwitches++;
-			glBindTexture(GL_TEXTURE_2D, textureId);
-			Texture::lastTextureId = textureId;
-		}
-		//char buf[1024];
-		//sprintf(buf, "Bound to textureId %d", textureId);
-		//logmsg(buf);
-	}
-
-	BOOL32 AssetTexture::isLoaded() {
-		return (textureId != 0);
 	}
 }

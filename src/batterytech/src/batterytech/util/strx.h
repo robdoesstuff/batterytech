@@ -32,6 +32,16 @@ BOOL32 strEquals(const char *s1, const char *s2);
 // Determines if needle exists in haystack, wrapper for strstr
 BOOL32 strContains(const char *haystack, const char *needle);
 
+/** \brief Trims a string without allocating or copying
+ *
+ * Does not allocate a new string or copy any string data so the string returned is NOT null-terminated.  The trimmed length will be put in the length param
+ *
+ * \param str The string to trim
+ * \length OUT the number of characters after trimming
+ * \return pointer to trimmed string start of str
+ */
+char* strTrim(char *str, S32 *length);
+
 // Gets the encoded length of this string
 S32 strlenUTF8(const char *str);
 
