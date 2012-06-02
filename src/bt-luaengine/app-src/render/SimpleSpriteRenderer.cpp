@@ -112,27 +112,16 @@ void SimpleSpriteRenderer::render(RenderItem *item) {
 	F32 x = item->pos.x;
 	F32 y = item->pos.y;
 	F32 z = item->pos.z;
-	F32 width = item->scale.x;
-	F32 height = item->scale.y;
 	F32 angleRads = item->orientation.v.z;
-	F32 top;
-	F32 bottom;
-	F32 right = width/2;
-	if (item->renderType == RenderItem::RENDERTYPE_BB) {
-		top = height/2;
-		bottom = -height/2;
-	} else {
-		top = -height/2;
-		bottom = height/2;
-	}
-	F32 left = -width/2;
 	Vector4f myUvs = item->uvs;
-	F32 verts[] = {
-			left, top, z, right, top, z, right, bottom, z, left, bottom, z
-	};
 	Vector2f uvs[] = { Vector2f(myUvs.x, myUvs.y), Vector2f(myUvs.z, myUvs.y),
 			Vector2f(myUvs.z, myUvs.w), Vector2f(myUvs.x, myUvs.w)
 	};
+	F32 desWidth = item->scale.x;
+	F32 desHeight = item->scale.y;
+	F32 width = desWidth;
+	F32 height = desHeight;
+	Vector2f offsetDelta;
 	if (item->textureName[0]) {
 		Texture *texture = context->glResourceManager->getTexture(item->textureName);
 		if (texture) {
@@ -142,8 +131,34 @@ void SimpleSpriteRenderer::render(RenderItem *item) {
 			for (S32 i = 0; i < 4; i++) {
 				uvs[i] = tMat * uvs[i];
 			}
+			char buf[255];
+			// take the dimensions and convert them into percentages of the desired draw size(scale)
+			Vector2f scale = Vector2f(desWidth / texture->getOriginalSize().x, desHeight / texture->getOriginalSize().y);
+			Vector2f actualSize = texture->getTrimmedSize() * scale;
+			// this is the corner offset when the trimmed image is perfectly centered (which is how we lay it out by default)
+			// so really what we want to know is the difference between that and the actual trim position
+			Vector2f centerOffset = (texture->getOriginalSize() - texture->getTrimmedSize()) / 2.0f;
+			// this is the difference between our default corner and the real corner scaled to the req draw size
+			offsetDelta = (texture->getCornerOffset() - centerOffset) * scale;
+			width = actualSize.x;
+			height = actualSize.y;
 		}
 	}
+	F32 top;
+	F32 bottom;
+	F32 right = width/2 + offsetDelta.x;
+	if (item->renderType == RenderItem::RENDERTYPE_BB) {
+		top = height/2 + offsetDelta.y;
+		bottom = -height/2 + offsetDelta.y;
+	} else {
+		top = -height/2 + offsetDelta.y;
+		bottom = height/2 + offsetDelta.y;
+	}
+	F32 left = -width/2 + offsetDelta.x;
+	F32 verts[] = {
+			left, top, z, right, top, z, right, bottom, z, left, bottom, z
+	};
+
 	F32 olda = context->renderContext->colorFilter.a;
 	if(!(item->flags & RENDERITEM_FLAG_IS_OPAQUE) && item->alpha < 1) {
 		context->renderContext->colorFilter.a = item->alpha;

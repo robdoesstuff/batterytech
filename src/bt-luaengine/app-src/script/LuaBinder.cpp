@@ -605,8 +605,12 @@ static int lua_getTextureDimensions(lua_State *L) {
 			lua_pushnil(L);
 			lua_pushnil(L);
 		} else {
-			lua_pushinteger(L, t->getWidth());
-			lua_pushinteger(L, t->getHeight());
+			lua_pushinteger(L, t->getOriginalSize().x);
+			lua_pushinteger(L, t->getOriginalSize().y);
+			lua_pushinteger(L, t->getTrimmedSize().x);
+			lua_pushinteger(L, t->getTrimmedSize().y);
+			lua_pushinteger(L, t->getCornerOffset().x);
+			lua_pushinteger(L, t->getCornerOffset().y);
 		}
 	} else {
 		lua_pushnil(L);

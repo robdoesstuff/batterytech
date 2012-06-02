@@ -201,7 +201,7 @@ namespace BatteryTech {
 		S32 x, y, n;
 		S32 assetSize = 0;
 		unsigned char *fileData = _platform_load_asset(imageAssetName, &assetSize);
-		this->width = this->height = 0;
+		this->size = Vector2i(0,0);
 		if (!fileData) {
 			char buf[1024];
 			sprintf(buf, "No asset data found for %s", imageAssetName);
@@ -362,8 +362,10 @@ namespace BatteryTech {
 						delete [] shortData;
 					}
 				}
-				this->width = x;
-				this->height = y;
+				// this really isn't a good size to store because it's either an atlas or a stretched PoT image size
+				// what we should really do is override this with values provided by the user for the desires draw size
+				this->size.x = x;
+				this->size.y = y;
 			} else {
 				char buf[1024];
 				sprintf(buf, "Error decoding %s (%d enc bytes)", imageAssetName, assetSize);

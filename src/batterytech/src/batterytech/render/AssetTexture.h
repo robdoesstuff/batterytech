@@ -21,6 +21,8 @@
 #include "../platform/platformgl.h"
 #include "Texture.h"
 
+static const Vector2i vector2i_0(0,0);
+
 namespace BatteryTech {
 
 	class Context;
@@ -56,12 +58,13 @@ namespace BatteryTech {
 		virtual void unload();
 		virtual void bind();
 		virtual BOOL32 isLoaded();
-		virtual S32 getWidth() { return width; }
-		virtual S32 getHeight() { return height; }
+		virtual Vector2f getOriginalSize() { return size; }
+		virtual Vector2f getTrimmedSize() { return size; }
+		virtual Vector2f getCornerOffset() { return vector2i_0; }
 		virtual Matrix4f getMatrix() { return mat; }
 		static Matrix4f mat;
 		GLuint textureId;
-		size_t width, height;
+		Vector2i size;
 		Context *context;
 		BOOL32 loadOnDemand;
 	private:

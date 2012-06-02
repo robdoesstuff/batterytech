@@ -35,8 +35,9 @@ public:
 	virtual void unload() {};
 	virtual void bind();
 	virtual BOOL32 isLoaded();
-	virtual S32 getWidth() { return trimmedSize.x; }
-	virtual S32 getHeight() { return trimmedSize.y; }
+	virtual Vector2f getOriginalSize() { return origSize; }
+	virtual Vector2f getTrimmedSize() { return trimmedSize; }
+	virtual Vector2f getCornerOffset() { return cornerOffset; }
 	virtual Matrix4f getMatrix() { return mat; }
 	void createMat();
 	Context *context;
