@@ -26,3 +26,5 @@ addSound("sounds/click.ogg")
 addSound("sounds/laser_echo.ogg")
 addSound("sounds/space_noises.ogg")
 addSound("sounds/whoosh.ogg")
+
+addTexture("textures/test.btx")

@@ -1,6 +1,5 @@
 btx = 1.0
 texture.assetname = test.png
-texture.lastchangetag: $TexturePacker:SmartUpdate:dd3e1d5cc51630b48d49f96229f0141e$
 texture.width  = 512
 texture.height = 512
 

@@ -23,6 +23,7 @@
 #include "../Game.h"
 #include <batterytech/render/ShaderProgram.h>
 #include "../GameContext.h"
+#include <batterytech/render/AssetTexture.h>
 
 #define TEXT_BOX_PADDING 25
 
@@ -46,7 +47,7 @@ WorldRenderer::WorldRenderer(GameContext *context) {
 	//context->glResourceManager->addTexture("common/textbox_bg_tex.png");
 	loadingScreenDisplayed = FALSE;
 	preLoad = FALSE;
-	loadingTex = new Texture(context, context->appProperties->get("loading_texture")->getValue(), FALSE);
+	loadingTex = new AssetTexture(context, context->appProperties->get("loading_texture")->getValue(), FALSE);
 	loadingSize = Vector2f(512, 256);
 	Property *p = context->appProperties->get("loading_width");
 	if (p) {
@@ -152,7 +153,7 @@ void WorldRenderer::render() {
 			// just forcing a two-frame wait to load
 			loadingScreenDisplayed = TRUE;
 			logmsg("loadingScreenDisplayed set");
-		} else if (context->wasSuspended || loadingTex->textureId == 0) {
+		} else if (context->wasSuspended || !loadingTex->isLoaded()) {
 			loadingScreenDisplayed = FALSE;
 			loadingTex->invalidateGL();
 			setupGL();
