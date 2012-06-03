@@ -20,6 +20,7 @@
 #include "../primitives.h"
 #include "../platform/platformgl.h"
 #include "Texture.h"
+#include "../util/ManagedArray.h"
 
 static const Vector2i vector2i_0(0,0);
 
@@ -62,6 +63,7 @@ namespace BatteryTech {
 		virtual Vector2f getTrimmedSize() { return size; }
 		virtual Vector2f getCornerOffset() { return vector2i_0; }
 		virtual Matrix4f getMatrix() { return mat; }
+		virtual void clearAliases();
 		static Matrix4f mat;
 		GLuint textureId;
 		Vector2i size;
@@ -71,6 +73,8 @@ namespace BatteryTech {
 		ktx_header readKTXHeader(const unsigned char *data);
 		void loadBTXAtlas();
 		void loadImageData(const char *imageAssetName);
+		ManagedArray<char> *atlasMappedTexureNames;
+
 	};
 
 }

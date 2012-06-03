@@ -93,6 +93,14 @@ namespace BatteryTech {
 		 * \return The texture matrix
 		 */
 		virtual Matrix4f getMatrix()=0;
+		/**
+		 * \brief instructs this texture to callback and clear any alias textures it created on its last load
+		 *
+		 * Alias textures are things like AtlasMappedTexture
+		 *
+		 * Care needs to be taken when calling functions like this as they need to not happen while iterating the entire array of textures
+		 */
+		virtual void clearAliases() {};
 		static U32 textureSwitches;
 		static GLuint lastTextureId;
 		char *assetName;

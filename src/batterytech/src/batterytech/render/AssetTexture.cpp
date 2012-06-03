@@ -30,6 +30,7 @@
 #define DEBUG_TEXTURE TRUE
 #define HALF_SIZE_WIDTH 854
 #define HALF_SIZE_HEIGHT 480
+#define MAX_ATLAS_MAPPED_TEXTURES 50
 
 namespace BatteryTech {
 
@@ -40,9 +41,13 @@ namespace BatteryTech {
 		this->context = context;
 		this->loadOnDemand = loadOnDemand;
 		textureId = 0;
+		atlasMappedTexureNames = new ManagedArray<char>(MAX_ATLAS_MAPPED_TEXTURES);
 	}
 
 	AssetTexture::~AssetTexture() {
+		atlasMappedTexureNames->deleteElements();
+		delete atlasMappedTexureNames;
+		atlasMappedTexureNames = NULL;
 	}
 
 	AssetTexture::ktx_header AssetTexture::readKTXHeader(const unsigned char *data) {
@@ -119,6 +124,7 @@ namespace BatteryTech {
 				strcat(texAssetName, valueBuf);
 				vTex = new AtlasMappedTexture(context, this, texAssetName);
 				context->glResourceManager->addTexture(vTex);
+				atlasMappedTexureNames->add(strDuplicate(texAssetName));
 			} else if (strEquals(keyBuf, "image.uvs")) {
 				char *u1 = strtok(valueBuf, " ");
 				char *v1 = strtok(NULL, " ");
@@ -173,6 +179,7 @@ namespace BatteryTech {
 	}
 
 	void AssetTexture::unload() {
+		// TODO - unload vtexes
 		if (textureId) {
 			glDeleteTextures(1, &textureId);
 			textureId = 0;
@@ -195,6 +202,13 @@ namespace BatteryTech {
 
 	BOOL32 AssetTexture::isLoaded() {
 		return (textureId != 0);
+	}
+
+	void AssetTexture::clearAliases() {
+		for (S32 i = 0; i < atlasMappedTexureNames->getSize(); i++) {
+			context->glResourceManager->removeTexture(atlasMappedTexureNames->array[i]);
+		}
+		atlasMappedTexureNames->deleteElements();
 	}
 
 	void AssetTexture::loadImageData(const char *imageAssetName) {

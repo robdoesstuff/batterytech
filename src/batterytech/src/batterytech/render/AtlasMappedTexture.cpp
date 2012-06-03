@@ -72,5 +72,4 @@ void AtlasMappedTexture::createMat() {
 	*/
 	// Then have anything using UVS run uvs through this matrix using the mult, but we can start with 2D and add 3D later when we want to modify the shaders.
 }
-
 }

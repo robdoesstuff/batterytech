@@ -94,15 +94,25 @@ namespace BatteryTech {
 	}
 
 	void GLResourceManager::removeTexture(const char *assetName) {
-		// TODO - unload if active
 		Texture *texture = texTable->remove(assetName);
 		if (texture) {
 			texArray->remove(texture);
+			if (texture->isLoaded()) {
+				texture->unload();
+			}
+			// this will call back to this function to remove the atlased textures
+			texture->clearAliases();
+			delete texture;
 		}
 	}
 
 	void GLResourceManager::clearTextures() {
-		// TODO - if any textures are loaded into current context, we need to unload them first!
+		for (S32 i = 0; i < texArray->getSize(); i++) {
+			if (texArray->array[i]->isLoaded()) {
+				texArray->array[i]->unload();
+			}
+		}
+		// no need to clear aliases here - all is already cleared.
 		texArray->deleteElements();
 		texArray->clear();
 		texTable->clear();
