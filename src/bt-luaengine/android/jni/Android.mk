@@ -39,6 +39,8 @@ my_src_files :=\
 	batterytech/render/GLAssimpBinding.cpp \
 	batterytech/render/GLAssimpMeshBinding.cpp \
 	batterytech/render/Texture.cpp \
+	batterytech/render/AssetTexture.cpp \
+	batterytech/render/AtlasMappedTexture.cpp \
 	batterytech/platform/android/androidgeneral.cpp \
 	batterytech/platform/android/androidboot.cpp \
 	batterytech/platform/android/importgl.cpp \
