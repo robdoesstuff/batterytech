@@ -67,15 +67,35 @@ public class BatteryTechRenderer implements Renderer, InputHandler, SensorEventL
 	}
 	
 	public void onDrawFrame(GL10 gl) {
+		float tickDelta;
 		synchronized (tickMutex) {
 			long curTickMs = System.nanoTime() / 1000000;
 			if (lastTickMs == 0) {
 				lastTickMs = curTickMs;
 			}
-			boot.update((curTickMs - lastTickMs) / 1000f);
-			//boot.update(0.018f);
+			tickDelta = (curTickMs - lastTickMs) / 1000f;
+			boot.update(tickDelta);
 			boot.draw();
 			lastTickMs = curTickMs;
+		}
+		// give the UI thead a chance to get in here and do stuff
+		Thread.yield();
+		// some devices (like G2x) run faster than vsync so we can throttle it back a little here and save on battery as well as allow
+		// for better opportunity for UI thread to get in
+		if (tickDelta < 0.01666f) {
+			long remainder = (long)((0.01666f - tickDelta) * 1000);
+			// now clamp remainder to 0-16
+			if (remainder < 0) {
+				remainder = 0;
+			}
+			if (remainder > 16) {
+				remainder = 16;
+			}
+			try {
+				Thread.sleep(remainder);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
