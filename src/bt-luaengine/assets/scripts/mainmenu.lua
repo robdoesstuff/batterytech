@@ -42,6 +42,14 @@ function MainMenu:update(tickDelta)
 			self.showAnim = 1
 		end
 	end
+	-- check for back button
+	local c, sc = getLastCharacterTyped()
+	-- special key 1 is "back" button when available
+	if sc == 1 then
+		-- this will always emulate the exit button
+		platformExit()
+	end
+	
 end
 
 function MainMenu:render()

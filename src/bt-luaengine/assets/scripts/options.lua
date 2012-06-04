@@ -47,6 +47,13 @@ function Options:update(tickDelta)
 	game.smileyX = game.smileyX - tickDelta * .1
 	game.smileyX = game.smileyX % 1
 	game.smileyRotation = game.smileyRotation - tickDelta * 2.0
+	
+	local c, sc = getLastCharacterTyped()
+	-- special key 1 is "back" button when available
+	if sc == 1 then
+		-- this will always emulate the exit button
+		game:setMode(MODE_MAINMENU)
+	end
 end
 
 function Options:render()
