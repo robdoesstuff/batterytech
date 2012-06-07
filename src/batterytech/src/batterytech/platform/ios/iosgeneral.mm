@@ -388,8 +388,8 @@ void _platform_hide_ad() {
     });
 }
 
-void _platform_hook(const char *hook, char *result, S32 resultLen) {
-	// Handle custom hooks here
+void _platform_hook(const char *hookData, char *result, S32 resultLen) {
+	[btViewController hook:hookData withResult:result withResultLen:resultLen];
 }
 
 BOOL32 _platform_has_special_key(BatteryTech::SpecialKey sKey) {
