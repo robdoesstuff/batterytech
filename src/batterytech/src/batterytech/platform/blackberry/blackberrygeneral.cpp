@@ -15,13 +15,10 @@
 // Usage       : See platformgeneral.h for usage
 //============================================================================
 
-#ifndef LINUXGENERAL_CPP_
-#define LINUXGENERAL_CPP_
-
-#if defined(linux)
+#if defined(__QNXNTO__)
 
 #include "../platformgeneral.h"
-#include "linuxgeneral.h"
+#include "blackberrygeneral.h"
 #include <sys/stat.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -34,12 +31,16 @@
 #include <netinet/in.h>
 #include <sys/ioctl.h>
 #include <string.h>
-#include <iostream>
+#include <iostream.h>
+#include "../../batterytech.h"
+#include "../../Context.h"
+#include <bps/virtualkeyboard.h>
+#include "BlackberryAudioGW.h"
 
 using namespace BatteryTech;
 using namespace std;
 
-AudioManager *_andSndMgr;
+BlackberryAudioGW *bbAudioGW = NULL;
 
 void _convert_filename(char *filename);
 
@@ -52,7 +53,7 @@ unsigned char* _platform_load_asset(const char *filename, S32 *size) {
 	//strcpy(myFilename, filename);
 	//_convert_filename(myFilename);
 	char myFilename[255];
-	strcpy(myFilename, "assets/");
+	strcpy(myFilename, "app/native/assets/");
 	strcat(myFilename, filename);
 	_platform_convert_path(myFilename, myFilename);
 	//cout << "trying " << myFilename << endl;
@@ -92,7 +93,7 @@ void _platform_free_asset(unsigned char *ptr) {
 
 S32 _platform_get_asset_length(const char *filename) {
 	char myFilename[255];
-	strcpy(myFilename, "assets/");
+	strcpy(myFilename, "app/native/assets/");
 	strcat(myFilename, filename);
 	_platform_convert_path(myFilename, myFilename);
 	FILE *handle;
@@ -110,7 +111,7 @@ S32 _platform_get_asset_length(const char *filename) {
 
 S32 _platform_read_asset_chunk(const char *filename, S32 offset, unsigned char *buffer, S32 bufferLength, BOOL32 *eof) {
 	char myFilename[255];
-	strcpy(myFilename, "assets/");
+	strcpy(myFilename, "app/native/assets/");
 	strcat(myFilename, filename);
 	_platform_convert_path(myFilename, myFilename);
 	FILE *handle;
@@ -146,13 +147,26 @@ void _convert_filename(char *filename) {
 }
 
 void _platform_init_sound(AudioManager *audioManager) {
+	bbAudioGW = new BlackberryAudioGW(audioManager);
+	bbAudioGW->init();
 }
 
 void _platform_stop_sound() {
+	bbAudioGW->release();
+	delete bbAudioGW;
+	bbAudioGW = NULL;
 }
 
 void _platform_get_external_storage_dir_name(char* buf, S32 buflen) {
-	getcwd(buf, buflen);
+	strcpy(buf, "data/");
+	buf[5] = '\0';
+	//strcat(buf, btGetContext()->appProperties->get("storage_dir")->getValue());
+}
+
+void _platform_get_application_storage_dir_name(char* buf, S32 buflen) {
+	strcpy(buf, "data/");
+	buf[5] = '\0';
+	//strcat(buf, btGetContext()->appProperties->get("storage_dir")->getValue());
 }
 
 const char* _platform_get_path_separator() {
@@ -208,8 +222,14 @@ void _platform_sound_set_volume(S32 streamId, F32 leftVol, F32 rightVol){}
 void _platform_sound_set_rate(S32 streamId, F32 rate){}
 S32 _platform_play_streaming_sound(const char *assetName, S16 loops, F32 leftVol, F32 rightVol, F32 rate){ return -1; }
 void _platform_stop_streaming_sound(const char *assetName){}
-void _platform_show_keyboard(){}
-void _platform_hide_keyboard(){}
+
+void _platform_show_keyboard() {
+	virtualkeyboard_show();
+}
+
+void _platform_hide_keyboard() {
+	virtualkeyboard_hide();
+}
 
 void _platform_exit() {
 	// quit = TRUE;
@@ -296,6 +316,5 @@ U64 _platform_get_time_nanos() {
    clock_gettime(CLOCK_MONOTONIC, &ts);
    return (uint64_t)ts.tv_sec * 1000000000LL + (uint64_t)ts.tv_nsec;
 }
-#endif /* linux */
 
-#endif /* LINUXGENERAL_CPP_ */
+#endif /* bb qnx */

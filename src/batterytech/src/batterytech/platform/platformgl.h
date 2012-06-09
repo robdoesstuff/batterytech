@@ -180,6 +180,12 @@
 	#define glFrustumf(xmin, xmax, ymin, ymax, zNear, zFar) glFrustum(xmin, xmax, ymin, ymax, zNear, zFar)
 #endif /* OSX */
 
+#if defined(__QNXNTO__)
+#include <GLES/gl.h>
+#include <GLES/glext.h>
+#include <GLES2/gl2.h>
+#endif
+
 #include "opengles.h"
 
 #endif /* PLATFORMGENERAL_H_ */

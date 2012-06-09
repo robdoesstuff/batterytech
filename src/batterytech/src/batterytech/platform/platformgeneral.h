@@ -45,6 +45,9 @@
 	#include "osx/osxgeneral.h"
 #endif /* MAC */
 
+#if defined(__QNXNTO__)
+	#include "blackberry/blackberrygeneral.h"
+#endif
 //-------------- Files, IO, Paths -------------
 
 /**
