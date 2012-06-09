@@ -58,6 +58,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 boost::mutex loggerMutex;
 #endif
 
+#include <stdio.h>
+
 namespace Assimp	{
 
 // ----------------------------------------------------------------------------------
@@ -164,7 +166,7 @@ void Logger::debug(const std::string &message)	{
 		ai_assert(false);
 		return;
 	}
-	return OnDebug(message.c_str());
+	OnDebug(message.c_str());
 }
 
 // ----------------------------------------------------------------------------------
@@ -175,7 +177,7 @@ void Logger::info(const std::string &message)	{
 		ai_assert(false);
 		return;
 	}
-	return OnInfo(message.c_str());
+	OnInfo(message.c_str());
 }
 	
 // ----------------------------------------------------------------------------------
@@ -186,7 +188,7 @@ void Logger::warn(const std::string &message)	{
 		ai_assert(false);
 		return;
 	}
-	return OnWarn(message.c_str());
+	OnWarn(message.c_str());
 }
 
 // ----------------------------------------------------------------------------------
@@ -197,7 +199,7 @@ void Logger::error(const std::string &message)	{
 		ai_assert(false);
 		return;
 	}
-	return OnError(message.c_str());
+	OnError(message.c_str());
 }
 
 // ----------------------------------------------------------------------------------
@@ -250,7 +252,7 @@ void DefaultLogger::OnDebug( const char* message )
 		return;
 
 	char msg[MAX_LOG_MESSAGE_LENGTH*2];
-	::sprintf(msg,"Debug, T%i: %s", GetThreadID(), message );
+	sprintf(msg,"Debug, T%i: %s", GetThreadID(), message );
 
 	WriteToStreams( msg, Logger::DEBUGGING );
 }
@@ -260,7 +262,7 @@ void DefaultLogger::OnDebug( const char* message )
 void DefaultLogger::OnInfo( const char* message )
 {
 	char msg[MAX_LOG_MESSAGE_LENGTH*2];
-	::sprintf(msg,"Info,  T%i: %s", GetThreadID(), message );
+	sprintf(msg,"Info,  T%i: %s", GetThreadID(), message );
 
 	WriteToStreams( msg , Logger::INFO );
 }
@@ -270,7 +272,7 @@ void DefaultLogger::OnInfo( const char* message )
 void DefaultLogger::OnWarn( const char* message )
 {
 	char msg[MAX_LOG_MESSAGE_LENGTH*2];
-	::sprintf(msg,"Warn,  T%i: %s", GetThreadID(), message );
+	sprintf(msg,"Warn,  T%i: %s", GetThreadID(), message );
 
 	WriteToStreams( msg, Logger::WARN );
 }
@@ -280,7 +282,7 @@ void DefaultLogger::OnWarn( const char* message )
 void DefaultLogger::OnError( const char* message )
 {
 	char msg[MAX_LOG_MESSAGE_LENGTH*2];
-	::sprintf(msg,"Error, T%i: %s", GetThreadID(), message );
+	sprintf(msg,"Error, T%i: %s", GetThreadID(), message );
 
 	WriteToStreams( msg, Logger::ERR );
 }

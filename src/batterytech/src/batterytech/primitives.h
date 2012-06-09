@@ -163,6 +163,10 @@ typedef U32 BOOL32;
 	#include "platform/osx/osxtypes.h"
 #endif /* TARGET_OS_MAC */
 
+#if defined(__QNXNTO__)
+#include "platform/blackberry/blackberrytypes.h"
+#endif
+
 // special key definitions (not really primitives but this is a convenient header to store them in)
 namespace BatteryTech {
 	/** \brief Special Key Definitions

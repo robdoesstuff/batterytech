@@ -42,7 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "AssimpPCH.h"
 #include "LimitBoneWeightsProcess.h"
-
+#include <stdio.h>
 
 using namespace Assimp;
 
@@ -197,7 +197,7 @@ void LimitBoneWeightsProcess::ProcessMesh( aiMesh* pMesh)
 
 		if (!DefaultLogger::isNullLogger()) {
 			char buffer[1024];
-			::sprintf(buffer,"Removed %i weights. Input bones: %i. Output bones: %i",removed,old_bones,pMesh->mNumBones);
+			sprintf(buffer,"Removed %i weights. Input bones: %i. Output bones: %i",removed,old_bones,pMesh->mNumBones);
 			DefaultLogger::get()->info(buffer);
 		}
 	}

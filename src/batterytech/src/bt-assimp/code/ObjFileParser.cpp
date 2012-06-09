@@ -49,6 +49,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "fast_atof.h"
 #include "../include/aiTypes.h"
 #include "DefaultIOSystem.h"
+#include <stdlib.h>
 
 namespace Assimp	
 {

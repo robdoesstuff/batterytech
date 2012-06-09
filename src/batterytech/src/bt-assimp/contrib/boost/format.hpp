@@ -11,7 +11,7 @@
 
 #if (!defined BOOST_FORMAT_HPP) || (defined ASSIMP_FORCE_NOBOOST)
 
-#include <string>
+#include <string.h>
 #include <vector>
 
 namespace boost
