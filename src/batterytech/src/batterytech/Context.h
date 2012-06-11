@@ -34,6 +34,7 @@ namespace BatteryTech {
 	class GraphicsConfiguration;
 	class RenderContext;
 	class GLResourceManager;
+	class QuadRenderer;
 
 	class Context {
 	public:
@@ -160,6 +161,11 @@ namespace BatteryTech {
 		 * This manages shared GL-related resources such as Textures, TextureRegions, Shaders, etc
 		 */
 		GLResourceManager *glResourceManager;
+
+		/** \brief A common QuadRenderer
+		 *
+		 */
+		QuadRenderer *quadRenderer;
 
 		/**
 		 * Async callback data (see btCallback())

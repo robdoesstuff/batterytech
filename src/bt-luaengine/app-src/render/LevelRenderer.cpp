@@ -64,7 +64,7 @@ void LevelRenderer::init(BOOL32 newContext) {
 		}
 	}
 	delete [] collisionGroupName;
-	shaderProgram = new ShaderProgram("shaders/terrain_shader.vert", "shaders/terrain_shader.frag");
+	shaderProgram = new ShaderProgram("level", "shaders/terrain_shader.vert", "shaders/terrain_shader.frag");
 	shaderProgram->init(newContext);
 	shaderProgram->addVertexAttributeLoc("vPosition");
 	shaderProgram->addVertexAttributeLoc("vNormal");

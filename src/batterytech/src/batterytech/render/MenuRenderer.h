@@ -45,6 +45,11 @@ namespace BatteryTech {
 		 * For rendering - finds a texture asset's ID.
 		 */
 		S32 findTextureAsset(const char *asset);
+		/** \brief Gets the asset name of a menu resource ID
+		 * \param resourceId the Resource ID
+		 * \returns The asset name
+		 */
+		const char* getAssetNameForResource(S32 resourceId);
 		/**
 		 * Initializes menu rendering GL
 		 */
@@ -83,7 +88,6 @@ namespace BatteryTech {
 		void drawTexturedQuad(S32 top, S32 right, S32 bottom, S32 left);
 		Context *context;
 		ManagedArray<const char> *assetNames;
-		GLuint *textureIds;
 		S32 activeResourceId;
 		TextRasterRenderer *textRenderer;
 		ShaderProgram *shaderProgram;

@@ -219,6 +219,12 @@ void WorldRenderer::render() {
 			}
 		}
 		if (has2DBG) {
+			if (has3DObjects) {
+				// 3D always uses VBOs so shut those off
+			    glBindBuffer(GL_ARRAY_BUFFER, 0);
+			    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+			    glFrontFace(GL_CW);
+			}
 			// just for 2D Backgrounds behind the 3D
 			//glEnable(GL_BLEND);
 			glDisable(GL_DEPTH_TEST);

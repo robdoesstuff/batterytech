@@ -24,6 +24,7 @@
 #define MAX_VERTEX_ATTRIBUTES 16
 // vert min is 128, frag min is 16
 #define MAX_UNIFORMS 144
+#define MAX_DEFINES 20
 
 namespace BatteryTech {
 
@@ -39,13 +40,31 @@ struct ShaderNameLocMap {
 	}
 };
 
+struct ShaderDefine {
+	char *name;
+	char *value;
+	ShaderDefine(const char *name, const char *value) {
+		this->name = strdup(name);
+		if (value) {
+			this->value = strdup(value);
+		} else {
+			this->value = NULL;
+		}
+	}
+	~ShaderDefine() {
+		free(this->name);
+		free(this->value);
+	}
+};
+
 class ShaderProgram {
 public:
-	ShaderProgram(const char *vertShaderAssetName, const char *fragShaderAssetName);
+	ShaderProgram(const char *tag, const char *vertShaderAssetName, const char *fragShaderAssetName);
 	virtual ~ShaderProgram();
 	void init(BOOL32 newContext);
 	void bind();
 	void unbind();
+	void addDefine(const char *name, const char *value);
 	void addVertexAttributeLoc(const char *name);
 	void addUniformLoc(const char *name);
 	GLint getVertexAttributeLoc(const char *name);
@@ -71,10 +90,12 @@ protected:
 	void logProgramInfo(GLuint obj);
 private:
 	GLuint vertShader, fragShader, program;
+	char *tag;
 	char *vertShaderAssetName;
 	char *fragShaderAssetName;
 	ManagedArray<ShaderNameLocMap> *attribLocs;
 	ManagedArray<ShaderNameLocMap> *uniformLocs;
+	ManagedArray<ShaderDefine> *defines;
 };
 
 }

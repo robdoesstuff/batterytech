@@ -88,7 +88,7 @@ void AssimpRenderer::init(BOOL32 newContext) {
 		hwSkinShaderProgram = createShaderProgram(newContext, TRUE);
 		shadowHwSkinShader = createShadowShaderProgram(newContext, TRUE);
 	}
-	skelShaderProgram = new ShaderProgram("shaders/lineshader.vert", "shaders/lineshader.frag");
+	skelShaderProgram = new ShaderProgram("skeleton", "shaders/lineshader.vert", "shaders/lineshader.frag");
 	skelShaderProgram->init(newContext);
 	skelShaderProgram->addVertexAttributeLoc("vPosition");
 	skelShaderProgram->addVertexAttributeLoc("vColor");
@@ -100,9 +100,9 @@ void AssimpRenderer::init(BOOL32 newContext) {
 ShaderProgram* AssimpRenderer::createShaderProgram(BOOL32 newContext, BOOL32 hwSkinned) {
 	ShaderProgram *shaderProgram;
 	if (hwSkinned) {
-		shaderProgram = new ShaderProgram("shaders/assimp_accel_shader.vert", "shaders/assimp_shader.frag");
+		shaderProgram = new ShaderProgram("assimpaccel", "shaders/assimp_accel_shader.vert", "shaders/assimp_shader.frag");
 	} else {
-		shaderProgram = new ShaderProgram("shaders/assimp_shader.vert", "shaders/assimp_shader.frag");
+		shaderProgram = new ShaderProgram("assimp", "shaders/assimp_shader.vert", "shaders/assimp_shader.frag");
 	}
 	shaderProgram->init(newContext);
 	shaderProgram->addVertexAttributeLoc("vPosition");
@@ -155,9 +155,10 @@ ShaderProgram* AssimpRenderer::createShaderProgram(BOOL32 newContext, BOOL32 hwS
 ShaderProgram* AssimpRenderer::createShadowShaderProgram(BOOL32 newContext, BOOL32 hwSkinned) {
 	ShaderProgram *shaderProgram;
 	if (hwSkinned) {
-		shaderProgram = new ShaderProgram("shaders/assimp_accel_shadowdepth.vert", "shaders/assimp_shadowdepth.frag");
+		shaderProgram = new ShaderProgram("assimpaccelshadow", "shaders/assimp_accel_shadowdepth.vert", "shaders/assimp_shadowdepth.frag");
+		shaderProgram->addDefine("TEST_DEFINE", "5");
 	} else {
-		shaderProgram = new ShaderProgram("shaders/assimp_shadowdepth.vert", "shaders/assimp_shadowdepth.frag");
+		shaderProgram = new ShaderProgram("assimpshadow", "shaders/assimp_shadowdepth.vert", "shaders/assimp_shadowdepth.frag");
 	}
 	shaderProgram->init(newContext);
 	shaderProgram->addVertexAttributeLoc("vPosition");

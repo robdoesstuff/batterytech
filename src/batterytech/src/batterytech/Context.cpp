@@ -16,16 +16,17 @@
 //============================================================================
 
 #include "Context.h"
-#include "render/MenuRenderer.h"
+#include "batterytech_globals.h"
 #include "audio/AudioManager.h"
 #include "network/NetworkManager.h"
 #include "VibrationManager.h"
-#include "render/GraphicsConfiguration.h"
 #include "ui/UIManager.h"
-#include "render/RenderContext.h"
-#include "batterytech_globals.h"
-#include "render/GLResourceManager.h"
 #include "util/PropertiesIO.h"
+#include "render/RenderContext.h"
+#include "render/GraphicsConfiguration.h"
+#include "render/GLResourceManager.h"
+#include "render/QuadRenderer.h"
+#include "render/MenuRenderer.h"
 
 namespace BatteryTech {
 
@@ -45,6 +46,7 @@ namespace BatteryTech {
 		vibrationManager = new VibrationManager(this);
 		uiManager = new UIManager(this);
 		renderContext = new RenderContext();
+		quadRenderer = new QuadRenderer(this);
 		tickDelta = 0;
 		isUIConsumingPointers = FALSE;
 		isUIConsumingKeys = FALSE;
@@ -92,6 +94,8 @@ namespace BatteryTech {
 			delete appProperties;
 			appProperties = NULL;
 		}
+		delete quadRenderer;
+		quadRenderer = NULL;
 		logmsg("Done Releasing Context");
 	}
 

@@ -19,7 +19,7 @@ SimpleSpriteRenderer::SimpleSpriteRenderer(GameContext *context, const char *spr
 	this->context = context;
 	this->spriteAssetName = spriteAssetName;
 	textureId = 0;
-	shaderProgram = new ShaderProgram("shaders/quadshader.vert", "shaders/quadshader.frag");
+	shaderProgram = new ShaderProgram("quad", "shaders/quadshader.vert", "shaders/quadshader.frag");
 }
 
 SimpleSpriteRenderer::~SimpleSpriteRenderer() {

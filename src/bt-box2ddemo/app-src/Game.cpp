@@ -29,6 +29,7 @@
 #include <string.h>
 #include <batterytech/VibrationManager.h>
 #include "level/LevelIO.h"
+#include <batterytech/render/QuadRenderer.h>
 
 Context* btAppCreateContext(GraphicsConfiguration *graphicsConfig) {
 	return new GameContext(graphicsConfig);
@@ -124,6 +125,7 @@ void Game::update() {
 	}
 	if (!initialized || context->wasSuspended) {
 		logmsg("Initializing Renderers");
+		context->quadRenderer->init(TRUE);
 		context->worldRenderer->init(TRUE);
 		context->menuRenderer->init(TRUE);
 		context->wasSuspended = FALSE;

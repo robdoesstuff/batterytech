@@ -19,7 +19,7 @@
 
 ScreenControlRenderer::ScreenControlRenderer(GameContext *context, const char *fontTag) {
 	this->context = context;
-	shaderProgram = new ShaderProgram("shaders/quadshader.vert", "shaders/quadshader.frag");
+	shaderProgram = new ShaderProgram("quad", "shaders/quadshader.vert", "shaders/quadshader.frag");
 	this->fontTag = strDuplicate(fontTag);
 }
 

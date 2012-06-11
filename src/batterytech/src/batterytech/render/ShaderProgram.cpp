@@ -25,21 +25,26 @@ namespace BatteryTech {
 int ShaderProgram::binds = 0;
 ShaderProgram* ShaderProgram::currentProgram = NULL;
 
-ShaderProgram::ShaderProgram(const char *vertShaderAssetName, const char *fragShaderAssetName) {
+ShaderProgram::ShaderProgram(const char *tag, const char *vertShaderAssetName, const char *fragShaderAssetName) {
 	vertShader = fragShader = program = 0;
+	this->tag = strdup(tag);
 	this->vertShaderAssetName = strdup(vertShaderAssetName);
 	this->fragShaderAssetName = strdup(fragShaderAssetName);
 	attribLocs = new ManagedArray<ShaderNameLocMap>(MAX_VERTEX_ATTRIBUTES);
 	uniformLocs = new ManagedArray<ShaderNameLocMap>(MAX_UNIFORMS);
+	defines = new ManagedArray<ShaderDefine>(MAX_DEFINES);
 }
 
 ShaderProgram::~ShaderProgram() {
+	free(tag);
 	free(vertShaderAssetName);
 	free(fragShaderAssetName);
 	attribLocs->deleteElements();
 	delete attribLocs;
 	uniformLocs->deleteElements();
 	delete uniformLocs;
+	defines->deleteElements();
+	delete defines;
 }
 
 void ShaderProgram::init(BOOL32 newContext) {
@@ -73,6 +78,10 @@ void ShaderProgram::bind() {
 	for (S32 i = 0; i < attribLocs->getSize(); i++) {
 		glEnableVertexAttribArray(attribLocs->array[i]->loc);
 	}
+}
+
+void ShaderProgram::addDefine(const char *name, const char *value) {
+	defines->add(new ShaderDefine(name, value));
 }
 
 void ShaderProgram::unbind() {
@@ -167,8 +176,20 @@ GLuint ShaderProgram::loadShader(GLenum type, const char *shaderSrc, const char 
 		logmsg("Error - could not create shader of specified type");
 		return 0;
 	}
+	const char *shaderSources[2];
+	char defineText[1024];
+	defineText[0] = '\0';
+	for (S32 i = 0; i < defines->getSize(); i++) {
+		strcat(defineText, "#define ");
+		strcat(defineText, defines->array[i]->name);
+		strcat(defineText, " ");
+		strcat(defineText, defines->array[i]->value);
+		strcat(defineText, "\n");
+	}
+	shaderSources[0] = defineText;
+	shaderSources[1] = shaderSrc;
 	// Load the shader source
-	glShaderSource(shader, 1, &shaderSrc, NULL);
+	glShaderSource(shader, 2, shaderSources, NULL);
 	// Compile the shader
 	glCompileShader(shader);
 	// Check the compile status

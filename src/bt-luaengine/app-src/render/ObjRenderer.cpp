@@ -37,7 +37,7 @@ void ObjRenderer::init(BOOL32 newContext) {
 	if (shaderProgram) {
 		delete shaderProgram;
 	}
-	shaderProgram = new ShaderProgram("shaders/static_obj_shader.vert", "shaders/static_obj_shader.frag");
+	shaderProgram = new ShaderProgram("obj", "shaders/static_obj_shader.vert", "shaders/static_obj_shader.frag");
 	shaderProgram->init(newContext);
 	shaderProgram->addVertexAttributeLoc("vPosition");
 	shaderProgram->addVertexAttributeLoc("vNormal");

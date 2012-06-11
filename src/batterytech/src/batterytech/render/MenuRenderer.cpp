@@ -25,6 +25,8 @@
 #include "../batterytech_globals.h"
 #include "ShaderProgram.h"
 #include "Texture.h"
+#include "GLResourceManager.h"
+#include "QuadRenderer.h"
 
 #define DEBUG_MENU_RENDERER TRUE
 
@@ -38,19 +40,21 @@ namespace BatteryTech {
 		textRenderer->setStroke(appProperties->get("ui_menu_inner_stroke")->getFloatValue(), appProperties->get("ui_menu_outer_stroke")->getFloatValue());
 		Vector4f color = appProperties->get("ui_menu_font_color")->getVector4fValue();
 		textRenderer->setColorFilter(color);
-		shaderProgram = new ShaderProgram("shaders/quadshader.vert", "shaders/quadshader.frag");
 	}
 
 	MenuRenderer::~MenuRenderer() {
 		delete assetNames;
-		delete [] textureIds;
 		delete textRenderer;
-		delete shaderProgram;
 	}
 
-	/** Adds a texture asset or returns the ID of the one already added if equal */
+	/** \brief Specifies a texture to be used for menu rendering
+	 *
+	 * \param asset The asset filename of the texture
+	 * \return The ID of the menu texture asset
+	 */
 	S32 MenuRenderer::addTextureAsset(const char *asset) {
 		S32 id = findTextureAsset(asset);
+		context->glResourceManager->addTexture(asset, FALSE);
 		if (id == -1) {
 			return assetNames->add(asset);
 		}
@@ -67,25 +71,17 @@ namespace BatteryTech {
 		return -1;
 	}
 
+	const char* MenuRenderer::getAssetNameForResource(S32 resourceId) {
+		return assetNames->array[resourceId];
+	}
+
 	void MenuRenderer::init(BOOL32 newContext) {
 		textRenderer->init(TRUE);
-		textureIds = new GLuint[assetNames->getSize()];
-		glGenTextures(assetNames->getSize(), textureIds);
-		S32 i;
-		for (i = 0; i < assetNames->getSize(); i++) {
-			Texture::textureSwitches++;
-			glBindTexture(GL_TEXTURE_2D, textureIds[i]);
-			Texture::lastTextureId = textureIds[i];
-			loadTexture(assetNames->array[i]);
-		}
-		if (context->gConfig->useShaders) {
-			shaderProgram->init(newContext);
-			shaderProgram->addVertexAttributeLoc("vPosition");
-			shaderProgram->addVertexAttributeLoc("uvMap");
-			shaderProgram->addUniformLoc("projection_matrix");
-			shaderProgram->addUniformLoc("modelview_matrix");
-			shaderProgram->addUniformLoc("tex");
-			shaderProgram->addUniformLoc("colorFilter");
+		for (S32 i = 0; i < assetNames->getSize(); i++) {
+			Texture *tex = context->glResourceManager->getTexture(assetNames->array[i]);
+			if (tex) {
+				tex->load(FALSE);
+			}
 		}
 		checkGLError("MenuRenderer init");
 	}
@@ -152,13 +148,14 @@ namespace BatteryTech {
 			}
 		}
 		if (menuResourceId != NO_RESOURCE) {
+			Texture *texture = context->glResourceManager->getTexture(getAssetNameForResource(menuResourceId));
 			if (menuResourceId != activeResourceId) {
-				Texture::textureSwitches++;
-				glBindTexture(GL_TEXTURE_2D, textureIds[menuResourceId]);
+				if (texture) {
+					texture->bind();
+				}
 				activeResourceId = menuResourceId;
-				Texture::lastTextureId = textureIds[menuResourceId];
 			}
-			drawTexturedQuad(component->virtualTop, component->virtualRight, component->virtualBottom, component->virtualLeft);
+			context->quadRenderer->render(texture, component->virtualTop, component->virtualRight, component->virtualBottom, component->virtualLeft);
 		}
 		if (component->text) {
 			if (component->isEnabled) {
@@ -226,76 +223,6 @@ namespace BatteryTech {
 		if (animator) {
 			animator->drawPostComponent(context);
 		}
-	}
-
-	void MenuRenderer::drawTexturedQuad(S32 top, S32 right, S32 bottom, S32 left) {
-		F32 verts[] = {
-				left, top, 0, right, top, 0, right, bottom, 0, left, bottom, 0
-		};
-		F32 uvs[] = {
-				0, 0, 1, 0, 1, 1, 0, 1
-		};
-		glFrontFace(GL_CW);
-		if (context->gConfig->useShaders) {
-			// this is less than efficient because of the layered text rendering
-			shaderProgram->bind();
-			glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("vPosition"), 3, GL_FLOAT, GL_FALSE, 0, verts);
-			glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("uvMap"), 2, GL_FLOAT, GL_FALSE, 0, uvs);
-			glUniformMatrix4fv(shaderProgram->getUniformLoc("projection_matrix"), 1, GL_FALSE, (GLfloat*) context->renderContext->projMatrix.data);
-			glUniformMatrix4fv(shaderProgram->getUniformLoc("modelview_matrix"), 1, GL_FALSE, (GLfloat*) context->renderContext->mvMatrix.data);
-			glUniform1i(shaderProgram->getUniformLoc("tex"), 0);
-			Vector4f colorFilter = context->renderContext->colorFilter;
-			glUniform4f(shaderProgram->getUniformLoc("colorFilter"), colorFilter.x,colorFilter.y,colorFilter.z,colorFilter.a);
-			glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
-			shaderProgram->unbind();
-		} else {
-			Vector4f colorFilter = context->renderContext->colorFilter;
-			glColor4f(colorFilter.x,colorFilter.y,colorFilter.z,colorFilter.a);
-			glVertexPointer(3, GL_FLOAT, 0, &verts);
-			glTexCoordPointer(2, GL_FLOAT, 0, &uvs);
-			glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
-		}
-	}
-
-	void MenuRenderer::loadTexture(const char *assetName) {
-		int x,y,n;
-		int assetSize = 0;
-		unsigned char *fileData = _platform_load_asset(assetName, &assetSize);
-		if (!fileData) {
-			char buf[1024];
-			sprintf(buf, "No asset data found for %s", assetName);
-			logmsg(buf);
-			return;
-		}
-		unsigned char *data = stbi_load_from_memory(fileData, assetSize, &x, &y, &n, 0);
-		//unsigned char *data = stbi_load("assets\\text_bg_tex.jpg", &x, &y, &n, 0);
-		if (data) {
-			int bytes = x * y * n * sizeof(unsigned char);
-			if (DEBUG_MENU_RENDERER) {
-				char buf[1024];
-				sprintf(buf, "UI - Loaded Texture %s (%d enc bytes): %ix%i components=%i bytes=%i", assetName, assetSize, x, y, n, bytes);
-				logmsg(buf);
-			}
-			if (!context->gConfig->useShaders) {
-				glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-			}
-			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-			if (n == 3) {
-				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, x, y, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-			} else if (n == 4) {
-				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, x, y, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-			}
-			checkGLError("MenuRenderer Load Texture");
-			stbi_image_free(data);
-		} else {
-			char buf[1024];
-			sprintf(buf, "Error decoding %s (%d enc bytes)", assetName, assetSize);
-			logmsg(buf);
-		}
-		_platform_free_asset(fileData);
 	}
 
 	BOOL32 MenuRenderer::isMultiline(const char *text, F32 availableWidth) {

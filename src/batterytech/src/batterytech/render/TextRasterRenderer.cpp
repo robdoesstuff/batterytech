@@ -42,7 +42,7 @@ namespace BatteryTech {
 		this->fontSize = fontSize;
 		bmpWidth = 0;
 		bmpHeight = 0;
-		shaderProgram = new ShaderProgram("shaders/quadshader.vert", "shaders/quadshader.frag");
+		shaderProgram = new ShaderProgram("text", "shaders/quadshader.vert", "shaders/quadshader.frag");
 		innerStroke = 0;
 		outerStroke = 0;
 		color = Vector4f(1,1,1,1);

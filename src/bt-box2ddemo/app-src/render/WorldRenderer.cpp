@@ -123,6 +123,7 @@ void WorldRenderer::render() {
 				glMatrixMode(GL_MODELVIEW);
 				glLoadIdentity();
 			}
+			glEnable(GL_BLEND);
 			textRenderer->startText();
 			textRenderer->render(fpsText, 5, context->gConfig->height - 5);
 			textRenderer->finishText();

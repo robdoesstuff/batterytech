@@ -28,6 +28,7 @@
 #include "ScreenControl.h"
 #include <batterytech/util/strx.h>
 #include <string.h>
+#include <batterytech/render/QuadRenderer.h>
 
 Context* btAppCreateContext(GraphicsConfiguration *graphicsConfig) {
 	return new GameContext(graphicsConfig);
@@ -139,6 +140,7 @@ void Game::update() {
 		}
 		if (!initialized || context->wasSuspended) {
 			logmsg("Initializing Renderers");
+			context->quadRenderer->init(TRUE);
 			context->worldRenderer->init(TRUE);
 			context->menuRenderer->init(TRUE);
 			context->wasSuspended = FALSE;
@@ -207,6 +209,7 @@ void Game::reset() {
 	clearError();
 	delete luaBinder;
 	luaBinder = NULL;
+	context->quadRenderer->init(FALSE);
 	context->worldRenderer->init(FALSE);
 	context->menuRenderer->init(FALSE);
 	initializeLua();

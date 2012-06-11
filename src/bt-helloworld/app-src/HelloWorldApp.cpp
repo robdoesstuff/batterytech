@@ -13,6 +13,7 @@
 #include <batterytech/render/MenuRenderer.h>
 #include <string.h>
 #include "RenderUtil.h"
+#include <batterytech/render/QuadRenderer.h>
 
 Context* btAppCreateContext(GraphicsConfiguration *graphicsConfig) {
 	return new AppContext(graphicsConfig);
@@ -41,6 +42,7 @@ void HelloWorldApp::update() {
 	if (!initialized || context->wasSuspended) {
 		logmsg("Initializing Renderers");
 		RenderUtil::setupGL(context);
+		context->quadRenderer->init(TRUE);
 		textRenderer->init(TRUE);
 		context->menuRenderer->init(TRUE);
 		context->wasSuspended = FALSE;

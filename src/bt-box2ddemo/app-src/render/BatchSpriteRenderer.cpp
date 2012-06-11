@@ -19,7 +19,7 @@ BatchSpriteRenderer::BatchSpriteRenderer(GameContext *context, const char *sprit
 	this->context = context;
 	this->spriteAssetName = spriteAssetName;
 	textureId = 0;
-	shaderProgram = new ShaderProgram("shaders/quadshader.vert", "shaders/quadshader.frag");
+	shaderProgram = new ShaderProgram("quad", "shaders/quadshader.vert", "shaders/quadshader.frag");
 }
 
 BatchSpriteRenderer::~BatchSpriteRenderer() {
