@@ -30,6 +30,7 @@
 #include <batterytech/VibrationManager.h>
 #include "level/LevelIO.h"
 #include <batterytech/render/QuadRenderer.h>
+#include <batterytech/render/GLResourceManager.h>
 
 Context* btAppCreateContext(GraphicsConfiguration *graphicsConfig) {
 	return new GameContext(graphicsConfig);
@@ -112,6 +113,7 @@ void Game::update() {
 		// load preferences
 		loadPreferences();
 		logmsg("Initializing Menus");
+		context->glResourceManager->addTexture("ui/menubuttons.btx", FALSE);
 		context->uiManager->addMenu(new TopMenu(context));
 		context->uiManager->addMenu(new MenuButtonMenu(context));
 		context->uiManager->addMenu(new GameOptionsMenu(context));
@@ -125,7 +127,6 @@ void Game::update() {
 	}
 	if (!initialized || context->wasSuspended) {
 		logmsg("Initializing Renderers");
-		context->quadRenderer->init(TRUE);
 		context->worldRenderer->init(TRUE);
 		context->menuRenderer->init(TRUE);
 		context->wasSuspended = FALSE;

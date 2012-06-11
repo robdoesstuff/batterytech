@@ -123,6 +123,11 @@ namespace BatteryTech {
 				strcpy(texAssetName, basePath);
 				strcat(texAssetName, valueBuf);
 				vTex = new AtlasMappedTexture(context, this, texAssetName);
+				Texture *existingTex = context->glResourceManager->getTexture(texAssetName);
+				if (existingTex) {
+					// Already has one!  remove/override.
+					context->glResourceManager->removeTexture(texAssetName);
+				}
 				context->glResourceManager->addTexture(vTex);
 				atlasMappedTexureNames->add(strDuplicate(texAssetName));
 			} else if (strEquals(keyBuf, "image.uvs")) {

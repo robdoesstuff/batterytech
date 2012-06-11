@@ -20,25 +20,13 @@ class GameContext;
 
 /** \brief A very basic sprite renderer
  *
- * Renders one sprite at a time.
+ * Translates RenderItems into QuadRenderer calls
  *
  */
 class SimpleSpriteRenderer : Renderer {
 public:
 	SimpleSpriteRenderer(GameContext *context);
 	virtual void init(BOOL32 newContext);
-	/** \brief Basic render
-	 *
-	 * Does not assume any texture transform or offsets
-	 *
-	 */
-	virtual void render(F32 top, F32 right, F32 bottom, F32 left);
-	/** \brief Basic render
-	 *
-	 * Does not assume any texture transform or offsets
-	 *
-	 */
-	virtual void render(F32 x, F32 y, F32 width, F32 height, F32 angle);
 	/** \brief Renders a sprite using RenderItem data
 	 *
 	 * This will use the texture and automatically apply any trim offsets or UV transforms from a texture atlas.
@@ -49,7 +37,6 @@ public:
 	virtual ~SimpleSpriteRenderer();
 private:
 	GameContext *context;
-	ShaderProgram *shaderProgram;
 };
 
 #endif /* SIMPLESPRITERENDERER_H_ */

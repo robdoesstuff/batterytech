@@ -1,0 +1,23 @@
+btx = 1.0
+texture.assetname = menubuttons.png
+texture.width  = 256
+texture.height = 512
+
+image.assetname = button1_pressed_tex.png
+
+image.uvs = 0.0078125 0.00390625 0.9765625 0.00390625 0.9765625 0.2421875 0.0078125 0.2421875
+image.rotated = false
+image.trimmed = true
+image.origsize = 256 128
+image.offset = 6 5
+image.trimmedsize = 248 122
+
+image.assetname = button1_tex.png
+image.uvs = 0.5078125 0.24609375 0.5078125 0.74609375 0.0078125 0.74609375 0.0078125 0.24609375
+image.rotated = true
+image.trimmed = false
+image.origsize = 256 128
+image.offset = 0 0
+image.trimmedsize = 256 128
+
+

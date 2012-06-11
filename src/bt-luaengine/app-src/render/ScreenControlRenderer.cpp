@@ -16,15 +16,14 @@
 #include <batterytech/Logger.h>
 #include <stdio.h>
 #include "../GameContext.h"
+#include <batterytech/render/QuadRenderer.h>
 
 ScreenControlRenderer::ScreenControlRenderer(GameContext *context, const char *fontTag) {
 	this->context = context;
-	shaderProgram = new ShaderProgram("quad", "shaders/quadshader.vert", "shaders/quadshader.frag");
 	this->fontTag = strDuplicate(fontTag);
 }
 
 ScreenControlRenderer::~ScreenControlRenderer() {
-	delete shaderProgram;
 	delete [] fontTag;
 }
 
@@ -32,54 +31,27 @@ void ScreenControlRenderer::init(BOOL32 newContext) {
 	if (!newContext) {
 		return;
 	}
-	if (context->gConfig->useShaders) {
-		shaderProgram->init(newContext);
-		shaderProgram->addVertexAttributeLoc("vPosition");
-		shaderProgram->addVertexAttributeLoc("uvMap");
-		shaderProgram->addUniformLoc("projection_matrix");
-		shaderProgram->addUniformLoc("modelview_matrix");
-		shaderProgram->addUniformLoc("tex");
-		shaderProgram->addUniformLoc("colorFilter");
-	}
 	checkGLError("ScreenControlRenderer Init");
 }
 
 void ScreenControlRenderer::render() {
 	//glFrontFace(GL_CW);
-	shaderProgram->bind();
 	ManagedArray<ScreenControl> *controls = context->world->screenControls;
 	for (S32 i = 0; i < controls->getSize(); i++) {
 		ScreenControl *control = controls->array[i];
 		if (!control->getTextureAssetName()) {
 			continue;
 		}
-		context->glResourceManager->getTexture(control->getTextureAssetName())->bind();
+		Texture *texture = context->glResourceManager->getTexture(control->getTextureAssetName());
 		Vector4f &bounds = control->drawableBounds;
 		F32 left = bounds.x;
 		F32 top = bounds.y;
 		F32 right = bounds.z;
 		F32 bottom = bounds.w;
-		F32 verts[] = {
-				left, top, 0, right, top, 0, right, bottom, 0, left, bottom, 0
-		};
-		Vector4f &uvCoords = control->textureUVs;
-		F32 uvLeft = uvCoords.x;
-		F32 uvTop = uvCoords.y;
-		F32 uvRight = uvCoords.z;
-		F32 uvBottom = uvCoords.w;
-		F32 uvs[] = {
-				uvLeft, uvTop, uvRight, uvTop, uvRight, uvBottom, uvLeft, uvBottom
-		};
-		glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("vPosition"), 3, GL_FLOAT, GL_FALSE, 0, verts);
-		glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("uvMap"), 2, GL_FLOAT, GL_FALSE, 0, uvs);
-		glUniformMatrix4fv(shaderProgram->getUniformLoc("projection_matrix"), 1, GL_FALSE, (GLfloat*) context->renderContext->projMatrix.data);
-		glUniformMatrix4fv(shaderProgram->getUniformLoc("modelview_matrix"), 1, GL_FALSE, (GLfloat*) context->renderContext->mvMatrix.data);
-		glUniform1i(shaderProgram->getUniformLoc("tex"), 0);
-		Vector4f colorFilter = context->renderContext->colorFilter;
-		glUniform4f(shaderProgram->getUniformLoc("colorFilter"), colorFilter.x,colorFilter.y,colorFilter.z,colorFilter.a);
-		glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+		F32 width = right-left;
+		F32 height = bottom-top;
+		context->quadRenderer->render(texture, Vector3f(left + width/2, top + height/2, 0), 0, control->textureUVs, Vector2f(width, height), 1.0f, TRUE, FALSE, Matrix4f());
 	}
-	shaderProgram->unbind();
 	
 	BOOL32 hasLabels = FALSE;
 

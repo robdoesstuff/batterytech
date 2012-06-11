@@ -16,198 +16,42 @@
 #include <batterytech/render/GLResourceManager.h>
 #include "../World.h"
 #include "../GameContext.h"
+#include <batterytech/render/QuadRenderer.h>
 
 SimpleSpriteRenderer::SimpleSpriteRenderer(GameContext *context) {
 	this->context = context;
-	shaderProgram = new ShaderProgram("quad", "shaders/quadshader.vert", "shaders/quadshader.frag");
 }
 
 SimpleSpriteRenderer::~SimpleSpriteRenderer() {
-	delete shaderProgram;
 }
 
 void SimpleSpriteRenderer::init(BOOL32 newContext) {
-	if (context->gConfig->useShaders) {
-		shaderProgram->init(newContext);
-		shaderProgram->addVertexAttributeLoc("vPosition");
-		shaderProgram->addVertexAttributeLoc("uvMap");
-		shaderProgram->addUniformLoc("projection_matrix");
-		shaderProgram->addUniformLoc("modelview_matrix");
-		shaderProgram->addUniformLoc("tex");
-		shaderProgram->addUniformLoc("colorFilter");
-	}
-	checkGLError("SimpleSpriteRenderer Init");
-}
-
-void SimpleSpriteRenderer::render(F32 top, F32 right, F32 bottom, F32 left) {
-	F32 verts[] = {
-			left, top, 0, right, top, 0, right, bottom, 0, left, bottom, 0
-	};
-	F32 uvs[] = {
-			0, 0, 1, 0, 1, 1, 0, 1
-	};
-	//glFrontFace(GL_CW);
-	if (context->gConfig->useShaders) {
-		shaderProgram->bind();
-		glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("vPosition"), 3, GL_FLOAT, GL_FALSE, 0, verts);
-		glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("uvMap"), 2, GL_FLOAT, GL_FALSE, 0, uvs);
-		glUniformMatrix4fv(shaderProgram->getUniformLoc("projection_matrix"), 1, GL_FALSE, (GLfloat*) context->renderContext->projMatrix.data);
-		glUniformMatrix4fv(shaderProgram->getUniformLoc("modelview_matrix"), 1, GL_FALSE, (GLfloat*) context->renderContext->mvMatrix.data);
-		glUniform1i(shaderProgram->getUniformLoc("tex"), 0);
-		Vector4f colorFilter = context->renderContext->colorFilter;
-		glUniform4f(shaderProgram->getUniformLoc("colorFilter"), colorFilter.x,colorFilter.y,colorFilter.z,colorFilter.a);
-		glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
-		shaderProgram->unbind();
-	} else {
-		glVertexPointer(3, GL_FLOAT, 0, &verts);
-		glTexCoordPointer(2, GL_FLOAT, 0, &uvs);
-		glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
-	}
-}
-
-void SimpleSpriteRenderer::render(F32 x, F32 y, F32 width, F32 height, F32 angleRads) {
-	// this one
-	//glFrontFace(GL_CW);
-	F32 top = height/2;
-	F32 right = width/2;
-	F32 bottom = -height/2;
-	F32 left = -width/2;
-	F32 verts[] = {
-			left, top, 0, right, top, 0, right, bottom, 0, left, bottom, 0
-	};
-	F32 uvs[] = {
-			0, 0, 1, 0, 1, 1, 0, 1
-	};
-	if (context->gConfig->useShaders) {
-		Matrix4f myMvMatrix = context->renderContext->mvMatrix;
-		myMvMatrix.translate(x, y, 0);
-		myMvMatrix.rotate(angleRads * (180 / PI), 0, 0, -1.0f);
-		shaderProgram->bind();
-		glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("vPosition"), 3, GL_FLOAT, GL_FALSE, 0, verts);
-		glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("uvMap"), 2, GL_FLOAT, GL_FALSE, 0, uvs);
-		glUniformMatrix4fv(shaderProgram->getUniformLoc("projection_matrix"), 1, GL_FALSE, (GLfloat*) context->renderContext->projMatrix.data);
-		glUniformMatrix4fv(shaderProgram->getUniformLoc("modelview_matrix"), 1, GL_FALSE, (GLfloat*) myMvMatrix.data);
-		glUniform1i(shaderProgram->getUniformLoc("tex"), 0);
-		Vector4f colorFilter = context->renderContext->colorFilter;
-		glUniform4f(shaderProgram->getUniformLoc("colorFilter"), colorFilter.x,colorFilter.y,colorFilter.z,colorFilter.a);
-		glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
-		shaderProgram->unbind();
-	} else {
-		// GL1 rendering branch
-		Vector4f colorFilter = context->renderContext->colorFilter;
-		glColor4f(colorFilter.x,colorFilter.y,colorFilter.z,colorFilter.a);
-		glPushMatrix();
-		glTranslatef(x, y, 0);
-		glRotatef(angleRads * (180 / PI), 0, 0, 1.0f);
-		glVertexPointer(3, GL_FLOAT, 0, &verts);
-		glTexCoordPointer(2, GL_FLOAT, 0, &uvs);
-		glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
-		glPopMatrix();
-	}
-
 }
 
 void SimpleSpriteRenderer::render(RenderItem *item) {
-	//glFrontFace(GL_CW);
-	F32 x = item->pos.x;
-	F32 y = item->pos.y;
-	F32 z = item->pos.z;
-	F32 angleRads = item->orientation.v.z;
-	Vector4f myUvs = item->uvs;
-	Vector2f uvs[] = { Vector2f(myUvs.x, myUvs.y), Vector2f(myUvs.z, myUvs.y),
-			Vector2f(myUvs.z, myUvs.w), Vector2f(myUvs.x, myUvs.w)
-	};
-	F32 desWidth = item->scale.x;
-	F32 desHeight = item->scale.y;
-	F32 width = desWidth;
-	F32 height = desHeight;
-	Vector2f offsetDelta;
 	if (item->textureName[0]) {
 		Texture *texture = context->glResourceManager->getTexture(item->textureName);
 		if (texture) {
-			texture->bind();
-			Matrix4f tMat = texture->getMatrix();
-			// transform the UVs into texture space (to support atlased images)
-			for (S32 i = 0; i < 4; i++) {
-				uvs[i] = tMat * uvs[i];
+			Matrix4f bbMat;
+			BOOL32 isBB = item->renderType == RenderItem::RENDERTYPE_BB;
+			if (isBB) {
+				// calculate billboard matrix
+				Vector3f dir = context->world->camera->pos - item->pos;
+				dir.normalize();
+				Vector3f newY = context->world->camera->invRotMatrix * Vector3f(0,1,0);
+				Vector3f newX = context->world->camera->invRotMatrix * Vector3f(1,0,0);
+				bbMat.data[0] = newX.x;
+				bbMat.data[1] = newX.y;
+				bbMat.data[2] = newX.z;
+				bbMat.data[4] = newY.x;
+				bbMat.data[5] = newY.y;
+				bbMat.data[6] = newY.z;
+				bbMat.data[8] = dir.x;
+				bbMat.data[9] = dir.y;
+				bbMat.data[10] = dir.z;
 			}
-			char buf[255];
-			// take the dimensions and convert them into percentages of the desired draw size(scale)
-			Vector2f scale = Vector2f(desWidth / texture->getOriginalSize().x, desHeight / texture->getOriginalSize().y);
-			Vector2f actualSize = texture->getTrimmedSize() * scale;
-			// this is the corner offset when the trimmed image is perfectly centered (which is how we lay it out by default)
-			// so really what we want to know is the difference between that and the actual trim position
-			Vector2f centerOffset = (texture->getOriginalSize() - texture->getTrimmedSize()) / 2.0f;
-			// this is the difference between our default corner and the real corner scaled to the req draw size
-			offsetDelta = (texture->getCornerOffset() - centerOffset) * scale;
-			width = actualSize.x;
-			height = actualSize.y;
+			context->quadRenderer->render(texture, item->pos, item->orientation.v.z, item->uvs, Vector2f(item->scale.x, item->scale.y), item->alpha, item->flags & RENDERITEM_FLAG_IS_OPAQUE, isBB, bbMat);
 		}
 	}
-	F32 top;
-	F32 bottom;
-	F32 right = width/2 + offsetDelta.x;
-	if (item->renderType == RenderItem::RENDERTYPE_BB) {
-		top = height/2 + offsetDelta.y;
-		bottom = -height/2 + offsetDelta.y;
-	} else {
-		top = -height/2 + offsetDelta.y;
-		bottom = height/2 + offsetDelta.y;
-	}
-	F32 left = -width/2 + offsetDelta.x;
-	F32 verts[] = {
-			left, top, z, right, top, z, right, bottom, z, left, bottom, z
-	};
-
-	F32 olda = context->renderContext->colorFilter.a;
-	if(!(item->flags & RENDERITEM_FLAG_IS_OPAQUE) && item->alpha < 1) {
-		context->renderContext->colorFilter.a = item->alpha;
-	}
-	if (context->gConfig->useShaders) {
-		Matrix4f myMvMatrix = context->renderContext->mvMatrix;
-		myMvMatrix.translate(x, y, z);
-		myMvMatrix.rotate(angleRads * (180 / PI), 0, 0, -1.0f);
-		if (item->renderType == RenderItem::RENDERTYPE_BB) {
-			Vector3f dir = context->world->camera->pos - item->pos;
-			dir.normalize();
-			Vector3f newY = context->world->camera->invRotMatrix * Vector3f(0,1,0);
-			Vector3f newX = context->world->camera->invRotMatrix * Vector3f(1,0,0);
-			//F32 angle = atan2f(dir.y, dir.x);
-			//myMvMatrix.rotate(angle, 0, 0, 1.0f);
-			Matrix4f mat = Matrix4f();
-			mat.data[0] = newX.x;
-			mat.data[1] = newX.y;
-			mat.data[2] = newX.z;
-			mat.data[4] = newY.x;
-			mat.data[5] = newY.y;
-			mat.data[6] = newY.z;
-			mat.data[8] = dir.x;
-			mat.data[9] = dir.y;
-			mat.data[10] = dir.z;
-			myMvMatrix = myMvMatrix * mat;
-		}
-		shaderProgram->bind();
-		glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("vPosition"), 3, GL_FLOAT, GL_FALSE, 0, verts);
-		glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("uvMap"), 2, GL_FLOAT, GL_FALSE, 0, uvs);
-		glUniformMatrix4fv(shaderProgram->getUniformLoc("projection_matrix"), 1, GL_FALSE, (GLfloat*) context->renderContext->projMatrix.data);
-		glUniformMatrix4fv(shaderProgram->getUniformLoc("modelview_matrix"), 1, GL_FALSE, (GLfloat*) myMvMatrix.data);
-		glUniform1i(shaderProgram->getUniformLoc("tex"), 0);
-		Vector4f colorFilter = context->renderContext->colorFilter;
-		glUniform4f(shaderProgram->getUniformLoc("colorFilter"), colorFilter.x,colorFilter.y,colorFilter.z,colorFilter.a);
-		glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
-		shaderProgram->unbind();
-	} else {
-		// GL1 rendering branch
-		Vector4f colorFilter = context->renderContext->colorFilter;
-		glColor4f(colorFilter.x,colorFilter.y,colorFilter.z,colorFilter.a);
-		glPushMatrix();
-		glTranslatef(x, y, 0);
-		glRotatef(angleRads * (180 / PI), 0, 0, 1.0f);
-		glVertexPointer(3, GL_FLOAT, 0, &verts);
-		glTexCoordPointer(2, GL_FLOAT, 0, &uvs);
-		glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
-		glPopMatrix();
-	}
-	context->renderContext->colorFilter.a = olda;
 }
 

@@ -48,11 +48,34 @@ void QuadRenderer::init(BOOL32 newContext) {
 }
 
 void QuadRenderer::render(Texture *texture, F32 top, F32 right, F32 bottom, F32 left) {
-	F32 verts[] = {
-			left, top, 0, right, top, 0, right, bottom, 0, left, bottom, 0
+	Vector2f uvs[] = { Vector2f(0,0), Vector2f(1,0),
+			Vector2f(1,1), Vector2f(0,1)
 	};
-	F32 uvs[] = {
-			0, 0, 1, 0, 1, 1, 0, 1
+	F32 desWidth = right-left;
+	F32 desHeight = bottom-top;
+	F32 width = desWidth;
+	F32 height = desHeight;
+	Vector2f offset(0,0);
+	if (texture) {
+		texture->bind();
+		Matrix4f tMat = texture->getMatrix();
+		// transform the UVs into texture space (to support atlased images)
+		for (S32 i = 0; i < 4; i++) {
+			uvs[i] = tMat * uvs[i];
+		}
+		// take the dimensions and convert them into percentages of the desired draw size(scale)
+		Vector2f scale = Vector2f(desWidth / texture->getOriginalSize().x, desHeight / texture->getOriginalSize().y);
+		Vector2f actualSize = texture->getTrimmedSize() * scale;
+		offset = texture->getCornerOffset() * scale;
+		width = actualSize.x;
+		height = actualSize.y;
+	}
+	F32 actualLeft = left + offset.x;
+	F32 actualRight = actualLeft + width;
+	F32 actualTop = top + offset.y;
+	F32 actualBottom = actualTop + height;
+	F32 verts[] = {
+			actualLeft, actualTop, 0, actualRight, actualTop, 0, actualRight, actualBottom, 0, actualLeft, actualBottom, 0
 	};
 	//glFrontFace(GL_CW);
 	if (context->gConfig->useShaders) {
@@ -74,45 +97,7 @@ void QuadRenderer::render(Texture *texture, F32 top, F32 right, F32 bottom, F32 
 }
 
 void QuadRenderer::render(Texture *texture, F32 x, F32 y, F32 width, F32 height, F32 angleRads) {
-	// this one
-	//glFrontFace(GL_CW);
-	F32 top = height/2;
-	F32 right = width/2;
-	F32 bottom = -height/2;
-	F32 left = -width/2;
-	F32 verts[] = {
-			left, top, 0, right, top, 0, right, bottom, 0, left, bottom, 0
-	};
-	F32 uvs[] = {
-			0, 0, 1, 0, 1, 1, 0, 1
-	};
-	if (context->gConfig->useShaders) {
-		Matrix4f myMvMatrix = context->renderContext->mvMatrix;
-		myMvMatrix.translate(x, y, 0);
-		myMvMatrix.rotate(angleRads * (180 / PI), 0, 0, -1.0f);
-		shaderProgram->bind();
-		glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("vPosition"), 3, GL_FLOAT, GL_FALSE, 0, verts);
-		glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("uvMap"), 2, GL_FLOAT, GL_FALSE, 0, uvs);
-		glUniformMatrix4fv(shaderProgram->getUniformLoc("projection_matrix"), 1, GL_FALSE, (GLfloat*) context->renderContext->projMatrix.data);
-		glUniformMatrix4fv(shaderProgram->getUniformLoc("modelview_matrix"), 1, GL_FALSE, (GLfloat*) myMvMatrix.data);
-		glUniform1i(shaderProgram->getUniformLoc("tex"), 0);
-		Vector4f colorFilter = context->renderContext->colorFilter;
-		glUniform4f(shaderProgram->getUniformLoc("colorFilter"), colorFilter.x,colorFilter.y,colorFilter.z,colorFilter.a);
-		glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
-		shaderProgram->unbind();
-	} else {
-		// GL1 rendering branch
-		Vector4f colorFilter = context->renderContext->colorFilter;
-		glColor4f(colorFilter.x,colorFilter.y,colorFilter.z,colorFilter.a);
-		glPushMatrix();
-		glTranslatef(x, y, 0);
-		glRotatef(angleRads * (180 / PI), 0, 0, 1.0f);
-		glVertexPointer(3, GL_FLOAT, 0, &verts);
-		glTexCoordPointer(2, GL_FLOAT, 0, &uvs);
-		glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
-		glPopMatrix();
-	}
-
+	render(texture, Vector3f(x,y,0), angleRads, Vector4f(0,0,1,1), Vector2f(width,height), 1.0f, TRUE, FALSE, Matrix4f());
 }
 
 void QuadRenderer::render(Texture *texture, Vector3f pos, F32 angleRads, Vector4f myUvs, Vector2f scale, F32 alpha, BOOL32 isOpaque, BOOL32 bb, Matrix4f bbMat) {

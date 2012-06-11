@@ -15,7 +15,6 @@
 #include <batterytech/primitives.h>
 #include "../World.h"
 #include "B2DebugRenderer.h"
-#include "SimpleSpriteRenderer.h"
 #include "BallRenderer.h"
 #include <batterytech/batterytech_entrypoints.h>
 
@@ -31,17 +30,13 @@ class WorldRenderer: public Renderer, public BTApplicationRenderer {
 public:
 	WorldRenderer(GameContext *context);
 	virtual void init(BOOL32 newGameContext);
-	// Implementing BTApplicationUpdater::update()
+	// Implementing BTApplicationUpdater::render()
 	virtual void render();
 	virtual ~WorldRenderer();
 private:
 	void renderDebugLabels(World *world);
 	TextRasterRenderer *textRenderer;
 	B2DebugRenderer *b2DebugRenderer;
-	SimpleSpriteRenderer *farBgRenderer;
-	SimpleSpriteRenderer *bgRenderer;
-	SimpleSpriteRenderer *fgRenderer;
-	SimpleSpriteRenderer *uiBGRenderer;
 	BallRenderer *ballRenderer;
 	GraphicsConfiguration *gConfig;
 	GameContext *context;

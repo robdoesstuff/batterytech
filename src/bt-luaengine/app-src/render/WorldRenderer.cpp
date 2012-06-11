@@ -24,6 +24,7 @@
 #include <batterytech/render/ShaderProgram.h>
 #include "../GameContext.h"
 #include <batterytech/render/AssetTexture.h>
+#include <batterytech/render/QuadRenderer.h>
 
 #define TEXT_BOX_PADDING 25
 
@@ -105,6 +106,7 @@ void WorldRenderer::setupGL() {
 	glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
 	glViewport(0, 0, gConfig->viewportWidth, gConfig->viewportHeight);
 	spriteRenderer->init(TRUE);
+	context->quadRenderer->init(TRUE);
 }
 
 // init won't be called until loading screen is displayed, but render is always called so get that ready there
@@ -375,14 +377,13 @@ void WorldRenderer::render() {
 		context->renderContext->mvMatrix.identity();
 		context->renderContext->projMatrix.ortho(0, gConfig->width, gConfig->height, 0, -1, 1);
 		context->renderContext->colorFilter = Vector4f(1, 1, 1, 1);
-		loadingTex->bind();
 		//char buf[255];
 		//sprintf(buf, "Loading textureID = %d, gConfig dimensions=%d, %d", loadingTex->textureId, gConfig->width, gConfig->height);
 		//logmsg(buf);
 		//render loading image centered scaled up from 512x256
 		F32 loadWidth = this->loadingSize.x * gConfig->uiScale;
 		F32 loadHeight = this->loadingSize.y * gConfig->uiScale;
-		spriteRenderer->render(gConfig->height/2 - loadHeight/2, gConfig->width/2 + loadWidth/2, gConfig->height/2 + loadHeight/2, gConfig->width/2 - loadWidth/2);
+		context->quadRenderer->render(loadingTex, gConfig->height/2 - loadHeight/2, gConfig->width/2 + loadWidth/2, gConfig->height/2 + loadHeight/2, gConfig->width/2 - loadWidth/2);
 	}
 //	char buf[50];
 //	sprintf(buf, "binds = %d", ShaderProgram::binds);

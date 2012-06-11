@@ -16,6 +16,7 @@
 #include "../GameContext.h"
 #include <batterytech/render/RenderContext.h>
 #include <batterytech/render/MenuRenderer.h>
+#include <batterytech/render/GLResourceManager.h>
 
 WorldRenderer::WorldRenderer(GameContext *context) {
 	this->context = context;
@@ -50,6 +51,8 @@ void WorldRenderer::init(BOOL32 newGameContext) {
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_DITHER);
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+	context->quadRenderer->init(TRUE);
+	context->glResourceManager->loadTextures();
 	textRenderer->init(newGameContext);
 	b2DebugRenderer->init(newGameContext);
 	ballRenderer->init(newGameContext);

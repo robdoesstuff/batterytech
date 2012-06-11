@@ -171,7 +171,6 @@ APP_SOURCES=\
 	level\LevelIO.cpp \
 	render\WorldRenderer.cpp \
 	render\B2DebugRenderer.cpp \
-	render\SimpleSpriteRenderer.cpp \
 	render\BatchSpriteRenderer.cpp \
 	render\BallRenderer.cpp \
 	menus\GameOptionsMenu.cpp \

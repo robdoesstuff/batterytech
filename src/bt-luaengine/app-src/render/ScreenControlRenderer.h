@@ -25,7 +25,6 @@ public:
 	virtual void render();
 private:
 	GameContext *context;
-	ShaderProgram *shaderProgram;
 	char *fontTag;
 };
 
