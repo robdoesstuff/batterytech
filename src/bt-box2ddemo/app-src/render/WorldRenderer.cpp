@@ -17,6 +17,7 @@
 #include <batterytech/render/RenderContext.h>
 #include <batterytech/render/MenuRenderer.h>
 #include <batterytech/render/GLResourceManager.h>
+#include <batterytech/render/QuadRenderer.h>
 
 WorldRenderer::WorldRenderer(GameContext *context) {
 	this->context = context;
