@@ -565,7 +565,7 @@ void AssimpRenderer::getShaderTag(char *buf, AssimpShaderConfig config) {
 	}
 	if (config.pointLightCount) {
 		strcat(buf, "-pl");
-		char count[2];
+		char count[3];
 		itoa(config.pointLightCount, count, 10);
 		strcat(buf, count);
 	}
@@ -580,7 +580,9 @@ ShaderProgram* AssimpRenderer::addShaderProgram(const char *tag, AssimpShaderCon
 		shader->addDefine("DIR_LIGHT", "1");
 	}
 	if (config.pointLightCount) {
-		shader->addDefine("POINT_LIGHT_COUNT", "1");
+		char count[3];
+		itoa(config.pointLightCount, count, 10);
+		shader->addDefine("POINT_LIGHT_COUNT", count);
 	}
 	if (config.withFog) {
 		shader->addDefine("FOG", "1");
@@ -588,5 +590,7 @@ ShaderProgram* AssimpRenderer::addShaderProgram(const char *tag, AssimpShaderCon
 	if (config.withRGBAShadowmap) {
 		shader->addDefine("SHADOWMAP", "1");
 	}
-	return NULL;
+	shader->load(TRUE);
+	context->glResourceManager->addShaderProgram(tag, shader);
+	return shader;
 }
