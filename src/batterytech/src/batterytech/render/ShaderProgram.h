@@ -66,8 +66,8 @@ public:
 	void bind();
 	void unbind();
 	void addDefine(const char *name, const char *value);
-	void addVertexAttributeLoc(const char *name);
-	void addUniformLoc(const char *name);
+	GLint addVertexAttributeLoc(const char *name);
+	GLint addUniformLoc(const char *name);
 	GLint getVertexAttributeLoc(const char *name);
 	GLint getUniformLoc(const char *name);
     static int binds;

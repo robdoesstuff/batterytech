@@ -21,7 +21,7 @@
 #include <stdio.h>
 #include "../util/strx.h"
 
-#define DEBUG_SHADERS FALSE
+#define DEBUG_SHADERS TRUE
 
 namespace BatteryTech {
 
@@ -78,7 +78,7 @@ void ShaderProgram::init(BOOL32 newContext) {
 		glGetProgramiv(program, GL_ACTIVE_ATTRIBUTES, &activeAttributes);
 #if DEBUG_SHADERS
 		char buf[255];
-		sprintf(buf, "%s u=%d a=%d", tag, activeUniforms, activeAttributes);
+		sprintf(buf, "%s uniforms=%d attribs=%d", tag, activeUniforms, activeAttributes);
 		logmsg(buf);
 #endif
 		for (GLuint i = 0; i < (GLuint)activeUniforms; i++) {
@@ -92,7 +92,7 @@ void ShaderProgram::init(BOOL32 newContext) {
 				name[strlen(name)-3] = '\0';
 			}
 #if DEBUG_SHADERS
-			sprintf(buf, "%s u%d = %s", tag, i, name);
+			sprintf(buf, "%s uniform %d = %s", tag, i, name);
 			logmsg(buf);
 #endif
 			addUniformLoc(name);
@@ -104,7 +104,7 @@ void ShaderProgram::init(BOOL32 newContext) {
 			GLenum type;
 			glGetActiveAttrib(program, i, 255, &nameLength, &size, &type, name);
 #if DEBUG_SHADERS
-			sprintf(buf, "%s a%d = %s", tag, i, name);
+			sprintf(buf, "%s attrib %d = %s", tag, i, name);
 			logmsg(buf);
 #endif
 			addVertexAttributeLoc(name);
@@ -149,7 +149,7 @@ void ShaderProgram::unbind() {
 //	glUseProgram(0);
 }
 
-void ShaderProgram::addVertexAttributeLoc(const char *name) {
+GLint ShaderProgram::addVertexAttributeLoc(const char *name) {
 	GLint loc = glGetAttribLocation(program, name);
 	if (loc == -1) {
 		char buf[1024];
@@ -161,9 +161,10 @@ void ShaderProgram::addVertexAttributeLoc(const char *name) {
 		//logmsg(buf);
 	}
 	attribLocs->add(new ShaderNameLocMap(name, loc));
+	return loc;
 }
 
-void ShaderProgram::addUniformLoc(const char *name) {
+GLint ShaderProgram::addUniformLoc(const char *name) {
 	GLint loc = glGetUniformLocation(program, name);
 	if (loc == -1) {
 		char buf[1024];
@@ -175,6 +176,7 @@ void ShaderProgram::addUniformLoc(const char *name) {
 		//logmsg(buf);
 	}
 	uniformLocs->add(new ShaderNameLocMap(name, loc));
+	return loc;
 }
 
 GLint ShaderProgram::getVertexAttributeLoc(const char *name) {
@@ -186,10 +188,10 @@ GLint ShaderProgram::getVertexAttributeLoc(const char *name) {
 	}
 #if DEBUG_SHADERS
 	char buf[1024];
-	sprintf(buf, "%s-%s - get - Vertex Attribute %s not found", vertShaderAssetName, fragShaderAssetName, name);
+	sprintf(buf, "%s-%s - get - Vertex Attribute %s not found, attempting to auto-add", vertShaderAssetName, fragShaderAssetName, name);
 	logmsg(buf);
 #endif
-	return -1;
+	return addVertexAttributeLoc(name);
 }
 
 GLint ShaderProgram::getUniformLoc(const char *name) {
@@ -200,10 +202,10 @@ GLint ShaderProgram::getUniformLoc(const char *name) {
 	}
 #if DEBUG_SHADERS
 	char buf[1024];
-	sprintf(buf, "%s-%s - get - Uniform %s not found", vertShaderAssetName, fragShaderAssetName, name);
+	sprintf(buf, "%s-%s - get - Uniform %s not found, attempting to auto-add", vertShaderAssetName, fragShaderAssetName, name);
 	logmsg(buf);
 #endif
-	return -1;
+	return addUniformLoc(name);
 }
 
 GLuint ShaderProgram::loadShaderFromAsset(GLenum type, const char *assetName) {
