@@ -23,6 +23,11 @@
  */
 BOOL32 strStartsWith(const char *str, const char *start);
 
+/*
+ * Determines if a string ends with another string
+ */
+BOOL32 strEndsWith(const char *str, const char *end);
+
 // Copies a string into new memory of the source string's length. Note - uses "new" so you must "delete" instead of free
 char* strDuplicate(const char *str);
 

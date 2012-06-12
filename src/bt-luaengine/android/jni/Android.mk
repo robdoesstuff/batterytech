@@ -38,6 +38,7 @@ my_src_files :=\
 	batterytech/render/GLObjSceneBinding.cpp \
 	batterytech/render/GLAssimpBinding.cpp \
 	batterytech/render/GLAssimpMeshBinding.cpp \
+	batterytech/render/QuadRenderer.cpp \
 	batterytech/render/Texture.cpp \
 	batterytech/render/AssetTexture.cpp \
 	batterytech/render/AtlasMappedTexture.cpp \

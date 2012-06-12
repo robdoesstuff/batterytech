@@ -62,6 +62,7 @@ public:
 	ShaderProgram(const char *tag, const char *vertShaderAssetName, const char *fragShaderAssetName);
 	virtual ~ShaderProgram();
 	void init(BOOL32 newContext);
+	void unload();
 	void bind();
 	void unbind();
 	void addDefine(const char *name, const char *value);

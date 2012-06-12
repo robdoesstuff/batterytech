@@ -35,12 +35,6 @@ void BatchSpriteRenderer::init(BOOL32 newContext) {
 	}
 	if (context->gConfig->useShaders) {
 		shaderProgram->init(newContext);
-		shaderProgram->addVertexAttributeLoc("vPosition");
-		shaderProgram->addVertexAttributeLoc("uvMap");
-		shaderProgram->addUniformLoc("projection_matrix");
-		shaderProgram->addUniformLoc("modelview_matrix");
-		shaderProgram->addUniformLoc("tex");
-		shaderProgram->addUniformLoc("colorFilter");
 	}
 	checkGLError("BatchSpriteRenderer init");
 }

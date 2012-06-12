@@ -19,6 +19,9 @@
 #include "../platform/platformgeneral.h"
 #include <string.h>
 #include <stdio.h>
+#include "../util/strx.h"
+
+#define DEBUG_SHADERS FALSE
 
 namespace BatteryTech {
 
@@ -55,6 +58,8 @@ void ShaderProgram::init(BOOL32 newContext) {
 		glDeleteShader(fragShader);
 		glDeleteProgram(program);
 	}
+	uniformLocs->deleteElements();
+	attribLocs->deleteElements();
 	GLint status = 0;
 	vertShader = loadShaderFromAsset(GL_VERTEX_SHADER, vertShaderAssetName);
 	fragShader = loadShaderFromAsset(GL_FRAGMENT_SHADER, fragShaderAssetName);
@@ -65,7 +70,59 @@ void ShaderProgram::init(BOOL32 newContext) {
 	glGetProgramiv(program, GL_LINK_STATUS, &status);
 	if(status == GL_FALSE){
 		logProgramInfo(program);
+	} else {
+		// auto find uniforms and attributes
+		GLint activeUniforms;
+		GLint activeAttributes;
+		glGetProgramiv(program, GL_ACTIVE_UNIFORMS, &activeUniforms);
+		glGetProgramiv(program, GL_ACTIVE_ATTRIBUTES, &activeAttributes);
+#if DEBUG_SHADERS
+		char buf[255];
+		sprintf(buf, "%s u=%d a=%d", tag, activeUniforms, activeAttributes);
+		logmsg(buf);
+#endif
+		for (GLuint i = 0; i < (GLuint)activeUniforms; i++) {
+			char name[255];
+			GLsizei nameLength;
+			GLint size;
+			GLenum type;
+			glGetActiveUniform(program, i, 255, &nameLength, &size, &type, name);
+			if (strEndsWith(name, "[0]")) {
+				// by default we just want the base name to be consistent
+				name[strlen(name)-3] = '\0';
+			}
+#if DEBUG_SHADERS
+			sprintf(buf, "%s u%d = %s", tag, i, name);
+			logmsg(buf);
+#endif
+			addUniformLoc(name);
+		}
+		for (GLuint i = 0; i < (GLuint)activeAttributes; i++) {
+			char name[255];
+			GLsizei nameLength;
+			GLint size;
+			GLenum type;
+			glGetActiveAttrib(program, i, 255, &nameLength, &size, &type, name);
+#if DEBUG_SHADERS
+			sprintf(buf, "%s a%d = %s", tag, i, name);
+			logmsg(buf);
+#endif
+			addVertexAttributeLoc(name);
+		}
 	}
+}
+
+void ShaderProgram::unload() {
+	if (program) {
+		glDetachShader(program, vertShader);
+		glDetachShader(program, fragShader);
+		glDeleteShader(vertShader);
+		glDeleteShader(fragShader);
+		glDeleteProgram(program);
+	}
+	program = 0;
+	vertShader = 0;
+	fragShader = 0;
 }
 
 void ShaderProgram::bind() {
@@ -127,10 +184,12 @@ GLint ShaderProgram::getVertexAttributeLoc(const char *name) {
 			return attribLocs->array[i]->loc;
 		}
 	}
+#if DEBUG_SHADERS
 	char buf[1024];
 	sprintf(buf, "%s-%s - get - Vertex Attribute %s not found", vertShaderAssetName, fragShaderAssetName, name);
 	logmsg(buf);
-	return 0;
+#endif
+	return -1;
 }
 
 GLint ShaderProgram::getUniformLoc(const char *name) {
@@ -139,10 +198,12 @@ GLint ShaderProgram::getUniformLoc(const char *name) {
 			return uniformLocs->array[i]->loc;
 		}
 	}
+#if DEBUG_SHADERS
 	char buf[1024];
 	sprintf(buf, "%s-%s - get - Uniform %s not found", vertShaderAssetName, fragShaderAssetName, name);
 	logmsg(buf);
-	return 0;
+#endif
+	return -1;
 }
 
 GLuint ShaderProgram::loadShaderFromAsset(GLenum type, const char *assetName) {

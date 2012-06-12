@@ -26,6 +26,8 @@ namespace BatteryTech {
 
 	class Context;
 	class GLObjSceneBinding;
+	class ShaderProgram;
+
 #ifdef BATTERYTECH_INCLUDE_ASSIMP
 	class GLAssimpBinding;
 #endif
@@ -48,6 +50,12 @@ namespace BatteryTech {
 		void clearObjScenes();
 		void loadObjScenes();
 		void unloadObjScenes();
+		void addShaderProgram(const char *tag, ShaderProgram *program);
+		ShaderProgram* getShaderProgram(const char *tag);
+		void removeShaderProgram(const char *tag);
+		void clearShaderPrograms();
+		void loadShaderPrograms(BOOL32 newContext);
+		void unloadShaderPrograms();
 #ifdef BATTERYTECH_INCLUDE_ASSIMP
 		// Open Asset Import Library support
 		void addAssimp(const char *assetName);
@@ -65,6 +73,7 @@ namespace BatteryTech {
 		// we need a GLModelBinding for each group of each obj
 		ManagedArray<GLObjSceneBinding> *objSceneBindingArray;
 		StrHashTable<GLObjSceneBinding*> *objSceneBindingTable;
+		StrHashTable<ShaderProgram*> *shaderPrograms;
 #ifdef BATTERYTECH_INCLUDE_ASSIMP
 		StrHashTable<GLAssimpBinding*> *assimpBindings;
 #endif

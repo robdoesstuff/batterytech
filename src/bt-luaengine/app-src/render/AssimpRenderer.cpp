@@ -90,10 +90,6 @@ void AssimpRenderer::init(BOOL32 newContext) {
 	}
 	skelShaderProgram = new ShaderProgram("skeleton", "shaders/lineshader.vert", "shaders/lineshader.frag");
 	skelShaderProgram->init(newContext);
-	skelShaderProgram->addVertexAttributeLoc("vPosition");
-	skelShaderProgram->addVertexAttributeLoc("vColor");
-	skelShaderProgram->addUniformLoc("projection_matrix");
-	skelShaderProgram->addUniformLoc("modelview_matrix");
 	checkGLError("AssimpRenderer init");
 }
 
@@ -105,50 +101,6 @@ ShaderProgram* AssimpRenderer::createShaderProgram(BOOL32 newContext, BOOL32 hwS
 		shaderProgram = new ShaderProgram("assimp", "shaders/assimp_shader.vert", "shaders/assimp_shader.frag");
 	}
 	shaderProgram->init(newContext);
-	shaderProgram->addVertexAttributeLoc("vPosition");
-	shaderProgram->addVertexAttributeLoc("vNormal");
-	shaderProgram->addVertexAttributeLoc("vUV");
-	shaderProgram->addUniformLoc("projection_matrix");
-	shaderProgram->addUniformLoc("modelview_matrix");
-    shaderProgram->addUniformLoc("shadow_matrix");
-	shaderProgram->addUniformLoc("inv_matrix");
-	shaderProgram->addUniformLoc("tex");
-	shaderProgram->addUniformLoc("shadowTexture");
-	shaderProgram->addUniformLoc("colorFilter");
-	shaderProgram->addUniformLoc("material.ambient_color");
-	shaderProgram->addUniformLoc("material.diffuse_color");
-	shaderProgram->addUniformLoc("material.specular_color");
-	shaderProgram->addUniformLoc("material.specular_exponent");
-	shaderProgram->addUniformLoc("dirLight.direction");
-	shaderProgram->addUniformLoc("dirLight.halfplane");
-	shaderProgram->addUniformLoc("dirLight.ambient_color");
-	shaderProgram->addUniformLoc("dirLight.diffuse_color");
-	shaderProgram->addUniformLoc("dirLight.specular_color");
-	shaderProgram->addUniformLoc("fog_and_uv_offset");
-	if (USE_FOG) {
-		shaderProgram->addUniformLoc("fogColor");
-	}
-	shaderProgram->addUniformLoc("cameraPos");
-	shaderProgram->addUniformLoc("pointLightCount");
-	shaderProgram->addUniformLoc("shadowColorEpsilon");
-	for (S32 i = 0; i < MAX_POINT_LIGHTS; i++) {
-		char buf[256];
-		getUniformStructName(buf, "pointLight", i, "position");
-		shaderProgram->addUniformLoc(buf);
-		getUniformStructName(buf, "pointLight", i, "attenuations");
-		shaderProgram->addUniformLoc(buf);
-		getUniformStructName(buf, "pointLight", i, "ambient_color");
-		shaderProgram->addUniformLoc(buf);
-		getUniformStructName(buf, "pointLight", i, "diffuse_color");
-		shaderProgram->addUniformLoc(buf);
-		getUniformStructName(buf, "pointLight", i, "specular_color");
-		shaderProgram->addUniformLoc(buf);
-	}
-	if (hwSkinned) {
-		shaderProgram->addVertexAttributeLoc("vBones");
-		shaderProgram->addVertexAttributeLoc("vWeights");
-		shaderProgram->addUniformLoc("bone_matrices");
-	}
 	return shaderProgram;
 }
 
@@ -161,14 +113,6 @@ ShaderProgram* AssimpRenderer::createShadowShaderProgram(BOOL32 newContext, BOOL
 		shaderProgram = new ShaderProgram("assimpshadow", "shaders/assimp_shadowdepth.vert", "shaders/assimp_shadowdepth.frag");
 	}
 	shaderProgram->init(newContext);
-	shaderProgram->addVertexAttributeLoc("vPosition");
-	if (hwSkinned) {
-		shaderProgram->addVertexAttributeLoc("vBones");
-		shaderProgram->addVertexAttributeLoc("vWeights");
-		//shadowHwSkinShader->addUniformLoc("bone_matrices");
-		shaderProgram->addUniformLoc("bone_matrices");
-	}
-	shaderProgram->addUniformLoc("mvp_matrix");
 	return shaderProgram;
 }
 

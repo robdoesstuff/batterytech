@@ -38,6 +38,22 @@ BOOL32 strStartsWith(const char *str, const char *start) {
 	return TRUE;
 }
 
+BOOL32 strEndsWith(const char *str, const char *end) {
+	int strLength = strlen(str);
+	int endLength = strlen(end);
+	if (strLength < endLength) {
+		return FALSE;
+	}
+	int j = 0;
+	for (int i = strLength-endLength; i < strLength; i++) {
+		if (str[i] != end[j++]) {
+			return FALSE;
+		}
+	}
+	return TRUE;
+}
+
+
 // Copies a string into new memory of the source string's length.
 char* strDuplicate(const char *str) {
 	if (str) {
@@ -63,6 +79,7 @@ BOOL32 strContains(const char *haystack, const char *needle) {
 	}
 	return TRUE;
 }
+
 
 char* strTrim(char *str, S32 *length) {
 	S32 strLength = strlen(str);

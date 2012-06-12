@@ -20,10 +20,12 @@
 #include "../Logger.h"
 #include <stdio.h>
 #include "AssetTexture.h"
+#include "ShaderProgram.h"
 
 #define MAX_TEXTURES 300
 #define MAX_OBJSCENES 100
 #define MAX_ASSIMPS 100
+#define MAX_SHADERS 100
 
 namespace BatteryTech {
 
@@ -33,6 +35,7 @@ namespace BatteryTech {
 		texTable = new StrHashTable<Texture*>((int)(MAX_TEXTURES * 1.3f));
 		objSceneBindingArray = new ManagedArray<GLObjSceneBinding>(MAX_OBJSCENES);
 		objSceneBindingTable = new StrHashTable<GLObjSceneBinding*>((int)(MAX_OBJSCENES * 1.3f));
+		shaderPrograms = new StrHashTable<ShaderProgram*>((int)(MAX_SHADERS * 1.3f));
 #ifdef BATTERYTECH_INCLUDE_ASSIMP
 		assimpBindings = new StrHashTable<GLAssimpBinding*>(MAX_ASSIMPS * 1.3f);
 #endif
@@ -51,6 +54,9 @@ namespace BatteryTech {
 		delete objSceneBindingTable;
 		objSceneBindingArray = NULL;
 		objSceneBindingTable = NULL;
+		shaderPrograms->deleteElements();
+		delete shaderPrograms;
+		shaderPrograms = NULL;
 #ifdef BATTERYTECH_INCLUDE_ASSIMP
 		assimpBindings->deleteElements();
 		delete assimpBindings;
@@ -127,6 +133,38 @@ namespace BatteryTech {
 	void GLResourceManager::unloadTextures() {
 		for (S32 i = 0; i < texArray->getSize(); i++) {
 			texArray->array[i]->unload();
+		}
+	}
+
+	void GLResourceManager::addShaderProgram(const char *tag, ShaderProgram *program) {
+		if (!shaderPrograms->contains(tag)) {
+			shaderPrograms->put(tag, program);
+		}
+	}
+
+	ShaderProgram* GLResourceManager::getShaderProgram(const char *tag) {
+		return shaderPrograms->get(tag);
+	}
+
+	void GLResourceManager::removeShaderProgram(const char *tag) {
+		shaderPrograms->remove(tag);
+	}
+
+	void GLResourceManager::clearShaderPrograms() {
+		shaderPrograms->deleteElements();
+	}
+
+	void GLResourceManager::loadShaderPrograms(BOOL32 newContext) {
+		for (StrHashTable<ShaderProgram*>::Iterator i = shaderPrograms->getIterator(); i.hasNext;) {
+			ShaderProgram *shader = shaderPrograms->getNext(i);
+			shader->init(newContext);
+		}
+	}
+
+	void GLResourceManager::unloadShaderPrograms() {
+		for (StrHashTable<ShaderProgram*>::Iterator i = shaderPrograms->getIterator(); i.hasNext;) {
+			ShaderProgram *shader = shaderPrograms->getNext(i);
+			shader->unload();
 		}
 	}
 

@@ -39,23 +39,6 @@ void ObjRenderer::init(BOOL32 newContext) {
 	}
 	shaderProgram = new ShaderProgram("obj", "shaders/static_obj_shader.vert", "shaders/static_obj_shader.frag");
 	shaderProgram->init(newContext);
-	shaderProgram->addVertexAttributeLoc("vPosition");
-	shaderProgram->addVertexAttributeLoc("vNormal");
-	shaderProgram->addVertexAttributeLoc("vUV");
-	shaderProgram->addUniformLoc("projection_matrix");
-	shaderProgram->addUniformLoc("modelview_matrix");
-	shaderProgram->addUniformLoc("inv_matrix");
-	shaderProgram->addUniformLoc("tex");
-	shaderProgram->addUniformLoc("colorFilter");
-	shaderProgram->addUniformLoc("material.ambient_color");
-	shaderProgram->addUniformLoc("material.diffuse_color");
-	shaderProgram->addUniformLoc("material.specular_color");
-	shaderProgram->addUniformLoc("material.specular_exponent");
-	shaderProgram->addUniformLoc("light.direction");
-	shaderProgram->addUniformLoc("light.halfplane");
-	shaderProgram->addUniformLoc("light.ambient_color");
-	shaderProgram->addUniformLoc("light.diffuse_color");
-	shaderProgram->addUniformLoc("light.specular_color");
 	checkGLError("ObjRenderer init");
 }
 

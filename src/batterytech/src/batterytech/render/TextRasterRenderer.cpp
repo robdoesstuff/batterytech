@@ -157,12 +157,6 @@ namespace BatteryTech {
 		}
 		if (context->gConfig->useShaders) {
 			shaderProgram->init(newContext);
-			shaderProgram->addVertexAttributeLoc("vPosition");
-			shaderProgram->addVertexAttributeLoc("uvMap");
-			shaderProgram->addUniformLoc("projection_matrix");
-			shaderProgram->addUniformLoc("modelview_matrix");
-			shaderProgram->addUniformLoc("tex");
-			shaderProgram->addUniformLoc("colorFilter");
 		}
 	}
 
