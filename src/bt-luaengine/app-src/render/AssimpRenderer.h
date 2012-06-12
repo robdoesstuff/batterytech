@@ -24,6 +24,21 @@ namespace BatteryTech { class GLAssimpBinding; class GLAssimpMeshBinding;}
 
 #define SKEL_MAX_LINES 50
 
+struct AssimpShaderConfig {
+	AssimpShaderConfig(BOOL32 hwAccel, BOOL32 withRGBAShadowmap, BOOL32 withDirectionalLight, BOOL32 withFog, S32 pointLightCount) {
+		this->hwAccel = hwAccel;
+		this->withRGBAShadowmap = withRGBAShadowmap;
+		this->withDirectionalLight = withDirectionalLight;
+		this->withFog = withFog;
+		this->pointLightCount = pointLightCount;
+	}
+	BOOL32 hwAccel;
+	BOOL32 withRGBAShadowmap;
+	BOOL32 withDirectionalLight;
+	BOOL32 withFog;
+	S32 pointLightCount;
+};
+
 class AssimpRenderer: public Renderer {
 public:
 	AssimpRenderer(GameContext *context);
@@ -45,6 +60,8 @@ private:
 	void renderSkeleton(RenderItem *item);
 	void RenderSkeletonNode(RenderNode* node, const Matrix4f parent);
 	void drawLine(const Vector3f& from, const Vector3f& to,	const Vector3f& color);
+	void getShaderTag(char *buf, AssimpShaderConfig config);
+	ShaderProgram* addShaderProgram(const char *tag, AssimpShaderConfig config);
 	GameContext *context;
 	ShaderProgram *defaultShaderProgram;
 	ShaderProgram *hwSkinShaderProgram;

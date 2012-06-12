@@ -547,3 +547,46 @@ void AssimpRenderer::drawLine(const Vector3f& from, const Vector3f& to,	const Ve
 		lineCount++;
 	}
 }
+
+void AssimpRenderer::getShaderTag(char *buf, AssimpShaderConfig config) {
+	buf[0] = '\0';
+	strcat(buf, "assimp");
+	if (config.hwAccel) {
+		strcat(buf, "-hwskin");
+	}
+	if (config.withDirectionalLight) {
+		strcat(buf, "-dir");
+	}
+	if (config.withFog) {
+		strcat(buf, "-fog");
+	}
+	if (config.withRGBAShadowmap) {
+		strcat(buf, "-shmap");
+	}
+	if (config.pointLightCount) {
+		strcat(buf, "-pl");
+		char count[2];
+		itoa(config.pointLightCount, count, 10);
+		strcat(buf, count);
+	}
+}
+
+ShaderProgram* AssimpRenderer::addShaderProgram(const char *tag, AssimpShaderConfig config) {
+	ShaderProgram *shader = new ShaderProgram(tag, "assimp.vert", "assimp.frag");
+	if (config.hwAccel) {
+		shader->addDefine("HW_SKIN", "1");
+	}
+	if (config.withDirectionalLight) {
+		shader->addDefine("DIR_LIGHT", "1");
+	}
+	if (config.pointLightCount) {
+		shader->addDefine("POINT_LIGHT_COUNT", "1");
+	}
+	if (config.withFog) {
+		shader->addDefine("FOG", "1");
+	}
+	if (config.withRGBAShadowmap) {
+		shader->addDefine("SHADOWMAP", "1");
+	}
+	return NULL;
+}
