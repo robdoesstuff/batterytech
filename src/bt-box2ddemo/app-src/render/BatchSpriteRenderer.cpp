@@ -35,7 +35,7 @@ void BatchSpriteRenderer::init(BOOL32 newGameContext) {
 		textureId = loadTexture(spriteAssetName, context);
 	}
 	if (context->gConfig->useShaders) {
-		shaderProgram->init(newGameContext);
+		shaderProgram->load(FALSE);
 	}
 }
 

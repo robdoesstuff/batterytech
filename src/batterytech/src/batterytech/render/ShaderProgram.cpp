@@ -33,8 +33,11 @@ ShaderProgram::ShaderProgram(const char *tag, const char *vertShaderAssetName, c
 	this->tag = strdup(tag);
 	this->vertShaderAssetName = strdup(vertShaderAssetName);
 	this->fragShaderAssetName = strdup(fragShaderAssetName);
-	attribLocs = new ManagedArray<ShaderNameLocMap>(MAX_VERTEX_ATTRIBUTES);
-	uniformLocs = new ManagedArray<ShaderNameLocMap>(MAX_UNIFORMS);
+	attribLocs = new StrHashTable<GLint>((int)(MAX_VERTEX_ATTRIBUTES * 1.3f));
+	// -1 is special and means not found, unlike 0, which seems only to be right for textures, so we use -2 for "NULL" to show that we've already searched and cached
+	attribLocs->setNullReturnVal(-2);
+	uniformLocs = new StrHashTable<GLint>((int)(MAX_UNIFORMS * 1.3f));
+	uniformLocs->setNullReturnVal(-2);
 	defines = new ManagedArray<ShaderDefine>(MAX_DEFINES);
 }
 
@@ -50,13 +53,18 @@ ShaderProgram::~ShaderProgram() {
 	delete defines;
 }
 
-void ShaderProgram::init(BOOL32 newContext) {
-	if (!newContext && program) {
-		glDetachShader(program, vertShader);
-		glDetachShader(program, fragShader);
-		glDeleteShader(vertShader);
-		glDeleteShader(fragShader);
-		glDeleteProgram(program);
+void ShaderProgram::invalidateGL() {
+	program = 0;
+	vertShader = 0;
+	fragShader = 0;
+	uniformLocs->deleteElements();
+	attribLocs->deleteElements();
+}
+
+void ShaderProgram::load(BOOL32 force) {
+	if (program && !force) {
+		// already initialized
+		return;
 	}
 	uniformLocs->deleteElements();
 	attribLocs->deleteElements();
@@ -132,8 +140,9 @@ void ShaderProgram::bind() {
 	binds++;
 	glUseProgram(program);
 	// enable vertex attrib arrays
-	for (S32 i = 0; i < attribLocs->getSize(); i++) {
-		glEnableVertexAttribArray(attribLocs->array[i]->loc);
+	for (StrHashTable<GLint>::Iterator i = attribLocs->getIterator(); i.hasNext;) {
+		GLint loc = attribLocs->getNext(i);
+		glEnableVertexAttribArray(loc);
 	}
 }
 
@@ -160,7 +169,7 @@ GLint ShaderProgram::addVertexAttributeLoc(const char *name) {
 		//sprintf(buf, "Added vertex attribute %s at loc %d", name, loc);
 		//logmsg(buf);
 	}
-	attribLocs->add(new ShaderNameLocMap(name, loc));
+	attribLocs->put(name, loc);
 	return loc;
 }
 
@@ -175,16 +184,15 @@ GLint ShaderProgram::addUniformLoc(const char *name) {
 		//sprintf(buf, "%s-%s - Added uniform %s at loc %d", vertShaderAssetName, fragShaderAssetName, name, loc);
 		//logmsg(buf);
 	}
-	uniformLocs->add(new ShaderNameLocMap(name, loc));
+	uniformLocs->put(name, loc);
 	return loc;
 }
 
 GLint ShaderProgram::getVertexAttributeLoc(const char *name) {
 	// array-based lookup ok for such small lists.
-	for (S32 i = 0; i < attribLocs->getSize(); i++) {
-		if (strcmp(name, attribLocs->array[i]->name) == 0) {
-			return attribLocs->array[i]->loc;
-		}
+	GLint loc = attribLocs->get(name);
+	if (loc != -2) {
+		return loc;
 	}
 #if DEBUG_SHADERS
 	char buf[1024];
@@ -195,10 +203,9 @@ GLint ShaderProgram::getVertexAttributeLoc(const char *name) {
 }
 
 GLint ShaderProgram::getUniformLoc(const char *name) {
-	for (S32 i = 0; i < uniformLocs->getSize(); i++) {
-		if (strcmp(name, uniformLocs->array[i]->name) == 0) {
-			return uniformLocs->array[i]->loc;
-		}
+	GLint loc = uniformLocs->get(name);
+	if (loc != -2) {
+		return loc;
 	}
 #if DEBUG_SHADERS
 	char buf[1024];

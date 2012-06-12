@@ -27,16 +27,16 @@ namespace BatteryTech {
 
 QuadRenderer::QuadRenderer(Context *context) {
 	this->context = context;
-	shaderProgram = new ShaderProgram("quad", "shaders/quadshader.vert", "shaders/quadshader.frag");
+	context->glResourceManager->addShaderProgram("quad", new ShaderProgram("quad", "shaders/quadshader.vert", "shaders/quadshader.frag"));
 }
 
 QuadRenderer::~QuadRenderer() {
-	delete shaderProgram;
 }
 
 void QuadRenderer::init(BOOL32 newContext) {
 	if (context->gConfig->useShaders) {
-		shaderProgram->init(newContext);
+		// this is a particularly important renderer so make sure it's ready to go
+		context->glResourceManager->getShaderProgram("quad")->load(FALSE);
 	}
 	checkGLError("QuadRenderer Init");
 }
@@ -73,6 +73,7 @@ void QuadRenderer::render(Texture *texture, F32 top, F32 right, F32 bottom, F32 
 	};
 	//glFrontFace(GL_CW);
 	if (context->gConfig->useShaders) {
+		ShaderProgram *shaderProgram = context->glResourceManager->getShaderProgram("quad");
 		shaderProgram->bind();
 		glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("vPosition"), 3, GL_FLOAT, GL_FALSE, 0, verts);
 		glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("uvMap"), 2, GL_FLOAT, GL_FALSE, 0, uvs);
@@ -151,6 +152,7 @@ void QuadRenderer::render(Texture *texture, Vector3f pos, F32 angleRads, Vector4
 		if (bb) {
 			myMvMatrix = myMvMatrix * bbMat;
 		}
+		ShaderProgram *shaderProgram = context->glResourceManager->getShaderProgram("quad");
 		shaderProgram->bind();
 		glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("vPosition"), 3, GL_FLOAT, GL_FALSE, 0, verts);
 		glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("uvMap"), 2, GL_FLOAT, GL_FALSE, 0, uvs);

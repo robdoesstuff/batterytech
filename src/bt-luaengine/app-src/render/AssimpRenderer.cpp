@@ -89,7 +89,7 @@ void AssimpRenderer::init(BOOL32 newContext) {
 		shadowHwSkinShader = createShadowShaderProgram(newContext, TRUE);
 	}
 	skelShaderProgram = new ShaderProgram("skeleton", "shaders/lineshader.vert", "shaders/lineshader.frag");
-	skelShaderProgram->init(newContext);
+	skelShaderProgram->load(FALSE);
 	checkGLError("AssimpRenderer init");
 }
 
@@ -100,7 +100,7 @@ ShaderProgram* AssimpRenderer::createShaderProgram(BOOL32 newContext, BOOL32 hwS
 	} else {
 		shaderProgram = new ShaderProgram("assimp", "shaders/assimp_shader.vert", "shaders/assimp_shader.frag");
 	}
-	shaderProgram->init(newContext);
+	shaderProgram->load(FALSE);
 	return shaderProgram;
 }
 
@@ -112,7 +112,7 @@ ShaderProgram* AssimpRenderer::createShadowShaderProgram(BOOL32 newContext, BOOL
 	} else {
 		shaderProgram = new ShaderProgram("assimpshadow", "shaders/assimp_shadowdepth.vert", "shaders/assimp_shadowdepth.frag");
 	}
-	shaderProgram->init(newContext);
+	shaderProgram->load(FALSE);
 	return shaderProgram;
 }
 

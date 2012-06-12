@@ -59,7 +59,6 @@ public:
 	virtual ~QuadRenderer();
 private:
 	Context *context;
-	ShaderProgram *shaderProgram;
 };
 
 }

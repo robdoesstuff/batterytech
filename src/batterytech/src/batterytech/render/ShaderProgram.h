@@ -19,6 +19,7 @@
 
 #include "../platform/platformgl.h"
 #include "../util/ManagedArray.h"
+#include "../util/HashTable.h"
 
 // min is 16
 #define MAX_VERTEX_ATTRIBUTES 16
@@ -27,18 +28,6 @@
 #define MAX_DEFINES 20
 
 namespace BatteryTech {
-
-struct ShaderNameLocMap {
-	char *name;
-	GLint loc;
-	ShaderNameLocMap(const char *name, GLint loc) {
-		this->name = strdup(name);
-		this->loc = loc;
-	}
-	~ShaderNameLocMap() {
-		free(this->name);
-	}
-};
 
 struct ShaderDefine {
 	char *name;
@@ -61,7 +50,8 @@ class ShaderProgram {
 public:
 	ShaderProgram(const char *tag, const char *vertShaderAssetName, const char *fragShaderAssetName);
 	virtual ~ShaderProgram();
-	void init(BOOL32 newContext);
+	void invalidateGL();
+	void load(BOOL32 force);
 	void unload();
 	void bind();
 	void unbind();
@@ -94,8 +84,8 @@ private:
 	char *tag;
 	char *vertShaderAssetName;
 	char *fragShaderAssetName;
-	ManagedArray<ShaderNameLocMap> *attribLocs;
-	ManagedArray<ShaderNameLocMap> *uniformLocs;
+	StrHashTable<GLint> *attribLocs;
+	StrHashTable<GLint> *uniformLocs;
 	ManagedArray<ShaderDefine> *defines;
 };
 

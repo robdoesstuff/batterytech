@@ -156,7 +156,7 @@ namespace BatteryTech {
 			Logger::logMsg("error loading font");
 		}
 		if (context->gConfig->useShaders) {
-			shaderProgram->init(newContext);
+			shaderProgram->load(FALSE);
 		}
 	}
 

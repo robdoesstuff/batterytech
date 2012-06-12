@@ -54,7 +54,7 @@ namespace BatteryTech {
 		ShaderProgram* getShaderProgram(const char *tag);
 		void removeShaderProgram(const char *tag);
 		void clearShaderPrograms();
-		void loadShaderPrograms(BOOL32 newContext);
+		void loadShaderPrograms();
 		void unloadShaderPrograms();
 #ifdef BATTERYTECH_INCLUDE_ASSIMP
 		// Open Asset Import Library support

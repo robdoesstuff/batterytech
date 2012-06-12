@@ -38,7 +38,7 @@ void ObjRenderer::init(BOOL32 newContext) {
 		delete shaderProgram;
 	}
 	shaderProgram = new ShaderProgram("obj", "shaders/static_obj_shader.vert", "shaders/static_obj_shader.frag");
-	shaderProgram->init(newContext);
+	shaderProgram->load(FALSE);
 	checkGLError("ObjRenderer init");
 }
 

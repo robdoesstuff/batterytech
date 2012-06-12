@@ -135,6 +135,7 @@ void WorldRenderer::init(BOOL32 newContext) {
 		context->glResourceManager->unloadObjScenes();
 		context->glResourceManager->unloadAssimps();
 	}
+	context->glResourceManager->loadShaderPrograms();
 	context->glResourceManager->loadTextures();
 	context->glResourceManager->loadObjScenes();
 	context->glResourceManager->loadAssimps();

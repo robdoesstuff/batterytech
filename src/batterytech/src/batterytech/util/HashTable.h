@@ -57,6 +57,10 @@ protected:
 	 */
 	void grow();
 
+	HashTable<K, V>* deleteOrNop(V const&) { return this; }
+	HashTable<K, V>* deleteOrNop(V* const& p) { delete p;  return this; }
+	V nullReturnVal;
+
 public:
 	HashTable<K, V> (int hashArraySize = DEFAULT_HASH_ARRAY_SIZE);
 	~HashTable<K, V> ();
@@ -66,6 +70,7 @@ public:
 	HashTable<K, V>* put(const K &key, const V &data = 0);
 	V get(const K &key);
 	V remove(const K &key);
+	void setNullReturnVal(V val) { nullReturnVal = val; }
 	HashTable<K, V>* clear();
 	HashTable<K, V>* deleteElements();
 
@@ -151,6 +156,7 @@ HashTable<K, V>::HashTable(int hashArraySize) {
 	this->hashArraySize = hashArraySize;
 	entries = 0;
 	buckets = (Bucket **) calloc(sizeof(Bucket *), hashArraySize);
+	nullReturnVal = 0;
 }
 
 template<typename K, typename V>
@@ -201,7 +207,7 @@ typename HashTable<K, V>::Bucket* HashTable<K, V>::findBucket(const K &key, bool
 		lastBucket = bucket;
 		bucket = bucket->next;
 	}
-	return NULL;
+	return nullReturnVal;
 }
 
 template<typename K, typename V>
@@ -231,7 +237,7 @@ V HashTable<K, V>::getNext(Iterator &iterator) const {
 	}
 
 	iterator.hasNext = false;
-	return NULL;
+	return nullReturnVal;
 }
 
 template<typename K, typename V>
@@ -260,7 +266,7 @@ HashTable<K, V>* HashTable<K, V>::deleteElements() {
 		Bucket *bucket = buckets[i];
 		while (bucket != NULL) {
 			Bucket *next_bucket = bucket->next;
-			delete bucket->data;
+			deleteOrNop(bucket->data);
 			delete bucket;
 			bucket = next_bucket;
 		}
@@ -279,7 +285,7 @@ template<typename K, typename V>
 V HashTable<K, V>::get(const K &key) {
 	Bucket *bucket = findBucket(key, false);
 	if (!bucket) {
-		return NULL;
+		return nullReturnVal;
 	}
 	return bucket->data;
 }
@@ -288,7 +294,7 @@ template<typename K, typename V>
 V HashTable<K, V>::remove(const K &key) {
 	Bucket *bucket = findBucket(key, true);
 	if (!bucket) {
-		return NULL;
+		return nullReturnVal;
 	}
 	V data = bucket->data;
 	// bucket allocated with new
@@ -397,7 +403,7 @@ template<typename V>
 V StrHashTable<V>::get(const char* key) {
 	typename HashTable<char*, V>::Bucket *bucket = findBucket(key, false);
 	if (!bucket) {
-		return NULL;
+		return HashTable<char*, V>::nullReturnVal;
 	}
 	return bucket->data;
 }
@@ -406,7 +412,7 @@ template<typename V>
 V StrHashTable<V>::remove(const char* key) {
 	typename HashTable<char*, V>::Bucket *bucket = findBucket(key, true);
 	if (!bucket) {
-		return NULL;
+		return HashTable<char*, V>::nullReturnVal;
 	}
 	V data = bucket->data;
 	// bucket key is string we allocated with new

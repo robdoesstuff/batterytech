@@ -71,6 +71,10 @@ namespace BatteryTech {
 			Texture *tex = texTable->getNext(iter);
 			tex->invalidateGL();
 		}
+		for (StrHashTable<ShaderProgram*>::Iterator i = shaderPrograms->getIterator(); i.hasNext;) {
+			ShaderProgram *shader = shaderPrograms->getNext(i);
+			shader->invalidateGL();
+		}
 	}
 
 	void GLResourceManager::addTexture(const char *assetName, BOOL32 loadOnDemand) {
@@ -154,10 +158,10 @@ namespace BatteryTech {
 		shaderPrograms->deleteElements();
 	}
 
-	void GLResourceManager::loadShaderPrograms(BOOL32 newContext) {
+	void GLResourceManager::loadShaderPrograms() {
 		for (StrHashTable<ShaderProgram*>::Iterator i = shaderPrograms->getIterator(); i.hasNext;) {
 			ShaderProgram *shader = shaderPrograms->getNext(i);
-			shader->init(newContext);
+			shader->load(FALSE);
 		}
 	}
 
@@ -234,7 +238,7 @@ namespace BatteryTech {
 	}
 
 	void GLResourceManager::clearAssimps() {
-		// TODO - if any objs are loaded into current context, we need to unload them first!
+		// TODO - if any assimps are loaded into current context, we need to unload them first!
 		assimpBindings->deleteElements();
 	}
 

@@ -13,16 +13,15 @@
 #include <batterytech/util/esTransform.h>
 #include <batterytech/render/GraphicsConfiguration.h>
 #include <batterytech/render/RenderContext.h>
+#include <batterytech/render/GLResourceManager.h>
 
 BatchSpriteRenderer::BatchSpriteRenderer(Context *context, const char *spriteAssetName) {
 	this->context = context;
 	this->spriteAssetName = spriteAssetName;
 	textureId = 0;
-	shaderProgram = new ShaderProgram("quad", "shaders/quadshader.vert", "shaders/quadshader.frag");
 }
 
 BatchSpriteRenderer::~BatchSpriteRenderer() {
-	delete shaderProgram;
 }
 
 void BatchSpriteRenderer::init(BOOL32 newContext) {
@@ -32,9 +31,6 @@ void BatchSpriteRenderer::init(BOOL32 newContext) {
 	}
 	if (spriteAssetName && strlen(spriteAssetName) > 0) {
 		textureId = loadTexture(spriteAssetName, context);
-	}
-	if (context->gConfig->useShaders) {
-		shaderProgram->init(newContext);
 	}
 	checkGLError("BatchSpriteRenderer init");
 }
@@ -48,6 +44,7 @@ void BatchSpriteRenderer::startBatch() {
 	glBindTexture(GL_TEXTURE_2D, textureId);
 	glFrontFace(GL_CW);
 	if (context->gConfig->useShaders) {
+		ShaderProgram *shaderProgram = context->glResourceManager->getShaderProgram("quad");
 		shaderProgram->bind();
 		glUniform1i(shaderProgram->getUniformLoc("tex"), 0);
 		Vector4f colorFilter = context->renderContext->colorFilter;
@@ -57,7 +54,7 @@ void BatchSpriteRenderer::startBatch() {
 
 void BatchSpriteRenderer::endBatch() {
 	if (context->gConfig->useShaders) {
-		shaderProgram->unbind();
+		context->glResourceManager->getShaderProgram("quad")->unbind();
 	}
 	checkGLError("BatchSpriteRenderer End");
 }
@@ -70,6 +67,7 @@ void BatchSpriteRenderer::render(F32 top, F32 right, F32 bottom, F32 left) {
 			0, 0, 1, 0, 1, 1, 0, 1
 	};
 	if (context->gConfig->useShaders) {
+		ShaderProgram *shaderProgram = context->glResourceManager->getShaderProgram("quad");
 		glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("vPosition"), 3, GL_FLOAT, GL_FALSE, 0, verts);
 		glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("uvMap"), 2, GL_FLOAT, GL_FALSE, 0, uvs);
 		glUniformMatrix4fv(shaderProgram->getUniformLoc("projection_matrix"), 1, GL_FALSE, (GLfloat*) context->renderContext->projMatrix.data);
@@ -94,6 +92,7 @@ void BatchSpriteRenderer::render(F32 x, F32 y, F32 width, F32 height, F32 angleR
 			0, 0, 1, 0, 1, 1, 0, 1
 	};
 	if (context->gConfig->useShaders) {
+		ShaderProgram *shaderProgram = context->glResourceManager->getShaderProgram("quad");
 		Matrix4f myMvMatrix = context->renderContext->mvMatrix;
 		myMvMatrix.translate(x, y, 0);
 		myMvMatrix.rotate(angleRads * (180 / PI), 0, 0, -1.0f);

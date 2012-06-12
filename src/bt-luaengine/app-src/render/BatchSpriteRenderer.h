@@ -30,7 +30,6 @@ private:
 	Context *context;
 	const char *spriteAssetName;
 	GLuint textureId;
-	ShaderProgram *shaderProgram;
 };
 
 #endif /* SIMPLESPRITERENDERER_H_ */

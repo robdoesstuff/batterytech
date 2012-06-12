@@ -38,7 +38,10 @@ WorldRenderer::~WorldRenderer() {
 	//delete uiBGRenderer;
 }
 
-void WorldRenderer::init(BOOL32 newGameContext) {
+void WorldRenderer::init(BOOL32 newContext) {
+	if (newContext) {
+		context->glResourceManager->invalidateGL();
+	}
 	if (context->gConfig->useShaders) {
 	} else {
 		glEnableClientState(GL_VERTEX_ARRAY);
@@ -54,9 +57,10 @@ void WorldRenderer::init(BOOL32 newGameContext) {
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 	context->quadRenderer->init(TRUE);
 	context->glResourceManager->loadTextures();
-	textRenderer->init(newGameContext);
-	b2DebugRenderer->init(newGameContext);
-	ballRenderer->init(newGameContext);
+	context->glResourceManager->loadShaderPrograms();
+	textRenderer->init(newContext);
+	b2DebugRenderer->init(newContext);
+	ballRenderer->init(newContext);
 	//uiBGRenderer->init(newGameContext);
 	glViewport(0, 0, gConfig->viewportWidth, gConfig->viewportHeight);
 }
