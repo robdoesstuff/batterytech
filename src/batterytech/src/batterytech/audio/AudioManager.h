@@ -18,7 +18,9 @@
 #ifndef AUDIOMANAGER_H_
 #define AUDIOMANAGER_H_
 
-#include <batterytech/primitives.h>
+#include "../primitives.h"
+#include "../util/ManagedArray.h"
+#include "PCMAudioPlugin.h"
 
 namespace BatteryTech {
 
@@ -193,7 +195,22 @@ namespace BatteryTech {
 		 * \param rate The new playback rate ranging from 0.5 to 1.5
 		 */
 		void setRate(S32 streamId, F32 rate);
-
+		/** \brief Adds a PCMAudioPlugin to the output chain
+		 *
+		 * A PCMAudioPlugin is something you implement application-side to deliver PCM data.  PCMAudioPlugins will only work
+		 * if unmanaged (software-mixed) audio is used.
+		 *
+		 * \param plugin The PCMAudioPlugin to add
+		 */
+		void addPCMPlugin(PCMAudioPlugin *plugin);
+		/** \brief Removes a PCMAudioPlugin from the output chain
+		 *
+		 * A PCMAudioPlugin is something you implement application-side to deliver PCM data.  PCMAudioPlugins will only work
+		 * if unmanaged (software-mixed) audio is used.
+		 *
+		 * \param plugin The PCMAudioPlugin to remove
+		 */
+		void removePCMPlugin(PCMAudioPlugin *plugin);
 		/**
 		 * \brief Used by platform to route PCM data.  Do not use or modify or things may break.
 		 */
@@ -217,6 +234,7 @@ namespace BatteryTech {
 		BOOL32 usingPlatformAudioManagement;
 		PCMAudioManager *pcmSoundMgr;
 		BOOL32 enabled;
+		ManagedArray<PCMAudioPlugin> *pcmPlugins;
 	};
 
 }

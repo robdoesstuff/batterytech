@@ -34,6 +34,7 @@ namespace BatteryTech {
 		this->context = context;
 		usingPlatformAudioManagement = FALSE;
 		pcmSoundMgr = NULL;
+		pcmPlugins = new ManagedArray<PCMAudioPlugin>(MAX_PCM_PLUGINS);
 		enabled = TRUE;
 		if (context->appProperties->get("prefer_platform_audio_management")->getBoolValue() && _platform_implements_soundpool()) {
 			usingPlatformAudioManagement = TRUE;
@@ -178,9 +179,20 @@ namespace BatteryTech {
 		}
 	}
 
+	void AudioManager::addPCMPlugin(PCMAudioPlugin *plugin) {
+		pcmPlugins->add(plugin);
+	}
+
+	void AudioManager::removePCMPlugin(PCMAudioPlugin *plugin) {
+		pcmPlugins->remove(plugin);
+	}
+
 	void AudioManager::fillBuffer(void *pSoundBuffer, long bufferLen) {
 		if (pcmSoundMgr) {
 			pcmSoundMgr->fillBuffer(pSoundBuffer, bufferLen);
+			for (S32 i = 0; i < pcmPlugins->getSize(); i++) {
+				pcmPlugins->array[i]->addToBuffer(pSoundBuffer, bufferLen);
+			}
 		}
 	}
 

@@ -65,6 +65,8 @@
 #define CHUNKED_READ_BUFFER_SIZE 16384
 // Do not change unless you know what you're doing.
 #define VORBIS_MAX_LEGAL_FRAME 8192
+// Maximum number of PCM Plugins
+#define MAX_PCM_PLUGINS 10
 
 /// ------------- models -------------------
 // if we want to use OpenGL ES 2.0 shader GPU-accelerated animation
