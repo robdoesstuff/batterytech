@@ -27,7 +27,7 @@ void RenderItem::reset() {
 	uvs = Vector4f(0,0,1,1);
 	camDist = 0;
 	animator = NULL;
-	maxPointLights = 3;
+	maxPointLights = 0;
 	flags = 0;
 	viewport = Vector4i(0,0,0,0);
 	alignment = ALIGN_LEFT;

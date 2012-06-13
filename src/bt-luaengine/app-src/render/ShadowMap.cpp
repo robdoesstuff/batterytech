@@ -62,8 +62,8 @@ void ShadowMap::generateShadowFBO() {
 		// no shadowmap
 		shadowWidth = 0;
 		shadowHeight = 0;
-		context->renderContext->shadowMVP.identity();
-		context->renderContext->shadowLookupMatrix.identity();
+		((Matrix4f*)context->renderContext->userValues->get("shadowMVP"))->identity();
+		((Matrix4f*)context->renderContext->userValues->get("shadowLookupMatrix"))->identity();
 	}
 	currentShadowType = context->gConfig->shadowType;
 	if (shadowTexture) {
@@ -161,8 +161,8 @@ void ShadowMap::bindForMapCreation() {
 	// so that we only get world position of the vertex
 	Matrix4f invCam = context->world->camera->matrix.inverse();
 	Matrix4f shadowMvp = proj * mv;
-	context->renderContext->shadowMVP = shadowMvp;
-	context->renderContext->shadowLookupMatrix = biasMatrix * shadowMvp * invCam;
+	*(Matrix4f*)context->renderContext->userValues->get("shadowMVP") = shadowMvp;
+	*(Matrix4f*)context->renderContext->userValues->get("shadowLookupMatrix") = biasMatrix * shadowMvp * invCam;
 	// Culling switching, rendering only backface, this is done to avoid self-shadowing
 	glCullFace(GL_FRONT);
 	glEnable(GL_CULL_FACE);

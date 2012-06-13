@@ -62,6 +62,7 @@ public:
 	GLint getUniformLoc(const char *name);
     static int binds;
     static ShaderProgram* currentProgram;
+	char *tag;
 protected:
 	/**
 	 * Loads a shader from text source
@@ -81,7 +82,6 @@ protected:
 	void logProgramInfo(GLuint obj);
 private:
 	GLuint vertShader, fragShader, program;
-	char *tag;
 	char *vertShaderAssetName;
 	char *fragShaderAssetName;
 	StrHashTable<GLint> *attribLocs;

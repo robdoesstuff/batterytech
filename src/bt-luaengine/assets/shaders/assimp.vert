@@ -7,15 +7,14 @@ const float c_one  = 1.0;
 uniform mat4 projection_matrix;
 uniform mat4 modelview_matrix;
 uniform vec4 fog_and_uv_offset;
-uniform mat3 inv_matrix;
 
 attribute vec3 vPosition;
-attribute vec3 vNormal;
 attribute vec3 vUV;
 
 
-#ifdef POINT_LIGHT_COUNT || DIR_LIGHT
-uniform material_properties material;
+#if (POINT_LIGHT_COUNT || DIR_LIGHT)
+attribute vec3 vNormal;
+uniform mat3 inv_matrix;
 
 struct material_properties {
 	vec4 ambient_color;
@@ -23,9 +22,11 @@ struct material_properties {
 	vec4 specular_color;
 	float specular_exponent;
 };
+
+uniform material_properties material;
 #endif
 
-#ifdef POINT_LIGHT_COUNT
+#if POINT_LIGHT_COUNT
 uniform vec3 cameraPos;
 #endif
 
@@ -41,14 +42,11 @@ attribute vec4 vWeights;
 
 varying vec2 uvCoord;
 varying vec4 vColor;
-// varying float fogAmount;
 #ifdef SHADOWMAP
 varying vec4 shadowCoord;
 #endif
 
 #ifdef DIR_LIGHT
-uniform directional_light dirLight;
-
 struct directional_light {
 	vec3 direction;
 	vec3 halfplane;
@@ -56,6 +54,8 @@ struct directional_light {
 	vec4 diffuse_color;
 	vec4 specular_color;
 };
+
+uniform directional_light dirLight;
 
 vec4 compute_directional_light(vec3 normal) {
 	vec4 computed_color = vec4(c_zero, c_zero, c_zero, c_zero);
@@ -70,10 +70,10 @@ vec4 compute_directional_light(vec3 normal) {
 	}
 	return computed_color;
 }
+
 #endif
 
 #ifdef POINT_LIGHT_COUNT
-uniform point_light pointLight[POINT_LIGHT_COUNT];
 struct point_light {
  	vec3 position;
  	vec3 attenuations;
@@ -81,6 +81,8 @@ struct point_light {
  	vec4 diffuse_color;
  	vec4 specular_color;
 };
+
+uniform point_light pointLight[POINT_LIGHT_COUNT];
 
 vec4 compute_point_light(int lightIdx, vec3 eye, vec3 ecPosition3, vec3 normal) {
 	vec4 computed_color = vec4(c_zero, c_zero, c_zero, c_zero);
@@ -189,7 +191,8 @@ void main() {
 #if POINT_LIGHT_COUNT > 4
 	vColor += compute_point_light(4, ecCamera, ecPos3, ecNormal);
 #endif
-
+#ifdef FOG
 	fogAmount = compute_fog_amount(ecPosition);
 	fogAmount *= fogAmount;
+#endif
 }              

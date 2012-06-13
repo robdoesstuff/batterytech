@@ -64,6 +64,9 @@ WorldRenderer::WorldRenderer(GameContext *context) {
 	} else {
 		clearColor = Vector4f(1.0, 1.0, 1.0, 1.0);
 	}
+	context->renderContext->userValues->put("shadowMVP", new Matrix4f);
+	context->renderContext->userValues->put("shadowLookupMatrix", new Matrix4f);
+	context->renderContext->userValues->put("renderDefaults", new RenderDefaults);
 }
 
 WorldRenderer::~WorldRenderer() {
@@ -209,9 +212,10 @@ void WorldRenderer::render() {
     			}
     		}
     		shadowMap->unbindAfterMapCreation();
- 		}
+    		// shadowmap resets our clear color
+    		glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
+		}
 		// FBO stuff done, resume normal rendering
-
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	   	checkGLError("WorldRenderer After Clear");
 		BOOL32 has2DBG = FALSE;

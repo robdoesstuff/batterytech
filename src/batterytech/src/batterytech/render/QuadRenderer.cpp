@@ -107,7 +107,7 @@ void QuadRenderer::render(Texture *texture, Vector3f pos, F32 angleRads, Vector4
 	F32 desHeight = scale.y;
 	F32 width = desWidth;
 	F32 height = desHeight;
-	Vector2f offsetDelta;
+	Vector2f offsetDelta(0,0);
 	if (texture) {
 		texture->bind();
 		Matrix4f tMat = texture->getMatrix();

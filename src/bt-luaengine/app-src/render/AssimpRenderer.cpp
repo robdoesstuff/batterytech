@@ -26,9 +26,6 @@
 #include "../GameContext.h"
 
 #define RENDER_SKELETON FALSE
-// maximum number of point lights defined in shaders, must match!
-#define MAX_POINT_LIGHTS 0
-#define USE_FOG FALSE
 
 // #define COUNT_RENDER_NODES
 
@@ -38,109 +35,52 @@ static U32 renderCount;
 
 AssimpRenderer::AssimpRenderer(GameContext *context) {
 	this->context = context;
-	defaultShaderProgram = NULL;
-	hwSkinShaderProgram = NULL;
 	skelShaderProgram = NULL;
 	currentShaderProgram = NULL;
-	shadowShader = NULL;
-	shadowHwSkinShader = NULL;
 	lineCount = 0;
 	lightsBound = FALSE;
+	context->glResourceManager->addShaderProgram("skeleton", new ShaderProgram("skeleton", "shaders/lineshader.vert", "shaders/lineshader.frag"));
 }
 
 AssimpRenderer::~AssimpRenderer() {
     if(currentMeshBinding)
         currentMeshBinding->unbind();
-
-	delete defaultShaderProgram;
-	delete hwSkinShaderProgram;
-	delete skelShaderProgram;
-	delete shadowShader;
-	delete shadowHwSkinShader;
-	defaultShaderProgram = NULL;
-	hwSkinShaderProgram = NULL;
-	skelShaderProgram = NULL;
-	shadowShader = NULL;
-	shadowHwSkinShader = NULL;
 	// current is just a pointer to one of the others.  no deletion.
 	currentShaderProgram = NULL;
 }
 
 void AssimpRenderer::init(BOOL32 newContext) {
-	if (defaultShaderProgram) {
-		delete defaultShaderProgram;
-	}
-	if (hwSkinShaderProgram) {
-		delete hwSkinShaderProgram;
-	}
-	if (skelShaderProgram) {
-		delete skelShaderProgram;
-	}
-	if (shadowShader) {
-		delete shadowShader;
-	}
-	if (shadowHwSkinShader) {
-		delete shadowHwSkinShader;
-	}
-	defaultShaderProgram = createShaderProgram(newContext, FALSE);
-	shadowShader = createShadowShaderProgram(newContext, FALSE);
-	if (ASSIMP_GPU_ACCELERATED_RENDER) {
-		hwSkinShaderProgram = createShaderProgram(newContext, TRUE);
-		shadowHwSkinShader = createShadowShaderProgram(newContext, TRUE);
-	}
-	skelShaderProgram = new ShaderProgram("skeleton", "shaders/lineshader.vert", "shaders/lineshader.frag");
-	skelShaderProgram->load(FALSE);
 	checkGLError("AssimpRenderer init");
 }
 
-ShaderProgram* AssimpRenderer::createShaderProgram(BOOL32 newContext, BOOL32 hwSkinned) {
-	ShaderProgram *shaderProgram;
-	if (hwSkinned) {
-		shaderProgram = new ShaderProgram("assimpaccel", "shaders/assimp_accel_shader.vert", "shaders/assimp_shader.frag");
-	} else {
-		shaderProgram = new ShaderProgram("assimp", "shaders/assimp_shader.vert", "shaders/assimp_shader.frag");
-	}
-	shaderProgram->load(FALSE);
-	return shaderProgram;
-}
-
-ShaderProgram* AssimpRenderer::createShadowShaderProgram(BOOL32 newContext, BOOL32 hwSkinned) {
-	ShaderProgram *shaderProgram;
-	if (hwSkinned) {
-		shaderProgram = new ShaderProgram("assimpaccelshadow", "shaders/assimp_accel_shadowdepth.vert", "shaders/assimp_shadowdepth.frag");
-		shaderProgram->addDefine("TEST_DEFINE", "5");
-	} else {
-		shaderProgram = new ShaderProgram("assimpshadow", "shaders/assimp_shadowdepth.vert", "shaders/assimp_shadowdepth.frag");
-	}
-	shaderProgram->load(FALSE);
-	return shaderProgram;
-}
-
-void AssimpRenderer::bindShader(ShaderProgram *shaderProgram, const Vector3f &ecLightDir, const Vector3f &halfplane) {
+void AssimpRenderer::bindShader(ShaderProgram *shaderProgram, const Vector3f &ecLightDir, const Vector3f &halfplane, const AssimpShaderConfig &config) {
 	// switch to the shader for this node
 	shaderProgram->bind();
-	glUniform3f(shaderProgram->getUniformLoc("dirLight.direction"), ecLightDir.x, ecLightDir.y, ecLightDir.z);
-	const Vector4f &gAmbient = context->world->globalLight->ambient;
-	const Vector4f &gDiffuse = context->world->globalLight->diffuse;
-	const Vector4f &gSpecular = context->world->globalLight->specular;
-	glUniform4f(shaderProgram->getUniformLoc("dirLight.ambient_color"), gAmbient.x, gAmbient.y, gAmbient.z, gAmbient.w);
-	glUniform4f(shaderProgram->getUniformLoc("dirLight.diffuse_color"), gDiffuse.x, gDiffuse.y, gDiffuse.z, gDiffuse.w);
-	glUniform4f(shaderProgram->getUniformLoc("dirLight.specular_color"), gSpecular.x, gSpecular.y, gSpecular.z, gSpecular.w);
 	glUniform1i(shaderProgram->getUniformLoc("tex"), 0);
-    glUniform1i(shaderProgram->getUniformLoc("shadowTexture"), 2);
-	glUniform3f(shaderProgram->getUniformLoc("dirLight.halfplane"), halfplane.x, halfplane.y, halfplane.z); 
+	glUniformMatrix4fv(shaderProgram->getUniformLoc("projection_matrix"), 1, GL_FALSE, (GLfloat*) context->renderContext->projMatrix.data);
+	if (config.withDirectionalLight) {
+		glUniform3f(shaderProgram->getUniformLoc("dirLight.direction"), ecLightDir.x, ecLightDir.y, ecLightDir.z);
+		const Vector4f &gAmbient = context->world->globalLight->ambient;
+		const Vector4f &gDiffuse = context->world->globalLight->diffuse;
+		const Vector4f &gSpecular = context->world->globalLight->specular;
+		glUniform4f(shaderProgram->getUniformLoc("dirLight.ambient_color"), gAmbient.x, gAmbient.y, gAmbient.z, gAmbient.w);
+		glUniform4f(shaderProgram->getUniformLoc("dirLight.diffuse_color"), gDiffuse.x, gDiffuse.y, gDiffuse.z, gDiffuse.w);
+		glUniform4f(shaderProgram->getUniformLoc("dirLight.specular_color"), gSpecular.x, gSpecular.y, gSpecular.z, gSpecular.w);
+		glUniform3f(shaderProgram->getUniformLoc("dirLight.halfplane"), halfplane.x, halfplane.y, halfplane.z);
+	}
+	if (config.withRGBAShadowmap) {
+	    glUniform1i(shaderProgram->getUniformLoc("shadowTexture"), 2);
+	    glUniformMatrix4fv(shaderProgram->getUniformLoc("shadow_matrix"), 1, GL_FALSE, (GLfloat*) (*(Matrix4f*)context->renderContext->userValues->get("shadowLookupMatrix")).data);
+		const Vector3f &shadColor = context->world->globalLight->shadowColor;
+		F32 shadEpsilon = context->world->globalLight->shadowEpsilon;
+		glUniform4f(shaderProgram->getUniformLoc("shadowColorEpsilon"), shadColor.x, shadColor.y, shadColor.z, shadEpsilon);
+	}
+	if (config.pointLightCount) {
+		const Vector3f &camPos = context->world->camera->pos;
+		glUniform3f(shaderProgram->getUniformLoc("cameraPos"), camPos.x, camPos.y, camPos.z);
+	}
 	Vector4f colorFilter = context->renderContext->colorFilter;
 	glUniform4f(shaderProgram->getUniformLoc("colorFilter"), colorFilter.x,colorFilter.y,colorFilter.z,colorFilter.a);
-	glUniformMatrix4fv(shaderProgram->getUniformLoc("projection_matrix"), 1, GL_FALSE, (GLfloat*) context->renderContext->projMatrix.data);
-    glUniformMatrix4fv(shaderProgram->getUniformLoc("shadow_matrix"), 1, GL_FALSE, (GLfloat*) context->renderContext->shadowLookupMatrix.data);
-	const Vector3f &camPos = context->world->camera->pos;
-	glUniform3f(shaderProgram->getUniformLoc("cameraPos"), camPos.x, camPos.y, camPos.z);
-	const Vector3f &shadColor = context->world->globalLight->shadowColor;
-	F32 shadEpsilon = context->world->globalLight->shadowEpsilon;
-	glUniform4f(shaderProgram->getUniformLoc("shadowColorEpsilon"), shadColor.x, shadColor.y, shadColor.z, shadEpsilon);
-	//char buf[255];
-	//sprintf(buf, "cp =  %f %f %f", camPos.x, camPos.y, camPos.z);
-	//logmsg(buf);
 }
 
 void AssimpRenderer::render(RenderItem *item, BOOL32 transparent) {
@@ -194,7 +134,9 @@ void AssimpRenderer::render(RenderItem *item, BOOL32 transparent) {
 }
 
 void AssimpRenderer::setupPointLights(ShaderProgram *shaderProgram, RenderItem *item, Matrix4f mv) {
-	// TODO - init default uniform values for point lights
+	if (!item->maxPointLights) {
+		return;
+	}
 	// find closest (numObjectLights) and display them, or do closest to camera if terrain object
 	F32 distances[MAX_LOCALLIGHTS];
 	// lightIdxs is the lights we've determined to be the closest to the RenderItem
@@ -301,33 +243,45 @@ void AssimpRenderer::renderNode(RenderNode *node, GLAssimpBinding *binding, Matr
 				}
 				checkGLError("AssimpRenderer render0");
 				// choose and bind to shader program for this mesh
-				ShaderProgram *shaderProgram;                
-				if (ASSIMP_GPU_ACCELERATED_RENDER && meshBinding->hasBones) {
-					shaderProgram = hwSkinShaderProgram;
-				} else {
-					shaderProgram = defaultShaderProgram;
+				AssimpShaderConfig config;
+				RenderDefaults *dflts = (RenderDefaults*)context->renderContext->userValues->get("renderDefaults");
+				config.hwAccel = ASSIMP_GPU_ACCELERATED_RENDER && meshBinding->hasBones;
+				config.pointLightCount = item->maxPointLights;
+				if (context->world->localLightsUsed < item->maxPointLights) {
+					// we can only have as many point lights as actually exist in the world.
+					config.pointLightCount = context->world->localLightsUsed;
 				}
-                
+				config.withDirectionalLight = dflts->dirLightEnabled && !(item->flags & RENDERITEM_FLAG_NO_DIR_LIGHT);
+				config.withFog = dflts->fogEnabled && !(item->flags & RENDERITEM_FLAG_NO_FOG);
+				config.withRGBAShadowmap = context->gConfig->shadowType != GraphicsConfiguration::SHADOWTYPE_NONE;
+				char tagBuf[255];
+				getShaderTag(tagBuf, config);
+				ShaderProgram *shaderProgram = context->glResourceManager->getShaderProgram(tagBuf);
+				if (!shaderProgram) {
+					shaderProgram = addShaderProgram(tagBuf, config);
+				}
                 bool shaderChanged = false;
                 
                 if(shaderProgram != ShaderProgram::currentProgram) {
-                    bindShader(shaderProgram, ecLightDir, halfplane);                
+                    bindShader(shaderProgram, ecLightDir, halfplane, config);
                     lightsBound = FALSE;
                     shaderChanged = true;
                 }
 				if (!lightsBound) {
-					if (MAX_POINT_LIGHTS) {
+					if (config.pointLightCount) {
 						setupPointLights(shaderProgram, item, myMv);
 					}
 					lightsBound = TRUE;
 				}
-				bindMaterial(item, meshBinding, binding);
+				bindMaterial(item, meshBinding, binding, config);
 				Matrix3f inv3;
 				checkGLError("AssimpRenderer render2");
 				glUniformMatrix4fv(shaderProgram->getUniformLoc("modelview_matrix"), 1, GL_FALSE, (GLfloat*) myMv.data);
-				myMv.toMatrix3(inv3);
-				inv3 = inv3.transpose().inverse();
-				glUniformMatrix3fv(shaderProgram->getUniformLoc("inv_matrix"), 1, GL_FALSE, (GLfloat*) inv3.data);
+				if (config.withDirectionalLight || config.pointLightCount) {
+					myMv.toMatrix3(inv3);
+					inv3 = inv3.transpose().inverse();
+					glUniformMatrix3fv(shaderProgram->getUniformLoc("inv_matrix"), 1, GL_FALSE, (GLfloat*) inv3.data);
+				}
                 if( shaderChanged || (meshBinding != currentMeshBinding) || meshBinding->hasBones ) {
                     if(currentMeshBinding)
                         currentMeshBinding->unbind();
@@ -344,7 +298,9 @@ void AssimpRenderer::renderNode(RenderNode *node, GLAssimpBinding *binding, Matr
                             meshBinding->updateDynamicDraw();
                         }
                         meshBinding->bindPositionsToShader(shaderProgram->getVertexAttributeLoc("vPosition"));
-                        meshBinding->bindNormalsToShader(shaderProgram->getVertexAttributeLoc("vNormal"));
+                        if (config.withDirectionalLight || config.pointLightCount) {
+                        	meshBinding->bindNormalsToShader(shaderProgram->getVertexAttributeLoc("vNormal"));
+                        }
                         // GPU skinning should needs Matrix4f *boneMats and each vert needs a Vector4i idx to boneMats and a Vector4f weights.
                         // Total vert data will be:  bind Pos, bind Norm, UV, boneMatsIdx, boneWeights
                         if (ASSIMP_GPU_ACCELERATED_RENDER) {
@@ -357,7 +313,9 @@ void AssimpRenderer::renderNode(RenderNode *node, GLAssimpBinding *binding, Matr
                     } else {
                         // Static model, no skinning
                         meshBinding->bindPositionsToShader(shaderProgram->getVertexAttributeLoc("vPosition"));
-                        meshBinding->bindNormalsToShader(shaderProgram->getVertexAttributeLoc("vNormal"));
+                        if (config.withDirectionalLight || config.pointLightCount) {
+                        	meshBinding->bindNormalsToShader(shaderProgram->getVertexAttributeLoc("vNormal"));
+                        }
                     }
                     meshBinding->bindUVsToShader(shaderProgram->getVertexAttributeLoc("vUV"));
                     meshBinding->bindFaceIndices();
@@ -373,7 +331,7 @@ void AssimpRenderer::renderNode(RenderNode *node, GLAssimpBinding *binding, Matr
 	}
 }
 
-void AssimpRenderer::bindMaterial(RenderItem *item, GLAssimpMeshBinding *meshBinding, GLAssimpBinding *binding) {
+void AssimpRenderer::bindMaterial(RenderItem *item, GLAssimpMeshBinding *meshBinding, GLAssimpBinding *binding, const AssimpShaderConfig &config) {
 	// only override the texture if the texture attribute is null
 	if (item->textureName[0] == '\0') {
 		// bind the diffuse texture specified in the material using the relative path to the imported asset
@@ -387,21 +345,20 @@ void AssimpRenderer::bindMaterial(RenderItem *item, GLAssimpMeshBinding *meshBin
 		}
 	}
 	ShaderProgram *shaderProgram = ShaderProgram::currentProgram;
-	Vector4f amb = meshBinding->matAmbient;
-	Vector4f dif = meshBinding->matDiffuse;
-	Vector4f spec = meshBinding->matSpecular;
-	glUniform4f(shaderProgram->getUniformLoc("material.ambient_color"), amb.x, amb.y, amb.z, amb.w);
-	glUniform4f(shaderProgram->getUniformLoc("material.diffuse_color"), dif.x, dif.y, dif.z, dif.w);
-	glUniform4f(shaderProgram->getUniformLoc("material.specular_color"), spec.x, spec.y, spec.z, spec.w);
-	glUniform1f(shaderProgram->getUniformLoc("material.specular_exponent"), 0.8f);
+	if (config.withDirectionalLight || config.pointLightCount) {
+		Vector4f amb = meshBinding->matAmbient;
+		Vector4f dif = meshBinding->matDiffuse;
+		Vector4f spec = meshBinding->matSpecular;
+		glUniform4f(shaderProgram->getUniformLoc("material.ambient_color"), amb.x, amb.y, amb.z, amb.w);
+		glUniform4f(shaderProgram->getUniformLoc("material.diffuse_color"), dif.x, dif.y, dif.z, dif.w);
+		glUniform4f(shaderProgram->getUniformLoc("material.specular_color"), spec.x, spec.y, spec.z, spec.w);
+		glUniform1f(shaderProgram->getUniformLoc("material.specular_exponent"), 0.8f);
+	}
 	F32 fogNear = 0;
 	F32 fogFar = 500.0f;
-	if (item->flags & RENDERITEM_FLAG_NO_FOG) {
-		fogFar = 0;
-	}
 	glUniform4f(shaderProgram->getUniformLoc("fog_and_uv_offset"), fogNear, fogFar, item->uvs.x, item->uvs.y);
-	if (USE_FOG) {
-		// glUniform4f(shaderProgram->getUniformLoc("fogColor"), 0.05f, 0.05f, 0.2f, 1.0f);
+	if (config.withFog) {
+		glUniform4f(shaderProgram->getUniformLoc("fogColor"), 0.05f, 0.05f, 0.2f, 1.0f);
 	}
 }
 
@@ -409,9 +366,13 @@ void AssimpRenderer::bindMaterial(RenderItem *item, GLAssimpMeshBinding *meshBin
 /* ------------------------ ShadowMap Creation -------------------------- */
 
 void AssimpRenderer::renderShadow(RenderItem* item) {
+	if (item->flags & RENDERITEM_FLAG_NO_SHADOW_GEN) {
+		return;
+	}
 	//if(!strcmp(item->resourceName,"BeachWorld/BeachLevel.obj")) return;
 	GLAssimpBinding *binding = context->glResourceManager->getAssimp(item->resourceName);
-	Matrix4f myMv = context->renderContext->shadowMVP * item->mat;
+	Matrix4f shadowMVP = *(Matrix4f*)context->renderContext->userValues->get("shadowMVP");
+	Matrix4f myMv = shadowMVP * item->mat;
     // shadowShader->bind();
     
 	// checkGLError("AssimpRenderer renderShadow shadowShader->bind()");
@@ -430,14 +391,17 @@ void AssimpRenderer::renderNodeShadow(RenderNode *node, GLAssimpBinding *binding
 		for (U32 i = 0; i < node->meshCount; i++) {
 			U32 meshIdx = node->meshIndices[i];
 			GLAssimpMeshBinding *meshBinding = binding->meshBindingPtrs[meshIdx];
-			ShaderProgram *shaderProgram;
             bool shaderChanged = false;
-			if (ASSIMP_GPU_ACCELERATED_RENDER && meshBinding->hasBones) {
-				shaderProgram = shadowHwSkinShader;
-			} else {
-				shaderProgram = shadowShader;
-			}
-            if( shaderProgram != ShaderProgram::currentProgram ) {
+            char ssTag[255];
+            getShadowShaderTag(ssTag, ASSIMP_GPU_ACCELERATED_RENDER && meshBinding->hasBones);
+            ShaderProgram *shaderProgram = context->glResourceManager->getShaderProgram(ssTag);
+            if (!shaderProgram) {
+            	shaderProgram = createShadowShaderProgram(TRUE, ASSIMP_GPU_ACCELERATED_RENDER && meshBinding->hasBones);
+            	// do it now!
+            	shaderProgram->load(TRUE);
+            	context->glResourceManager->addShaderProgram(ssTag, shaderProgram);
+            }
+            if (shaderProgram != ShaderProgram::currentProgram) {
                 shaderProgram->bind();
                 shaderChanged = true;
             }
@@ -548,6 +512,14 @@ void AssimpRenderer::drawLine(const Vector3f& from, const Vector3f& to,	const Ve
 	}
 }
 
+void AssimpRenderer::getShadowShaderTag(char *buf, BOOL32 hwAccel) {
+	buf[0] = '\0';
+	strcat(buf, "assimpshadow");
+	if (hwAccel) {
+		strcat(buf, "-hwskin");
+	}
+}
+
 void AssimpRenderer::getShaderTag(char *buf, AssimpShaderConfig config) {
 	buf[0] = '\0';
 	strcat(buf, "assimp");
@@ -572,7 +544,7 @@ void AssimpRenderer::getShaderTag(char *buf, AssimpShaderConfig config) {
 }
 
 ShaderProgram* AssimpRenderer::addShaderProgram(const char *tag, AssimpShaderConfig config) {
-	ShaderProgram *shader = new ShaderProgram(tag, "assimp.vert", "assimp.frag");
+	ShaderProgram *shader = new ShaderProgram(tag, "shaders/assimp.vert", "shaders/assimp.frag");
 	if (config.hwAccel) {
 		shader->addDefine("HW_SKIN", "1");
 	}
@@ -593,4 +565,16 @@ ShaderProgram* AssimpRenderer::addShaderProgram(const char *tag, AssimpShaderCon
 	shader->load(TRUE);
 	context->glResourceManager->addShaderProgram(tag, shader);
 	return shader;
+}
+
+ShaderProgram* AssimpRenderer::createShadowShaderProgram(BOOL32 newContext, BOOL32 hwSkinned) {
+	ShaderProgram *shaderProgram;
+	char buf[255];
+	getShadowShaderTag(buf, hwSkinned);
+	if (hwSkinned) {
+		shaderProgram = new ShaderProgram(buf, "shaders/assimp_accel_shadowdepth.vert", "shaders/assimp_shadowdepth.frag");
+	} else {
+		shaderProgram = new ShaderProgram(buf, "shaders/assimp_shadowdepth.vert", "shaders/assimp_shadowdepth.frag");
+	}
+	return shaderProgram;
 }

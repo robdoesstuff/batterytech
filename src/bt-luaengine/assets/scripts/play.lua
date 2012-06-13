@@ -32,6 +32,7 @@ function Play.new()
 	-- quit button
 	local button = makeButtonCentered(85, 50, 150, 100, "Quit")
 	button.onClickUp = function()
+		self:cleanUp()
 		game:setMode(MODE_MAINMENU)
 	end
 	table.insert(self.buttons, button)
@@ -81,6 +82,10 @@ function Play.new()
 	return self
 end
 
+function Play:cleanUp()
+	game:clearLocalLights()
+end
+
 function Play:show()
 	self.x = 0
 	self.y = 0
@@ -91,6 +96,11 @@ function Play:show()
 	self.controlTurn = 0
 	self.panelAnim = 0
 	playSound("sounds/whoosh.ogg")
+	-- local lightIdx = game:addLocalLight(0,0,5);
+	-- game:setLocalLightParam(lightIdx, "ambient", 0,0,0,0);
+	-- game:setLocalLightParam(lightIdx, "diffuse", 1,0,0,1);
+	-- game:setLocalLightParam(lightIdx, "specular", 0,0,0,0);
+	-- game:setLocalLightParam(lightIdx, "attenuation", 0.2, 0.05, 0.01);
 end
 
 function Play:setupLevel()
@@ -269,18 +279,20 @@ function Play:render()
 	-- setCameraParams(0,0,100, 0,0)
 	setCameraParams(self.x, self.y, 2, 90, TO_DEGREES * self.dir)
 	setCameraNearFarFOV(1, 500, 60)
-	game:setShadowLightOrigin(0, 0, 100)
+	game:setShadowLightOrigin(self.x, self.y, 100)
 	game:setShadowColorAndEpsilon(0.5, 0.5, 0.5, 0.021)
-	game:setShadowLightFrustumNearFar(80, 110)
+	game:setShadowLightFrustumNearFar(95, 110)
+	game:setShadowType(0)
 	game:setGlobalLightDir(-0.2, 0.2, .7)
 	game:setGlobalLightAmbient(.7, .7, .7, 1)
 	game:setGlobalLightDiffuse(.7, .7, .7, 1)
 	game:setGlobalLightSpecular(.5, .5, .5, 1)
-
+	game:setGlobalLightEnabled(true)
 	-- draw boxes
 	for i = 1, #self.boxes do
 		local box = self.boxes[i]
-		game:renderAssimpM(nil, 0, "models/box.obj", nil, "textures/box_star.jpg", true, 1,0,0,0,0,1,0,0,0,0,1,0,box.x,box.y,PLAY_BOX_SIZE/2,1, PLAY_BOX_SIZE,PLAY_BOX_SIZE,PLAY_BOX_SIZE, self.boxrot)
+		local idx = game:renderAssimpM(nil, 0, "models/box.obj", nil, "textures/box_star.jpg", true, 1,0,0,0,0,1,0,0,0,0,1,0,box.x,box.y,PLAY_BOX_SIZE/2,1, PLAY_BOX_SIZE,PLAY_BOX_SIZE,PLAY_BOX_SIZE, self.boxrot)
+		game:setRenderItemParam(idx, "maxPointLights", 1)
 	end
 	-- draw playing surface
 	game:renderAssimpM(nil, 0, "models/box.obj", nil, "textures/box_surface.jpg", true, 1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1, 100.0,100.0,1.0, 0)
@@ -351,6 +363,10 @@ function Play:render()
 			end
 		end
 	end
+	
+	-- this will debug the shadowmap
+	-- local vpWidth, vpHeight = getViewportSize()
+ 	-- game:render2D("shadowmap",vpWidth - vpWidth/4,vpHeight - vpHeight/4,vpWidth/2,vpHeight/2,0)
 	
 	-- buttons
 	for i,v in ipairs(self.buttons) do

@@ -24,6 +24,7 @@
 #include <batterytech/render/GLResourceManager.h>
 #include <batterytech/render/GLAssimpBinding.h>
 #include "render/WorldRenderer.h"
+#include <batterytech/render/RenderContext.h>
 
 #define LUA_GAME "Game"
 #define LUA_GAME_MT "GameMetaTable"
@@ -53,10 +54,15 @@ static int lua_Game_renderBB(lua_State *L);
 static int lua_Game_setShadowLightOrigin(lua_State *L);
 static int lua_Game_setShadowColorAndEpsilon(lua_State *L);
 static int lua_Game_setShadowLightFrustumNearFar(lua_State *L);
+static int lua_Game_getShadowType(lua_State *L);
+static int lua_Game_setShadowType(lua_State *L);
+static int lua_Game_setGlobalLightEnabled(lua_State *L);
 static int lua_Game_setGlobalLightDir(lua_State *L);
 static int lua_Game_setGlobalLightAmbient(lua_State *L);
 static int lua_Game_setGlobalLightDiffuse(lua_State *L);
 static int lua_Game_setGlobalLightSpecular(lua_State *L);
+static int lua_Game_setFogEnabled(lua_State *L);
+static int lua_Game_setFogParams(lua_State *L);
 static int lua_Game_setRenderItemParam(lua_State *L);
 static int lua_Game_loadNewResources(lua_State *L);
 static int lua_Game_addLocalLight(lua_State *L);
@@ -85,13 +91,18 @@ static const luaL_reg lua_methods[] = {
 	{ "renderBB", lua_Game_renderBB },
 	{ "setRenderItemParam", lua_Game_setRenderItemParam },
 	{ "loadNewResources", lua_Game_loadNewResources },
+	{ "getShadowType", lua_Game_getShadowType },
+	{ "setShadowType", lua_Game_setShadowType },
 	{ "setShadowLightOrigin", lua_Game_setShadowLightOrigin },
 	{ "setShadowColorAndEpsilon", lua_Game_setShadowColorAndEpsilon },
 	{ "setShadowLightFrustumNearFar", lua_Game_setShadowLightFrustumNearFar },
+	{ "setGlobalLightEnabled", lua_Game_setGlobalLightEnabled },
 	{ "setGlobalLightDir", lua_Game_setGlobalLightDir },
 	{ "setGlobalLightAmbient", lua_Game_setGlobalLightAmbient },
 	{ "setGlobalLightDiffuse", lua_Game_setGlobalLightDiffuse },
 	{ "setGlobalLightSpecular", lua_Game_setGlobalLightSpecular },
+	{ "setFogEnabled", lua_Game_setFogEnabled },
+	{ "setFogParams", lua_Game_setFogParams },
 	{ "addLocalLight", lua_Game_addLocalLight },
 	{ "setLocalLightParam", lua_Game_setLocalLightParam },
 	{ "clearLocalLights", lua_Game_clearLocalLights },
@@ -665,6 +676,12 @@ static int lua_Game_renderBB(lua_State *L) {
 	return 1;
 }
 
+static int lua_Game_setGlobalLightEnabled(lua_State *L) {
+	//Game *game = *(Game**)lua_touserdata(L, 1);
+	((RenderDefaults*)static_context->renderContext->userValues->get("renderDefaults"))->dirLightEnabled = lua_toboolean(L, 2);
+	return 0;
+}
+
 static int lua_Game_setGlobalLightDir(lua_State *L) {
 	//Game *game = *(Game**)lua_touserdata(L, 1);
 	static_context->world->globalLight->direction = lua_toVector3f(L, 2);
@@ -690,6 +707,19 @@ static int lua_Game_setGlobalLightSpecular(lua_State *L) {
 	return 0;
 }
 
+static int lua_Game_setFogEnabled(lua_State *L) {
+	//Game *game = *(Game**)lua_touserdata(L, 1);
+	((RenderDefaults*)static_context->renderContext->userValues->get("renderDefaults"))->fogEnabled = lua_toboolean(L, 2);
+	return 0;
+}
+
+static int lua_Game_setFogParams(lua_State *L) {
+	//Game *game = *(Game**)lua_touserdata(L, 1);
+	((RenderDefaults*)static_context->renderContext->userValues->get("renderDefaults"))->fogNear = lua_tonumber(L, 2);
+	((RenderDefaults*)static_context->renderContext->userValues->get("renderDefaults"))->fogFar = lua_tonumber(L, 3);
+	return 0;
+}
+
 static int lua_Game_setShadowLightOrigin(lua_State *L) {
 	//Game *game = *(Game**)lua_touserdata(L, 1);
 	static_context->world->globalLight->origin = lua_toVector3f(L, 2);
@@ -709,6 +739,24 @@ static int lua_Game_setShadowLightFrustumNearFar(lua_State *L) {
 	return 0;
 }
 
+static int lua_Game_getShadowType(lua_State *L) {
+	//Game *game = *(Game**)lua_touserdata(L, 1);
+	lua_pushinteger(L, static_context->gConfig->shadowType);
+	return 1;
+}
+
+static int lua_Game_setShadowType(lua_State *L) {
+	//Game *game = *(Game**)lua_touserdata(L, 1);
+	int sType = lua_tointeger(L, 2);
+	if (sType == 0) {
+		static_context->gConfig->shadowType = GraphicsConfiguration::SHADOWTYPE_NONE;
+	} else if (sType == 1) {
+		static_context->gConfig->shadowType = GraphicsConfiguration::SHADOWTYPE_SHADOWMAP;
+	} else if (sType == 2) {
+		static_context->gConfig->shadowType = GraphicsConfiguration::SHADOWTYPE_SHADOWMAP_HQ;
+	}
+	return 0;
+}
 
 // vec3 position
 static int lua_Game_addLocalLight(lua_State *L) {
@@ -838,6 +886,18 @@ static int lua_Game_setRenderItemParam(lua_State *L) {
 			item->flags = item->flags | RENDERITEM_FLAG_NODES_CULL_FRUSTUM_TEST;
 		} else {
 			item->flags = item->flags & ~RENDERITEM_FLAG_NODES_CULL_FRUSTUM_TEST;
+		}
+	} else if (strcmp(paramName, "nodirlight") == 0) {
+		if (lua_toboolean(L, 4)) {
+			item->flags = item->flags | RENDERITEM_FLAG_NO_DIR_LIGHT;
+		} else {
+			item->flags = item->flags & ~RENDERITEM_FLAG_NO_DIR_LIGHT;
+		}
+	} else if (strcmp(paramName, "noshadowgen") == 0) {
+		if (lua_toboolean(L, 4)) {
+			item->flags = item->flags | RENDERITEM_FLAG_NO_SHADOW_GEN;
+		} else {
+			item->flags = item->flags & ~RENDERITEM_FLAG_NO_SHADOW_GEN;
 		}
 	}
 	return 0;

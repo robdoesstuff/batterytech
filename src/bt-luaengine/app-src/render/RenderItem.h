@@ -18,10 +18,25 @@
 #define RENDERITEM_FLAG_NO_FOG 4
 #define RENDERITEM_FLAG_USE_CAMERA_CLOSEST_POINT_LIGHTS 8
 #define RENDERITEM_FLAG_NODES_CULL_FRUSTUM_TEST 16
+#define RENDERITEM_FLAG_NO_DIR_LIGHT 32
+#define RENDERITEM_FLAG_NO_SHADOW_GEN 64
 
 using namespace BatteryTech;
 
 namespace BatteryTech { class AssimpAnimator; }
+
+struct RenderDefaults {
+	RenderDefaults() {
+		dirLightEnabled = FALSE;
+		fogEnabled = FALSE;
+		fogNear = 0;
+		fogFar = 0;
+	}
+	BOOL32 dirLightEnabled;
+	BOOL32 fogEnabled;
+	S32 fogNear;
+	S32 fogFar;
+};
 
 class RenderItem {
 public:

@@ -22,6 +22,7 @@
 #include "../util/esTransform.h"
 #include "../math/Vector4.h"
 #include "../math/Matrix4.h"
+#include "../util/HashTable.h"
 
 namespace BatteryTech {
 
@@ -41,8 +42,10 @@ namespace BatteryTech {
 		 * Current color (like glColor())
 		 */
 		Vector4f colorFilter;
-		Matrix4f shadowMVP;
-		Matrix4f shadowLookupMatrix;
+		/**
+		 * User-defined render values - specific to your application (put whatever you want in here)
+		 */
+		StrHashTable<void*> *userValues;
 	};
 
 }

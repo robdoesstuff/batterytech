@@ -17,12 +17,16 @@
 
 #include "RenderContext.h"
 
+#define MAX_USER_VALUES 100
+
 namespace BatteryTech {
 
 	RenderContext::RenderContext() {
+		userValues = new StrHashTable<void*>(MAX_USER_VALUES);
 	}
 
 	RenderContext::~RenderContext() {
+		delete userValues;
 	}
 
 }
