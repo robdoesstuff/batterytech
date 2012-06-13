@@ -17,6 +17,8 @@ TAU = 2 * math.pi
 TO_DEGREES = 180 / math.pi
 TO_RADS = math.pi / 180
 
+ENABLE_POINT_LIGHT = false
+
 Box = {
 	x = 0,
 	y = 0
@@ -96,11 +98,13 @@ function Play:show()
 	self.controlTurn = 0
 	self.panelAnim = 0
 	playSound("sounds/whoosh.ogg")
-	-- local lightIdx = game:addLocalLight(0,0,5);
-	-- game:setLocalLightParam(lightIdx, "ambient", 0,0,0,0);
-	-- game:setLocalLightParam(lightIdx, "diffuse", 1,0,0,1);
-	-- game:setLocalLightParam(lightIdx, "specular", 0,0,0,0);
-	-- game:setLocalLightParam(lightIdx, "attenuation", 0.2, 0.05, 0.01);
+	if ENABLE_POINT_LIGHT then
+		local lightIdx = game:addLocalLight(0,0,5);
+		game:setLocalLightParam(lightIdx, "ambient", 0,0,0,0);
+		game:setLocalLightParam(lightIdx, "diffuse", 1,0,0,1);
+		game:setLocalLightParam(lightIdx, "specular", 0,0,0,0);
+		game:setLocalLightParam(lightIdx, "attenuation", 0.2, 0.05, 0.01);
+	end
 end
 
 function Play:setupLevel()

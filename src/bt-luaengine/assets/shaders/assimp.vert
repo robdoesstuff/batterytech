@@ -1,5 +1,8 @@
 // Assimp Shader with lots of configuration options
 
+#ifndef POINT_LIGHT_COUNT
+#define POINT_LIGHT_COUNT 0
+#endif
 
 const float c_zero = 0.0;
 const float c_one  = 1.0;
@@ -12,7 +15,7 @@ attribute vec3 vPosition;
 attribute vec3 vUV;
 
 
-#if (POINT_LIGHT_COUNT || DIR_LIGHT)
+#if (POINT_LIGHT_COUNT || defined(DIR_LIGHT))
 attribute vec3 vNormal;
 uniform mat3 inv_matrix;
 
@@ -26,7 +29,7 @@ struct material_properties {
 uniform material_properties material;
 #endif
 
-#if POINT_LIGHT_COUNT
+#if POINT_LIGHT_COUNT > 0
 uniform vec3 cameraPos;
 #endif
 
@@ -73,7 +76,7 @@ vec4 compute_directional_light(vec3 normal) {
 
 #endif
 
-#ifdef POINT_LIGHT_COUNT
+#if POINT_LIGHT_COUNT > 0
 struct point_light {
  	vec3 position;
  	vec3 attenuations;
@@ -150,17 +153,16 @@ void main() {
 					   (bone_matrices[int(vBones.y)] * vnorm * vWeights.y) +
 					   (bone_matrices[int(vBones.z)] * vnorm * vWeights.z) +
 					   (bone_matrices[int(vBones.w)] * vnorm * vWeights.w);
-#ifdef DIR_LIGHT || POINT_LIGHT_COUNT
+#if (POINT_LIGHT_COUNT || defined(DIR_LIGHT))
 	vec3 ecNormal = normalize(inv_matrix * skinnedNorm.xyz);
 #endif
 #else
-#ifdef DIR_LIGHT || POINT_LIGHT_COUNT
+#if (POINT_LIGHT_COUNT || defined(DIR_LIGHT))
 	vec3 ecNormal = normalize(inv_matrix * vNormal.xyz);
 #endif
 	vec4 ecPosition = modelview_matrix * vpos;
 #endif
 
-	vec3 ecPos3 = (vec3(ecPosition)) / ecPosition.w;
 	gl_Position = projection_matrix * ecPosition;
 	
 #ifdef SHADOWMAP
@@ -176,6 +178,7 @@ void main() {
 #endif
 
 #if POINT_LIGHT_COUNT > 0
+	vec3 ecPos3 = (vec3(ecPosition)) / ecPosition.w;
 	vec3 ecCamera = (modelview_matrix * vec4(cameraPos, 1.0)).xyz;
 	vColor += compute_point_light(0, ecCamera, ecPos3, ecNormal);
 #endif

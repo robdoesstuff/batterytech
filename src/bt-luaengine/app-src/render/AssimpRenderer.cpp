@@ -24,6 +24,7 @@
 #include "LocalLight.h"
 #include "WorldRenderer.h"
 #include "../GameContext.h"
+#include <stdio.h>
 
 #define RENDER_SKELETON FALSE
 
@@ -186,10 +187,12 @@ void AssimpRenderer::setupPointLights(ShaderProgram *shaderProgram, RenderItem *
 			}
 		}
 	}
-	if (lightsInDistance > MAX_LOCALLIGHTS) {
-		lightsInDistance = MAX_LOCALLIGHTS;
+	if (lightsInDistance > item->maxPointLights) {
+		lightsInDistance = item->maxPointLights;
 	}
-	glUniform1i(shaderProgram->getUniformLoc("pointLightCount"), lightsInDistance);
+	// glUniform1i(shaderProgram->getUniformLoc("pointLightCount"), lightsInDistance);
+	// The number of lights in distance will be the maximum of the render item's max point lights or the number of point lights in the scene.
+	// A preprocessed shader will be created with exactly that number of point lights, up to 5 in the current implementation (that's a lot - don't use more.)
 	for (S32 i = 0; i < lightsInDistance; i++) {
 		char buf[256];
 		// point light
@@ -538,7 +541,7 @@ void AssimpRenderer::getShaderTag(char *buf, AssimpShaderConfig config) {
 	if (config.pointLightCount) {
 		strcat(buf, "-pl");
 		char count[3];
-		itoa(config.pointLightCount, count, 10);
+		sprintf(count, "%d", config.pointLightCount);
 		strcat(buf, count);
 	}
 }
@@ -553,7 +556,7 @@ ShaderProgram* AssimpRenderer::addShaderProgram(const char *tag, AssimpShaderCon
 	}
 	if (config.pointLightCount) {
 		char count[3];
-		itoa(config.pointLightCount, count, 10);
+		sprintf(count, "%d", config.pointLightCount);
 		shader->addDefine("POINT_LIGHT_COUNT", count);
 	}
 	if (config.withFog) {
