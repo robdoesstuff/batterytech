@@ -256,22 +256,15 @@ public class Boot {
 	}
 
 	public void showAd() {
-		if (activity.getHookHandler() != null) {
-			activity.getHookHandler().showAd();
-		}
+		activity.showAd();
 	}
 
 	public void hideAd() {
-		if (activity.getHookHandler() != null) {
-			activity.getHookHandler().hideAd();
-		}
+		activity.hideAd();
 	}
 	
 	public String hook(String hook) {
-		if (activity.getHookHandler() != null) {
-			return activity.getHookHandler().hook(hook);
-		}
-		return "";
+		return activity.hook(hook);
 	}
 
 	public void onSuspend() {

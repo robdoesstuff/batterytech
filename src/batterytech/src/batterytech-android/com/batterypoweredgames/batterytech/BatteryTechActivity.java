@@ -39,7 +39,7 @@ public class BatteryTechActivity extends Activity {
 	
 	public static final String APP_LIB_NAME = "batterytech-app";
 	
-	private BatteryTechView btechView;
+	protected BatteryTechView btechView;
 	
 	private static final int INPUT_QUEUE_SIZE = 50;
 
@@ -51,6 +51,10 @@ public class BatteryTechActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) { 
         super.onCreate(savedInstanceState);
+        doCreate();
+    }
+    
+    public void doCreate() {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -66,7 +70,7 @@ public class BatteryTechActivity extends Activity {
 		createInputObjectPool();
     }
 
-	private void createTouchProcessor() {
+	protected void createTouchProcessor() {
 		ClassLoader classLoader = BatteryTechActivity.class.getClassLoader();
 		
 		int sdkVersion = new Integer(android.os.Build.VERSION.SDK);
@@ -111,7 +115,7 @@ public class BatteryTechActivity extends Activity {
 		return false;
 	}
 
-	private void createInputObjectPool() {
+	protected void createInputObjectPool() {
 		inputObjectPool = new ArrayBlockingQueue<InputObject>(INPUT_QUEUE_SIZE);
 		for (int i = 0; i < INPUT_QUEUE_SIZE; i++) {
 			inputObjectPool.add(new InputObject(inputObjectPool));
@@ -181,13 +185,25 @@ public class BatteryTechActivity extends Activity {
 	}
 	
 	/**
-	 * Allows a BatteryTech application to provide a Hook handler for additional Android feature integration or 3rd party library integration
-	 * Override this and implement a BatteryTechHookHandler to use custom hooks
+	 * Allows a BatteryTech application to provide hooks for additional Android feature integration or 3rd party library integration
+	 * Override this and implement custom hooks
 	 * 
 	 * @return an instance of a BatteryTechHookHandler
 	 */
-	public BatteryTechHookHandler getHookHandler() { return null; }
+	public String hook(String hookData) { return ""; }
 	
+	/**
+	 * Allows a BatteryTech application to show an ad using a third party ad library
+	 * Override this and add the ad sample code.  More code may also be required to set up the ad network in onCreate or onResume
+	 */
+	public void showAd() {};
+
+	/**
+	 * Allows a BatteryTech application to hide an ad using a third party ad library
+	 * Override this and add the ad sample code.  More code may also be required to set up the ad network in onCreate or onResume
+	 */
+	public void hideAd() {};
+
 	/**
 	 * Allows a BatteryTech application to provide a custom vibration manager
 	 * Override this and extend the default VibrationManager to customize

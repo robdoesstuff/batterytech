@@ -47,7 +47,7 @@ using namespace std;
 	btFFMpegPlayer::btFFMpegPlayer(Context *context, const char *assetName) {
 		this->context = context;
 		char myFilename[255];
-		//strcpy(myFilename, "assets\\");
+		strcpy(myFilename, "assets\\");
 		strcat(myFilename, assetName);
 		_platform_convert_path(myFilename, myFilename);
 		this->assetName = strDuplicate(myFilename);
