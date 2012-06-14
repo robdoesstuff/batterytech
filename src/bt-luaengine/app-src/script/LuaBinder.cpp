@@ -25,6 +25,7 @@
 #include "../level/LevelIO.h"
 #include "../menus/ErrorMenu.h"
 #include <batterytech/VibrationManager.h>
+#include <batterytech/video/VideoManager.h>
 
 using namespace BatteryTech;
 
@@ -85,6 +86,12 @@ static int lua_setSoundEnabled(lua_State *L);
 static int lua_setVibrationEnabled(lua_State *L);
 static int lua_showFPS(lua_State *L);
 static int lua_setShadowType(lua_State *L);
+static int lua_loadVideo(lua_State *L);
+static int lua_playVideo(lua_State *L);
+static int lua_stopVideo(lua_State *L);
+static int lua_unloadVideo(lua_State *L);
+static int lua_pauseVideo(lua_State *L);
+static int lua_getVideoPosition(lua_State *L);
 
 static GameContext* static_context;
 
@@ -160,10 +167,16 @@ lua_State* LuaBinder::newState(GameContext *context) {
 	registerFunction(L, "showMessageDialog", lua_showMessageDialog); // param: title, message
 	registerFunction(L, "platformExit", lua_platformExit); // param: title, message
 	registerFunction(L, "getTimeMillis", lua_getTimeMillis); // return: time in ns
-	registerFunction(L, "setSoundEnabled", lua_setSoundEnabled); // return: time in ns
-	registerFunction(L, "setVibrationEnabled", lua_setVibrationEnabled); // return: time in ns
-	registerFunction(L, "showFPS", lua_showFPS); // return: time in ns
-	registerFunction(L, "setShadowType", lua_setShadowType); // return: time in ns
+	registerFunction(L, "setSoundEnabled", lua_setSoundEnabled); // param: if sound is enabled
+	registerFunction(L, "setVibrationEnabled", lua_setVibrationEnabled); // param: if vibration is enabled
+	registerFunction(L, "showFPS", lua_showFPS); // param: if fps is to be shown
+	registerFunction(L, "setShadowType", lua_setShadowType); // param: 0 = no shadow, 1 = low, 2 = high
+	registerFunction(L, "loadVideo", lua_loadVideo); // param: assetName
+	registerFunction(L, "playVideo", lua_playVideo);
+	registerFunction(L, "stopVideo", lua_stopVideo);
+	registerFunction(L, "unloadVideo", lua_unloadVideo);
+	registerFunction(L, "pauseVideo", lua_pauseVideo);
+	registerFunction(L, "getVideoPosition", lua_getVideoPosition);
 	return L;
 }
 
@@ -1061,6 +1074,37 @@ static int lua_showFPS(lua_State *L) {
 static int lua_setShadowType(lua_State *L) {
 	//static_context->gConfig->shadowType = lua_tointeger(L, 1);
 	return 0;
+}
+
+static int lua_loadVideo(lua_State *L) {
+	static_context->videoManager->load(lua_tostring(L, 1));
+	return 0;
+}
+
+static int lua_playVideo(lua_State *L) {
+	static_context->videoManager->play();
+	return 0;
+}
+
+static int lua_stopVideo(lua_State *L) {
+	static_context->videoManager->stop();
+	return 0;
+}
+
+static int lua_unloadVideo(lua_State *L) {
+	static_context->videoManager->unload();
+	return 0;
+}
+
+static int lua_pauseVideo(lua_State *L) {
+	static_context->videoManager->pause();
+	return 0;
+}
+
+static int lua_getVideoPosition(lua_State *L) {
+	F32 pos = static_context->videoManager->getPosition();
+	lua_pushnumber(L, pos);
+	return 1;
 }
 
 Vector2f lua_toVector2f(lua_State *L, S32 startIdx) {

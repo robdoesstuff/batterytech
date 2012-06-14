@@ -25,6 +25,7 @@
 #include "../GameContext.h"
 #include <batterytech/render/AssetTexture.h>
 #include <batterytech/render/QuadRenderer.h>
+#include <batterytech/video/VideoManager.h>
 
 #define TEXT_BOX_PADDING 25
 
@@ -247,6 +248,7 @@ void WorldRenderer::render() {
 				}
 			}
 		}
+		context->videoManager->render();
 	   	checkGLError("WorldRenderer After 2DBG");
 		// now 3D
         

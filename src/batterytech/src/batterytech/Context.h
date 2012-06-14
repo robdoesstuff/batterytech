@@ -35,6 +35,7 @@ namespace BatteryTech {
 	class RenderContext;
 	class GLResourceManager;
 	class QuadRenderer;
+	class VideoManager;
 
 	class Context {
 	public:
@@ -176,6 +177,8 @@ namespace BatteryTech {
 		 * If there was a callback and there is callback data ready
 		 */
 		BOOL32 callbackDataReady;
+
+		VideoManager *videoManager;
 
 		BTApplicationRenderer *appRenderer;
 

@@ -27,6 +27,7 @@
 #include "PCMAudioManager.h"
 #include "../batterytech_globals.h"
 #include "../Context.h"
+#include "../video/VideoManager.h"
 
 namespace BatteryTech {
 
@@ -190,6 +191,7 @@ namespace BatteryTech {
 	void AudioManager::fillBuffer(void *pSoundBuffer, long bufferLen) {
 		if (pcmSoundMgr) {
 			pcmSoundMgr->fillBuffer(pSoundBuffer, bufferLen);
+			context->videoManager->addAudioBuffer(pSoundBuffer, bufferLen);
 			for (S32 i = 0; i < pcmPlugins->getSize(); i++) {
 				pcmPlugins->array[i]->addToBuffer(pSoundBuffer, bufferLen);
 			}

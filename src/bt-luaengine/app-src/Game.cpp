@@ -29,6 +29,7 @@
 #include <batterytech/util/strx.h>
 #include <string.h>
 #include <batterytech/render/QuadRenderer.h>
+#include <batterytech/video/VideoManager.h>
 
 Context* btAppCreateContext(GraphicsConfiguration *graphicsConfig) {
 	return new GameContext(graphicsConfig);
@@ -183,6 +184,7 @@ void Game::update() {
 	if (luaBinder && context->world->gameState == GAMESTATE_RUNNING) {
 		luaBinder->update();
 	}
+	context->videoManager->update(context->tickDelta);
 }
 
 void Game::initializeLua() {

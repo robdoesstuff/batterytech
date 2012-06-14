@@ -27,6 +27,7 @@
 #include "render/GLResourceManager.h"
 #include "render/QuadRenderer.h"
 #include "render/MenuRenderer.h"
+#include "video/VideoManager.h"
 
 namespace BatteryTech {
 
@@ -41,6 +42,8 @@ namespace BatteryTech {
 		}
 		glResourceManager = new GLResourceManager(this);
 		menuRenderer = new MenuRenderer(this);
+		// create videoManager before audioManager because it may immediately start being used
+		videoManager = new VideoManager(this);
 		audioManager = new AudioManager(this);
 		networkManager = new NetworkManager(this);
 		vibrationManager = new VibrationManager(this);
@@ -78,6 +81,10 @@ namespace BatteryTech {
 			delete audioManager;
 		}
 		audioManager = NULL;
+		if (videoManager) {
+			delete videoManager;
+		}
+		videoManager = NULL;
 		delete networkManager;
 		networkManager = NULL;
 		delete vibrationManager;
