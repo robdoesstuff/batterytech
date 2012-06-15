@@ -43,11 +43,6 @@ namespace BatteryTech {
 		this->fontSize = fontSize;
 		bmpWidth = 0;
 		bmpHeight = 0;
-		if (context->gConfig->useShaders) {
-			if (!context->glResourceManager->getShaderProgram("text")) {
-				context->glResourceManager->addShaderProgram("text", new ShaderProgram("text", "shaders/quadshader.vert", "shaders/quadshader.frag"));
-			}
-		}
 		innerStroke = 0;
 		outerStroke = 0;
 		color = Vector4f(1,1,1,1);
@@ -67,6 +62,13 @@ namespace BatteryTech {
 	}
 
 	void TextRasterRenderer::init(BOOL32 newContext) {
+		if (context->gConfig->useShaders) {
+			if (!context->glResourceManager->getShaderProgram("text")) {
+				ShaderProgram *shaderProgram = new ShaderProgram("text", "shaders/quadshader.vert", "shaders/quadshader.frag");
+				shaderProgram->load(FALSE);
+				context->glResourceManager->addShaderProgram("text", shaderProgram);
+			}
+		}
 		if (!newContext) {
 			return;
 		}
