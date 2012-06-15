@@ -21,14 +21,13 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.egl.EGLContext;
 import javax.microedition.khronos.egl.EGLDisplay;
 
-import com.batterypoweredgames.batterytech.TrueColorEGLConfigChooser;
-
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.PixelFormat;
 import android.opengl.GLSurfaceView;
 import android.os.Build;
 import android.util.Log;
+
+import com.batterypoweredgames.input.TouchProcessor;
 
 /**
  * Android 2.0+ App View
@@ -66,6 +65,22 @@ public class BatteryTechView20 extends GLSurfaceView implements BatteryTechView 
 		renderer = new BatteryTechRenderer(activity, this, usingGLES2);
 		setRenderer(renderer);
 		setRenderMode(RENDERMODE_CONTINUOUSLY);
+		btPreserveContext();
+	}
+	
+	private void btPreserveContext() {
+		int sdkVersion = new Integer(android.os.Build.VERSION.SDK);
+		if (sdkVersion >= 11) {
+			try {
+				// Dynamically load this since it's only supported on API 11 and up
+				ClassLoader classLoader = BatteryTechView20.class.getClassLoader();
+		        Class<?> aClass = classLoader.loadClass("com.batterypoweredgames.batterytech.GLSVContextPreserver");
+		        GLSVContextPreserver p = (GLSVContextPreserver) aClass.newInstance();
+		        p.setPreserveContextOnPause(this, false);
+		    } catch (Exception e) {
+		        Log.e(TAG, e.getMessage(), e);
+		    }
+		}
 	}
 	
 	/* (non-Javadoc)

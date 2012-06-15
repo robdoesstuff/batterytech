@@ -91,7 +91,8 @@ BT_SOURCES=\
 	batterytech\util\TextFileUtil.cpp \
 	batterytech\util\Property.cpp \
 	batterytech\util\PropertiesIO.cpp \
-	batterytech\util\strx.cpp
+	batterytech\util\strx.cpp \
+	batterytech\video\VideoManager.cpp
 	
 BT_OBJECTS=$(addprefix $(BUILD_DIR)\, $(addsuffix .o,$(BT_SOURCES)))
 BT_DEPS=$(BT_OBJECTS:.o=.d)
@@ -104,7 +105,8 @@ BT_OBJDIRS=$(BUILD_DIR)\batterytech\audio \
 	$(BUILD_DIR)\batterytech\math \
 	$(BUILD_DIR)\batterytech\render \
 	$(BUILD_DIR)\batterytech\ui \
-	$(BUILD_DIR)\batterytech\util
+	$(BUILD_DIR)\batterytech\util \
+	$(BUILD_DIR)\batterytech\video
 	
 BT_LIB=$(BUILD_DIR)\libbatterytech.a
 	

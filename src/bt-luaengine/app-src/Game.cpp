@@ -124,7 +124,7 @@ void Game::loadPreferences() {
 }
 
 void Game::update() {
-	if (!initialized || context->wasSuspended) {
+	if (!initialized || context->newGraphicsContext) {
 		if (context->world->gameState != GAMESTATE_LOADING) {
 			// if we're resuming, we want to go back to whatever state we were just in after we load.
 			context->world->nextGameState = context->world->gameState;
@@ -139,11 +139,12 @@ void Game::update() {
 			loadPreferences();
 			initializeLua();
 		}
-		if (!initialized || context->wasSuspended) {
+		if (!initialized || context->newGraphicsContext) {
 			logmsg("Initializing Renderers");
 			context->worldRenderer->init(TRUE);
 			context->menuRenderer->init(TRUE);
 			context->wasSuspended = FALSE;
+			context->newGraphicsContext = FALSE;
 			initialized = TRUE;
 		} else {
 			context->worldRenderer->init(FALSE);

@@ -135,7 +135,6 @@ void WorldRenderer::init(BOOL32 newContext) {
 	logmsg("Initializing dynamic stuff");
 	//btDebugRenderer->init(newContext);
 	if (newContext) {
-		//context->glResourceManager->unloadTextures();
 		context->glResourceManager->unloadObjScenes();
 		context->glResourceManager->unloadAssimps();
 	}
@@ -160,8 +159,12 @@ void WorldRenderer::render() {
 			// just forcing a two-frame wait to load
 			loadingScreenDisplayed = TRUE;
 			logmsg("loadingScreenDisplayed set");
-		} else if (context->wasSuspended || !loadingTex->isLoaded()) {
+		} else if (context->newGraphicsContext || !loadingTex->isLoaded()) {
 			loadingScreenDisplayed = FALSE;
+			ShaderProgram *quadShader = context->glResourceManager->getShaderProgram("quad");
+			if (quadShader) {
+				quadShader->invalidateGL();
+			}
 			loadingTex->invalidateGL();
 			setupGL();
 			logmsg("Loading Loading Texture");
@@ -318,6 +321,7 @@ void WorldRenderer::render() {
 			}
 		}
 		screenControlRenderer->render();
+	   	checkGLError("WorldRenderer After screenControlRender");
 		glDisable(GL_CULL_FACE);
 		glDisable(GL_DEPTH_TEST);
 		// text overlay
@@ -373,6 +377,7 @@ void WorldRenderer::render() {
 				}
 				textRenderer->finishText();
 			}
+		   	checkGLError("WorldRenderer After text render");
 		}
 	} else if (world->gameState == GAMESTATE_LOADING) {
 		logmsg("Rendering Loading Screen");
@@ -391,6 +396,7 @@ void WorldRenderer::render() {
 		F32 loadWidth = this->loadingSize.x * gConfig->uiScale;
 		F32 loadHeight = this->loadingSize.y * gConfig->uiScale;
 		context->quadRenderer->render(loadingTex, gConfig->height/2 - loadHeight/2, gConfig->width/2 + loadWidth/2, gConfig->height/2 + loadHeight/2, gConfig->width/2 - loadWidth/2);
+	   	checkGLError("WorldRenderer After loading render");
 	}
 //	char buf[50];
 //	sprintf(buf, "binds = %d", ShaderProgram::binds);

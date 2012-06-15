@@ -148,6 +148,12 @@ void btSuspend() {
 	}
 }
 
+void btSetGraphicsContextLost(BOOL32 wasLost) {
+	if (context) {
+		context->newGraphicsContext = wasLost;
+	}
+}
+
 void btResume() {
 }
 

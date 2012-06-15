@@ -66,7 +66,8 @@ my_src_files :=\
 	batterytech/util/TextFileUtil.cpp \
 	batterytech/util/Property.cpp \
 	batterytech/util/PropertiesIO.cpp \
-	batterytech/util/strx.cpp
+	batterytech/util/strx.cpp \
+	batterytech/video/VideoManager.cpp
 
 LOCAL_CFLAGS := -DANDROID_NDK -DBATTERYTECH_INCLUDE_ASSIMP
 LOCAL_MODULE    := batterytech

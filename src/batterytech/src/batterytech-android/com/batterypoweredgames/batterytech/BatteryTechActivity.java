@@ -45,7 +45,7 @@ public class BatteryTechActivity extends Activity {
 
 	private TouchProcessor touchProcessor;
 	private boolean hasMultitouch = false;
-	private ArrayBlockingQueue<InputObject> inputObjectPool;
+	private ArrayBlockingQueue<InputObject> inputObjectPool; 
 	
     /** Called when the activity is first created. */
     @Override

@@ -211,6 +211,13 @@ BatteryTech::SpecialKey getSpecialKey(int keyCode) {
 	}
 }
 
+void Java_com_batterypoweredgames_batterytech_Boot_setGraphicsContextLost(JNIEnv* env, jobject thiz, jboolean wasLost) {
+	jnienv = env;
+	javaBoot = thiz;
+	btSetGraphicsContextLost(wasLost);
+	jnienv = 0;
+	javaBoot = 0;
+}
 #ifdef __cplusplus
 }
 #endif

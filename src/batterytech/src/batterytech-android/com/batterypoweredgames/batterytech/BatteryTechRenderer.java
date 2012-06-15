@@ -52,6 +52,7 @@ public class BatteryTechRenderer implements Renderer, InputHandler, SensorEventL
 	private SensorManager sensorMgr;
 	private boolean usingGLES2 = false;
 	int screenRotation;
+	private GL10 lastGL;
 
 	public BatteryTechRenderer(BatteryTechActivity activity, View view, boolean usingGLES2) {
 		this.activity = activity;
@@ -136,6 +137,15 @@ public class BatteryTechRenderer implements Renderer, InputHandler, SensorEventL
 	}
 
 	public void onSurfaceCreated(GL10 gl, EGLConfig config) {
+		if (lastGL != null) {
+			if (lastGL != gl) {
+				Log.i(TAG, "************* New GL Context");
+			} else {
+				Log.i(TAG, "************* GL Context Preserved");
+			}
+		}
+		Log.i(TAG, "************* First GL Context");
+		lastGL = gl;
 	}
 
 	public void onPause() {

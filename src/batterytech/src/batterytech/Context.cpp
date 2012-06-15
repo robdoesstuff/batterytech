@@ -57,6 +57,7 @@ namespace BatteryTech {
 		specialKeyPressed = SKEY_NULL;
 		showFPS = FALSE;
 		wasSuspended = FALSE;
+		newGraphicsContext = FALSE;
 		accelerometerState.x = 0;
 		accelerometerState.y = 0;
 		accelerometerState.z = 0;

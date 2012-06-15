@@ -75,6 +75,11 @@ void btDraw();
 void btSuspend();
 
 /**
+ * Notifies our app that the graphics context has been lost (reload is necessary)
+ */
+void btSetGraphicsContextLost(BOOL32 wasLost);
+
+/**
  * Resumes the application - always called after init but before update or draw
  */
 void btResume();

@@ -684,13 +684,7 @@ namespace BatteryTech {
  *
  * Example:
  * \code{.java}
- * class MyActivity extends BatteryTechActivity implements BatteryTechHookHandler {
- *
- *	@Override
- *	public BatteryTechHookHandler getHookHandler() {
- *		// with this, we are declaring that this class will be handling the hook functions
- *		return this;
- *	}
+ * class MyActivity extends BatteryTechActivity {
  *
  * 	@Override
  *	public GLSettings createGLSettings() {

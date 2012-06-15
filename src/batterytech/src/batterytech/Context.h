@@ -117,10 +117,15 @@ namespace BatteryTech {
 		BOOL32 showFPS;
 
 		/**
-		 * Set to true if the app was previously suspended.  This will only be true if it was suspended AND the OpenGL context was lost.
-		 * If this is set to true, you must reload all VRAM objects (textures, FBOs, VBOs, etc) and reset the GL states before continuing.
+		 * Set to true if the app was previously suspended.
 		 */
 		BOOL32 wasSuspended;
+
+		/**
+		 * Set to true if the graphics context was lost and there is a new graphics context.
+		 * If this is set to true, you must reload all VRAM objects (textures, FBOs, VBOs, etc) and reset the GL states before continuing.
+		 */
+		BOOL32 newGraphicsContext;
 
 		/**
 		 * Use this for playing sound effects and music.

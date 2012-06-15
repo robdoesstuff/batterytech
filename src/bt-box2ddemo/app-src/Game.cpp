@@ -123,11 +123,12 @@ void Game::update() {
 		this->context->world->gameState = GAMESTATE_READY;
 		//context->audioManager->playStreamingSound("song1.ogg", -1, 1.0f, 1.0f, 1.0f);
 	}
-	if (!initialized || context->wasSuspended) {
+	if (!initialized || context->newGraphicsContext) {
 		logmsg("Initializing Renderers");
 		context->worldRenderer->init(TRUE);
 		context->menuRenderer->init(TRUE);
 		context->wasSuspended = FALSE;
+		context->newGraphicsContext = FALSE;
 		initialized = TRUE;
 	}
 }

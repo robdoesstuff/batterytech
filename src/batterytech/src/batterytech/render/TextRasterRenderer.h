@@ -88,7 +88,6 @@ namespace BatteryTech {
 		char *aName;
 		F32 fontSize;
 		S32 bmpWidth, bmpHeight;
-		ShaderProgram *shaderProgram;
 		S32 innerStroke, outerStroke;
 		Vector4f color;
 		F32 vertSpaceMult;
