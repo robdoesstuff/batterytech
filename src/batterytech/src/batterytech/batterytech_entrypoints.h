@@ -45,6 +45,17 @@ public:
 	 * Time delta in seconds from the last update is available via Context::tickDelta
 	 */
 	virtual void update()=0;
+	/** \brief Informs the application that it is about to be suspended
+	 *
+	 * This function is called synchronously and the whole application context should still be intact so if you need to save before you die, save now.
+	 */
+	virtual void onSuspend() {};
+	/** \brief Informs the application that it was just resumed
+	 *
+	 * While it's easy to determine because of the previous call to onSuspend and now an update is about to occur, it's still nice to get a callback for those who
+	 * want to add special handling here.
+	 */
+	virtual void onResume() {};
 };
 
 #endif

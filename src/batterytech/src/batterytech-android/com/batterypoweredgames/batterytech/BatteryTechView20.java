@@ -65,7 +65,7 @@ public class BatteryTechView20 extends GLSurfaceView implements BatteryTechView 
 		renderer = new BatteryTechRenderer(activity, this, usingGLES2);
 		setRenderer(renderer);
 		setRenderMode(RENDERMODE_CONTINUOUSLY);
-		btPreserveContext();
+		btPreserveContext(); 
 	}
 	
 	private void btPreserveContext() {
@@ -76,7 +76,7 @@ public class BatteryTechView20 extends GLSurfaceView implements BatteryTechView 
 				ClassLoader classLoader = BatteryTechView20.class.getClassLoader();
 		        Class<?> aClass = classLoader.loadClass("com.batterypoweredgames.batterytech.GLSVContextPreserver");
 		        GLSVContextPreserver p = (GLSVContextPreserver) aClass.newInstance();
-		        p.setPreserveContextOnPause(this, false);
+		        p.setPreserveContextOnPause(this, true);
 		    } catch (Exception e) {
 		        Log.e(TAG, e.getMessage(), e);
 		    }

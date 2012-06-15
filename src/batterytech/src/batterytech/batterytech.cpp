@@ -35,6 +35,7 @@ static GraphicsConfiguration *gConfig = NULL;
 static F32 updateTimes[TICK_SMOOTHER_SAMPLES];
 static S32 updateTimeIdx = 0;
 static BOOL32 btReady = FALSE;
+static BOOL32 btWasSuspended = FALSE;
 
 // defined by BT application
 extern Context* btAppCreateContext(GraphicsConfiguration *graphicsConfig);
@@ -96,7 +97,7 @@ void btUpdate(F32 delta) {
 	if (!btReady) {
 		return;
 	}
-	if (!context->wasSuspended) {
+	if (!btWasSuspended) {
 		updateTimes[updateTimeIdx++] = delta;
 		updateTimeIdx %= TICK_SMOOTHER_SAMPLES;
 		if (updateTimes[updateTimeIdx] != -1) {
@@ -114,7 +115,9 @@ void btUpdate(F32 delta) {
 			context->tickDelta = delta;
 		}
 	} else {
+		// reset the tick delta after a suspend
 		context->tickDelta = 0;
+		btWasSuspended = FALSE;
 	}
 	//char buf[50];
 	//sprintf(buf, "update %f", delta);
@@ -143,9 +146,10 @@ void btDraw() {
 }
 
 void btSuspend() {
-	if (context) {
-		context->wasSuspended = TRUE;
+	if (context && context->appUpdater) {
+		context->appUpdater->onSuspend();
 	}
+	btWasSuspended = TRUE;
 }
 
 void btSetGraphicsContextLost(BOOL32 wasLost) {
@@ -155,6 +159,9 @@ void btSetGraphicsContextLost(BOOL32 wasLost) {
 }
 
 void btResume() {
+	if (context && context->appUpdater) {
+		context->appUpdater->onResume();
+	}
 }
 
 void btSetPointerState(S32 pointerId, BOOL32 down, S32 x, S32 y) {

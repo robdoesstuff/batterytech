@@ -127,10 +127,13 @@ void Game::update() {
 		logmsg("Initializing Renderers");
 		context->worldRenderer->init(TRUE);
 		context->menuRenderer->init(TRUE);
-		context->wasSuspended = FALSE;
 		context->newGraphicsContext = FALSE;
 		initialized = TRUE;
 	}
+}
+
+void Game::onSuspend() {
+	// about to be suspended
 }
 
 void Game::updateState() {

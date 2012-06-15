@@ -31,7 +31,10 @@ class Game : public BTApplicationUpdater, NetworkMessageListener {
 public:
 	Game(GameContext *context);
 	virtual ~Game();
-	void update();
+	// Implementing BTApplicationUpdater::update()
+	virtual void update();
+	// Implementing BTApplicationUpdater::onSuspend()
+	virtual void onSuspend();
 	void reset();
 	void showError(const char* errorTitle, const char* errorMessage);
 	void clearError();

@@ -137,15 +137,14 @@ public class BatteryTechRenderer implements Renderer, InputHandler, SensorEventL
 	}
 
 	public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-		if (lastGL != null) {
-			if (lastGL != gl) {
-				Log.i(TAG, "************* New GL Context");
-			} else {
-				Log.i(TAG, "************* GL Context Preserved");
+		synchronized (tickMutex) {
+			if (lastGL != null) {
+				if (lastGL != gl) {
+					boot.setGraphicsContextLost(true);
+				}
 			}
+			lastGL = gl;
 		}
-		Log.i(TAG, "************* First GL Context");
-		lastGL = gl;
 	}
 
 	public void onPause() {

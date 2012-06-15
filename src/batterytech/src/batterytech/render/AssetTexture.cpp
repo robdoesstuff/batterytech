@@ -74,6 +74,9 @@ namespace BatteryTech {
 
 	void AssetTexture::loadBTXAtlas() {
 		char *data = _platform_load_text_asset(assetName);
+		if (!data) {
+			return;
+		}
 		char lineBuf[1024];
 		char keyBuf[64];
 		char valueBuf[1024];

@@ -48,7 +48,6 @@ void HelloWorldApp::update() {
 		context->glResourceManager->loadShaderPrograms();
 		textRenderer->init(TRUE);
 		context->menuRenderer->init(TRUE);
-		context->wasSuspended = FALSE;
 		context->newGraphicsContext = FALSE;
 		initialized = TRUE;
 	}

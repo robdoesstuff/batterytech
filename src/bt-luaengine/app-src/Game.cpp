@@ -143,7 +143,6 @@ void Game::update() {
 			logmsg("Initializing Renderers");
 			context->worldRenderer->init(TRUE);
 			context->menuRenderer->init(TRUE);
-			context->wasSuspended = FALSE;
 			context->newGraphicsContext = FALSE;
 			initialized = TRUE;
 		} else {
@@ -186,6 +185,12 @@ void Game::update() {
 		luaBinder->update();
 	}
 	context->videoManager->update(context->tickDelta);
+}
+
+void Game::onSuspend() {
+	if (luaBinder) {
+		luaBinder->callGlobalVA("onSuspend", "");
+	}
 }
 
 void Game::initializeLua() {
