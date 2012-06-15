@@ -30,6 +30,7 @@
 #include <string.h>
 #include <batterytech/render/QuadRenderer.h>
 #include <batterytech/video/VideoManager.h>
+#include "gameobject/ParticleEmitter.h"
 
 Context* btAppCreateContext(GraphicsConfiguration *graphicsConfig) {
 	return new GameContext(graphicsConfig);
@@ -183,6 +184,10 @@ void Game::update() {
 	}
 	if (luaBinder && context->world->gameState == GAMESTATE_RUNNING) {
 		luaBinder->update();
+        HashTable<S32, ParticleEmitter*> *emitters = context->world->emitters;
+		for (HashTable<S32,ParticleEmitter*>::Iterator i = emitters->getIterator(); i.hasNext;) {
+			emitters->getNext(i)->update(context->tickDelta);
+		}
 	}
 	context->videoManager->update(context->tickDelta);
 }

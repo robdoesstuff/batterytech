@@ -25,6 +25,7 @@
 #include <batterytech/render/GLAssimpBinding.h>
 #include "render/WorldRenderer.h"
 #include <batterytech/render/RenderContext.h>
+#include "gameobject/ParticleEmitter.h"
 
 #define LUA_GAME "Game"
 #define LUA_GAME_MT "GameMetaTable"
@@ -71,6 +72,21 @@ static int lua_Game_clearLocalLights(lua_State *L);
 static int lua_Game_addLocalLightsFromAssimp(lua_State *L);
 static int lua_Game_measureText(lua_State *L);
 static int lua_Game_engineReset(lua_State *L);
+static int lua_Game_addParticleEmitter(lua_State *L);
+static int lua_Game_setParticleEmitterTimeRange(lua_State *L);
+static int lua_Game_setParticleEmitterPosition(lua_State *L);
+static int lua_Game_setParticleEmitterDirection(lua_State *L);
+static int lua_Game_setParticleEmitterTextureAsset(lua_State *L);
+static int lua_Game_removeParticleEmitter(lua_State *L);
+static int lua_Game_clearParticleEmitters(lua_State *L);
+static int lua_Game_startParticleEmitter(lua_State *L);
+static int lua_Game_setParticleEmitterConeRange(lua_State *L);
+static int lua_Game_setParticleScaleSpeedRange(lua_State *L);
+static int lua_Game_setParticleAlphaSpeedRange(lua_State *L);
+static int lua_Game_setParticleMaxSpeedRange(lua_State *L);
+static int lua_Game_setParticleEmissionRate(lua_State *L);
+static int lua_Game_setParticleInitialScale(lua_State *L);
+static int lua_Game_setParticleRotationSpeedRange(lua_State *L);
 
 static const luaL_reg lua_methods[] = {
 	{ "getInstance", lua_Game_getInstance },
@@ -109,6 +125,21 @@ static const luaL_reg lua_methods[] = {
 	{ "addLocalLightsFromAssimp", lua_Game_addLocalLightsFromAssimp },
 	{ "measureText", lua_Game_measureText },
 	{ "engineReset", lua_Game_engineReset },
+    { "addParticleEmitter", lua_Game_addParticleEmitter },
+    { "setParticleEmitterTimeRange", lua_Game_setParticleEmitterTimeRange },
+    { "setParticleEmitterPosition", lua_Game_setParticleEmitterPosition },
+    { "setParticleEmitterDirection", lua_Game_setParticleEmitterDirection },
+    { "setParticleEmitterTextureAsset", lua_Game_setParticleEmitterTextureAsset },
+    { "removeParticleEmitter", lua_Game_removeParticleEmitter },
+    { "clearParticleEmitters", lua_Game_clearParticleEmitters },
+    { "startParticleEmitter", lua_Game_startParticleEmitter },
+    { "setParticleEmitterConeRange", lua_Game_setParticleEmitterConeRange },
+    { "setParticleScaleSpeedRange", lua_Game_setParticleScaleSpeedRange },
+    { "setParticleInitialScale", lua_Game_setParticleInitialScale },
+    { "setParticleAlphaSpeedRange", lua_Game_setParticleAlphaSpeedRange },
+    { "setParticleMaxSpeedRange", lua_Game_setParticleMaxSpeedRange },
+    { "setParticleEmissionRate", lua_Game_setParticleEmissionRate },
+    { "setParticleRotationSpeedRange", lua_Game_setParticleRotationSpeedRange },
 	{ 0, 0 } };
 
 static const luaL_reg metatable[] = {
@@ -928,6 +959,168 @@ static int lua_Game_engineReset(lua_State *L) {
 	return 0;
 }
 
+static int lua_Game_addParticleEmitter(lua_State *L) {
+    ParticleEmitter* emitter = new ParticleEmitter();
+    static_context->world->emitters->put(emitter->getID(),emitter);
+    lua_pushinteger(L, emitter->getID());
+    return 1;
+}
+
+static int lua_Game_setParticleEmitterTimeRange(lua_State *L) {
+	S32 emitterID = lua_tointeger(L, 2);
+    ParticleEmitter* emitter = static_context->world->emitters->get(emitterID);
+
+    F32 min = (F32)lua_tonumber(L, 3);
+    F32 max = (F32)lua_tonumber(L, 4);
+
+    if( emitter )
+        emitter->setParticleLifeTimeRange(max, min);
+
+    return 0;
+}
+
+static int lua_Game_setParticleEmitterPosition(lua_State *L) {
+	S32 emitterID = lua_tointeger(L, 2);
+    ParticleEmitter* emitter = static_context->world->emitters->get(emitterID);
+
+	Vector3f pos = lua_toVector3f(L, 3);
+    if( emitter )
+        emitter->setEmitterSourceLocation(pos);
+
+    return 0;
+}
+
+static int lua_Game_setParticleEmitterDirection(lua_State *L) {
+	S32 emitterID = lua_tointeger(L, 2);
+    ParticleEmitter* emitter = static_context->world->emitters->get(emitterID);
+
+    if( emitter )
+    {
+        Vector3f dir = lua_toVector3f(L, 3);
+        emitter->setEmissionDirection(dir);
+    }
+    return 0;
+}
+
+static int lua_Game_setParticleEmitterTextureAsset(lua_State *L) {
+	S32 emitterID = lua_tointeger(L, 2);
+    ParticleEmitter* emitter = static_context->world->emitters->get(emitterID);
+    if (emitter) {
+         emitter->setTextureAssetName(lua_tostring(L, 3));
+    }
+    return 0;
+}
+
+static int lua_Game_removeParticleEmitter(lua_State *L) {
+	S32 emitterID = lua_tointeger(L, 2);
+    ParticleEmitter* emitter = static_context->world->emitters->get(emitterID);
+    if( emitter ) {
+        emitter->stopEmitter();
+        static_context->world->emitters->remove(emitterID);
+        delete emitter;
+    }
+
+    return 0;
+}
+
+static int lua_Game_clearParticleEmitters(lua_State *L) {
+	static_context->world->emitters->deleteElements();
+    return 0;
+}
+
+static int lua_Game_startParticleEmitter(lua_State *L) {
+	S32 emitterID = lua_tointeger(L, 2);
+    ParticleEmitter* emitter = static_context->world->emitters->get(emitterID);
+    if( emitter )
+        emitter->startEmitter();
+
+    return 0;
+}
+
+static int lua_Game_setParticleEmitterConeRange(lua_State *L) {
+	S32 emitterID = lua_tointeger(L, 2);
+    ParticleEmitter* emitter = static_context->world->emitters->get(emitterID);
+    F32 range = lua_tonumber(L, 3);
+
+    if( emitter )
+        emitter->setEmissionConeRange(range);
+
+    return 0;
+}
+
+static int lua_Game_setParticleScaleSpeedRange(lua_State *L) {
+	S32 emitterID = lua_tointeger(L, 2);
+    ParticleEmitter* emitter = static_context->world->emitters->get(emitterID);
+
+    F32 min = (F32)lua_tonumber(L, 3);
+    F32 max = (F32)lua_tonumber(L, 4);
+
+    if( emitter )
+        emitter->setParticleScaleSpeedRange(max, min);
+
+    return 0;
+}
+
+static int lua_Game_setParticleAlphaSpeedRange(lua_State *L) {
+	S32 emitterID = lua_tointeger(L, 2);
+    ParticleEmitter* emitter = static_context->world->emitters->get(emitterID);
+
+    F32 min = (F32)lua_tonumber(L, 3);
+    F32 max = (F32)lua_tonumber(L, 4);
+
+    if( emitter )
+        emitter->setParticleAlphaSpeedRange(max, min);
+
+    return 0;
+}
+
+static int lua_Game_setParticleMaxSpeedRange(lua_State *L) {
+	S32 emitterID = lua_tointeger(L, 2);
+    ParticleEmitter* emitter = static_context->world->emitters->get(emitterID);
+
+    F32 min = (F32)lua_tonumber(L, 3);
+    F32 max = (F32)lua_tonumber(L, 4);
+
+    if( emitter )
+        emitter->setParticleMaxSpeedRange(max, min);
+
+    return 0;
+}
+
+static int lua_Game_setParticleEmissionRate(lua_State *L) {
+	S32 emitterID = lua_tointeger(L, 2);
+    ParticleEmitter* emitter = static_context->world->emitters->get(emitterID);
+
+    F32 rate = (F32)lua_tonumber(L, 3);
+    if( emitter )
+        emitter->setEmissionRate(rate);
+
+    return 0;
+}
+
+static int lua_Game_setParticleInitialScale(lua_State *L) {
+	S32 emitterID = lua_tointeger(L, 2);
+    ParticleEmitter* emitter = static_context->world->emitters->get(emitterID);
+
+    F32 rate = (F32)lua_tonumber(L, 3);
+    if( emitter )
+        emitter->setParticleInitialScale(rate);
+
+    return 0;
+}
+
+static int lua_Game_setParticleRotationSpeedRange(lua_State *L) {
+	S32 emitterID = lua_tointeger(L, 2);
+    ParticleEmitter* emitter = static_context->world->emitters->get(emitterID);
+
+    F32 min = (F32)lua_tonumber(L, 3);
+    F32 max = (F32)lua_tonumber(L, 4);
+
+    if( emitter )
+        emitter->setParticleRotationSpeedRange(max, min);
+
+    return 0;
+}
 // --------------- metamethods ----------------
 
 static int lua_Game_replaceMetatable(lua_State *L) {

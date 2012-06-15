@@ -46,9 +46,9 @@ void Camera::update() {
 	invRotMatrix = invRotMatrix.inverse();
 	look = invRotMatrix * Vector3f(0, 0, -1.0f);
 	look.normalize();
-	Vector3f up = invRotMatrix * Vector3f(0, 1.0f, 0);
+	up = invRotMatrix * Vector3f(0, 1.0f, 0);
 	up.normalize();
-	Vector3f right = invRotMatrix * Vector3f(1.0f, 0, 0);
+	right = invRotMatrix * Vector3f(1.0f, 0, 0);
 	right.normalize();
 	// calculate bounds of frustum
 	// from position

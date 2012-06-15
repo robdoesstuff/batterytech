@@ -27,6 +27,7 @@ class ObjRenderer;
 class ScreenControlRenderer;
 class AssimpRenderer;
 class GameContext;
+class ParticleEmitterRenderer;
 
 namespace BatteryTech { class TextRasterRenderer; }
 
@@ -56,6 +57,7 @@ private:
 	AssimpRenderer *assimpRenderer;
 	GraphicsConfiguration *gConfig;
 	ScreenControlRenderer *screenControlRenderer;
+	ParticleEmitterRenderer *particleRenderer;
 	ShadowMap *shadowMap;
 	GameContext *context;
 	S32 frameSamplesCollected;

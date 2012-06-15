@@ -94,7 +94,8 @@ public:
 		i.entriesVisited = 0;
 		i.bucket = NULL;
 		i.hasNext = entries > 0;
-		i.key = NULL;
+		// keys aren't always assignable to NULL and we start with an assignment anyway
+		// i.key = NULL;
 		return i;
 	}
 
@@ -207,7 +208,7 @@ typename HashTable<K, V>::Bucket* HashTable<K, V>::findBucket(const K &key, bool
 		lastBucket = bucket;
 		bucket = bucket->next;
 	}
-	return nullReturnVal;
+	return NULL;
 }
 
 template<typename K, typename V>

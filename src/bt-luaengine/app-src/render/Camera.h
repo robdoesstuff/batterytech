@@ -28,6 +28,8 @@ public:
 	Context *context;
 	Vector3f pos;
 	Vector3f look;
+	Vector3f up;
+	Vector3f right;
 	F32 tilt;
 	F32 rotation;
 	// matrix to use for MV

@@ -14,20 +14,19 @@
 #include <batterytech/render/GLResourceManager.h>
 #include <batterytech/util/strx.h>
 #include <batterytech/render/MenuRenderer.h>
-#include "AssimpRenderer.h"
-#include <Math.h>
-#include "../UIConstants.h"
-#include "../GameUtil.h"
-#include "ScreenControlRenderer.h"
-#include "RenderItem.h"
-#include "../Game.h"
 #include <batterytech/render/ShaderProgram.h>
-#include "../GameContext.h"
 #include <batterytech/render/AssetTexture.h>
 #include <batterytech/render/QuadRenderer.h>
 #include <batterytech/video/VideoManager.h>
-
-#define TEXT_BOX_PADDING 25
+#include "AssimpRenderer.h"
+#include "ScreenControlRenderer.h"
+#include "ParticleEmitterRenderer.h"
+#include "RenderItem.h"
+#include "../UIConstants.h"
+#include "../GameUtil.h"
+#include "../Game.h"
+#include "../GameContext.h"
+#include <Math.h>
 
 using namespace BatteryTech;
 
@@ -38,15 +37,13 @@ WorldRenderer::WorldRenderer(GameContext *context) {
 	fps = 0;
 	frameSamplesCollected = 0;
 	frameSampleTimeTotal = 0.0f;
-	//textRenderer = new TextRasterRenderer(context, UI_GAME_FONT, 24.0f);
-	//textFieldRenderer = new TextRasterRenderer(context, UI_TEXTFIELD_FONT, 20);
 	textRenderers = new StrHashTable<TextRasterRenderer*>(13);
 	spriteRenderer = new SimpleSpriteRenderer(context);
 	objRenderer = new ObjRenderer(context);
 	assimpRenderer = new AssimpRenderer(context);
 	screenControlRenderer = new ScreenControlRenderer(context, FONT_TAG_UI);
 	shadowMap = new ShadowMap(context);
-	//context->glResourceManager->addTexture("common/textbox_bg_tex.png");
+	particleRenderer = new ParticleEmitterRenderer(context);
 	loadingScreenDisplayed = FALSE;
 	preLoad = FALSE;
 	loadingTex = new AssetTexture(context, context->appProperties->get("loading_texture")->getValue(), FALSE);
@@ -77,6 +74,7 @@ WorldRenderer::~WorldRenderer() {
 	delete screenControlRenderer;
 	delete loadingTex;
 	delete assimpRenderer;
+	delete particleRenderer;
 	textRenderers->deleteElements();
 	delete textRenderers;
 }
@@ -132,6 +130,7 @@ void WorldRenderer::init(BOOL32 newContext) {
 	objRenderer->init(newContext);
 	screenControlRenderer->init(newContext);
 	assimpRenderer->init(newContext);
+	particleRenderer->init(newContext);
 	logmsg("Initializing dynamic stuff");
 	//btDebugRenderer->init(newContext);
 	if (newContext) {
@@ -294,12 +293,12 @@ void WorldRenderer::render() {
 			}
 		}
         assimpRenderer->unbind();
-        
 	   	checkGLError("WorldRenderer After Transparent 3D");
         if (context->gConfig->shadowType != GraphicsConfiguration::SHADOWTYPE_NONE && has3DObjects) {
         	shadowMap->unbindAfterSceneRender();
         }
-    	checkGLError("WorldRenderer After 3D");
+		particleRenderer->render();
+		checkGLError("WorldRenderer After 3D");
 		//glDisable(GL_ALPHA_TEST);
 		glDisable(GL_DEPTH_TEST);
 		context->renderContext->projMatrix.identity();

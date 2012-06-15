@@ -16,6 +16,7 @@
 #include "render/GlobalLight.h"
 #include "render/LocalLight.h"
 #include "gameobject/GameObject.h"
+#include "gameobject/ParticleEmitter.h"
 
 World::World() {
 	//btWorld = NULL;
@@ -27,7 +28,7 @@ World::World() {
 	localLights = new LocalLight[MAX_LOCALLIGHTS];
 	localLightsUsed = 0;
 	globalLight = new GlobalLight;
-
+	emitters = new HashTable<S32, ParticleEmitter*>(MAX_PARTICLE_EMITTER);
 	physicsUpdateTime = 0;
 	levelLoaded = FALSE;
 	renderersReady = FALSE;
@@ -62,6 +63,9 @@ World::~World() {
 	globalLight = NULL;
 	delete [] localLights;
 	localLights = NULL;
+	emitters->deleteElements();
+	delete emitters;
+	emitters = NULL;
 	if (luaState) {
 		LuaBinder::closeState(luaState);
 	}

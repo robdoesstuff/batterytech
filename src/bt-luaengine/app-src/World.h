@@ -22,6 +22,7 @@ class ScreenControl;
 class RenderItem;
 class GlobalLight;
 class LocalLight;
+class ParticleEmitter;
 
 class World {
 public:
@@ -52,6 +53,7 @@ public:
 	BOOL32 simEnabled;
 	ManagedArray<GameObject> *gameObjects;
 	ManagedArray<ScreenControl> *screenControls;
+	HashTable<S32, ParticleEmitter*> *emitters;
 	RenderItem *renderItems;
 	S32 renderItemsUsed;
 

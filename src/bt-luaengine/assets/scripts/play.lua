@@ -18,6 +18,7 @@ TO_DEGREES = 180 / math.pi
 TO_RADS = math.pi / 180
 
 ENABLE_POINT_LIGHT = false
+ENABLE_PARTICLES = true
 
 Box = {
 	x = 0,
@@ -86,6 +87,7 @@ end
 
 function Play:cleanUp()
 	game:clearLocalLights()
+	game:clearParticleEmitters()
 end
 
 function Play:show()
@@ -104,6 +106,18 @@ function Play:show()
 		game:setLocalLightParam(lightIdx, "diffuse", 1,0,0,1);
 		game:setLocalLightParam(lightIdx, "specular", 0,0,0,0);
 		game:setLocalLightParam(lightIdx, "attenuation", 0.2, 0.05, 0.01);
+	end
+	if ENABLE_PARTICLES then
+		local emitterId = game:addParticleEmitter()
+		game:setParticleEmitterTextureAsset(emitterId,"textures/particle.png")
+		game:setParticleEmitterPosition(emitterId, 0,0,0)
+		game:setParticleEmitterDirection(emitterId, 0,0,1)
+		game:setParticleEmissionRate(emitterId, 40)
+		game:setParticleEmitterTimeRange(emitterId,1.5,3.0)
+		game:setParticleEmitterConeRange(emitterId,0.1)
+		game:setParticleInitialScale(emitterId,2.0)
+		game:setParticleAlphaSpeedRange(emitterId, -0.5, -0.5)
+		game:startParticleEmitter(emitterId)
 	end
 end
 
