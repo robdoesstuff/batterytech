@@ -50,6 +50,7 @@ static int lua_Game_renderStaticObjM(lua_State *L);
 static int lua_Game_renderText2D(lua_State *L);
 static int lua_Game_render2D(lua_State *L);
 static int lua_Game_render2DBG(lua_State *L);
+static int lua_Game_renderAssimp(lua_State *L);
 static int lua_Game_renderAssimpM(lua_State *L);
 static int lua_Game_renderBB(lua_State *L);
 static int lua_Game_setShadowLightOrigin(lua_State *L);
@@ -99,6 +100,8 @@ static const luaL_reg lua_methods[] = {
 	{ "loadLevelFromFile", lua_Game_loadLevelFromFile },
 	{ "quit", lua_Game_quit },
 	{ "renderStaticObjM", lua_Game_renderStaticObjM },
+	{ "renderAssimp", lua_Game_renderAssimp },
+	{ "renderDynamic", lua_Game_renderAssimp }, // legacy
 	{ "renderAssimpM", lua_Game_renderAssimpM },
 	{ "renderDynamicM", lua_Game_renderAssimpM }, // legacy
 	{ "renderText2D", lua_Game_renderText2D },
@@ -514,6 +517,65 @@ static int lua_Game_renderStaticObjM(lua_State *L) {
 	if (lua_isnumber(L, 22) && lua_isnumber(L, 23) && lua_isnumber(L, 24)) {
 		Vector3f scale = lua_toVector3f(L, 22);
 		item->mat.scale(scale.x,scale.y,scale.z);
+	}
+	lua_pushinteger(L, static_context->world->renderItemsUsed-1);
+	return 1;
+}
+
+static int lua_Game_renderAssimp(lua_State* L) {
+	//Game *game = *(Game**)lua_touserdata(L, 1);
+	if (static_context->world->renderItemsUsed == MAX_RENDERITEMS) {
+		lua_pushinteger(L, -1);
+		return 1;
+	}
+	RenderItem *item = &static_context->world->renderItems[static_context->world->renderItemsUsed++];
+	item->reset();
+	item->renderType = RenderItem::RENDERTYPE_ASSIMP;
+
+	if (lua_isuserdata(L, 2)) {
+		GameObject *obj = *(GameObject**)lua_touserdata(L, 2);
+		S32 animatorIdx = lua_tointeger(L, 3);
+		item->animator = obj->animators->array[animatorIdx];
+	} else {
+		item->animator = NULL;
+	}
+	const char *objName = lua_tostring(L, 4);
+	strcpy(item->resourceName, objName);
+	if (lua_isstring(L, 5)) {
+		const char *groupName = lua_tostring(L, 5); // if nil, render whole scene
+		strcpy(item->attr1, groupName);
+	} else {
+		item->attr1[0] = '\0';
+	}
+	if (lua_isstring(L, 6)) {
+		const char *textureAssetName = lua_tostring(L, 6); // if nil, use obj materials
+		strcpy(item->textureName, textureAssetName);
+	} else {
+		item->textureName[0] = '\0';
+	}
+	BOOL32 isOpaque = lua_toboolean(L, 7);
+	if (isOpaque) {
+		item->flags = item->flags | RENDERITEM_FLAG_IS_OPAQUE;
+	}
+	item->flags = item->flags | RENDERITEM_FLAG_HAS_MATRIX;
+    item->mat.identity();
+
+    Vector3f translation;
+
+	if (lua_isnumber(L, 8) && lua_isnumber(L, 9) && lua_isnumber(L, 10)) {
+        translation = lua_toVector3f(L, 8);
+    }
+    item->mat.setTranslation(translation);
+
+	if (lua_isnumber(L, 11) && lua_isnumber(L, 12) && lua_isnumber(L, 13)) {
+		Vector3f scale = lua_toVector3f(L,11);
+		item->mat.scale(scale.x,scale.y,scale.z);
+	}
+
+	if (lua_isnumber(L, 14) && lua_isnumber(L, 15) && lua_isnumber(L, 16)) {
+		item->mat.rotate(lua_tonumber(L, 14), 1, 0, 0);
+		item->mat.rotate(lua_tonumber(L, 15), 0, 1, 0);
+		item->mat.rotate(lua_tonumber(L, 16), 0, 0, 1);
 	}
 	lua_pushinteger(L, static_context->world->renderItemsUsed-1);
 	return 1;

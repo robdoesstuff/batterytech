@@ -110,7 +110,7 @@ function Play:show()
 	if ENABLE_PARTICLES then
 		local emitterId = game:addParticleEmitter()
 		game:setParticleEmitterTextureAsset(emitterId,"textures/particle.png")
-		game:setParticleEmitterPosition(emitterId, 0,0,0)
+		game:setParticleEmitterPosition(emitterId, 0,0,1.0)
 		game:setParticleEmitterDirection(emitterId, 0,0,1)
 		game:setParticleEmissionRate(emitterId, 40)
 		game:setParticleEmitterTimeRange(emitterId,1.5,3.0)
