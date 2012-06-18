@@ -80,15 +80,13 @@ void AssimpRenderer::bindShader(ShaderProgram *shaderProgram, const Vector3f &ec
 		const Vector3f &camPos = context->world->camera->pos;
 		glUniform3f(shaderProgram->getUniformLoc("cameraPos"), camPos.x, camPos.y, camPos.z);
 	}
-	Vector4f colorFilter = context->renderContext->colorFilter;
-	glUniform4f(shaderProgram->getUniformLoc("colorFilter"), colorFilter.x,colorFilter.y,colorFilter.z,colorFilter.a);
 }
 
 void AssimpRenderer::render(RenderItem *item, BOOL32 transparent) {
 	// we have not bound the lights for this item yet.
 	lightsBound = FALSE;
 	// precalculate object lighting and modelview
-	context->renderContext->colorFilter = Vector4f(1,1,1,1);
+	context->renderContext->colorFilter = Vector4f(1,1,1,item->alpha);
 	Vector3f ecLightDir = context->world->camera->matrix * context->world->globalLight->direction;
 	ecLightDir.normalize();
 	// halfplane needs to be normalized vec3(light dir + view dir)
@@ -244,7 +242,7 @@ void AssimpRenderer::renderNode(RenderNode *node, GLAssimpBinding *binding, Matr
 				U32 meshIdx = node->meshIndices[i];
 				GLAssimpMeshBinding *meshBinding = binding->meshBindingPtrs[meshIdx];
 				// is transparent if this texture name ends in .png
-				BOOL32 isTransparent = strEquals(meshBinding->matDiffuseTexture+strlen(meshBinding->matDiffuseTexture)-4, ".png");
+				BOOL32 isTransparent = strEquals(meshBinding->matDiffuseTexture+strlen(meshBinding->matDiffuseTexture)-4, ".png") || item->alpha < 1.0f;
 				if (isTransparent != transparent) {
 					continue;
 				}
@@ -361,6 +359,8 @@ void AssimpRenderer::bindMaterial(RenderItem *item, GLAssimpMeshBinding *meshBin
 		glUniform4f(shaderProgram->getUniformLoc("material.specular_color"), spec.x, spec.y, spec.z, spec.w);
 		glUniform1f(shaderProgram->getUniformLoc("material.specular_exponent"), 0.8f);
 	}
+	Vector4f colorFilter = context->renderContext->colorFilter;
+	glUniform4f(shaderProgram->getUniformLoc("colorFilter"), colorFilter.x,colorFilter.y,colorFilter.z,colorFilter.a);
 	F32 fogNear = 0;
 	F32 fogFar = 500.0f;
 	glUniform4f(shaderProgram->getUniformLoc("fog_and_uv_offset"), fogNear, fogFar, item->uvs.x, item->uvs.y);

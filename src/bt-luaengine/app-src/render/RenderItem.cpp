@@ -29,6 +29,7 @@ void RenderItem::reset() {
 	animator = NULL;
 	maxPointLights = 0;
 	flags = 0;
+	alpha = 1.0f;
 	viewport = Vector4i(0,0,0,0);
 	alignment = ALIGN_LEFT;
 }

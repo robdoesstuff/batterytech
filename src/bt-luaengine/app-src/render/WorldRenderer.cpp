@@ -27,6 +27,7 @@
 #include "../Game.h"
 #include "../GameContext.h"
 #include <Math.h>
+#include <time.h>
 
 using namespace BatteryTech;
 
@@ -46,7 +47,10 @@ WorldRenderer::WorldRenderer(GameContext *context) {
 	particleRenderer = new ParticleEmitterRenderer(context);
 	loadingScreenDisplayed = FALSE;
 	preLoad = FALSE;
-	loadingTex = new AssetTexture(context, context->appProperties->get("loading_texture")->getValue(), FALSE);
+	loadingTex = NULL;
+	srand(time(NULL));
+    rand();rand();
+    pickLoadingTexture();
 	loadingSize = Vector2f(512, 256);
 	Property *p = context->appProperties->get("loading_width");
 	if (p) {
@@ -78,6 +82,38 @@ WorldRenderer::~WorldRenderer() {
 	textRenderers->deleteElements();
 	delete textRenderers;
 }
+
+void WorldRenderer::pickLoadingTexture() {
+	F32 r = (float)(rand()%RAND_MAX) / (float)RAND_MAX;
+    char loadingKeyName[255];
+    S32 i = 0;
+    while (TRUE) {
+    	if (i == 0) {
+        	strcpy(loadingKeyName, "loading_texture");
+        	loadingKeyName[15] = '\0';
+    	} else {
+    		sprintf(loadingKeyName, "loading_texture%d", i);
+    	}
+    	if (!context->appProperties->get(loadingKeyName)) {
+    		break;
+    	}
+    	i++;
+    }
+    // i is already 1 past what we actually have, so no need to add one here
+    S32 whichLoadingKey = (S32)(r * i) % i;
+    if (whichLoadingKey == 0) {
+       	strcpy(loadingKeyName, "loading_texture");
+        loadingKeyName[15] = '\0';
+    } else {
+   		sprintf(loadingKeyName, "loading_texture%d", i);
+    }
+    if (loadingTex != NULL) {
+    	loadingTex->unload();
+    	delete loadingTex;
+    }
+	loadingTex = new AssetTexture(context, context->appProperties->get(loadingKeyName)->getValue(), FALSE);
+}
+
 
 void WorldRenderer::addTextRenderer(const char *tag, TextRasterRenderer *renderer) {
 	if (!textRenderers->contains(tag)) {
@@ -288,8 +324,21 @@ void WorldRenderer::render() {
 		for (S32 i = 0; i < world->renderItemsUsed; i++) {
 			RenderItem *item = &world->renderItems[i];
 			if (item->renderType == RenderItem::RENDERTYPE_ASSIMP) {
+				if (item->viewport.z != 0 && item->viewport.w != 0) {
+					// use alternate viewport, update camera
+					glViewport(item->viewport.x, item->viewport.y, item->viewport.z, item->viewport.w);
+					Matrix4f projMatrix;
+					projMatrix.perspective(60, (item->viewport.z) / (item->viewport.w), 2.0f, 5000.0f);
+					context->renderContext->projMatrix = projMatrix;
+				}
 				// render parts with transparency last
 				assimpRenderer->render(item, TRUE);
+				if (item->viewport.z != 0 && item->viewport.w != 0) {
+					// now reset
+					glViewport(0, 0, gConfig->viewportWidth, gConfig->viewportHeight);
+					context->renderContext->projMatrix = world->camera->proj;
+				}
+	            context->renderContext->colorFilter = Vector4f(1, 1, 1, 1);
 			}
 		}
         assimpRenderer->unbind();

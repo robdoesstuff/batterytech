@@ -50,6 +50,7 @@ public:
 	TextRasterRenderer* getTextRenderer(const char *tag);
 
 private:
+	void pickLoadingTexture();
 	void setupGL();
 	SimpleSpriteRenderer *spriteRenderer;
 	StrHashTable<TextRasterRenderer*> *textRenderers;

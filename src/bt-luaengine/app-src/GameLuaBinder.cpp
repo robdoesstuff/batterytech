@@ -992,7 +992,9 @@ static int lua_Game_setRenderItemParam(lua_State *L) {
 		} else {
 			item->flags = item->flags & ~RENDERITEM_FLAG_NO_SHADOW_GEN;
 		}
-	}
+	} else if (strcmp(paramName, "alpha") == 0) {
+        item->alpha = lua_tonumber(L, 4);
+    }
 	return 0;
 }
 
