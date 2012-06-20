@@ -71,7 +71,7 @@ static int lua_Game_addLocalLight(lua_State *L);
 static int lua_Game_setLocalLightParam(lua_State *L);
 static int lua_Game_clearLocalLights(lua_State *L);
 static int lua_Game_addLocalLightsFromAssimp(lua_State *L);
-static int lua_Game_getMeshCentersFromAssimp(lua_State *L);
+static int lua_Game_getMeshInfoFromAssimp(lua_State *L);
 static int lua_Game_measureText(lua_State *L);
 static int lua_Game_engineReset(lua_State *L);
 static int lua_Game_addParticleEmitter(lua_State *L);
@@ -127,7 +127,7 @@ static const luaL_reg lua_methods[] = {
 	{ "setLocalLightParam", lua_Game_setLocalLightParam },
 	{ "clearLocalLights", lua_Game_clearLocalLights },
 	{ "addLocalLightsFromAssimp", lua_Game_addLocalLightsFromAssimp },
-	{ "getMeshCentersFromAssimp", lua_Game_getMeshCentersFromAssimp },
+	{ "getMeshInfoFromAssimp", lua_Game_getMeshInfoFromAssimp },
 	{ "measureText", lua_Game_measureText },
 	{ "engineReset", lua_Game_engineReset },
     { "addParticleEmitter", lua_Game_addParticleEmitter },
@@ -943,51 +943,95 @@ static int lua_Game_addLocalLightsFromAssimp(lua_State *L) {
 	return 2;
 }
 
-static void pushVectorTableOntoTable(lua_State *L, int tableIdx, int vecKey, Vector3f vec) {
+static void pushMeshTableOntoTable(lua_State *L, int tableIdx, int vecKey, Vector3f centerPoint, const char *name, U32 vertCount, Vector3f min, Vector3f max) {
 	// push vector key (start with 1)
 	lua_pushinteger(L, vecKey);
 	// push vector value
 	lua_createtable(L, 3, 0);
-	int vectorTableIndex = lua_gettop(L);
-	// x
+	int meshTableIndex = lua_gettop(L);
+	// center x
 	lua_pushinteger(L, 1);
-	lua_pushnumber(L, vec.x);
-	lua_settable(L, vectorTableIndex);
-	// y
+	lua_pushnumber(L, centerPoint.x);
+	lua_settable(L, meshTableIndex);
+	// center y
 	lua_pushinteger(L, 2);
-	lua_pushnumber(L, vec.y);
-	lua_settable(L, vectorTableIndex);
-	// z
+	lua_pushnumber(L, centerPoint.y);
+	lua_settable(L, meshTableIndex);
+	// center z
 	lua_pushinteger(L, 3);
-	lua_pushnumber(L, vec.z);
-	lua_settable(L, vectorTableIndex);
-	// now push original vector key/value onto return table
+	lua_pushnumber(L, centerPoint.z);
+	lua_settable(L, meshTableIndex);
+	// mesh name
+	lua_pushinteger(L, 4);
+	lua_pushstring(L, name);
+	lua_settable(L, meshTableIndex);
+	// vert count
+	lua_pushinteger(L, 5);
+	lua_pushinteger(L, vertCount);
+	lua_settable(L, meshTableIndex);
+	// min x
+	lua_pushinteger(L, 6);
+	lua_pushnumber(L, min.x);
+	lua_settable(L, meshTableIndex);
+	// min y
+	lua_pushinteger(L, 7);
+	lua_pushnumber(L, min.y);
+	lua_settable(L, meshTableIndex);
+	// min z
+	lua_pushinteger(L, 8);
+	lua_pushnumber(L, min.z);
+	lua_settable(L, meshTableIndex);
+	// max x
+	lua_pushinteger(L, 9);
+	lua_pushnumber(L, max.x);
+	lua_settable(L, meshTableIndex);
+	// max y
+	lua_pushinteger(L, 10);
+	lua_pushnumber(L, max.y);
+	lua_settable(L, meshTableIndex);
+	// max z
+	lua_pushinteger(L, 11);
+	lua_pushnumber(L, max.z);
+	lua_settable(L, meshTableIndex);
+	// now push mesh table key/value onto return table
 	lua_settable(L, tableIdx);
 }
 
-static void pushMeshCentersForNode(lua_State *L, int tableIdx, int *vecNum, const aiScene *scene, aiNode *node, const char *prefix, aiMatrix4x4 transform) {
+static void pushMeshInfoForNode(lua_State *L, int tableIdx, int *vecNum, const aiScene *scene, aiNode *node, const char *prefix, aiMatrix4x4 transform) {
 	if (!prefix || prefix[0] == '\0' || strStartsWith(node->mName.data, prefix)) {
 		for (U32 i = 0; i < node->mNumMeshes; i++) {
 			aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
 			// find centerpoint of mesh
 			aiVector3D centerPoint;
+			aiVector3D min(999999.0, 999999.0, 999999.0);
+			aiVector3D max(-999999.0, -999999.0, -999999.0);
 			for (U32 j = 0; j < mesh->mNumVertices; j++) {
 				aiVector3D vert = mesh->mVertices[j];
 				centerPoint += vert;
+				if (vert.x < min.x) { min.x = vert.x; }
+				if (vert.y < min.y) { min.y = vert.y; }
+				if (vert.x < min.z) { min.z = vert.z; }
+				if (vert.x > max.x) { max.x = vert.x; }
+				if (vert.y > max.y) { max.y = vert.y; }
+				if (vert.x > max.z) { max.z = vert.z; }
 			}
 			centerPoint /= mesh->mNumVertices;
 			centerPoint *= transform;
-			Vector3f pos = Vector3f(centerPoint.x, centerPoint.y, centerPoint.z);
+			Vector3f pos(centerPoint.x, centerPoint.y, centerPoint.z);
+			Vector3f vMin(min.x, min.y, min.z);
+			Vector3f vMax(max.x, max.y, max.z);
 			(*vecNum)++;
-			pushVectorTableOntoTable(L, tableIdx, *vecNum, Vector3f(centerPoint.x, centerPoint.y, centerPoint.z));
+			pushMeshTableOntoTable(L, tableIdx, *vecNum, pos, node->mName.data, mesh->mNumVertices, vMin, vMax);
 		}
 	}
 	for (U32 i = 0; i < node->mNumChildren; i++) {
-		pushMeshCentersForNode(L, tableIdx, vecNum, scene, node->mChildren[i], prefix, transform * node->mTransformation);
+		pushMeshInfoForNode(L, tableIdx, vecNum, scene, node->mChildren[i], prefix, transform * node->mTransformation);
 	}
 }
 
-static int lua_Game_getMeshCentersFromAssimp(lua_State *L) {
+// gets mesh info for a mesh or multiple meshes in an assimp file
+// returns table of tables(centerX, centerY, centerZ, name, vertCount, minX, minY, minZ, maxX, maxY, maxZ)
+static int lua_Game_getMeshInfoFromAssimp(lua_State *L) {
 	lua_newtable(L); // list of points
 	int retTableIndex = lua_gettop(L);
 	const char *assetName = lua_tostring(L, 2);
@@ -999,9 +1043,9 @@ static int lua_Game_getMeshCentersFromAssimp(lua_State *L) {
 	if (assimpBinding) {
 		aiMatrix4x4 transform;
 		int vecNum = 0;
-		pushMeshCentersForNode(L, retTableIndex, &vecNum, assimpBinding->scene, assimpBinding->scene->mRootNode, meshPrefix, transform);
+		pushMeshInfoForNode(L, retTableIndex, &vecNum, assimpBinding->scene, assimpBinding->scene->mRootNode, meshPrefix, transform);
 	}
-	// all we're returning is a single table of other vector tables
+	// all we're returning is a single table of other mesh info tables
 	return 1;
 }
 
