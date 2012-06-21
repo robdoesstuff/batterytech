@@ -48,7 +48,7 @@ void _platform_log(const char* message) {
 	cout << message << endl;
 }
 
-unsigned char* _platform_load_asset(const char *filename, S32 *size) {
+unsigned char* _platform_load_internal_asset(const char *filename, S32 *size) {
 	//char *myFilename;
 	//strcpy(myFilename, filename);
 	//_convert_filename(myFilename);

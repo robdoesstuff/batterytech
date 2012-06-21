@@ -46,7 +46,7 @@ void _platform_log(const char* message) {
 	cout << message << endl;
 }
 
-unsigned char* _platform_load_asset(const char *filename, S32 *size) {
+unsigned char* _platform_load_internal_asset(const char *filename, S32 *size) {
 	//char *myFilename;
 	//strcpy(myFilename, filename);
 	//_convert_filename(myFilename);
@@ -169,6 +169,7 @@ void _platform_stop_sound() {
 
 void _platform_get_external_storage_dir_name(char* buf, S32 buflen) {
 	TCHAR szPath[MAX_PATH];
+	// store it in C:\Documents and Settings\userid\storagedirname
 	if(SUCCEEDED(SHGetFolderPath(NULL,
 	                             CSIDL_PERSONAL|CSIDL_FLAG_CREATE,
 	                             NULL,
@@ -185,8 +186,9 @@ void _platform_get_external_storage_dir_name(char* buf, S32 buflen) {
 
 void _platform_get_application_storage_dir_name(char* buf, S32 buflen) {
 	TCHAR szPath[MAX_PATH];
+	// store it in C:\Documents and Settings\userid\Application Data\storagedirname
 	if(SUCCEEDED(SHGetFolderPath(NULL,
-	                             CSIDL_PERSONAL|CSIDL_FLAG_CREATE,
+								 CSIDL_APPDATA|CSIDL_FLAG_CREATE,
 	                             NULL,
 	                             0,
 	                             szPath))) {

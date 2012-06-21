@@ -28,6 +28,7 @@
 #include "render/QuadRenderer.h"
 #include "render/MenuRenderer.h"
 #include "video/VideoManager.h"
+#include "util/strx.h"
 
 namespace BatteryTech {
 
@@ -36,6 +37,7 @@ namespace BatteryTech {
 		appUpdater = NULL;
 		appRenderer = NULL;
 		appProperties = NULL;
+		assetFindFunction = ASSET_FIND_FUNCTION_INTERNAL;
 		loadAppProperties();
 		if (!appProperties) {
 			return;
@@ -113,6 +115,17 @@ namespace BatteryTech {
 			char buf[512];
 			sprintf(buf, "%s not found!  Unable to start BatteryTech Application.", BT_CONFIGFILE);
 			logmsg(buf);
+		} else {
+			Property *prop = appProperties->get("asset_default_find_func");
+			if (prop) {
+				if (strEquals(prop->getValue(), "external")) {
+					assetFindFunction = ASSET_FIND_FUNCTION_EXTERNAL;
+				} else if (strEquals(prop->getValue(), "auto")) {
+					assetFindFunction = ASSET_FIND_FUNCTION_AUTO;
+				} else {
+					assetFindFunction = ASSET_FIND_FUNCTION_INTERNAL;
+				}
+			}
 		}
 	}
 }

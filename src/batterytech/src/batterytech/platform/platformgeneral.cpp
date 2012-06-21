@@ -18,6 +18,12 @@
 #include <string.h>
 #include "../Logger.h"
 #include <stdlib.h>
+#include <stdio.h>
+#include "../util/strx.h"
+#include "../batterytech.h"
+#include "../Context.h"
+
+using namespace BatteryTech;
 
 void _platform_convert_path(const char* path, char *newPath) {
 	strcpy(newPath, path);
@@ -115,6 +121,68 @@ void *get_in_addr(struct sockaddr *sa) {
 	return &(((struct sockaddr_in6*)sa)->sin6_addr);
 }
 
+static unsigned char* _load_abs_file(const char *filename, S32 *size) {
+	unsigned char *data = 0;
+	char myFilename[512];
+	_platform_convert_path(filename, myFilename);
+	FILE *handle = fopen(myFilename, "rb");
+	if (!handle) {
+		return 0;
+	}
+	fseek(handle, 0L, SEEK_END);
+	*size = ftell(handle);
+	rewind(handle);
+	data = (unsigned char*) malloc(sizeof(unsigned char) * *size);
+	int bytesRead = 0;
+	if (data) {
+		bytesRead = fread(data, sizeof(unsigned char), *size, handle);
+	}
+	int error = ferror(handle);
+	if (error || feof(handle) || (bytesRead < *size)) {
+		// something went wrong...
+	}
+	fclose(handle);
+	return data;
+}
+
+unsigned char* _platform_load_asset(const char *filename, S32 *size) {
+	// check prefixes
+	Context *context = btGetContext();
+	if (context) {
+		if (strStartsWith(filename, "file:")) {
+			// absolute file location
+			return _load_abs_file(filename+5, size);
+		} else if (strStartsWith(filename, "auto:")) {
+			char buf[512];
+			_platform_get_external_storage_dir_name(buf, 512);
+			strcat(buf, "/assets/");
+			strcat(buf, filename+5);
+			unsigned char *data = _load_abs_file(buf, size);
+			if (data) {
+				return data;
+			}
+		} else if (context->assetFindFunction == Context::ASSET_FIND_FUNCTION_EXTERNAL) {
+			// external file location without "file:" prepended
+			char buf[512];
+			_platform_get_external_storage_dir_name(buf, 512);
+			strcat(buf, "/assets/");
+			strcat(buf, filename);
+			return _load_abs_file(buf, size);
+		} else if (context->assetFindFunction == Context::ASSET_FIND_FUNCTION_AUTO) {
+			// auto file location without "auto" prepended
+			char buf[512];
+			_platform_get_external_storage_dir_name(buf, 512);
+			strcat(buf, "/assets/");
+			strcat(buf, filename);
+			unsigned char *data = _load_abs_file(buf, size);
+			if (data) {
+				return data;
+			}
+		}
+	}
+	return _platform_load_internal_asset(filename, size);
+}
+
 char* _platform_load_text_asset(const char *filename) {
 	S32 size;
 	char *asset = (char*)_platform_load_asset(filename, &size);
@@ -127,4 +195,50 @@ char* _platform_load_text_asset(const char *filename) {
 	} else {
 		return 0;
 	}
+}
+
+void _platform_get_modified_asset_name(char *modifiedFilename, const char *filename) {
+	Context *context = btGetContext();
+	if (context) {
+		if (strStartsWith(filename, "file:")) {
+			strcpy(modifiedFilename, filename);
+			modifiedFilename[strlen(filename)] = '\0';
+			return;
+		} else if (strStartsWith(filename, "auto:")) {
+			char buf[512];
+			_platform_get_external_storage_dir_name(buf, 512);
+			strcat(buf, "/assets/");
+			strcat(buf, filename+5);
+			if (_platform_path_exists(buf)) {
+				strcpy(modifiedFilename, buf);
+				modifiedFilename[strlen(buf)] = '\0';
+				return;
+			}
+		} else if (context->assetFindFunction == Context::ASSET_FIND_FUNCTION_EXTERNAL) {
+			// external file location without "file:" prepended
+			char buf[512];
+			strcpy(buf, "file:");
+			_platform_get_external_storage_dir_name(buf+5, 512);
+			strcat(buf, "/assets/");
+			strcat(buf, filename+5);
+			strcpy(modifiedFilename, buf);
+			modifiedFilename[strlen(buf)] = '\0';
+			return;
+		} else if (context->assetFindFunction == Context::ASSET_FIND_FUNCTION_AUTO) {
+			// auto file location without "auto" prepended
+			char buf[512];
+			_platform_get_external_storage_dir_name(buf, 512);
+			strcat(buf, "/assets/");
+			strcat(buf, filename);
+			if (_platform_path_exists(buf)) {
+				strcpy(modifiedFilename, "file:");
+				modifiedFilename[5] = '\0';
+				strcat(modifiedFilename, buf);
+				return;
+			}
+		}
+	}
+	// default
+	strcpy(modifiedFilename, filename);
+	modifiedFilename[strlen(filename)] = '\0';
 }

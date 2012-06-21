@@ -62,6 +62,12 @@ namespace BatteryTech {
 			BOOL32 isDown;
 			U8 keyCode;
 		};
+
+		/**
+		 * The different asset find functions, initially set by config text
+		 */
+		enum AssetFindFunction { ASSET_FIND_FUNCTION_INTERNAL, ASSET_FIND_FUNCTION_EXTERNAL, ASSET_FIND_FUNCTION_AUTO };
+
 		Context(GraphicsConfiguration *gConfig);
 		virtual ~Context();
 		/**
@@ -185,6 +191,8 @@ namespace BatteryTech {
 		BTApplicationUpdater *appUpdater;
 
 		StrHashTable<Property*> *appProperties;
+
+		AssetFindFunction assetFindFunction;
 	private:
 		void loadAppProperties();
 	};

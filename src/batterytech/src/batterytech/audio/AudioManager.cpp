@@ -70,7 +70,9 @@ namespace BatteryTech {
 
 	void AudioManager::loadSound(const char *assetName) {
 		if (usingPlatformAudioManagement) {
-			_platform_load_sound(assetName);
+			char mAssetName[512];
+			_platform_get_modified_asset_name(mAssetName, assetName);
+			_platform_load_sound(mAssetName);
 		} else {
 			pcmSoundMgr->loadSound(assetName);
 		}
@@ -81,7 +83,9 @@ namespace BatteryTech {
 			return -1;
 		}
 		if (usingPlatformAudioManagement) {
-			return _platform_play_sound(assetName, leftVol, rightVol, loops, rate);
+			char mAssetName[512];
+			_platform_get_modified_asset_name(mAssetName, assetName);
+			return _platform_play_sound(mAssetName, leftVol, rightVol, loops, rate);
 		} else {
 			return pcmSoundMgr->playSound(assetName, loops, leftVol, rightVol, rate);
 		}
@@ -114,7 +118,9 @@ namespace BatteryTech {
 			return;
 		}
 		if (usingPlatformAudioManagement) {
-			_platform_stop_sound(assetName);
+			char mAssetName[512];
+			_platform_get_modified_asset_name(mAssetName, assetName);
+			_platform_stop_sound(mAssetName);
 		} else {
 			pcmSoundMgr->stopSound(assetName);
 		}
@@ -122,7 +128,9 @@ namespace BatteryTech {
 
 	void AudioManager::unloadSound(const char *assetName) {
 		if (usingPlatformAudioManagement) {
-			_platform_unload_sound(assetName);
+			char mAssetName[512];
+			_platform_get_modified_asset_name(mAssetName, assetName);
+			_platform_unload_sound(mAssetName);
 		} else {
 			pcmSoundMgr->unloadSound(assetName);
 		}
@@ -133,7 +141,9 @@ namespace BatteryTech {
 			return;
 		}
 		if (usingPlatformAudioManagement) {
-			_platform_play_streaming_sound(assetName, loops, leftVol, rightVol, rate);
+			char mAssetName[512];
+			_platform_get_modified_asset_name(mAssetName, assetName);
+			_platform_play_streaming_sound(mAssetName, loops, leftVol, rightVol, rate);
 		} else {
 			pcmSoundMgr->playStreamingSound(assetName, loops, leftVol, rightVol, rate);
 		}
@@ -141,7 +151,9 @@ namespace BatteryTech {
 
 	void AudioManager::stopStreamingSound(const char *assetName) {
 		if (usingPlatformAudioManagement) {
-			_platform_stop_streaming_sound(assetName);
+			char mAssetName[512];
+			_platform_get_modified_asset_name(mAssetName, assetName);
+			_platform_stop_streaming_sound(mAssetName);
 		} else {
 			pcmSoundMgr->stopStreamingSound(assetName);
 		}

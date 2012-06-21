@@ -72,6 +72,22 @@ void btInit(GraphicsConfiguration *graphicsConfig, S32 width, S32 height) {
 	} else {
 		logmsg("Using Fixed-Function Rendering");
 	}
+	// check/create save paths
+	char path[512];
+	_platform_get_application_storage_dir_name(path, 512);
+	if (!_platform_path_exists(path)) {
+		char logbuf[1024];
+		sprintf(logbuf, "Creating directory %s", path);
+		logmsg(logbuf);
+		_platform_path_create_recursive(path);
+	}
+	_platform_get_external_storage_dir_name(path, 512);
+	if (!_platform_path_exists(path)) {
+		char logbuf[1024];
+		sprintf(logbuf, "Creating directory %s", path);
+		logmsg(logbuf);
+		_platform_path_create_recursive(path);
+	}
 	logmsg("Ready");
 }
 

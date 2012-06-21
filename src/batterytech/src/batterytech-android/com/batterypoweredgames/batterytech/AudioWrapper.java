@@ -16,6 +16,9 @@
 
 package com.batterypoweredgames.batterytech;
 
+import java.io.File;
+import java.io.FileDescriptor;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -108,12 +111,16 @@ public class AudioWrapper {
 	
 	public void loadSound(String assetName) {
 		if (soundPool != null) {
-			AssetFileDescriptor afd;
-			try {
-				afd = context.getAssets().openFd(assetName);
-				soundPoolMap.put(assetName, soundPool.load(afd, 1));
-			} catch (IOException e) {
-				Log.e(TAG, "Error loading " + assetName + "(" + e.getMessage() + ")", e);
+			if (assetName.startsWith("file:")) {
+				soundPoolMap.put(assetName, soundPool.load(assetName.substring(5), 1));
+			} else {
+				AssetFileDescriptor afd;
+				try {
+					afd = context.getAssets().openFd(assetName);
+					soundPoolMap.put(assetName, soundPool.load(afd, 1));
+				} catch (IOException e) {
+					Log.e(TAG, "Error loading " + assetName + "(" + e.getMessage() + ")", e);
+				}
 			}
 		}
 	}
@@ -227,9 +234,13 @@ public class AudioWrapper {
 			mp.setVolume(leftVol, rightVol);
 			streamingPlayers.put(assetName, mp);
 			try {
-				AssetFileDescriptor descriptor = context.getAssets().openFd(assetName);
-				mp.setDataSource(descriptor.getFileDescriptor(), descriptor.getStartOffset(), descriptor.getLength());
-				descriptor.close();
+				if (assetName.startsWith("file:")) {
+					mp.setDataSource(assetName.substring(5));
+				} else {
+					AssetFileDescriptor afd = context.getAssets().openFd(assetName);
+					mp.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+					afd.close();
+				}
 				mp.setOnPreparedListener(new OnPreparedListener() {
 					   public void onPrepared(MediaPlayer mplayer) {
 						   mplayer.setVolume(leftVol, rightVol);

@@ -82,7 +82,7 @@ void _platform_log(const char* message) {
 	NSLog(@"%s", message);
 }
 
-unsigned char* _platform_load_asset(const char *assetName, int *size) {
+unsigned char* _platform_load_internal_asset(const char *assetName, int *size) {
 	const char *filePathCString = getFilePathForAsset(assetName);
 	if (filePathCString) {
 		FILE *handle;
@@ -170,11 +170,12 @@ void _platform_stop_sound() {
 }
 
 void _platform_get_application_storage_dir_name(char* buf, S32 buflen) {
-	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-	NSString *documentsDirectory = [paths objectAtIndex:0];
-	const char *docDirCString = [documentsDirectory UTF8String];
+	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
+	NSString *supportDir = [paths objectAtIndex:0];
+	const char *docDirCString = [supportDir UTF8String];
 	strcpy(buf, docDirCString);
 	buf[strlen(docDirCString)] = '\0';
+	strcat(buf, btGetContext()->appProperties->get("storage_dir")->getValue());
 }
 
 void _platform_get_external_storage_dir_name(char* buf, S32 buflen) {
@@ -183,6 +184,7 @@ void _platform_get_external_storage_dir_name(char* buf, S32 buflen) {
 	const char *docDirCString = [documentsDirectory UTF8String];
 	strcpy(buf, docDirCString);
 	buf[strlen(docDirCString)] = '\0';
+	strcat(buf, btGetContext()->appProperties->get("storage_dir")->getValue());
 }
 
 const char* _platform_get_path_separator() {

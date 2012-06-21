@@ -947,7 +947,7 @@ static int lua_getExternalStorageDirectoryName(lua_State *L) {
 
 static int lua_getApplicationStorageDirectoryName(lua_State *L) {
 	char buf[1024];
-	LevelIO::getDataDirPath(buf);
+	_platform_get_application_storage_dir_name(buf, sizeof(buf));
 	lua_pushstring(L, buf);
 	return 1;
 }

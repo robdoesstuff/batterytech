@@ -20,7 +20,7 @@
 #include "primitives.h"
 
 /// ---------------- General -----------------
-// Configurable parts - needs to be in assets dir
+// Configurable parts - needs to be in assets dir.  prepend "auto:" if you wnat to be able to override this from the external storage assets dir.
 #define BT_CONFIGFILE "batterytech_config.txt"
 // Log to file?  Use NULL for console-only logging
 #define BT_LOGFILE "batterytech.log"

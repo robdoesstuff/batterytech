@@ -43,7 +43,7 @@ void _platform_log(const char* message) {
 	__android_log_print(ANDROID_LOG_DEBUG, "Batterytech App", message);
 }
 
-unsigned char* _platform_load_asset(const char *filename, S32 *size) {
+unsigned char* _platform_load_internal_asset(const char *filename, S32 *size) {
 	extern JNIEnv* jnienv;
 	extern jobject javaBoot;
 	jclass bootClass = jnienv->GetObjectClass(javaBoot);

@@ -89,7 +89,7 @@ void _platform_log(const char* message) {
 	NSLog(@"%s", message);
 }
 
-unsigned char* _platform_load_asset(const char *assetName, int *size) {
+unsigned char* _platform_load_internal_asset(const char *assetName, int *size) {
 	const char *filePathCString = getFilePathForAsset(assetName);
 	if (filePathCString) {
 		FILE *handle;
@@ -177,6 +177,8 @@ void _platform_stop_sound() {
 }
 
 void _platform_get_external_storage_dir_name(char* buf, S32 buflen) {
+	// iOS Apps are always sandboxed.  No need to create specific storage name dir
+	// Documents dir is exposed to user and backed up.
 	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
 	NSString *documentsDirectory = [paths objectAtIndex:0];
 	const char *docDirCString = [documentsDirectory UTF8String];
@@ -185,7 +187,9 @@ void _platform_get_external_storage_dir_name(char* buf, S32 buflen) {
  }
 
 void _platform_get_application_storage_dir_name(char* buf, S32 buflen) {
-	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+	// iOS Apps are always sandboxed.  No need to create specific storage name dir
+	// Application Support dir AKA <sandbox>/Library is not exposed to user but (with exception of Cache) is backed up.
+	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
 	NSString *documentsDirectory = [paths objectAtIndex:0];
 	const char *docDirCString = [documentsDirectory UTF8String];
 	strcpy(buf, docDirCString);

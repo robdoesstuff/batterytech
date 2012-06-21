@@ -59,11 +59,32 @@
  *
  * use \ref _platform_free_asset to free the data once done.
  *
- * \param filename The name of the file relative to the assets directory
+ * \param filename The name of the file relative to the assets directory.  Prefix with file: to specify an absolute location in the filesystem.  Prefix with auto: to search external space first but default to internal.
  * \param size output - the size of the asset read
  * \return data as unsigned bytes or \ref NULL if file not found or not readable
  */
 unsigned char* _platform_load_asset(const char *filename, S32 *size);
+
+/** \brief Loads an asset from the internal package, bundle or other app-based filesystem
+ *
+ * use \ref _platform_free_asset to free the data once done.
+ *
+ * \param filename The name of the file relative to the assets directory.
+ * \param size output - the size of the asset read
+ * \return data as unsigned bytes or \ref NULL if file not found or not readable
+ */
+unsigned char* _platform_load_internal_asset(const char *filename, S32 *size);
+
+/** \brief Returns an asset name of either an internal or an absolute location, depending on file existance, settings and input asset name
+ *
+ * see \ref _platform_load_asset for examples of prefixes
+ *
+ * batterytech_config.txt also has a setting, asset_default_find_func, which is considered here
+ *
+ * \param modifiedFilename output - The modified filename (either file:filename for absolute or just filename for internal)
+ * \param filename The original asset filename
+  */
+void _platform_get_modified_asset_name(char *modifiedFilename, const char *filename);
 
 /** \brief Loads a text-based asset from disk
  *

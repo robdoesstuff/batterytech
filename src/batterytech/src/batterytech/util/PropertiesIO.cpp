@@ -83,7 +83,6 @@ namespace BatteryTech {
 
 	StrHashTable<Property*>* PropertiesIO::loadPropertiesFromMemory(const char* text) {
 		// read number of lines in file first to count
-		// TODO - support comments
 		char line[255];
 		char nameBuf[255];
 		char valueBuf[255];
@@ -101,7 +100,17 @@ namespace BatteryTech {
 		StrHashTable<Property*> *properties = new StrHashTable<Property*>(lineCount * 1.3f);
 		while (!isDone) {
 			isDone = !TextFileUtil::readLine(line, text, &pos);
-			if (strlen(line) > 0) {
+			S32 lineLength = strlen(line);
+			BOOL32 isComment = TRUE;
+			for (S32 i = 0; i < lineLength; i++) {
+				if (line[i] != ' ' && line[i] != '\t') {
+					if (line[i] != '#') {
+						isComment = FALSE;
+					}
+					break;
+				}
+			}
+			if (strlen(line) > 0 && !isComment) {
 				logmsg(line);
 				// find equals sign, break into before and after.
 				char *sepPtr = strchr(line, '=');

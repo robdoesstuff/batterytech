@@ -53,8 +53,10 @@ namespace BatteryTech {
 	#ifdef VM_USE_FFMPEG
 			ffmpegPlayer = new btFFMpegPlayer(context, assetName);
 	#else
-			char buf[255];
-			sprintf(buf, "loadVideo %s", assetName);
+			char mAssetName[512];
+			_platform_get_modified_asset_name(mAssetName, assetName);
+			char buf[512];
+			sprintf(buf, "loadVideo %s", mAssetName);
 			_platform_hook(buf, NULL, 0);
 	#endif
 	}

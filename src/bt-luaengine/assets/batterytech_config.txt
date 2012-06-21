@@ -1,22 +1,49 @@
+# BatteryTech Config File
 
+# Use Shaders or Fixed Function (true/false)
 use_shaders=true
+
+# Reference Width and Height are what we scale coordinates to (this is the virtual screen size for the UI library)
 reference_width=1280
 reference_height=800
+
+# In Windows, this is the width and height of the window
 window_width=1280
 window_height=800
+# Open up a console window if possible
 console_log_enabled_when_available=true
+# The title of the window
 windowed_app_name=BatteryTech 2.0 Lua Engine
+
+# The directory name (public) that files will be written to
 storage_dir=BatteryTech Lua Engine
+
+# When rasterizing a font, this is the texture size to start searching from
 initial_font_texture_width=256
 initial_font_texture_height=256
-ui_font_size=60.0
+
+
+# For multiline UI text, how much vertical space to add
 text_vertical_spacing_multiplier=1.2
-prefer_platform_audio_management=false
+
+# The UI font, size, stroke and color
 menu_font=ui/digital.ttf
+ui_font_size=60.0
 ui_menu_inner_stroke=1
 ui_menu_outer_stroke=1
 ui_menu_font_color=1.0 1.0 1.0 1.0
+
+# If we should manage audio or use platform facilities (where available) - usually you want false
+prefer_platform_audio_management=false
+
+# The loading image (multiple are supported by naming them loading_texture1, loading_texture2 and will be chosen at random)
 loading_texture=textures/loading.png
 loading_width=512
 loading_height=128
+
+# background clear color
 clear_color=0.0 0.0 0.0 1.0
+
+# asset_default_find_func controls where to look for assets.  
+# "internal" is default, "external" only looks in external storage and "auto" looks in external first, internal second
+asset_default_find_func=internal
