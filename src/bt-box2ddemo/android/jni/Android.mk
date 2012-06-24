@@ -38,7 +38,10 @@ my_src_files :=\
 	batterytech/render/GLObjSceneBinding.cpp \
 	batterytech/render/GLAssimpBinding.cpp \
 	batterytech/render/GLAssimpMeshBinding.cpp \
+	batterytech/render/QuadRenderer.cpp \
 	batterytech/render/Texture.cpp \
+	batterytech/render/AssetTexture.cpp \
+	batterytech/render/AtlasMappedTexture.cpp \
 	batterytech/platform/android/androidgeneral.cpp \
 	batterytech/platform/android/androidboot.cpp \
 	batterytech/platform/android/importgl.cpp \
@@ -63,7 +66,8 @@ my_src_files :=\
 	batterytech/util/TextFileUtil.cpp \
 	batterytech/util/Property.cpp \
 	batterytech/util/PropertiesIO.cpp \
-	batterytech/util/strx.cpp
+	batterytech/util/strx.cpp \
+	batterytech/video/VideoManager.cpp
 
 LOCAL_CFLAGS := -DANDROID_NDK
 LOCAL_MODULE    := batterytech
@@ -145,7 +149,6 @@ my_src_files :=\
 	level/LevelIO.cpp \
 	render/WorldRenderer.cpp \
 	render/B2DebugRenderer.cpp \
-	render/SimpleSpriteRenderer.cpp \
 	render/BatchSpriteRenderer.cpp \
 	render/BallRenderer.cpp \
 	menus/GameOptionsMenu.cpp \
