@@ -179,6 +179,7 @@ my_src_files :=\
 	WinHooks.cpp \
 	gameobject/GameObject.cpp \
 	gameobject/GameObjectLuaBinder.cpp \
+	gameobject/ParticleEmitter.cpp \
 	level/LevelIO.cpp \
 	level/Level.cpp \
 	input/TouchInputProcessor.cpp \
@@ -194,6 +195,7 @@ my_src_files :=\
 	render/AssimpRenderer.cpp \
 	render/GlobalLight.cpp \
 	render/LocalLight.cpp \
+	render/ParticleEmitterRenderer.cpp \
 	script/LuaBinder.cpp \
 	menus/ErrorMenu.cpp
 
