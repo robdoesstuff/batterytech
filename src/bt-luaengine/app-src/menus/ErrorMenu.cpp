@@ -17,6 +17,7 @@
 #include "../Game.h"
 
 #define ERROR_BG "ui/panel1_tex.png"
+#define DEFAULT_HEIGHT 675
 #define DEFAULT_WIDTH 1000
 
 ErrorMenu::ErrorMenu(GameContext *context) : Menu(ERROR_MENU_NAME) {
@@ -42,8 +43,8 @@ ErrorMenu::ErrorMenu(GameContext *context) : Menu(ERROR_MENU_NAME) {
 	restartButton->setPressedBackgroundMenuResource(buttonPressedBgId);
 	restartButton->setClickDownSoundAsset(UI_CLICK_DOWN_ASSETNAME);
 	titleLabel = new Label("Title");
-	titleLabel->setHeight(120);
-	titleLabel->setMargins(20);
+	titleLabel->setHeight(70);
+	titleLabel->setMargins(15);
 	titleLabel->setWidth(FILL);
 	titleLabel->setLayoutParameters(new LayoutParameters(LayoutParameters::HORIZONTAL_CENTER, LayoutParameters::TOP));
 	titleLabel->setTextAlignment(UIComponent::HORIZONTAL_CENTER, UIComponent::TOP);
@@ -52,7 +53,7 @@ ErrorMenu::ErrorMenu(GameContext *context) : Menu(ERROR_MENU_NAME) {
 	errorMessage->setWidth(FILL);
 	errorMessage->setPadding(20);
 	errorMessage->setLayoutParameters(new LayoutParameters(LayoutParameters::HORIZONTAL_CENTER, LayoutParameters::TOP));
-	mainLayout->setHeight(650);
+	mainLayout->setHeight(WRAP);
 	mainLayout->setWidth(DEFAULT_WIDTH);
 	mainLayout->setBackgroundMenuResource(panelBgId);
 	mainLayout->setLayoutParameters(new LayoutParameters(LayoutParameters::HORIZONTAL_CENTER, LayoutParameters::VERTICAL_CENTER));
@@ -104,6 +105,7 @@ void ErrorMenu::setData(void *data) {
 		} else {
 			mainLayout->setWidth(DEFAULT_WIDTH);
 		}
+		requestLayout();
 		delete em;
 	}
 }

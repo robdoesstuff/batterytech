@@ -27,9 +27,6 @@ namespace BatteryTech {
 
 QuadRenderer::QuadRenderer(Context *context) {
 	this->context = context;
-	if (context->gConfig->useShaders) {
-		context->glResourceManager->addShaderProgram("quad", new ShaderProgram("quad", "shaders/quadshader.vert", "shaders/quadshader.frag"));
-	}
 }
 
 QuadRenderer::~QuadRenderer() {
@@ -38,7 +35,12 @@ QuadRenderer::~QuadRenderer() {
 void QuadRenderer::init(BOOL32 newContext) {
 	if (context->gConfig->useShaders) {
 		// this is a particularly important renderer so make sure it's ready to go
-		context->glResourceManager->getShaderProgram("quad")->load(FALSE);
+		ShaderProgram *shaderProgram = context->glResourceManager->getShaderProgram("quad");
+		if (!shaderProgram) {
+			shaderProgram = new ShaderProgram("quad", "shaders/quadshader.vert", "shaders/quadshader.frag");
+			context->glResourceManager->addShaderProgram("quad", shaderProgram);
+		}
+		shaderProgram->load(FALSE);
 	}
 	checkGLError("QuadRenderer Init");
 }

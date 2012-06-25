@@ -179,8 +179,8 @@ void WorldRenderer::init(BOOL32 newContext) {
 	context->glResourceManager->loadAssimps();
 	checkGLError("WorldRenderer Init");
 	context->world->renderersReady = TRUE;
-	Texture::textureSwitches = 0;
 	shadowMap->init(newContext);
+	Texture::textureSwitches = 0;
 }
 
 void WorldRenderer::render() {
@@ -216,7 +216,7 @@ void WorldRenderer::render() {
 		loadingScreenDisplayed = FALSE;
 		preLoad = FALSE;
 	}
-	BOOL32 renderDebug = world->wfMode;
+	// BOOL32 renderDebug = world->wfMode;
 	if (world->gameState == GAMESTATE_READY || world->gameState == GAMESTATE_RUNNING) {
 		// call out to lua to receive the list of rendering instructions.
 		world->renderItemsUsed = 0;
@@ -284,6 +284,10 @@ void WorldRenderer::render() {
 				if (item->renderType == RenderItem::RENDERTYPE_2DBG) {
 					spriteRenderer->render(item);
 				}
+			}
+			if (has3DObjects) {
+		        context->renderContext->projMatrix = world->camera->proj;
+		        context->renderContext->mvMatrix = world->camera->matrix;
 			}
 		}
 		context->videoManager->render();

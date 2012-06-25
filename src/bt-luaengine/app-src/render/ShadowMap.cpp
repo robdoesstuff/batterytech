@@ -14,6 +14,7 @@
 #include "Camera.h"
 #include "GlobalLight.h"
 #include <batterytech/render/Renderer.h>
+#include <batterytech/render/Texture.h>
 
 #define SHADOWMAP_WIDTH    512
 #define SHADOWMAP_HEIGHT   512
@@ -93,7 +94,8 @@ void ShadowMap::generateShadowFBO() {
 //	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, shadowMapWidth, shadowMapHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, shadowWidth, shadowHeight, 0, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, NULL);
 	// clear bound texture
-	glBindTexture(GL_TEXTURE_2D, 0);
+	// glBindTexture(GL_TEXTURE_2D, 0);
+	Texture::lastTextureId = shadowTexture;
 	Renderer::checkGLError("ShadowMap create shadow texture");
 
  	// Create a render buffer
@@ -214,4 +216,5 @@ void ShadowMap::bindAsTexture() {
 	}
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D,shadowTexture);
+    Texture::lastTextureId = shadowTexture;
 }

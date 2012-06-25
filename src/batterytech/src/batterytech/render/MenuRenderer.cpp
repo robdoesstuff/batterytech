@@ -34,12 +34,8 @@ namespace BatteryTech {
 
 	MenuRenderer::MenuRenderer(Context *context) : Renderer() {
 		this->context = context;
-		StrHashTable<Property*> *appProperties = context->appProperties;
 		assetNames = new ManagedArray<const char>(MAX_UI_ASSET_NAMES);
-		textRenderer = new TextRasterRenderer(context, appProperties->get("menu_font")->getValue(), appProperties->get("ui_font_size")->getFloatValue());
-		textRenderer->setStroke(appProperties->get("ui_menu_inner_stroke")->getFloatValue(), appProperties->get("ui_menu_outer_stroke")->getFloatValue());
-		Vector4f color = appProperties->get("ui_menu_font_color")->getVector4fValue();
-		textRenderer->setColorFilter(color);
+		textRenderer = NULL;
 	}
 
 	MenuRenderer::~MenuRenderer() {
@@ -76,6 +72,13 @@ namespace BatteryTech {
 	}
 
 	void MenuRenderer::init(BOOL32 newContext) {
+		if (!textRenderer) {
+			StrHashTable<Property*> *appProperties = context->appProperties;
+			textRenderer = new TextRasterRenderer(context, appProperties->get("menu_font")->getValue(), appProperties->get("ui_font_size")->getFloatValue());
+			textRenderer->setStroke(appProperties->get("ui_menu_inner_stroke")->getFloatValue(), appProperties->get("ui_menu_outer_stroke")->getFloatValue());
+			Vector4f color = appProperties->get("ui_menu_font_color")->getVector4fValue();
+			textRenderer->setColorFilter(color);
+		}
 		textRenderer->init(TRUE);
 		for (S32 i = 0; i < assetNames->getSize(); i++) {
 			Texture *tex = context->glResourceManager->getTexture(assetNames->array[i]);

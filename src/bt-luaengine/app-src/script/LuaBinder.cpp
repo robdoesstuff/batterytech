@@ -1041,7 +1041,11 @@ static int lua_platformHook(lua_State *L) {
 static int lua_showMessageDialog(lua_State *L) {
 	const char *title = lua_tostring(L, 1);
 	const char *message = lua_tostring(L, 2);
-	ErrorMessage *msg = new ErrorMessage(strDuplicate(title), strDuplicate(message), 400);
+	S32 width = 675;
+	if (!lua_isnil(L, 3)) {
+		width = lua_tointeger(L, 3);
+	}
+	ErrorMessage *msg = new ErrorMessage(strDuplicate(title), strDuplicate(message), width);
 	msg->showRestart = false;
 	static_context->uiManager->showMenu(ERROR_MENU_NAME, msg);
 	return 0;
