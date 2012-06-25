@@ -125,8 +125,10 @@ void Game::update() {
 	}
 	if (!initialized || context->newGraphicsContext) {
 		logmsg("Initializing Renderers");
-		context->worldRenderer->init(TRUE);
+		// init menu renderer first so we can expose the font to world renderer
+		// (perhaps GLResourceManager should manage all fonts?)
 		context->menuRenderer->init(TRUE);
+		context->worldRenderer->init(TRUE);
 		context->newGraphicsContext = FALSE;
 		initialized = TRUE;
 	}
