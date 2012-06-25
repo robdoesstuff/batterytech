@@ -19,11 +19,16 @@ BatchSpriteRenderer::BatchSpriteRenderer(GameContext *context, const char *sprit
 	this->context = context;
 	this->spriteAssetName = spriteAssetName;
 	textureId = 0;
-	shaderProgram = new ShaderProgram("quad", "shaders/quadshader.vert", "shaders/quadshader.frag");
+	if (context->gConfig->useShaders) {
+		shaderProgram = new ShaderProgram("quad", "shaders/quadshader.vert", "shaders/quadshader.frag");
+	} else {
+		shaderProgram = NULL;
+	}
 }
 
 BatchSpriteRenderer::~BatchSpriteRenderer() {
 	delete shaderProgram;
+	shaderProgram = NULL;
 }
 
 void BatchSpriteRenderer::init(BOOL32 newGameContext) {

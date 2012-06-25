@@ -21,6 +21,8 @@
 #include <stdio.h>
 #include "AssetTexture.h"
 #include "ShaderProgram.h"
+#include "../Context.h"
+#include "GraphicsConfiguration.h"
 
 #define MAX_TEXTURES 300
 #define MAX_OBJSCENES 100
@@ -141,6 +143,9 @@ namespace BatteryTech {
 	}
 
 	void GLResourceManager::addShaderProgram(const char *tag, ShaderProgram *program) {
+		if (!context->gConfig->useShaders) {
+			return;
+		}
 		if (!shaderPrograms->contains(tag)) {
 			shaderPrograms->put(tag, program);
 		}
@@ -159,6 +164,9 @@ namespace BatteryTech {
 	}
 
 	void GLResourceManager::loadShaderPrograms() {
+		if (!context->gConfig->useShaders) {
+			return;
+		}
 		for (StrHashTable<ShaderProgram*>::Iterator i = shaderPrograms->getIterator(); i.hasNext;) {
 			ShaderProgram *shader = shaderPrograms->getNext(i);
 			shader->load(FALSE);
