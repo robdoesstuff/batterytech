@@ -693,7 +693,7 @@ static int lua_Game_render2D(lua_State *L) {
 	} else {
 		item->flags = item->flags | RENDERITEM_FLAG_IS_OPAQUE;
 	}
-	item->alpha = alpha;
+	item->colorFilter.a = alpha;
 	lua_pushinteger(L, static_context->world->renderItemsUsed-1);
 	return 1;
 }
@@ -727,7 +727,7 @@ static int lua_Game_render2DBG(lua_State *L) {
 	} else {
 		item->flags = item->flags | RENDERITEM_FLAG_IS_OPAQUE;
 	}
-	item->alpha = alpha;
+	item->colorFilter.a = alpha;
 	lua_pushinteger(L, static_context->world->renderItemsUsed-1);
 	return 1;
 }
@@ -766,7 +766,7 @@ static int lua_Game_renderBB(lua_State *L) {
 	} else {
 		item->flags = item->flags | RENDERITEM_FLAG_IS_OPAQUE;
 	}
-	item->alpha = alpha;
+	item->colorFilter.a = alpha;
 	lua_pushinteger(L, static_context->world->renderItemsUsed-1);
 	return 1;
 }
@@ -1101,7 +1101,9 @@ static int lua_Game_setRenderItemParam(lua_State *L) {
 			item->flags = item->flags & ~RENDERITEM_FLAG_NO_SHADOW_GEN;
 		}
 	} else if (strcmp(paramName, "alpha") == 0) {
-        item->alpha = lua_tonumber(L, 4);
+        item->colorFilter.a = lua_tonumber(L, 4);
+    } else if (strcmp(paramName, "colorFilter") == 0) {
+        item->colorFilter = lua_toVector4f(L, 4);
     }
 	return 0;
 }

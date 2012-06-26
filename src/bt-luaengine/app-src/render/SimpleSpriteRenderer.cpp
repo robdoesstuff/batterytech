@@ -51,6 +51,6 @@ void SimpleSpriteRenderer::render(RenderItem *item) {
 		bbMat.data[9] = dir.y;
 		bbMat.data[10] = dir.z;
 	}
-	context->quadRenderer->render(texture, item->pos, item->orientation.v.z, item->uvs, Vector2f(item->scale.x, item->scale.y), item->alpha, item->flags & RENDERITEM_FLAG_IS_OPAQUE, isBB, bbMat);
+	context->quadRenderer->render(texture, item->pos, item->orientation.v.z, item->uvs, Vector2f(item->scale.x, item->scale.y), item->colorFilter, item->flags & RENDERITEM_FLAG_IS_OPAQUE, isBB, bbMat);
 }
 

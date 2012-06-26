@@ -59,7 +59,7 @@ public:
 	Vector4f uvs;
 	Quatf orientation;
 	F32 camDist;
-	F32 alpha;
+	Vector4f colorFilter;
 	S32 maxPointLights;
 	AssimpAnimator *animator;
 	Vector4i viewport;

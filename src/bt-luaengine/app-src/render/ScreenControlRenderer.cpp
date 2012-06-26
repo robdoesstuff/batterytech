@@ -50,7 +50,7 @@ void ScreenControlRenderer::render() {
 		F32 bottom = bounds.w;
 		F32 width = right-left;
 		F32 height = bottom-top;
-		context->quadRenderer->render(texture, Vector3f(left + width/2, top + height/2, 0), 0, control->textureUVs, Vector2f(width, height), 1.0f, TRUE, FALSE, Matrix4f());
+		context->quadRenderer->render(texture, Vector3f(left + width/2, top + height/2, 0), 0, control->textureUVs, Vector2f(width, height), Vector4f(1,1,1,1), TRUE, FALSE, Matrix4f());
 	}
 	
 	BOOL32 hasLabels = FALSE;

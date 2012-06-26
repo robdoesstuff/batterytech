@@ -54,7 +54,7 @@ public:
 	 */
 	void render(Texture *texture, F32 x, F32 y, F32 width, F32 height, F32 angle);
 
-	void render(Texture *texture, Vector3f pos, F32 angleRads, Vector4f myUvs, Vector2f scale, F32 alpha, BOOL32 isOpaque, BOOL32 bb, Matrix4f bbMat);
+	void render(Texture *texture, Vector3f pos, F32 angleRads, Vector4f myUvs, Vector2f scale, Vector4f colorFilter, BOOL32 isOpaque, BOOL32 bb, Matrix4f bbMat);
 
 	virtual ~QuadRenderer();
 private:

@@ -96,10 +96,10 @@ void QuadRenderer::render(Texture *texture, F32 top, F32 right, F32 bottom, F32 
 }
 
 void QuadRenderer::render(Texture *texture, F32 x, F32 y, F32 width, F32 height, F32 angleRads) {
-	render(texture, Vector3f(x,y,0), angleRads, Vector4f(0,0,1,1), Vector2f(width,height), 1.0f, TRUE, FALSE, Matrix4f());
+	render(texture, Vector3f(x,y,0), angleRads, Vector4f(0,0,1,1), Vector2f(width,height), Vector4f(1,1,1,1), TRUE, FALSE, Matrix4f());
 }
 
-void QuadRenderer::render(Texture *texture, Vector3f pos, F32 angleRads, Vector4f myUvs, Vector2f scale, F32 alpha, BOOL32 isOpaque, BOOL32 bb, Matrix4f bbMat) {
+void QuadRenderer::render(Texture *texture, Vector3f pos, F32 angleRads, Vector4f myUvs, Vector2f scale, Vector4f colorFilter, BOOL32 isOpaque, BOOL32 bb, Matrix4f bbMat) {
 	//glFrontFace(GL_CW);
 	F32 x = pos.x;
 	F32 y = pos.y;
@@ -144,11 +144,6 @@ void QuadRenderer::render(Texture *texture, Vector3f pos, F32 angleRads, Vector4
 	F32 verts[] = {
 			left, top, z, right, top, z, right, bottom, z, left, bottom, z
 	};
-
-	F32 olda = context->renderContext->colorFilter.a;
-	if(!isOpaque && alpha < 1) {
-		context->renderContext->colorFilter.a = alpha;
-	}
 	if (context->gConfig->useShaders) {
 		Matrix4f myMvMatrix = context->renderContext->mvMatrix;
 		myMvMatrix.translate(x, y, z);
@@ -163,7 +158,6 @@ void QuadRenderer::render(Texture *texture, Vector3f pos, F32 angleRads, Vector4
 		glUniformMatrix4fv(shaderProgram->getUniformLoc("projection_matrix"), 1, GL_FALSE, (GLfloat*) context->renderContext->projMatrix.data);
 		glUniformMatrix4fv(shaderProgram->getUniformLoc("modelview_matrix"), 1, GL_FALSE, (GLfloat*) myMvMatrix.data);
 		glUniform1i(shaderProgram->getUniformLoc("tex"), 0);
-		Vector4f colorFilter = context->renderContext->colorFilter;
 		glUniform4f(shaderProgram->getUniformLoc("colorFilter"), colorFilter.x,colorFilter.y,colorFilter.z,colorFilter.a);
 		glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 		shaderProgram->unbind();
@@ -179,7 +173,6 @@ void QuadRenderer::render(Texture *texture, Vector3f pos, F32 angleRads, Vector4
 		glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 		glPopMatrix();
 	}
-	context->renderContext->colorFilter.a = olda;
 }
 
 }

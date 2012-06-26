@@ -86,7 +86,7 @@ void AssimpRenderer::render(RenderItem *item, BOOL32 transparent) {
 	// we have not bound the lights for this item yet.
 	lightsBound = FALSE;
 	// precalculate object lighting and modelview
-	context->renderContext->colorFilter = Vector4f(1,1,1,item->alpha);
+	context->renderContext->colorFilter = item->colorFilter;
 	Vector3f ecLightDir = context->world->camera->matrix * context->world->globalLight->direction;
 	ecLightDir.normalize();
 	// halfplane needs to be normalized vec3(light dir + view dir)
@@ -242,7 +242,7 @@ void AssimpRenderer::renderNode(RenderNode *node, GLAssimpBinding *binding, Matr
 				U32 meshIdx = node->meshIndices[i];
 				GLAssimpMeshBinding *meshBinding = binding->meshBindingPtrs[meshIdx];
 				// is transparent if this texture name ends in .png
-				BOOL32 isTransparent = strEquals(meshBinding->matDiffuseTexture+strlen(meshBinding->matDiffuseTexture)-4, ".png") || item->alpha < 1.0f;
+				BOOL32 isTransparent = strEquals(meshBinding->matDiffuseTexture+strlen(meshBinding->matDiffuseTexture)-4, ".png") || item->colorFilter.a < 1.0f;
 				if (isTransparent != transparent) {
 					continue;
 				}
