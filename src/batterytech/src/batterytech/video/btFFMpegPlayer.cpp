@@ -82,7 +82,8 @@ using namespace std;
 
 	}
 
-	void btFFMpegPlayer::play() {
+	void btFFMpegPlayer::play(BOOL32 loop) {
+		// TODO support looping
 		state = STATE_PLAYING;
 	}
 

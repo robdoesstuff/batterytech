@@ -61,13 +61,18 @@ namespace BatteryTech {
 	#endif
 	}
 
-	void VideoManager::play() {
+	void VideoManager::play(BOOL32 loop) {
 #ifdef VM_USE_FFMPEG
 		if (ffmpegPlayer) {
-			ffmpegPlayer->play();
+			ffmpegPlayer->play(loop);
 		}
 #else
-		_platform_hook("playVideo", NULL, 0);
+		char buf[255];
+		sprintf(buf, "playVideo ");
+		if (loop) {
+			strcat(buf, "loop");
+		}
+		_platform_hook(buf, NULL, 0);
 #endif
 	}
 

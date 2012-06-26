@@ -30,7 +30,7 @@ namespace BatteryTech {
 			VideoManager(Context *context);
 			virtual ~VideoManager();
 			void load(const char *assetName);
-			void play();
+			void play(BOOL32 loop=FALSE);
 			void pause();
 			void stop();
 			void unload();

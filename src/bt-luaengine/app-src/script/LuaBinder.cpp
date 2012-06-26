@@ -1087,7 +1087,11 @@ static int lua_loadVideo(lua_State *L) {
 }
 
 static int lua_playVideo(lua_State *L) {
-	static_context->videoManager->play();
+	BOOL32 loop = FALSE;
+	if (lua_isboolean(L, 1)) {
+		loop = lua_toboolean(L, 1);
+	}
+	static_context->videoManager->play(loop);
 	return 0;
 }
 

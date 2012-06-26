@@ -51,7 +51,7 @@ class btFFMpegPlayer {
 		void renderFrame();
 		void addAudioBuffer(void *pSoundBuffer, long bufferLen);
 		void update(F32 delta);
-		void play();
+		void play(BOOL32 loop);
 		void stop();
 		void pause();
 		F32 getPosition();
