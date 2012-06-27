@@ -33,6 +33,8 @@
 #include <sys/ioctl.h>
 #include <mach/mach.h>
 #include <mach/mach_time.h>
+#include "../../batterytech.h"
+#include "../../Context.h"
 
 #define ASSETS_DIR "assets/"
 
