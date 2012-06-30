@@ -50,6 +50,9 @@ public:
 	TextRasterRenderer* getTextRenderer(const char *tag);
 
 private:
+	void renderLoadingScreen();
+	void render3D();
+	void render2D();
 	void pickLoadingTexture();
 	void setupGL();
 	SimpleSpriteRenderer *spriteRenderer;

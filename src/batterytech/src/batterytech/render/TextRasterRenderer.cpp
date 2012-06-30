@@ -35,6 +35,8 @@
 // will show any algorithm errors in layout if any array positions are skipped accidentally.
 // #define DEBUG_TEXT_ELEMENT_ARRAY
 
+#define SHADER_PROGRAM_TAG "quad"
+
 namespace BatteryTech {
 
 	TextRasterRenderer::TextRasterRenderer(Context *context, const char *assetName, F32 fontSize) {
@@ -62,13 +64,6 @@ namespace BatteryTech {
 	}
 
 	void TextRasterRenderer::init(BOOL32 newContext) {
-		if (context->gConfig->useShaders) {
-			if (!context->glResourceManager->getShaderProgram("text")) {
-				ShaderProgram *shaderProgram = new ShaderProgram("text", "shaders/quadshader.vert", "shaders/quadshader.frag");
-				shaderProgram->load(FALSE);
-				context->glResourceManager->addShaderProgram("text", shaderProgram);
-			}
-		}
 		if (!newContext) {
 			return;
 		}
@@ -202,7 +197,7 @@ namespace BatteryTech {
 		glBindTexture(GL_TEXTURE_2D, ftex);
 		Texture::lastTextureId = ftex;
 		if (context->gConfig->useShaders) {
-			ShaderProgram *shaderProgram = context->glResourceManager->getShaderProgram("text");
+			ShaderProgram *shaderProgram = context->glResourceManager->getShaderProgram(SHADER_PROGRAM_TAG);
 			if (shaderProgram) {
 				shaderProgram->bind();
 			}
@@ -213,7 +208,7 @@ namespace BatteryTech {
 	void TextRasterRenderer::finishText() {
 		//glDisable(GL_BLEND);
 		if (context->gConfig->useShaders) {
-			ShaderProgram *shaderProgram = context->glResourceManager->getShaderProgram("text");
+			ShaderProgram *shaderProgram = context->glResourceManager->getShaderProgram(SHADER_PROGRAM_TAG);
 			if (shaderProgram) {
 				shaderProgram->unbind();
 			}
@@ -316,7 +311,7 @@ namespace BatteryTech {
 			++i;
 		}
 		if (context->gConfig->useShaders) {
-			ShaderProgram *shaderProgram = context->glResourceManager->getShaderProgram("text");
+			ShaderProgram *shaderProgram = context->glResourceManager->getShaderProgram(SHADER_PROGRAM_TAG);
 			if (shaderProgram) {
 				glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("vPosition"), 3, GL_FLOAT, GL_FALSE, 0, verts);
 				glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("uvMap"), 2, GL_FLOAT, GL_FALSE, 0, uvs);
@@ -515,7 +510,7 @@ namespace BatteryTech {
 			c = *(text + i);
 		}
 		if (context->gConfig->useShaders) {
-			ShaderProgram *shaderProgram = context->glResourceManager->getShaderProgram("text");
+			ShaderProgram *shaderProgram = context->glResourceManager->getShaderProgram(SHADER_PROGRAM_TAG);
 			glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("vPosition"), 3, GL_FLOAT, GL_FALSE, 0, verts);
 			glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("uvMap"), 2, GL_FLOAT, GL_FALSE, 0, uvs);
 			glUniformMatrix4fv(shaderProgram->getUniformLoc("projection_matrix"), 1, GL_FALSE, (GLfloat*) context->renderContext->projMatrix.data);

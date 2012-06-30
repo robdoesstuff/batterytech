@@ -293,162 +293,18 @@ void WorldRenderer::render() {
 		context->videoManager->render();
 	   	checkGLError("WorldRenderer After 2DBG");
 		// now 3D
-        
 		if (context->gConfig->shadowType != GraphicsConfiguration::SHADOWTYPE_NONE && has3DObjects) {
 			shadowMap->bindForSceneRender();
 		}
-	    glEnable(GL_CULL_FACE);
-	    glEnable(GL_DEPTH_TEST);
-	    glFrontFace(GL_CCW);
-	   	checkGLError("WorldRenderer Before Opaque 3D");
-		// TODO sort renderItems
-		for (S32 i = 0; i < world->renderItemsUsed; i++) {
-			RenderItem *item = &world->renderItems[i];
-			if (item->renderType == RenderItem::RENDERTYPE_ASSIMP) {
-				if (item->viewport.z != 0 && item->viewport.w != 0) {
-					// use alternate viewport, update camera
-					glViewport(item->viewport.x, item->viewport.y, item->viewport.z, item->viewport.w);
-					Matrix4f projMatrix;
-					projMatrix.perspective(60, (item->viewport.z) / (item->viewport.w), 2.0f, 5000.0f);
-					context->renderContext->projMatrix = projMatrix;
-				}
-				assimpRenderer->render(item, FALSE);
-				if (item->viewport.z != 0 && item->viewport.w != 0) {
-					// now reset
-					glViewport(0, 0, gConfig->viewportWidth, gConfig->viewportHeight);
-					context->renderContext->projMatrix = world->camera->proj;
-				}
-			}
-		}
-	   	checkGLError("WorldRenderer After Opaque 3D");
-      	glEnable(GL_BLEND);
-		//glEnable(GL_ALPHA_TEST);
-		//glAlphaFunc(GL_GREATER, 0.1f);
-		// glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		for (S32 i = 0; i < world->renderItemsUsed; i++) {
-			RenderItem *item = &world->renderItems[i];
-			if (item->renderType == RenderItem::RENDERTYPE_ASSIMP) {
-				if (item->viewport.z != 0 && item->viewport.w != 0) {
-					// use alternate viewport, update camera
-					glViewport(item->viewport.x, item->viewport.y, item->viewport.z, item->viewport.w);
-					Matrix4f projMatrix;
-					projMatrix.perspective(60, (item->viewport.z) / (item->viewport.w), 2.0f, 5000.0f);
-					context->renderContext->projMatrix = projMatrix;
-				}
-				// render parts with transparency last
-				assimpRenderer->render(item, TRUE);
-				if (item->viewport.z != 0 && item->viewport.w != 0) {
-					// now reset
-					glViewport(0, 0, gConfig->viewportWidth, gConfig->viewportHeight);
-					context->renderContext->projMatrix = world->camera->proj;
-				}
-	            context->renderContext->colorFilter = Vector4f(1, 1, 1, 1);
-			}
-		}
-        assimpRenderer->unbind();
-	   	checkGLError("WorldRenderer After Transparent 3D");
+		render3D();
         if (context->gConfig->shadowType != GraphicsConfiguration::SHADOWTYPE_NONE && has3DObjects) {
         	shadowMap->unbindAfterSceneRender();
         }
 		particleRenderer->render();
 		checkGLError("WorldRenderer After 3D");
-		//glDisable(GL_ALPHA_TEST);
-		glDisable(GL_DEPTH_TEST);
-		context->renderContext->projMatrix.identity();
-		context->renderContext->mvMatrix.identity();
-		context->renderContext->projMatrix.ortho(0, gConfig->width, gConfig->height, 0, -1, 1);
-		context->renderContext->colorFilter = Vector4f(1, 1, 1, 1);
-	    glFrontFace(GL_CW);
-		// now 2D in front of the 3D
-	    glBindBuffer(GL_ARRAY_BUFFER, 0);
-	    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-		for (S32 i = 0; i < world->renderItemsUsed; i++) {
-			RenderItem *item = &world->renderItems[i];
-			if (item->renderType == RenderItem::RENDERTYPE_2D) {
-				if (strEquals(item->textureName, "shadowmap")) {
-					item->textureName[0] = '\0';
-					shadowMap->bindAsTexture();
-				}
-				spriteRenderer->render(item);
-			}
-		}
-		screenControlRenderer->render();
-	   	checkGLError("WorldRenderer After screenControlRender");
-		glDisable(GL_CULL_FACE);
-		glDisable(GL_DEPTH_TEST);
-		// text overlay
-		frameSampleTimeTotal += context->tickDelta;
-		frameSamplesCollected++;
-		if (frameSamplesCollected == 10) {
-			if (frameSampleTimeTotal == 0) {
-				fps = 0;
-			} else {
-				fps = 10 / frameSampleTimeTotal;
-			}
-			frameSamplesCollected = 0;
-			frameSampleTimeTotal = 0;
-		}
-		/** Two pass text render by font sort */
-		for (StrHashTable<TextRasterRenderer*>::Iterator i = textRenderers->getIterator(); i.hasNext;) {
-			TextRasterRenderer *textRenderer = textRenderers->getNext(i);
-			const char *key = i.key;
-			// for each font we've loaded, do a first pass to see if this font is used this frame, if so, startText
-			BOOL32 used = FALSE;
-			for (S32 i = 0; i < world->renderItemsUsed; i++) {
-				RenderItem *item = &world->renderItems[i];
-				// attr2 is the font tag
-				if (item->renderType == RenderItem::RENDERTYPE_TEXT2D && strEquals(key, item->attr2)) {
-					used = TRUE;
-					break;
-				}
-			}
-			if (strEquals(FONT_TAG_UI, key) && context->showFPS) {
-				used = TRUE;
-			}
-			if (used) {
-				textRenderer->startText();
-				for (S32 i = 0; i < world->renderItemsUsed; i++) {
-					RenderItem *item = &world->renderItems[i];
-					// attr2 is the font tag
-					if (item->renderType == RenderItem::RENDERTYPE_TEXT2D && strEquals(key, item->attr2)) {
-						if (item->alignment == RenderItem::ALIGN_LEFT) {
-							textRenderer->render(item->attr1, item->pos.x, item->pos.y);
-						} else if (item->alignment == RenderItem::ALIGN_CENTER) {
-							S32 width = textRenderer->measureWidth(item->attr1, 1.0f);
-							textRenderer->render(item->attr1, item->pos.x - width/2, item->pos.y);
-						}  else if (item->alignment == RenderItem::ALIGN_RIGHT) {
-							S32 width = textRenderer->measureWidth(item->attr1, 1.0f);
-							textRenderer->render(item->attr1, item->pos.x - width, item->pos.y);
-						}
-					}
-				}
-				if (strEquals(FONT_TAG_UI, key) && context->showFPS) {
-					char fpsText[50];
-					sprintf(fpsText, "FPS: %d", fps);
-					textRenderer->render(fpsText, 5, context->gConfig->height - 5);
-				}
-				textRenderer->finishText();
-			}
-		   	checkGLError("WorldRenderer After text render");
-		}
+		render2D();
 	} else if (world->gameState == GAMESTATE_LOADING) {
-		logmsg("Rendering Loading Screen");
-		glClear(GL_COLOR_BUFFER_BIT);
-		glEnable(GL_BLEND);
-		// glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glDisable(GL_DEPTH_TEST);
-		context->renderContext->projMatrix.identity();
-		context->renderContext->mvMatrix.identity();
-		context->renderContext->projMatrix.ortho(0, gConfig->width, gConfig->height, 0, -1, 1);
-		context->renderContext->colorFilter = Vector4f(1, 1, 1, 1);
-		//char buf[255];
-		//sprintf(buf, "Loading textureID = %d, gConfig dimensions=%d, %d", loadingTex->textureId, gConfig->width, gConfig->height);
-		//logmsg(buf);
-		//render loading image centered scaled up from 512x256
-		F32 loadWidth = this->loadingSize.x * gConfig->uiScale;
-		F32 loadHeight = this->loadingSize.y * gConfig->uiScale;
-		context->quadRenderer->render(loadingTex, gConfig->height/2 - loadHeight/2, gConfig->width/2 + loadWidth/2, gConfig->height/2 + loadHeight/2, gConfig->width/2 - loadWidth/2);
-	   	checkGLError("WorldRenderer After loading render");
+		renderLoadingScreen();
 	}
 //	char buf[50];
 //	sprintf(buf, "binds = %d", ShaderProgram::binds);
@@ -460,5 +316,164 @@ void WorldRenderer::render() {
 	if (world->gameState != GAMESTATE_LOADING) {
 		context->menuRenderer->render();
 	}
+}
+
+void WorldRenderer::renderLoadingScreen() {
+	logmsg("Rendering Loading Screen");
+	glClear(GL_COLOR_BUFFER_BIT);
+	glEnable(GL_BLEND);
+	// glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glDisable(GL_DEPTH_TEST);
+	context->renderContext->projMatrix.identity();
+	context->renderContext->mvMatrix.identity();
+	context->renderContext->projMatrix.ortho(0, gConfig->width, gConfig->height, 0, -1, 1);
+	context->renderContext->colorFilter = Vector4f(1, 1, 1, 1);
+	//char buf[255];
+	//sprintf(buf, "Loading textureID = %d, gConfig dimensions=%d, %d", loadingTex->textureId, gConfig->width, gConfig->height);
+	//logmsg(buf);
+	//render loading image centered scaled up from 512x256
+	F32 loadWidth = this->loadingSize.x * gConfig->uiScale;
+	F32 loadHeight = this->loadingSize.y * gConfig->uiScale;
+	context->quadRenderer->render(loadingTex, gConfig->height/2 - loadHeight/2, gConfig->width/2 + loadWidth/2, gConfig->height/2 + loadHeight/2, gConfig->width/2 - loadWidth/2);
+   	checkGLError("WorldRenderer After loading render");
+}
+
+void WorldRenderer::render3D() {
+	World *world = context->world;
+    glEnable(GL_CULL_FACE);
+    glEnable(GL_DEPTH_TEST);
+    glFrontFace(GL_CCW);
+   	checkGLError("WorldRenderer Before Opaque 3D");
+	for (S32 i = 0; i < world->renderItemsUsed; i++) {
+		RenderItem *item = &world->renderItems[i];
+		if (item->renderType == RenderItem::RENDERTYPE_ASSIMP) {
+			if (item->viewport.z != 0 && item->viewport.w != 0) {
+				// use alternate viewport, update camera
+				glViewport(item->viewport.x, item->viewport.y, item->viewport.z, item->viewport.w);
+				Matrix4f projMatrix;
+				projMatrix.perspective(60, (item->viewport.z) / (item->viewport.w), 2.0f, 5000.0f);
+				context->renderContext->projMatrix = projMatrix;
+			}
+			assimpRenderer->render(item, FALSE);
+			if (item->viewport.z != 0 && item->viewport.w != 0) {
+				// now reset
+				glViewport(0, 0, gConfig->viewportWidth, gConfig->viewportHeight);
+				context->renderContext->projMatrix = world->camera->proj;
+			}
+		}
+	}
+   	checkGLError("WorldRenderer After Opaque 3D");
+  	glEnable(GL_BLEND);
+	//glEnable(GL_ALPHA_TEST);
+	//glAlphaFunc(GL_GREATER, 0.1f);
+	// glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	for (S32 i = 0; i < world->renderItemsUsed; i++) {
+		RenderItem *item = &world->renderItems[i];
+		if (item->renderType == RenderItem::RENDERTYPE_ASSIMP) {
+			if (item->viewport.z != 0 && item->viewport.w != 0) {
+				// use alternate viewport, update camera
+				glViewport(item->viewport.x, item->viewport.y, item->viewport.z, item->viewport.w);
+				Matrix4f projMatrix;
+				projMatrix.perspective(60, (item->viewport.z) / (item->viewport.w), 2.0f, 5000.0f);
+				context->renderContext->projMatrix = projMatrix;
+			}
+			// render parts with transparency last
+			assimpRenderer->render(item, TRUE);
+			if (item->viewport.z != 0 && item->viewport.w != 0) {
+				// now reset
+				glViewport(0, 0, gConfig->viewportWidth, gConfig->viewportHeight);
+				context->renderContext->projMatrix = world->camera->proj;
+			}
+            context->renderContext->colorFilter = Vector4f(1, 1, 1, 1);
+		}
+	}
+    assimpRenderer->unbind();
+   	checkGLError("WorldRenderer After Transparent 3D");
+}
+
+void WorldRenderer::render2D() {
+	// calc FPS
+	frameSampleTimeTotal += context->tickDelta;
+	frameSamplesCollected++;
+	if (frameSamplesCollected == 10) {
+		if (frameSampleTimeTotal == 0) {
+			fps = 0;
+		} else {
+			fps = 10 / frameSampleTimeTotal;
+		}
+		frameSamplesCollected = 0;
+		frameSampleTimeTotal = 0;
+	}
+	World *world = context->world;
+	//glDisable(GL_ALPHA_TEST);
+	glDisable(GL_DEPTH_TEST);
+	glDisable(GL_CULL_FACE);
+	context->renderContext->projMatrix.identity();
+	context->renderContext->mvMatrix.identity();
+	context->renderContext->projMatrix.ortho(0, gConfig->width, gConfig->height, 0, -1, 1);
+	context->renderContext->colorFilter = Vector4f(1, 1, 1, 1);
+    glFrontFace(GL_CW);
+	// now 2D in front of the 3D
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    TextRasterRenderer *curTextRenderer = NULL;
+    char *curFontTag = NULL;
+	for (S32 i = 0; i < world->renderItemsUsed; i++) {
+		RenderItem *item = &world->renderItems[i];
+		if (item->renderType == RenderItem::RENDERTYPE_2D) {
+			if (curTextRenderer) {
+				curTextRenderer->finishText();
+				curTextRenderer = NULL;
+				curFontTag = NULL;
+			}
+			context->renderContext->colorFilter = Vector4f(1,1,1,1);
+			if (strEquals(item->textureName, "shadowmap")) {
+				item->textureName[0] = '\0';
+				shadowMap->bindAsTexture();
+			}
+			spriteRenderer->render(item);
+		} else if (item->renderType == RenderItem::RENDERTYPE_TEXT2D) {
+			if (!curFontTag) {
+				curFontTag = item->attr2;
+				curTextRenderer = textRenderers->get(curFontTag);
+				curTextRenderer->startText();
+			} else {
+				if (!strEquals(curFontTag, item->attr2) && curTextRenderer) {
+					curTextRenderer->finishText();
+					curFontTag = item->attr2;
+					curTextRenderer = textRenderers->get(curFontTag);
+					curTextRenderer->startText();
+				}
+			}
+			if (curTextRenderer) {
+				if (item->alignment == RenderItem::ALIGN_LEFT) {
+					curTextRenderer->render(item->attr1, item->pos.x, item->pos.y);
+				} else if (item->alignment == RenderItem::ALIGN_CENTER) {
+					S32 width = curTextRenderer->measureWidth(item->attr1, 1.0f);
+					curTextRenderer->render(item->attr1, item->pos.x - width/2, item->pos.y);
+				}  else if (item->alignment == RenderItem::ALIGN_RIGHT) {
+					S32 width = curTextRenderer->measureWidth(item->attr1, 1.0f);
+					curTextRenderer->render(item->attr1, item->pos.x - width, item->pos.y);
+				}
+			}
+		}
+	}
+	if (curTextRenderer) {
+		curTextRenderer->finishText();
+		curTextRenderer = NULL;
+	}
+	if (context->showFPS) {
+		char fpsText[50];
+		sprintf(fpsText, "FPS: %d", fps);
+		TextRasterRenderer *textRenderer = textRenderers->get(FONT_TAG_UI);
+		if (textRenderer) {
+			textRenderer->startText();
+			textRenderer->render(fpsText, 5, context->gConfig->height - 5);
+			textRenderer->finishText();
+		}
+	}
+	context->renderContext->colorFilter = Vector4f(1,1,1,1);
+	screenControlRenderer->render();
+   	checkGLError("WorldRenderer After screenControlRender");
 }
 
