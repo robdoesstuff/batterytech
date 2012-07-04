@@ -177,6 +177,7 @@ void _platform_get_application_storage_dir_name(char* buf, S32 buflen) {
 	const char *docDirCString = [supportDir UTF8String];
 	strcpy(buf, docDirCString);
 	buf[strlen(docDirCString)] = '\0';
+    strcat(buf, "/");
 	strcat(buf, btGetContext()->appProperties->get("storage_dir")->getValue());
 }
 
@@ -186,6 +187,7 @@ void _platform_get_external_storage_dir_name(char* buf, S32 buflen) {
 	const char *docDirCString = [documentsDirectory UTF8String];
 	strcpy(buf, docDirCString);
 	buf[strlen(docDirCString)] = '\0';
+    strcat(buf, "/");
 	strcat(buf, btGetContext()->appProperties->get("storage_dir")->getValue());
 }
 
