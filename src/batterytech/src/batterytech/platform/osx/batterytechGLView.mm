@@ -28,6 +28,7 @@
 #import  <OpenGL/glu.h>
 #include <batterytech/batterytech.h>
 #include <batterytech/render/GraphicsConfiguration.h>
+#include <batterytech/Context.h>
 
 #define USE_SHADERS TRUE
 
@@ -103,6 +104,31 @@ double getCurrentTime() {
 		gConfig->supportsShaders = TRUE;
 	}
 	btInit(gConfig, frameWidth, frameHeight);
+    BatteryTech::Context *btContext = btGetContext();
+    StrHashTable<Property*> *props = btContext->appProperties;
+    if (props) {
+        Property *whProp = props->get("window_height");
+        Property *wwProp = props->get("window_width");
+        if (whProp && wwProp) {
+            int width = wwProp->getIntValue();
+            int height = whProp->getIntValue();
+            NSRect wFrame = [self.window frame];
+            wFrame.size = CGSizeMake(width, height+20);
+            [self.window setFrame:wFrame display:YES];
+            [self.window setMinSize:wFrame.size];
+            [self.window setMaxSize:wFrame.size];
+            [self.superview setFrame:CGRectMake(0,0,width,height)];
+            [self setFrame:CGRectMake(0, 0, width, height)];
+            frameWidth = width;
+            frameHeight = height;
+            btSetScreenSize(width,height);
+            if (props->get("windowed_app_name")) {
+                [self.window setTitle:[NSString stringWithCString:props->get("windowed_app_name")->getValue() encoding: NSUTF8StringEncoding]];
+            }
+        }
+    } else {
+        NSLog(@"No BatteryTech properties available!");
+    }
 	currentTime = getCurrentTime();
 	//allocate the audio player∫
 	player = [[RemoteIOPlayer alloc]init];
@@ -117,6 +143,7 @@ double getCurrentTime() {
 }
 
 - (void)dealloc {
+    [timer invalidate];
 	[player cleanUp];
 	[player release];
 	btRelease();
