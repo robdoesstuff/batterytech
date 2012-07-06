@@ -12,9 +12,12 @@ namespace boost {
 	}
 }
 
-
+#ifdef DEBUG  
 #define BOOST_STATIC_ASSERT(eval) \
 {boost::detail::static_assertion_failure<(eval)> assert_dummy;assert_dummy;}
+#else
+#define BOOST_STATIC_ASSERT(eval)
+#endif
 
 #endif
 #endif // !! AI_BOOST_STATIC_ASSERT_INCLUDED

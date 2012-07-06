@@ -85,8 +85,7 @@ aiReturn DefaultIOStream::Seek(size_t pOffset,
 	}
 
 	// Just to check whether our enum maps one to one with the CRT constants
-	BOOST_STATIC_ASSERT(aiOrigin_CUR == SEEK_CUR && 
-		aiOrigin_END == SEEK_END && aiOrigin_SET == SEEK_SET);
+	BOOST_STATIC_ASSERT(aiOrigin_CUR == SEEK_CUR && aiOrigin_END == SEEK_END && aiOrigin_SET == SEEK_SET);
 
 	// do the seek
 	return (0 == ::fseek(mFile, (long)pOffset,(int)pOrigin) ? AI_SUCCESS : AI_FAILURE);

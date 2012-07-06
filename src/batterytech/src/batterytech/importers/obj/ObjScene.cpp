@@ -18,8 +18,6 @@
 
 #include <string.h>
 
-using namespace std;
-
 namespace BatteryTech {
 
 ObjScene::ObjScene() {

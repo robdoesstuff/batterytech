@@ -977,9 +977,9 @@ static int lua_showAd(lua_State *L) {
 
 static int lua_requestPurchase(lua_State *L) {
 	const char* productId = lua_tostring(L, 1);
-	double price = lua_tonumber(L, 2);
-	const char* name = lua_tostring(L, 3);
-	const char* desc = lua_tostring(L, 4);
+	// double price = lua_tonumber(L, 2);
+	// const char* name = lua_tostring(L, 3);
+	// const char* desc = lua_tostring(L, 4);
 	char hook[255];
 	sprintf(hook, "requestPurchase %s", productId);
 	_platform_hook(hook, NULL, 0);

@@ -41,7 +41,7 @@ class GameObjectLuaBinder;
 using namespace BatteryTech;
 
 struct PhysicsModelConfig {
-	/*
+#ifdef BATTERYTECH_INCLUDE_BULLET
 	btCollisionShape* shape;
 	btScalar mass;
 	btVector3 position;
@@ -72,11 +72,11 @@ struct PhysicsModelConfig {
 		angularDamping = 0;
 		isGhost = FALSE;
 	}
-	*/
+#endif
 };
 
 struct PhysicsConstraintConfig {
-	/*
+#ifdef BATTERYTECH_INCLUDE_BULLET
 	btTypedConstraintType type;
 	S32 idxA;
 	S32 idxB;
@@ -93,7 +93,7 @@ struct PhysicsConstraintConfig {
 		axisA = btVector3(0,0,0);
 		axisB = btVector3(0,0,0);
 	}
-	*/
+#endif
 };
 
 class GameObject : PhysicsBodyObject {
@@ -118,7 +118,18 @@ public:
 	void setModelScale(Vector3f modelScale);
 	Vector3f getModelScale();
 	void update();
-	/*
+	BOOL32 isValidGameObject(GameObject *other);
+	// if the gameobject is still active - will be removed from world if not
+	BOOL32 isActive;
+	// location of game object in game world coordinates
+	Vector3f pos;
+	// location of game object at last update
+	Vector3f lastPos;
+	GameObjectLuaBinder *luaBinder;
+	ManagedArray<AssimpAnimator> *animators;
+	Vector3f modelScale;
+	BOOL32 isInitialized;
+#ifdef BATTERYTECH_INCLUDE_BULLET
 	void setAllOrientationYPR(Vector3f ypr);
 	void setOrientationYPR(S32 idx, Vector3f ypr);
 	Vector3f getOrientationYPR(S32 idx = 0);
@@ -138,15 +149,6 @@ public:
 	void onCollision(GameObject *other);
 	void onLevelCollision();
 	void endCollisionPhase();
-	*/
-	BOOL32 isValidGameObject(GameObject *other);
-	// if the gameobject is still active - will be removed from world if not
-	BOOL32 isActive;
-	// location of game object in game world coordinates
-	Vector3f pos;
-	// location of game object at last update
-	Vector3f lastPos;
-	/*
 	// the primary body of this gameobject (be careful messing with this - it may not be the main one!)
 	btRigidBody *btBody;
 	btGhostObject *btGhost;
@@ -158,15 +160,8 @@ public:
 	PathNode path[GAMEOBJECT_MAX_PATH];
 	S32 pathLength;
 	S32 nextPathSeek;
-	*/
-	GameObjectLuaBinder *luaBinder;
-	/*
 	ManagedArray<PhysicsModelConfig> *physicsModelConfigs;
 	ManagedArray<PhysicsConstraintConfig> *physicsConstraintConfigs;
-	*/
-	ManagedArray<AssimpAnimator> *animators;
-	Vector3f modelScale;
-	/*
 	F32 zRotation;
 	F32 smallRotationalSpeed;
 	F32 largeRotationalSpeed;
@@ -176,8 +171,7 @@ public:
 	ManagedArray<GameObject> *oldContacts;
 	BOOL32 wasLevelColliding;
 	BOOL32 isLevelColliding;
-	*/
-	BOOL32 isInitialized;
+#endif
 protected:
 	// shortcut to context->world
 	World* getWorld();

@@ -352,7 +352,7 @@ namespace BatteryTech {
 		//char cBuf[50];
 		//sprintf(cBuf, "Filling bufNum %d", bufNum);
 		//logmsg(cBuf);
-		U32 startingFilePos = stream->filePosition;
+		// U32 startingFilePos = stream->filePosition;
 		while (!done) {
 			// read data
 			unsigned char buf[CHUNKED_READ_BUFFER_SIZE];
@@ -433,9 +433,10 @@ namespace BatteryTech {
 			if (hasMoreData) {
 				// buffer is full
 				done = TRUE;
-				if (stream->filePosition < 0) {
-					stream->filePosition = startingFilePos + bytesConsumed;
-				}
+                // TODO - oops, what was this supposed to do?
+				//if (stream->filePosition < 0) {
+				//	stream->filePosition = startingFilePos + bytesConsumed;
+				//}
 			}
 		}
 	}

@@ -28,6 +28,7 @@ namespace BatteryTech {
 	 */
 	class ScrollableContainer : public Layout {
 	public:
+		ScrollableContainer();
 		ScrollableContainer(const char *text);
 		virtual ~ScrollableContainer();
 		virtual void addComponent(UIComponent *component);

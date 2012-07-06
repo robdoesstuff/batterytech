@@ -22,7 +22,15 @@
 #include "../render/MenuRenderer.h"
 
 namespace BatteryTech {
-	ScrollableContainer::ScrollableContainer(const char *text = NULL) : Layout(text) {
+    ScrollableContainer::ScrollableContainer() : Layout(text) {
+		viewXOffset = 0;
+		viewYOffset = 0;
+		lastClickX = 0;
+		lastClickY = 0;
+		isClickableUnderChildren = TRUE;
+    }
+    
+	ScrollableContainer::ScrollableContainer(const char *text) : Layout(text) {
 		viewXOffset = 0;
 		viewYOffset = 0;
 		lastClickX = 0;
