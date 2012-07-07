@@ -21,20 +21,21 @@ namespace BatteryTech {
 	RenderNode::RenderNode() {
 		parentNode = NULL;
 		childNodes = NULL;
+        meshBones = NULL;
 		localTransform = Matrix4f();
 		globalTransform = Matrix4f();
-		boneOffset = Matrix4f();
 		name = NULL;
 		meshCount = 0;
 		meshIndices = NULL;
 		isBone = FALSE;
-		matrixIdx = 0;
 		localAABB = AABB3f();
 		globalAABB = AABB3f();
 	}
 
 	RenderNode::~RenderNode() {
+        delete [] meshIndices;
 		delete [] name;
+        delete [] meshBones;
 	}
 
 }

@@ -313,7 +313,8 @@ void AssimpRenderer::renderNode(RenderNode *node, GLAssimpBinding *binding, Matr
                             meshBinding->bindBonesToShader(shaderProgram->getVertexAttributeLoc("vBones"));
                             meshBinding->bindWeightsToShader(shaderProgram->getVertexAttributeLoc("vWeights"));
                             Matrix4f *boneMatsWithGlobalInv = animator->updateGlobalInverseBoneMatrices(node, meshBinding->mesh);
-                            glUniformMatrix4fv(shaderProgram->getUniformLoc("bone_matrices"), animator->boneMatrixCount, GL_FALSE, (GLfloat*) boneMatsWithGlobalInv);
+                            MeshBoneMatrices *mbMats = animator->meshBoneMatrices->get(meshBinding->mesh);
+                            glUniformMatrix4fv(shaderProgram->getUniformLoc("bone_matrices"), mbMats->boneMatrixCount, GL_FALSE, (GLfloat*) boneMatsWithGlobalInv);
                        }
                     } else {
                         // Static model, no skinning
@@ -436,10 +437,11 @@ void AssimpRenderer::renderNodeShadow(RenderNode *node, GLAssimpBinding *binding
                         meshBinding->bindBonesToShader(shaderProgram->getVertexAttributeLoc("vBones"));
                         meshBinding->bindWeightsToShader(shaderProgram->getVertexAttributeLoc("vWeights"));
                         Matrix4f *boneMatsWithGlobalInv = animator->updateGlobalInverseBoneMatrices(node, meshBinding->mesh);
+                        MeshBoneMatrices *mbMats = animator->meshBoneMatrices->get(meshBinding->mesh);
                         //boneMatsWithGlobalInv[0].identity();
                        //Matrix4f mat = boneMatsWithGlobalInv[0];
                         //glUniformMatrix4fv(shadowHwSkinShader->getUniformLoc("bone_matrices"), animator->boneMatrixCount, GL_FALSE, (GLfloat*) boneMatsWithGlobalInv[0]);
-						glUniformMatrix4fv(shaderProgram->getUniformLoc("bone_matrices"), animator->boneMatrixCount, GL_FALSE, (GLfloat*) boneMatsWithGlobalInv);
+						glUniformMatrix4fv(shaderProgram->getUniformLoc("bone_matrices"), mbMats->boneMatrixCount, GL_FALSE, (GLfloat*) boneMatsWithGlobalInv);
                         checkGLError("AssimpRenderer renderNodeShadow bone matrices");
                    }
                 } else {

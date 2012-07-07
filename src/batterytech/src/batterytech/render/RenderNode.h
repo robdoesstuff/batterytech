@@ -24,6 +24,17 @@
 
 namespace BatteryTech {
 
+    /** Each mesh can have a different bone structure, sharing bones with other meshes in the same tree */
+    struct RenderNodeMeshBone {
+        BOOL32 isUsed;
+        /** The bone's local offset matrix */
+        Matrix4f boneOffset;
+        /** Which mesh this bone is for */
+        U32 boneMeshIdx;
+        /** The matrix index in the flattened mesh bone matrix table */
+        S32 matrixIdx;
+    };
+    
 	class RenderNode {
 	public:
 		RenderNode();
@@ -32,14 +43,12 @@ namespace BatteryTech {
 		ManagedArray<RenderNode> *childNodes;
 		Matrix4f localTransform;
 		Matrix4f globalTransform;
-		Matrix4f boneOffset;
 		BOOL32 isBone;
-		char *name;
+        RenderNodeMeshBone* meshBones;
+ 		char *name;
 		U32 meshCount;
 		/** The meshes of this node. Each entry is an index into the mesh */
 		U32* meshIndices;
-		/** which matrix is this */
-		S32 matrixIdx;
 		/** use these points to determine a broad cull */
 		AABB3f localAABB, globalAABB;
 	};

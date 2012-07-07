@@ -23,14 +23,23 @@
 
 namespace BatteryTech {
 
+/**
+ This animator creates a node structure that builds a single set of nodes with various data from the aiScene.
+ Bone Nodes are marked and have extra data for each mesh, as some files share different bone nodes for different meshes
+ A complex structure might look like
+ RootNode
+ - ObjectBase
+ -- (mesh1 b) Object Hip (mesh2 b) Object Hip
+ -- (mesh1 b) Object L-Leg (mesh3 b) Object L-Leg
+ 
+ */
 AssimpAnimator::AssimpAnimator() {
 	rootNode = NULL;
 	scene = NULL;
 	nodeTable = NULL;
 	nodeCount = 0;
-	boneMatrices = NULL;
-	boneMatricesWithRootInv = NULL;
-	boneMatrixCount = 0;
+    meshBoneMatrices = NULL;
+    sceneHasBones = FALSE;
 }
 
 AssimpAnimator::~AssimpAnimator() {
@@ -40,14 +49,11 @@ AssimpAnimator::~AssimpAnimator() {
 	rootNode = NULL;
 	delete nodeTable;
 	nodeTable = NULL;
-	delete [] boneMatrices;
-	delete [] boneMatricesWithRootInv;
-	delete boneMatrixIdxTable;
 }
 
 void AssimpAnimator::init(const aiScene *scene, const char *meshName) {
 	this->scene = scene;
-	aiMesh *mesh = NULL;
+    /*
 	if (meshName) {
 		for (U32 i = 0; i < scene->mNumMeshes; i++) {
 			aiMesh *m = scene->mMeshes[i];
@@ -56,30 +62,31 @@ void AssimpAnimator::init(const aiScene *scene, const char *meshName) {
 				break;
 			}
 		}
-	} else {
-		// no meshname specified - just use the first one.
-		mesh = scene->mMeshes[0];
-	}
-	if (mesh) {
+	}*/
+    meshBoneMatrices = new HashTable<const aiMesh*, MeshBoneMatrices*>(scene->mNumMeshes * 1.5f);
+    for (U32 meshIdx = 0; meshIdx < scene->mNumMeshes; meshIdx++) {
+        aiMesh *mesh = scene->mMeshes[meshIdx];
+        MeshBoneMatrices *mbMats = new MeshBoneMatrices;
+        meshBoneMatrices->put(mesh, mbMats);
 		// do bone matrix index first because nodes will reference it
 		U32 boneCount = mesh->mNumBones;
-		boneMatrixIdxTable = new StrHashTable<S32>(boneCount * 1.5f);
+        if (boneCount) {
+            sceneHasBones = TRUE;
+        }
+        mbMats->boneMatrixIdxTable = new StrHashTable<S32>(boneCount * 1.5f);
+        mbMats->boneMatrixIdxTable->setNullReturnVal(-1);
 		for (U32 i = 0; i < boneCount; i++) {
-			boneMatrixIdxTable->put(mesh->mBones[i]->mName.data, (S32)i);
+			mbMats->boneMatrixIdxTable->put(mesh->mBones[i]->mName.data, (S32)i);
 		}
-		boneMatrices = new Matrix4f[boneCount];
-		boneMatrixCount = boneCount;
-		boneMatricesWithRootInv = new Matrix4f[boneCount];
-		nodeCount = 0;
-		rootNode = createRenderNode(scene, scene->mRootNode, NULL, mesh);
-		nodeTable = new StrHashTable<RenderNode*>(nodeCount * 1.5f);
-		addNodeToTable(rootNode);
-		updateGlobalTransforms(rootNode);
-	} else {
-		char buf[255];
-		sprintf(buf, "Unable to find mesh (%s) - Animator not initialized!", meshName);
-		logmsg(buf);
+		mbMats->boneMatrices = new Matrix4f[boneCount];
+		mbMats->boneMatrixCount = boneCount;
+		mbMats->boneMatricesWithRootInv = new Matrix4f[boneCount];
 	}
+    nodeCount = 0;
+    rootNode = createRenderNode(scene, scene->mRootNode, NULL);
+    nodeTable = new StrHashTable<RenderNode*>(nodeCount * 1.5f);
+    addNodeToTable(rootNode);
+    updateGlobalTransforms(rootNode);
 }
 
 void AssimpAnimator::addNodeToTable(RenderNode *node) {
@@ -89,18 +96,52 @@ void AssimpAnimator::addNodeToTable(RenderNode *node) {
 	}
 }
 
-RenderNode* AssimpAnimator::createRenderNode(const aiScene *scene, aiNode *node, RenderNode *parent, aiMesh *mesh) {
+RenderNode* AssimpAnimator::createRenderNode(const aiScene *scene, aiNode *node, RenderNode *parent) {
 	nodeCount++;
 	RenderNode *bNode = new RenderNode();
 	bNode->name = strDuplicate(node->mName.data);
 	bNode->parentNode = parent;
 	bNode->meshCount = node->mNumMeshes;
 	bNode->meshIndices = new U32[bNode->meshCount];
+    if (sceneHasBones) {
+        // because we're sharing nodes and bones, we need to prepare for as many bone entries as there are meshes in the whole scene
+        // I personally do not like how much memory this takes up (nodes*meshes*sizeof(RenderNodeMeshBone))
+        // But it is convenient to have everything in a single node tree
+        // The other alernative is to have a global "render" node tree and then a bone tree for each mesh, built in a similar fashion to here
+        bNode->meshBones = new RenderNodeMeshBone[scene->mNumMeshes];
+        // set meshbones to idx
+        for (U32 i = 0; i < scene->mNumMeshes; i++) {
+            bNode->meshBones[i].isUsed = FALSE;
+            bNode->meshBones[i].boneMeshIdx = i;
+            bNode->meshBones[i].matrixIdx = -1;
+        }
+    } else {
+        bNode->meshBones = NULL;
+    }
 	AABB3f aabb;
+    // search all bones of all meshes to see if we have a name match
+    for (U32 meshIdx = 0; meshIdx < scene->mNumMeshes; meshIdx++) {
+        aiMesh *mesh = scene->mMeshes[meshIdx];
+        // is this a bone node for a mesh?
+        MeshBoneMatrices *mbMats = meshBoneMatrices->get(mesh);
+        for (U32 boneIdx = 0; boneIdx < mesh->mNumBones; boneIdx++) {
+            if (strEquals(mesh->mBones[boneIdx]->mName.data, bNode->name)) {
+                aiMatrix4x4 m = mesh->mBones[boneIdx]->mOffsetMatrix;
+                bNode->isBone = TRUE;
+                bNode->meshBones[meshIdx].isUsed = TRUE;
+                bNode->meshBones[meshIdx].boneOffset = Matrix4f(m.a1, m.b1, m.c1, m.d1, m.a2, m.b2, m.c2, m.d2, m.a3, m.b3, m.c3, m.d3, m.a4, m.b4, m.c4, m.d4);
+                bNode->meshBones[meshIdx].matrixIdx = mbMats->boneMatrixIdxTable->get(bNode->name);
+                // char buf[1024];
+                // sprintf(buf, "bNode %s meshIdx %d matrixIdx %d", bNode->name, bNode->boneMeshIdx, bNode->matrixIdx);
+                // logmsg(buf);
+            }
+        }
+    }
+    // now if this node has a mesh, calc the AABB of the mesh at this node's transform
 	for (U32 i = 0; i < node->mNumMeshes; i++) {
 		bNode->meshIndices[i] = node->mMeshes[i];
-		//determine local AABB - this could take a while on really large meshes.
 		aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
+		//determine local AABB - this could take a while on really large meshes.
 		for (U32 j = 0; j < mesh->mNumVertices; j++) {
 			aiVector3D vert = mesh->mVertices[j];
 			if (i == 0 && j == 0) {
@@ -117,18 +158,10 @@ RenderNode* AssimpAnimator::createRenderNode(const aiScene *scene, aiNode *node,
 	// convert from row-major to column-major
 	aiMatrix4x4 m = node->mTransformation;
 	bNode->localTransform = Matrix4f(m.a1, m.b1, m.c1, m.d1, m.a2, m.b2, m.c2, m.d2, m.a3, m.b3, m.c3, m.d3, m.a4, m.b4, m.c4, m.d4);
-	for (U32 i = 0; i < mesh->mNumBones; i++) {
-		if (strEquals(mesh->mBones[i]->mName.data, bNode->name)) {
-			m = mesh->mBones[i]->mOffsetMatrix;
-			bNode->boneOffset = Matrix4f(m.a1, m.b1, m.c1, m.d1, m.a2, m.b2, m.c2, m.d2, m.a3, m.b3, m.c3, m.d3, m.a4, m.b4, m.c4, m.d4);
-			bNode->isBone = TRUE;
-			bNode->matrixIdx = boneMatrixIdxTable->get(bNode->name);
-		}
-	}
 	bNode->childNodes = new ManagedArray<RenderNode>(node->mNumChildren);
 	for (U32 i = 0; i < node->mNumChildren; i++) {
 		aiNode *child = node->mChildren[i];
-		bNode->childNodes->add(createRenderNode(scene, child, bNode, mesh));
+		bNode->childNodes->add(createRenderNode(scene, child, bNode));
 	}
 	return bNode;
 }
@@ -140,7 +173,13 @@ void AssimpAnimator::updateGlobalTransforms(RenderNode *node) {
 		node->globalTransform = node->localTransform;
 	}
 	if (node->isBone) {
-		boneMatrices[node->matrixIdx] = node->globalTransform * node->boneOffset;
+        for (U32 i = 0; i < scene->mNumMeshes; i++) {
+            if (node->meshBones[i].isUsed) {
+                aiMesh *mesh = scene->mMeshes[node->meshBones[i].boneMeshIdx];
+                MeshBoneMatrices *mbMats = meshBoneMatrices->get(mesh);
+                mbMats->boneMatrices[node->meshBones[i].matrixIdx] = node->globalTransform * node->meshBones[i].boneOffset;
+            }
+        }
 	}
 	node->globalAABB = node->globalTransform * node->localAABB;
 	node->globalAABB.reCalc();
@@ -256,19 +295,22 @@ void AssimpAnimator::interpolate(F32 pTime) {
 }
 
 Matrix4f* AssimpAnimator::updateGlobalInverseBoneMatrices(RenderNode *meshNode, const aiMesh *mesh) {
+    MeshBoneMatrices *mbMats = meshBoneMatrices->get(mesh);
 	Matrix4f globalInverse = meshNode->globalTransform.inverse();
 	// apply the inverse of the meshNode's global transform to our bone matrices
 	for (U32 i = 0; i < mesh->mNumBones; i++) {
-		boneMatricesWithRootInv[i] = globalInverse * boneMatrices[i];
+		mbMats->boneMatricesWithRootInv[i] = globalInverse * mbMats->boneMatrices[i];
 	}
-	return boneMatricesWithRootInv;
+	return mbMats->boneMatricesWithRootInv;
 }
 
 void AssimpAnimator::applyTransforms(RenderNode *meshNode, const aiMesh *mesh, GLAssimpSkinnedMeshVertex *vertAtts) {
-	if (boneMatrixCount == 0) {
+    MeshBoneMatrices *mbMats = meshBoneMatrices->get(mesh);
+	if (mbMats->boneMatrixCount == 0) {
 		return;
 	}
 	updateGlobalInverseBoneMatrices(meshNode, mesh);
+    Matrix4f *boneMatricesWithRootInv = mbMats->boneMatricesWithRootInv;
 	// now apply the (global inverse * transform * offset) bone matrices with weight to verts and normals.
 	for (U32 i = 0; i < mesh->mNumVertices; i++) {
 		const aiVector3D &pv = mesh->mVertices[i];
@@ -290,13 +332,21 @@ void AssimpAnimator::applyTransforms(RenderNode *meshNode, const aiMesh *mesh, G
 }
 
 void AssimpAnimator::applyNodeTransform(Matrix4f &globalInverse, RenderNode *node, aiMesh *mesh, Vector4f *transformedVerts, Vector4f *transformedNormals) {
+    MeshBoneMatrices *mbMats = meshBoneMatrices->get(mesh);
+    U32 meshIdx = 0;
+    for (U32 i = 0; i < scene->mNumMeshes; i++) {
+        if (scene->mMeshes[i] == mesh) {
+            meshIdx = i;
+            break;
+        }
+    }
 	// apply bone influences by bone instead of by vertex (this can have any number of weights but is hard to move into a shader).
 	for (U32 i = 0; i < mesh->mNumBones; i++) {
 		aiBone *bone = mesh->mBones[i];
 		// first determine - is this a bone node?
 		if (strEquals(bone->mName.data, node->name)) {
 			//Matrix4f boneMatrix = globalInverse * node->globalTransform * node->boneOffset;
-			Matrix4f boneMatrix = globalInverse * boneMatrices[node->matrixIdx];
+			Matrix4f boneMatrix = globalInverse * mbMats->boneMatrices[node->meshBones[meshIdx].matrixIdx];
 			for (U32 j = 0; j < bone->mNumWeights; j++) {
 				U32 vertIdx = bone->mWeights[j].mVertexId;
 				F32 weight = bone->mWeights[j].mWeight;

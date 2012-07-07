@@ -450,7 +450,7 @@
 		CD19378815A3538000A22B4A /* PCMStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PCMStream.cpp; sourceTree = "<group>"; };
 		CD19378915A3538000A22B4A /* PCMStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCMStream.h; sourceTree = "<group>"; };
 		CD19378A15A3538000A22B4A /* batterytech.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = batterytech.cpp; sourceTree = "<group>"; };
-		CD19378B15A3538000A22B4A /* batterytech.dox */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = batterytech.dox; sourceTree = "<group>"; };
+		CD19378B15A3538000A22B4A /* batterytech.dox */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = batterytech.dox; sourceTree = "<group>"; };
 		CD19378C15A3538000A22B4A /* batterytech.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = batterytech.h; sourceTree = "<group>"; };
 		CD19378D15A3538000A22B4A /* batterytech_entrypoints.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = batterytech_entrypoints.h; sourceTree = "<group>"; };
 		CD19378E15A3538000A22B4A /* batterytech_globals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = batterytech_globals.h; sourceTree = "<group>"; };

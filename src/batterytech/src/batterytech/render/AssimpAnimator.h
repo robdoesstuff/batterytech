@@ -30,6 +30,26 @@
 
 namespace BatteryTech {
 
+struct MeshBoneMatrices {
+    MeshBoneMatrices() {
+        boneMatrices = NULL;
+        boneMatricesWithRootInv = NULL;
+        boneMatrixCount = 0;
+    }
+    virtual ~MeshBoneMatrices() {
+        delete [] boneMatrices;
+        delete [] boneMatricesWithRootInv;
+        delete boneMatrixIdxTable;        
+    }
+	// Ordered list of global bone transforms, 1 per bone.
+	Matrix4f *boneMatrices;
+	S32 boneMatrixCount;
+	// Ordered list of global bone transforms multiplied with a scene root inverse, 1 per bone.
+	Matrix4f *boneMatricesWithRootInv;
+	// BoneName->boneMatrices idx - eg: Matrix4f m = boneMatrices[boneMatrixIdxTable->get("HipJoint")]
+	StrHashTable <S32> *boneMatrixIdxTable;
+};
+    
 class AssimpAnimator {
 public:
 	AssimpAnimator();
@@ -42,19 +62,14 @@ public:
 	S32 nodeCount;
 	// BoneName->RenderNode
 	StrHashTable <RenderNode*> *nodeTable;
-	// Ordered list of global bone transforms, 1 per bone.
-	Matrix4f *boneMatrices;
-	S32 boneMatrixCount;
-	// Ordered list of global bone transforms multiplied with a scene root inverse, 1 per bone.
-	Matrix4f *boneMatricesWithRootInv;
-	// BoneName->boneMatrices idx - eg: Matrix4f m = boneMatrices[boneMatrixIdxTable->get("HipJoint")]
-	StrHashTable <S32> *boneMatrixIdxTable;
+    HashTable<const aiMesh*, MeshBoneMatrices*> *meshBoneMatrices;
 private:
 	void addNodeToTable(RenderNode *node);
-	RenderNode* createRenderNode(const aiScene *scene, aiNode *node, RenderNode *parent, aiMesh *mesh);
+	RenderNode* createRenderNode(const aiScene *scene, aiNode *node, RenderNode *parent);
 	void updateGlobalTransforms(RenderNode *node);
 	void applyNodeTransform(Matrix4f &globalInverse, RenderNode *node, aiMesh *mesh, Vector4f *transformedVerts, Vector4f *transformedNormals);
 	const aiScene *scene;
+    BOOL32 sceneHasBones;
 };
 
 }

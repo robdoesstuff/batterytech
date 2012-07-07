@@ -25,6 +25,7 @@ using namespace Assimp;
 #include "../../../bt-assimp/include/aiPostProcess.h"
 #include "BTIOSystem.h"
 
+#define DEBUG_ASSIMP TRUE
 
 namespace BatteryTech {
 
@@ -56,25 +57,29 @@ Importer* BTAssimpImporter::importAsset(const char* assetName) {
 	importer->SetIOHandler(new BTIOSystem(importedAssetBasename));
 	const aiScene *scene = importer->ReadFile(fileName, aiProcess_LimitBoneWeights);
 	if (scene) {
-		//sprintf(buf, "(Scene) Meshes=%d Animations=%d", scene->mNumMeshes, scene->mNumAnimations);
-		//logmsg(buf);
+#ifdef DEBUG_ASSIMP
+		sprintf(buf, "(Scene) Meshes=%d Animations=%d", scene->mNumMeshes, scene->mNumAnimations);
+		logmsg(buf);
+#endif
 		S32 totalVerts = 0;
 		S32 totalBones = 0;
 		for (U32 i = 0; i < scene->mNumMeshes; i++) {
 			aiMesh *mesh = scene->mMeshes[i];
-			//sprintf(buf, "(Scene) (Mesh %d) Name=%s Verts=%d Bones=%d", i, mesh->mName.data, mesh->mNumVertices, mesh->mNumBones);
-			//logmsg(buf);
+#ifdef DEBUG_ASSIMP
+			sprintf(buf, "(Scene) (Mesh %d) Name=%s Verts=%d Bones=%d", i, mesh->mName.data, mesh->mNumVertices, mesh->mNumBones);
+            logmsg(buf);
+#endif
 			totalVerts += mesh->mNumVertices;
 			totalBones += mesh->mNumBones;
-			/*
+#ifdef DEBUG_ASSIMP
 			for (U32 j = 0; j < mesh->mNumBones; j++) {
 				aiBone *bone = mesh->mBones[j];
 				sprintf(buf, "(Scene) (Mesh %d) (Bone %d) Name=%s Weights=%d", i, j, bone->mName.data, bone->mNumWeights);
 				logmsg(buf);
 			}
-			*/
+#endif
 		}
-		/*
+#ifdef DEBUG_ASSIMP
 		for (U32 i = 0; i < scene->mNumAnimations; i++) {
 			aiAnimation *anim = scene->mAnimations[i];
 			sprintf(buf, "(Scene) (Animation %d) Channels=%d MeshChannels=%d Duration=%f TPS=%f", i, anim->mNumChannels, anim->mNumMeshChannels, anim->mDuration, anim->mTicksPerSecond);
@@ -85,7 +90,7 @@ Importer* BTAssimpImporter::importAsset(const char* assetName) {
 				logmsg(buf);
 			}
 		}
-		*/
+#endif
 		sprintf(buf, "Assimp Scene loaded: [%d] meshes, [%d] verts, [%d] bones, [%d] animations", scene->mNumMeshes, totalVerts, totalBones, scene->mNumAnimations);
 		logmsg(buf);
 		// convert to Z-Up
@@ -94,7 +99,9 @@ Importer* BTAssimpImporter::importAsset(const char* assetName) {
 				 0,  0,  -1,  0,
 				 0, 1,  0,  0,
 				 0,  0,  0,  1);
-		// processNode(scene->mRootNode);
+#ifdef DEBUG_ASSIMP
+		processNode(scene->mRootNode);
+#endif
 		//_platform_free_asset(data);
 	} else {
 		logmsg("No scene!");
