@@ -39,6 +39,7 @@ public:
 	virtual Vector2f getTrimmedSize() { return trimmedSize; }
 	virtual Vector2f getCornerOffset() { return cornerOffset; }
 	virtual Matrix4f getMatrix() { return mat; }
+    virtual GLuint getTextureId();
 	void createMat();
 	Context *context;
 	AssetTexture *assetTexture;

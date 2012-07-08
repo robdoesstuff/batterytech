@@ -64,6 +64,7 @@ namespace BatteryTech {
 		virtual Vector2f getCornerOffset() { return vector2i_0; }
 		virtual Matrix4f getMatrix() { return mat; }
 		virtual void clearAliases();
+        virtual GLuint getTextureId() { return textureId; }
 		static Matrix4f mat;
 		GLuint textureId;
 		Vector2i size;

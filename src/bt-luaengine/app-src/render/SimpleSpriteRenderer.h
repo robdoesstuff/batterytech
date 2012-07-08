@@ -34,6 +34,8 @@ public:
 	 * \param item The item to render
 	 */
 	virtual void render(RenderItem *item);
+    void startBatch();
+    void endBatch();
 	virtual ~SimpleSpriteRenderer();
 private:
 	GameContext *context;

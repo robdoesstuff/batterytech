@@ -101,6 +101,12 @@ namespace BatteryTech {
 		 * Care needs to be taken when calling functions like this as they need to not happen while iterating the entire array of textures
 		 */
 		virtual void clearAliases() {};
+        /**
+         * \brief gets the texture ID
+         *
+         * \return The ID of this texture
+         */
+        virtual GLuint getTextureId()=0;
 		static U32 textureSwitches;
 		static GLuint lastTextureId;
 		char *assetName;

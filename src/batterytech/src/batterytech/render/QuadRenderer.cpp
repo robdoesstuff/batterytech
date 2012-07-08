@@ -23,13 +23,40 @@
 #include "GLResourceManager.h"
 #include "../Context.h"
 
+// this will buffer 200 quads for batching
+#define BATCH_BUFFER_SIZE 200
+
+#define BUFFER_OFFSET(i) (reinterpret_cast<void*>(i))
+
+// general rotation around a point is:
+// x' = xcos0 - ysin0;
+// y' = xsin0 + ycos0;
+#define ROTATE_X(x, y, rotSin, rotCos) (x*rotCos - y*rotSin)
+#define ROTATE_Y(x, y, rotSin, rotCos) (x*rotSin + y*rotCos)
+
 namespace BatteryTech {
 
 QuadRenderer::QuadRenderer(Context *context) {
 	this->context = context;
+    batchEnabled = FALSE;
+    inBatch = FALSE;
+    vertVBOId = 0;
+    idxVBOId = 0;
+    vertBuffer = NULL;
+    quadsBatched = 0;
 }
 
 QuadRenderer::~QuadRenderer() {
+    delete [] vertBuffer;
+    vertBuffer = NULL;
+    if (vertVBOId) {
+		glDeleteBuffers(1, &vertVBOId);
+    }
+    vertVBOId = 0;
+    if (idxVBOId) {
+		glDeleteBuffers(1, &idxVBOId);
+    }
+    idxVBOId = 0;
 }
 
 void QuadRenderer::init(BOOL32 newContext) {
@@ -42,19 +69,56 @@ void QuadRenderer::init(BOOL32 newContext) {
 		}
 		shaderProgram->load(FALSE);
 	}
+    if (context->gConfig->useShaders || context->gConfig->supportsVBOs) {
+        if (newContext) {
+            if (vertVBOId) {
+                glDeleteBuffers(1, &vertVBOId);
+            }
+            vertVBOId = 0;
+            if (idxVBOId) {
+                glDeleteBuffers(1, &idxVBOId);
+            }
+            idxVBOId = 0;
+        }
+        batchEnabled = TRUE;
+		GLuint bufferIDs[2];
+		glGenBuffers(2, bufferIDs);
+		vertVBOId = bufferIDs[0];
+		idxVBOId = bufferIDs[1];
+        vertBuffer = new GLQuadVertex[BATCH_BUFFER_SIZE*4];
+        U16 indices[BATCH_BUFFER_SIZE*6];
+        // generate the face indices
+        for (S32 i = 0; i < BATCH_BUFFER_SIZE; i++) {
+            S32 ii = i*6;
+            S32 jj = i*4;
+            indices[ii+0] = jj+0;
+            indices[ii+1] = jj+1;
+            indices[ii+2] = jj+2;
+            indices[ii+3] = jj+0;
+            indices[ii+4] = jj+2;
+            indices[ii+5] = jj+3;
+        }
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, idxVBOId);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, BATCH_BUFFER_SIZE * 6 * sizeof(U16), indices, GL_STATIC_DRAW);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+        glBindBuffer(GL_ARRAY_BUFFER, vertVBOId);
+        glBufferData(GL_ARRAY_BUFFER, BATCH_BUFFER_SIZE * 4 * sizeof(GLQuadVertex), vertBuffer, GL_DYNAMIC_DRAW);
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+    }
 	checkGLError("QuadRenderer Init");
 }
 
 void QuadRenderer::render(Texture *texture, F32 top, F32 right, F32 bottom, F32 left) {
-	Vector2f uvs[] = { Vector2f(0,0), Vector2f(1,0),
-			Vector2f(1,1), Vector2f(0,1)
-	};
+	Vector2f uvs[] = { Vector2f(0,0), Vector2f(1,0), Vector2f(1,1), Vector2f(0,1)};
 	F32 desWidth = right-left;
 	F32 desHeight = bottom-top;
 	F32 width = desWidth;
 	F32 height = desHeight;
 	Vector2f offset(0,0);
 	if (texture) {
+        if (texture->getTextureId() != Texture::lastTextureId) {
+            drawBatch();
+        }
 		texture->bind();
 		Matrix4f tMat = texture->getMatrix();
 		// transform the UVs into texture space (to support atlased images)
@@ -72,9 +136,13 @@ void QuadRenderer::render(Texture *texture, F32 top, F32 right, F32 bottom, F32 
 	F32 actualRight = actualLeft + width;
 	F32 actualTop = top + offset.y;
 	F32 actualBottom = actualTop + height;
-	F32 verts[] = {
-			actualLeft, actualTop, 0, actualRight, actualTop, 0, actualRight, actualBottom, 0, actualLeft, actualBottom, 0
+	Vector3f verts[] = {
+			Vector3f(actualLeft, actualTop, 0), Vector3f(actualRight, actualTop, 0), Vector3f(actualRight, actualBottom, 0), Vector3f(actualLeft, actualBottom, 0)
 	};
+    if (inBatch) {
+        addToBatch(verts, uvs, context->renderContext->colorFilter, Vector3f(0,0,0), 0);
+        return;
+    }
 	//glFrontFace(GL_CW);
 	if (context->gConfig->useShaders) {
 		ShaderProgram *shaderProgram = context->glResourceManager->getShaderProgram("quad");
@@ -113,6 +181,9 @@ void QuadRenderer::render(Texture *texture, Vector3f pos, F32 angleRads, Vector4
 	F32 height = desHeight;
 	Vector2f offsetDelta(0,0);
 	if (texture) {
+        if (texture->getTextureId() != Texture::lastTextureId) {
+            drawBatch();
+        }
 		texture->bind();
 		Matrix4f tMat = texture->getMatrix();
 		// transform the UVs into texture space (to support atlased images)
@@ -141,9 +212,13 @@ void QuadRenderer::render(Texture *texture, Vector3f pos, F32 angleRads, Vector4
 		bottom = height/2 + offsetDelta.y;
 	}
 	F32 left = -width/2 + offsetDelta.x;
-	F32 verts[] = {
-			left, top, z, right, top, z, right, bottom, z, left, bottom, z
+	Vector3f verts[] = {
+			Vector3f(left, top, z), Vector3f(right, top, z), Vector3f(right, bottom, z), Vector3f(left, bottom, z)
 	};
+    if (inBatch) {
+        addToBatch(verts, uvs, colorFilter, pos, angleRads);
+        return;
+    }
 	if (context->gConfig->useShaders) {
 		Matrix4f myMvMatrix = context->renderContext->mvMatrix;
 		myMvMatrix.translate(x, y, z);
@@ -175,5 +250,69 @@ void QuadRenderer::render(Texture *texture, Vector3f pos, F32 angleRads, Vector4
 	}
 }
 
+    void QuadRenderer::startBatch() {
+        if (batchEnabled) {
+            inBatch = TRUE;
+        }
+    }
+    
+    void QuadRenderer::endBatch() {
+        drawBatch();
+        inBatch = FALSE;
+    }
+
+    void QuadRenderer::addToBatch(Vector3f *quadVerts, Vector2f *quadUVs, Vector4f colorFilter, Vector3f position, F32 rotation) {
+        if (quadsBatched >= BATCH_BUFFER_SIZE) {
+            drawBatch();
+        }
+        for (S32 i = 0; i < 4; i++) {
+            if (rotation) {
+                F32 rotSin = sin(rotation);
+                F32 rotCos = cos(rotation);
+                F32 x = quadVerts[i].x;
+                F32 y = quadVerts[i].y;
+                F32 z = quadVerts[i].z;
+                vertBuffer[quadsBatched*4+i].position = Vector3f(ROTATE_X(x, y, rotSin, rotCos), ROTATE_Y(x, y, rotSin, rotCos), z) + position;
+            } else {
+                vertBuffer[quadsBatched*4+i].position = quadVerts[i] + position;
+            }
+            vertBuffer[quadsBatched*4+i].uv = quadUVs[i];
+        }
+        quadsBatched++;
+    }
+    
+    void QuadRenderer::drawBatch() {
+        if (!inBatch || !quadsBatched) {
+            return;
+        }
+        Vector4f colorFilter = context->renderContext->colorFilter;
+		glBindBuffer(GL_ARRAY_BUFFER, vertVBOId);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, idxVBOId);
+        glBufferSubData(GL_ARRAY_BUFFER, 0, quadsBatched*sizeof(GLQuadVertex)*4, vertBuffer);
+        if (context->gConfig->useShaders) {
+            Matrix4f myMvMatrix = context->renderContext->mvMatrix;
+            ShaderProgram *shaderProgram = context->glResourceManager->getShaderProgram("quad");
+            shaderProgram->bind();
+            glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("vPosition"), 3, GL_FLOAT, GL_FALSE, sizeof(GLQuadVertex), BUFFER_OFFSET(0));
+            glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("uvMap"), 2, GL_FLOAT, GL_FALSE, sizeof(GLQuadVertex), BUFFER_OFFSET(sizeof(Vector3f)));
+            glUniformMatrix4fv(shaderProgram->getUniformLoc("projection_matrix"), 1, GL_FALSE, (GLfloat*) context->renderContext->projMatrix.data);
+            glUniformMatrix4fv(shaderProgram->getUniformLoc("modelview_matrix"), 1, GL_FALSE, (GLfloat*) myMvMatrix.data);
+            glUniform1i(shaderProgram->getUniformLoc("tex"), 0);
+            glUniform4f(shaderProgram->getUniformLoc("colorFilter"), colorFilter.x,colorFilter.y,colorFilter.z,colorFilter.a);
+            shaderProgram->unbind();
+        } else {
+            // GL1 rendering branch
+            glColor4f(colorFilter.x,colorFilter.y,colorFilter.z,colorFilter.a);
+            glVertexPointer(3, GL_FLOAT, sizeof(GLQuadVertex), BUFFER_OFFSET(0));
+            glTexCoordPointer(2, GL_FLOAT, sizeof(GLQuadVertex), BUFFER_OFFSET(sizeof(Vector3f)));
+        }
+        glDrawElements(GL_TRIANGLES, quadsBatched*6, GL_UNSIGNED_SHORT, 0);
+        // char buf[255];
+        // sprintf(buf, "drawing batch of %d", quadsBatched);
+        // logmsg(buf);
+        quadsBatched = 0;
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    }
 }
 

@@ -119,6 +119,9 @@ function Play:show()
 		game:setParticleAlphaSpeedRange(emitterId, -0.5, -0.5)
 		game:startParticleEmitter(emitterId)
 	end
+    addTestResources()
+    game:loadNewResources()
+    
 end
 
 function Play:setupLevel()
@@ -138,6 +141,16 @@ function Play:setupLevel()
 end
 
 function Play:update(tickDelta)
+    if not self.seymour then
+        self.seymour = allocMeta(GameObject.createInstance(), GameObject)
+        self.seymour:cInit()
+        self.seymour:anim_allocAnimations(1)
+        self.seymour:anim_initDynamic(0, "models/Seymour.dae", nil)
+        self.seymouranim = 0
+    else
+        self.seymouranim = self.seymouranim + tickDelta
+        self.seymour:anim_interpolate(0, self.seymouranim)
+    end
 	for i,v in ipairs(self.buttons) do
 		v:update(tickDelta)
 	end
@@ -309,8 +322,9 @@ function Play:render()
 	-- draw boxes
 	for i = 1, #self.boxes do
 		local box = self.boxes[i]
-		local idx = game:renderAssimpM(nil, 0, "models/box.obj", nil, "textures/box_star.jpg", true, 1,0,0,0,0,1,0,0,0,0,1,0,box.x,box.y,PLAY_BOX_SIZE/2,1, PLAY_BOX_SIZE,PLAY_BOX_SIZE,PLAY_BOX_SIZE, self.boxrot)
-		game:setRenderItemParam(idx, "maxPointLights", 1)
+		local idx = game:renderAssimpM(self.seymour, 0, "models/Seymour.dae", nil, nil, true, 1,0,0,0,0,1,0,0,0,0,1,0,box.x,box.y,4,1, 1,1,1, 0)
+		--local idx = game:renderAssimpM(nil, 0, "models/box.obj", nil, "textures/box_star.jpg", true, --1,0,0,0,0,1,0,0,0,0,1,0,box.x,box.y,PLAY_BOX_SIZE/2,1, PLAY_BOX_SIZE,PLAY_BOX_SIZE,PLAY_BOX_SIZE, self.boxrot)
+		-- game:setRenderItemParam(idx, "maxPointLights", 1)
 	end
 	-- draw playing surface
 	game:renderAssimpM(nil, 0, "models/box.obj", nil, "textures/box_surface.jpg", true, 1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1, 100.0,100.0,1.0, 0)

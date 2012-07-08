@@ -27,3 +27,8 @@ addSound("sounds/click.ogg")
 addSound("sounds/laser_echo.ogg")
 addSound("sounds/space_noises.ogg")
 addSound("sounds/whoosh.ogg")
+
+function addTestResources()
+    addAssimp("models/Seymour.dae")
+    addTexture("models/Seymour.jpg")
+end

@@ -54,3 +54,10 @@ void SimpleSpriteRenderer::render(RenderItem *item) {
 	context->quadRenderer->render(texture, item->pos, item->orientation.v.z, item->uvs, Vector2f(item->scale.x, item->scale.y), item->colorFilter, item->flags & RENDERITEM_FLAG_IS_OPAQUE, isBB, bbMat);
 }
 
+void SimpleSpriteRenderer::startBatch() {
+    context->quadRenderer->startBatch();
+}
+
+void SimpleSpriteRenderer::endBatch() {
+    context->quadRenderer->endBatch();
+}

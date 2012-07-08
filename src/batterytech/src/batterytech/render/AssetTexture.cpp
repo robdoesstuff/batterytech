@@ -187,8 +187,8 @@ namespace BatteryTech {
 	}
 
 	void AssetTexture::unload() {
-		// TODO - unload vtexes
 		if (textureId) {
+            clearAliases();
 			glDeleteTextures(1, &textureId);
 			textureId = 0;
 		}

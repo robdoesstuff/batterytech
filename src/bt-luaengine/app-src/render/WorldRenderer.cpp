@@ -418,6 +418,7 @@ void WorldRenderer::render2D() {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     TextRasterRenderer *curTextRenderer = NULL;
     char *curFontTag = NULL;
+    spriteRenderer->startBatch();
 	for (S32 i = 0; i < world->renderItemsUsed; i++) {
 		RenderItem *item = &world->renderItems[i];
 		if (item->renderType == RenderItem::RENDERTYPE_2D) {
@@ -425,15 +426,19 @@ void WorldRenderer::render2D() {
 				curTextRenderer->finishText();
 				curTextRenderer = NULL;
 				curFontTag = NULL;
+                spriteRenderer->startBatch();
 			}
 			context->renderContext->colorFilter = Vector4f(1,1,1,1);
 			if (strEquals(item->textureName, "shadowmap")) {
 				item->textureName[0] = '\0';
+                spriteRenderer->endBatch();
+                spriteRenderer->startBatch();
 				shadowMap->bindAsTexture();
 			}
 			spriteRenderer->render(item);
 		} else if (item->renderType == RenderItem::RENDERTYPE_TEXT2D) {
 			if (!curFontTag) {
+                spriteRenderer->endBatch();
 				curFontTag = item->attr2;
 				curTextRenderer = textRenderers->get(curFontTag);
 				curTextRenderer->startText();
@@ -462,6 +467,7 @@ void WorldRenderer::render2D() {
 		curTextRenderer->finishText();
 		curTextRenderer = NULL;
 	}
+    spriteRenderer->endBatch();
 	if (context->showFPS) {
 		char fpsText[50];
 		sprintf(fpsText, "FPS: %d", fps);
