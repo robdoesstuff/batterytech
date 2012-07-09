@@ -21,6 +21,7 @@
 #include "../decoders/stb_truetype.h"
 #include "../platform/platformgl.h"
 #include "GraphicsConfiguration.h"
+#include "QuadRenderer.h"
 
 namespace BatteryTech {
 
@@ -82,6 +83,7 @@ namespace BatteryTech {
 	private:
 		void applyInnerStroke(unsigned char* bitmap8, unsigned char* bitmap, S32 width, S32 height);
 		void applyOuterStroke(unsigned char* bitmap8, unsigned char* bitmap, S32 width, S32 height);
+        void renderBuffer(S32 count);
 		Context *context;
 		stbtt_bakedchar cdata[96]; // ASCII 32..126 is 95 glyphs
 		GLuint ftex;
@@ -91,6 +93,10 @@ namespace BatteryTech {
 		S32 innerStroke, outerStroke;
 		Vector4f color;
 		F32 vertSpaceMult;
+        GLuint vertVBOId;
+        GLuint idxVBOId;
+        GLQuadVertex *vertBuffer;
+        U16 *idxBuffer;
 	};
 
 }

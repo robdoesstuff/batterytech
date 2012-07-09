@@ -37,6 +37,7 @@ void ScreenControlRenderer::init(BOOL32 newContext) {
 void ScreenControlRenderer::render() {
 	//glFrontFace(GL_CW);
 	ManagedArray<ScreenControl> *controls = context->world->screenControls;
+    context->quadRenderer->startBatch();
 	for (S32 i = 0; i < controls->getSize(); i++) {
 		ScreenControl *control = controls->array[i];
 		if (!control->getTextureAssetName()) {
@@ -52,7 +53,7 @@ void ScreenControlRenderer::render() {
 		F32 height = bottom-top;
 		context->quadRenderer->render(texture, Vector3f(left + width/2, top + height/2, 0), 0, control->textureUVs, Vector2f(width, height), Vector4f(1,1,1,1), TRUE, FALSE, Matrix4f());
 	}
-	
+	context->quadRenderer->endBatch();
 	BOOL32 hasLabels = FALSE;
 
 	for (S32 i = 0; i < controls->getSize(); i++) {

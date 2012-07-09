@@ -12,7 +12,6 @@
 #include "../GameContext.h"
 #include <batterytech/primitives.h>
 #include <batterytech/platform/platformgl.h>
-#include "BatchSpriteRenderer.h"
 
 using namespace BatteryTech;
 
@@ -26,7 +25,6 @@ public:
 	virtual void render(World *world);
 private:
 	GameContext *context;
-	BatchSpriteRenderer *spriteRenderer;
 };
 
 #endif /* BALLRENDERER_H_ */

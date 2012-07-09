@@ -70,7 +70,7 @@ void QuadRenderer::init(BOOL32 newContext) {
 		shaderProgram->load(FALSE);
 	}
     if (context->gConfig->useShaders || context->gConfig->supportsVBOs) {
-        if (newContext) {
+        if (!newContext) {
             if (vertVBOId) {
                 glDeleteBuffers(1, &vertVBOId);
             }
@@ -139,8 +139,19 @@ void QuadRenderer::render(Texture *texture, F32 top, F32 right, F32 bottom, F32 
 	Vector3f verts[] = {
 			Vector3f(actualLeft, actualTop, 0), Vector3f(actualRight, actualTop, 0), Vector3f(actualRight, actualBottom, 0), Vector3f(actualLeft, actualBottom, 0)
 	};
+    // if batching isn't on, we automatically enable it (with a fallback to old rendering code when unavaialble)
+    // even though we're only putting one draw in the batch, we don't have to switch off VBOs because the batch code handles that
+    // exactly the same way we would for a single draw.
+    BOOL32 autoBatch = FALSE;
+    if (!inBatch) {
+        startBatch();
+        autoBatch = TRUE;
+    }
     if (inBatch) {
         addToBatch(verts, uvs, context->renderContext->colorFilter, Vector3f(0,0,0), 0);
+        if (autoBatch) {
+            endBatch();
+        }
         return;
     }
 	//glFrontFace(GL_CW);
@@ -215,8 +226,19 @@ void QuadRenderer::render(Texture *texture, Vector3f pos, F32 angleRads, Vector4
 	Vector3f verts[] = {
 			Vector3f(left, top, z), Vector3f(right, top, z), Vector3f(right, bottom, z), Vector3f(left, bottom, z)
 	};
+    // if batching isn't on, we automatically enable it (with a fallback to old rendering code when unavaialble)
+    // even though we're only putting one draw in the batch, we don't have to switch off VBOs because the batch code handles that
+    // exactly the same way we would for a single draw.
+    BOOL32 autoBatch = FALSE;
+    if (!inBatch) {
+        startBatch();
+        autoBatch = TRUE;
+    }
     if (inBatch) {
         addToBatch(verts, uvs, colorFilter, pos, angleRads);
+        if (autoBatch) {
+            endBatch();
+        }
         return;
     }
 	if (context->gConfig->useShaders) {
@@ -286,6 +308,7 @@ void QuadRenderer::render(Texture *texture, Vector3f pos, F32 angleRads, Vector4
             return;
         }
         Vector4f colorFilter = context->renderContext->colorFilter;
+        // batching is only enabled if we're supporting VBOs and if we're supporting those, we use them everywhere so we don't have to switch out
 		glBindBuffer(GL_ARRAY_BUFFER, vertVBOId);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, idxVBOId);
         glBufferSubData(GL_ARRAY_BUFFER, 0, quadsBatched*sizeof(GLQuadVertex)*4, vertBuffer);
@@ -311,8 +334,6 @@ void QuadRenderer::render(Texture *texture, Vector3f pos, F32 angleRads, Vector4
         // sprintf(buf, "drawing batch of %d", quadsBatched);
         // logmsg(buf);
         quadsBatched = 0;
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     }
 }
 

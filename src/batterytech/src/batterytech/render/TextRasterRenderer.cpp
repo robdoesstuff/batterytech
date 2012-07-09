@@ -37,6 +37,8 @@
 
 #define SHADER_PROGRAM_TAG "quad"
 
+#define BUFFER_OFFSET(i) (reinterpret_cast<void*>(i))
+
 namespace BatteryTech {
 
 	TextRasterRenderer::TextRasterRenderer(Context *context, const char *assetName, F32 fontSize) {
@@ -48,10 +50,16 @@ namespace BatteryTech {
 		innerStroke = 0;
 		outerStroke = 0;
 		color = Vector4f(1,1,1,1);
+        vertVBOId = 0;
+        idxVBOId = 0;
+        vertBuffer = new GLQuadVertex[TEXT_RENDER_MAX_MULTILINE_LENGTH * 4];
+        idxBuffer = new U16[TEXT_RENDER_MAX_MULTILINE_LENGTH*6];
 	}
 
 	TextRasterRenderer::~TextRasterRenderer() {
 		delete [] aName;
+        delete [] vertBuffer;
+        delete [] idxBuffer;
 	}
 
 	void TextRasterRenderer::setStroke(S32 inner, S32 outer) {
@@ -64,9 +72,9 @@ namespace BatteryTech {
 	}
 
 	void TextRasterRenderer::init(BOOL32 newContext) {
-		if (!newContext) {
-			return;
-		}
+        if (!newContext) {
+            return;
+        }
 		S32 bmpWidth = context->appProperties->get("initial_font_texture_width")->getIntValue();
 		S32 bmpHeight = context->appProperties->get("initial_font_texture_height")->getIntValue();
 		vertSpaceMult = context->appProperties->get("text_vertical_spacing_multiplier")->getFloatValue();
@@ -153,6 +161,31 @@ namespace BatteryTech {
 			}
 			// can free temp_bitmap at this point
 			_platform_free_asset(data);
+            // generate the face indices
+            for (S32 i = 0; i < TEXT_RENDER_MAX_MULTILINE_LENGTH; i++) {
+                S32 ii = i*6;
+                S32 jj = i*4;
+                idxBuffer[ii+0] = jj+0;
+                idxBuffer[ii+1] = jj+1;
+                idxBuffer[ii+2] = jj+2;
+                idxBuffer[ii+3] = jj+0;
+                idxBuffer[ii+4] = jj+2;
+                idxBuffer[ii+5] = jj+3;
+            }
+            if (context->gConfig->supportsShaders || context->gConfig->supportsVBOs) {
+                // init VBO support
+                GLuint bufferIDs[2];
+                glGenBuffers(2, bufferIDs);
+                vertVBOId = bufferIDs[0];
+                idxVBOId = bufferIDs[1];
+                glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, idxVBOId);
+                glBufferData(GL_ELEMENT_ARRAY_BUFFER, TEXT_RENDER_MAX_MULTILINE_LENGTH * 6 * sizeof(U16), idxBuffer, GL_STATIC_DRAW);
+                glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+                glBindBuffer(GL_ARRAY_BUFFER, vertVBOId);
+                glBufferData(GL_ARRAY_BUFFER, TEXT_RENDER_MAX_MULTILINE_LENGTH * 4 * sizeof(GLQuadVertex), vertBuffer, GL_DYNAMIC_DRAW);
+                glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+            }
 		} else {
 			Logger::logMsg("error loading font");
 		}
@@ -218,103 +251,51 @@ namespace BatteryTech {
 	void TextRasterRenderer::render(const char *text, F32 x, F32 y, F32 scale) {
 		S32 length = strlen(text);
 		// longest string is TEXT_RENDER_MAX_LINE_LENGTH
-		F32 verts[TEXT_RENDER_MAX_LINE_LENGTH * 6 * 3];
-		F32 uvs[TEXT_RENDER_MAX_LINE_LENGTH * 6 * 2];
 		S32 unicodes[TEXT_RENDER_MAX_LINE_LENGTH];
 		length = strnUTF8ToUnicodeArray(text, unicodes, TEXT_RENDER_MAX_LINE_LENGTH);
 		if (length > TEXT_RENDER_MAX_LINE_LENGTH) {
 			length = TEXT_RENDER_MAX_LINE_LENGTH;
 		}
 		S32 i = 0;
-#ifdef DEBUG_TEXT_ELEMENT_ARRAY
-		for (S32 i = 0; i < TEXT_RENDER_MAX_LINE_LENGTH; i++) {
-			// top left
-			verts[i * 18] = verts[i * 18 + 9] = 0;
-			verts[i * 18 + 1] = verts[i * 18 + 9 + 10] = 0;
-			verts[i * 18 + 2] = verts[i * 18 + 9 + 11] = 0;
-			// top right
-			verts[i * 18 + 3] = context->gConfig->viewportWidth;
-			verts[i * 18 + 4] = 0;
-			verts[i * 18 + 5] = 0;
-			// bottom right
-			verts[i * 18 + 6] = verts[i * 18 + 12] = context->gConfig->viewportWidth;
-			verts[i * 18 + 7] = verts[i * 18 + 13] = context->gConfig->viewportHeight;
-			verts[i * 18 + 8] = verts[i * 18 + 14] = 0;
-			// bottom left
-			verts[i * 18 + 15] = 0;
-			verts[i * 18 + 16] = context->gConfig->viewportHeight;
-			verts[i * 18 + 17] = 0;
-			// 0
-			uvs[i * 12] = uvs[i * 12 + 6] = 0;
-			uvs[i * 12 + 1] = uvs[i * 12 + 7] = 0;
-			// 1
-			uvs[i * 12 + 2] = 1.0;
-			uvs[i * 12 + 3] = 0;
-			// 2
-			uvs[i * 12 + 4] = uvs[i * 12 + 8] = 1.0;
-			uvs[i * 12 + 5] = uvs[i * 12 + 9] = 1.0;
-			// 3
-			uvs[i * 12 + 10] = 0;
-			uvs[i * 12 + 11] = 1.0;
-		}
-#endif
+		// count the number of actually renderable characters
+		S32 renderChars = 0;
 		while (*text && i <= TEXT_RENDER_MAX_LINE_LENGTH) {
 			if (*text >= 32 && *text < 256) {
 				stbtt_aligned_quad q;
 				stbtt_GetBakedQuad(cdata, bmpWidth, bmpHeight, *text-32, &x,&y,&q,1, scale);//1=opengl,0=old d3d
-				S32 pos = i * 18;
-				// 0
-				verts[pos] = q.x0;
-				verts[pos + 1] = q.y0;
-				verts[pos + 2] = 0;
-				// 1
-				verts[pos + 3] = q.x1;
-				verts[pos + 4] = q.y0;
-				verts[pos + 5] = 0;
-				// 2
-				verts[pos + 6] = q.x1;
-				verts[pos + 7] = q.y1;
-				verts[pos + 8] = 0;
-				// 0
-				verts[pos + 9] = q.x0;
-				verts[pos + 10] = q.y0;
-				verts[pos + 11] = 0;
-				// 2
-				verts[pos + 12] = q.x1;
-				verts[pos + 13] = q.y1;
-				verts[pos + 14] = 0;
-				// 3
-				verts[pos + 15] = q.x0;
-				verts[pos + 16] = q.y1;
-				verts[pos + 17] = 0;
-				pos = i * 12;
-				// 0
-				uvs[pos] = q.s0;
-				uvs[pos + 1] = q.t0;
-				// 1
-				uvs[pos + 2] = q.s1;
-				uvs[pos + 3] = q.t0;
-				// 2
-				uvs[pos + 4] = q.s1;
-				uvs[pos + 5] = q.t1;
-				// 0
-				uvs[pos + 6] = q.s0;
-				uvs[pos + 7] = q.t0;
-				// 2
-				uvs[pos + 8] = q.s1;
-				uvs[pos + 9] = q.t1;
-				// 3
-				uvs[pos + 10] = q.s0;
-				uvs[pos + 11] = q.t1;
+                vertBuffer[renderChars*4].position = Vector3f(q.x0, q.y0, 0);
+                vertBuffer[renderChars*4+1].position = Vector3f(q.x1, q.y0, 0);
+                vertBuffer[renderChars*4+2].position = Vector3f(q.x1, q.y1, 0);
+                vertBuffer[renderChars*4+3].position = Vector3f(q.x0, q.y1, 0);
+                vertBuffer[renderChars*4].uv = Vector2f(q.s0, q.t0);
+                vertBuffer[renderChars*4+1].uv = Vector2f(q.s1, q.t0);
+                vertBuffer[renderChars*4+2].uv = Vector2f(q.s1, q.t1);
+                vertBuffer[renderChars*4+3].uv = Vector2f(q.s0, q.t1);
+                ++renderChars;
 			}
+            ++i;
 			++text;
-			++i;
 		}
+        length = i;
+        if (length == 0) {
+            return;
+        }
+        renderBuffer(renderChars);
+	}
+
+    void TextRasterRenderer::renderBuffer(S32 count) {
+        BOOL32 useVBO = FALSE;
+        if (context->gConfig->useShaders || context->gConfig->supportsVBOs) {
+            glBindBuffer(GL_ARRAY_BUFFER, vertVBOId);
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, idxVBOId);
+            glBufferSubData(GL_ARRAY_BUFFER, 0, count*sizeof(GLQuadVertex)*4, vertBuffer);
+            useVBO = TRUE;
+        }
 		if (context->gConfig->useShaders) {
 			ShaderProgram *shaderProgram = context->glResourceManager->getShaderProgram(SHADER_PROGRAM_TAG);
 			if (shaderProgram) {
-				glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("vPosition"), 3, GL_FLOAT, GL_FALSE, 0, verts);
-				glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("uvMap"), 2, GL_FLOAT, GL_FALSE, 0, uvs);
+				glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("vPosition"), 3, GL_FLOAT, GL_FALSE, sizeof(GLQuadVertex), BUFFER_OFFSET(0));
+				glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("uvMap"), 2, GL_FLOAT, GL_FALSE, sizeof(GLQuadVertex), BUFFER_OFFSET(sizeof(Vector3f)));
 				glUniformMatrix4fv(shaderProgram->getUniformLoc("projection_matrix"), 1, GL_FALSE, (GLfloat*) context->renderContext->projMatrix.data);
 				glUniformMatrix4fv(shaderProgram->getUniformLoc("modelview_matrix"), 1, GL_FALSE, (GLfloat*) context->renderContext->mvMatrix.data);
 				glUniform1i(shaderProgram->getUniformLoc("tex"), 0);
@@ -324,14 +305,22 @@ namespace BatteryTech {
 		} else {
 			Vector4f colorFilter = context->renderContext->colorFilter;
 			glColor4f(colorFilter.x,colorFilter.y,colorFilter.z,colorFilter.a);
-			glVertexPointer(3, GL_FLOAT, 0, &verts);
-			glTexCoordPointer(2, GL_FLOAT, 0, &uvs);
+            if (context->gConfig->supportsVBOs) {
+                glVertexPointer(3, GL_FLOAT, sizeof(GLQuadVertex), BUFFER_OFFSET(0));
+                glTexCoordPointer(2, GL_FLOAT, sizeof(GLQuadVertex), BUFFER_OFFSET(sizeof(Vector3f)));
+            } else {
+                glVertexPointer(3, GL_FLOAT, sizeof(GLQuadVertex), vertBuffer);
+                glTexCoordPointer(2, GL_FLOAT, sizeof(GLQuadVertex), vertBuffer+sizeof(Vector3f));
+            }
 		}
-		if (length > 0) {
-			glDrawArrays(GL_TRIANGLES, 0, length * 6);
-		}
-	}
-
+        if (useVBO) {
+            glDrawElements(GL_TRIANGLES, count*6, GL_UNSIGNED_SHORT, 0);
+        } else {
+            glDrawElements(GL_TRIANGLES, count*6, GL_UNSIGNED_SHORT, idxBuffer);
+        }
+        
+    }
+    
 	F32 TextRasterRenderer::measureMultilineHeight(const char *text, F32 availableWidth, F32 scale) {
 		S32 i = 0;
 		S32 lastSpaceIdx = -1;
@@ -378,40 +367,6 @@ namespace BatteryTech {
 			length = TEXT_RENDER_MAX_MULTILINE_LENGTH;
 		}
 		// longest string is TEXT_RENDER_MAX_MULTILINE_LENGTH
-		F32 verts[TEXT_RENDER_MAX_MULTILINE_LENGTH * 6 * 3];
-		F32 uvs[TEXT_RENDER_MAX_MULTILINE_LENGTH * 6 * 2];
-#ifdef DEBUG_TEXT_ELEMENT_ARRAY
-		for (S32 i = 0; i < TEXT_RENDER_MAX_MULTILINE_LENGTH; i++) {
-			// top left
-			verts[i * 18] = verts[i * 18 + 9] = 0;
-			verts[i * 18 + 1] = verts[i * 18 + 9 + 10] = 0;
-			verts[i * 18 + 2] = verts[i * 18 + 9 + 11] = 0;
-			// top right
-			verts[i * 18 + 3] = context->gConfig->viewportWidth;
-			verts[i * 18 + 4] = 0;
-			verts[i * 18 + 5] = 0;
-			// bottom right
-			verts[i * 18 + 6] = verts[i * 18 + 12] = context->gConfig->viewportWidth;
-			verts[i * 18 + 7] = verts[i * 18 + 13] = context->gConfig->viewportHeight;
-			verts[i * 18 + 8] = verts[i * 18 + 14] = 0;
-			// bottom left
-			verts[i * 18 + 15] = 0;
-			verts[i * 18 + 16] = context->gConfig->viewportHeight;
-			verts[i * 18 + 17] = 0;
-			// 0
-			uvs[i * 12] = uvs[i * 12 + 6] = 0;
-			uvs[i * 12 + 1] = uvs[i * 12 + 7] = 0;
-			// 1
-			uvs[i * 12 + 2] = 1.0;
-			uvs[i * 12 + 3] = 0;
-			// 2
-			uvs[i * 12 + 4] = uvs[i * 12 + 8] = 1.0;
-			uvs[i * 12 + 5] = uvs[i * 12 + 9] = 1.0;
-			// 3
-			uvs[i * 12 + 10] = 0;
-			uvs[i * 12 + 11] = 1.0;
-		}
-#endif
 		S32 i = 0;
 		// count the number of actually renderable characters
 		S32 renderChars = 0;
@@ -457,76 +412,20 @@ namespace BatteryTech {
 						}
 					}
 				}
-				S32 pos = renderChars * 18;
-				// 0
-				verts[pos] = q.x0;
-				verts[pos + 1] = q.y0;
-				verts[pos + 2] = 0;
-				// 1
-				verts[pos + 3] = q.x1;
-				verts[pos + 4] = q.y0;
-				verts[pos + 5] = 0;
-				// 2
-				verts[pos + 6] = q.x1;
-				verts[pos + 7] = q.y1;
-				verts[pos + 8] = 0;
-				// 0
-				verts[pos + 9] = q.x0;
-				verts[pos + 10] = q.y0;
-				verts[pos + 11] = 0;
-				// 2
-				verts[pos + 12] = q.x1;
-				verts[pos + 13] = q.y1;
-				verts[pos + 14] = 0;
-				// 3
-				verts[pos + 15] = q.x0;
-				verts[pos + 16] = q.y1;
-				verts[pos + 17] = 0;
-				pos = renderChars * 12;
-				// 0
-				uvs[pos] = q.s0;
-				uvs[pos + 1] = q.t0;
-				// 1
-				uvs[pos + 2] = q.s1;
-				uvs[pos + 3] = q.t0;
-				// 2
-				uvs[pos + 4] = q.s1;
-				uvs[pos + 5] = q.t1;
-				// 0
-				uvs[pos + 6] = q.s0;
-				uvs[pos + 7] = q.t0;
-				// 2
-				uvs[pos + 8] = q.s1;
-				uvs[pos + 9] = q.t1;
-				// 3
-				uvs[pos + 10] = q.s0;
-				uvs[pos + 11] = q.t1;
-				//char buf[100];
-				//sprintf(buf, "RenderChar %d (%c) is pos %d", renderChars, c, pos);
-				//logmsg(buf);
+                vertBuffer[renderChars*4].position = Vector3f(q.x0, q.y0, 0);
+                vertBuffer[renderChars*4+1].position = Vector3f(q.x1, q.y0, 0);
+                vertBuffer[renderChars*4+2].position = Vector3f(q.x1, q.y1, 0);
+                vertBuffer[renderChars*4+3].position = Vector3f(q.x0, q.y1, 0);
+                vertBuffer[renderChars*4].uv = Vector2f(q.s0, q.t0);
+                vertBuffer[renderChars*4+1].uv = Vector2f(q.s1, q.t0);
+                vertBuffer[renderChars*4+2].uv = Vector2f(q.s1, q.t1);
+                vertBuffer[renderChars*4+3].uv = Vector2f(q.s0, q.t1);
 				++renderChars;
 			}
 			++i;
 			c = *(text + i);
 		}
-		if (context->gConfig->useShaders) {
-			ShaderProgram *shaderProgram = context->glResourceManager->getShaderProgram(SHADER_PROGRAM_TAG);
-			glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("vPosition"), 3, GL_FLOAT, GL_FALSE, 0, verts);
-			glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("uvMap"), 2, GL_FLOAT, GL_FALSE, 0, uvs);
-			glUniformMatrix4fv(shaderProgram->getUniformLoc("projection_matrix"), 1, GL_FALSE, (GLfloat*) context->renderContext->projMatrix.data);
-			glUniformMatrix4fv(shaderProgram->getUniformLoc("modelview_matrix"), 1, GL_FALSE, (GLfloat*) context->renderContext->mvMatrix.data);
-			glUniform1i(shaderProgram->getUniformLoc("tex"), 0);
-			Vector4f colorFilter = context->renderContext->colorFilter;
-			glUniform4f(shaderProgram->getUniformLoc("colorFilter"), colorFilter.x,colorFilter.y,colorFilter.z,colorFilter.a);
-		} else {
-			Vector4f colorFilter = context->renderContext->colorFilter;
-			glColor4f(colorFilter.x,colorFilter.y,colorFilter.z,colorFilter.a);
-			glVertexPointer(3, GL_FLOAT, 0, &verts);
-			glTexCoordPointer(2, GL_FLOAT, 0, &uvs);
-		}
-		if (renderChars > 0) {
-			glDrawArrays(GL_TRIANGLES, 0, renderChars * 6);
-		}
+		renderBuffer(renderChars);
 	}
 
 	void TextRasterRenderer::applyOuterStroke(unsigned char* bitmap8, unsigned char* bitmap, S32 width, S32 height) {

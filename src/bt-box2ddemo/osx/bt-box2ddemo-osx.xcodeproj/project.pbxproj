@@ -155,7 +155,6 @@
 		CDF92BD715A6127E006FA7A5 /* TopMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CDF92BB715A6127E006FA7A5 /* TopMenu.cpp */; };
 		CDF92BD815A6127E006FA7A5 /* B2DebugRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CDF92BBB15A6127E006FA7A5 /* B2DebugRenderer.cpp */; };
 		CDF92BD915A6127F006FA7A5 /* BallRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CDF92BBD15A6127E006FA7A5 /* BallRenderer.cpp */; };
-		CDF92BDA15A6127F006FA7A5 /* BatchSpriteRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CDF92BBF15A6127E006FA7A5 /* BatchSpriteRenderer.cpp */; };
 		CDF92BDB15A6127F006FA7A5 /* WorldRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CDF92BC115A6127E006FA7A5 /* WorldRenderer.cpp */; };
 		CDF92BDC15A6127F006FA7A5 /* WinHooks.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CDF92BC515A6127E006FA7A5 /* WinHooks.cpp */; };
 		CDF92BDD15A6127F006FA7A5 /* World.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CDF92BC615A6127E006FA7A5 /* World.cpp */; };
@@ -476,8 +475,6 @@
 		CDF92BBC15A6127E006FA7A5 /* B2DebugRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = B2DebugRenderer.h; sourceTree = "<group>"; };
 		CDF92BBD15A6127E006FA7A5 /* BallRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BallRenderer.cpp; sourceTree = "<group>"; };
 		CDF92BBE15A6127E006FA7A5 /* BallRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BallRenderer.h; sourceTree = "<group>"; };
-		CDF92BBF15A6127E006FA7A5 /* BatchSpriteRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BatchSpriteRenderer.cpp; sourceTree = "<group>"; };
-		CDF92BC015A6127E006FA7A5 /* BatchSpriteRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BatchSpriteRenderer.h; sourceTree = "<group>"; };
 		CDF92BC115A6127E006FA7A5 /* WorldRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WorldRenderer.cpp; sourceTree = "<group>"; };
 		CDF92BC215A6127E006FA7A5 /* WorldRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorldRenderer.h; sourceTree = "<group>"; };
 		CDF92BC315A6127E006FA7A5 /* StdQueryCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StdQueryCallback.h; sourceTree = "<group>"; };
@@ -1149,8 +1146,6 @@
 				CDF92BBC15A6127E006FA7A5 /* B2DebugRenderer.h */,
 				CDF92BBD15A6127E006FA7A5 /* BallRenderer.cpp */,
 				CDF92BBE15A6127E006FA7A5 /* BallRenderer.h */,
-				CDF92BBF15A6127E006FA7A5 /* BatchSpriteRenderer.cpp */,
-				CDF92BC015A6127E006FA7A5 /* BatchSpriteRenderer.h */,
 				CDF92BC115A6127E006FA7A5 /* WorldRenderer.cpp */,
 				CDF92BC215A6127E006FA7A5 /* WorldRenderer.h */,
 			);
@@ -1362,7 +1357,6 @@
 				CDF92BD715A6127E006FA7A5 /* TopMenu.cpp in Sources */,
 				CDF92BD815A6127E006FA7A5 /* B2DebugRenderer.cpp in Sources */,
 				CDF92BD915A6127F006FA7A5 /* BallRenderer.cpp in Sources */,
-				CDF92BDA15A6127F006FA7A5 /* BatchSpriteRenderer.cpp in Sources */,
 				CDF92BDB15A6127F006FA7A5 /* WorldRenderer.cpp in Sources */,
 				CDF92BDC15A6127F006FA7A5 /* WinHooks.cpp in Sources */,
 				CDF92BDD15A6127F006FA7A5 /* World.cpp in Sources */,

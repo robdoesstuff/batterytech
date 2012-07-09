@@ -414,8 +414,6 @@ void WorldRenderer::render2D() {
 	context->renderContext->colorFilter = Vector4f(1, 1, 1, 1);
     glFrontFace(GL_CW);
 	// now 2D in front of the 3D
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     TextRasterRenderer *curTextRenderer = NULL;
     char *curFontTag = NULL;
     spriteRenderer->startBatch();
