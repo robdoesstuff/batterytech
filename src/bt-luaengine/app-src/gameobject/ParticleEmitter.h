@@ -1,9 +1,5 @@
 /*
  *  ParticleEmitter.h
- *  diesel-osx
- *
- *  Created by Jabeer Ahmed on 5/4/12.
- *  Copyright 2012 Oregon Health & Science University. All rights reserved.
  *
  */
 
@@ -23,7 +19,6 @@ using namespace BatteryTech;
 
 struct Particle {
 	
-	BOOL32		isActive;
 	Vector3f	pos;
 	Vector3f	dir;
 	F32			rotation;
@@ -33,9 +28,10 @@ struct Particle {
 	F32			lifeLeft;
 	F32			scaleSpeed;
 	F32			alphaSpeed;
+    F32         rotationSpeed;
+    F32         sortValue;
 	
 	Particle(){
-		this->isActive	= false;
 		this->pos		= Vector3f(0.0f,0.0f,0.0f);
 		this->dir		= Vector3f(0.0f,0.0f,0.0f);
 		this->rotation  = 0.0f;
@@ -45,21 +41,21 @@ struct Particle {
 		this->lifeLeft	= 0.0f;
 		this->scaleSpeed= 1.0f;
 		this->alphaSpeed= 1.0f;
+        this->rotationSpeed = 0.5f;
 	}
 
-	void setupParticle(BOOL32 active, Vector3f position,Vector3f direction, F32 r, F32 alphaValue, F32 scaleValue, F32 speedValue, F32 lifeTime, F32 scaleSpeedValue, F32 alphaSpeedValue)
+	void setupParticle(Vector3f position,Vector3f direction, F32 rotation, F32 alphaValue, F32 scaleValue, F32 speedValue, F32 lifeTime, F32 scaleSpeedValue, F32 alphaSpeedValue, F32 rotationSpeed)
 	{
-		this->isActive	= active;
 		this->pos		= position;
 		this->dir		= direction;
-		this->rotation  = r;
+		this->rotation  = rotation;
 		this->alpha		= alphaValue;
 		this->scale		= scaleValue;
 		this->speed		= speedValue; 
 		this->lifeLeft	= lifeTime;
 		this->scaleSpeed= scaleSpeedValue;
 		this->alphaSpeed= alphaSpeedValue;
-		
+        this->rotationSpeed = rotationSpeed;
 	}
 
 };
@@ -114,10 +110,9 @@ private:
 	Vector2f	scaleSpeedRange;
 	Vector2f	alphaSpeedRange;
 	Vector2f	particleSpeedRange;	
+    Vector2f    rotationRange;
 	Vector2f	rotationSpeedRange;	
 	
-	U32			lastActiveIndex;
-	U32			lastFreeIndex;
     S32         emitterID;
     char*    	textureAssetName;
 };

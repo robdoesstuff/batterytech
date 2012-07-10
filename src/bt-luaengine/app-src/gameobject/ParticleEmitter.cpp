@@ -1,10 +1,5 @@
 /*
  *  ParticleEmitter.cpp
- *  diesel-osx
- *
- *  Created by Jabeer Ahmed on 5/4/12.
- *  Copyright 2012 Oregon Health & Science University. All rights reserved.
- *
  */
 
 #include "ParticleEmitter.h"
@@ -14,9 +9,9 @@ static S32 nextEmitterID = 1;
 #define frand() (rand() / (F32)RAND_MAX)
 
 F32 randomNumberWithinRange(Vector2f range) {
-	F32 mx = range.x;
-	F32 mn = range.y;
-	if((mx-mn)>=0) 	{
+	F32 mn = range.x;
+	F32 mx = range.y;
+	if(mx<mn) 	{
 		F32 tmp = mx;
 		mx = mn;
 		mn = tmp;
@@ -41,11 +36,10 @@ ParticleEmitter::ParticleEmitter() {
 	this->alpha					= 1.0f;
 	this->scale					= 1.0f;
 	this->nextEmissionTimeLeft	= 0;
-	this->lastActiveIndex 		= 0;
-	this->lastFreeIndex 		= 0;
 	this->emitterID				= nextEmitterID++;
     this->textureAssetName      = NULL;
-    this->rotationSpeedRange    = Vector2f(0.5,0.5);
+    this->rotationRange         = Vector2f(0.0, TAU);
+    this->rotationSpeedRange    = Vector2f(-5.0, 5.0);
 }
 
 ParticleEmitter::~ParticleEmitter() {
@@ -56,7 +50,7 @@ ParticleEmitter::~ParticleEmitter() {
 }
 
 void ParticleEmitter::addParticle(Vector3f position) {
-	if (this->numActiveParticles==MAX_PARTICLES) {
+	if (this->numActiveParticles>=MAX_PARTICLES) {
 		logmsg("No more particles available");
 		return;
 	}
@@ -68,32 +62,23 @@ void ParticleEmitter::addParticle(Vector3f position) {
 	dir.normalize();
 
 	F32 speed		= randomNumberWithinRange(this->particleSpeedRange);	// 0.7*maxspeed < spd < maxspeed
+    F32 rotation    = randomNumberWithinRange(this->rotationRange);
 	F32 lifetime	= randomNumberWithinRange(this->ltRange);				// *0.3*drand48() + 0.7;
 	F32 scalerate	= randomNumberWithinRange(this->scaleSpeedRange);
 	F32 alpharate	= randomNumberWithinRange(this->alphaSpeedRange);
     F32 rotaterate  = randomNumberWithinRange(this->rotationSpeedRange);
     
-	int i = this->lastFreeIndex;
-	this->particles[i].setupParticle(true,position,dir,rotaterate,this->alpha,this->scale,
-									 speed, lifetime, scalerate, alpharate);
-
-	this->numActiveParticles++;
-	this->lastActiveIndex=i;
-	this->lastFreeIndex++;
+	int i = numActiveParticles++;
+	this->particles[i].setupParticle(position,dir, rotation,this->alpha,this->scale,
+									 speed, lifetime, scalerate, alpharate, rotaterate);
 }
 
-void ParticleEmitter::removeParticle(int i)
-{
-	if(this->lastActiveIndex>0)
-	{
-		Particle *p = &this->particles[i];
-		p->isActive = false;
-		this->particles[i] = this->particles[this->lastActiveIndex];
-		this->lastFreeIndex = this->lastActiveIndex;
-		this->lastActiveIndex--;
-		this->numActiveParticles--;
-//		printf("num particles left = %d\n",this->numActiveParticles);
+void ParticleEmitter::removeParticle(int i) {
+    // swap last with this position to keep the list defragmented
+	if (numActiveParticles > 1)	{
+		this->particles[i] = this->particles[this->numActiveParticles-1];
 	}
+    this->numActiveParticles--;
 }
 
 void ParticleEmitter::startEmitter() {
@@ -126,30 +111,34 @@ void ParticleEmitter::update(F32 delta) {
 		// emission rate is particles per second and timeleft is seconds so convert
 		this->nextEmissionTimeLeft = 1.0f/this->emissionRate - timeRemainder;
 	}
-	if (this->numActiveParticles > 0)
-	{
-		int tempActive = 0;
-		for (U32 i=0; i<this->numActiveParticles; i++) {
-			Particle *p = &this->particles[i];
-			if(p->isActive)
-			{
-				if((p->lifeLeft-=delta)>0) {
-					p->pos = p->pos + p->dir*p->speed*delta;
-					p->rotation = p->rotation - delta*0.5;
-					p->alpha = p->alpha+p->alphaSpeed*delta;
-					if(p->alpha>1.0)p->alpha=1.0;
-					if(p->alpha<0.0)p->alpha=0.0;
-					p->scale = p->scale+p->scaleSpeed*delta;
-					if (p->scale < 0) p->scale = 0;
-					p->rotation=p->rotation-0.5*delta;
-				} else {
-					this->removeParticle(i);
-				}
-			}			
-		}
-		this->numActiveParticles = this->numActiveParticles-tempActive;
-//		printf("number of particles left = %d,%d\n",this->numActiveParticles,tempActive);
-	}
+    // get rid of any inactive particles
+    for (U32 i = 0; i < numActiveParticles; i++) {
+        Particle *p = &this->particles[i];
+        p->lifeLeft -= delta;
+        if (p->lifeLeft <= 0) {
+            removeParticle(i);
+        }
+    }
+    for (U32 i = 0; i < numActiveParticles; i++) {
+        Particle *p = &this->particles[i];
+        // all particles remaining are now currently active
+        // update the particle
+        p->pos = p->pos + p->dir*p->speed*delta;
+        p->rotation = p->rotation - delta*0.5;
+        p->alpha = p->alpha+p->alphaSpeed*delta;
+        if(p->alpha > 1.0) { p->alpha=1.0; }
+        if(p->alpha < 0.0) {
+            p->alpha=0.0;
+            // can't see it, get rid of it
+            p->lifeLeft = 0;
+        }
+        p->scale = p->scale+p->scaleSpeed*delta;
+        if (p->scale < 0) p->scale = 0;
+        p->rotation=p->rotation+p->rotationSpeed*delta;
+    }
+    // char buf[255];
+    // sprintf(buf, "%d particles active", numActiveParticles);
+    // logmsg(buf);
 
 }
 

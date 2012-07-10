@@ -258,7 +258,7 @@ void AssimpRenderer::renderNode(RenderNode *node, GLAssimpBinding *binding, Matr
 				}
 				config.withDirectionalLight = dflts->dirLightEnabled && !(item->flags & RENDERITEM_FLAG_NO_DIR_LIGHT);
 				config.withFog = dflts->fogEnabled && !(item->flags & RENDERITEM_FLAG_NO_FOG);
-				config.withRGBAShadowmap = context->gConfig->shadowType != GraphicsConfiguration::SHADOWTYPE_NONE;
+				config.withRGBAShadowmap = context->gConfig->shadowType != GraphicsConfiguration::SHADOWTYPE_NONE && !(item->flags & RENDERITEM_FLAG_NO_SHADOW_RECV);
 				char tagBuf[255];
 				getShaderTag(tagBuf, config);
 				ShaderProgram *shaderProgram = context->glResourceManager->getShaderProgram(tagBuf);

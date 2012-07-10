@@ -136,6 +136,7 @@ void QuadRenderer::render(Texture *texture, F32 top, F32 right, F32 bottom, F32 
 	F32 actualRight = actualLeft + width;
 	F32 actualTop = top + offset.y;
 	F32 actualBottom = actualTop + height;
+    Vector4f colors[] = { Vector4f(1,1,1,1), Vector4f(1,1,1,1), Vector4f(1,1,1,1), Vector4f(1,1,1,1) };
 	Vector3f verts[] = {
 			Vector3f(actualLeft, actualTop, 0), Vector3f(actualRight, actualTop, 0), Vector3f(actualRight, actualBottom, 0), Vector3f(actualLeft, actualBottom, 0)
 	};
@@ -148,17 +149,17 @@ void QuadRenderer::render(Texture *texture, F32 top, F32 right, F32 bottom, F32 
         autoBatch = TRUE;
     }
     if (inBatch) {
-        addToBatch(verts, uvs, context->renderContext->colorFilter, Vector3f(0,0,0), 0);
+        addToBatch(verts, uvs, context->renderContext->colorFilter, Vector3f(0,0,0), 0, NULL);
         if (autoBatch) {
             endBatch();
         }
         return;
     }
-	//glFrontFace(GL_CW);
 	if (context->gConfig->useShaders) {
 		ShaderProgram *shaderProgram = context->glResourceManager->getShaderProgram("quad");
 		shaderProgram->bind();
 		glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("vPosition"), 3, GL_FLOAT, GL_FALSE, 0, verts);
+		glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("vColor"), 4, GL_FLOAT, GL_FALSE, 0, colors);
 		glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("uvMap"), 2, GL_FLOAT, GL_FALSE, 0, uvs);
 		glUniformMatrix4fv(shaderProgram->getUniformLoc("projection_matrix"), 1, GL_FALSE, (GLfloat*) context->renderContext->projMatrix.data);
 		glUniformMatrix4fv(shaderProgram->getUniformLoc("modelview_matrix"), 1, GL_FALSE, (GLfloat*) context->renderContext->mvMatrix.data);
@@ -179,13 +180,10 @@ void QuadRenderer::render(Texture *texture, F32 x, F32 y, F32 width, F32 height,
 }
 
 void QuadRenderer::render(Texture *texture, Vector3f pos, F32 angleRads, Vector4f myUvs, Vector2f scale, Vector4f colorFilter, BOOL32 isOpaque, BOOL32 bb, Matrix4f bbMat) {
-	//glFrontFace(GL_CW);
-	F32 x = pos.x;
-	F32 y = pos.y;
-	F32 z = pos.z;
 	Vector2f uvs[] = { Vector2f(myUvs.x, myUvs.y), Vector2f(myUvs.z, myUvs.y),
 			Vector2f(myUvs.z, myUvs.w), Vector2f(myUvs.x, myUvs.w)
 	};
+    Vector4f colors[] = { Vector4f(1,1,1,1), Vector4f(1,1,1,1), Vector4f(1,1,1,1), Vector4f(1,1,1,1) };
 	F32 desWidth = scale.x;
 	F32 desHeight = scale.y;
 	F32 width = desWidth;
@@ -212,19 +210,12 @@ void QuadRenderer::render(Texture *texture, Vector3f pos, F32 angleRads, Vector4
 		width = actualSize.x;
 		height = actualSize.y;
 	}
-	F32 top;
-	F32 bottom;
 	F32 right = width/2 + offsetDelta.x;
-	if (bb) {
-		top = height/2 + offsetDelta.y;
-		bottom = -height/2 + offsetDelta.y;
-	} else {
-		top = -height/2 + offsetDelta.y;
-		bottom = height/2 + offsetDelta.y;
-	}
+    F32 top = -height/2 + offsetDelta.y;
+    F32 bottom = height/2 + offsetDelta.y;
 	F32 left = -width/2 + offsetDelta.x;
 	Vector3f verts[] = {
-			Vector3f(left, top, z), Vector3f(right, top, z), Vector3f(right, bottom, z), Vector3f(left, bottom, z)
+			Vector3f(left, top, 0), Vector3f(right, top, 0), Vector3f(right, bottom, 0), Vector3f(left, bottom, 0)
 	};
     // if batching isn't on, we automatically enable it (with a fallback to old rendering code when unavaialble)
     // even though we're only putting one draw in the batch, we don't have to switch off VBOs because the batch code handles that
@@ -235,7 +226,7 @@ void QuadRenderer::render(Texture *texture, Vector3f pos, F32 angleRads, Vector4
         autoBatch = TRUE;
     }
     if (inBatch) {
-        addToBatch(verts, uvs, colorFilter, pos, angleRads);
+        addToBatch(verts, uvs, colorFilter, pos, angleRads, (bb ? &bbMat : NULL));
         if (autoBatch) {
             endBatch();
         }
@@ -243,7 +234,7 @@ void QuadRenderer::render(Texture *texture, Vector3f pos, F32 angleRads, Vector4
     }
 	if (context->gConfig->useShaders) {
 		Matrix4f myMvMatrix = context->renderContext->mvMatrix;
-		myMvMatrix.translate(x, y, z);
+		myMvMatrix.translate(pos.x, pos.y, pos.z);
 		myMvMatrix.rotate(angleRads * (180 / PI), 0, 0, -1.0f);
 		if (bb) {
 			myMvMatrix = myMvMatrix * bbMat;
@@ -251,6 +242,7 @@ void QuadRenderer::render(Texture *texture, Vector3f pos, F32 angleRads, Vector4
 		ShaderProgram *shaderProgram = context->glResourceManager->getShaderProgram("quad");
 		shaderProgram->bind();
 		glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("vPosition"), 3, GL_FLOAT, GL_FALSE, 0, verts);
+		glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("vColor"), 4, GL_FLOAT, GL_FALSE, 0, colors);
 		glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("uvMap"), 2, GL_FLOAT, GL_FALSE, 0, uvs);
 		glUniformMatrix4fv(shaderProgram->getUniformLoc("projection_matrix"), 1, GL_FALSE, (GLfloat*) context->renderContext->projMatrix.data);
 		glUniformMatrix4fv(shaderProgram->getUniformLoc("modelview_matrix"), 1, GL_FALSE, (GLfloat*) myMvMatrix.data);
@@ -263,7 +255,7 @@ void QuadRenderer::render(Texture *texture, Vector3f pos, F32 angleRads, Vector4
 		Vector4f colorFilter = context->renderContext->colorFilter;
 		glColor4f(colorFilter.x,colorFilter.y,colorFilter.z,colorFilter.a);
 		glPushMatrix();
-		glTranslatef(x, y, 0);
+		glTranslatef(pos.x, pos.y, pos.z);
 		glRotatef(angleRads * (180 / PI), 0, 0, 1.0f);
 		glVertexPointer(3, GL_FLOAT, 0, &verts);
 		glTexCoordPointer(2, GL_FLOAT, 0, &uvs);
@@ -283,7 +275,7 @@ void QuadRenderer::render(Texture *texture, Vector3f pos, F32 angleRads, Vector4
         inBatch = FALSE;
     }
 
-    void QuadRenderer::addToBatch(Vector3f *quadVerts, Vector2f *quadUVs, Vector4f colorFilter, Vector3f position, F32 rotation) {
+    void QuadRenderer::addToBatch(Vector3f *quadVerts, Vector2f *quadUVs, Vector4f colorFilter, Vector3f position, F32 rotation, Matrix4f *bbMat) {
         if (quadsBatched >= BATCH_BUFFER_SIZE) {
             drawBatch();
         }
@@ -294,12 +286,22 @@ void QuadRenderer::render(Texture *texture, Vector3f pos, F32 angleRads, Vector4
                 F32 x = quadVerts[i].x;
                 F32 y = quadVerts[i].y;
                 F32 z = quadVerts[i].z;
-                vertBuffer[quadsBatched*4+i].position = Vector3f(ROTATE_X(x, y, rotSin, rotCos), ROTATE_Y(x, y, rotSin, rotCos), z) + position;
+                if (bbMat) {
+                    vertBuffer[quadsBatched*4+i].position = *bbMat * Vector3f(ROTATE_X(x, y, rotSin, rotCos), ROTATE_Y(x, y, rotSin, rotCos), z) + position;
+                } else {
+                    vertBuffer[quadsBatched*4+i].position = Vector3f(ROTATE_X(x, y, rotSin, rotCos), ROTATE_Y(x, y, rotSin, rotCos), z) + position;
+                }
             } else {
-                vertBuffer[quadsBatched*4+i].position = quadVerts[i] + position;
+                if (bbMat) {
+                    vertBuffer[quadsBatched*4+i].position = *bbMat * quadVerts[i] + position;
+                } else {
+                    vertBuffer[quadsBatched*4+i].position = quadVerts[i] + position;
+                    
+                }
             }
             vertBuffer[quadsBatched*4+i].uv = quadUVs[i];
-        }
+            vertBuffer[quadsBatched*4+i].color = colorFilter;
+       }
         quadsBatched++;
     }
     
@@ -318,6 +320,7 @@ void QuadRenderer::render(Texture *texture, Vector3f pos, F32 angleRads, Vector4
             shaderProgram->bind();
             glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("vPosition"), 3, GL_FLOAT, GL_FALSE, sizeof(GLQuadVertex), BUFFER_OFFSET(0));
             glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("uvMap"), 2, GL_FLOAT, GL_FALSE, sizeof(GLQuadVertex), BUFFER_OFFSET(sizeof(Vector3f)));
+            glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("vColor"), 4, GL_FLOAT, GL_FALSE, sizeof(GLQuadVertex), BUFFER_OFFSET(sizeof(Vector3f)+sizeof(Vector2f)));
             glUniformMatrix4fv(shaderProgram->getUniformLoc("projection_matrix"), 1, GL_FALSE, (GLfloat*) context->renderContext->projMatrix.data);
             glUniformMatrix4fv(shaderProgram->getUniformLoc("modelview_matrix"), 1, GL_FALSE, (GLfloat*) myMvMatrix.data);
             glUniform1i(shaderProgram->getUniformLoc("tex"), 0);

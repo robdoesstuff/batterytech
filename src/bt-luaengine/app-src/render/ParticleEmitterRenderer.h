@@ -1,10 +1,5 @@
 /*
  *  ParticleEmitterRenderer.h
- *  diesel-osx
- *
- *  Created by Jabeer Ahmed on 5/8/12.
- *  Copyright 2012 Oregon Health & Science University. All rights reserved.
- *
  */
 
 #ifndef _PARTICLE_RENDERER_H_
@@ -26,15 +21,12 @@ struct GLParticleVertex {
 	char		padding[8];
 	// exactly 32 bytes - no padding needed
 	
-	GLParticleVertex()
-	{
+	GLParticleVertex() {
 		// printf("GLParticleVertex default constructor\n");
 		position = Vector3f(0.0,0.0,0.0);
 		uv = Vector2f(0.0,1.0);
 		alpha = 1.0;
-		
 	}
-	
 };
 
 
@@ -44,14 +36,10 @@ public:
 	ParticleEmitterRenderer(GameContext *context);
 	virtual ~ParticleEmitterRenderer();
 	virtual void init(BOOL32 newContent);
-	void updateVertex(ParticleEmitter *emitter);
+	void updateVertBuffer(ParticleEmitter *emitter);
 	void loadVerts();
 	void loadFaceIndices();
-	void render();
-//	void bind();
-//	void unbind();
-	
-	
+	void render();	
 private:
 	GameContext *context;
 	ShaderProgram* shaderProgram;

@@ -50,8 +50,6 @@ private:
 	GameContext *context;
 	BOOL32 isFocused;
 	BOOL32 initialized;
-	GameObject* makeBox(Vector3f pos);
-	void loadPreferences();
 	void initializeLua();
 	void updateState();
 	void updateInput();

@@ -873,7 +873,9 @@ static int lua_Game_setLocalLightParam(lua_State *L) {
 	S32 idx = lua_tointeger(L, 2);
 	LocalLight *light = &static_context->world->localLights[idx];
 	const char *paramName = lua_tostring(L, 3);
-	if (strcmp(paramName, "ambient") == 0) {
+	if (strcmp(paramName, "position") == 0) {
+        light->position = lua_toVector3f(L, 4);
+    } else if (strcmp(paramName, "ambient") == 0) {
 		light->ambient = lua_toVector4f(L, 4);
 	} else if (strcmp(paramName, "diffuse") == 0) {
 		light->diffuse = lua_toVector4f(L, 4);
@@ -1055,6 +1057,7 @@ static int lua_Game_setRenderItemParam(lua_State *L) {
 	S32 idx = lua_tointeger(L, 2);
 	RenderItem *item = &static_context->world->renderItems[idx];
 	const char *paramName = lua_tostring(L, 3);
+    // TODO - optimize by hashing the names and selecting case
 	if (strcmp(paramName, "nofog") == 0) {
 		if (lua_toboolean(L, 4)) {
 			item->flags = item->flags | RENDERITEM_FLAG_NO_FOG;
@@ -1100,10 +1103,28 @@ static int lua_Game_setRenderItemParam(lua_State *L) {
 		} else {
 			item->flags = item->flags & ~RENDERITEM_FLAG_NO_SHADOW_GEN;
 		}
+	} else if (strcmp(paramName, "noshadowrecv") == 0) {
+		if (lua_toboolean(L, 4)) {
+			item->flags = item->flags | RENDERITEM_FLAG_NO_SHADOW_RECV;
+		} else {
+			item->flags = item->flags & RENDERITEM_FLAG_NO_SHADOW_RECV;
+		}
+	} else if (strcmp(paramName, "drawfirst") == 0) {
+		if (lua_toboolean(L, 4)) {
+			item->flags = item->flags | RENDERITEM_FLAG_DRAW_FIRST;
+		} else {
+			item->flags = item->flags & RENDERITEM_FLAG_DRAW_FIRST;
+		}
 	} else if (strcmp(paramName, "alpha") == 0) {
         item->colorFilter.a = lua_tonumber(L, 4);
     } else if (strcmp(paramName, "colorFilter") == 0) {
         item->colorFilter = lua_toVector4f(L, 4);
+    } else if (strcmp(paramName, "twosided") == 0) {
+		if (lua_toboolean(L, 4)) {
+			item->flags = item->flags | RENDERITEM_FLAG_TWO_SIDED;
+		} else {
+			item->flags = item->flags & RENDERITEM_FLAG_TWO_SIDED;
+		}
     }
 	return 0;
 }

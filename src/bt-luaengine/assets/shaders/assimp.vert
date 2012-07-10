@@ -148,12 +148,12 @@ void main() {
 					  (bone_matrices[int(vBones.z)] * vpos * vWeights.z) +
 					  (bone_matrices[int(vBones.w)] * vpos * vWeights.w) ;
 	vec4 ecPosition = modelview_matrix * skinnedPos;
+#if (POINT_LIGHT_COUNT || defined(DIR_LIGHT))
 	vec4 vnorm = vec4(vNormal.xyz, 0.0);
 	vec4 skinnedNorm = (bone_matrices[int(vBones.x)] * vnorm * vWeights.x) +
 					   (bone_matrices[int(vBones.y)] * vnorm * vWeights.y) +
 					   (bone_matrices[int(vBones.z)] * vnorm * vWeights.z) +
 					   (bone_matrices[int(vBones.w)] * vnorm * vWeights.w);
-#if (POINT_LIGHT_COUNT || defined(DIR_LIGHT))
 	vec3 ecNormal = normalize(inv_matrix * skinnedNorm.xyz);
 #endif
 #else

@@ -25,13 +25,13 @@ void RenderItem::reset() {
 	scale = Vector3f(0,0,0);
 	orientation = Quatf(0,0,0,0);
 	uvs = Vector4f(0,0,1,1);
-	camDist = 0;
 	animator = NULL;
 	maxPointLights = 0;
 	flags = 0;
 	colorFilter = Vector4f(1,1,1,1);
 	viewport = Vector4i(0,0,0,0);
 	alignment = ALIGN_LEFT;
+    sortValue = 0;
 }
 
 Vector3f RenderItem::getTranslation() {

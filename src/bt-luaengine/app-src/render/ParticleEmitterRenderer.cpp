@@ -1,10 +1,5 @@
 /*
  *  ParticleEmitterRenderer.cpp
- *  diesel-osx
- *
- *  Created by Jabeer Ahmed on 5/8/12.
- *  Copyright 2012 Oregon Health & Science University. All rights reserved.
- *
  */
 
 #include "ParticleEmitterRenderer.h"
@@ -15,6 +10,7 @@
 #include <batterytech/render/GLResourceManager.h>
 #include "WorldRenderer.h"
 #include <batterytech/math/Quaternion.h>
+#include <batterytech/Logger.h>
 
 #define BUFFER_OFFSET(i) (reinterpret_cast<void*>(i))
 
@@ -24,6 +20,7 @@
 #define ROTATE_X(x, y, rotSin, rotCos) (x*rotCos - y*rotSin)
 #define ROTATE_Y(x, y, rotSin, rotCos) (x*rotSin + y*rotCos)
 
+#define SORT_PARTICLES FALSE
 
 ParticleEmitterRenderer::ParticleEmitterRenderer(GameContext *context)
 {
@@ -88,8 +85,17 @@ void ParticleEmitterRenderer::init(BOOL32 newContext) {
 	}
 }
 
-void ParticleEmitterRenderer::updateVertex(ParticleEmitter *emitter)
-{
+// sorts particles back-to-front
+static int particle_sort_function(const void *a, const void *b) {
+    const Particle *pa = (const Particle*)a;
+    const Particle *pb = (const Particle*)b;
+    if (pa->sortValue > pb->sortValue) {
+        return -1;
+    }
+    return 1;
+ }
+
+void ParticleEmitterRenderer::updateVertBuffer(ParticleEmitter *emitter) {
 	if (emitter->numActiveParticles < 1) return;
 	Vector3f dirToCamera = emitter->sourceLoc - this->context->world->camera->pos;
 	dirToCamera.normalize(); // z
@@ -105,10 +111,19 @@ void ParticleEmitterRenderer::updateVertex(ParticleEmitter *emitter)
 	bbMat.data[8] = dirToCamera.x;
 	bbMat.data[9] = dirToCamera.y;
 	bbMat.data[10] = dirToCamera.z;
-    
+    // sort particles back to front so we can have depth test enabled
+    // we'll use distance squared from camera
+#ifdef SORT_PARTICLES
+    Vector3f cameraPos = context->world->camera->pos;
 	for (U32 j = 0; j < emitter->numActiveParticles; j++) {
 		Particle *p = &emitter->particles[j];
-		int i = j*4;
+        p->sortValue = (cameraPos-p->pos).lengthSq();
+    }
+    qsort(emitter->particles, emitter->numActiveParticles, sizeof(Particle), particle_sort_function);
+#endif
+ 	for (U32 j = 0; j < emitter->numActiveParticles; j++) {
+		Particle *p = &emitter->particles[j];
+ 		int i = j*4;
 		F32 rotSin = sin(p->rotation);
 		F32 rotCos = cos(p->rotation);
 		F32 left = -0.5*p->scale;
@@ -119,17 +134,20 @@ void ParticleEmitterRenderer::updateVertex(ParticleEmitter *emitter)
 		Vector3f pt2 = Vector3f(ROTATE_X(right, top, rotSin, rotCos), ROTATE_Y(right, top, rotSin, rotCos), 0.0);
 		Vector3f pt3 = Vector3f(ROTATE_X(left, bottom, rotSin, rotCos), ROTATE_Y(left, bottom, rotSin, rotCos), 0.0);
 		Vector3f pt4 = Vector3f(ROTATE_X(right, bottom, rotSin, rotCos), ROTATE_Y(right, bottom, rotSin, rotCos), 0.0);
-		this->vertAtts[i+0].position	= p->pos + bbMat * pt1;
-		this->vertAtts[i+0].alpha		= p->alpha;
+        //curStep = curStep + toCamStep;
+        Vector3f pos = p->pos;
+        F32 alpha = p->alpha;
+		this->vertAtts[i+0].position	= pos + bbMat * pt1;
+		this->vertAtts[i+0].alpha		= alpha;
 		this->vertAtts[i+0].uv			= Vector2f(0,1);
-		this->vertAtts[i+1].position	= p->pos + bbMat * pt2;
-		this->vertAtts[i+1].alpha		= p->alpha;
+		this->vertAtts[i+1].position	= pos + bbMat * pt2;
+		this->vertAtts[i+1].alpha		= alpha;
 		this->vertAtts[i+1].uv			= Vector2f(1,1);
-		this->vertAtts[i+2].position	= p->pos + bbMat * pt3;
-		this->vertAtts[i+2].alpha		= p->alpha;
+		this->vertAtts[i+2].position	= pos + bbMat * pt3;
+		this->vertAtts[i+2].alpha		= alpha;
 		this->vertAtts[i+2].uv			= Vector2f(0,0);
-		this->vertAtts[i+3].position	= p->pos + bbMat * pt4;
-		this->vertAtts[i+3].alpha		= p->alpha;
+		this->vertAtts[i+3].position	= pos + bbMat * pt4;
+		this->vertAtts[i+3].alpha		= alpha;
 		this->vertAtts[i+3].uv			= Vector2f(1,0);
 	}
 	glBufferSubData(GL_ARRAY_BUFFER, 0, emitter->numActiveParticles*sizeof(GLParticleVertex)*4, this->vertAtts);	
@@ -146,8 +164,6 @@ void ParticleEmitterRenderer::render()
 	if (numActiveEmitters>0)
 	{
 		glFrontFace(GL_CW);
-		glEnable(GL_BLEND);
-		glDisable(GL_DEPTH_TEST);
 		shaderProgram->bind();
 		checkGLError("after shaderProgram->bind()");
 		
@@ -162,7 +178,7 @@ void ParticleEmitterRenderer::render()
         
 		for (HashTable<S32,ParticleEmitter*>::Iterator i = emitters->getIterator(); i.hasNext;) {
             ParticleEmitter *emitter = emitters->getNext(i);
-			updateVertex(emitter);
+			updateVertBuffer(emitter);
 
             if (emitter->getTextureAssetName()) {
             	Texture *texture = context->glResourceManager->getTexture(emitter->getTextureAssetName());
@@ -172,8 +188,6 @@ void ParticleEmitterRenderer::render()
             }
 			glDrawElements(GL_TRIANGLES, emitter->numActiveParticles*6, GL_UNSIGNED_SHORT, 0);
 		}
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 		//printf("Render: number of Emitter %d",numActiveEmitters);
 	}
 	

@@ -25,6 +25,7 @@
 #include "../math/Vector2.h"
 #include "../math/Vector3.h"
 #include "../math/Vector4.h"
+#include "../math/Matrix4.h"
 
 using namespace BatteryTech;
 
@@ -35,11 +36,13 @@ class Context;
 struct GLQuadVertex {
     Vector3f	position; // 12 bytes
     Vector2f	uv; // 8 bytes
-    char		padding[12]; // pad to 32 bytes
+    Vector4f    color; // 16 bytes
+    char		padding[28]; // pad to 64 bytes
     
     GLQuadVertex() {
         position = Vector3f(0.0,0.0,0.0);
         uv = Vector2f(0.0,0.0);
+        color = Vector4f(1.0, 1.0, 1.0, 1.0);
     }
 };
 
@@ -78,7 +81,7 @@ public:
     void endBatch();
 	virtual ~QuadRenderer();
 private:
-    void addToBatch(Vector3f *quadVerts, Vector2f *quadUVs, Vector4f colorFilter, Vector3f position, F32 rotation);
+    void addToBatch(Vector3f *quadVerts, Vector2f *quadUVs, Vector4f colorFilter, Vector3f position, F32 rotation, Matrix4f *bbMat);
     void drawBatch();
 	Context *context;
     GLuint vertVBOId;

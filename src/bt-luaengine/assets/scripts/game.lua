@@ -7,6 +7,7 @@ GAMESTATE_LOADING = 2
 MODE_MAINMENU = 0
 MODE_PLAY = 1
 MODE_OPTIONS = 2
+MODE_TESTS = 3
 
 MUSIC = 0
 
@@ -18,6 +19,7 @@ function Game:init()
 	self.mainMenuModule = MainMenu.new()
 	self.playModule = Play.new()
 	self.optionsModule = Options.new()
+    self.testsModule = Tests.new()
 	self.currentModule = self.mainMenuModule
 	math.randomseed(os.time())
 	setSoundEnabled(true)
@@ -36,6 +38,8 @@ function Game:setMode(mode)
  		self.currentModule = self.mainMenuModule
  	elseif mode == MODE_OPTIONS then
  		self.currentModule = self.optionsModule
+    elseif mode == MODE_TESTS then
+        self.currentModule = self.testsModule
  	end
 	self.currentModule:show()
 end

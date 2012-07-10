@@ -20,6 +20,9 @@
 #define RENDERITEM_FLAG_NODES_CULL_FRUSTUM_TEST 16
 #define RENDERITEM_FLAG_NO_DIR_LIGHT 32
 #define RENDERITEM_FLAG_NO_SHADOW_GEN 64
+#define RENDERITEM_FLAG_NO_SHADOW_RECV 128
+#define RENDERITEM_FLAG_DRAW_FIRST 256
+#define RENDERITEM_FLAG_TWO_SIDED 512
 
 using namespace BatteryTech;
 
@@ -40,7 +43,7 @@ struct RenderDefaults {
 
 class RenderItem {
 public:
-	enum RenderType { RENDERTYPE_OBJ, RENDERTYPE_BB, RENDERTYPE_2D, RENDERTYPE_2DBG, RENDERTYPE_TEXT2D, RENDERTYPE_ASSIMP };
+	enum RenderType { RENDERTYPE_OBJ = 1, RENDERTYPE_BB = 2, RENDERTYPE_2D = 4, RENDERTYPE_2DBG = 8, RENDERTYPE_TEXT2D = 16, RENDERTYPE_ASSIMP = 32};
 	enum Alignment { ALIGN_LEFT, ALIGN_CENTER, ALIGN_RIGHT };
 	RenderItem();
 	virtual ~RenderItem();
@@ -58,11 +61,11 @@ public:
 	Vector3f scale;
 	Vector4f uvs;
 	Quatf orientation;
-	F32 camDist;
 	Vector4f colorFilter;
 	S32 maxPointLights;
 	AssimpAnimator *animator;
 	Vector4i viewport;
+    F32 sortValue;
 };
 
 #endif /* RENDERITEM_H_ */

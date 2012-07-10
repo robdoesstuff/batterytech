@@ -55,6 +55,8 @@ private:
 	void render2D();
 	void pickLoadingTexture();
 	void setupGL();
+    U32 sortRenderItemsOfType(U32 renderTypeMask);
+    RenderItem **sortedItems;
 	SimpleSpriteRenderer *spriteRenderer;
 	StrHashTable<TextRasterRenderer*> *textRenderers;
 	ObjRenderer *objRenderer;

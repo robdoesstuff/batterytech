@@ -11,7 +11,8 @@ uniform sampler2D tex;
 uniform vec4 colorFilter;
 
 varying vec2 uvCoord;
+varying vec4 varColor;
 
 void main() {
-	gl_FragColor = texture2D(tex, uvCoord) * colorFilter;
+	gl_FragColor = texture2D(tex, uvCoord) * colorFilter * varColor;
 }

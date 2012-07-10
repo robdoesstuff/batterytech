@@ -84,46 +84,6 @@ void Game::clearError() {
 	isInError = FALSE;
 }
 
-void Game::loadPreferences() {
-	PropertiesIO propsIO;
-	char path[1024];
-	LevelIO::getDataDirPath(path);
-	strcat(path, _platform_get_path_separator());
-	strcat(path, "settings.txt");
-	if (_platform_path_exists(path)) {
-		/*
-		ManagedArray<Property> *props = propsIO.loadPropertiesFromFile(path);
-		// parse props
-		if (props) {
-			for (S32 i = 0; i < props->getSize(); i++) {
-				Property *prop = props->array[i];
-				if (strcmp(prop->getName(), PREF_SOUND_ENABLED) == 0) {
-					if (strcmp(prop->getValue(), "1") == 0) {
-						context->audioManager->setEnabled(TRUE);
-					} else {
-						context->audioManager->setEnabled(FALSE);
-					}
-				} else if (strcmp(prop->getName(), PREF_VIBES_ENABLED) == 0) {
-					if (strcmp(prop->getValue(), "1") == 0) {
-						context->vibrationManager->setEnabled(TRUE);
-					} else {
-						context->vibrationManager->setEnabled(FALSE);
-					}
-				} else if (strcmp(prop->getName(), PREF_SHOW_FPS) == 0) {
-					if (strcmp(prop->getValue(), "1") == 0) {
-						context->showFPS = TRUE;
-					} else {
-						context->showFPS = FALSE;
-					}
-				}
-			}
-		}
-		*/
-	} else {
-		//logmsg("No settings file found.  Using defaults.");
-	}
-}
-
 void Game::update() {
 	if (!initialized || context->newGraphicsContext) {
 		if (context->world->gameState != GAMESTATE_LOADING) {
@@ -136,22 +96,22 @@ void Game::update() {
 		if (!initialized) {
 			// init error menu first in case there are problems running scripts
 			context->uiManager->addMenu(new ErrorMenu(context));
-			// load preferences
-			loadPreferences();
-			initializeLua();
 		}
 		if (!initialized || context->newGraphicsContext) {
 			logmsg("Initializing Renderers");
 			// init menu renderer first so we can expose the font to world renderer
 			// (perhaps GLResourceManager should manage all fonts?)
 			context->menuRenderer->init(TRUE);
+            // always init lua after menu so that it can display error messages
+			initializeLua();
+            // lua must be before world so that resources can be marked for loading
 			context->worldRenderer->init(TRUE);
 			context->newGraphicsContext = FALSE;
-			initialized = TRUE;
 		} else {
 			context->worldRenderer->init(FALSE);
 		}
-	}
+        initialized = TRUE;
+ 	}
 	updateInput();
 	updateState();
 	// updateNetwork();
@@ -246,7 +206,6 @@ void Game::updateState() {
 		if (!isInError) {
 			luaBinder->reset(TRUE);
 			context->uiManager->clearMenuStack();
-			context->game->luaBinder->setMode(GAMEMODE_MAINMENU);
 		}
 		// normally we'd show the top menu here
 		// context->uiManager->showMenu(TOP_MENU_NAME);

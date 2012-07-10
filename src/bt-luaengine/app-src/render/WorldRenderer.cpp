@@ -38,6 +38,7 @@ WorldRenderer::WorldRenderer(GameContext *context) {
 	fps = 0;
 	frameSamplesCollected = 0;
 	frameSampleTimeTotal = 0.0f;
+    sortedItems = new RenderItem*[MAX_RENDERITEMS];
 	textRenderers = new StrHashTable<TextRasterRenderer*>(13);
 	spriteRenderer = new SimpleSpriteRenderer(context);
 	objRenderer = new ObjRenderer(context);
@@ -300,7 +301,6 @@ void WorldRenderer::render() {
         if (context->gConfig->shadowType != GraphicsConfiguration::SHADOWTYPE_NONE && has3DObjects) {
         	shadowMap->unbindAfterSceneRender();
         }
-		particleRenderer->render();
 		checkGLError("WorldRenderer After 3D");
 		render2D();
 	} else if (world->gameState == GAMESTATE_LOADING) {
@@ -339,55 +339,92 @@ void WorldRenderer::renderLoadingScreen() {
 }
 
 void WorldRenderer::render3D() {
+    // Note - draw order here is decent enough for most applications, however we need to try to include the particle clouds in the sort to fix some of the
+    // rendering bugs with them and other transparent objects
 	World *world = context->world;
     glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
     glFrontFace(GL_CCW);
+    U32 count = sortRenderItemsOfType(RenderItem::RENDERTYPE_ASSIMP | RenderItem::RENDERTYPE_BB);
    	checkGLError("WorldRenderer Before Opaque 3D");
-	for (S32 i = 0; i < world->renderItemsUsed; i++) {
-		RenderItem *item = &world->renderItems[i];
-		if (item->renderType == RenderItem::RENDERTYPE_ASSIMP) {
-			if (item->viewport.z != 0 && item->viewport.w != 0) {
-				// use alternate viewport, update camera
-				glViewport(item->viewport.x, item->viewport.y, item->viewport.z, item->viewport.w);
-				Matrix4f projMatrix;
-				projMatrix.perspective(60, (item->viewport.z) / (item->viewport.w), 2.0f, 5000.0f);
-				context->renderContext->projMatrix = projMatrix;
-			}
-			assimpRenderer->render(item, FALSE);
-			if (item->viewport.z != 0 && item->viewport.w != 0) {
-				// now reset
-				glViewport(0, 0, gConfig->viewportWidth, gConfig->viewportHeight);
-				context->renderContext->projMatrix = world->camera->proj;
-			}
-		}
+    // opaque are ordered from closest to furthest
+	for (U32 i = 0; i < count; i++) {
+		RenderItem *item = sortedItems[i];
+        if (item->renderType == RenderItem::RENDERTYPE_ASSIMP) {
+            if (item->viewport.z != 0 && item->viewport.w != 0) {
+                // use alternate viewport, update camera
+                glViewport(item->viewport.x, item->viewport.y, item->viewport.z, item->viewport.w);
+                Matrix4f projMatrix;
+                projMatrix.perspective(60, (item->viewport.z) / (item->viewport.w), 2.0f, 5000.0f);
+                context->renderContext->projMatrix = projMatrix;
+            }
+            assimpRenderer->render(item, FALSE);
+            if (item->viewport.z != 0 && item->viewport.w != 0) {
+                // now reset
+                glViewport(0, 0, gConfig->viewportWidth, gConfig->viewportHeight);
+                context->renderContext->projMatrix = world->camera->proj;
+            }
+        }
 	}
    	checkGLError("WorldRenderer After Opaque 3D");
   	glEnable(GL_BLEND);
+    glDisable(GL_CULL_FACE);
+    // shut off depth writes because everything from here on out is ordered and translucent
+    glDepthMask(FALSE);
+    particleRenderer->render();
+    glFrontFace(GL_CCW);
 	//glEnable(GL_ALPHA_TEST);
 	//glAlphaFunc(GL_GREATER, 0.1f);
-	// glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	for (S32 i = 0; i < world->renderItemsUsed; i++) {
-		RenderItem *item = &world->renderItems[i];
-		if (item->renderType == RenderItem::RENDERTYPE_ASSIMP) {
-			if (item->viewport.z != 0 && item->viewport.w != 0) {
-				// use alternate viewport, update camera
-				glViewport(item->viewport.x, item->viewport.y, item->viewport.z, item->viewport.w);
-				Matrix4f projMatrix;
-				projMatrix.perspective(60, (item->viewport.z) / (item->viewport.w), 2.0f, 5000.0f);
-				context->renderContext->projMatrix = projMatrix;
-			}
-			// render parts with transparency last
-			assimpRenderer->render(item, TRUE);
-			if (item->viewport.z != 0 && item->viewport.w != 0) {
-				// now reset
-				glViewport(0, 0, gConfig->viewportWidth, gConfig->viewportHeight);
-				context->renderContext->projMatrix = world->camera->proj;
-			}
-            context->renderContext->colorFilter = Vector4f(1, 1, 1, 1);
-		}
+    // do alpha pass in reverse from furthest to closest
+    BOOL32 cullingEnabled = FALSE;
+    BOOL32 inQuadBatch = FALSE;
+	for (S32 i = count-1; i >= 0; i--) {
+		RenderItem *item = sortedItems[i];
+        if (item->flags & RENDERITEM_FLAG_TWO_SIDED) {
+            if (cullingEnabled) {
+                cullingEnabled = FALSE;
+                glDisable(GL_CULL_FACE);
+            }
+        } else {
+            if (!cullingEnabled) {
+                cullingEnabled = TRUE;
+                glEnable(GL_CULL_FACE);
+            }
+        }
+        if (item->renderType == RenderItem::RENDERTYPE_ASSIMP) {
+            if (inQuadBatch) {
+                inQuadBatch = FALSE;
+                spriteRenderer->endBatch();
+            }
+             if (item->viewport.z != 0 && item->viewport.w != 0) {
+                // use alternate viewport, update camera
+                glViewport(item->viewport.x, item->viewport.y, item->viewport.z, item->viewport.w);
+                Matrix4f projMatrix;
+                projMatrix.perspective(60, (item->viewport.z) / (item->viewport.w), 2.0f, 5000.0f);
+                context->renderContext->projMatrix = projMatrix;
+            }
+            // render parts with transparency last
+            assimpRenderer->render(item, TRUE);
+            if (item->viewport.z != 0 && item->viewport.w != 0) {
+                // now reset
+                glViewport(0, 0, gConfig->viewportWidth, gConfig->viewportHeight);
+                context->renderContext->projMatrix = world->camera->proj;
+            }
+        } else if (item->renderType == RenderItem::RENDERTYPE_BB) {
+            if (!inQuadBatch) {
+                inQuadBatch = TRUE;
+                spriteRenderer->startBatch();
+            }
+            spriteRenderer->render(item);
+        }
+        context->renderContext->colorFilter = Vector4f(1, 1, 1, 1);
 	}
+    if (inQuadBatch) {
+        spriteRenderer->endBatch();
+    }
     assimpRenderer->unbind();
+    // go back to default
+    glDepthMask(TRUE);
    	checkGLError("WorldRenderer After Transparent 3D");
 }
 
@@ -479,5 +516,39 @@ void WorldRenderer::render2D() {
 	context->renderContext->colorFilter = Vector4f(1,1,1,1);
 	screenControlRenderer->render();
    	checkGLError("WorldRenderer After screenControlRender");
+}
+
+// sorts renderitems front-to-back
+static int renderitem_sort_function(const void *a, const void *b) {
+    const RenderItem *ra = *(const RenderItem**)a;
+    const RenderItem *rb = *(const RenderItem**)b;
+    if (ra->sortValue > rb->sortValue) {
+        return 1;
+    }
+    return -1;
+}
+
+U32 WorldRenderer::sortRenderItemsOfType(U32 renderTypeMask) {
+    World *world = context->world;
+    U32 sortIdx = 0;
+    Vector3f camPos = world->camera->pos;
+    F32 nextFirstVal = 0.0f;
+    for (S32 i = 0; i < world->renderItemsUsed; i++) {
+		RenderItem *item = &world->renderItems[i];
+        if (item->renderType & renderTypeMask) {
+            // we preserve the order of the first-to-draw items by keeping them as close to 0 distance as possible with small increments
+            if (item->flags & RENDERITEM_FLAG_DRAW_FIRST) {
+                item->sortValue = nextFirstVal;
+                nextFirstVal += 0.0001f;
+            } else {
+                // this will work most of the time - a more expensive but more accurate method would be to use the translated AABB center
+                item->sortValue = (camPos - item->getTranslation()).lengthSq();
+            }
+            sortedItems[sortIdx] = item;
+            sortIdx++;
+        }
+    }
+    qsort(sortedItems, sortIdx, sizeof(RenderItem*), renderitem_sort_function);
+    return sortIdx;
 }
 
