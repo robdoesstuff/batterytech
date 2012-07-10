@@ -37,6 +37,9 @@
 #include <sys/keycodes.h>
 #include <bps/sensor.h>
 #include "BlackberryAudioGW.h"
+#include <bps/paymentservice.h>
+#include <iostream.h>
+#include "blackberrygeneral.h"
 
 static EGLDisplay egl_disp;
 static EGLSurface egl_surf;
@@ -89,6 +92,11 @@ int main(int argc, char *argv[]) {
 
 	//Initialize BPS library
 	bps_initialize();
+
+	//Initialize IAP libraries
+	paymentservice_request_events(0);           // 0 indicates that all events
+	                                            // are requested
+	paymentservice_set_connection_mode(true);   // Allows local testing
 
 	// Init batterytech (so we can get the settings)
 	GraphicsConfiguration *gConfig = new GraphicsConfiguration();
@@ -184,7 +192,41 @@ int main(int argc, char *argv[]) {
 					sensor_event_get_xyz(event, &force_x, &force_y, &force_z);
 					btAccelerometerChanged(force_x, force_y, force_z);
 				}
-			}
+			} else if (domain == paymentservice_get_domain()) {
+				char callbackString[1024];
+		        if (SUCCESS_RESPONSE == paymentservice_event_get_response_code(event)) {
+					if (PURCHASE_RESPONSE == bps_event_get_code(event)) {
+						// Handle a successful purchase here
+						const char* digital_good =
+						   paymentservice_event_get_digital_good_id(event, 0);
+						const char* digital_sku =
+						   paymentservice_event_get_digital_good_sku(event, 0);
+
+						sprintf(callbackString,"purchaseSucceeded %s",digital_sku);
+						btCallback(callbackString);
+					} else {
+						sprintf(callbackString,"purchaseSucceeded %s",getLastPurchaseAttempt());
+						btCallback(callbackString);
+					}
+		        } else {
+		            int error_id = paymentservice_event_get_error_id(event);
+		            const char* error_text =
+		                paymentservice_event_get_error_text(event);
+		        	cout << "~~~ERRROR TEXT" << error_text << endl;
+		        	cout << "~~~ERRROR SKU" << getLastPurchaseAttempt() << endl;
+		        	if( !strcmpi(error_text,"alreadyPurchased") ) {
+						sprintf(callbackString,"purchaseSucceeded %s",getLastPurchaseAttempt());
+						btCallback(callbackString);
+		        	}
+		        	else {
+						sprintf(callbackString,"purchaseFailed %s",getLastPurchaseAttempt());
+						btCallback(callbackString);
+
+						fprintf(stderr, "Payment System error: ID: %d  Text: %s\n",
+							error_id, error_text ? error_text : "N/A");
+		        	}
+		        }
+		    }
 		}
 		U64 timeNanos = _platform_get_time_nanos();
 		if (!paused) {
@@ -294,6 +336,13 @@ int bb_init_egl(screen_context_t ctx, bool withGLES2) {
 	rc = screen_create_window(&screen_win, screen_ctx);
 	if (rc) {
 		perror("screen_create_window");
+		bb_terminate();
+		return EXIT_FAILURE;
+	}
+
+	rc = screen_create_window_group(screen_win, "StreetRaceWindow");
+	if (rc) {
+		perror("screen_create_window_group");
 		bb_terminate();
 		return EXIT_FAILURE;
 	}

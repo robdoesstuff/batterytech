@@ -29,6 +29,10 @@
 #include <arpa/inet.h>
 
 typedef int SOCKET;
+
+const char* getLastPurchaseAttempt();
+
+
 #define closesocket(socket) close(socket)
 
 // linux specific functions here
