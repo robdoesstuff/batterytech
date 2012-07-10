@@ -96,7 +96,7 @@ int main(int argc, char *argv[]) {
 	//Initialize IAP libraries
 	paymentservice_request_events(0);           // 0 indicates that all events
 	                                            // are requested
-	paymentservice_set_connection_mode(true);   // Allows local testing
+	paymentservice_set_connection_mode(false);
 
 	// Init batterytech (so we can get the settings)
 	GraphicsConfiguration *gConfig = new GraphicsConfiguration();
