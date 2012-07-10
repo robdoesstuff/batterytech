@@ -212,8 +212,6 @@ int main(int argc, char *argv[]) {
 		            int error_id = paymentservice_event_get_error_id(event);
 		            const char* error_text =
 		                paymentservice_event_get_error_text(event);
-		        	cout << "~~~ERRROR TEXT" << error_text << endl;
-		        	cout << "~~~ERRROR SKU" << getLastPurchaseAttempt() << endl;
 		        	if( !strcmpi(error_text,"alreadyPurchased") ) {
 						sprintf(callbackString,"purchaseSucceeded %s",getLastPurchaseAttempt());
 						btCallback(callbackString);

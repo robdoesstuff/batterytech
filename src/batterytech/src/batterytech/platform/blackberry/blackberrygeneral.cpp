@@ -257,7 +257,6 @@ void attemptPurchase(const char *productID) {
 	cout << "sku len is " << strlen(productID) << endl;
 
 	strcpy(lastAttemptedPurchaseSku,productID);
-	cout << "~~~lastAttemptedPurchaseSku is" << lastAttemptedPurchaseSku << endl;
 	if (paymentservice_purchase_request(NULL, digital_good_sku,
 	    NULL, NULL, purchase_app_name, purchase_app_icon,
 	    "StreetRaceWindow", &request_id) != BPS_SUCCESS) {
@@ -269,7 +268,6 @@ void _platform_hook(const char *hook, char *result, S32 resultLen) {
 	// Handle custom hooks here
 	if( strstr(hook,"requestPurchase") == hook ) {
 		const char* productID = strchr(hook,' ') + 1;
-		cout << "~~~product id " << productID << endl;
 		attemptPurchase(productID);
 	}
 }
