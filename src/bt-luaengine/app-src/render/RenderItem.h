@@ -32,13 +32,15 @@ struct RenderDefaults {
 	RenderDefaults() {
 		dirLightEnabled = FALSE;
 		fogEnabled = FALSE;
-		fogNear = 0;
-		fogFar = 0;
+		fogNear = 2;
+		fogFar = 500;
+        fogColor = Vector4f(0.05f, 0.05f, 0.2f, 1.0f);
 	}
 	BOOL32 dirLightEnabled;
 	BOOL32 fogEnabled;
 	S32 fogNear;
 	S32 fogFar;
+    Vector4f fogColor;
 };
 
 class RenderItem {

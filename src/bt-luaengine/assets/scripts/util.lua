@@ -334,3 +334,11 @@ function getUVs(idx, rows, columns)
 	local column = idx % columns
 	return column / columns, row / rows, (column+1) / columns, (row+1) / rows
 end
+
+function sigmoid(x)
+    -- needs a little help, this almost works but not perfectly
+    local expansion = 1.1
+    x = ((x - .5) * expansion) + .5
+    if x < 0 then x = 0 elseif x > 1 then x = 1 end
+    return (x / math.sqrt(1 + x*x))
+end

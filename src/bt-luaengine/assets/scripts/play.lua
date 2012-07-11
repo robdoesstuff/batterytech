@@ -188,16 +188,16 @@ function Play:updatePlayState(tickDelta)
 		local isDown, keyCode = getKeyState(i)
 		if isDown then
 			-- logmsg("keyCode " .. keyCode)
-			if keyCode == 38 then
+			if keyCode == 38 or keyCode == 0 then
 				--fwd
 				self.controlFwd = 1
-			elseif keyCode == 37 then
+			elseif keyCode == 37 or keyCode == 2 then
 				--left
 				self.controlTurn = 1
-			elseif keyCode == 39 then
+			elseif keyCode == 39 or keyCode == 3 then
 				--right
 				self.controlTurn = -1
-			elseif keyCode == 40 then
+			elseif keyCode == 40 or keyCode == 1 then
 				--back
 				self.controlFwd = -1
 			end
@@ -297,15 +297,13 @@ function Play:render()
 	-- setCameraParams(0,0,100, 0,0)
 	setCameraParams(self.x, self.y, 2, 90, TO_DEGREES * self.dir)
 	setCameraNearFarFOV(1, 500, 60)
-	game:setShadowLightOrigin(self.x, self.y, 100)
-	game:setShadowColorAndEpsilon(0.5, 0.5, 0.5, 0.021)
-	game:setShadowLightFrustumNearFar(95, 110)
 	game:setShadowType(0)
 	game:setGlobalLightDir(-0.2, 0.2, .7)
 	game:setGlobalLightAmbient(.7, .7, .7, 1)
 	game:setGlobalLightDiffuse(.7, .7, .7, 1)
 	game:setGlobalLightSpecular(.5, .5, .5, 1)
 	game:setGlobalLightEnabled(true)
+    game:setFogEnabled(false)
 	-- draw boxes
 	for i = 1, #self.boxes do
 		local box = self.boxes[i]

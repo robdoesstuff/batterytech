@@ -150,9 +150,12 @@ void ShadowMap::bindForMapCreation() {
 	Vector3f lightOrigin = context->world->globalLight->origin;
 	Vector2f nearFar = context->world->globalLight->shadowFrustumNearFar;
 	// app specifies near and far Z
-	// proj.perspective(45,(float)shadowWidth/(float)shadowHeight, nearFar.x, nearFar.y);
-    F32 orthoSize = lightOrigin.z / 2.0f;
-    proj.ortho(-orthoSize, orthoSize, -orthoSize, orthoSize, nearFar.x, nearFar.y);
+    if (context->world->globalLight->shadowUsePerspective) {
+        proj.perspective(context->world->globalLight->shadowPerspectiveFOV,(float)shadowWidth/(float)shadowHeight, nearFar.x, nearFar.y);
+    } else {
+        Vector4f orthoSize = context->world->globalLight->shadowOrthoSize;
+        proj.ortho(orthoSize.x, orthoSize.y, orthoSize.z, orthoSize.w, nearFar.x, nearFar.y);
+    }
 	Vector3f lookAt = (lightOrigin + (context->world->globalLight->direction*-1.0f)*10.0f);
 	Vector3f up(0,0,1);
     if (context->world->globalLight->direction.y > 0) {

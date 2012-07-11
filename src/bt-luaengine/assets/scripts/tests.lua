@@ -28,7 +28,7 @@ end
 function AnimatedModel:render(pointLightCount)
     local x = 0
     local y = -20
-    local z = 1.0
+    local z = 1.05
     local scale = 0.75
     local idx = game:renderAssimpM(self, 0, "models/Seymour.dae", nil, nil, true, 1,0,0,0,0,1,0,0,0,0,1,0,x,y,z,1, scale,scale,scale, 180)
     game:setRenderItemParam(idx, "maxPointLights", pointLightCount)
@@ -68,14 +68,61 @@ end
 Tests = {}
 
 function Tests.new()
-	local vpWidth, vpHeight = getViewportSize()
 	local self = table.copy(Tests)
+	self.wasInput = false
+	return self
+end
+
+function Tests:cleanUp()
+	game:clearLocalLights()
+	game:clearParticleEmitters()
+    self.pointLights = {}
+    self.pointLightCount = 0
+end
+
+function Tests:show()
     self.globalLightEnabled = true
     self.pointLightCount = 0
     self.pointLights = {}
     self.shadowType = 0
     self.fogEnabled = false
+    self.shadowMapDebug = false
+    self.bgEnabled = true
+    self.animModelEnabled = true
 	self.boxrot = 0
+    self.bgPos = .5
+    self.bgDir = 1
+    self:setupUI()
+	self.x = 0
+	self.y = 0
+	self.dir = math.pi
+	self.state = PLAY_STATE_START
+	self:setupLevel()
+	self.controlFwd = 0
+	self.controlTurn = 0
+	self.panelAnim = 0
+	-- playSound("sounds/whoosh.ogg")
+	if ENABLE_PARTICLES then
+		local emitterId = game:addParticleEmitter()
+		game:setParticleEmitterTextureAsset(emitterId,"textures/particle.png")
+		game:setParticleEmitterPosition(emitterId, 7,-20,1.0)
+		game:setParticleEmitterDirection(emitterId, 0,0,1)
+		game:setParticleEmissionRate(emitterId, 40)
+		game:setParticleEmitterTimeRange(emitterId,1.5,3.0)
+		game:setParticleEmitterConeRange(emitterId,0.1)
+		game:setParticleInitialScale(emitterId,2.0)
+		game:setParticleAlphaSpeedRange(emitterId, -0.5, -0.5)
+		game:startParticleEmitter(emitterId)
+	end
+    if not self.newResourcesAdded then
+        addTestResources()
+        game:loadNewResources()
+        self.newResourcesAdded = true
+    end
+end
+
+function Tests:setupUI()
+	local vpWidth, vpHeight = getViewportSize()
 	self.buttons = {}
 	-- quit button
 	local button = makeButtonCentered(85, 50, 150, 100, "Quit")
@@ -84,8 +131,9 @@ function Tests.new()
 		game:setMode(MODE_MAINMENU)
 	end
 	table.insert(self.buttons, button)
+    local settingButtonWidth = 350
 	-- global light button
-	local button = makeButtonCentered(150, 200, 300, 100, "GLight: on")
+	local button = makeButtonCentered(settingButtonWidth/2, 200, settingButtonWidth, 100, "GLight: on")
 	button.onClickUp = function(button)
         self.globalLightEnabled = not self.globalLightEnabled
         if self.globalLightEnabled then
@@ -96,7 +144,7 @@ function Tests.new()
 	end
 	table.insert(self.buttons, button)
 	-- point lights button
-	local button = makeButtonCentered(150, 300, 300, 100, "PLights: 0")
+	local button = makeButtonCentered(settingButtonWidth/2, 300, settingButtonWidth, 100, "PLights: 0")
 	button.onClickUp = function(button)
         if self.pointLightCount == 3 then
             self.pointLightCount = 0
@@ -109,7 +157,7 @@ function Tests.new()
 	end
 	table.insert(self.buttons, button)
 	-- shadow button
-	local button = makeButtonCentered(150, 400, 300, 100, "Shadow: Off")
+	local button = makeButtonCentered(settingButtonWidth/2, 400, settingButtonWidth, 100, "Shadow: Off")
 	button.onClickUp = function()
         self.shadowType = self.shadowType + 1
         self.shadowType = self.shadowType % 3
@@ -123,9 +171,37 @@ function Tests.new()
         end
 	end
 	table.insert(self.buttons, button)
-	-- fog button
-	local button = makeButtonCentered(150, 500, 300, 100, "Fog: Off")
+	-- shadowmap debug button
+	local button = makeButtonCentered(settingButtonWidth/2, 500, settingButtonWidth, 100, "ShDbg: Off")
 	button.onClickUp = function()
+        self.shadowMapDebug = not self.shadowMapDebug
+        if self.shadowMapDebug then
+            button.label = "ShMapDbg: on"
+        else
+            button.label = "ShMapDbg: off"
+        end
+	end
+	table.insert(self.buttons, button)
+	-- fog button
+	local button = makeButtonCentered(settingButtonWidth/2, 600, settingButtonWidth, 100, "Fog: Off")
+	button.onClickUp = function(button)
+        self.fogEnabled = not self.fogEnabled
+        if self.fogEnabled then
+            button.label = "Fog: on"
+        else
+            button.label = "Fog: off"
+        end
+	end
+	table.insert(self.buttons, button)
+	-- anim model button
+	local button = makeButtonCentered(settingButtonWidth/2, 700, settingButtonWidth, 100, "AModel: On")
+	button.onClickUp = function(button)
+        self.animModelEnabled = not self.animModelEnabled
+        if self.animModelEnabled then
+            button.label = "AModel: on"
+        else
+            button.label = "AModel: off"
+        end
 	end
 	table.insert(self.buttons, button)
 	-- arrow controls
@@ -167,47 +243,12 @@ function Tests.new()
 	button.rotation = 270
 	self.leftButton = button
 	table.insert(self.buttons, button)
-	self.wasInput = false
-	return self
-end
-
-function Tests:cleanUp()
-	game:clearLocalLights()
-	game:clearParticleEmitters()
-    self.pointLights = {}
-    self.pointLightCount = 0
-end
-
-function Tests:show()
-	self.x = 0
-	self.y = 0
-	self.dir = math.pi
-	self.state = PLAY_STATE_START
-	self:setupLevel()
-	self.controlFwd = 0
-	self.controlTurn = 0
-	self.panelAnim = 0
-	playSound("sounds/whoosh.ogg")
-	if ENABLE_PARTICLES then
-		local emitterId = game:addParticleEmitter()
-		game:setParticleEmitterTextureAsset(emitterId,"textures/particle.png")
-		game:setParticleEmitterPosition(emitterId, 10,-20,1.0)
-		game:setParticleEmitterDirection(emitterId, 0,0,1)
-		game:setParticleEmissionRate(emitterId, 40)
-		game:setParticleEmitterTimeRange(emitterId,1.5,3.0)
-		game:setParticleEmitterConeRange(emitterId,0.1)
-		game:setParticleInitialScale(emitterId,2.0)
-		game:setParticleAlphaSpeedRange(emitterId, -0.5, -0.5)
-		game:startParticleEmitter(emitterId)
-	end
-    addTestResources()
-    game:loadNewResources()
 end
 
 function Tests:setupLevel()
 	self.boxes = {}
-    self:makeBox(11,-25, {1.0, 0, 1.0, 1.0})
-    self:makeBox(5,-10, {1.0, 1.0, 1.0, 0.2}, true)
+    self:makeBox(9,-25, {1.0, 0, 1.0, 1.0})
+    self:makeBox(3,-10, {1.0, 1.0, 1.0, 0.2}, true)
     self:makeBox(-7,-25, {0, 0, 1.0, 1.0})
     self:makeBox(-5,-15, {1.0, 1.0, 1.0, 0.2})
     self:makeBox(-7.5,-15, {1.0, 0, 0, 1.0})
@@ -228,16 +269,31 @@ function Tests:makeBox(x,y,color,twosided)
 end
 
 function Tests:update(tickDelta)
-    if not self.seymour then
-        self.seymour = AnimatedModel.new()
-    else
-        self.seymour:update(tickDelta)
+    if self.animModelEnabled then
+        if not self.seymour then
+            self.seymour = AnimatedModel.new()
+        else
+            self.seymour:update(tickDelta)
+        end
     end
     self:updatePointLights(tickDelta)
     for i,v in ipairs(self.buttons) do
         v:update(tickDelta)
     end
     self.boxrot = self.boxrot + tickDelta * 45
+    if self.bgDir == 1 then
+        self.bgPos = self.bgPos + tickDelta * .1
+        if self.bgPos >= 1 then
+            self.bgPos = 1
+            self.bgDir = -1
+        end
+    else
+        self.bgPos = self.bgPos - tickDelta * .1
+        if self.bgPos <= 0 then
+            self.bgPos = 0
+            self.bgDir = 1
+        end
+    end
     self:updateTestsState(tickDelta)
     self.wasInput = (getPointerState(0) or getKeyState(0))
 end
@@ -279,16 +335,16 @@ function Tests:updateTestsState(tickDelta)
 		local isDown, keyCode = getKeyState(i)
 		if isDown then
 			-- logmsg("keyCode " .. keyCode)
-			if keyCode == 38 then
+			if keyCode == 38 or keyCode == 0 then
 				--fwd
 				self.controlFwd = 1
-			elseif keyCode == 37 then
+			elseif keyCode == 37 or keyCode == 2 then
 				--left
 				self.controlTurn = 1
-			elseif keyCode == 39 then
+			elseif keyCode == 39 or keyCode == 3 then
 				--right
 				self.controlTurn = -1
-			elseif keyCode == 40 then
+			elseif keyCode == 40 or keyCode == 1 then
 				--back
 				self.controlFwd = -1
 			end
@@ -328,21 +384,33 @@ function Tests:updateTestsState(tickDelta)
 end
 
 function Tests:render()
+    local vpWidth, vpHeight = getViewportSize()
 	-- CAMERA PARAM
 	-- setCameraParams(0,0,100, 0,0)
 	setCameraParams(self.x, self.y, 5, 90, TO_DEGREES * self.dir)
 	setCameraNearFarFOV(1, 100, 60)
 	game:setShadowLightOrigin(-14, -14, 30)
-	game:setShadowColorAndEpsilon(0.5, 0.5, 0.5, 0.002)
+	game:setShadowColorAndEpsilon(0.8, 0.8, 0.8, 0.01)
 	game:setShadowLightFrustumNearFar(10, 50)
+    game:setShadowOrtho(15, -15, 15, -15)
 	game:setShadowType(self.shadowType)
 	game:setGlobalLightDir(-0.2, 0.2, .7)
 	game:setGlobalLightAmbient(.7, .7, .7, 1)
 	game:setGlobalLightDiffuse(.7, .7, .7, 1)
 	game:setGlobalLightSpecular(.5, .5, .5, 1)
 	game:setGlobalLightEnabled(self.globalLightEnabled)
+    game:setFogEnabled(self.fogEnabled)
+    if self.fogEnabled then
+        game:setFogParams(1, 30, .3,.3,.3,1)
+    end
+    if self.bgEnabled then
+        local idx = game:render2DBG("textures/box_surface.jpg", vpWidth/2, vpHeight/2, vpWidth, vpHeight, 0)
+        game:setRenderItemParam(idx, "colorFilter", 0.5, 0.5, 0.5, 1.0)
+        local uvOffset = (sigmoid(self.bgPos) - 0.5) * .2
+        game:setRenderItemParam(idx, "uvs", 0.2+uvOffset, 0.2, 0.8+uvOffset, 0.8)
+    end
 	-- draw playing surface - preserve order to optimize
-	local idx = game:renderAssimpM(nil, 0, "models/box.obj", nil, "textures/box_star.jpg", true, 1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1, 50.0,50.0,1.0, 0)
+	local idx = game:renderAssimpM(nil, 0, "models/box.obj", nil, "textures/box_star.jpg", true, 1,0,0,0,0,1,0,0,0,0,1,0,0,-20,0,1, 50.0,50.0,1.0, 0)
     game:setRenderItemParam(idx, "drawfirst", "true")
     game:setRenderItemParam(idx, "maxPointLights", self.pointLightCount)
     game:setRenderItemParam(idx, "noshadowgen", "true")
@@ -354,9 +422,14 @@ function Tests:render()
         if box.twosided then
             game:setRenderItemParam(idx, "twosided", "true")
         end
+        if box.color[4] < 1.0 then
+            game:setRenderItemParam(idx, "noshadowgen", "true")
+            game:setRenderItemParam(idx, "noshadowrecv", "true")
+            game:setRenderItemParam(idx, "nofog", "true")
+        end
 		game:setRenderItemParam(idx, "maxPointLights", self.pointLightCount)
 	end
-    if self.seymour then
+    if self.seymour and self.animModelEnabled then
         self.seymour:render(self.pointLightCount)
     end
     -- draw point lights
@@ -365,14 +438,11 @@ function Tests:render()
         pl:render()
     end
 	-- this will debug the shadowmap
-    -- TODO - add debug shadow button
-    if self.shadowType ~= 0 then
-        local vpWidth, vpHeight = getViewportSize()
-        -- game:render2D("shadowmap",vpWidth - vpWidth/4,vpHeight - vpHeight/4,vpWidth/2,vpHeight/2,0)
+    if self.shadowType ~= 0 and self.shadowMapDebug then
+        game:render2D("shadowmap",vpWidth - vpWidth/4,vpHeight - vpHeight/4,vpWidth/2,vpHeight/2,0)
 	end
 	-- buttons
 	for i,v in ipairs(self.buttons) do
 		v:render()
 	end
-	
 end

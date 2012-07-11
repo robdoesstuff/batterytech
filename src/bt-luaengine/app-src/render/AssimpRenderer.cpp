@@ -362,11 +362,13 @@ void AssimpRenderer::bindMaterial(RenderItem *item, GLAssimpMeshBinding *meshBin
 	}
 	Vector4f colorFilter = context->renderContext->colorFilter;
 	glUniform4f(shaderProgram->getUniformLoc("colorFilter"), colorFilter.x,colorFilter.y,colorFilter.z,colorFilter.a);
-	F32 fogNear = 0;
-	F32 fogFar = 500.0f;
+    RenderDefaults *defaults = ((RenderDefaults*)context->renderContext->userValues->get("renderDefaults"));
+	F32 fogNear = defaults->fogNear;
+	F32 fogFar = defaults->fogFar;
 	glUniform4f(shaderProgram->getUniformLoc("fog_and_uv_offset"), fogNear, fogFar, item->uvs.x, item->uvs.y);
 	if (config.withFog) {
-		glUniform4f(shaderProgram->getUniformLoc("fogColor"), 0.05f, 0.05f, 0.2f, 1.0f);
+        Vector4f fogColor = defaults->fogColor;
+		glUniform4f(shaderProgram->getUniformLoc("fogColor"), fogColor.x, fogColor.y, fogColor.z, fogColor.w);
 	}
 }
 

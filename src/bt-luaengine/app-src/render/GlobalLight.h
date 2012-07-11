@@ -28,6 +28,9 @@ public:
 	Vector3f shadowColor;
 	F32 shadowEpsilon;
 	Vector2f shadowFrustumNearFar;
+    BOOL32 shadowUsePerspective;
+    F32 shadowPerspectiveFOV;
+    Vector4f shadowOrthoSize;
 };
 
 #endif /* GLOBALLIGHT_H_ */

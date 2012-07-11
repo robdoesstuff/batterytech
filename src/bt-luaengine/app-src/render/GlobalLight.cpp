@@ -16,6 +16,9 @@ GlobalLight::GlobalLight() {
 	shadowColor = Vector3f(0.5, 0.5, 0.5);
 	shadowEpsilon = 0.0005f;
 	shadowFrustumNearFar = Vector2f(10.0f, 100.0f);
+    shadowUsePerspective = FALSE;
+    shadowPerspectiveFOV = 45;
+    shadowOrthoSize = Vector4f(100,100,100,100);
 }
 
 GlobalLight::~GlobalLight() {

@@ -56,6 +56,8 @@ static int lua_Game_renderBB(lua_State *L);
 static int lua_Game_setShadowLightOrigin(lua_State *L);
 static int lua_Game_setShadowColorAndEpsilon(lua_State *L);
 static int lua_Game_setShadowLightFrustumNearFar(lua_State *L);
+static int lua_Game_setShadowOrtho(lua_State *L);
+static int lua_Game_setShadowPerspective(lua_State *L);
 static int lua_Game_getShadowType(lua_State *L);
 static int lua_Game_setShadowType(lua_State *L);
 static int lua_Game_setGlobalLightEnabled(lua_State *L);
@@ -116,6 +118,8 @@ static const luaL_reg lua_methods[] = {
 	{ "setShadowLightOrigin", lua_Game_setShadowLightOrigin },
 	{ "setShadowColorAndEpsilon", lua_Game_setShadowColorAndEpsilon },
 	{ "setShadowLightFrustumNearFar", lua_Game_setShadowLightFrustumNearFar },
+	{ "setShadowOrtho", lua_Game_setShadowOrtho },
+	{ "setShadowPerspective", lua_Game_setShadowPerspective },
 	{ "setGlobalLightEnabled", lua_Game_setGlobalLightEnabled },
 	{ "setGlobalLightDir", lua_Game_setGlobalLightDir },
 	{ "setGlobalLightAmbient", lua_Game_setGlobalLightAmbient },
@@ -810,8 +814,12 @@ static int lua_Game_setFogEnabled(lua_State *L) {
 
 static int lua_Game_setFogParams(lua_State *L) {
 	//Game *game = *(Game**)lua_touserdata(L, 1);
-	((RenderDefaults*)static_context->renderContext->userValues->get("renderDefaults"))->fogNear = lua_tonumber(L, 2);
-	((RenderDefaults*)static_context->renderContext->userValues->get("renderDefaults"))->fogFar = lua_tonumber(L, 3);
+    RenderDefaults *rDefaults = ((RenderDefaults*)static_context->renderContext->userValues->get("renderDefaults"));
+	rDefaults->fogNear = lua_tonumber(L, 2);
+	rDefaults->fogFar = lua_tonumber(L, 3);
+    if (!lua_isnil(L, 4)) {
+        rDefaults->fogColor = lua_toVector4f(L, 4);
+    }
 	return 0;
 }
 
@@ -831,6 +839,20 @@ static int lua_Game_setShadowColorAndEpsilon(lua_State *L) {
 static int lua_Game_setShadowLightFrustumNearFar(lua_State *L) {
 	//Game *game = *(Game**)lua_touserdata(L, 1);
 	static_context->world->globalLight->shadowFrustumNearFar = lua_toVector2f(L, 2);
+	return 0;
+}
+
+static int lua_Game_setShadowOrtho(lua_State *L) {
+	//Game *game = *(Game**)lua_touserdata(L, 1);
+	static_context->world->globalLight->shadowUsePerspective = FALSE;
+    static_context->world->globalLight->shadowOrthoSize = lua_toVector4f(L, 2);
+	return 0;
+}
+
+static int lua_Game_setShadowPerspective(lua_State *L) {
+	//Game *game = *(Game**)lua_touserdata(L, 1);
+	static_context->world->globalLight->shadowUsePerspective = TRUE;
+    static_context->world->globalLight->shadowPerspectiveFOV = lua_tonumber(L, 2);
 	return 0;
 }
 
