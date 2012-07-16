@@ -11,10 +11,10 @@
 #include <batterytech/primitives.h>
 
 #define PHYSICS_BODY_TYPE_GAMEOBJECT 0
-#define PHYSICS_BODY_TYPE_LEVEL 1
+#define PHYSICS_BODY_TYPE_STATIC_GEOMETRY 1
 
 /**
- * This class is just to differentiate between gameobjects and level contours in the box2d callbacks
+ * This class is just to differentiate between gameobjects and static geometry in the box2d callbacks
  *
  * Classes that extend this are what will be called back
  */

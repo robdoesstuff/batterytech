@@ -19,8 +19,13 @@
 #include "gameobject/ParticleEmitter.h"
 
 World::World() {
-	//btWorld = NULL;
-	//btProfiler = new btClock();
+#ifdef BATTERYTECH_INCLUDE_BULLET
+	btWorld = NULL;
+	btProfiler = new btClock();
+#endif
+#ifdef BATTERYTECH_INCLUDE_BOX2D
+    boxWorld = NULL;
+#endif
 	gameObjects = new ManagedArray<GameObject>(MAX_GAMEOBJECTS);
 	screenControls = new ManagedArray<ScreenControl>(MAX_SCREENCONTROLS);
 	renderItems = new RenderItem[MAX_RENDERITEMS]; // this is going to use a lot of memory.
@@ -34,9 +39,7 @@ World::World() {
 	renderersReady = FALSE;
 	wfMode = FALSE;
 	luaState = NULL;
-	boxMessage[0] = '\0';
 	level = NULL;
-	levelNumber = 0;
 	simEnabled = TRUE;
 	gameState = 0;
 	lastGameState = 0;
@@ -55,8 +58,10 @@ World::~World() {
 		delete screenControls;
 	}
 	screenControls = NULL;
-	//delete btProfiler;
-	//btProfiler = NULL;
+#ifdef BATTERYTECH_INCLUDE_BULLET
+	delete btProfiler;
+	btProfiler = NULL;
+#endif
 	delete camera;
 	camera = NULL;
 	delete globalLight;
@@ -80,13 +85,24 @@ void World::clear() {
 		}
 		gameObjects->clear();
 	}
-	// logmsg("Clearing bullet world");
-	//if (btWorld) {
-	//	delete btWorld;
-	//}
-	//btWorld = NULL;
+#ifdef BATTERYTECH_INCLUDE_BULLET
+	 logmsg("Clearing bullet world");
+	if (btWorld) {
+		delete btWorld;
+	}
+	btWorld = NULL;
+#endif
 	if (level) {
 		delete level;
 	}
 	level = NULL;
+#ifdef BATTERYTECH_INCLUDE_BOX2D
+	logmsg("Clearing box world");
+	// Delete boxworld LAST (or crashes occur when freeing other objects)
+	// (it automatically deallocates everything internally)
+	if (boxWorld) {
+		delete boxWorld;
+	}
+	boxWorld = NULL;
+#endif
 }

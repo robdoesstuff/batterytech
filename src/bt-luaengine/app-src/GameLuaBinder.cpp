@@ -40,6 +40,9 @@ static int lua_Game_tostring (lua_State *L);
 static int lua_Game_getInstance(lua_State *L);
 static int lua_Game_replaceMetatable(lua_State *L);
 static int lua_Game_addScreenControl(lua_State *L);
+static int lua_Game_createPhysicsWorld(lua_State *L);
+static int lua_Game_updatePhysics(lua_State *L);
+static int lua_Game_setPhysicsGravity(lua_State *L);
 static int lua_Game_updateScreenControl(lua_State *L);
 static int lua_Game_updateScreenControlTexture(lua_State *L);
 static int lua_Game_removeScreenControl(lua_State *L);
@@ -95,6 +98,8 @@ static int lua_Game_setParticleRotationSpeedRange(lua_State *L);
 static const luaL_reg lua_methods[] = {
 	{ "getInstance", lua_Game_getInstance },
 	{ "replaceMetatable", lua_Game_replaceMetatable },
+	{ "createPhysicsWorld", lua_Game_createPhysicsWorld },
+	{ "updatePhysics", lua_Game_updatePhysics },
 	{ "addScreenControl", lua_Game_addScreenControl },
 	{ "updateScreenControl", lua_Game_updateScreenControl },
 	{ "updateScreenControlTexture", lua_Game_updateScreenControlTexture },
@@ -387,6 +392,56 @@ static int lua_Game_getInstance(lua_State *L) {
 	luaL_getmetatable(L, LUA_GAME_MT); // get the metatable we made which is meant for the game instance
 	lua_setmetatable(L, -2); // set the metatable to the game instance
 	return 1;
+}
+
+static int lua_Game_createPhysicsWorld(lua_State *L) {
+    Game *game = *(Game**)lua_touserdata(L, 1);
+#ifdef BATTERYTECH_INCLUDE_BOX2D
+    b2Vec2 gravity(0.0f, DEFAULT_GRAVITY);
+	static_context->world->boxWorld = new b2World(gravity, true);
+	static_context->world->boxWorld->SetContinuousPhysics(game);
+	static_context->world->boxWorld->SetContactListener(game);
+	static_context->world->boxWorld->SetDestructionListener(game);
+#endif
+#ifdef BATTERYTECH_INCLUDE_BULLET
+    // TODO - declare these in game and also clean them up when done
+    m_collisionConfiguration = new btDefaultCollisionConfiguration();
+	m_dispatcher = new btCollisionDispatcher(m_collisionConfiguration);
+	m_broadphase = new btDbvtBroadphase();
+	sol = new btSequentialImpulseConstraintSolver;
+    static_context->world->btWorld = new btDiscreteDynamicsWorld(m_dispatcher,m_broadphase,sol,m_collisionConfiguration);
+#endif
+    return 0;
+}
+
+static int lua_Game_updatePhysics(lua_State *L) {
+    Game *game = *(Game**)lua_touserdata(L, 1);
+    F32 delta = static_context->tickDelta;
+    S32 substeps1 = 1;
+    S32 substeps2 = 1;
+    if (!lua_isnil(L, 2)) {
+        delta = lua_tonumber(L, 2);
+        if (!lua_isnil(L, 3)) {
+            substeps1 = lua_tointeger(L, 3);
+            if (!lua_isnil(L, 4)) {
+                substeps2 = lua_tointeger(L, 4);
+            }
+        }
+    }
+    game->updatePhysics(delta, substeps1, substeps2);
+    return 0;
+}
+
+static int lua_Game_setPhysicsGravity(lua_State *L) {
+    // Game *game = *(Game**)lua_touserdata(L, 1);
+    Vector3f gravity = lua_toVector3f(L, 2);
+#ifdef BATTERYTECH_INCLUDE_BOX2D
+    static_context->world->boxWorld->SetGravity(b2Vec2(gravity.x, gravity.y));
+#endif
+#ifdef BATTERYTECH_INCLUDE_BULLET
+    static_context->world->btWorld->setGravity(btVector3(gravity.x, gravity.y, gravity.z));
+#endif
+    return 0;
 }
 
 // Game:addScreenControl(name, label, textureAssetName, u1,v1,u2,v2, x1,y1,x2,y2, x3,y3,x4,y4, isInteractive)

@@ -16,7 +16,7 @@
 
 using namespace BatteryTech;
 
-Level::Level(GameContext *context) : PhysicsBodyObject(PHYSICS_BODY_TYPE_LEVEL) {
+Level::Level(GameContext *context) : PhysicsBodyObject(PHYSICS_BODY_TYPE_STATIC_GEOMETRY) {
 	 this->context = context;
 	 //btBody = NULL;
 	 //shape = NULL;

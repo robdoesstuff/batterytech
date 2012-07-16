@@ -31,6 +31,13 @@ GameObject::GameObject(GameContext *context) : PhysicsBodyObject(PHYSICS_BODY_TY
 	pos = Vector3f(0,0,0);
 	lastPos = Vector3f(0,0,0);
 	animators = NULL;
+#ifdef BATTERYTECH_INCLUDE_BOX2D
+    boxBody = NULL;
+    processContact = FALSE;
+	preSolveVelocity = 0;
+	postSolveVelocity = 0;
+	impactVelocityDelta = 0;
+#endif
 	/*
 	btBody = NULL;
 	btGhost = NULL;
@@ -77,6 +84,59 @@ GameObject::~GameObject() {
 	}
 	animators = NULL;
 }
+
+#ifdef BATTERYTECH_INCLUDE_BOX2D
+void GameObject::contactStarted(b2Contact* contact) {
+}
+
+void GameObject::contactEnded(b2Contact* contact) {
+}
+
+void GameObject::contactPreSolve(b2Contact* contact, const b2Manifold* oldManifold) {
+	::PhysicsBodyObject *objA = (::PhysicsBodyObject*) contact->GetFixtureA()->GetBody()->GetUserData();
+	::PhysicsBodyObject *objB = (::PhysicsBodyObject*) contact->GetFixtureB()->GetBody()->GetUserData();
+	if (objA->bodyType == PHYSICS_BODY_TYPE_GAMEOBJECT) {
+		GameObject *gObjA = (GameObject*) objA;
+        if (gObjA == this) {
+            preSolveVelocity = gObjA->getLinearVelocity();
+        }
+	}
+	if (objB->bodyType == PHYSICS_BODY_TYPE_GAMEOBJECT) {
+		GameObject *gObjB = (GameObject*) objB;
+        if (gObjB == this) {
+            preSolveVelocity = gObjB->getLinearVelocity();
+        }
+	}
+}
+
+void GameObject::contactPostSolve(b2Contact* contact, const b2ContactImpulse* impulse) {
+	::PhysicsBodyObject *objA = (::PhysicsBodyObject*) contact->GetFixtureA()->GetBody()->GetUserData();
+	::PhysicsBodyObject *objB = (::PhysicsBodyObject*) contact->GetFixtureB()->GetBody()->GetUserData();
+	if (objA->bodyType == PHYSICS_BODY_TYPE_GAMEOBJECT) {
+		GameObject *gObjA = (GameObject*) objA;
+		if (gObjA == this) {
+			postSolveVelocity = gObjA->getLinearVelocity();
+			impactVelocityDelta += preSolveVelocity - postSolveVelocity;
+			processContact = TRUE;
+		}
+	}
+	if (objB->bodyType == PHYSICS_BODY_TYPE_GAMEOBJECT) {
+		GameObject *gObjB = (GameObject*) objB;
+		if (gObjB == this) {
+			postSolveVelocity = gObjB->getLinearVelocity();
+			impactVelocityDelta += preSolveVelocity - postSolveVelocity;
+			processContact = TRUE;
+		}
+	}
+}
+
+void GameObject::clearImpact() {
+	processContact = FALSE;
+	preSolveVelocity = 0;
+	postSolveVelocity = 0;
+	impactVelocityDelta = 0;
+}
+#endif
 
 void GameObject::setPosition(Vector3f pos) {
 	this->pos = pos;
@@ -428,8 +488,10 @@ void GameObject::updatePathing() {
 		}
 	}
 }
+ */
 
 void GameObject::destroyBody() {
+#ifdef BATTERYTECH_INCLUDE_BULLET
 	if (constraints) {
 		for (S32 i = 0; i < constraints->getSize(); i++) {
 			context->world->btWorld->removeConstraint(constraints->array[i]);
@@ -458,9 +520,16 @@ void GameObject::destroyBody() {
 		extraBodies = NULL;
 		extraMotionStates = NULL;
 	}
+#endif
+#ifdef BATTERYTECH_INCLUDE_BOX2D
+    if (boxBody && context && context->world && context->world->boxWorld) {
+		//logmsg("b2World->DestroyBody");
+		context->world->boxWorld->DestroyBody(boxBody);
+		boxBody = NULL;
+	}
+#endif
 }
 
-*/
 World* GameObject::getWorld() {
 	return context->world;
 }

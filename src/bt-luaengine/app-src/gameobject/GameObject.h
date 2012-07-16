@@ -17,6 +17,12 @@
 #include <batterytech/math/Vector2.h>
 #include <batterytech/util/ManagedArray.h>
 #include <batterytech/math/Vector3.h>
+#ifdef BATTERYTECH_INCLUDE_BOX2D
+#include <bt-box2d/Dynamics/Contacts/b2Contact.h>
+#include <bt-box2d/Dynamics/b2WorldCallbacks.h>
+#include "../GameConstants.h"
+#include <bt-box2d/Dynamics/b2Body.h>
+#endif
 
 #define GAMEOBJECT_MAX_PATH 100
 #define GAMEOBJECT_MAX_CONTACTS 100
@@ -129,13 +135,34 @@ public:
 	ManagedArray<AssimpAnimator> *animators;
 	Vector3f modelScale;
 	BOOL32 isInitialized;
+    // destroys the b2Body attached to a gameobject
+	void destroyBody();
+#ifdef BATTERYTECH_INCLUDE_BOX2D
+    // called when contact has started with another game object
+	// do NOT modify the contents of boxWorld here!  It will crash
+	virtual void contactStarted(b2Contact* contact);
+	// called when contact has ended with another game object
+	// do NOT modify the contents of boxWorld here!  It will crash
+	virtual void contactEnded(b2Contact* contact);
+	virtual void contactPreSolve(b2Contact* contact, const b2Manifold* oldManifold);
+	virtual void contactPostSolve(b2Contact* contact, const b2ContactImpulse* impulse);
+	/// Called when any joint is about to be destroyed due
+	/// to the destruction of one of its attached bodies.
+	virtual void SayGoodbye(b2Joint* joint){};
+	/// Called when any fixture is about to be destroyed due
+	/// to the destruction of its parent body.
+	virtual void SayGoodbye(b2Fixture* fixture){};
+    // the primary box2d body of this gameobject (be careful messing with this - it may not be the main one!)
+	b2Body *boxBody;
+    virtual F32 getLinearVelocity() { return 0.0f; };
+	// resets the impact solution
+	virtual void clearImpact();
+#endif
 #ifdef BATTERYTECH_INCLUDE_BULLET
 	void setAllOrientationYPR(Vector3f ypr);
 	void setOrientationYPR(S32 idx, Vector3f ypr);
 	Vector3f getOrientationYPR(S32 idx = 0);
 	void updatePathing();
-	// destroys the b2Body attached to a gameobject
-	void destroyBody();
 	// moves or rotates this object
 	void transform(F32 x, F32 y, F32 angle){};
 	// called when this object is touched (x and y are in world-coordinates)
@@ -177,6 +204,12 @@ protected:
 	World* getWorld();
 	// a reference to the game context
 	GameContext *context;
+#ifdef BATTERYTECH_INCLUDE_BOX2D
+    BOOL32 processContact;
+	F32 preSolveVelocity;
+	F32 postSolveVelocity;
+	F32 impactVelocityDelta;
+#endif
 };
 
 #endif /* GAMEOBJECT_H_ */

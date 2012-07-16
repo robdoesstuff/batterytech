@@ -12,6 +12,11 @@
 #include <batterytech/util/ManagedArray.h>
 #include "render/Camera.h"
 #include <batterytech/math/Vector3.h>
+#ifdef BATTERYTECH_INCLUDE_BOX2D
+#include <bt-box2d/Dynamics/b2World.h>
+#endif
+#ifdef BATTERYTECH_INCLUDE_BULLET
+#endif
 extern "C" {
 	#include <bt-lua/lua.h>
 }
@@ -32,14 +37,17 @@ public:
 
 	lua_State *luaState;
 
-	char boxMessage[255];
 	S32 physicsUpdateTime;
 
-	//btClock *btProfiler;
-	//btDynamicsWorld *btWorld;
+#ifdef BATTERYTECH_INCLUDE_BULLET
+	btClock *btProfiler;
+	btDynamicsWorld *btWorld;
+#endif
+#ifdef BATTERYTECH_INCLUDE_BOX2D
+    b2World *boxWorld;
+#endif
 	BOOL32 wfMode;
 	Level *level;
-	S32 levelNumber;
 
 	Camera *camera;
 	//configured from lua setGlobalLight...

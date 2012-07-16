@@ -51,7 +51,6 @@ static int lua_stopSound(lua_State *L);
 static int lua_playStreamingSound(lua_State *L);
 static int lua_stopStreamingSound(lua_State *L);
 static int lua_setSoundRate(lua_State *L);
-static int lua_setBoxMessage(lua_State *L);
 static int lua_getPointerState(lua_State *L);
 static int lua_isUIConsumingPointers(lua_State *L);
 static int lua_getAccelerometerState(lua_State *L);
@@ -132,7 +131,6 @@ lua_State* LuaBinder::newState(GameContext *context) {
 	registerFunction(L, "playStreamingSound", lua_playStreamingSound);
 	registerFunction(L, "stopStreamingSound", lua_stopStreamingSound);
 	registerFunction(L, "setSoundRate", lua_setSoundRate);
-	registerFunction(L, "setBoxMessage", lua_setBoxMessage); // param: string message
 	registerFunction(L, "getPointerState", lua_getPointerState); // param: int pointerIndex, return: bool isDown, xy screenCoordinate
 	registerFunction(L, "getKeyState", lua_getKeyState); // param: int keyIndex, return: bool isDown, int keyCode
 	registerFunction(L, "isUIConsumingPointers", lua_isUIConsumingPointers); // return: bool
@@ -730,12 +728,6 @@ static int lua_setSoundRate(lua_State *L) {
 	S32 streamId = lua_tointeger(L, 1);
 	F32 rate = lua_tonumber(L, 2);
 	static_context->audioManager->setRate(streamId, rate);
-	return 0;
-}
-
-static int lua_setBoxMessage(lua_State *L) {
-	const char *message = lua_tostring(L, 1);
-	strcpy(static_context->world->boxMessage, message);
 	return 0;
 }
 
