@@ -338,7 +338,7 @@ int bb_init_egl(screen_context_t ctx, bool withGLES2) {
 		return EXIT_FAILURE;
 	}
 
-	rc = screen_create_window_group(screen_win, "StreetRaceWindow");
+	rc = screen_create_window_group(screen_win, btGetContext()->appProperties->get("windowed_app_name")->getValue());
 	if (rc) {
 		perror("screen_create_window_group");
 		bb_terminate();

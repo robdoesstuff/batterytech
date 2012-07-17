@@ -259,7 +259,7 @@ void attemptPurchase(const char *productID) {
 	strcpy(lastAttemptedPurchaseSku,productID);
 	if (paymentservice_purchase_request(NULL, digital_good_sku,
 	    NULL, NULL, purchase_app_name, purchase_app_icon,
-	    "StreetRaceWindow", &request_id) != BPS_SUCCESS) {
+	    btGetContext()->appProperties->get("windowed_app_name")->getValue(), &request_id) != BPS_SUCCESS) {
 	        fprintf(stderr, "Error: purchase request failed.\n");
 	    }
 }
