@@ -51,7 +51,7 @@ namespace BatteryTech {
 	protected:
 		LayoutDirection layoutDirection;
 	private:
-		void calcSpaceRequired(Context *context, F32 scale, S32 *width, S32 *height, S32 *horizFillCount, S32 *vertFillCount, S32 *center, S32 widthAvailable, S32 heightAvailable);
+		void calcSpaceRequired(Context *context, F32 scale, F32 textInvScale, S32 *width, S32 *height, S32 *horizFillCount, S32 *vertFillCount, S32 *center, S32 widthAvailable, S32 heightAvailable);
 	};
 
 }

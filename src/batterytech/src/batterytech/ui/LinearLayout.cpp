@@ -47,7 +47,7 @@ namespace BatteryTech {
 			if (heightDips != FILL && heightDips != WRAP) {
 				heightAssumption = heightDips;
 			}
-			calcSpaceRequired(context, 1.0f, &widthNeeded, &heightNeeded, &horizFillCount, &vertFillCount, &centerNeeded, widthAvailable, heightAssumption);
+			calcSpaceRequired(context, 1.0f, 1.0f/context->gConfig->uiScale, &widthNeeded, &heightNeeded, &horizFillCount, &vertFillCount, &centerNeeded, widthAvailable, heightAssumption);
 			return widthNeeded + paddingLeftDips + paddingRightDips;
 		} else {
 			return widthDips;
@@ -68,7 +68,7 @@ namespace BatteryTech {
 			if (widthDips != FILL && widthDips != WRAP) {
 				widthAssumption = widthDips;
 			}
-			calcSpaceRequired(context, 1.0f, &widthNeeded, &heightNeeded, &horizFillCount, &vertFillCount, &centerNeeded, widthAssumption, heightAvailable);
+			calcSpaceRequired(context, 1.0f, 1.0f/context->gConfig->uiScale, &widthNeeded, &heightNeeded, &horizFillCount, &vertFillCount, &centerNeeded, widthAssumption, heightAvailable);
 			return heightNeeded + paddingTopDips + paddingBottomDips;
 		} else {
 			return heightDips;
@@ -100,7 +100,7 @@ namespace BatteryTech {
 		S32 compTop = 0;
 		S32 compBottom = 0;
 		S32 i = 0;
-		calcSpaceRequired(context, scale, &totalWidthNeeded, &totalHeightNeeded, &horizFillCount, &vertFillCount, &centerNeeded, horizRemain, vertRemain);
+		calcSpaceRequired(context, scale, 1.0f, &totalWidthNeeded, &totalHeightNeeded, &horizFillCount, &vertFillCount, &centerNeeded, horizRemain, vertRemain);
 		//logmsg("calcing space dist 2");
 		// this distributes remaining space to components which require fill
 		S32 vertFillPerComponentSize = 0;
@@ -212,7 +212,7 @@ namespace BatteryTech {
 							} else {
 								widthAssumption *= scale;
 							}
-							widthAssumption -= (S32)(component->paddingLeftDips + component->paddingRightDips * scale);
+							widthAssumption -= (S32)((component->paddingLeftDips + component->paddingRightDips) * scale);
 							// already in scaled units
 							compHeight = context->menuRenderer->measureMultilineHeight(component->text, widthAssumption);
 						} else {
@@ -222,7 +222,7 @@ namespace BatteryTech {
 					} else {
 						compHeight = 0;
 					}
-					compHeight += (S32)(component->paddingTopDips + component->paddingBottomDips * scale);
+					compHeight += (S32)((component->paddingTopDips + component->paddingBottomDips) * scale);
 				} else {
 					compHeight *= scale;
 				}
@@ -262,7 +262,7 @@ namespace BatteryTech {
 		}
 	}
 
-	void LinearLayout::calcSpaceRequired(Context *context, F32 scale, S32 *width, S32 *height, S32 *horizFillCount, S32 *vertFillCount, S32 *center, S32 widthAvailable, S32 heightAvailable) {
+	void LinearLayout::calcSpaceRequired(Context *context, F32 scale, F32 textInvScale, S32 *width, S32 *height, S32 *horizFillCount, S32 *vertFillCount, S32 *center, S32 widthAvailable, S32 heightAvailable) {
 		S32 i;
 		for (i = 0; i < components->getSize(); i++) {
 			UIComponent *component = components->array[i];
@@ -292,12 +292,17 @@ namespace BatteryTech {
 							} else {
 								widthAssumption *= scale;
 							}
-							widthAssumption -= (S32)(component->paddingLeftDips + component->paddingRightDips * scale);
-							F32 textHeight = context->menuRenderer->measureMultilineHeight(component->text, widthAssumption);
-							textHeight += (S32)(component->paddingTopDips + component->paddingBottomDips * scale);
+							widthAssumption -= (S32)((component->paddingLeftDips + component->paddingRightDips) * scale);
+							// text height measurements are already in screen-scaled size, but we can't always use that because for the frame layout pass
+							// we need reference units (unscaled) so we multiply by textInvScale to get back to reference units (assuming it's the inverse scale)
+							// and then gets worse for multiline because we need a width to use, but it's assuming that's in scaled units so we have to scale that down
+							// and back
+							F32 textHeight = context->menuRenderer->measureMultilineHeight(component->text, widthAssumption * (1.0f/textInvScale)) * textInvScale;
+							textHeight += (S32)((component->paddingTopDips + component->paddingBottomDips) * scale);
 							*height += (S32)(textHeight + component->marginTopDips * scale + component->marginBottomDips * scale);
 						} else {
-							F32 textHeight = context->menuRenderer->getTextHeight();
+							F32 textHeight = context->menuRenderer->getTextHeight() * textInvScale;
+							textHeight += (S32)((component->paddingTopDips + component->paddingBottomDips) * scale);
 							*height += (S32)(textHeight + component->marginTopDips * scale + component->marginBottomDips * scale);
 						}
 					}

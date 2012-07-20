@@ -196,6 +196,7 @@ namespace BatteryTech {
 		F32 y = 0;
 		stbtt_aligned_quad q;
 		stbtt_GetBakedQuad(cdata, bmpWidth, bmpHeight, 'A'-32, &x,&y,&q,1, scale);//1=opengl,0=old d3d
+		// subtract outer stroke amount or it doesn't measure out right
 		return (q.y1 - q.y0) * scale;
 	}
 

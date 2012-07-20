@@ -1612,29 +1612,29 @@ extern int stbtt_BakeFontBitmap(const unsigned char *data, int offset,  // font 
    scale = stbtt_ScaleForPixelHeight(&f, pixel_height);
 
    for (i=0; i < num_chars; ++i) {
-      int advance, lsb, x0,y0,x1,y1,gw,gh;
+      int advance, lsb, x0,y0,x1,y1,glyphWidth,glyphHeight;
       int g = stbtt_FindGlyphIndex(&f, first_char + i);
       stbtt_GetGlyphHMetrics(&f, g, &advance, &lsb);
       stbtt_GetGlyphBitmapBox(&f, g, scale,scale, &x0,&y0,&x1,&y1);
-      gw = x1-x0;
-      gh = y1-y0;
-      if (x + gw + 1 >= pw)
+      glyphWidth = x1-x0;
+      glyphHeight = y1-y0;
+      if (x + glyphWidth + 1 >= pw)
          y = bottom_y, x = 1 + pad; // advance to next row
-      if (y + gh + 1 >= ph) // check if it fits vertically AFTER potentially moving to next row
+      if (y + glyphHeight + 1 >= ph) // check if it fits vertically AFTER potentially moving to next row
          return -i;
-      STBTT_assert(x+gw < pw);
-      STBTT_assert(y+gh < ph);
-      stbtt_MakeGlyphBitmap(&f, pixels+x+y*pw, gw,gh,pw, scale,scale, g);
+      STBTT_assert(x+glyphWidth < pw);
+      STBTT_assert(y+glyphHeight < ph);
+      stbtt_MakeGlyphBitmap(&f, pixels+x+y*pw, glyphWidth,glyphHeight,pw, scale,scale, g);
       chardata[i].x0 = (stbtt_int16) x - pad;
       chardata[i].y0 = (stbtt_int16) y - pad;
-      chardata[i].x1 = (stbtt_int16) (x + gw) + pad;
-      chardata[i].y1 = (stbtt_int16) (y + gh) + pad;
+      chardata[i].x1 = (stbtt_int16) (x + glyphWidth) + pad;
+      chardata[i].y1 = (stbtt_int16) (y + glyphHeight) + pad;
       chardata[i].xadvance = scale * advance;
-      chardata[i].xoff     = (float) x0 + pad;
-      chardata[i].yoff     = (float) y0 + pad;
-      x = x + gw + 2 + pad * 2;
-      if (y+gh+2 > bottom_y)
-         bottom_y = y+gh+2 + pad * 2;
+      chardata[i].xoff     = (float) x0 - pad;
+      chardata[i].yoff     = (float) y0 - pad*2;
+      x = x + glyphWidth + 2 + pad * 2;
+      if (y+glyphHeight+2 > bottom_y)
+         bottom_y = y+glyphHeight+2 + pad * 2 + 1;
    }
    return bottom_y;
 }

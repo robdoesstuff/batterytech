@@ -211,8 +211,8 @@ void Game::updateState() {
 		logmsg("Done cleaning up.");
 		context->world->gameState = GAMESTATE_RUNNING;
 		if (!isInError) {
-			luaBinder->reset(TRUE);
 			context->uiManager->clearMenuStack();
+			luaBinder->reset(TRUE);
 		}
 		// normally we'd show the top menu here
 		// context->uiManager->showMenu(TOP_MENU_NAME);

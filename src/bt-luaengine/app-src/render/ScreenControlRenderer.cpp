@@ -69,7 +69,7 @@ void ScreenControlRenderer::render() {
 		TextRasterRenderer *textRenderer = context->worldRenderer->getTextRenderer(fontTag);
 		if (textRenderer) {
 			textRenderer->startText();
-			F32 th = textRenderer->getHeight();
+			F32 textHeight = textRenderer->getHeight();
 			for (S32 i = 0; i < controls->getSize(); i++) {
 				ScreenControl *control = controls->array[i];
 				if (!control->getTextureAssetName() || !control->getLabel() || strlen(control->getLabel()) == 0) {
@@ -88,12 +88,9 @@ void ScreenControlRenderer::render() {
 					scale = .9f / diff;
 					tw = (right - left) * .9f;
 				}
-
 				F32 textX, textY;
-				textX = left + ((right - left)/2);
-				textY = top + ((bottom - top)/2.6);
-				textX -= tw/2;
-				textY += th/2;
+				textX = left + ((right - left)/2) - tw/2;
+				textY = top + (bottom - top)/2 + (textHeight*scale)/2;
 				textRenderer->render(control->getLabel(), textX, textY, scale);
 			}
 			textRenderer->finishText();
