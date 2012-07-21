@@ -28,6 +28,15 @@ static int lua_GameObject_tostring (lua_State *L);
 // c functions available to lua
 static int lua_GameObject_createInstance(lua_State *L);
 static int lua_GameObject_replaceMetatable(lua_State *L);
+static int lua_GameObject_init(lua_State *L);
+static int lua_GameObject_deactivate(lua_State *L); // once an object is deactivated, no further calls may be made on it or its luabinder or crashes will occur
+// 3D Animation functions
+static int lua_GameObject_anim_allocAnimations(lua_State *L); // allocates n animations
+static int lua_GameObject_anim_initDynamic(lua_State *L); // initializes animation n for dynamic model x
+static int lua_GameObject_anim_interpolate(lua_State *L); // interpolates animation n at time x
+
+#ifdef BATTERYTECH_INCLUDE_BULLET
+// 3D Physics functions
 static int lua_GameObject_setModelScale(lua_State *L);
 static int lua_GameObject_getModelScale(lua_State *L);
 static int lua_GameObject_setPosition(lua_State *L);
@@ -35,11 +44,14 @@ static int lua_GameObject_getPosition(lua_State *L);
 static int lua_GameObject_setAllOrientationYPR(lua_State *L);
 static int lua_GameObject_setOrientationYPR(lua_State *L);
 static int lua_GameObject_getOrientationYPR(lua_State *L);
-static int lua_GameObject_init(lua_State *L);
-static int lua_GameObject_deactivate(lua_State *L); // once an object is deactivated, no further calls may be made on it or its luabinder or crashes will occur
-static int lua_GameObject_moveTowards(lua_State *L);
 static int lua_GameObject_applyForce(lua_State *L); // applies toward primary btBody
 static int lua_GameObject_applyImpulse(lua_State *L); // applies toward primary btBody
+static int lua_GameObject_setLinearVelocity(lua_State *L);
+static int lua_GameObject_getLinearVelocity(lua_State *L);
+static int lua_GameObject_getOpenGLMatrix(lua_State *L);
+static int lua_GameObject_setMass(lua_State *L);
+// Deprecated - should remove and move to lua
+static int lua_GameObject_moveTowards(lua_State *L);
 static int lua_GameObject_getPathLength(lua_State *L);
 static int lua_GameObject_getPathPoint(lua_State *L);
 static int lua_GameObject_addPathPoint(lua_State *L);
@@ -47,14 +59,8 @@ static int lua_GameObject_clearPath(lua_State *L);
 static int lua_GameObject_isSelected(lua_State *L);
 static int lua_GameObject_setSelected(lua_State *L);
 static int lua_GameObject_setPathingParameters(lua_State *L); // param: accel, speedClamp, rotationSpeed (in degrees per second)
-static int lua_GameObject_setLinearVelocity(lua_State *L);
-static int lua_GameObject_getLinearVelocity(lua_State *L);
-static int lua_GameObject_getOpenGLMatrix(lua_State *L);
-static int lua_GameObject_setMass(lua_State *L);
-static int lua_GameObject_anim_allocAnimations(lua_State *L); // allocates n animations
-static int lua_GameObject_anim_initDynamic(lua_State *L); // initializes animation n for dynamic model x
-static int lua_GameObject_anim_interpolate(lua_State *L); // interpolates animation n at time x
-// c physics modeling interface to lua
+
+// Bullet bindings
 static int lua_GameObject_physics_allocConfigs(lua_State *L); // param: number of physics model configurations, defaults to 1 if not called
 static int lua_GameObject_physics_createBox(lua_State *L);
 static int lua_GameObject_physics_createCylinder(lua_State *L);
@@ -75,12 +81,21 @@ static int lua_GameObject_physics_addP2PConstraint(lua_State *L); // param: body
 static int lua_GameObject_physics_setConstraintLimits(lua_State *L); // param: index, low, high
 static int lua_GameObject_physics_enableConstraintMotor(lua_State *L);
 static int lua_GameObject_physics_enableConstraintMotorTarget(lua_State *L);
+#endif
+
+#ifdef BATTERYTECH_INCLUDE_BOX2D
+// Box2D bindings
+#endif
 
 static const luaL_reg lua_methods[] = {
 	{ "createInstance", lua_GameObject_createInstance },
 	{ "replaceMetatable", lua_GameObject_replaceMetatable },
 	{ "cInit", lua_GameObject_init },
 	{ "cDeactivate", lua_GameObject_deactivate },
+	{ "anim_allocAnimations", lua_GameObject_anim_allocAnimations },
+	{ "anim_initDynamic", lua_GameObject_anim_initDynamic },
+	{ "anim_interpolate", lua_GameObject_anim_interpolate },
+#ifdef BATTERYTECH_INCLUDE_BULLET
 	{ "setModelScale", lua_GameObject_setModelScale },
 	{ "getModelScale", lua_GameObject_getModelScale },
 	{ "setPosition", lua_GameObject_setPosition },
@@ -102,9 +117,6 @@ static const luaL_reg lua_methods[] = {
 	{ "getLinearVelocity", lua_GameObject_getLinearVelocity },
 	{ "getOpenGLMatrix", lua_GameObject_getOpenGLMatrix },
 	{ "setMass", lua_GameObject_setMass },
-	{ "anim_allocAnimations", lua_GameObject_anim_allocAnimations },
-	{ "anim_initDynamic", lua_GameObject_anim_initDynamic },
-	{ "anim_interpolate", lua_GameObject_anim_interpolate },
 	{ "physics_allocConfigs", lua_GameObject_physics_allocConfigs },
 	{ "physics_createBox", lua_GameObject_physics_createBox },
 	{ "physics_createCylinder", lua_GameObject_physics_createCylinder },
@@ -125,6 +137,11 @@ static const luaL_reg lua_methods[] = {
 	{ "physics_setConstraintLimits", lua_GameObject_physics_setConstraintLimits },
 	{ "physics_enableConstraintMotor", lua_GameObject_physics_enableConstraintMotor },
 	{ "physics_enableConstraintMotorTarget", lua_GameObject_physics_enableConstraintMotorTarget },
+#endif
+#ifdef BATTERYTECH_INCLUDE_BOX2D
+// Box2D bindings
+#endif
+
 	{ 0, 0 } };
 
 static const luaL_reg metatable[] = {
@@ -344,6 +361,18 @@ void GameObjectLuaBinder::setPropertyString(const char* key, const char* value) 
 	}
 }
 
+static int lua_GameObject_init(lua_State *L) {
+	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
+	o->init();
+	return 0;
+}
+
+static int lua_GameObject_deactivate(lua_State *L) {
+	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
+	o->isActive = FALSE;
+	return 0;
+}
+
 static int lua_GameObject_createInstance(lua_State *L) {
 	// logmsg("lua_GameObject_createInstance");
 	// LuaBinder::stackDump(L);
@@ -370,17 +399,57 @@ static int lua_GameObject_replaceMetatable(lua_State *L) {
 	return 0;
 }
 
+// allocates n animations
+static int lua_GameObject_anim_allocAnimations(lua_State *L) {
+	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
+	S32 count = lua_tonumber(L, 2);
+	o->animators = new ManagedArray<AssimpAnimator>(count);
+	for (S32 i = 0; i < count; i++) {
+		o->animators->add(new AssimpAnimator());
+	}
+	return 0;
+}
+
+// initializes animation n for dynamic model x mesh y
+static int lua_GameObject_anim_initDynamic(lua_State *L) {
+	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
+	// find the dynamic model, give aiScene to animator
+	S32 idx = lua_tointeger(L, 2);
+	const char *assetName = lua_tostring(L, 3);
+	const char *meshName = NULL;
+	if (lua_isstring(L, 4)) {
+		meshName = lua_tostring(L, 4);
+	}
+	GLAssimpBinding *binding = static_context->glResourceManager->getAssimp(assetName);
+	if (binding) {
+		o->animators->array[idx]->init(binding->scene, meshName);
+	} else {
+		logmsg("Assimp Binding not found in anim_initDynamic");
+	}
+	return 0;
+}
+
+// interpolates animation n at time x
+static int lua_GameObject_anim_interpolate(lua_State *L) {
+	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
+	S32 idx = lua_tointeger(L, 2);
+	F32 time = lua_tonumber(L, 3);
+	o->animators->array[idx]->interpolate(time);
+	return 0;
+}
+
+#ifdef BATTERYTECH_INCLUDE_BULLET
 static int lua_GameObject_setModelScale(lua_State *L) {
 	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
 	F32 x = lua_tonumber(L, 2);
 	F32 y = lua_tonumber(L, 3);
 	F32 z = lua_tonumber(L, 4);
 	o->setModelScale(Vector3f(x,y,z));
-	/*
+
 	if (o->btBody) {
 		o->btBody->activate(false);
 	}
-	*/
+
 	return 0;
 }
 
@@ -399,11 +468,11 @@ static int lua_GameObject_setPosition(lua_State *L) {
 	F32 y = lua_tonumber(L, 3);
 	F32 z = lua_tonumber(L, 4);
 	o->setPosition(Vector3f(x,y,z));
-	/*
+
 	if (o->btBody) {
 		o->btBody->activate(false);
 	}
-	*/
+
 	return 0;
 }
 
@@ -421,7 +490,7 @@ static int lua_GameObject_setAllOrientationYPR(lua_State *L) {
 	F32 y = lua_tonumber(L, 2);
 	F32 p = lua_tonumber(L, 3);
 	F32 r = lua_tonumber(L, 4);
-	//o->setAllOrientationYPR(Vector3f(y,p,r));
+	o->setAllOrientationYPR(Vector3f(y,p,r));
 	return 0;
 }
 
@@ -431,7 +500,7 @@ static int lua_GameObject_setOrientationYPR(lua_State *L) {
 	F32 y = lua_tonumber(L, 3);
 	F32 p = lua_tonumber(L, 4);
 	F32 r = lua_tonumber(L, 5);
-	//o->setOrientationYPR(idx, Vector3f(y,p,r));
+	o->setOrientationYPR(idx, Vector3f(y,p,r));
 	return 0;
 }
 static int lua_GameObject_getOrientationYPR(lua_State *L) {
@@ -440,22 +509,10 @@ static int lua_GameObject_getOrientationYPR(lua_State *L) {
 	if (lua_isnumber(L, 2)) {
 		idx = lua_tointeger(L, 2);
 	}
-	//Vector3f ypr = o->getOrientationYPR(idx);
-	//lua_pushnumber(L, ypr.x);
-	//lua_pushnumber(L, ypr.y);
-	//lua_pushnumber(L, ypr.z);
-	return 0;
-}
-
-static int lua_GameObject_init(lua_State *L) {
-	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
-	o->init();
-	return 0;
-}
-
-static int lua_GameObject_deactivate(lua_State *L) {
-	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
-	o->isActive = FALSE;
+	Vector3f ypr = o->getOrientationYPR(idx);
+	lua_pushnumber(L, ypr.x);
+	lua_pushnumber(L, ypr.y);
+	lua_pushnumber(L, ypr.z);
 	return 0;
 }
 
@@ -471,7 +528,7 @@ static int lua_GameObject_moveTowards(lua_State *L) {
 
 static int lua_GameObject_applyForce(lua_State *L) {
 	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
-	/*
+
 	if (o->btBody) {
 		F32 x = lua_tonumber(L, 2);
 		F32 y = lua_tonumber(L, 3);
@@ -479,13 +536,13 @@ static int lua_GameObject_applyForce(lua_State *L) {
 		o->btBody->applyCentralForce(btVector3(x,y,z));
 		o->btBody->activate(false);
 	}
-	*/
+
 	return 0;
 }
 
 static int lua_GameObject_applyImpulse(lua_State *L) {
 	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
-	/*
+
 	if (o->btBody) {
 		F32 x = lua_tonumber(L, 2);
 		F32 y = lua_tonumber(L, 3);
@@ -493,7 +550,7 @@ static int lua_GameObject_applyImpulse(lua_State *L) {
 		o->btBody->applyCentralImpulse(btVector3(x,y,z));
 		o->btBody->activate(false);
 	}
-	*/
+
 	return 0;
 }
 
@@ -505,7 +562,7 @@ static int lua_GameObject_getPathLength(lua_State *L) {
 
 static int lua_GameObject_getPathPoint(lua_State *L) {
 	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
-	/*
+
 	S32 idx = lua_tointeger(L, 2);
 	if (idx < GAMEOBJECT_MAX_PATH) {
 		Vector3f p = o->path[idx].pos;
@@ -516,13 +573,13 @@ static int lua_GameObject_getPathPoint(lua_State *L) {
 	} else {
 		return 0;
 	}
-	*/
+
 	return 0;
 }
 
 static int lua_GameObject_addPathPoint(lua_State *L) {
 	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
-	/*
+
 	if (o->pathLength < GAMEOBJECT_MAX_PATH - 1) {
 		F32 x = lua_tonumber(L, 2);
 		F32 y = lua_tonumber(L, 3);
@@ -533,7 +590,7 @@ static int lua_GameObject_addPathPoint(lua_State *L) {
 		}
 		o->path[o->pathLength++] = GameObject::PathNode(Vector3f(x,y,z), obj);
 	}
-	*/
+
 	return 0;
 }
 
@@ -558,7 +615,7 @@ static int lua_GameObject_setSelected(lua_State *L) {
 
 static int lua_GameObject_setPathingParameters(lua_State *L) {
 	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
-	/*
+
 	o->pathingAccel = lua_tonumber(L, 2);
 	o->pathingSpeedClamp = lua_tonumber(L, 3);
 	o->smallRotationalSpeed = lua_tonumber(L, 4) * PI / 180.f;
@@ -567,13 +624,13 @@ static int lua_GameObject_setPathingParameters(lua_State *L) {
 	} else {
 		o->largeRotationalSpeed = o->smallRotationalSpeed;
 	}
-	*/
+
 	return 0;
 }
 
 static int lua_GameObject_setLinearVelocity(lua_State *L) {
 	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
-	/*
+
 	if (o->btBody) {
 		F32 x = lua_tonumber(L, 2);
 		F32 y = lua_tonumber(L, 3);
@@ -581,13 +638,13 @@ static int lua_GameObject_setLinearVelocity(lua_State *L) {
 		o->btBody->setLinearVelocity(btVector3(x,y,z));
 		o->btBody->activate(false);
 	}
-	*/
+
 	return 0;
 }
 
 static int lua_GameObject_getLinearVelocity(lua_State *L) {
 	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
-	/*
+
 	if (o->btBody) {
 		btVector3 vel = o->btBody->getLinearVelocity();
 		lua_pushnumber(L, vel.x());
@@ -598,7 +655,7 @@ static int lua_GameObject_getLinearVelocity(lua_State *L) {
 		lua_pushnumber(L, 0);
 		lua_pushnumber(L, 0);
 	}
-	*/
+
 	return 3;
 }
 
@@ -608,7 +665,7 @@ static int lua_GameObject_getOpenGLMatrix(lua_State *L) {
 	if (lua_isnumber(L, 2)) {
 		idx = lua_tonumber(L, 2);
 	}
-	/*
+
 	btScalar mat[16];
 	if (idx == 0) {
 		if (o->btBody) {
@@ -624,14 +681,14 @@ static int lua_GameObject_getOpenGLMatrix(lua_State *L) {
 	for (S32 i = 0; i < 16; i++) {
 		lua_pushnumber(L, mat[i]);
 	}
-	*/
+
 	return 0;
 }
 
 // params:  model index, mass
 static int lua_GameObject_setMass(lua_State *L) {
 	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
-	/*
+
 	if (o->btBody) {
 		// param 2 is the index of the model config
 		S32 configIdx = lua_tointeger(L, 2);
@@ -662,47 +719,7 @@ static int lua_GameObject_setMass(lua_State *L) {
 			}
 		}
 	}
-	*/
-	return 0;
-}
 
-// allocates n animations
-static int lua_GameObject_anim_allocAnimations(lua_State *L) {
-	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
-	S32 count = lua_tonumber(L, 2);
-	o->animators = new ManagedArray<AssimpAnimator>(count);
-	for (S32 i = 0; i < count; i++) {
-		o->animators->add(new AssimpAnimator());
-	}
-	return 0;
-}
-
-// initializes animation n for dynamic model x mesh y
-static int lua_GameObject_anim_initDynamic(lua_State *L) {
-	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
-	// find the dynamic model, give aiScene to animator
-	S32 idx = lua_tointeger(L, 2);
-	const char *assetName = lua_tostring(L, 3);
-	const char *meshName = NULL;
-	if (lua_isstring(L, 4)) {
-		meshName = lua_tostring(L, 4);
-	}
-	// TODO - need default node tree to use for static!
-	GLAssimpBinding *binding = static_context->glResourceManager->getAssimp(assetName);
-	if (binding) {
-		o->animators->array[idx]->init(binding->scene, meshName);
-	} else {
-		logmsg("Assimp Binding not found in anim_initDynamic");
-	}
-	return 0;
-}
-
-// interpolates animation n at time x
-static int lua_GameObject_anim_interpolate(lua_State *L) {
-	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
-	S32 idx = lua_tointeger(L, 2);
-	F32 time = lua_tonumber(L, 3);
-	o->animators->array[idx]->interpolate(time);
 	return 0;
 }
 
@@ -710,22 +727,22 @@ static int lua_GameObject_physics_allocConfigs(lua_State *L) {
 	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
 	// param 2 is number of configurations
 	S32 configs = lua_tointeger(L, 2);
-	/*
+
 	o->physicsModelConfigs = new ManagedArray<PhysicsModelConfig>(configs);
 	for (S32 i = 0; i < configs; i++) {
 		o->physicsModelConfigs->add(new PhysicsModelConfig);
 	}
-	*/
+
 	return 0;
 }
 
 static void allocatePhysicsModelConfigIfNull(GameObject *o) {
-	/*
+
 	if (!o->physicsModelConfigs) {
 		o->physicsModelConfigs = new ManagedArray<PhysicsModelConfig>(1);
 		o->physicsModelConfigs->add(new PhysicsModelConfig);
 	}
-	*/
+
 }
 
 static int lua_GameObject_physics_createBox(lua_State *L) {
@@ -733,13 +750,13 @@ static int lua_GameObject_physics_createBox(lua_State *L) {
 	allocatePhysicsModelConfigIfNull(o);
 	// param 2 is the index of the model config
 	S32 configIdx = lua_tointeger(L, 2);
-	/*
+
 	PhysicsModelConfig *modelConfig = o->physicsModelConfigs->array[configIdx];
 	F32 halfWidth = lua_tonumber(L, 3);
 	F32 halfHeight = lua_tonumber(L, 4);
 	F32 halfDepth = lua_tonumber(L, 5);
 	modelConfig->shape = new btBoxShape(btVector3(halfWidth, halfHeight, halfDepth));
-	*/
+
 	return 0;
 }
 
@@ -748,7 +765,7 @@ static int lua_GameObject_physics_addFixedHingeConstraint(lua_State *L) {
 	// TODO need to support scale, rotate and translate of frame and rotate of axis somewhow.
 	// This seems to only work for a fixed axis that can't be re-oriented.
 	PhysicsConstraintConfig *config = new PhysicsConstraintConfig;
-	/*
+
 	config->type = HINGE_CONSTRAINT_TYPE;
 	config->pivotA = btVector3(0,4,0);
 	config->axisA = btVector3(0,0,1);
@@ -758,7 +775,7 @@ static int lua_GameObject_physics_addFixedHingeConstraint(lua_State *L) {
 	constraint->setDbgDrawSize(10.0f);
 	o->constraints->add(constraint);
 	static_context->world->btWorld->addConstraint(constraint, true);
-	*/
+
 	return 0;
 }
 
@@ -767,7 +784,7 @@ static int lua_GameObject_physics_addHingeConstraint(lua_State *L) {
 	PhysicsConstraintConfig *config = new PhysicsConstraintConfig;
 	S32 body0Idx = lua_tointeger(L, 2);
 	S32 body1Idx = lua_tointeger(L, 3);
-	/*
+
 	config->type = HINGE_CONSTRAINT_TYPE;
 	config->pivotA = btVector3(lua_tonumber(L, 4), lua_tonumber(L, 5), lua_tonumber(L, 6));
 	config->pivotB = btVector3(lua_tonumber(L, 7), lua_tonumber(L, 8), lua_tonumber(L, 9));
@@ -803,7 +820,7 @@ static int lua_GameObject_physics_addHingeConstraint(lua_State *L) {
 	o->constraints->add(constraint);
 	static_context->world->btWorld->addConstraint(constraint, disableCollision);
 	lua_pushinteger(L, o->constraints->getSize()-1);
-	*/
+
 	return 1;
 }
 
@@ -812,7 +829,7 @@ static int lua_GameObject_physics_addP2PConstraint(lua_State *L) {
 	PhysicsConstraintConfig *config = new PhysicsConstraintConfig;
 	S32 body0Idx = lua_tointeger(L, 2);
 	S32 body1Idx = lua_tointeger(L, 3);
-	/*
+
 	config->type = POINT2POINT_CONSTRAINT_TYPE;
 	config->pivotA = btVector3(lua_tonumber(L, 4), lua_tonumber(L, 5), lua_tonumber(L, 6));
 	config->pivotB = btVector3(lua_tonumber(L, 7), lua_tonumber(L, 8), lua_tonumber(L, 9));
@@ -842,12 +859,12 @@ static int lua_GameObject_physics_addP2PConstraint(lua_State *L) {
 	o->constraints->add(constraint);
 	static_context->world->btWorld->addConstraint(constraint, disableCollision);
 	lua_pushinteger(L, o->constraints->getSize()-1);
-	*/
+
 	return 1;
 }
 
 static int lua_GameObject_physics_setConstraintLimits(lua_State *L) {
-	/*
+
 	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
 	S32 idx = lua_tointeger(L, 2);
 	btTypedConstraintType cType = o->physicsConstraintConfigs->array[idx]->type;
@@ -855,12 +872,12 @@ static int lua_GameObject_physics_setConstraintLimits(lua_State *L) {
 		btHingeConstraint *constraint = (btHingeConstraint*) o->constraints->array[idx];
 		constraint->setLimit(lua_tonumber(L, 3), lua_tonumber(L, 4));
 	}
-	*/
+
 	return 0;
 }
 
 static int lua_GameObject_physics_enableConstraintMotor(lua_State *L) {
-	/*
+
 	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
 	S32 idx = lua_tointeger(L, 2);
 	btTypedConstraintType cType = o->physicsConstraintConfigs->array[idx]->type;
@@ -871,12 +888,12 @@ static int lua_GameObject_physics_enableConstraintMotor(lua_State *L) {
 		F32 maxImpulse = lua_tonumber(L, 5);
 		constraint->enableAngularMotor(enabled, targetVelocity, maxImpulse);
 	}
-	*/
+
 	return 0;
 }
 
 static int lua_GameObject_physics_enableConstraintMotorTarget(lua_State *L) {
-	/*
+
 	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
 	S32 idx = lua_tointeger(L, 2);
 	btTypedConstraintType cType = o->physicsConstraintConfigs->array[idx]->type;
@@ -888,12 +905,12 @@ static int lua_GameObject_physics_enableConstraintMotorTarget(lua_State *L) {
 		constraint->enableMotor(enabled);
 		constraint->setMotorTarget(targetAngle, dt);
 	}
-	*/
+
 	return 0;
 }
 
 static int lua_GameObject_physics_createCylinder(lua_State *L) {
-	/*
+
 	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
 	allocatePhysicsModelConfigIfNull(o);
 	// param 2 is the index of the model config
@@ -913,12 +930,12 @@ static int lua_GameObject_physics_createCylinder(lua_State *L) {
 	} else {
 		modelConfig->shape = new btCylinderShapeZ(btVector3(halfWidth, halfHeight, halfDepth));
 	}
-	*/
+
 	return 0;
 }
 
 static int lua_GameObject_physics_createSphere(lua_State *L) {
-	/*
+
 	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
 	allocatePhysicsModelConfigIfNull(o);
 	// param 2 is the index of the model config
@@ -926,12 +943,12 @@ static int lua_GameObject_physics_createSphere(lua_State *L) {
 	PhysicsModelConfig *modelConfig = o->physicsModelConfigs->array[configIdx];
 	F32 radius = lua_tonumber(L, 3);
 	modelConfig->shape = new btSphereShape(radius);
-	*/
+
 	return 0;
 }
 
 static int lua_GameObject_physics_setMass(lua_State *L) {
-	/*
+
 	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
 	allocatePhysicsModelConfigIfNull(o);
 	// param 2 is the index of the model config
@@ -939,7 +956,7 @@ static int lua_GameObject_physics_setMass(lua_State *L) {
 	PhysicsModelConfig *modelConfig = o->physicsModelConfigs->array[configIdx];
 	F32 mass = lua_tonumber(L, 3);
 	modelConfig->mass = mass;
-	*/
+
 	return 0;
 }
 
@@ -948,13 +965,13 @@ static int lua_GameObject_physics_setPosition(lua_State *L) {
 	allocatePhysicsModelConfigIfNull(o);
 	// param 2 is the index of the model config
 	S32 configIdx = lua_tointeger(L, 2);
-	/*
+
 	PhysicsModelConfig *modelConfig = o->physicsModelConfigs->array[configIdx];
 	F32 x = lua_tonumber(L, 3);
 	F32 y = lua_tonumber(L, 4);
 	F32 z = lua_tonumber(L, 5);
 	modelConfig->position = btVector3(x,y,z);
-	*/
+
 	return 0;
 }
 
@@ -963,11 +980,11 @@ static int lua_GameObject_physics_setFriction(lua_State *L) {
 	allocatePhysicsModelConfigIfNull(o);
 	// param 2 is the index of the model config
 	S32 configIdx = lua_tointeger(L, 2);
-	/*
+
 	PhysicsModelConfig *modelConfig = o->physicsModelConfigs->array[configIdx];
 	F32 friction = lua_tonumber(L, 3);
 	modelConfig->friction = friction;
-	*/
+
 	return 0;
 }
 
@@ -976,13 +993,13 @@ static int lua_GameObject_physics_setAngularFactor(lua_State *L) {
 	allocatePhysicsModelConfigIfNull(o);
 	// param 2 is the index of the model config
 	S32 configIdx = lua_tointeger(L, 2);
-	/*
+
 	PhysicsModelConfig *modelConfig = o->physicsModelConfigs->array[configIdx];
 	F32 x = lua_tonumber(L, 3);
 	F32 y = lua_tonumber(L, 4);
 	F32 z = lua_tonumber(L, 5);
 	modelConfig->angularFactor = btVector3(x,y,z);
-	*/
+
 	return 0;
 }
 
@@ -991,11 +1008,11 @@ static int lua_GameObject_physics_setActivationState(lua_State *L) {
 	allocatePhysicsModelConfigIfNull(o);
 	// param 2 is the index of the model config
 	S32 configIdx = lua_tointeger(L, 2);
-	/*
+
 	PhysicsModelConfig *modelConfig = o->physicsModelConfigs->array[configIdx];
 	F32 state = lua_tointeger(L, 3);
 	modelConfig->activationState = state;
-	*/
+
 	return 0;
 }
 
@@ -1004,11 +1021,11 @@ static int lua_GameObject_physics_setCollisionFilter(lua_State *L) {
 	allocatePhysicsModelConfigIfNull(o);
 	// param 2 is the index of the model config
 	S32 configIdx = lua_tointeger(L, 2);
-	/*
+
 	PhysicsModelConfig *modelConfig = o->physicsModelConfigs->array[configIdx];
 	modelConfig->collisionGroup = lua_tointeger(L, 3);
 	modelConfig->collisionMask = lua_tointeger(L, 4);
-	*/
+
 	return 0;
 }
 
@@ -1017,10 +1034,10 @@ static int lua_GameObject_physics_setCollisionFlags(lua_State *L) {
 	allocatePhysicsModelConfigIfNull(o);
 	// param 2 is the index of the model config
 	S32 configIdx = lua_tointeger(L, 2);
-	/*
+
 	PhysicsModelConfig *modelConfig = o->physicsModelConfigs->array[configIdx];
 	modelConfig->collisionFlags = lua_tointeger(L, 3);
-	*/
+
 	return 0;
 }
 
@@ -1029,14 +1046,14 @@ static int lua_GameObject_physics_setGravity(lua_State *L) {
 	allocatePhysicsModelConfigIfNull(o);
 	// param 2 is the index of the model config
 	S32 configIdx = lua_tointeger(L, 2);
-	/*
+
 	PhysicsModelConfig *modelConfig = o->physicsModelConfigs->array[configIdx];
 	F32 x = lua_tonumber(L, 3);
 	F32 y = lua_tonumber(L, 4);
 	F32 z = lua_tonumber(L, 5);
 	modelConfig->gravity = btVector3(x,y,z);
 	modelConfig->customGravitySet = TRUE;
-	*/
+
 	return 0;
 }
 
@@ -1045,13 +1062,13 @@ static int lua_GameObject_physics_setDamping(lua_State *L) {
 	allocatePhysicsModelConfigIfNull(o);
 	// param 2 is the index of the model config
 	S32 configIdx = lua_tointeger(L, 2);
-	/*
+
 	PhysicsModelConfig *modelConfig = o->physicsModelConfigs->array[configIdx];
 	F32 linearDamping = lua_tonumber(L, 3);
 	F32 angularDamping = lua_tonumber(L, 4);
 	modelConfig->linearDamping = linearDamping;
 	modelConfig->angularDamping = angularDamping;
-	*/
+
 	return 0;
 }
 
@@ -1061,12 +1078,17 @@ static int lua_GameObject_physics_setGhost(lua_State *L) {
 	// param 2 is the index of the model config
 	S32 configIdx = lua_tointeger(L, 2);
 	BOOL32 isGhost = lua_toboolean(L, 3);
-	/*
+
 	PhysicsModelConfig *modelConfig = o->physicsModelConfigs->array[configIdx];
 	modelConfig->isGhost = isGhost;
-	*/
+
 	return 0;
 }
+
+#endif
+
+#ifdef BATTERYTECH_INCLUDE_BOX2D
+#endif
 
 static int lua_GameObject_gc (lua_State *L) {
 	char buf[255];
