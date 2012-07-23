@@ -242,7 +242,11 @@ void AssimpRenderer::renderNode(RenderNode *node, GLAssimpBinding *binding, Matr
 				U32 meshIdx = node->meshIndices[i];
 				GLAssimpMeshBinding *meshBinding = binding->meshBindingPtrs[meshIdx];
 				// is transparent if this texture name ends in .png
-				BOOL32 isTransparent = strEquals(meshBinding->matDiffuseTexture+strlen(meshBinding->matDiffuseTexture)-4, ".png") || item->colorFilter.a < 1.0f;
+				const char *textureName = item->textureName;
+				if (!textureName || strlen(textureName) == 0) {
+					textureName = meshBinding->matDiffuseTexture;
+				}
+				BOOL32 isTransparent = strEquals(textureName+strlen(textureName)-4, ".png") || item->colorFilter.a < 1.0f;
 				if (isTransparent != transparent) {
 					continue;
 				}

@@ -66,7 +66,32 @@ typedef float bai_f32;
  *
  *
  * n animations
+ * - bai_animationheader
+ * -- duration - duration of animation
+ * -- ticksPerSecond - rate of animation
+ * -- nameLength - number of bytes in animation name
+ * -- numChannels - number of animation channels
+ * -- numMeshChannels - number of animation mesh channels
+ * - name
+ * - n animation channels
+ * -- bai_animationchannelheader
+ * --- nodeNameLength - numbers of bytes in node name
+ * --- numPositionKeys - number of position keys
+ * --- numRotationKeys - number of rotation keys
+ * --- numScalingKeys - number of scaling keys
+ * --- preState - state before playing animation
+ * --- postState - state after animation ends
+ * -- n positions
+ * -- n rotations
+ * -- n scales
+ * -- node name
+ * - n animation mesh channels
+ * -- bai_animationmeshchannelheader
+ * --- numKeys - number of keys
+ * --- nameLength - number of bytes in name
+ * -- n keys
  */
+
 struct bai_header {
 	bai_u32 token;
 	bai_u32 length;
@@ -116,6 +141,29 @@ struct bai_nodeheader {
 struct bai_face_triangle {
 	bai_u16 v1,v2,v3;
 };
+
+struct bai_animationheader {
+	bai_f32 duration;
+	bai_f32 ticksPerSecond;
+	bai_u32 nameLength;
+	bai_u32 numChannels;
+	bai_u32 numMeshChannels;
+};
+
+struct bai_animationchannelheader {
+	bai_u32 nodeNameLength;
+	bai_u32 numPositionKeys;
+	bai_u32 numRotationKeys;
+	bai_u32 numScalingKeys;
+	aiAnimBehaviour preState;
+	aiAnimBehaviour postState;
+};
+
+struct bai_animationmeshchannelheader {
+	bai_u32 nameLength;
+	bai_u32 numKeys;
+};
+
 namespace Assimp
 {
 

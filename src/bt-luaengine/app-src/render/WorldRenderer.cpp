@@ -106,7 +106,7 @@ void WorldRenderer::pickLoadingTexture() {
        	strcpy(loadingKeyName, "loading_texture");
         loadingKeyName[15] = '\0';
     } else {
-   		sprintf(loadingKeyName, "loading_texture%d", i);
+   		sprintf(loadingKeyName, "loading_texture%d", whichLoadingKey);
     }
     if (loadingTex != NULL) {
     	loadingTex->unload();
@@ -267,9 +267,6 @@ void WorldRenderer::render() {
 		}
 		if (has2DBG) {
 			if (has3DObjects) {
-				// 3D always uses VBOs so shut those off
-			    glBindBuffer(GL_ARRAY_BUFFER, 0);
-			    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 			    glFrontFace(GL_CW);
 			}
 			// just for 2D Backgrounds behind the 3D
@@ -344,6 +341,7 @@ void WorldRenderer::render3D() {
 	World *world = context->world;
     glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
+    glCullFace(GL_BACK);
     glFrontFace(GL_CCW);
     U32 count = sortRenderItemsOfType(RenderItem::RENDERTYPE_ASSIMP | RenderItem::RENDERTYPE_BB);
    	checkGLError("WorldRenderer Before Opaque 3D");
@@ -369,7 +367,7 @@ void WorldRenderer::render3D() {
    	checkGLError("WorldRenderer After Opaque 3D");
   	glEnable(GL_BLEND);
     glDisable(GL_CULL_FACE);
-    // shut off depth writes because everything from here on out is ordered and translucent
+    // shut off depth writes for particle renderer
     glDepthMask(FALSE);
     particleRenderer->render();
     glFrontFace(GL_CCW);

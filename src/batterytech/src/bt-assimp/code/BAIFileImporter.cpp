@@ -115,7 +115,8 @@ static void importBAI(unsigned char *data, size_t dataLength, aiScene *scene) {
 		for (bai_u32 j = 0; j < mesh->mNumBones; j++) {
 			bai_meshboneheader boneHeader;
 			offset=readFromData(&boneHeader, offset, data, sizeof(bai_meshboneheader));
-			aiBone *bone = mesh->mBones[j];
+			aiBone *bone = new aiBone;
+			mesh->mBones[j] = bone;
 			bone->mNumWeights = boneHeader.influences;
 			bone->mWeights = new aiVertexWeight[bone->mNumWeights];
 			bone->mName.length = boneHeader.nameLength;
@@ -166,6 +167,66 @@ static void importBAI(unsigned char *data, size_t dataLength, aiScene *scene) {
 		offset=readNode(scene->mRootNode, offset, data);
 	} else {
 		scene->mRootNode = NULL;
+	}
+	// aiAnimations
+	scene->mNumAnimations = mainHeader.numAnimations;
+	scene->mAnimations = new aiAnimation*[mainHeader.numAnimations];
+	for (bai_u32 i = 0; i < mainHeader.numAnimations; i++) {
+		aiAnimation *anim = new aiAnimation;
+		scene->mAnimations[i] = anim;
+		bai_animationheader animationHeader;
+		offset=readFromData(&animationHeader, offset, data, sizeof(bai_animationheader));
+		anim->mDuration = animationHeader.duration;
+		anim->mTicksPerSecond = animationHeader.ticksPerSecond;
+		anim->mNumChannels = animationHeader.numChannels;
+		anim->mNumMeshChannels = animationHeader.numMeshChannels;
+		offset=readFromData(anim->mName.data, offset, data, animationHeader.nameLength);
+		anim->mName.length = animationHeader.nameLength;
+		anim->mName.data[animationHeader.nameLength] = '\0';
+		anim->mChannels = new aiNodeAnim*[anim->mNumChannels];
+		anim->mMeshChannels = new aiMeshAnim*[anim->mNumMeshChannels];
+		for (bai_u32 j = 0; j < anim->mNumChannels; j++) {
+			aiNodeAnim *channel = new aiNodeAnim;
+			anim->mChannels[j] = channel;
+			bai_animationchannelheader chanHeader;
+			offset=readFromData(&chanHeader, offset, data, sizeof(bai_animationchannelheader));
+			channel->mNumPositionKeys = chanHeader.numPositionKeys;
+			channel->mNumRotationKeys = chanHeader.numRotationKeys;
+			channel->mNumScalingKeys = chanHeader.numScalingKeys;
+			channel->mPreState = chanHeader.preState;
+			channel->mPostState = chanHeader.postState;
+			channel->mPositionKeys = new aiVectorKey[chanHeader.numPositionKeys];
+			channel->mRotationKeys = new aiQuatKey[chanHeader.numRotationKeys];
+			channel->mScalingKeys = new aiVectorKey[chanHeader.numScalingKeys];
+			for (bai_u32 k = 0; k < channel->mNumPositionKeys; k++) {
+				offset=readFromData(&channel->mPositionKeys[k], offset, data, sizeof(aiVectorKey));
+			}
+			for (bai_u32 k = 0; k < channel->mNumRotationKeys; k++) {
+				aiQuatKey vKey;
+				offset=readFromData(&channel->mRotationKeys[k], offset, data, sizeof(aiQuatKey));
+			}
+			for (bai_u32 k = 0; k < channel->mNumScalingKeys; k++) {
+				aiVectorKey vKey;
+				offset=readFromData(&channel->mScalingKeys[k], offset, data, sizeof(aiVectorKey));
+			}
+			offset=readFromData(channel->mNodeName.data, offset, data, chanHeader.nodeNameLength);
+			channel->mNodeName.length = chanHeader.nodeNameLength;
+			channel->mNodeName.data[chanHeader.nodeNameLength] = '\0';
+		}
+		for (bai_u32 j = 0; j < anim->mNumMeshChannels; j++) {
+			aiMeshAnim *meshAnim = new aiMeshAnim;
+			anim->mMeshChannels[j] = meshAnim;
+			bai_animationmeshchannelheader meshChanHeader;
+			offset=readFromData(&meshChanHeader, offset, data, sizeof(bai_animationmeshchannelheader));
+			meshAnim->mNumKeys = meshChanHeader.numKeys;
+			offset=readFromData(meshAnim->mName.data, offset, data, meshChanHeader.nameLength);
+			meshAnim->mName.length = meshChanHeader.nameLength;
+			meshAnim->mName.data[meshChanHeader.nameLength] = '\0';
+			meshAnim->mKeys = new aiMeshKey[meshAnim->mNumKeys];
+			for (bai_u32 k = 0; k < meshAnim->mNumKeys; k++) {
+				offset=readFromData(&meshAnim->mKeys[k], offset, data, sizeof(aiMeshKey));
+			}
+		}
 	}
 //	cout << "Read complete expected = " << mainHeader.length << " actual = " << offset << endl;
 }
