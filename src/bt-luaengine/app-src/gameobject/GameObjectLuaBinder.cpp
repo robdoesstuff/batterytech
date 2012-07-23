@@ -16,6 +16,12 @@
 #include <batterytech/render/GLResourceManager.h>
 #include <batterytech/render/GLAssimpBinding.h>
 
+#ifdef BATTERYTECH_INCLUDE_BOX2D
+#include <bt-box2d/Collision/Shapes/b2Shape.h>
+#include <bt-box2d/Collision/Shapes/b2PolygonShape.h>
+#include <bt-box2d/Collision/Shapes/b2CircleShape.h>
+#endif
+
 #define LUA_GAME_OBJECT "GameObject"
 #define LUA_GAME_OBJECT_MT "GameObjectMetaTable"
 
@@ -85,6 +91,8 @@ static int lua_GameObject_physics_enableConstraintMotorTarget(lua_State *L);
 
 #ifdef BATTERYTECH_INCLUDE_BOX2D
 // Box2D bindings
+static int lua_GameObject_physics_allocConfigs(lua_State *L); // param: number of physics model configurations, defaults to 1 if not called
+static int lua_GameObject_physics_createPolygonShape(lua_State *L);
 #endif
 
 static const luaL_reg lua_methods[] = {
@@ -140,6 +148,8 @@ static const luaL_reg lua_methods[] = {
 #endif
 #ifdef BATTERYTECH_INCLUDE_BOX2D
 // Box2D bindings
+	{ "physics_allocConfigs", lua_GameObject_physics_allocConfigs },
+	{ "physics_createPolygonShape", lua_GameObject_physics_createPolygonShape },
 #endif
 
 	{ 0, 0 } };
@@ -1088,6 +1098,53 @@ static int lua_GameObject_physics_setGhost(lua_State *L) {
 #endif
 
 #ifdef BATTERYTECH_INCLUDE_BOX2D
+static int lua_GameObject_physics_allocConfigs(lua_State *L) {
+	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
+	// param 2 is number of configurations
+	S32 configs = lua_tointeger(L, 2);
+    
+	o->physicsModelConfigs = new ManagedArray<PhysicsModelConfig>(configs);
+	for (S32 i = 0; i < configs; i++) {
+		o->physicsModelConfigs->add(new PhysicsModelConfig);
+	}
+    
+	return 0;
+}
+
+static void allocatePhysicsModelConfigIfNull(GameObject *o) {
+    
+	if (!o->physicsModelConfigs) {
+		o->physicsModelConfigs = new ManagedArray<PhysicsModelConfig>(1);
+		o->physicsModelConfigs->add(new PhysicsModelConfig);
+	}
+    
+}
+
+static int lua_GameObject_physics_createPolygonShape(lua_State *L) {
+	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
+	allocatePhysicsModelConfigIfNull(o);
+	// param 2 is the index of the model config
+	S32 configIdx = lua_tointeger(L, 2);
+    
+	PhysicsModelConfig *modelConfig = o->physicsModelConfigs->array[configIdx];
+    b2Vec2 verts[16];
+    // for each point pair, add
+    S32 n = 3;
+    S32 pointCount = 0;
+    b2PolygonShape *shape = new b2PolygonShape;
+    while (lua_isnumber(L, n) && lua_isnumber(L, n+1)) {
+        verts[pointCount] = b2Vec2(lua_tonumber(L, n), lua_tonumber(L, n+1));
+        pointCount++;
+        n+=2;
+        if (pointCount == 16) {
+            break;
+        }
+    }
+    shape->Set(verts, pointCount);
+    modelConfig->shape = shape;
+	return 0;
+}
+
 #endif
 
 static int lua_GameObject_gc (lua_State *L) {

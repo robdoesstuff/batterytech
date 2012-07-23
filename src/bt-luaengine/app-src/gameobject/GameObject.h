@@ -47,6 +47,14 @@ class GameObjectLuaBinder;
 using namespace BatteryTech;
 
 struct PhysicsModelConfig {
+#ifdef BATTERYTECH_INCLUDE_BOX2D
+    b2BodyDef *bodyDef;
+    b2Shape *shape;
+    PhysicsModelConfig() {
+        bodyDef = NULL;
+        shape = NULL;
+    }
+#endif
 #ifdef BATTERYTECH_INCLUDE_BULLET
 	btCollisionShape* shape;
 	btScalar mass;
@@ -157,6 +165,8 @@ public:
     virtual F32 getLinearVelocity() { return 0.0f; };
 	// resets the impact solution
 	virtual void clearImpact();
+	ManagedArray<PhysicsModelConfig> *physicsModelConfigs;
+	ManagedArray<PhysicsConstraintConfig> *physicsConstraintConfigs;
 #endif
 #ifdef BATTERYTECH_INCLUDE_BULLET
 	void setAllOrientationYPR(Vector3f ypr);
