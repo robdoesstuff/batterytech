@@ -28,8 +28,8 @@
 #include "GLResourceManager.h"
 
 #define DEBUG_TEXTURE TRUE
-#define HALF_SIZE_WIDTH 854
-#define HALF_SIZE_HEIGHT 480
+#define HALF_SIZE_WIDTH 960
+#define HALF_SIZE_HEIGHT 640
 #define MAX_ATLAS_MAPPED_TEXTURES 50
 
 namespace BatteryTech {

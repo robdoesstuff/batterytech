@@ -26,7 +26,7 @@ static const Vector2i vector2i_0(0,0);
 
 namespace BatteryTech {
 
-	class Context;
+	class Context;	
 
 	/**
 	 * \brief An Asset-backed OpenGL Texture
