@@ -44,6 +44,7 @@ QuadRenderer::QuadRenderer(Context *context) {
     idxVBOId = 0;
     vertBuffer = NULL;
     quadsBatched = 0;
+    batchStatesSet = FALSE;
 }
 
 QuadRenderer::~QuadRenderer() {
@@ -273,6 +274,7 @@ void QuadRenderer::render(Texture *texture, Vector3f pos, F32 angleRads, Vector4
     void QuadRenderer::endBatch() {
         drawBatch();
         inBatch = FALSE;
+        batchStatesSet = FALSE;
     }
 
     void QuadRenderer::addToBatch(Vector3f *quadVerts, Vector2f *quadUVs, Vector4f colorFilter, Vector3f position, F32 rotation, Matrix4f *bbMat) {
@@ -311,21 +313,24 @@ void QuadRenderer::render(Texture *texture, Vector3f pos, F32 angleRads, Vector4
         }
         Vector4f colorFilter = context->renderContext->colorFilter;
         // batching is only enabled if we're supporting VBOs and if we're supporting those, we use them everywhere so we don't have to switch out
-		glBindBuffer(GL_ARRAY_BUFFER, vertVBOId);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, idxVBOId);
+        if (!batchStatesSet) {
+			glBindBuffer(GL_ARRAY_BUFFER, vertVBOId);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, idxVBOId);
+        }
         glBufferSubData(GL_ARRAY_BUFFER, 0, quadsBatched*sizeof(GLQuadVertex)*4, vertBuffer);
         if (context->gConfig->useShaders) {
-            Matrix4f myMvMatrix = context->renderContext->mvMatrix;
-            ShaderProgram *shaderProgram = context->glResourceManager->getShaderProgram("quad");
-            shaderProgram->bind();
-            glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("vPosition"), 3, GL_FLOAT, GL_FALSE, sizeof(GLQuadVertex), BUFFER_OFFSET(0));
-            glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("uvMap"), 2, GL_FLOAT, GL_FALSE, sizeof(GLQuadVertex), BUFFER_OFFSET(sizeof(Vector3f)));
-            glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("vColor"), 4, GL_FLOAT, GL_FALSE, sizeof(GLQuadVertex), BUFFER_OFFSET(sizeof(Vector3f)+sizeof(Vector2f)));
-            glUniformMatrix4fv(shaderProgram->getUniformLoc("projection_matrix"), 1, GL_FALSE, (GLfloat*) context->renderContext->projMatrix.data);
-            glUniformMatrix4fv(shaderProgram->getUniformLoc("modelview_matrix"), 1, GL_FALSE, (GLfloat*) myMvMatrix.data);
-            glUniform1i(shaderProgram->getUniformLoc("tex"), 0);
-            glUniform4f(shaderProgram->getUniformLoc("colorFilter"), colorFilter.x,colorFilter.y,colorFilter.z,colorFilter.a);
-            shaderProgram->unbind();
+            if (!batchStatesSet) {
+				Matrix4f myMvMatrix = context->renderContext->mvMatrix;
+				ShaderProgram *shaderProgram = context->glResourceManager->getShaderProgram("quad");
+				shaderProgram->bind();
+				glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("vPosition"), 3, GL_FLOAT, GL_FALSE, sizeof(GLQuadVertex), BUFFER_OFFSET(0));
+				glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("uvMap"), 2, GL_FLOAT, GL_FALSE, sizeof(GLQuadVertex), BUFFER_OFFSET(sizeof(Vector3f)));
+				glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("vColor"), 4, GL_FLOAT, GL_FALSE, sizeof(GLQuadVertex), BUFFER_OFFSET(sizeof(Vector3f)+sizeof(Vector2f)));
+				glUniformMatrix4fv(shaderProgram->getUniformLoc("projection_matrix"), 1, GL_FALSE, (GLfloat*) context->renderContext->projMatrix.data);
+				glUniformMatrix4fv(shaderProgram->getUniformLoc("modelview_matrix"), 1, GL_FALSE, (GLfloat*) myMvMatrix.data);
+				glUniform1i(shaderProgram->getUniformLoc("tex"), 0);
+				glUniform4f(shaderProgram->getUniformLoc("colorFilter"), colorFilter.x,colorFilter.y,colorFilter.z,colorFilter.a);
+            }
         } else {
             // GL1 rendering branch
             glColor4f(colorFilter.x,colorFilter.y,colorFilter.z,colorFilter.a);
@@ -337,6 +342,8 @@ void QuadRenderer::render(Texture *texture, Vector3f pos, F32 angleRads, Vector4
         // sprintf(buf, "drawing batch of %d", quadsBatched);
         // logmsg(buf);
         quadsBatched = 0;
+        // no need to re-set the same buffer + shader states every draw while in batch and just switching textures
+        batchStatesSet = TRUE;
     }
 }
 
