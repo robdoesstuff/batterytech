@@ -83,6 +83,7 @@ namespace BatteryTech {
 	private:
 		void applyInnerStroke(unsigned char* bitmap8, unsigned char* bitmap, S32 width, S32 height);
 		void applyOuterStroke(unsigned char* bitmap8, unsigned char* bitmap, S32 width, S32 height);
+        void applyAA(unsigned char* bitmap, S32 width, S32 height);
         void renderBuffer(S32 count);
 		Context *context;
 		stbtt_bakedchar cdata[96]; // ASCII 32..126 is 95 glyphs

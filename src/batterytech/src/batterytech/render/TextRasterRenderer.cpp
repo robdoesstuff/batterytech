@@ -136,6 +136,7 @@ namespace BatteryTech {
 			if (outerStroke) {
 				applyOuterStroke(temp_bitmap, temp_bitmap_rgba, bmpWidth, bmpHeight);
 			}
+            // applyAA(temp_bitmap_rgba, bmpWidth, bmpHeight);
 			// can free ttf_buffer at this point
 			free(temp_bitmap);
 			// uncomment for debugging font texture generation
@@ -498,4 +499,51 @@ namespace BatteryTech {
 		}
 	}
 
+    void TextRasterRenderer::applyAA(unsigned char* bitmap, S32 width, S32 height) {
+        S32 rowBytes = width * 4;
+		for (S32 y = 0; y < height; y++) {
+            S32 row = y * width;
+			for (S32 x = 0; x < width; x++) {
+                S32 pixelAddr = (row + x) * 4;
+                S32 r = 0, b = 0, g = 0, a = 0;
+                S32 count = 0;
+                // above
+                if (y > 0) {
+                    r += bitmap[pixelAddr-rowBytes];
+                    g += bitmap[pixelAddr+1-rowBytes];
+                    b += bitmap[pixelAddr+2-rowBytes];
+                    a += bitmap[pixelAddr+3-rowBytes];
+                    count++;
+                }
+                // left
+                if (x > 0) {
+                    r += bitmap[pixelAddr-4];
+                    g += bitmap[pixelAddr+1-4];
+                    b += bitmap[pixelAddr+2-4];
+                    a += bitmap[pixelAddr+3-4];
+                    count++;
+                }
+                // below
+                if (y < height-1) {
+                    r += bitmap[pixelAddr+rowBytes];
+                    g += bitmap[pixelAddr+1+rowBytes];
+                    b += bitmap[pixelAddr+2+rowBytes];
+                    a += bitmap[pixelAddr+3+rowBytes];
+                    count++;
+                }
+                // right
+                if (x < width-1) {
+                    r += bitmap[pixelAddr+4];
+                    g += bitmap[pixelAddr+1+4];
+                    b += bitmap[pixelAddr+2+4];
+                    a += bitmap[pixelAddr+3+4];
+                    count++;
+                }
+                bitmap[pixelAddr] = (bitmap[pixelAddr] + r/count)/2;
+                bitmap[pixelAddr + 1] = (bitmap[pixelAddr+1] + g/count)/2;
+                bitmap[pixelAddr + 2] = (bitmap[pixelAddr+2] + b/count)/2;
+                bitmap[pixelAddr + 3] = (bitmap[pixelAddr+3] + a/count)/2;;
+            }
+        }
+    }
 }

@@ -1221,14 +1221,14 @@ static void stbtt__fill_active_edges(unsigned char *scanline, int len, stbtt__ac
                   // x0,x1 are the same pixel, so compute combined coverage
                   scanline[i] = scanline[i] + (stbtt_uint8) ((x1 - x0) * max_weight >> FIXSHIFT);
                } else {
-                  if (i >= 0) // add antialiasing for x0
+                   if (i >= 0) { // add antialiasing for x0
                      scanline[i] = scanline[i] + (stbtt_uint8) (((FIX - (x0 & FIXMASK)) * max_weight) >> FIXSHIFT);
-                  else
+                   } else
                      i = -1; // clip
 
-                  if (j < len) // add antialiasing for x1
+                   if (j < len) { // add antialiasing for x1
                      scanline[j] = scanline[j] + (stbtt_uint8) (((x1 & FIXMASK) * max_weight) >> FIXSHIFT);
-                  else
+                   } else
                      j = len; // clip
 
                   for (++i; i < j; ++i) // fill pixels between x0 and x1
