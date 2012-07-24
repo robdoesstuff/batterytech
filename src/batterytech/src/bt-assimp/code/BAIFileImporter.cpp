@@ -6,6 +6,11 @@
 
 #define BAI_MAGIC 0x1BADD00D
 
+// TODO - byte alignment issues with using sizeof on these structures - iOS reports 20 on avk, others are 24
+#define AIVECTORKEYSIZE 24
+#define AIQUATKEYSIZE 24
+#define AIMESHKEYSIZE 16
+
 namespace Assimp {
 
 using namespace std;
@@ -198,16 +203,14 @@ static void importBAI(unsigned char *data, size_t dataLength, aiScene *scene) {
 			channel->mPositionKeys = new aiVectorKey[chanHeader.numPositionKeys];
 			channel->mRotationKeys = new aiQuatKey[chanHeader.numRotationKeys];
 			channel->mScalingKeys = new aiVectorKey[chanHeader.numScalingKeys];
-			for (bai_u32 k = 0; k < channel->mNumPositionKeys; k++) {
-				offset=readFromData(&channel->mPositionKeys[k], offset, data, sizeof(aiVectorKey));
+ 			for (bai_u32 k = 0; k < channel->mNumPositionKeys; k++) {
+				offset=readFromData(&channel->mPositionKeys[k], offset, data, AIVECTORKEYSIZE);
 			}
 			for (bai_u32 k = 0; k < channel->mNumRotationKeys; k++) {
-				aiQuatKey vKey;
-				offset=readFromData(&channel->mRotationKeys[k], offset, data, sizeof(aiQuatKey));
+				offset=readFromData(&channel->mRotationKeys[k], offset, data, AIQUATKEYSIZE);
 			}
 			for (bai_u32 k = 0; k < channel->mNumScalingKeys; k++) {
-				aiVectorKey vKey;
-				offset=readFromData(&channel->mScalingKeys[k], offset, data, sizeof(aiVectorKey));
+				offset=readFromData(&channel->mScalingKeys[k], offset, data, AIVECTORKEYSIZE);
 			}
 			offset=readFromData(channel->mNodeName.data, offset, data, chanHeader.nodeNameLength);
 			channel->mNodeName.length = chanHeader.nodeNameLength;
@@ -224,7 +227,7 @@ static void importBAI(unsigned char *data, size_t dataLength, aiScene *scene) {
 			meshAnim->mName.data[meshChanHeader.nameLength] = '\0';
 			meshAnim->mKeys = new aiMeshKey[meshAnim->mNumKeys];
 			for (bai_u32 k = 0; k < meshAnim->mNumKeys; k++) {
-				offset=readFromData(&meshAnim->mKeys[k], offset, data, sizeof(aiMeshKey));
+				offset=readFromData(&meshAnim->mKeys[k], offset, data, AIMESHKEYSIZE);
 			}
 		}
 	}
