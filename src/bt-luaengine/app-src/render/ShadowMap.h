@@ -35,6 +35,7 @@ private:
     GLuint shadowTexture;
     BOOL32 hasDepthTexture;
     GLuint shadowWidth, shadowHeight;
+    GLuint defaultFrameBuffer;
     GraphicsConfiguration::ShadowType currentShadowType;
 };
 

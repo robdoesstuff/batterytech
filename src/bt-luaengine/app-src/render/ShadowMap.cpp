@@ -32,6 +32,7 @@ const Matrix4f biasMatrix(
 ShadowMap::ShadowMap(GameContext *context) {
 	this->context = context;
     shadowFrameBuffer = 0;
+    defaultFrameBuffer = 0;
    	renderBuffer = 0;
     shadowTexture = 0;
     hasDepthTexture = FALSE;
@@ -82,6 +83,10 @@ void ShadowMap::generateShadowFBO() {
 	if (!shadowWidth || !shadowHeight) {
 		return;
 	}
+    // get the current framebuffer and set as default
+    GLint fboID;
+    glGetIntegerv(GL_FRAMEBUFFER_BINDING, &fboID);
+    defaultFrameBuffer = (GLuint)fboID;
 	// Create the texture we'll use to store our depth values
 	glGenTextures(1, &shadowTexture);
 	glBindTexture(GL_TEXTURE_2D, shadowTexture);
@@ -122,7 +127,7 @@ void ShadowMap::generateShadowFBO() {
 		logmsg("ShadowMap ERROR - GL_FRAMEBUFFER_COMPLETE failed, CANNOT use FBO!!");
 	}
 	// switch back to window-system-provided framebuffer
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glBindFramebuffer(GL_FRAMEBUFFER, defaultFrameBuffer);
 	Renderer::checkGLError("ShadowMap end generateShadowFBO()");
 }
 
@@ -189,7 +194,7 @@ void ShadowMap::unbindAfterMapCreation() {
 	// Now rendering from the camera POV, using the FBO to generate shadows
 	// clear the depth buffer because we don't need it to resolve and the driver can optimize here when switching back to FB0
 	glClear(GL_DEPTH_BUFFER_BIT);
-	glBindFramebuffer(GL_FRAMEBUFFER,0);
+	glBindFramebuffer(GL_FRAMEBUFFER,defaultFrameBuffer);
     // re-enable normal backface culling
 	glCullFace(GL_BACK);
     Renderer::checkGLError("ShadowMap unbindAfterMapCreation()");
