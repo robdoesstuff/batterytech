@@ -191,7 +191,10 @@ void AssimpAnimator::updateGlobalTransforms(RenderNode *node) {
 void AssimpAnimator::interpolate(F32 pTime) {
 	// find closest frames for time
 	// update transforms to match
-
+    if (!scene) {
+        logmsg("Unable to interpolate animation - animator not initialized");
+        return;
+    }
 	// TODO - support multiple animations!
 	aiAnimation *anim = scene->mAnimations[0];
 	// extract ticks per second. Assume default value if not given
