@@ -432,7 +432,13 @@ static int lua_GameObject_anim_initDynamic(lua_State *L) {
 	}
 	GLAssimpBinding *binding = static_context->glResourceManager->getAssimp(assetName);
 	if (binding) {
-		o->animators->array[idx]->init(binding->scene, meshName);
+        if (!binding->scene) {
+            char buf[1024];
+            sprintf(buf, "Unable to initialize animator for asset %s, asset added but not yet loaded", assetName);
+            logmsg(buf);
+        } else {
+            o->animators->array[idx]->init(binding->scene, meshName);            
+        }
 	} else {
 		logmsg("Assimp Binding not found in anim_initDynamic");
 	}
