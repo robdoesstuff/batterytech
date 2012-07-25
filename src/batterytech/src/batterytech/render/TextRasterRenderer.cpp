@@ -36,6 +36,7 @@
 // #define DEBUG_TEXT_ELEMENT_ARRAY
 
 #define SHADER_PROGRAM_TAG "quad"
+#define USE_VBOS_WHEN_AVAILBLE FALSE
 
 #define BUFFER_OFFSET(i) (reinterpret_cast<void*>(i))
 
@@ -173,7 +174,7 @@ namespace BatteryTech {
                 idxBuffer[ii+4] = jj+2;
                 idxBuffer[ii+5] = jj+3;
             }
-            if (context->gConfig->supportsShaders || context->gConfig->supportsVBOs) {
+            if (USE_VBOS_WHEN_AVAILBLE && (context->gConfig->useShaders || context->gConfig->supportsVBOs)) {
                 // init VBO support
                 GLuint bufferIDs[2];
                 glGenBuffers(2, bufferIDs);
@@ -238,6 +239,10 @@ namespace BatteryTech {
 			}
 		}
 		context->renderContext->colorFilter = color;
+        if (!USE_VBOS_WHEN_AVAILBLE && (context->gConfig->useShaders || context->gConfig->supportsVBOs)) {
+            glBindBuffer(GL_ARRAY_BUFFER, 0);
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+        }
 	}
 
 	void TextRasterRenderer::finishText() {
@@ -287,7 +292,7 @@ namespace BatteryTech {
 
     void TextRasterRenderer::renderBuffer(S32 count) {
         BOOL32 useVBO = FALSE;
-        if (context->gConfig->useShaders || context->gConfig->supportsVBOs) {
+        if (USE_VBOS_WHEN_AVAILBLE && (context->gConfig->useShaders || context->gConfig->supportsVBOs)) {
             glBindBuffer(GL_ARRAY_BUFFER, vertVBOId);
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, idxVBOId);
             glBufferSubData(GL_ARRAY_BUFFER, 0, count*sizeof(GLQuadVertex)*4, vertBuffer);
@@ -296,14 +301,20 @@ namespace BatteryTech {
 		if (context->gConfig->useShaders) {
 			ShaderProgram *shaderProgram = context->glResourceManager->getShaderProgram(SHADER_PROGRAM_TAG);
 			if (shaderProgram) {
-				glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("vPosition"), 3, GL_FLOAT, GL_FALSE, sizeof(GLQuadVertex), BUFFER_OFFSET(0));
-				glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("uvMap"), 2, GL_FLOAT, GL_FALSE, sizeof(GLQuadVertex), BUFFER_OFFSET(sizeof(Vector3f)));
-                glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("vColor"), 4, GL_FLOAT, GL_FALSE, sizeof(GLQuadVertex), BUFFER_OFFSET(sizeof(Vector3f)+sizeof(Vector2f)));
-				glUniformMatrix4fv(shaderProgram->getUniformLoc("projection_matrix"), 1, GL_FALSE, (GLfloat*) context->renderContext->projMatrix.data);
-				glUniformMatrix4fv(shaderProgram->getUniformLoc("modelview_matrix"), 1, GL_FALSE, (GLfloat*) context->renderContext->mvMatrix.data);
-				glUniform1i(shaderProgram->getUniformLoc("tex"), 0);
-				Vector4f colorFilter = context->renderContext->colorFilter;
-				glUniform4f(shaderProgram->getUniformLoc("colorFilter"), colorFilter.x,colorFilter.y,colorFilter.z,colorFilter.a);
+                if (useVBO) {
+                    glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("vPosition"), 3, GL_FLOAT, GL_FALSE, sizeof(GLQuadVertex), BUFFER_OFFSET(0));
+                    glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("uvMap"), 2, GL_FLOAT, GL_FALSE, sizeof(GLQuadVertex), BUFFER_OFFSET(sizeof(Vector3f)));
+                    glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("vColor"), 4, GL_FLOAT, GL_FALSE, sizeof(GLQuadVertex), BUFFER_OFFSET(sizeof(Vector3f)+sizeof(Vector2f)));
+                 } else {
+                     glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("vPosition"), 3, GL_FLOAT, GL_FALSE, sizeof(GLQuadVertex), &vertBuffer[0].position);
+                     glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("uvMap"), 2, GL_FLOAT, GL_FALSE, sizeof(GLQuadVertex), &vertBuffer[0].uv);
+                     glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("vColor"), 4, GL_FLOAT, GL_FALSE, sizeof(GLQuadVertex), &vertBuffer[0].color);
+                 }                   
+                glUniformMatrix4fv(shaderProgram->getUniformLoc("projection_matrix"), 1, GL_FALSE, (GLfloat*) context->renderContext->projMatrix.data);
+                glUniformMatrix4fv(shaderProgram->getUniformLoc("modelview_matrix"), 1, GL_FALSE, (GLfloat*) context->renderContext->mvMatrix.data);
+                glUniform1i(shaderProgram->getUniformLoc("tex"), 0);
+                Vector4f colorFilter = context->renderContext->colorFilter;
+                glUniform4f(shaderProgram->getUniformLoc("colorFilter"), colorFilter.x,colorFilter.y,colorFilter.z,colorFilter.a);
 			}
 		} else {
 			Vector4f colorFilter = context->renderContext->colorFilter;
@@ -312,8 +323,8 @@ namespace BatteryTech {
                 glVertexPointer(3, GL_FLOAT, sizeof(GLQuadVertex), BUFFER_OFFSET(0));
                 glTexCoordPointer(2, GL_FLOAT, sizeof(GLQuadVertex), BUFFER_OFFSET(sizeof(Vector3f)));
             } else {
-                glVertexPointer(3, GL_FLOAT, sizeof(GLQuadVertex), vertBuffer);
-                glTexCoordPointer(2, GL_FLOAT, sizeof(GLQuadVertex), vertBuffer+sizeof(Vector3f));
+                glVertexPointer(3, GL_FLOAT, sizeof(GLQuadVertex), &vertBuffer[0].position);
+                glTexCoordPointer(2, GL_FLOAT, sizeof(GLQuadVertex), &vertBuffer[0].uv);
             }
 		}
         if (useVBO) {

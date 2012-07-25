@@ -34,6 +34,8 @@
 #define ROTATE_X(x, y, rotSin, rotCos) (x*rotCos - y*rotSin)
 #define ROTATE_Y(x, y, rotSin, rotCos) (x*rotSin + y*rotCos)
 
+#define USE_VBOS_WHEN_AVAILBLE FALSE
+
 namespace BatteryTech {
 
 QuadRenderer::QuadRenderer(Context *context) {
@@ -50,6 +52,8 @@ QuadRenderer::QuadRenderer(Context *context) {
 QuadRenderer::~QuadRenderer() {
     delete [] vertBuffer;
     vertBuffer = NULL;
+    delete [] indices;
+    indices = NULL;
     if (vertVBOId) {
 		glDeleteBuffers(1, &vertVBOId);
     }
@@ -70,7 +74,21 @@ void QuadRenderer::init(BOOL32 newContext) {
 		}
 		shaderProgram->load(FALSE);
 	}
-    if (context->gConfig->useShaders || context->gConfig->supportsVBOs) {
+    batchEnabled = TRUE;
+    vertBuffer = new GLQuadVertex[BATCH_BUFFER_SIZE*4];
+    indices = new U16[BATCH_BUFFER_SIZE*6];
+    // generate the face indices
+    for (S32 i = 0; i < BATCH_BUFFER_SIZE; i++) {
+        S32 ii = i*6;
+        S32 jj = i*4;
+        indices[ii+0] = jj+0;
+        indices[ii+1] = jj+1;
+        indices[ii+2] = jj+2;
+        indices[ii+3] = jj+0;
+        indices[ii+4] = jj+2;
+        indices[ii+5] = jj+3;
+    }
+    if (USE_VBOS_WHEN_AVAILBLE && (context->gConfig->useShaders || context->gConfig->supportsVBOs)) {
         if (!newContext) {
             if (vertVBOId) {
                 glDeleteBuffers(1, &vertVBOId);
@@ -81,24 +99,10 @@ void QuadRenderer::init(BOOL32 newContext) {
             }
             idxVBOId = 0;
         }
-        batchEnabled = TRUE;
 		GLuint bufferIDs[2];
 		glGenBuffers(2, bufferIDs);
 		vertVBOId = bufferIDs[0];
 		idxVBOId = bufferIDs[1];
-        vertBuffer = new GLQuadVertex[BATCH_BUFFER_SIZE*4];
-        U16 indices[BATCH_BUFFER_SIZE*6];
-        // generate the face indices
-        for (S32 i = 0; i < BATCH_BUFFER_SIZE; i++) {
-            S32 ii = i*6;
-            S32 jj = i*4;
-            indices[ii+0] = jj+0;
-            indices[ii+1] = jj+1;
-            indices[ii+2] = jj+2;
-            indices[ii+3] = jj+0;
-            indices[ii+4] = jj+2;
-            indices[ii+5] = jj+3;
-        }
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, idxVBOId);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, BATCH_BUFFER_SIZE * 6 * sizeof(U16), indices, GL_STATIC_DRAW);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -269,6 +273,10 @@ void QuadRenderer::render(Texture *texture, Vector3f pos, F32 angleRads, Vector4
         if (batchEnabled) {
             inBatch = TRUE;
         }
+        if (!USE_VBOS_WHEN_AVAILBLE && (context->gConfig->useShaders || context->gConfig->supportsVBOs)) {
+            glBindBuffer(GL_ARRAY_BUFFER, 0);
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);           
+        }
     }
     
     void QuadRenderer::endBatch() {
@@ -312,32 +320,51 @@ void QuadRenderer::render(Texture *texture, Vector3f pos, F32 angleRads, Vector4
             return;
         }
         Vector4f colorFilter = context->renderContext->colorFilter;
-        // batching is only enabled if we're supporting VBOs and if we're supporting those, we use them everywhere so we don't have to switch out
-        if (!batchStatesSet) {
-			glBindBuffer(GL_ARRAY_BUFFER, vertVBOId);
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, idxVBOId);
+        BOOL32 useVBOs = (USE_VBOS_WHEN_AVAILBLE && (context->gConfig->useShaders || context->gConfig->supportsVBOs));
+        if (useVBOs) {
+            // batching is only enabled if we're supporting VBOs and if we're supporting those, we use them everywhere so we don't have to switch out
+            if (!batchStatesSet) {
+                glBindBuffer(GL_ARRAY_BUFFER, vertVBOId);
+                glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, idxVBOId);
+            }
+            glBufferSubData(GL_ARRAY_BUFFER, 0, quadsBatched*sizeof(GLQuadVertex)*4, vertBuffer);
         }
-        glBufferSubData(GL_ARRAY_BUFFER, 0, quadsBatched*sizeof(GLQuadVertex)*4, vertBuffer);
         if (context->gConfig->useShaders) {
+            ShaderProgram *shaderProgram = context->glResourceManager->getShaderProgram("quad");
             if (!batchStatesSet) {
 				Matrix4f myMvMatrix = context->renderContext->mvMatrix;
-				ShaderProgram *shaderProgram = context->glResourceManager->getShaderProgram("quad");
 				shaderProgram->bind();
-				glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("vPosition"), 3, GL_FLOAT, GL_FALSE, sizeof(GLQuadVertex), BUFFER_OFFSET(0));
-				glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("uvMap"), 2, GL_FLOAT, GL_FALSE, sizeof(GLQuadVertex), BUFFER_OFFSET(sizeof(Vector3f)));
-				glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("vColor"), 4, GL_FLOAT, GL_FALSE, sizeof(GLQuadVertex), BUFFER_OFFSET(sizeof(Vector3f)+sizeof(Vector2f)));
+                if (useVBOs) {
+                    glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("vPosition"), 3, GL_FLOAT, GL_FALSE, sizeof(GLQuadVertex), BUFFER_OFFSET(0));
+                    glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("uvMap"), 2, GL_FLOAT, GL_FALSE, sizeof(GLQuadVertex), BUFFER_OFFSET(sizeof(Vector3f)));
+                    glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("vColor"), 4, GL_FLOAT, GL_FALSE, sizeof(GLQuadVertex), BUFFER_OFFSET(sizeof(Vector3f)+sizeof(Vector2f)));
+                }
 				glUniformMatrix4fv(shaderProgram->getUniformLoc("projection_matrix"), 1, GL_FALSE, (GLfloat*) context->renderContext->projMatrix.data);
 				glUniformMatrix4fv(shaderProgram->getUniformLoc("modelview_matrix"), 1, GL_FALSE, (GLfloat*) myMvMatrix.data);
 				glUniform1i(shaderProgram->getUniformLoc("tex"), 0);
 				glUniform4f(shaderProgram->getUniformLoc("colorFilter"), colorFilter.x,colorFilter.y,colorFilter.z,colorFilter.a);
             }
+            if (!useVBOs) {
+                glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("vPosition"), 3, GL_FLOAT, GL_FALSE, sizeof(GLQuadVertex), &vertBuffer[0].position);
+                glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("uvMap"), 2, GL_FLOAT, GL_FALSE, sizeof(GLQuadVertex), &vertBuffer[0].uv);
+                glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("vColor"), 4, GL_FLOAT, GL_FALSE, sizeof(GLQuadVertex), &vertBuffer[0].color);
+            }
         } else {
             // GL1 rendering branch
             glColor4f(colorFilter.x,colorFilter.y,colorFilter.z,colorFilter.a);
-            glVertexPointer(3, GL_FLOAT, sizeof(GLQuadVertex), BUFFER_OFFSET(0));
-            glTexCoordPointer(2, GL_FLOAT, sizeof(GLQuadVertex), BUFFER_OFFSET(sizeof(Vector3f)));
+            if (useVBOs) {
+                glVertexPointer(3, GL_FLOAT, sizeof(GLQuadVertex), BUFFER_OFFSET(0));
+                glTexCoordPointer(2, GL_FLOAT, sizeof(GLQuadVertex), BUFFER_OFFSET(sizeof(Vector3f)));
+            } else {
+                glVertexPointer(3, GL_FLOAT, sizeof(GLQuadVertex), &vertBuffer[0].position);
+                glTexCoordPointer(2, GL_FLOAT, sizeof(GLQuadVertex), &vertBuffer[0].uv);
+           }
         }
-        glDrawElements(GL_TRIANGLES, quadsBatched*6, GL_UNSIGNED_SHORT, 0);
+        if (useVBOs) {
+            glDrawElements(GL_TRIANGLES, quadsBatched*6, GL_UNSIGNED_SHORT, 0);
+        } else {
+            glDrawElements(GL_TRIANGLES, quadsBatched*6, GL_UNSIGNED_SHORT, indices);
+        }
         // char buf[255];
         // sprintf(buf, "drawing batch of %d", quadsBatched);
         // logmsg(buf);

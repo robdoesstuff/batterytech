@@ -89,6 +89,7 @@ private:
     BOOL32 inBatch;
     BOOL32 batchEnabled;
     GLQuadVertex *vertBuffer;
+    U16 *indices;
     U32 quadsBatched;
     BOOL32 batchStatesSet;
 };
