@@ -62,6 +62,9 @@ namespace BatteryTech {
 	}
 
 	S32 PCMAudioManager::loadSound(const char *assetName) {
+        if (isSoundLoaded(assetName)) {
+            return getSoundId(assetName);
+        }
 		int assetSize = 0;
 		unsigned char *fileData = _platform_load_asset(assetName, &assetSize);
 		S32 sndId = -1;
@@ -91,6 +94,15 @@ namespace BatteryTech {
 		return playSound(getSoundId(assetName), loops, leftVol, rightVol, rate);
 	}
 
+    BOOL32 PCMAudioManager::isSoundLoaded(const char *assetName) {
+		for (S32 i = 0; i < pcmSounds->getSize(); i++) {
+			if (strcmp(pcmSounds->array[i]->assetName, assetName) == 0) {
+				return TRUE;
+			}
+		}
+        return FALSE;
+    }
+    
 	S32 PCMAudioManager::getSoundId(const char *assetName) {
 		for (S32 i = 0; i < pcmSounds->getSize(); i++) {
 			if (strcmp(pcmSounds->array[i]->assetName, assetName) == 0) {

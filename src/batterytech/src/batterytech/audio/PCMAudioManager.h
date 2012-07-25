@@ -49,6 +49,7 @@ namespace BatteryTech {
 		void update();
 	private:
 		S32 getSoundId(const char *assetName);
+        BOOL32 isSoundLoaded(const char *assetName);
 		PCMSound* getSound(S32 soundId);
 		void fillStreamingBuffer(PCMStream *pcmStream, U16 bufNum);
 		U8 streamCount;
