@@ -94,6 +94,7 @@ static int lua_Game_setParticleMaxSpeedRange(lua_State *L);
 static int lua_Game_setParticleEmissionRate(lua_State *L);
 static int lua_Game_setParticleInitialScale(lua_State *L);
 static int lua_Game_setParticleRotationSpeedRange(lua_State *L);
+static int lua_Game_setParticleGravity(lua_State *L);
 
 static const luaL_reg lua_methods[] = {
 	{ "getInstance", lua_Game_getInstance },
@@ -154,6 +155,7 @@ static const luaL_reg lua_methods[] = {
     { "setParticleMaxSpeedRange", lua_Game_setParticleMaxSpeedRange },
     { "setParticleEmissionRate", lua_Game_setParticleEmissionRate },
     { "setParticleRotationSpeedRange", lua_Game_setParticleRotationSpeedRange },
+    { "setParticleGravity", lua_Game_setParticleGravity },
 	{ 0, 0 } };
 
 static const luaL_reg metatable[] = {
@@ -1393,6 +1395,19 @@ static int lua_Game_setParticleRotationSpeedRange(lua_State *L) {
 
     return 0;
 }
+
+static int lua_Game_setParticleGravity(lua_State *L) {
+	S32 emitterID = lua_tointeger(L, 2);
+    ParticleEmitter* emitter = static_context->world->emitters->get(emitterID);
+    
+    F32 gravity = (F32)lua_tonumber(L, 3);
+    
+    if( emitter )
+        emitter->setGravity(gravity);
+
+    return 0;
+}
+
 // --------------- metamethods ----------------
 
 static int lua_Game_replaceMetatable(lua_State *L) {

@@ -40,6 +40,7 @@ ParticleEmitter::ParticleEmitter() {
     this->textureAssetName      = NULL;
     this->rotationRange         = Vector2f(0.0, TAU);
     this->rotationSpeedRange    = Vector2f(-5.0, 5.0);
+    this->gravity               = 0;
 }
 
 ParticleEmitter::~ParticleEmitter() {
@@ -95,6 +96,7 @@ void ParticleEmitter::update(F32 delta) {
 		F32 timeRemainder = -nextEmissionTimeLeft;
 		F32 rateTimeLeft = 1.0f/emissionRate;
 		Vector3f locDelta = sourceLoc - lastSourceLoc;
+        
 		if (timeRemainder > rateTimeLeft) {
 			// need to interpolate now
 			while (timeRemainder > rateTimeLeft) {
@@ -104,9 +106,6 @@ void ParticleEmitter::update(F32 delta) {
 			}
 		}
 		// last particle should be emitted as close to sourceLoc as possible (and accurate to keep it smooth)
-		// char buf[255];
-		// sprintf(buf, "lastParticle d=%f tr=%f tot=%f", delta, timeRemainder, ((delta-timeRemainder)/delta));
-		// logmsg(buf);
 		addParticle((locDelta * ((delta-timeRemainder)/delta)) + lastSourceLoc);
 		// emission rate is particles per second and timeleft is seconds so convert
 		this->nextEmissionTimeLeft = 1.0f/this->emissionRate - timeRemainder;
@@ -124,6 +123,8 @@ void ParticleEmitter::update(F32 delta) {
         // all particles remaining are now currently active
         // update the particle
         p->pos = p->pos + p->dir*p->speed*delta;
+        p->pos.z = p->pos.z + gravity*delta*delta;
+        
         p->rotation = p->rotation - delta*0.5;
         p->alpha = p->alpha+p->alphaSpeed*delta;
         if(p->alpha > 1.0) { p->alpha=1.0; }
@@ -211,5 +212,10 @@ void ParticleEmitter::setEmissionDirection(Vector3f emissiondir)
 void ParticleEmitter::setEmissionRate(F32 rate)
 {
     emissionRate = rate;
+}
+
+void ParticleEmitter::setGravity(F32 zGravity)
+{
+    gravity = zGravity;
 }
 

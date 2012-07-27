@@ -82,6 +82,7 @@ public:
 	void setParticleInitialScale(F32 initScale);
     void setEmissionRate(F32 rate); // particles per second
     void setParticleRotationSpeedRange(F32 mx, F32 mn);
+    void setGravity(F32 zGravity);
     
     S32 getID() { return emitterID; }
 	Vector3f	sourceLoc;
@@ -106,6 +107,7 @@ private:
 	
 	F32			alpha;
 	F32			scale;	
+    F32         gravity;
 	Vector2f	ltRange;
 	Vector2f	scaleSpeedRange;
 	Vector2f	alphaSpeedRange;
