@@ -12,7 +12,7 @@ uniform mat4 modelview_matrix;
 uniform vec4 fog_and_uv_offset;
 
 attribute vec3 vPosition;
-attribute vec3 vUV;
+attribute vec2 vUV;
 
 
 #if (POINT_LIGHT_COUNT || defined(DIR_LIGHT))
