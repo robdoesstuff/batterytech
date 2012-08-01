@@ -21,6 +21,9 @@
 #include "AssimpRenderer.h"
 #include "ScreenControlRenderer.h"
 #include "ParticleEmitterRenderer.h"
+#ifdef BATTERYTECH_INCLUDE_BOX2D
+#include "B2DebugRenderer.h"
+#endif
 #include "RenderItem.h"
 #include "../UIConstants.h"
 #include "../GameUtil.h"
@@ -46,6 +49,9 @@ WorldRenderer::WorldRenderer(GameContext *context) {
 	screenControlRenderer = new ScreenControlRenderer(context, FONT_TAG_UI);
 	shadowMap = new ShadowMap(context);
 	particleRenderer = new ParticleEmitterRenderer(context);
+#ifdef BATTERYTECH_INCLUDE_BOX2D
+	b2DebugRenderer = new B2DebugRenderer(context);
+#endif
 	loadingScreenDisplayed = FALSE;
 	preLoad = FALSE;
 	loadingTex = NULL;
@@ -82,6 +88,9 @@ WorldRenderer::~WorldRenderer() {
 	delete particleRenderer;
 	textRenderers->deleteElements();
 	delete textRenderers;
+#ifdef BATTERYTECH_INCLUDE_BOX2D
+	delete b2DebugRenderer;
+#endif
 }
 
 void WorldRenderer::pickLoadingTexture() {
@@ -168,6 +177,9 @@ void WorldRenderer::init(BOOL32 newContext) {
 	screenControlRenderer->init(newContext);
 	assimpRenderer->init(newContext);
 	particleRenderer->init(newContext);
+#ifdef BATTERYTECH_INCLUDE_BOX2D
+	b2DebugRenderer->init(newContext);
+#endif
 	logmsg("Initializing dynamic stuff");
 	//btDebugRenderer->init(newContext);
 	if (newContext) {
@@ -501,6 +513,9 @@ void WorldRenderer::render2D() {
 		curTextRenderer = NULL;
 	}
     spriteRenderer->endBatch();
+#ifdef BATTERYTECH_INCLUDE_BOX2D
+    b2DebugRenderer->render(world);
+#endif
 	if (context->showFPS) {
 		char fpsText[50];
 		sprintf(fpsText, "FPS: %d", fps);

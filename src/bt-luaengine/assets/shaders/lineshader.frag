@@ -1,4 +1,4 @@
-// Basic quad fragment shader
+// Line fragment shader
 
 #if __VERSION__ >= 130
 precision mediump float;

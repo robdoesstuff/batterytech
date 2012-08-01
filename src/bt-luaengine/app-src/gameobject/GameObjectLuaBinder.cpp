@@ -93,6 +93,7 @@ static int lua_GameObject_physics_enableConstraintMotorTarget(lua_State *L);
 // Box2D bindings
 static int lua_GameObject_physics_allocConfigs(lua_State *L); // param: number of physics model configurations, defaults to 1 if not called
 static int lua_GameObject_physics_createPolygonShape(lua_State *L);
+static int lua_GameObject_physics_createCircleShape(lua_State *L);
 #endif
 
 static const luaL_reg lua_methods[] = {
@@ -150,6 +151,7 @@ static const luaL_reg lua_methods[] = {
 // Box2D bindings
 	{ "physics_allocConfigs", lua_GameObject_physics_allocConfigs },
 	{ "physics_createPolygonShape", lua_GameObject_physics_createPolygonShape },
+	{ "physics_createCircleShape", lua_GameObject_physics_createCircleShape },
 #endif
 
 	{ 0, 0 } };
@@ -1133,7 +1135,7 @@ static int lua_GameObject_physics_createPolygonShape(lua_State *L) {
 	S32 configIdx = lua_tointeger(L, 2);
     
 	PhysicsModelConfig *modelConfig = o->physicsModelConfigs->array[configIdx];
-    b2Vec2 verts[16];
+    b2Vec2 verts[12];
     // for each point pair, add
     S32 n = 3;
     S32 pointCount = 0;
@@ -1142,11 +1144,25 @@ static int lua_GameObject_physics_createPolygonShape(lua_State *L) {
         verts[pointCount] = b2Vec2(lua_tonumber(L, n), lua_tonumber(L, n+1));
         pointCount++;
         n+=2;
-        if (pointCount == 16) {
+        if (pointCount == 12) {
             break;
         }
     }
     shape->Set(verts, pointCount);
+    modelConfig->shape = shape;
+	return 0;
+}
+
+static int lua_GameObject_physics_createCircleShape(lua_State *L) {
+	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
+	allocatePhysicsModelConfigIfNull(o);
+	// param 2 is the index of the model config
+	S32 configIdx = lua_tointeger(L, 2);
+
+	PhysicsModelConfig *modelConfig = o->physicsModelConfigs->array[configIdx];
+	// param 3 is radius
+	b2CircleShape *shape = new b2CircleShape;
+	shape->m_radius = lua_tonumber(L, 3);
     modelConfig->shape = shape;
 	return 0;
 }

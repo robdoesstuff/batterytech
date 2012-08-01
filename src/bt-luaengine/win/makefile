@@ -247,6 +247,7 @@ APP_SOURCES=\
 	input\TouchInputProcessor.cpp \
 	render\WorldRenderer.cpp \
 	render\ShadowMap.cpp \
+	render\B2DebugRenderer.cpp \
 	render\BtDebugRenderer.cpp \
 	render\SimpleSpriteRenderer.cpp \
 	render\ScreenControlRenderer.cpp \

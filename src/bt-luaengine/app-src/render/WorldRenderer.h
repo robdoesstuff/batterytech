@@ -28,6 +28,9 @@ class ScreenControlRenderer;
 class AssimpRenderer;
 class GameContext;
 class ParticleEmitterRenderer;
+#ifdef BATTERYTECH_INCLUDE_BOX2D
+class B2DebugRenderer;
+#endif
 
 namespace BatteryTech { class TextRasterRenderer; }
 
@@ -37,18 +40,11 @@ class WorldRenderer: public Renderer, public BTApplicationRenderer {
 public:
 	WorldRenderer(GameContext *context);
 	void init(BOOL32 newContext);
-    void loadShadowShader();
-    void setupMatrices(float position_x,float position_y,float position_z,float lookAt_x,float lookAt_y,float lookAt_z);
-    void renderToShadowMap();
-    void generateShadowFBO();
-    void draw3DObjects(bool shadowPass);
-    void setTextureMatrix(void);
 	void render();
 	virtual ~WorldRenderer();
 	BOOL32 isLoadingScreenDisplayed() { return loadingScreenDisplayed; }
 	void addTextRenderer(const char *tag, TextRasterRenderer *renderer);
 	TextRasterRenderer* getTextRenderer(const char *tag);
-
 private:
 	void renderLoadingScreen();
 	void render3D();
@@ -64,6 +60,9 @@ private:
 	GraphicsConfiguration *gConfig;
 	ScreenControlRenderer *screenControlRenderer;
 	ParticleEmitterRenderer *particleRenderer;
+#ifdef BATTERYTECH_INCLUDE_BOX2D
+	B2DebugRenderer *b2DebugRenderer;
+#endif
 	ShadowMap *shadowMap;
 	GameContext *context;
 	S32 frameSamplesCollected;

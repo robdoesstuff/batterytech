@@ -1,4 +1,4 @@
-// Basic quad vertex shader
+// Line vertex shader
 
 uniform mat4 projection_matrix;
 uniform mat4 modelview_matrix;
