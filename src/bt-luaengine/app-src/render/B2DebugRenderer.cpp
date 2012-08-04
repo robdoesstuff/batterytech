@@ -1,3 +1,4 @@
+
 /*
  * B2DebugRenderer.cpp
  *
@@ -40,6 +41,9 @@ void B2DebugRenderer::init(BOOL32 newGameContext) {
 }
 
 void B2DebugRenderer::render(World *world) {
+    if (!world->boxWorld) {
+        return;
+    }
 	if (!context->gConfig->useShaders) {
 		glDisable(GL_TEXTURE_2D);
 		glDisableClientState(GL_TEXTURE_COORD_ARRAY);

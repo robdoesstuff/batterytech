@@ -22,6 +22,8 @@
 
 #define SORT_PARTICLES FALSE
 
+#define USE_VBOS_WHEN_AVAILBLE FALSE
+
 ParticleEmitterRenderer::ParticleEmitterRenderer(GameContext *context)
 {
 	this->context = context;
@@ -57,31 +59,37 @@ ParticleEmitterRenderer::~ParticleEmitterRenderer() {
 }
 
 void ParticleEmitterRenderer::loadVerts() {
-	glBindBuffer(GL_ARRAY_BUFFER, this->vertAttsVBOId);
-	glBufferData(GL_ARRAY_BUFFER, MAX_PARTICLES * sizeof(GLParticleVertex) * 4, this->vertAtts, GL_DYNAMIC_DRAW);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+    if (USE_VBOS_WHEN_AVAILBLE) {
+        glBindBuffer(GL_ARRAY_BUFFER, this->vertAttsVBOId);
+        glBufferData(GL_ARRAY_BUFFER, MAX_PARTICLES * sizeof(GLParticleVertex) * 4, this->vertAtts, GL_DYNAMIC_DRAW);
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+    }
 }
 
 
 void ParticleEmitterRenderer::loadFaceIndices() {
 	// Bind to buffer
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->faceIndicesVBOId);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, MAX_PARTICLES * 6 * sizeof(U16), this->faceIndices, GL_STATIC_DRAW);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    if (USE_VBOS_WHEN_AVAILBLE) {
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->faceIndicesVBOId);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, MAX_PARTICLES * 6 * sizeof(U16), this->faceIndices, GL_STATIC_DRAW);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    }
 }
 
 void ParticleEmitterRenderer::init(BOOL32 newContext) {
 	if(newContext) {
 		this->shaderProgram->load(newContext);
-		// generate new bufferIDs 
-		GLuint bufferIDs[2];
-		glGenBuffers(2, bufferIDs);
-		this->vertAttsVBOId = bufferIDs[0];
-		this->faceIndicesVBOId = bufferIDs[1];
-		// load default vertex attribute
-		this->loadVerts();
-		// load the face indices
-		this->loadFaceIndices();
+        if (USE_VBOS_WHEN_AVAILBLE) {
+            // generate new bufferIDs 
+            GLuint bufferIDs[2];
+            glGenBuffers(2, bufferIDs);
+            this->vertAttsVBOId = bufferIDs[0];
+            this->faceIndicesVBOId = bufferIDs[1];
+            // load default vertex attribute
+            this->loadVerts();
+            // load the face indices
+            this->loadFaceIndices();
+        }
 	}
 }
 
@@ -150,7 +158,9 @@ void ParticleEmitterRenderer::updateVertBuffer(ParticleEmitter *emitter) {
 		this->vertAtts[i+3].alpha		= alpha;
 		this->vertAtts[i+3].uv			= Vector2f(1,0);
 	}
-	glBufferSubData(GL_ARRAY_BUFFER, 0, emitter->numActiveParticles*sizeof(GLParticleVertex)*4, this->vertAtts);	
+    if (USE_VBOS_WHEN_AVAILBLE) {
+        glBufferSubData(GL_ARRAY_BUFFER, 0, emitter->numActiveParticles*sizeof(GLParticleVertex)*4, this->vertAtts);
+    }
 	// printf("Drawing buffer from 0 to %d\n",emitter->numActiveParticles*sizeof(GLParticleVertex)*4);
 }
 
@@ -170,23 +180,34 @@ void ParticleEmitterRenderer::render()
 		glUniformMatrix4fv(shaderProgram->getUniformLoc("projection_matrix"), 1, GL_FALSE, (GLfloat*) context->renderContext->projMatrix.data);
 		glUniformMatrix4fv(shaderProgram->getUniformLoc("modelview_matrix"), 1, GL_FALSE, (GLfloat*) context->renderContext->mvMatrix.data);
 		glUniform1i(shaderProgram->getUniformLoc("tex"), 0);
-		glBindBuffer(GL_ARRAY_BUFFER, this->vertAttsVBOId);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->faceIndicesVBOId);		
-		glVertexAttribPointer(this->shaderProgram->getVertexAttributeLoc("vPosition"), 3, GL_FLOAT, GL_FALSE, sizeof(GLParticleVertex), BUFFER_OFFSET(0));
-		glVertexAttribPointer(this->shaderProgram->getVertexAttributeLoc("uvMap"), 2, GL_FLOAT, GL_FALSE, sizeof(GLParticleVertex), BUFFER_OFFSET(sizeof(Vector3f)));
-		glVertexAttribPointer(this->shaderProgram->getVertexAttributeLoc("alpha"), 1, GL_FLOAT, GL_FALSE, sizeof(GLParticleVertex), BUFFER_OFFSET(sizeof(Vector3f)+sizeof(Vector2f)));
+        if (USE_VBOS_WHEN_AVAILBLE) {
+            glBindBuffer(GL_ARRAY_BUFFER, this->vertAttsVBOId);
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->faceIndicesVBOId);
+            glVertexAttribPointer(this->shaderProgram->getVertexAttributeLoc("vPosition"), 3, GL_FLOAT, GL_FALSE, sizeof(GLParticleVertex), BUFFER_OFFSET(0));
+            glVertexAttribPointer(this->shaderProgram->getVertexAttributeLoc("uvMap"), 2, GL_FLOAT, GL_FALSE, sizeof(GLParticleVertex), BUFFER_OFFSET(sizeof(Vector3f)));
+            glVertexAttribPointer(this->shaderProgram->getVertexAttributeLoc("alpha"), 1, GL_FLOAT, GL_FALSE, sizeof(GLParticleVertex), BUFFER_OFFSET(sizeof(Vector3f)+sizeof(Vector2f)));
+        } else {
+            glBindBuffer(GL_ARRAY_BUFFER, 0);
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+        }
         
 		for (HashTable<S32,ParticleEmitter*>::Iterator i = emitters->getIterator(); i.hasNext;) {
             ParticleEmitter *emitter = emitters->getNext(i);
 			updateVertBuffer(emitter);
-
             if (emitter->getTextureAssetName()) {
             	Texture *texture = context->glResourceManager->getTexture(emitter->getTextureAssetName());
             	if (texture) {
             		texture->bind();
             	}
             }
-			glDrawElements(GL_TRIANGLES, emitter->numActiveParticles*6, GL_UNSIGNED_SHORT, 0);
+            if (USE_VBOS_WHEN_AVAILBLE) {
+                glDrawElements(GL_TRIANGLES, emitter->numActiveParticles*6, GL_UNSIGNED_SHORT, 0);
+            } else {
+                glVertexAttribPointer(this->shaderProgram->getVertexAttributeLoc("vPosition"), 3, GL_FLOAT, GL_FALSE, sizeof(GLParticleVertex), &vertAtts[0].position);
+                glVertexAttribPointer(this->shaderProgram->getVertexAttributeLoc("uvMap"), 2, GL_FLOAT, GL_FALSE, sizeof(GLParticleVertex), &vertAtts[0].uv);
+                glVertexAttribPointer(this->shaderProgram->getVertexAttributeLoc("alpha"), 1, GL_FLOAT, GL_FALSE, sizeof(GLParticleVertex), &vertAtts[0].alpha);
+                glDrawElements(GL_TRIANGLES, emitter->numActiveParticles*6, GL_UNSIGNED_SHORT, faceIndices);
+            }
 		}
 		//printf("Render: number of Emitter %d",numActiveEmitters);
 	}
