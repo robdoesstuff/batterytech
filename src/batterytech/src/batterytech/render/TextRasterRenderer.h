@@ -81,16 +81,32 @@ namespace BatteryTech {
 
 		virtual ~TextRasterRenderer();
 	private:
+        // TTF
+        void loadTTF();
+        void renderTTF(const char *text, F32 x, F32 y, F32 scale = 1.0f);
+		void renderMultilineTTF(const char *text, F32 x, F32 y, F32 maxX, F32 maxY, F32 scale = 1.0f);
+        F32 getTTFHeight(F32 scale = 1.0f);
+        F32 measureTTFWidth(const char *text, F32 scale = 1.0f);
+		F32 measureTTFMultilineHeight(const char *text, F32 availableWidth, F32 scale = 1.0f);
+		stbtt_bakedchar cdata[96]; // ASCII 32..126 is 95 glyphs
+		S32 bmpWidth, bmpHeight;
+        // BMFont
+        void loadBMFont();
+        void renderBMFont(const char *text, F32 x, F32 y, F32 scale = 1.0f);
+		void renderMultilineBMFont(const char *text, F32 x, F32 y, F32 maxX, F32 maxY, F32 scale = 1.0f);
+        F32 getBMFontHeight(F32 scale = 1.0f);
+        F32 measureBMFontWidth(const char *text, F32 scale = 1.0f);
+		F32 measureBMFontMultilineHeight(const char *text, F32 availableWidth, F32 scale = 1.0f);
+        // All
 		void applyInnerStroke(unsigned char* bitmap8, unsigned char* bitmap, S32 width, S32 height);
 		void applyOuterStroke(unsigned char* bitmap8, unsigned char* bitmap, S32 width, S32 height);
         void applyAA(unsigned char* bitmap, S32 width, S32 height);
-        void renderBuffer(S32 count);
+        void addToBuffer(Vector3f p0, Vector3f p1, Vector3f p2, Vector3f p3, Vector2f uv0, Vector2f uv1, Vector2f uv2, Vector2f uv3);
+        void renderBuffer();
 		Context *context;
-		stbtt_bakedchar cdata[96]; // ASCII 32..126 is 95 glyphs
 		GLuint ftex;
-		char *aName;
+		char *assetName;
 		F32 fontSize;
-		S32 bmpWidth, bmpHeight;
 		S32 innerStroke, outerStroke;
 		Vector4f color;
 		F32 vertSpaceMult;
@@ -98,6 +114,8 @@ namespace BatteryTech {
         GLuint idxVBOId;
         GLQuadVertex *vertBuffer;
         U16 *idxBuffer;
+        BOOL32 isTTF;
+        S32 bufferUsed;
 	};
 
 }

@@ -41,10 +41,8 @@
 // Maximum number of UI rendering assets.
 // Increase if necessary.
 #define MAX_UI_ASSET_NAMES 300
-// Maximum number of characters in a single line of text
-#define TEXT_RENDER_MAX_LINE_LENGTH 255
 // Maximum number of characters in a multiline of text
-#define TEXT_RENDER_MAX_MULTILINE_LENGTH 2048
+#define TEXT_RENDER_BUFFER_SIZE 2048
 
 /// -------------- audio --------------------
 // Number of simultaneous audio streams for mixing sound samples

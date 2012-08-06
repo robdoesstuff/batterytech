@@ -44,7 +44,7 @@ namespace BatteryTech {
 
 	TextRasterRenderer::TextRasterRenderer(Context *context, const char *assetName, F32 fontSize) {
 		this->context = context;
-		aName = strDuplicate(assetName);
+		this->assetName = strDuplicate(assetName);
 		this->fontSize = fontSize;
 		bmpWidth = 0;
 		bmpHeight = 0;
@@ -53,12 +53,25 @@ namespace BatteryTech {
 		color = Vector4f(1,1,1,1);
         vertVBOId = 0;
         idxVBOId = 0;
-        vertBuffer = new GLQuadVertex[TEXT_RENDER_MAX_MULTILINE_LENGTH * 4];
-        idxBuffer = new U16[TEXT_RENDER_MAX_MULTILINE_LENGTH*6];
+        isTTF = FALSE;
+        bufferUsed = 0;
+        vertBuffer = new GLQuadVertex[TEXT_RENDER_BUFFER_SIZE * 4];
+        idxBuffer = new U16[TEXT_RENDER_BUFFER_SIZE*6];
+        // generate the face indices
+        for (S32 i = 0; i < TEXT_RENDER_BUFFER_SIZE; i++) {
+            S32 ii = i*6;
+            S32 jj = i*4;
+            idxBuffer[ii+0] = jj+0;
+            idxBuffer[ii+1] = jj+1;
+            idxBuffer[ii+2] = jj+2;
+            idxBuffer[ii+3] = jj+0;
+            idxBuffer[ii+4] = jj+2;
+            idxBuffer[ii+5] = jj+3;
+        }
 	}
 
 	TextRasterRenderer::~TextRasterRenderer() {
-		delete [] aName;
+		delete [] assetName;
         delete [] vertBuffer;
         delete [] idxBuffer;
 	}
@@ -72,16 +85,14 @@ namespace BatteryTech {
 		color = rgba;
 	}
 
-	void TextRasterRenderer::init(BOOL32 newContext) {
-        if (!newContext) {
-            return;
-        }
+    // TTF
+    void TextRasterRenderer::loadTTF() {
 		S32 bmpWidth = context->appProperties->get("initial_font_texture_width")->getIntValue();
 		S32 bmpHeight = context->appProperties->get("initial_font_texture_height")->getIntValue();
 		vertSpaceMult = context->appProperties->get("text_vertical_spacing_multiplier")->getFloatValue();
 		S32 size = 0;
 		BYTE8 *data;
-		data = _platform_load_asset(aName, &size);
+		data = _platform_load_asset(assetName, &size);
 		if (data) {
 			BYTE8 *temp_bitmap = NULL;
 			BYTE8 *temp_bitmap_rgba = NULL;
@@ -142,14 +153,14 @@ namespace BatteryTech {
 			free(temp_bitmap);
 			// uncomment for debugging font texture generation
 			/**
-			FILE *testOutFile;
-			testOutFile = fopen("bmp8.raw", "wb");
-			fwrite(temp_bitmap, bmpWidth * bmpHeight, 1, testOutFile);
-			fclose(testOutFile);
-			testOutFile = fopen("bmp32.raw", "wb");
-			fwrite(temp_bitmap_rgba, bmpWidth * bmpHeight * 4, 1, testOutFile);
-			fclose(testOutFile);
-			*/
+             FILE *testOutFile;
+             testOutFile = fopen("bmp8.raw", "wb");
+             fwrite(temp_bitmap, bmpWidth * bmpHeight, 1, testOutFile);
+             fclose(testOutFile);
+             testOutFile = fopen("bmp32.raw", "wb");
+             fwrite(temp_bitmap_rgba, bmpWidth * bmpHeight * 4, 1, testOutFile);
+             fclose(testOutFile);
+             */
 			glGenTextures(1, &ftex);
 			Texture::textureSwitches++;
 			glBindTexture(GL_TEXTURE_2D, ftex);
@@ -163,46 +174,108 @@ namespace BatteryTech {
 			}
 			// can free temp_bitmap at this point
 			_platform_free_asset(data);
-            // generate the face indices
-            for (S32 i = 0; i < TEXT_RENDER_MAX_MULTILINE_LENGTH; i++) {
-                S32 ii = i*6;
-                S32 jj = i*4;
-                idxBuffer[ii+0] = jj+0;
-                idxBuffer[ii+1] = jj+1;
-                idxBuffer[ii+2] = jj+2;
-                idxBuffer[ii+3] = jj+0;
-                idxBuffer[ii+4] = jj+2;
-                idxBuffer[ii+5] = jj+3;
-            }
-            if (USE_VBOS_WHEN_AVAILBLE && (context->gConfig->useShaders || context->gConfig->supportsVBOs)) {
-                // init VBO support
-                GLuint bufferIDs[2];
-                glGenBuffers(2, bufferIDs);
-                vertVBOId = bufferIDs[0];
-                idxVBOId = bufferIDs[1];
-                glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, idxVBOId);
-                glBufferData(GL_ELEMENT_ARRAY_BUFFER, TEXT_RENDER_MAX_MULTILINE_LENGTH * 6 * sizeof(U16), idxBuffer, GL_STATIC_DRAW);
-                glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-                glBindBuffer(GL_ARRAY_BUFFER, vertVBOId);
-                glBufferData(GL_ARRAY_BUFFER, TEXT_RENDER_MAX_MULTILINE_LENGTH * 4 * sizeof(GLQuadVertex), vertBuffer, GL_DYNAMIC_DRAW);
-                glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-            }
 		} else {
 			Logger::logMsg("error loading font");
 		}
-	}
-
-	F32 TextRasterRenderer::getHeight(F32 scale) {
+        
+    }
+    
+    void TextRasterRenderer::renderTTF(const char *text, F32 x, F32 y, F32 scale) {
+		S32 length = strlen(text);
+		// longest string is TEXT_RENDER_MAX_LINE_LENGTH
+		S32 unicodes[TEXT_RENDER_BUFFER_SIZE];
+		length = strnUTF8ToUnicodeArray(text, unicodes, TEXT_RENDER_BUFFER_SIZE);
+		if (length > TEXT_RENDER_BUFFER_SIZE) {
+			length = TEXT_RENDER_BUFFER_SIZE;
+		}
+		S32 i = 0;
+		// count the number of actually renderable characters
+		S32 renderChars = 0;
+		while (*text && i <= TEXT_RENDER_BUFFER_SIZE) {
+			if (*text >= 32 && *text < 256) {
+				stbtt_aligned_quad q;
+				stbtt_GetBakedQuad(cdata, bmpWidth, bmpHeight, *text-32, &x,&y,&q,1, scale);//1=opengl,0=old d3d
+                addToBuffer(Vector3f(q.x0, q.y0, 0), Vector3f(q.x1, q.y0, 0), Vector3f(q.x1, q.y1, 0), Vector3f(q.x0, q.y1, 0), Vector2f(q.s0, q.t0), Vector2f(q.s1, q.t0), Vector2f(q.s1, q.t1), Vector2f(q.s0, q.t1));
+                ++renderChars;
+			}
+            ++i;
+			++text;
+		}
+        length = i;
+        if (length == 0) {
+            return;
+        }
+    }
+    
+    void TextRasterRenderer::renderMultilineTTF(const char *text, F32 x, F32 y, F32 maxX, F32 maxY, F32 scale) {
+		S32 length = strlen(text);
+		if (length > TEXT_RENDER_BUFFER_SIZE) {
+			length = TEXT_RENDER_BUFFER_SIZE;
+		}
+		// longest string is TEXT_RENDER_MAX_MULTILINE_LENGTH
+		S32 i = 0;
+		// count the number of actually renderable characters
+		S32 renderChars = 0;
+		S32 lastSpaceIdx = -1;
+		S32 lastSpaceRenderIdx = -1;
+		F32 origX = x;
+		//F32 origY = y;
+		F32 lineHeight = getHeight() * vertSpaceMult;
+		char c = *text;
+		while (c && i <= TEXT_RENDER_BUFFER_SIZE) {
+			if (c == '\n') {
+				lastSpaceIdx = -1;
+				lastSpaceRenderIdx = -1;
+				y += lineHeight;
+				x = origX;
+				if (maxY && y > maxY) {
+					break;
+				}
+			}
+			if (c >= 32 && c < 256) {
+				if (c == 32) {
+					lastSpaceIdx = i;
+					lastSpaceRenderIdx = renderChars;
+				}
+				stbtt_aligned_quad q;
+				stbtt_GetBakedQuad(cdata, bmpWidth, bmpHeight, c-32, &x,&y,&q,1, scale);//1=opengl,0=old d3d
+				if (maxX && x > maxX) {
+					x = origX;
+					y += lineHeight;
+					// rewind to char index after last space (but last space render char)
+					if (lastSpaceIdx != -1) {
+						i = lastSpaceIdx + 1;
+						renderChars = lastSpaceRenderIdx;
+						lastSpaceIdx = -1;
+						lastSpaceRenderIdx = -1;
+						c = *(text + i);
+					}
+					if (maxY && y > maxY) {
+						break;
+					} else {
+						if (c >= 32 && c < 256) {
+							stbtt_GetBakedQuad(cdata, bmpWidth, bmpHeight, c-32, &x,&y,&q,1, scale);//1=opengl,0=old d3d
+						}
+					}
+				}
+                addToBuffer(Vector3f(q.x0, q.y0, 0), Vector3f(q.x1, q.y0, 0), Vector3f(q.x1, q.y1, 0), Vector3f(q.x0, q.y1, 0), Vector2f(q.s0, q.t0), Vector2f(q.s1, q.t0), Vector2f(q.s1, q.t1), Vector2f(q.s0, q.t1));
+				++renderChars;
+			}
+			++i;
+			c = *(text + i);
+		}
+    }
+    
+    F32 TextRasterRenderer::getTTFHeight(F32 scale) {
 		F32 x = 0;
 		F32 y = 0;
 		stbtt_aligned_quad q;
 		stbtt_GetBakedQuad(cdata, bmpWidth, bmpHeight, 'A'-32, &x,&y,&q,1, scale);//1=opengl,0=old d3d
 		// subtract outer stroke amount or it doesn't measure out right
 		return (q.y1 - q.y0) * scale;
-	}
-
-	F32 TextRasterRenderer::measureWidth(const char *text, F32 scale) {
+    }
+    
+    F32 TextRasterRenderer::measureTTFWidth(const char *text, F32 scale) {
 		F32 x = 0;
 		F32 y = 0;
 		// high/low diff is the way to go since text often overlaps with non-fixed-width fonts
@@ -226,116 +299,9 @@ namespace BatteryTech {
 			++text;
 		}
 		return (highestX - lowestX) * scale;
-	}
-
-	void TextRasterRenderer::startText() {
-		Texture::textureSwitches++;
-		glBindTexture(GL_TEXTURE_2D, ftex);
-		Texture::lastTextureId = ftex;
-		if (context->gConfig->useShaders) {
-			ShaderProgram *shaderProgram = context->glResourceManager->getShaderProgram(SHADER_PROGRAM_TAG);
-			if (shaderProgram) {
-				shaderProgram->bind();
-			}
-		}
-		context->renderContext->colorFilter = color;
-        if (!USE_VBOS_WHEN_AVAILBLE && (context->gConfig->useShaders || context->gConfig->supportsVBOs)) {
-            glBindBuffer(GL_ARRAY_BUFFER, 0);
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-        }
-	}
-
-	void TextRasterRenderer::finishText() {
-		//glDisable(GL_BLEND);
-		if (context->gConfig->useShaders) {
-			ShaderProgram *shaderProgram = context->glResourceManager->getShaderProgram(SHADER_PROGRAM_TAG);
-			if (shaderProgram) {
-				shaderProgram->unbind();
-			}
-		}
-	}
-
-	void TextRasterRenderer::render(const char *text, F32 x, F32 y, F32 scale) {
-		S32 length = strlen(text);
-		// longest string is TEXT_RENDER_MAX_LINE_LENGTH
-		S32 unicodes[TEXT_RENDER_MAX_LINE_LENGTH];
-		length = strnUTF8ToUnicodeArray(text, unicodes, TEXT_RENDER_MAX_LINE_LENGTH);
-		if (length > TEXT_RENDER_MAX_LINE_LENGTH) {
-			length = TEXT_RENDER_MAX_LINE_LENGTH;
-		}
-		S32 i = 0;
-		// count the number of actually renderable characters
-		S32 renderChars = 0;
-		while (*text && i <= TEXT_RENDER_MAX_LINE_LENGTH) {
-			if (*text >= 32 && *text < 256) {
-				stbtt_aligned_quad q;
-				stbtt_GetBakedQuad(cdata, bmpWidth, bmpHeight, *text-32, &x,&y,&q,1, scale);//1=opengl,0=old d3d
-                vertBuffer[renderChars*4].position = Vector3f(q.x0, q.y0, 0);
-                vertBuffer[renderChars*4+1].position = Vector3f(q.x1, q.y0, 0);
-                vertBuffer[renderChars*4+2].position = Vector3f(q.x1, q.y1, 0);
-                vertBuffer[renderChars*4+3].position = Vector3f(q.x0, q.y1, 0);
-                vertBuffer[renderChars*4].uv = Vector2f(q.s0, q.t0);
-                vertBuffer[renderChars*4+1].uv = Vector2f(q.s1, q.t0);
-                vertBuffer[renderChars*4+2].uv = Vector2f(q.s1, q.t1);
-                vertBuffer[renderChars*4+3].uv = Vector2f(q.s0, q.t1);
-                ++renderChars;
-			}
-            ++i;
-			++text;
-		}
-        length = i;
-        if (length == 0) {
-            return;
-        }
-        renderBuffer(renderChars);
-	}
-
-    void TextRasterRenderer::renderBuffer(S32 count) {
-        BOOL32 useVBO = FALSE;
-        if (USE_VBOS_WHEN_AVAILBLE && (context->gConfig->useShaders || context->gConfig->supportsVBOs)) {
-            glBindBuffer(GL_ARRAY_BUFFER, vertVBOId);
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, idxVBOId);
-            glBufferSubData(GL_ARRAY_BUFFER, 0, count*sizeof(GLQuadVertex)*4, vertBuffer);
-            useVBO = TRUE;
-        }
-		if (context->gConfig->useShaders) {
-			ShaderProgram *shaderProgram = context->glResourceManager->getShaderProgram(SHADER_PROGRAM_TAG);
-			if (shaderProgram) {
-                if (useVBO) {
-                    glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("vPosition"), 3, GL_FLOAT, GL_FALSE, sizeof(GLQuadVertex), BUFFER_OFFSET(0));
-                    glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("uvMap"), 2, GL_FLOAT, GL_FALSE, sizeof(GLQuadVertex), BUFFER_OFFSET(sizeof(Vector3f)));
-                    glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("vColor"), 4, GL_FLOAT, GL_FALSE, sizeof(GLQuadVertex), BUFFER_OFFSET(sizeof(Vector3f)+sizeof(Vector2f)));
-                 } else {
-                     glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("vPosition"), 3, GL_FLOAT, GL_FALSE, sizeof(GLQuadVertex), &vertBuffer[0].position);
-                     glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("uvMap"), 2, GL_FLOAT, GL_FALSE, sizeof(GLQuadVertex), &vertBuffer[0].uv);
-                     glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("vColor"), 4, GL_FLOAT, GL_FALSE, sizeof(GLQuadVertex), &vertBuffer[0].color);
-                 }                   
-                glUniformMatrix4fv(shaderProgram->getUniformLoc("projection_matrix"), 1, GL_FALSE, (GLfloat*) context->renderContext->projMatrix.data);
-                glUniformMatrix4fv(shaderProgram->getUniformLoc("modelview_matrix"), 1, GL_FALSE, (GLfloat*) context->renderContext->mvMatrix.data);
-                glUniform1i(shaderProgram->getUniformLoc("tex"), 0);
-                Vector4f colorFilter = context->renderContext->colorFilter;
-                glUniform4f(shaderProgram->getUniformLoc("colorFilter"), colorFilter.x,colorFilter.y,colorFilter.z,colorFilter.a);
-			}
-		} else {
-			Vector4f colorFilter = context->renderContext->colorFilter;
-			glColor4f(colorFilter.x,colorFilter.y,colorFilter.z,colorFilter.a);
-            if (context->gConfig->supportsVBOs) {
-                glVertexPointer(3, GL_FLOAT, sizeof(GLQuadVertex), BUFFER_OFFSET(0));
-                glTexCoordPointer(2, GL_FLOAT, sizeof(GLQuadVertex), BUFFER_OFFSET(sizeof(Vector3f)));
-            } else {
-                glVertexPointer(3, GL_FLOAT, sizeof(GLQuadVertex), &vertBuffer[0].position);
-                glTexCoordPointer(2, GL_FLOAT, sizeof(GLQuadVertex), &vertBuffer[0].uv);
-            }
-		}
-        if (useVBO) {
-            glDrawElements(GL_TRIANGLES, count*6, GL_UNSIGNED_SHORT, 0);
-        } else {
-            glDrawElements(GL_TRIANGLES, count*6, GL_UNSIGNED_SHORT, idxBuffer);
-        }
-        
     }
     
-	F32 TextRasterRenderer::measureMultilineHeight(const char *text, F32 availableWidth, F32 scale) {
+    F32 TextRasterRenderer::measureTTFMultilineHeight(const char *text, F32 availableWidth, F32 scale) {
 		S32 i = 0;
 		S32 lastSpaceIdx = -1;
 		F32 lineHeight = getHeight(scale) * vertSpaceMult;
@@ -373,75 +339,195 @@ namespace BatteryTech {
 			c = *(text + i);
 		}
 		return y;
+    }
+    
+    // BMFont
+    void TextRasterRenderer::loadBMFont() {
+        
+    }
+    
+    void TextRasterRenderer::renderBMFont(const char *text, F32 x, F32 y, F32 scale) {
+        
+    }
+    
+    void TextRasterRenderer::renderMultilineBMFont(const char *text, F32 x, F32 y, F32 maxX, F32 maxY, F32 scale) {
+        
+    }
+    
+    F32 TextRasterRenderer::getBMFontHeight(F32 scale) {
+        return 0;
+    }
+    
+    F32 TextRasterRenderer::measureBMFontWidth(const char *text, F32 scale) {
+        return 0;
+    }
+    
+    F32 TextRasterRenderer::measureBMFontMultilineHeight(const char *text, F32 availableWidth, F32 scale) {
+        return 0;
+    }
+
+	void TextRasterRenderer::init(BOOL32 newContext) {
+        if (!newContext) {
+            return;
+        }
+        if (strEndsWith(assetName, "fnt") || strEndsWith(assetName, "FNT")) {
+            isTTF = FALSE;
+        } else {
+            isTTF = TRUE;
+        }
+        if (isTTF) {
+            loadTTF();
+        } else {
+            loadBMFont();
+        }
+        if (USE_VBOS_WHEN_AVAILBLE && (context->gConfig->useShaders || context->gConfig->supportsVBOs)) {
+            // init VBO support
+            GLuint bufferIDs[2];
+            glGenBuffers(2, bufferIDs);
+            vertVBOId = bufferIDs[0];
+            idxVBOId = bufferIDs[1];
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, idxVBOId);
+            glBufferData(GL_ELEMENT_ARRAY_BUFFER, TEXT_RENDER_BUFFER_SIZE * 6 * sizeof(U16), idxBuffer, GL_STATIC_DRAW);
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+            glBindBuffer(GL_ARRAY_BUFFER, vertVBOId);
+            glBufferData(GL_ARRAY_BUFFER, TEXT_RENDER_BUFFER_SIZE * 4 * sizeof(GLQuadVertex), vertBuffer, GL_DYNAMIC_DRAW);
+            glBindBuffer(GL_ARRAY_BUFFER, 0);
+            
+        }
 	}
 
+	F32 TextRasterRenderer::getHeight(F32 scale) {
+        if (isTTF) {
+            return getTTFHeight(scale);
+        } else {
+            return getBMFontHeight(scale);
+        }
+	}
+
+	F32 TextRasterRenderer::measureWidth(const char *text, F32 scale) {
+        if (isTTF) {
+            return measureTTFWidth(text, scale);
+        } else {
+            return measureBMFontWidth(text, scale);
+        }
+	}
+
+	F32 TextRasterRenderer::measureMultilineHeight(const char *text, F32 availableWidth, F32 scale) {
+        if (isTTF) {
+            return measureTTFMultilineHeight(text, availableWidth, scale);
+        } else {
+            return measureBMFontMultilineHeight(text, availableWidth, scale);
+        }
+	}
+    
+	void TextRasterRenderer::render(const char *text, F32 x, F32 y, F32 scale) {
+        if (isTTF) {
+            renderTTF(text, x, y, scale);
+        } else {
+            renderBMFont(text, x, y, scale);
+        }
+	}
+    
 	void TextRasterRenderer::renderMultiline(const char *text, F32 x, F32 y, F32 maxX, F32 maxY, F32 scale) {
-		S32 length = strlen(text);
-		if (length > TEXT_RENDER_MAX_MULTILINE_LENGTH) {
-			length = TEXT_RENDER_MAX_MULTILINE_LENGTH;
-		}
-		// longest string is TEXT_RENDER_MAX_MULTILINE_LENGTH
-		S32 i = 0;
-		// count the number of actually renderable characters
-		S32 renderChars = 0;
-		S32 lastSpaceIdx = -1;
-		S32 lastSpaceRenderIdx = -1;
-		F32 origX = x;
-		//F32 origY = y;
-		F32 lineHeight = getHeight() * vertSpaceMult;
-		char c = *text;
-		while (c && i <= TEXT_RENDER_MAX_MULTILINE_LENGTH) {
-			if (c == '\n') {
-				lastSpaceIdx = -1;
-				lastSpaceRenderIdx = -1;
-				y += lineHeight;
-				x = origX;
-				if (y > maxY) {
-					break;
-				}
+        if (isTTF) {
+            renderMultilineTTF(text, x, y, maxX, maxY, scale);
+        } else {
+            renderMultilineBMFont(text, x, y, maxX, maxY, scale);
+        }
+	}
+    
+	void TextRasterRenderer::startText() {
+		Texture::textureSwitches++;
+		glBindTexture(GL_TEXTURE_2D, ftex);
+		Texture::lastTextureId = ftex;
+		if (context->gConfig->useShaders) {
+			ShaderProgram *shaderProgram = context->glResourceManager->getShaderProgram(SHADER_PROGRAM_TAG);
+			if (shaderProgram) {
+				shaderProgram->bind();
 			}
-			if (c >= 32 && c < 256) {
-				if (c == 32) {
-					lastSpaceIdx = i;
-					lastSpaceRenderIdx = renderChars;
-				}
-				stbtt_aligned_quad q;
-				stbtt_GetBakedQuad(cdata, bmpWidth, bmpHeight, c-32, &x,&y,&q,1, scale);//1=opengl,0=old d3d
-				if (x > maxX) {
-					x = origX;
-					y += lineHeight;
-					// rewind to char index after last space (but last space render char)
-					if (lastSpaceIdx != -1) {
-						i = lastSpaceIdx + 1;
-						renderChars = lastSpaceRenderIdx;
-						lastSpaceIdx = -1;
-						lastSpaceRenderIdx = -1;
-						c = *(text + i);
-					}
-					if (y > maxY) {
-						break;
-					} else {
-						if (c >= 32 && c < 256) {
-							stbtt_GetBakedQuad(cdata, bmpWidth, bmpHeight, c-32, &x,&y,&q,1, scale);//1=opengl,0=old d3d
-						}
-					}
-				}
-                vertBuffer[renderChars*4].position = Vector3f(q.x0, q.y0, 0);
-                vertBuffer[renderChars*4+1].position = Vector3f(q.x1, q.y0, 0);
-                vertBuffer[renderChars*4+2].position = Vector3f(q.x1, q.y1, 0);
-                vertBuffer[renderChars*4+3].position = Vector3f(q.x0, q.y1, 0);
-                vertBuffer[renderChars*4].uv = Vector2f(q.s0, q.t0);
-                vertBuffer[renderChars*4+1].uv = Vector2f(q.s1, q.t0);
-                vertBuffer[renderChars*4+2].uv = Vector2f(q.s1, q.t1);
-                vertBuffer[renderChars*4+3].uv = Vector2f(q.s0, q.t1);
-				++renderChars;
-			}
-			++i;
-			c = *(text + i);
 		}
-		renderBuffer(renderChars);
+		context->renderContext->colorFilter = color;
+        if (!USE_VBOS_WHEN_AVAILBLE && (context->gConfig->useShaders || context->gConfig->supportsVBOs)) {
+            glBindBuffer(GL_ARRAY_BUFFER, 0);
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+        }
 	}
 
+	void TextRasterRenderer::finishText() {
+		//glDisable(GL_BLEND);
+        renderBuffer();
+		if (context->gConfig->useShaders) {
+			ShaderProgram *shaderProgram = context->glResourceManager->getShaderProgram(SHADER_PROGRAM_TAG);
+			if (shaderProgram) {
+				shaderProgram->unbind();
+			}
+		}
+	}
+
+    void TextRasterRenderer::addToBuffer(Vector3f p0, Vector3f p1, Vector3f p2, Vector3f p3, Vector2f uv0, Vector2f uv1, Vector2f uv2, Vector2f uv3) {
+        if (bufferUsed >= TEXT_RENDER_BUFFER_SIZE) {
+            // flush the buffer by drawing and keep going
+            renderBuffer();
+        }
+        vertBuffer[bufferUsed*4].position = p0;
+        vertBuffer[bufferUsed*4+1].position = p1;
+        vertBuffer[bufferUsed*4+2].position = p2;
+        vertBuffer[bufferUsed*4+3].position = p3;
+        vertBuffer[bufferUsed*4].uv = uv0;
+        vertBuffer[bufferUsed*4+1].uv = uv1;
+        vertBuffer[bufferUsed*4+2].uv = uv2;
+        vertBuffer[bufferUsed*4+3].uv = uv3;
+        bufferUsed++;
+    }
+
+    void TextRasterRenderer::renderBuffer() {
+        if (bufferUsed == 0) {
+            return;
+        }
+        BOOL32 useVBO = FALSE;
+        if (USE_VBOS_WHEN_AVAILBLE && (context->gConfig->useShaders || context->gConfig->supportsVBOs)) {
+            glBindBuffer(GL_ARRAY_BUFFER, vertVBOId);
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, idxVBOId);
+            glBufferSubData(GL_ARRAY_BUFFER, 0, bufferUsed*sizeof(GLQuadVertex)*4, vertBuffer);
+            useVBO = TRUE;
+        }
+		if (context->gConfig->useShaders) {
+			ShaderProgram *shaderProgram = context->glResourceManager->getShaderProgram(SHADER_PROGRAM_TAG);
+			if (shaderProgram) {
+                if (useVBO) {
+                    glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("vPosition"), 3, GL_FLOAT, GL_FALSE, sizeof(GLQuadVertex), BUFFER_OFFSET(0));
+                    glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("uvMap"), 2, GL_FLOAT, GL_FALSE, sizeof(GLQuadVertex), BUFFER_OFFSET(sizeof(Vector3f)));
+                    glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("vColor"), 4, GL_FLOAT, GL_FALSE, sizeof(GLQuadVertex), BUFFER_OFFSET(sizeof(Vector3f)+sizeof(Vector2f)));
+                 } else {
+                     glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("vPosition"), 3, GL_FLOAT, GL_FALSE, sizeof(GLQuadVertex), &vertBuffer[0].position);
+                     glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("uvMap"), 2, GL_FLOAT, GL_FALSE, sizeof(GLQuadVertex), &vertBuffer[0].uv);
+                     glVertexAttribPointer(shaderProgram->getVertexAttributeLoc("vColor"), 4, GL_FLOAT, GL_FALSE, sizeof(GLQuadVertex), &vertBuffer[0].color);
+                 }                   
+                glUniformMatrix4fv(shaderProgram->getUniformLoc("projection_matrix"), 1, GL_FALSE, (GLfloat*) context->renderContext->projMatrix.data);
+                glUniformMatrix4fv(shaderProgram->getUniformLoc("modelview_matrix"), 1, GL_FALSE, (GLfloat*) context->renderContext->mvMatrix.data);
+                glUniform1i(shaderProgram->getUniformLoc("tex"), 0);
+                Vector4f colorFilter = context->renderContext->colorFilter;
+                glUniform4f(shaderProgram->getUniformLoc("colorFilter"), colorFilter.x,colorFilter.y,colorFilter.z,colorFilter.a);
+			}
+		} else {
+			Vector4f colorFilter = context->renderContext->colorFilter;
+			glColor4f(colorFilter.x,colorFilter.y,colorFilter.z,colorFilter.a);
+            if (context->gConfig->supportsVBOs) {
+                glVertexPointer(3, GL_FLOAT, sizeof(GLQuadVertex), BUFFER_OFFSET(0));
+                glTexCoordPointer(2, GL_FLOAT, sizeof(GLQuadVertex), BUFFER_OFFSET(sizeof(Vector3f)));
+            } else {
+                glVertexPointer(3, GL_FLOAT, sizeof(GLQuadVertex), &vertBuffer[0].position);
+                glTexCoordPointer(2, GL_FLOAT, sizeof(GLQuadVertex), &vertBuffer[0].uv);
+            }
+		}
+        if (useVBO) {
+            glDrawElements(GL_TRIANGLES, bufferUsed*6, GL_UNSIGNED_SHORT, 0);
+        } else {
+            glDrawElements(GL_TRIANGLES, bufferUsed*6, GL_UNSIGNED_SHORT, idxBuffer);
+        }
+        bufferUsed = 0;
+    }
+    
 	void TextRasterRenderer::applyOuterStroke(unsigned char* bitmap8, unsigned char* bitmap, S32 width, S32 height) {
 		S32 strokeAmt = this->outerStroke;
 		for (S32 y = 0; y < height; y++) {
