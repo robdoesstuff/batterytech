@@ -30,6 +30,8 @@
 #include <batterytech/util/strx.h>
 #include "Texture.h"
 #include "GLResourceManager.h"
+#include "../util/TextFileUtil.h"
+#include "../util/strx.h"
 
 // uncomment this if there are strange text artifacts - it will put debuggable values into the text arrays which
 // will show any algorithm errors in layout if any array positions are skipped accidentally.
@@ -341,9 +343,89 @@ namespace BatteryTech {
 		return y;
     }
     
+    struct BMFontInfo {
+        char *face;
+        S32 size;
+        BOOL32 bold;
+        BOOL32 italic;
+        BOOL32 unicode;
+        S32 stretchH;
+        BOOL32 smooth;
+        BOOL32 aa;
+        Vector4f padding;
+        Vector2f spacing;
+        F32 outline;
+        F32 lineHeight;
+        F32 base;
+        S32 scaleW, scaleH;
+        S32 pages;
+        BOOL32 packed;
+        BYTE8 alphaChnl, redChnl, greenChnl, blueChnl;
+        BMFontInfo() {
+            face = NULL;
+            size = 0;
+            bold = italic = unicode = smooth = aa = FALSE;
+            stretchH = 0;
+            padding = Vector4f(0,0,0,0);
+            spacing = Vector2f(0,0);
+            outline = 0;
+            lineHeight = 0;
+            base = 0;
+            scaleW = scaleH = 0;
+            pages = 0;
+            packed = FALSE;
+            alphaChnl = redChnl = greenChnl = blueChnl = 0;
+        }
+        virtual ~BMFontInfo() {
+            delete [] face;
+            face = NULL;
+        }
+    };
+    
+    struct BMFontChar {
+        S32 id;
+        S32 x,y;
+        S32 width, height;
+        S32 xoffset, yoffset;
+        S32 xadvance;
+        S32 page;
+        S32 chnl;
+        BMFontChar() {
+            id = 0;
+            x = y = 0;
+            width = height = 0;
+            xoffset = yoffset = 0;
+            xadvance = 0;
+            page = 0;
+            chnl = 0;
+        }
+    };
+    
     // BMFont
     void TextRasterRenderer::loadBMFont() {
-        
+        char *data = _platform_load_text_asset(assetName);
+		if (data) {
+            // parse .fnt file
+            _platform_free_asset((unsigned char*)data);
+            S32 pos = 0;
+            char lineBuf[2048];
+            BOOL32 eof = TextFileUtil::readLine(lineBuf, data, &pos);
+            while (!eof) {
+                // parse line
+                if (strStartsWith(lineBuf, "info")) {
+                    // info line
+                } else if (strStartsWith(lineBuf, "common")) {
+                    // common line
+                } else if (strStartsWith(lineBuf, "page")) {
+                    // page line
+                } else if (strStartsWith(lineBuf, "chars")) {
+                    // chars line (for page)
+                } else if (strStartsWith(lineBuf, "char")) {
+                    // char line
+                }
+                eof = TextFileUtil::readLine(lineBuf, data, &pos);
+            }
+        }
     }
     
     void TextRasterRenderer::renderBMFont(const char *text, F32 x, F32 y, F32 scale) {
