@@ -1204,6 +1204,13 @@ static int lua_Game_setRenderItemParam(lua_State *L) {
 		} else {
 			item->flags = item->flags & RENDERITEM_FLAG_TWO_SIDED;
 		}
+    } else if (strcmp(paramName, "multiline") == 0) {
+        if (lua_toboolean(L, 4)) {
+			item->flags = item->flags | RENDERITEM_FLAG_MULTILINE_TEXT;
+		} else {
+			item->flags = item->flags & RENDERITEM_FLAG_MULTILINE_TEXT;
+		}
+        
     }
 	return 0;
 }

@@ -496,15 +496,23 @@ void WorldRenderer::render2D() {
 				}
 			}
 			if (curTextRenderer) {
+                BOOL32 isMultiline = item->flags & RENDERITEM_FLAG_MULTILINE_TEXT;
+                F32 posX = item->pos.x;
+                F32 posY = item->pos.y;
 				if (item->alignment == RenderItem::ALIGN_LEFT) {
-					curTextRenderer->render(item->attr1, item->pos.x, item->pos.y);
+                    // noop
 				} else if (item->alignment == RenderItem::ALIGN_CENTER) {
 					S32 width = curTextRenderer->measureWidth(item->attr1, 1.0f);
-					curTextRenderer->render(item->attr1, item->pos.x - width/2, item->pos.y);
+                    posX = item->pos.x - width/2;
 				}  else if (item->alignment == RenderItem::ALIGN_RIGHT) {
 					S32 width = curTextRenderer->measureWidth(item->attr1, 1.0f);
-					curTextRenderer->render(item->attr1, item->pos.x - width, item->pos.y);
+                    posX = item->pos.x - width;
 				}
+                if (isMultiline) {
+                    curTextRenderer->renderMultiline(item->attr1, posX, posY, 0, 0, 1.0f);
+                } else {
+                    curTextRenderer->render(item->attr1, posX, posY, 1.0f);
+                }
 			}
 		}
 	}
