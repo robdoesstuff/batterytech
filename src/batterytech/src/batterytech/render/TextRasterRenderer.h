@@ -81,22 +81,6 @@ namespace BatteryTech {
 
 		virtual ~TextRasterRenderer();
 	private:
-        // TTF
-        void loadTTF();
-        void renderTTF(const char *text, F32 x, F32 y, F32 scale = 1.0f);
-		void renderMultilineTTF(const char *text, F32 x, F32 y, F32 maxX, F32 maxY, F32 scale = 1.0f);
-        F32 getTTFHeight(F32 scale = 1.0f);
-        F32 measureTTFWidth(const char *text, F32 scale = 1.0f);
-		F32 measureTTFMultilineHeight(const char *text, F32 availableWidth, F32 scale = 1.0f);
-		stbtt_bakedchar cdata[96]; // ASCII 32..126 is 95 glyphs
-		S32 bmpWidth, bmpHeight;
-        // BMFont
-        void loadBMFont();
-        void renderBMFont(const char *text, F32 x, F32 y, F32 scale = 1.0f);
-		void renderMultilineBMFont(const char *text, F32 x, F32 y, F32 maxX, F32 maxY, F32 scale = 1.0f);
-        F32 getBMFontHeight(F32 scale = 1.0f);
-        F32 measureBMFontWidth(const char *text, F32 scale = 1.0f);
-		F32 measureBMFontMultilineHeight(const char *text, F32 availableWidth, F32 scale = 1.0f);
         // All
 		void applyInnerStroke(unsigned char* bitmap8, unsigned char* bitmap, S32 width, S32 height);
 		void applyOuterStroke(unsigned char* bitmap8, unsigned char* bitmap, S32 width, S32 height);
@@ -116,6 +100,102 @@ namespace BatteryTech {
         U16 *idxBuffer;
         BOOL32 isTTF;
         S32 bufferUsed;
+        
+        // TTF
+        void loadTTF();
+        void renderTTF(const char *text, F32 x, F32 y, F32 scale = 1.0f);
+		void renderMultilineTTF(const char *text, F32 x, F32 y, F32 maxX, F32 maxY, F32 scale = 1.0f);
+        F32 getTTFHeight(F32 scale = 1.0f);
+        F32 measureTTFWidth(const char *text, F32 scale = 1.0f);
+		F32 measureTTFMultilineHeight(const char *text, F32 availableWidth, F32 scale = 1.0f);
+		stbtt_bakedchar cdata[96]; // ASCII 32..126 is 95 glyphs
+		S32 bmpWidth, bmpHeight;
+        
+        // BMFont
+        void loadBMFont();
+        void renderBMFont(const char *text, F32 x, F32 y, F32 scale = 1.0f);
+		void renderMultilineBMFont(const char *text, F32 x, F32 y, F32 maxX, F32 maxY, F32 scale = 1.0f);
+        F32 getBMFontHeight(F32 scale = 1.0f);
+        F32 measureBMFontWidth(const char *text, F32 scale = 1.0f);
+		F32 measureBMFontMultilineHeight(const char *text, F32 availableWidth, F32 scale = 1.0f);
+        
+        struct BMFontInfo {
+            char *face;
+            F32 size;
+            BOOL32 bold;
+            BOOL32 italic;
+            char *charset;
+            BOOL32 unicode;
+            S32 stretchH;
+            BOOL32 smooth;
+            BOOL32 aa;
+            Vector4f padding;
+            Vector2f spacing;
+            F32 outline;
+            F32 lineHeight;
+            F32 base;
+            S32 scaleW, scaleH;
+            S32 pages;
+            BOOL32 packed;
+            BYTE8 alphaChnl, redChnl, greenChnl, blueChnl;
+            BMFontInfo() {
+                face = NULL;
+                charset = NULL;
+                size = 0;
+                bold = italic = unicode = smooth = aa = FALSE;
+                stretchH = 0;
+                padding = Vector4f(0,0,0,0);
+                spacing = Vector2f(0,0);
+                outline = 0;
+                lineHeight = 0;
+                base = 0;
+                scaleW = scaleH = 0;
+                pages = 0;
+                packed = FALSE;
+                alphaChnl = redChnl = greenChnl = blueChnl = 0;
+            }
+            virtual ~BMFontInfo() {
+                delete [] face;
+                face = NULL;
+                delete [] charset;
+                charset = NULL;
+            }
+        };
+        
+        struct BMFontPage {
+            S32 id;
+            char *assetName;
+            BMFontPage() {
+                id = 0;
+                assetName = NULL;
+            }
+            virtual ~BMFontPage() {
+                delete [] assetName;
+                assetName = NULL;
+            }
+        };
+        
+        struct BMFontChar {
+            S32 id;
+            S32 x,y;
+            S32 width, height;
+            S32 xoffset, yoffset;
+            S32 xadvance;
+            S32 page;
+            S32 chnl;
+            BMFontChar() {
+                id = 0;
+                x = y = 0;
+                width = height = 0;
+                xoffset = yoffset = 0;
+                xadvance = 0;
+                page = 0;
+                chnl = 0;
+            }
+        };
+        
+        BMFontInfo *bmInfo;
+
 	};
 
 }

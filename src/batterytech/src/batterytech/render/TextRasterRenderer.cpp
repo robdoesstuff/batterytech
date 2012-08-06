@@ -57,6 +57,7 @@ namespace BatteryTech {
         idxVBOId = 0;
         isTTF = FALSE;
         bufferUsed = 0;
+        bmInfo = NULL;
         vertBuffer = new GLQuadVertex[TEXT_RENDER_BUFFER_SIZE * 4];
         idxBuffer = new U16[TEXT_RENDER_BUFFER_SIZE*6];
         // generate the face indices
@@ -343,88 +344,158 @@ namespace BatteryTech {
 		return y;
     }
     
-    struct BMFontInfo {
-        char *face;
-        S32 size;
-        BOOL32 bold;
-        BOOL32 italic;
-        BOOL32 unicode;
-        S32 stretchH;
-        BOOL32 smooth;
-        BOOL32 aa;
-        Vector4f padding;
-        Vector2f spacing;
-        F32 outline;
-        F32 lineHeight;
-        F32 base;
-        S32 scaleW, scaleH;
-        S32 pages;
-        BOOL32 packed;
-        BYTE8 alphaChnl, redChnl, greenChnl, blueChnl;
-        BMFontInfo() {
-            face = NULL;
-            size = 0;
-            bold = italic = unicode = smooth = aa = FALSE;
-            stretchH = 0;
-            padding = Vector4f(0,0,0,0);
-            spacing = Vector2f(0,0);
-            outline = 0;
-            lineHeight = 0;
-            base = 0;
-            scaleW = scaleH = 0;
-            pages = 0;
-            packed = FALSE;
-            alphaChnl = redChnl = greenChnl = blueChnl = 0;
+    static BOOL32 BMGetProperty(char *data, const char *name, char *val) {
+        char buf[255];
+        strcpy(buf, name);
+        strcat(buf, "=");
+        char *start = strstr(data, buf);
+        if (start) {
+            char *valStart = start+strlen(buf);
+            char *valEnd = strchr(valStart, ' ');
+            if (!valEnd) {
+                valEnd = strchr(valStart, '\n');
+            }
+            if (!valEnd) {
+                valEnd = strchr(valStart, '\r');
+            }
+            if (!valEnd) {
+                valEnd = strchr(valStart, '\0');
+            }
+            if (!valEnd) {
+                valEnd = valStart;
+            }
+            S32 len = valEnd-valStart;
+            strncpy(val, valStart, len);
+            val[len] = '\0';
+            return TRUE;
         }
-        virtual ~BMFontInfo() {
-            delete [] face;
-            face = NULL;
-        }
-    };
+        return FALSE;
+    }
     
-    struct BMFontChar {
-        S32 id;
-        S32 x,y;
-        S32 width, height;
-        S32 xoffset, yoffset;
-        S32 xadvance;
-        S32 page;
-        S32 chnl;
-        BMFontChar() {
-            id = 0;
-            x = y = 0;
-            width = height = 0;
-            xoffset = yoffset = 0;
-            xadvance = 0;
-            page = 0;
-            chnl = 0;
+    static BOOL32 BMGetStringProperty(char *data, const char *name, char **val) {
+        char prop[255];
+        BOOL32 exists = BMGetProperty(data, name, prop);
+        if (exists) {
+            char buf[255];
+            S32 propLen = strlen(prop);
+            strncpy(buf, prop+1, propLen-2);
+            buf[propLen-2] = '\0';
+            *val = strDuplicate(buf);
+            return TRUE;
         }
-    };
+        return FALSE;
+    }
     
+    static BOOL32 BMGetIntProperty(char *data, const char *name, S32 *val) {
+        char prop[255];
+        BOOL32 exists = BMGetProperty(data, name, prop);
+        if (exists) {
+            *val = atoi(prop);
+            return TRUE;
+        }
+        return FALSE;
+    }
+
+    static BOOL32 BMGetBoolProperty(char *data, const char *name, BOOL32 *val) {
+        return BMGetIntProperty(data, name, (S32*)val);
+    }
+
+    static BOOL32 BMGetFloatProperty(char *data, const char *name, F32 *val) {
+        char prop[255];
+        BOOL32 exists = BMGetProperty(data, name, prop);
+        if (exists) {
+            *val = atof(prop);
+            return TRUE;
+        }
+        return FALSE;
+    }
+    
+    static BOOL32 BMGetVector4fProperty(char *data, const char *name, Vector4f *val) {
+        char prop[255];
+        BOOL32 exists = BMGetProperty(data, name, prop);
+        if (exists) {
+            char *element = strtok(prop, ",");
+            S32 i = 0;
+            while (element && i < 4) {
+                (*val)[i++] = atof(element);
+                element = strtok(NULL, ",");
+            }
+            return TRUE;
+        }
+        return FALSE;
+    }
+
+    static BOOL32 BMGetVector2fProperty(char *data, const char *name, Vector2f *val) {
+        char prop[255];
+        BOOL32 exists = BMGetProperty(data, name, prop);
+        if (exists) {
+            char *element = strtok(prop, ",");
+            S32 i = 0;
+            while (element && i < 2) {
+                (*val)[i++] = atof(element);
+                element = strtok(NULL, ",");
+            }
+            return TRUE;
+        }
+        
+        return FALSE;
+    }
+
     // BMFont
     void TextRasterRenderer::loadBMFont() {
+        if (bmInfo) {
+            delete bmInfo;
+            bmInfo = NULL;
+        }
         char *data = _platform_load_text_asset(assetName);
 		if (data) {
             // parse .fnt file
-            _platform_free_asset((unsigned char*)data);
+            bmInfo = new BMFontInfo();
+            BMFontChar *bmChar = new BMFontChar();
             S32 pos = 0;
             char lineBuf[2048];
-            BOOL32 eof = TextFileUtil::readLine(lineBuf, data, &pos);
-            while (!eof) {
+            BOOL32 more = TextFileUtil::readLine(lineBuf, data, &pos);
+            while (more) {
                 // parse line
                 if (strStartsWith(lineBuf, "info")) {
                     // info line
+                    BMGetStringProperty(lineBuf, "face", &bmInfo->face);
+                    BMGetFloatProperty(lineBuf, "size", &bmInfo->size);
+                    BMGetBoolProperty(lineBuf, "bold", &bmInfo->bold);
+                    BMGetBoolProperty(lineBuf, "italic", &bmInfo->italic);
+                    BMGetStringProperty(lineBuf, "charset", &bmInfo->charset);
+                    BMGetBoolProperty(lineBuf, "unicode", &bmInfo->unicode);
+                    BMGetIntProperty(lineBuf, "stretchH", &bmInfo->stretchH);
+                    BMGetBoolProperty(lineBuf, "smooth", &bmInfo->smooth);
+                    BMGetBoolProperty(lineBuf, "aa", &bmInfo->aa);
+                    BMGetVector4fProperty(lineBuf, "padding", &bmInfo->padding);
+                    BMGetVector2fProperty(lineBuf, "spacing", &bmInfo->spacing);
+                    BMGetFloatProperty(lineBuf, "outline", &bmInfo->outline);
                 } else if (strStartsWith(lineBuf, "common")) {
                     // common line
+                    BMGetFloatProperty(lineBuf, "lineHeight", &bmInfo->lineHeight);
+                    BMGetFloatProperty(lineBuf, "base", &bmInfo->base);
+                    BMGetIntProperty(lineBuf, "scaleW", &bmInfo->scaleW);
+                    BMGetIntProperty(lineBuf, "scaleH", &bmInfo->scaleH);
+                    BMGetIntProperty(lineBuf, "pages", &bmInfo->pages);
+                    BMGetBoolProperty(lineBuf, "packed", &bmInfo->packed);
+                    BMGetIntProperty(lineBuf, "alphaChnl", (S32*)&bmInfo->alphaChnl);
+                    BMGetIntProperty(lineBuf, "redChnl", (S32*)&bmInfo->redChnl);
+                    BMGetIntProperty(lineBuf, "greenChnl", (S32*)&bmInfo->greenChnl);
+                    BMGetIntProperty(lineBuf, "blueChnl", (S32*)&bmInfo->blueChnl);
+                    // prepare for pages
                 } else if (strStartsWith(lineBuf, "page")) {
                     // page line
+                    // optimize for single page (most common) but hash page ids in case of multiple
+                    // push page textures into managed texture pool
                 } else if (strStartsWith(lineBuf, "chars")) {
-                    // chars line (for page)
+                    // chars line
                 } else if (strStartsWith(lineBuf, "char")) {
                     // char line
                 }
-                eof = TextFileUtil::readLine(lineBuf, data, &pos);
+                more = TextFileUtil::readLine(lineBuf, data, &pos);
             }
+            _platform_free_asset((unsigned char*)data);
         }
     }
     
