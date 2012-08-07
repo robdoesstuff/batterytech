@@ -7,7 +7,8 @@ GAMESTATE_LOADING = 2
 MODE_MAINMENU = 0
 MODE_PLAY = 1
 MODE_OPTIONS = 2
-MODE_TESTS = 3
+MODE_3D_TESTS = 3
+MODE_PHYSICS_TESTS = 4
 
 MUSIC = 0
 
@@ -38,7 +39,9 @@ function Game:setMode(mode)
  		self.currentModule = self.mainMenuModule
  	elseif mode == MODE_OPTIONS then
  		self.currentModule = self.optionsModule
-    elseif mode == MODE_TESTS then
+    elseif mode == MODE_3D_TESTS then
+        self.currentModule = self.testsModule
+    elseif mode == MODE_PHYSICS_TESTS then
         self.currentModule = self.testsModule
  	end
 	self.currentModule:show()

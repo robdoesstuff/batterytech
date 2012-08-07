@@ -1137,7 +1137,22 @@ static int lua_Game_setRenderItemParam(lua_State *L) {
 	RenderItem *item = &static_context->world->renderItems[idx];
 	const char *paramName = lua_tostring(L, 3);
     // TODO - optimize by hashing the names and selecting case
-	if (strcmp(paramName, "nofog") == 0) {
+    if (strcmp(paramName, "uvs") == 0) {
+		item->uvs = lua_toVector4f(L, 4);
+	} else if (strcmp(paramName, "align") == 0) {
+		const char *paramValue = lua_tostring(L, 4);
+		if (strcmp(paramValue, "left") == 0) {
+			item->alignment = RenderItem::ALIGN_LEFT;
+		} else if (strcmp(paramValue, "center") == 0) {
+			item->alignment = RenderItem::ALIGN_CENTER;
+		} else if (strcmp(paramValue, "right") == 0) {
+			item->alignment = RenderItem::ALIGN_RIGHT;
+		}
+	} else if (strcmp(paramName, "alpha") == 0) {
+        item->colorFilter.a = lua_tonumber(L, 4);
+    } else if (strcmp(paramName, "colorFilter") == 0) {
+        item->colorFilter = lua_toVector4f(L, 4);
+    } else if (strcmp(paramName, "nofog") == 0) {
 		if (lua_toboolean(L, 4)) {
 			item->flags = item->flags | RENDERITEM_FLAG_NO_FOG;
 		} else {
@@ -1153,18 +1168,7 @@ static int lua_Game_setRenderItemParam(lua_State *L) {
 		}
 	} else if (strcmp(paramName, "viewport") == 0) {
 		item->viewport = lua_toVector4i(L, 4);
-	} else if (strcmp(paramName, "uvs") == 0) {
-		item->uvs = lua_toVector4f(L, 4);
-	} else if (strcmp(paramName, "align") == 0) {
-		const char *paramValue = lua_tostring(L, 4);
-		if (strcmp(paramValue, "left") == 0) {
-			item->alignment = RenderItem::ALIGN_LEFT;
-		} else if (strcmp(paramValue, "center") == 0) {
-			item->alignment = RenderItem::ALIGN_CENTER;
-		} else if (strcmp(paramValue, "right") == 0) {
-			item->alignment = RenderItem::ALIGN_RIGHT;
-		}
-	} else if (strcmp(paramName, "nodesCullFrustum") == 0) {
+	}else if (strcmp(paramName, "nodesCullFrustum") == 0) {
 		if (lua_toboolean(L, 4)) {
 			item->flags = item->flags | RENDERITEM_FLAG_NODES_CULL_FRUSTUM_TEST;
 		} else {
@@ -1194,11 +1198,7 @@ static int lua_Game_setRenderItemParam(lua_State *L) {
 		} else {
 			item->flags = item->flags & RENDERITEM_FLAG_DRAW_FIRST;
 		}
-	} else if (strcmp(paramName, "alpha") == 0) {
-        item->colorFilter.a = lua_tonumber(L, 4);
-    } else if (strcmp(paramName, "colorFilter") == 0) {
-        item->colorFilter = lua_toVector4f(L, 4);
-    } else if (strcmp(paramName, "twosided") == 0) {
+	} else if (strcmp(paramName, "twosided") == 0) {
 		if (lua_toboolean(L, 4)) {
 			item->flags = item->flags | RENDERITEM_FLAG_TWO_SIDED;
 		} else {

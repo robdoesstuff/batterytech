@@ -10,12 +10,17 @@ function MainMenu.new()
 		game:setMode(MODE_PLAY)
 	end
 	table.insert(self.buttons, button)
-	button = makeButtonCentered(640, 510, 380, 100, "Tests")
+	button = makeButtonCentered(640, 510, 380, 100, "3D Tests")
 	button.onClickUp = function()
-		game:setMode(MODE_TESTS)
+		game:setMode(MODE_3D_TESTS)
 	end
 	table.insert(self.buttons, button)
-	button = makeButtonCentered(640, 620, 380, 100, "Options")
+	button = makeButtonCentered(640, 620, 380, 100, "Physics Tests")
+	button.onClickUp = function()
+		game:setMode(MODE_PHYSICS_TESTS)
+	end
+	table.insert(self.buttons, button)
+	button = makeButtonCentered(180, 620, 280, 100, "Options")
 	button.onClickUp = function()
 		game:setMode(MODE_OPTIONS)
 	end
