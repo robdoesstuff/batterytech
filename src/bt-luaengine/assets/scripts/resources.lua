@@ -22,8 +22,8 @@ addAssimp("models/box.obj")
 
 -- tag, assetname, size, innerstroke, outerstroke, color
 addFont("title", "ui/digital.ttf", 100, 1, 1, 255,255,255,255)
-addFont("test", "ui/bm-alt.fnt", 32, 0, 0, 255,255,255,255)
-addFont("test2", "ui/bm46.fnt", 46, 0, 0, 255,255,255,255)
+-- addFont("test", "ui/bm-alt.fnt", 32, 0, 0, 255,255,255,255)
+-- addFont("test2", "ui/bm46.fnt", 46, 0, 0, 255,255,255,255)
 
 addSound("sounds/click.ogg")
 addSound("sounds/laser_echo.ogg")
