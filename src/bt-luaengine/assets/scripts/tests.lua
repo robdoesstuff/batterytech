@@ -445,6 +445,9 @@ function Tests:render()
 	for i,v in ipairs(self.buttons) do
 		v:render()
 	end
-    -- local idx = game:renderText2D("ui", "This Is\nMultiline\nText", 400, 400)
-    -- game:setRenderItemParam(idx, "multiline", true)
+	-- local idx = game:renderText2D("test", "Test... gpBMFont-Render!^", 400, 400)
+	--local idx = game:renderText2D("test2", "Test... gpBMFont-Render!^", 400, 400)
+ 	-- local idx = game:renderText2D("ui", "Test... gpBMFont-Render!^", 400, 400)
+    local idx = game:renderText2D("test2", "This Is\nMultiline\nText", 400, 400)
+    game:setRenderItemParam(idx, "multiline", true)
 end

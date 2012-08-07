@@ -303,6 +303,23 @@ namespace BatteryTech {
 						scaleDown = true;
 					}
 				}
+				if (n == 1) {
+					// convert Alpha to RGBA
+					n = 4;
+					bytes = x * y * n;
+					unsigned char *newData = new unsigned char[bytes];
+					for (S32 i = 0; i < x*y; i++) {
+						newData[i*4] = 255;
+						newData[i*4+1] = 255;
+						newData[i*4+2] = 255;
+						newData[i*4+3] = data[i];
+					}
+					if (scaleDown) {
+						delete [] data;
+					}
+					scaleDown = true;
+					data = newData;
+				}
 				if (DEBUG_TEXTURE) {
 					char buf[1024];
 					sprintf(buf, "Loaded Texture %s (%d enc bytes): %ix%i components=%i bytes=%i", imageAssetName, assetSize, x, y, n, bytes);

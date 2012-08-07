@@ -32,6 +32,7 @@
 #include "GLResourceManager.h"
 #include "../util/TextFileUtil.h"
 #include "../util/strx.h"
+#include "AssetTexture.h"
 
 // uncomment this if there are strange text artifacts - it will put debuggable values into the text arrays which
 // will show any algorithm errors in layout if any array positions are skipped accidentally.
@@ -58,6 +59,9 @@ namespace BatteryTech {
         isTTF = FALSE;
         bufferUsed = 0;
         bmInfo = NULL;
+        bmFontPage = NULL;
+        bmFontPageTable = NULL;
+        bmFontCharTable = NULL;
         vertBuffer = new GLQuadVertex[TEXT_RENDER_BUFFER_SIZE * 4];
         idxBuffer = new U16[TEXT_RENDER_BUFFER_SIZE*6];
         // generate the face indices
@@ -77,6 +81,10 @@ namespace BatteryTech {
 		delete [] assetName;
         delete [] vertBuffer;
         delete [] idxBuffer;
+        delete bmInfo;
+        delete bmFontPage;
+        delete bmFontPageTable;
+        delete bmFontCharTable;
 	}
 
 	void TextRasterRenderer::setStroke(S32 inner, S32 outer) {
@@ -92,7 +100,6 @@ namespace BatteryTech {
     void TextRasterRenderer::loadTTF() {
 		S32 bmpWidth = context->appProperties->get("initial_font_texture_width")->getIntValue();
 		S32 bmpHeight = context->appProperties->get("initial_font_texture_height")->getIntValue();
-		vertSpaceMult = context->appProperties->get("text_vertical_spacing_multiplier")->getFloatValue();
 		S32 size = 0;
 		BYTE8 *data;
 		data = _platform_load_asset(assetName, &size);
@@ -333,7 +340,7 @@ namespace BatteryTech {
 						lastSpaceIdx = -1;
 						c = *(text + i);
 					}
-					if (c >= 32 && c < 128) {
+					if (c >= 32 && c < 256) {
 						stbtt_GetBakedQuad(cdata, bmpWidth, bmpHeight, c-32, &x,&y,&q,1, scale);//1=opengl,0=old d3d
 					}
 				}
@@ -449,9 +456,16 @@ namespace BatteryTech {
         }
         char *data = _platform_load_text_asset(assetName);
 		if (data) {
+			// we'll need a base path of this .fnt file to find the page textures
+    		char basePath[512];
+    		_platform_convert_path(assetName, basePath);
+    		_platform_get_basename(basePath, basePath);
+    		// add path separator IE: "/ui/"
+    		strcat(basePath, _platform_get_path_separator());
+    		// now let's do this in forward-slash so we don't have to do any more converting
+    		_platform_convert_path_to_forward(basePath, basePath);
             // parse .fnt file
             bmInfo = new BMFontInfo();
-            BMFontChar *bmChar = new BMFontChar();
             S32 pos = 0;
             char lineBuf[2048];
             BOOL32 more = TextFileUtil::readLine(lineBuf, data, &pos);
@@ -483,16 +497,71 @@ namespace BatteryTech {
                     BMGetIntProperty(lineBuf, "redChnl", (S32*)&bmInfo->redChnl);
                     BMGetIntProperty(lineBuf, "greenChnl", (S32*)&bmInfo->greenChnl);
                     BMGetIntProperty(lineBuf, "blueChnl", (S32*)&bmInfo->blueChnl);
+                    if (bmInfo->pages > 1) {
+                    	bmFontPageTable = new HashTable<S32, BMFontPage*>(bmInfo->pages * 1.5f);
+                    } else {
+                    	if (bmFontPageTable) {
+                    		delete [] bmFontPageTable;
+                    		bmFontPageTable = NULL;
+                    	}
+                    }
                     // prepare for pages
                 } else if (strStartsWith(lineBuf, "page")) {
                     // page line
                     // optimize for single page (most common) but hash page ids in case of multiple
                     // push page textures into managed texture pool
+                	BMFontPage *page = new BMFontPage();
+                	char pageAssetName[512];
+    				strcpy(pageAssetName, basePath);
+                	BMGetIntProperty(lineBuf, "id", &page->id);
+                	char *localFilename;
+                	// localFilename will be allocated by BMGetStringProperty
+                	BMGetStringProperty(lineBuf, "file", &localFilename);
+                	strcat(pageAssetName, localFilename);
+                	page->assetName = strDuplicate(pageAssetName);
+                	delete [] localFilename;
+                    if (bmInfo->pages == 1) {
+                    	bmFontPage = page;
+                    } else {
+                    	bmFontPageTable->put(page->id, page);
+                    }
+                    AssetTexture *texture = new AssetTexture(context, page->assetName, FALSE);
+                    texture->load(TRUE);
+                    context->glResourceManager->addTexture(texture);
                 } else if (strStartsWith(lineBuf, "chars")) {
                     // chars line
+                	if (bmFontCharTable) {
+                		delete bmFontCharTable;
+                	}
+                	S32 count = 0;
+                	BMGetIntProperty(lineBuf, "count", &count);
+                	bmFontCharTable = new HashTable<S32, BMFontChar*>(count * 1.5f);
                 } else if (strStartsWith(lineBuf, "char")) {
                     // char line
-                }
+                	if (!bmFontCharTable) {
+                		logmsg("Error loading BMFont - no char table allocated!");
+                	} else {
+						BMFontChar *bmChar = new BMFontChar();
+						BMGetIntProperty(lineBuf, "id", &bmChar->id);
+						BMGetIntProperty(lineBuf, "x", &bmChar->x);
+						BMGetIntProperty(lineBuf, "y", &bmChar->y);
+						BMGetIntProperty(lineBuf, "width", &bmChar->width);
+						BMGetIntProperty(lineBuf, "height", &bmChar->height);
+						BMGetIntProperty(lineBuf, "xoffset", &bmChar->xoffset);
+						BMGetIntProperty(lineBuf, "yoffset", &bmChar->yoffset);
+						BMGetIntProperty(lineBuf, "xadvance", &bmChar->xadvance);
+						BMGetIntProperty(lineBuf, "page", &bmChar->page);
+						BMGetIntProperty(lineBuf, "chnl", &bmChar->chnl);
+						// top left, top right, bottom right, bottom left
+						F32 scaleW = bmInfo->scaleW;
+						F32 scaleH = bmInfo->scaleH;
+						bmChar->uvs[0] = Vector2f((F32)bmChar->x / scaleW, (F32)bmChar->y / scaleH);
+						bmChar->uvs[1] = Vector2f((F32)(bmChar->x+bmChar->width) / scaleW, (F32)bmChar->y / scaleH);
+						bmChar->uvs[2] = Vector2f((F32)(bmChar->x+bmChar->width) / scaleW, (F32)(bmChar->y+bmChar->height) / scaleH);
+						bmChar->uvs[3] = Vector2f((F32)bmChar->x / scaleW, (F32)(bmChar->y+bmChar->height) / scaleH);
+						bmFontCharTable->put(bmChar->id, bmChar);
+                	}
+               }
                 more = TextFileUtil::readLine(lineBuf, data, &pos);
             }
             _platform_free_asset((unsigned char*)data);
@@ -500,23 +569,173 @@ namespace BatteryTech {
     }
     
     void TextRasterRenderer::renderBMFont(const char *text, F32 x, F32 y, F32 scale) {
-        
+    	// adjust scale to requested font size
+    	F32 localScale = fontSize / bmInfo->size;
+    	scale *= localScale;
+		// switch to bottom-left to match TTF renderer
+		y = y - bmInfo->lineHeight * scale;
+		while (*text) {
+			if (*text >= 32 && *text < 256) {
+				BMFontChar *bmChar = bmFontCharTable->get(*text);
+				if (bmChar) {
+					// topleft, topright, bottomright, bottomleft
+					Vector3f pos[4];
+					F32 offsetx = bmChar->xoffset;
+					F32 offsety = bmChar->yoffset;
+					Vector3f start(x,y,0);
+					pos[0] = Vector3f(offsetx, offsety, 0) * scale + start;
+					pos[1] = Vector3f(offsetx+bmChar->width, offsety, 0) * scale + start;
+					pos[2] = Vector3f(offsetx+bmChar->width, offsety+bmChar->height, 0) * scale + start;
+					pos[3] = Vector3f(offsetx, offsety+bmChar->height, 0) * scale + start;
+	                addToBuffer(pos[0], pos[1], pos[2], pos[3], bmChar->uvs[0], bmChar->uvs[1], bmChar->uvs[2], bmChar->uvs[3]);
+					x += bmChar->xadvance * scale;
+				}
+ 			}
+			++text;
+		}
     }
     
     void TextRasterRenderer::renderMultilineBMFont(const char *text, F32 x, F32 y, F32 maxX, F32 maxY, F32 scale) {
-        
+    	// adjust scale to requested font size
+    	F32 localScale = fontSize / bmInfo->size;
+       	scale *= localScale;
+		// switch to bottom-left to match TTF renderer
+		y = y - bmInfo->lineHeight * scale;
+		S32 lastSpaceIdx = -1;
+		F32 origX = x;
+		//F32 origY = y;
+		F32 lineHeight = bmInfo->lineHeight * scale * vertSpaceMult;
+		S32 i = 0;
+		char c = *text;
+		while (c) {
+			if (c == '\n') {
+				lastSpaceIdx = -1;
+				y += lineHeight;
+				x = origX;
+				if (maxY && y > maxY) {
+					break;
+				}
+			}
+			if (c >= 32 && c < 256) {
+				if (c == 32) {
+					lastSpaceIdx = i;
+				}
+				BMFontChar *bmChar = bmFontCharTable->get(c);
+				if (bmChar) {
+					x += bmChar->xadvance * scale;
+					if (maxX && x > maxX) {
+						x = origX;
+						y += lineHeight;
+						// rewind to char index after last space (but last space render char)
+						if (lastSpaceIdx != -1) {
+							i = lastSpaceIdx + 1;
+							lastSpaceIdx = -1;
+							c = *(text + i);
+						}
+						if (maxY && y > maxY) {
+							break;
+						} else {
+							if (c >= 32 && c < 256) {
+								bmChar = bmFontCharTable->get(c);
+								if (bmChar) {
+									x += bmChar->xadvance * scale;
+								}
+							}
+						}
+					}
+				}
+				if (bmChar) {
+					Vector3f pos[4];
+					F32 offsetx = bmChar->xoffset;
+					F32 offsety = bmChar->yoffset;
+					Vector3f start(x,y,0);
+					pos[0] = Vector3f(offsetx, offsety, 0) * scale + start;
+					pos[1] = Vector3f(offsetx+bmChar->width, offsety, 0) * scale + start;
+					pos[2] = Vector3f(offsetx+bmChar->width, offsety+bmChar->height, 0) * scale + start;
+					pos[3] = Vector3f(offsetx, offsety+bmChar->height, 0) * scale + start;
+					addToBuffer(pos[0], pos[1], pos[2], pos[3], bmChar->uvs[0], bmChar->uvs[1], bmChar->uvs[2], bmChar->uvs[3]);
+				}
+			}
+			++i;
+			c = *(text + i);
+		}
     }
     
     F32 TextRasterRenderer::getBMFontHeight(F32 scale) {
-        return 0;
+    	// adjust scale to requested font size
+    	F32 localScale = fontSize / bmInfo->size;
+    	scale *= localScale;
+        return bmInfo->lineHeight * scale;
     }
     
     F32 TextRasterRenderer::measureBMFontWidth(const char *text, F32 scale) {
-        return 0;
+    	// adjust scale to requested font size
+    	F32 localScale = fontSize / bmInfo->size;
+    	scale *= localScale;
+		F32 width = 0;
+		while (*text) {
+			if (*text == '\n') {
+				//newline, restart.
+				width = 0;
+			}
+			if (*text >= 32 && *text < 256) {
+				BMFontChar *bmChar = bmFontCharTable->get(*text);
+				if (bmChar) {
+					width += bmChar->xadvance;
+				}
+			}
+			++text;
+		}
+		return width * scale;
+
     }
     
     F32 TextRasterRenderer::measureBMFontMultilineHeight(const char *text, F32 availableWidth, F32 scale) {
-        return 0;
+    	// adjust scale to requested font size
+    	F32 localScale = fontSize / bmInfo->size;
+    	scale *= localScale;
+		S32 i = 0;
+		S32 lastSpaceIdx = -1;
+		F32 lineHeight = getHeight(scale) * vertSpaceMult;
+		F32 x = 0;
+		// first line's height
+		F32 y = lineHeight;
+		char c = *text;
+		while (c) {
+			if (c == '\n') {
+				lastSpaceIdx = -1;
+				y += lineHeight;
+				x = 0;
+			}
+			if (c >= 32 && c < 256) {
+				if (c == 32) {
+					lastSpaceIdx = i;
+				}
+				BMFontChar *bmChar = bmFontCharTable->get(*text);
+				if (bmChar) {
+					x += bmChar->xadvance;
+				}
+				if (x > availableWidth) {
+					x = 0;
+					y += lineHeight;
+					// rewind to 1 past last space
+					if (lastSpaceIdx != -1) {
+						i = lastSpaceIdx + 1;
+						lastSpaceIdx = -1;
+						c = *(text + i);
+					}
+					if (c >= 32 && c < 256) {
+						bmChar = bmFontCharTable->get(*text);
+						if (bmChar) {
+							x += bmChar->xadvance;
+						}
+					}
+				}
+			}
+			++i;
+			c = *(text + i);
+		}
+		return y;
     }
 
 	void TextRasterRenderer::init(BOOL32 newContext) {
@@ -528,6 +747,8 @@ namespace BatteryTech {
         } else {
             isTTF = TRUE;
         }
+        // dirty - shouldn't this be per-font?
+		vertSpaceMult = context->appProperties->get("text_vertical_spacing_multiplier")->getFloatValue();
         if (isTTF) {
             loadTTF();
         } else {
@@ -590,9 +811,11 @@ namespace BatteryTech {
 	}
     
 	void TextRasterRenderer::startText() {
-		Texture::textureSwitches++;
-		glBindTexture(GL_TEXTURE_2D, ftex);
-		Texture::lastTextureId = ftex;
+		if (ftex) {
+			Texture::textureSwitches++;
+			glBindTexture(GL_TEXTURE_2D, ftex);
+			Texture::lastTextureId = ftex;
+		}
 		if (context->gConfig->useShaders) {
 			ShaderProgram *shaderProgram = context->glResourceManager->getShaderProgram(SHADER_PROGRAM_TAG);
 			if (shaderProgram) {
@@ -636,6 +859,15 @@ namespace BatteryTech {
     void TextRasterRenderer::renderBuffer() {
         if (bufferUsed == 0) {
             return;
+        }
+        if (!isTTF) {
+        	// TODO - deal with multiple pages
+        	if (bmInfo->pages == 1) {
+        		Texture *tex = context->glResourceManager->getTexture(bmFontPage->assetName);
+        		if (tex) {
+        			tex->bind();
+        		}
+        	}
         }
         BOOL32 useVBO = FALSE;
         if (USE_VBOS_WHEN_AVAILBLE && (context->gConfig->useShaders || context->gConfig->supportsVBOs)) {

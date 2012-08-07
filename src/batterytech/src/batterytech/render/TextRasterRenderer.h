@@ -183,6 +183,7 @@ namespace BatteryTech {
             S32 xadvance;
             S32 page;
             S32 chnl;
+            Vector2f uvs[4];
             BMFontChar() {
                 id = 0;
                 x = y = 0;
@@ -195,7 +196,9 @@ namespace BatteryTech {
         };
         
         BMFontInfo *bmInfo;
-
+        BMFontPage *bmFontPage;
+        HashTable<S32, BMFontPage*> *bmFontPageTable;
+        HashTable<S32, BMFontChar*> *bmFontCharTable;
 	};
 
 }
