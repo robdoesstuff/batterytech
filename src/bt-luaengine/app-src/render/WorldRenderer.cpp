@@ -289,12 +289,14 @@ void WorldRenderer::render() {
 			context->renderContext->projMatrix.ortho(0, gConfig->width, gConfig->height, 0, -1, 1);
 			context->renderContext->colorFilter = Vector4f(1, 1, 1, 1);
 			// any 2D background renderers here
+			spriteRenderer->startBatch();
 			for (S32 i = 0; i < world->renderItemsUsed; i++) {
 				RenderItem *item = &world->renderItems[i];
 				if (item->renderType == RenderItem::RENDERTYPE_2DBG) {
 					spriteRenderer->render(item);
 				}
 			}
+			spriteRenderer->endBatch();
 			if (has3DObjects) {
 		        context->renderContext->projMatrix = world->camera->proj;
 		        context->renderContext->mvMatrix = world->camera->matrix;
