@@ -62,6 +62,8 @@ namespace BatteryTech {
         bmFontPage = NULL;
         bmFontPageTable = NULL;
         bmFontCharTable = NULL;
+        bmCurrentPage = 0;
+        ftex = 0;
         vertBuffer = new GLQuadVertex[TEXT_RENDER_BUFFER_SIZE * 4];
         idxBuffer = new U16[TEXT_RENDER_BUFFER_SIZE*6];
         // generate the face indices
@@ -81,10 +83,24 @@ namespace BatteryTech {
 		delete [] assetName;
         delete [] vertBuffer;
         delete [] idxBuffer;
-        delete bmInfo;
-        delete bmFontPage;
-        delete bmFontPageTable;
-        delete bmFontCharTable;
+        if (bmInfo) {
+            delete bmInfo;
+            bmInfo = NULL;
+        }
+        if (bmFontCharTable) {
+            bmFontCharTable->deleteElements();
+            delete bmFontCharTable;
+            bmFontCharTable = NULL;
+        }
+        if (bmFontPageTable) {
+            bmFontPageTable->deleteElements();
+            delete bmFontPageTable;
+            bmFontPageTable = NULL;
+        }
+        if (bmFontPage) {
+            delete bmFontPage;
+            bmFontPage = NULL;
+        }
 	}
 
 	void TextRasterRenderer::setStroke(S32 inner, S32 outer) {
@@ -191,38 +207,17 @@ namespace BatteryTech {
     }
     
     void TextRasterRenderer::renderTTF(const char *text, F32 x, F32 y, F32 scale) {
-		S32 length = strlen(text);
-		// longest string is TEXT_RENDER_MAX_LINE_LENGTH
-		S32 unicodes[TEXT_RENDER_BUFFER_SIZE];
-		length = strnUTF8ToUnicodeArray(text, unicodes, TEXT_RENDER_BUFFER_SIZE);
-		if (length > TEXT_RENDER_BUFFER_SIZE) {
-			length = TEXT_RENDER_BUFFER_SIZE;
-		}
-		S32 i = 0;
-		// count the number of actually renderable characters
-		S32 renderChars = 0;
-		while (*text && i <= TEXT_RENDER_BUFFER_SIZE) {
+		while (*text) {
 			if (*text >= 32 && *text < 256) {
 				stbtt_aligned_quad q;
 				stbtt_GetBakedQuad(cdata, bmpWidth, bmpHeight, *text-32, &x,&y,&q,1, scale);//1=opengl,0=old d3d
                 addToBuffer(Vector3f(q.x0, q.y0, 0), Vector3f(q.x1, q.y0, 0), Vector3f(q.x1, q.y1, 0), Vector3f(q.x0, q.y1, 0), Vector2f(q.s0, q.t0), Vector2f(q.s1, q.t0), Vector2f(q.s1, q.t1), Vector2f(q.s0, q.t1));
-                ++renderChars;
 			}
-            ++i;
 			++text;
 		}
-        length = i;
-        if (length == 0) {
-            return;
-        }
     }
     
     void TextRasterRenderer::renderMultilineTTF(const char *text, F32 x, F32 y, F32 maxX, F32 maxY, F32 scale) {
-		S32 length = strlen(text);
-		if (length > TEXT_RENDER_BUFFER_SIZE) {
-			length = TEXT_RENDER_BUFFER_SIZE;
-		}
-		// longest string is TEXT_RENDER_MAX_MULTILINE_LENGTH
 		S32 i = 0;
 		// count the number of actually renderable characters
 		S32 renderChars = 0;
@@ -232,7 +227,7 @@ namespace BatteryTech {
 		//F32 origY = y;
 		F32 lineHeight = getHeight() * vertSpaceMult;
 		char c = *text;
-		while (c && i <= TEXT_RENDER_BUFFER_SIZE) {
+		while (c) {
 			if (c == '\n') {
 				lastSpaceIdx = -1;
 				lastSpaceRenderIdx = -1;
@@ -454,6 +449,20 @@ namespace BatteryTech {
             delete bmInfo;
             bmInfo = NULL;
         }
+        if (bmFontCharTable) {
+            bmFontCharTable->deleteElements();
+            delete bmFontCharTable;
+            bmFontCharTable = NULL;
+        }
+        if (bmFontPageTable) {
+            bmFontPageTable->deleteElements();
+            delete bmFontPageTable;
+            bmFontPageTable = NULL;
+        }
+        if (bmFontPage) {
+            delete bmFontPage;
+            bmFontPage = NULL;
+        }
         char *data = _platform_load_text_asset(assetName);
 		if (data) {
 			// we'll need a base path of this .fnt file to find the page textures
@@ -525,9 +534,11 @@ namespace BatteryTech {
                     } else {
                     	bmFontPageTable->put(page->id, page);
                     }
-                    AssetTexture *texture = new AssetTexture(context, page->assetName, FALSE);
-                    texture->load(TRUE);
-                    context->glResourceManager->addTexture(texture);
+                    if (!context->glResourceManager->getTexture(page->assetName)) {
+                        AssetTexture *texture = new AssetTexture(context, page->assetName, FALSE);
+                        texture->load(TRUE);
+                        context->glResourceManager->addTexture(texture);                        
+                    };
                 } else if (strStartsWith(lineBuf, "chars")) {
                     // chars line
                 	if (bmFontCharTable) {
@@ -578,6 +589,12 @@ namespace BatteryTech {
 			if (*text >= 32 && *text < 256) {
 				BMFontChar *bmChar = bmFontCharTable->get(*text);
 				if (bmChar) {
+                    if (bmInfo->pages > 1) {
+                        if (bmChar->page != bmCurrentPage) {
+                            renderBuffer();
+                            bmCurrentPage = bmChar->page;
+                        }
+                    }
 					// topleft, topright, bottomright, bottomleft
 					Vector3f pos[4];
 					F32 offsetx = bmChar->xoffset;
@@ -645,6 +662,12 @@ namespace BatteryTech {
 					}
 				}
 				if (bmChar) {
+                    if (bmInfo->pages > 1) {
+                        if (bmChar->page != bmCurrentPage) {
+                            renderBuffer();
+                            bmCurrentPage = bmChar->page;
+                        }
+                    }
 					Vector3f pos[4];
 					F32 offsetx = bmChar->xoffset;
 					F32 offsety = bmChar->yoffset;
@@ -861,13 +884,20 @@ namespace BatteryTech {
             return;
         }
         if (!isTTF) {
-        	// TODO - deal with multiple pages
         	if (bmInfo->pages == 1) {
         		Texture *tex = context->glResourceManager->getTexture(bmFontPage->assetName);
         		if (tex) {
         			tex->bind();
         		}
-        	}
+        	} else {
+                BMFontPage *page = bmFontPageTable->get(bmCurrentPage);
+                if (page) {
+                    Texture *tex = context->glResourceManager->getTexture(page->assetName);
+                    if (tex) {
+                        tex->bind();
+                    }
+                }
+            }
         }
         BOOL32 useVBO = FALSE;
         if (USE_VBOS_WHEN_AVAILBLE && (context->gConfig->useShaders || context->gConfig->supportsVBOs)) {

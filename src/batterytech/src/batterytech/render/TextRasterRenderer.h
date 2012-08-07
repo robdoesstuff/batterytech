@@ -199,6 +199,7 @@ namespace BatteryTech {
         BMFontPage *bmFontPage;
         HashTable<S32, BMFontPage*> *bmFontPageTable;
         HashTable<S32, BMFontChar*> *bmFontCharTable;
+        S32 bmCurrentPage;
 	};
 
 }
