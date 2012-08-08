@@ -236,10 +236,10 @@ namespace BatteryTech {
 				if (c == 32) {
                     if (maxX) {
                         // check this word's length and make sure it'll fit.  If not, move to next line.
-                        char *nextSpace = strchr(text+i+1, 32);
-                        char *nextNL = strchr(text+i+1, '\n');
+                        const char *nextSpace = strchr(text+i+1, 32);
+                        const char *nextNL = strchr(text+i+1, '\n');
                         if (nextSpace || nextNL) {
-                            char *wordEnd;
+                            const char *wordEnd;
                             if (!nextNL) {
                                 wordEnd = nextSpace;
                             } else if (!nextSpace) {
@@ -643,10 +643,10 @@ namespace BatteryTech {
 				if (c == 32) {
 					if (maxX) {
                         // check this word's length and make sure it'll fit.  If not, move to next line.
-                        char *nextSpace = strchr(text+i+1, 32);
-                        char *nextNL = strchr(text+i+1, '\n');
+                        const char *nextSpace = strchr(text+i+1, 32);
+                        const char *nextNL = strchr(text+i+1, '\n');
                         if (nextSpace || nextNL) {
-                            char *wordEnd;
+                            const char *wordEnd;
                             if (!nextNL) {
                                 wordEnd = nextSpace;
                             } else if (!nextSpace) {
