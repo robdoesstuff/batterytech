@@ -238,31 +238,29 @@ namespace BatteryTech {
                         // check this word's length and make sure it'll fit.  If not, move to next line.
                         const char *nextSpace = strchr(text+i+1, 32);
                         const char *nextNL = strchr(text+i+1, '\n');
-                        if (nextSpace || nextNL) {
-                            const char *wordEnd;
-                            if (!nextNL) {
-                                wordEnd = nextSpace;
-                            } else if (!nextSpace) {
-                                wordEnd = nextNL;
-                            } else {
-                                wordEnd = (nextSpace < nextNL ? nextSpace : nextNL);
-                            }
-                            char word[255];
-                            S32 wordLength = wordEnd-(text+i+1);
-                            if (wordLength > 255) {
-                                wordLength = 255;
-                            }
-                            strncpy(word, text+i+1, wordLength);
-                            word[wordLength] = '\0';
-                            F32 width = measureTTFWidth(word, scale);
-                            if (x + width > maxX) {
-                                y += lineHeight;
-                                x = origX;
-                                ++i;
-                                c = *(text + i);
-                                if (!c) {
-                                    break;
-                                }
+                        const char *wordEnd;
+                        if (!nextNL && !nextSpace){
+							wordEnd = text+strlen(text);
+						} else if (!nextNL) {
+                            wordEnd = nextSpace;
+                        } else if (!nextSpace) {
+                            wordEnd = nextNL;
+                        }
+                        char word[255];
+                        S32 wordLength = wordEnd-(text+i+1);
+                        if (wordLength > 255) {
+                            wordLength = 255;
+                        }
+                        strncpy(word, text+i+1, wordLength);
+                        word[wordLength] = '\0';
+                        F32 width = measureTTFWidth(word, scale);
+                        if (x + width > maxX) {
+                            y += lineHeight;
+                            x = origX;
+                            ++i;
+                            c = *(text + i);
+                            if (!c) {
+                                break;
                             }
                         }
                     }
@@ -645,32 +643,30 @@ namespace BatteryTech {
                         // check this word's length and make sure it'll fit.  If not, move to next line.
                         const char *nextSpace = strchr(text+i+1, 32);
                         const char *nextNL = strchr(text+i+1, '\n');
-                        if (nextSpace || nextNL) {
-                            const char *wordEnd;
-                            if (!nextNL) {
-                                wordEnd = nextSpace;
-                            } else if (!nextSpace) {
-                                wordEnd = nextNL;
-                            } else {
-                                wordEnd = (nextSpace < nextNL ? nextSpace : nextNL);
-                            }
-                            char word[255];
-                            S32 wordLength = wordEnd-(text+i+1);
-                            if (wordLength > 255) {
-                                wordLength = 255;
-                            }
-                            strncpy(word, text+i+1, wordLength);
-                            word[wordLength] = '\0';
-                            // undo the local scale because the measure will reapply
-                            F32 width = measureBMFontWidth(word, scale / localScale);
-                            if (x + width > maxX) {
-                                y += lineHeight;
-                                x = origX;
-                                ++i;
-                                c = *(text + i);
-                                if (!c) {
-                                    break;
-                                }
+                        const char *wordEnd;
+                        if (!nextNL && !nextSpace){
+							wordEnd = text+strlen(text);
+						} else if (!nextNL) {
+                            wordEnd = nextSpace;
+                        } else if (!nextSpace) {
+                            wordEnd = nextNL;
+                        }
+                        char word[255];
+                        S32 wordLength = wordEnd-(text+i+1);
+                        if (wordLength > 255) {
+                            wordLength = 255;
+                        }
+                        strncpy(word, text+i+1, wordLength);
+                        word[wordLength] = '\0';
+                        // undo the local scale because the measure will reapply
+                        F32 width = measureBMFontWidth(word, scale / localScale);
+                        if (x + width > maxX) {
+                            y += lineHeight;
+                            x = origX;
+                            ++i;
+                            c = *(text + i);
+                            if (!c) {
+                                break;
                             }
                         }
                     }
