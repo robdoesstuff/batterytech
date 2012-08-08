@@ -87,6 +87,8 @@ private:
 	StrHashTable<GLint> *attribLocs;
 	StrHashTable<GLint> *uniformLocs;
 	ManagedArray<ShaderDefine> *defines;
+	BOOL32 vertAttLocsContiguous;
+	U32 contigAttribCount;
 };
 
 }

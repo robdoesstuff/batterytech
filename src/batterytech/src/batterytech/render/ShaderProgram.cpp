@@ -39,6 +39,8 @@ ShaderProgram::ShaderProgram(const char *tag, const char *vertShaderAssetName, c
 	uniformLocs = new StrHashTable<GLint>((int)(MAX_UNIFORMS * 1.3f));
 	uniformLocs->setNullReturnVal(-2);
 	defines = new ManagedArray<ShaderDefine>(MAX_DEFINES);
+	vertAttLocsContiguous = FALSE;
+	contigAttribCount = 0;
 }
 
 ShaderProgram::~ShaderProgram() {
@@ -105,6 +107,12 @@ void ShaderProgram::load(BOOL32 force) {
 #endif
 			addUniformLoc(name);
 		}
+		// we say the attribute locations are contiguous if they are like 0,1,2,3 etc but 0 5 8 30 is not nor is 1,2,3,4, must start at 0.
+		// this allows for really quick and easy bitwise checks to turn on/off attribute locations when changing shaders.
+		BOOL32 isContiguous = TRUE;
+		U32 attLocBits = 0;
+		S32 maxID = -1;
+		S32 minID = 1;
 		for (GLuint i = 0; i < (GLuint)activeAttributes; i++) {
 			char name[255];
 			GLsizei nameLength;
@@ -115,7 +123,32 @@ void ShaderProgram::load(BOOL32 force) {
 			sprintf(buf, "%s attrib %d = %s", tag, i, name);
 			logmsg(buf);
 #endif
-			addVertexAttributeLoc(name);
+			// determine if sequential starting from 0 and mark as contiguous
+			GLint attLoc = addVertexAttributeLoc(name);
+			if (attLoc > 32) {
+				isContiguous = FALSE;
+			}
+			if (attLoc > maxID) {
+				maxID = attLoc;
+			}
+			if (attLoc < minID) {
+				minID = attLoc;
+			}
+			attLocBits |= 1 << attLoc;
+		}
+		if (minID > 0) {
+			isContiguous = FALSE;
+		} else {
+			for (S32 i = 0; i <= maxID; i++) {
+				if (!(attLocBits & 1 << i)) {
+					isContiguous = FALSE;
+					break;
+				}
+			}
+		}
+		vertAttLocsContiguous = isContiguous;
+		if (isContiguous) {
+			contigAttribCount = maxID + 1;
 		}
 	}
 }
@@ -133,16 +166,47 @@ void ShaderProgram::unload() {
 	fragShader = 0;
 }
 
+/**
+ * We have a very optimized bind here.
+ *
+ * 1) It won't rebind to a shader that's already bound
+ * 2) It has optimizations for sequentially numbered vertex attribute locations starting at 0
+ * 2a) In this case, which is either 99 or 100% of the time, this will only unbind/bind to deltas in the attribute counts.
+ */
 void ShaderProgram::bind() {
-	if( currentProgram == this ) return;
+	if( currentProgram == this ) {
+		return;
+	}
+	ShaderProgram *lastProgram = currentProgram;
 	currentProgram = this;
-
+	if (lastProgram) {
+		// both programs need contiguous att locs in order to optimize
+		if (!lastProgram->vertAttLocsContiguous || !vertAttLocsContiguous) {
+			// be safe - unbind all
+			for (StrHashTable<GLint>::Iterator i = lastProgram->attribLocs->getIterator(); i.hasNext;) {
+					GLint loc = attribLocs->getNext(i);
+					glDisableVertexAttribArray(loc);
+				}
+		} else {
+			// only unbind ones we don't need
+			for (U32 i = contigAttribCount; i < lastProgram->contigAttribCount; i++) {
+				glDisableVertexAttribArray(i);
+			}
+		}
+	}
 	binds++;
 	glUseProgram(program);
 	// enable vertex attrib arrays
-	for (StrHashTable<GLint>::Iterator i = attribLocs->getIterator(); i.hasNext;) {
-		GLint loc = attribLocs->getNext(i);
-		glEnableVertexAttribArray(loc);
+	if (lastProgram && lastProgram->vertAttLocsContiguous && vertAttLocsContiguous) {
+		// only enable ones beyond what were already enabled
+		for (U32 i = lastProgram->contigAttribCount; i < contigAttribCount; i++) {
+			glEnableVertexAttribArray(i);
+		}
+	} else {
+		for (StrHashTable<GLint>::Iterator i = attribLocs->getIterator(); i.hasNext;) {
+			GLint loc = attribLocs->getNext(i);
+			glEnableVertexAttribArray(loc);
+		}
 	}
 }
 
@@ -151,11 +215,8 @@ void ShaderProgram::addDefine(const char *name, const char *value) {
 }
 
 void ShaderProgram::unbind() {
-	// disable vertex attrib arrays
-//	for (S32 i = 0; i < attribLocs->getSize(); i++) {
-//		glDisableVertexAttribArray(attribLocs->array[i]->loc);
-//	}
-//	glUseProgram(0);
+	// never actually unbind a shader - instead we optimize on the binding of the next.
+	// The only caveat is that you must always use this class when dealing with Shaders and Generic Vertex Attributes.
 }
 
 GLint ShaderProgram::addVertexAttributeLoc(const char *name) {

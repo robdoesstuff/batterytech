@@ -176,6 +176,7 @@ namespace BatteryTech {
 		vertAttsVBOId = bufferIds[0];
 		faceIndicesVBOId = bufferIds[1];
 		glBindBuffer(GL_ARRAY_BUFFER, vertAttsVBOId);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, faceIndicesVBOId);
 		if (!hasBones) {
 			// basic static object
 			glBufferData(GL_ARRAY_BUFFER, vCount * sizeof(GLAssimpMeshVertex), vertBasicAtts, GL_STATIC_DRAW);
@@ -186,9 +187,8 @@ namespace BatteryTech {
 			// CPU animation - dynamic draw - this may be slow because we are mixing static & dynamic in one interleaved array
 			glBufferData(GL_ARRAY_BUFFER, vCount * sizeof(GLAssimpSkinnedMeshVertex), vertSkinnedAtts, GL_DYNAMIC_DRAW);
 		}
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, faceIndicesVBOId);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, faceCount * 3 * 2, faceIndices, GL_STATIC_DRAW);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
 
