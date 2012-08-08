@@ -82,6 +82,8 @@ static S32 screenWidth;
 static S32 screenHeight;
 static bool paused;
 
+extern void bb_handle_event(int domain, bps_event_t *event);
+
 int main(int argc, char *argv[]) {
 	int rc;
 	int exit_application = 0;
@@ -192,39 +194,8 @@ int main(int argc, char *argv[]) {
 					sensor_event_get_xyz(event, &force_x, &force_y, &force_z);
 					btAccelerometerChanged(force_x, force_y, force_z);
 				}
-			} else if (domain == paymentservice_get_domain()) {
-				char callbackString[1024];
-		        if (SUCCESS_RESPONSE == paymentservice_event_get_response_code(event)) {
-					if (PURCHASE_RESPONSE == bps_event_get_code(event)) {
-						// Handle a successful purchase here
-						const char* digital_good =
-						   paymentservice_event_get_digital_good_id(event, 0);
-						const char* digital_sku =
-						   paymentservice_event_get_digital_good_sku(event, 0);
-
-						sprintf(callbackString,"purchaseSucceeded %s",digital_sku);
-						btCallback(callbackString);
-					} else {
-						sprintf(callbackString,"purchaseSucceeded %s",getLastPurchaseAttempt());
-						btCallback(callbackString);
-					}
-		        } else {
-		            int error_id = paymentservice_event_get_error_id(event);
-		            const char* error_text =
-		                paymentservice_event_get_error_text(event);
-		        	if( !strcmpi(error_text,"alreadyPurchased") ) {
-						sprintf(callbackString,"purchaseSucceeded %s",getLastPurchaseAttempt());
-						btCallback(callbackString);
-		        	}
-		        	else {
-						sprintf(callbackString,"purchaseFailed %s",getLastPurchaseAttempt());
-						btCallback(callbackString);
-
-						fprintf(stderr, "Payment System error: ID: %d  Text: %s\n",
-							error_id, error_text ? error_text : "N/A");
-		        	}
-		        }
-		    }
+			}
+			bb_handle_event(domain, event);
 		}
 		U64 timeNanos = _platform_get_time_nanos();
 		if (!paused) {

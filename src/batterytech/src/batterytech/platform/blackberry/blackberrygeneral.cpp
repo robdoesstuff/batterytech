@@ -40,7 +40,6 @@
 
 using namespace BatteryTech;
 using namespace std;
-char lastAttemptedPurchaseSku[1024];
 
 BlackberryAudioGW *bbAudioGW = NULL;
 
@@ -50,9 +49,6 @@ void _platform_log(const char* message) {
 	cout << message << endl;
 }
 
-const char* getLastPurchaseAttempt() {
-	return lastAttemptedPurchaseSku;
-}
 unsigned char* _platform_load_internal_asset(const char *filename, S32 *size) {
 	//char *myFilename;
 	//strcpy(myFilename, filename);
@@ -238,38 +234,6 @@ void _platform_hide_keyboard() {
 
 void _platform_exit() {
 	// quit = TRUE;
-}
-
-void _platform_show_ad() {
-	// Call out to your windows ad integration piece here
-}
-void _platform_hide_ad() {
-	// Call out to your windows ad integration piece here
-}
-
-void attemptPurchase(const char *productID) {
-	const char* digital_good_sku = productID;
-	const char* purchase_app_icon =
-	    "http://www.rim.com/products/appworld_3col.jpg";
-	const char* purchase_app_name = "Payment Service Sample App";
-
-	unsigned request_id = 0;
-	cout << "sku len is " << strlen(productID) << endl;
-
-	strcpy(lastAttemptedPurchaseSku,productID);
-	if (paymentservice_purchase_request(NULL, digital_good_sku,
-	    NULL, NULL, purchase_app_name, purchase_app_icon,
-	    btGetContext()->appProperties->get("windowed_app_name")->getValue(), &request_id) != BPS_SUCCESS) {
-	        fprintf(stderr, "Error: purchase request failed.\n");
-	    }
-}
-
-void _platform_hook(const char *hook, char *result, S32 resultLen) {
-	// Handle custom hooks here
-	if( strstr(hook,"requestPurchase") == hook ) {
-		const char* productID = strchr(hook,' ') + 1;
-		attemptPurchase(productID);
-	}
 }
 
 BOOL32 _platform_has_special_key(BatteryTech::SpecialKey sKey) {
