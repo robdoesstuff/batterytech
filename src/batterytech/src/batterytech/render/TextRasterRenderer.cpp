@@ -220,17 +220,12 @@ namespace BatteryTech {
     void TextRasterRenderer::renderMultilineTTF(const char *text, F32 x, F32 y, F32 maxX, F32 maxY, F32 scale) {
 		S32 i = 0;
 		// count the number of actually renderable characters
-		S32 renderChars = 0;
-		S32 lastSpaceIdx = -1;
-		S32 lastSpaceRenderIdx = -1;
 		F32 origX = x;
 		//F32 origY = y;
 		F32 lineHeight = getHeight() * vertSpaceMult;
 		char c = *text;
 		while (c) {
 			if (c == '\n') {
-				lastSpaceIdx = -1;
-				lastSpaceRenderIdx = -1;
 				y += lineHeight;
 				x = origX;
 				if (maxY && y > maxY) {
@@ -239,32 +234,45 @@ namespace BatteryTech {
 			}
 			if (c >= 32 && c < 256) {
 				if (c == 32) {
-					lastSpaceIdx = i;
-					lastSpaceRenderIdx = renderChars;
-				}
+                    if (maxX) {
+                        // check this word's length and make sure it'll fit.  If not, move to next line.
+                        char *nextSpace = strchr(text+i+1, 32);
+                        char *nextNL = strchr(text+i+1, '\n');
+                        if (nextSpace || nextNL) {
+                            char *wordEnd;
+                            if (!nextNL) {
+                                wordEnd = nextSpace;
+                            } else if (!nextSpace) {
+                                wordEnd = nextNL;
+                            } else {
+                                wordEnd = (nextSpace < nextNL ? nextSpace : nextNL);
+                            }
+                            char word[255];
+                            S32 wordLength = wordEnd-(text+i+1);
+                            if (wordLength > 255) {
+                                wordLength = 255;
+                            }
+                            strncpy(word, text+i+1, wordLength);
+                            word[wordLength] = '\0';
+                            F32 width = measureTTFWidth(word, scale);
+                            if (x + width > maxX) {
+                                y += lineHeight;
+                                x = origX;
+                                ++i;
+                                c = *(text + i);
+                                if (!c) {
+                                    break;
+                                }
+                            }
+                        }
+                    }
+ 				}
+                if (maxY && y > maxY) {
+                    break;
+                }
 				stbtt_aligned_quad q;
 				stbtt_GetBakedQuad(cdata, bmpWidth, bmpHeight, c-32, &x,&y,&q,1, scale);//1=opengl,0=old d3d
-				if (maxX && x > maxX) {
-					x = origX;
-					y += lineHeight;
-					// rewind to char index after last space (but last space render char)
-					if (lastSpaceIdx != -1) {
-						i = lastSpaceIdx + 1;
-						renderChars = lastSpaceRenderIdx;
-						lastSpaceIdx = -1;
-						lastSpaceRenderIdx = -1;
-						c = *(text + i);
-					}
-					if (maxY && y > maxY) {
-						break;
-					} else {
-						if (c >= 32 && c < 256) {
-							stbtt_GetBakedQuad(cdata, bmpWidth, bmpHeight, c-32, &x,&y,&q,1, scale);//1=opengl,0=old d3d
-						}
-					}
-				}
                 addToBuffer(Vector3f(q.x0, q.y0, 0), Vector3f(q.x1, q.y0, 0), Vector3f(q.x1, q.y1, 0), Vector3f(q.x0, q.y1, 0), Vector2f(q.s0, q.t0), Vector2f(q.s1, q.t0), Vector2f(q.s1, q.t1), Vector2f(q.s0, q.t1));
-				++renderChars;
 			}
 			++i;
 			c = *(text + i);
@@ -618,7 +626,6 @@ namespace BatteryTech {
        	scale *= localScale;
 		// switch to bottom-left to match TTF renderer
 		y = y - bmInfo->lineHeight * scale;
-		S32 lastSpaceIdx = -1;
 		F32 origX = x;
 		//F32 origY = y;
 		F32 lineHeight = bmInfo->lineHeight * scale * vertSpaceMult;
@@ -626,7 +633,6 @@ namespace BatteryTech {
 		char c = *text;
 		while (c) {
 			if (c == '\n') {
-				lastSpaceIdx = -1;
 				y += lineHeight;
 				x = origX;
 				if (maxY && y > maxY) {
@@ -635,33 +641,44 @@ namespace BatteryTech {
 			}
 			if (c >= 32 && c < 256) {
 				if (c == 32) {
-					lastSpaceIdx = i;
+					if (maxX) {
+                        // check this word's length and make sure it'll fit.  If not, move to next line.
+                        char *nextSpace = strchr(text+i+1, 32);
+                        char *nextNL = strchr(text+i+1, '\n');
+                        if (nextSpace || nextNL) {
+                            char *wordEnd;
+                            if (!nextNL) {
+                                wordEnd = nextSpace;
+                            } else if (!nextSpace) {
+                                wordEnd = nextNL;
+                            } else {
+                                wordEnd = (nextSpace < nextNL ? nextSpace : nextNL);
+                            }
+                            char word[255];
+                            S32 wordLength = wordEnd-(text+i+1);
+                            if (wordLength > 255) {
+                                wordLength = 255;
+                            }
+                            strncpy(word, text+i+1, wordLength);
+                            word[wordLength] = '\0';
+                            // undo the local scale because the measure will reapply
+                            F32 width = measureBMFontWidth(word, scale / localScale);
+                            if (x + width > maxX) {
+                                y += lineHeight;
+                                x = origX;
+                                ++i;
+                                c = *(text + i);
+                                if (!c) {
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
 				}
 				BMFontChar *bmChar = bmFontCharTable->get(c);
 				if (bmChar) {
 					x += bmChar->xadvance * scale;
-					if (maxX && x > maxX) {
-						x = origX;
-						y += lineHeight;
-						// rewind to char index after last space (but last space render char)
-						if (lastSpaceIdx != -1) {
-							i = lastSpaceIdx + 1;
-							lastSpaceIdx = -1;
-							c = *(text + i);
-						}
-						if (maxY && y > maxY) {
-							break;
-						} else {
-							if (c >= 32 && c < 256) {
-								bmChar = bmFontCharTable->get(c);
-								if (bmChar) {
-									x += bmChar->xadvance * scale;
-								}
-							}
-						}
-					}
-				}
-				if (bmChar) {
                     if (bmInfo->pages > 1) {
                         if (bmChar->page != bmCurrentPage) {
                             renderBuffer();
