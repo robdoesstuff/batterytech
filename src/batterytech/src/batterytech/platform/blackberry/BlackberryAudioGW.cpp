@@ -21,6 +21,7 @@
 #include <pthread.h>
 
 #include <string.h>
+#include <stdio.h>
 
 #define AUDIO_BUFFER_SIZE 1024
 
@@ -32,6 +33,9 @@ static void* gwThreadLoop(void *param) {
 	while (gw->run) {
 		if (!gw->paused) {
 			gw->fillBuffer();
+		} else {
+			// sleep 100ms while waiting to start up again
+			usleep(100000);
 		}
 	}
 	return NULL;
@@ -43,6 +47,7 @@ BlackberryAudioGW::BlackberryAudioGW(AudioManager *audioManager) {
 	gw = this;
 	audioBuf = new unsigned char[AUDIO_BUFFER_SIZE];
 	paused = false;
+	thread = 0;
 }
 
 BlackberryAudioGW::~BlackberryAudioGW() {
@@ -143,14 +148,19 @@ void BlackberryAudioGW::init() {
 	}
 	logmsg("BB PCM Channel Ready");
 	run = true;
-	int ret = pthread_create(thread, NULL, gwThreadLoop, (void*) NULL);
+	int ret = pthread_create(&thread, NULL, gwThreadLoop, (void*) NULL);
+	if (ret) {
+		char buf[255];
+		sprintf(buf, "Error creating audio thread - %d", ret);
+		logmsg(buf);
+	}
 }
 
 void BlackberryAudioGW::release() {
 	logmsg("Releasing Blackberry Audio");
 	run = false;
 	void *status;
-	pthread_join(*thread, &status);
+	pthread_join(thread, &status);
 	thread = NULL;
 	snd_mixer_close(mixer_handle);
 	snd_pcm_close(pcm_handle);

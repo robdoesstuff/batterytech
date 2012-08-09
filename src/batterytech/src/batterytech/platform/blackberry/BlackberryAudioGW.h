@@ -40,7 +40,7 @@ private:
 	AudioManager *audioManager;
 	snd_pcm_t *pcm_handle;
 	snd_mixer_t *mixer_handle;
-	pthread_t *thread;
+	pthread_t thread;
 };
 
 
