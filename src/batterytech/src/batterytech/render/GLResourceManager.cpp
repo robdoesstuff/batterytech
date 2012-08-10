@@ -29,6 +29,9 @@
 #define MAX_ASSIMPS 100
 #define MAX_SHADERS 100
 
+static BOOL32 debugTextures = FALSE;
+static BOOL32 debugAssimp = FALSE;
+
 namespace BatteryTech {
 
 	GLResourceManager::GLResourceManager(Context *context) {
@@ -41,6 +44,14 @@ namespace BatteryTech {
 #ifdef BATTERYTECH_INCLUDE_ASSIMP
 		assimpBindings = new StrHashTable<GLAssimpBinding*>(MAX_ASSIMPS * 1.3f);
 #endif
+		Property *prop = context->appProperties->get("debug_textures");
+		if (prop) {
+			debugTextures = prop->getBoolValue();
+		}
+		prop = context->appProperties->get("debug_assimp");
+		if (prop) {
+			debugAssimp = prop->getBoolValue();
+		}
 	}
 
 	GLResourceManager::~GLResourceManager() {
@@ -87,9 +98,11 @@ namespace BatteryTech {
 			texArray->add(texture);
 			// use the texture-allocated string as key, texture itself will clean it up (removal should be synchronized)
 			texTable->put(texture->assetName, texture);
-			char buf[255];
-			sprintf(buf, "GLResourceManager: %d textures (%s) %s", texArray->getSize(), assetName, (loadOnDemand ? "OnDemand" : ""));
-			logmsg(buf);
+			if (debugTextures) {
+				char buf[255];
+				sprintf(buf, "GLResourceManager: %d textures (%s) %s", texArray->getSize(), assetName, (loadOnDemand ? "OnDemand" : ""));
+				logmsg(buf);
+			}
 		}
 	}
 
@@ -185,9 +198,11 @@ namespace BatteryTech {
 			GLObjSceneBinding *binding = new GLObjSceneBinding(assetName);
 			objSceneBindingArray->add(binding);
 			objSceneBindingTable->put(assetName, binding);
-			char buf[255];
-			sprintf(buf, "GLResourceManager: %d objscenes (%s)", objSceneBindingArray->getSize(), assetName);
-			logmsg(buf);
+			if (debugAssimp) {
+				char buf[255];
+				sprintf(buf, "GLResourceManager: %d objscenes (%s)", objSceneBindingArray->getSize(), assetName);
+				logmsg(buf);
+			}
 		}
 	}
 
@@ -227,9 +242,11 @@ namespace BatteryTech {
 		if (!assimpBindings->contains(assetName)) {
 			GLAssimpBinding *binding = new GLAssimpBinding(assetName);
 			assimpBindings->put(assetName, binding);
-			//char buf[255];
-			//sprintf(buf, "GLResourceManager: %d assimps (%s)", assimpBindings->getSize(), assetName);
-			//logmsg(buf);
+			if (debugAssimp) {
+				char buf[255];
+				sprintf(buf, "GLResourceManager: %d assimps (%s)", assimpBindings->size(), assetName);
+				logmsg(buf);
+			}
 		}
 	}
 
@@ -238,15 +255,15 @@ namespace BatteryTech {
 	}
 
 	void GLResourceManager::removeAssimp(const char *assetName) {
-		// TODO - unload if active
 		GLAssimpBinding *binding = assimpBindings->remove(assetName);
+		binding->unload(context);
 		if (binding) {
 			assimpBindings->remove(assetName);
 		}
 	}
 
 	void GLResourceManager::clearAssimps() {
-		// TODO - if any assimps are loaded into current context, we need to unload them first!
+		unloadAssimps();
 		assimpBindings->deleteElements();
 	}
 

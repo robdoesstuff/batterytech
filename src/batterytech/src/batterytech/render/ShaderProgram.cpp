@@ -20,13 +20,14 @@
 #include <string.h>
 #include <stdio.h>
 #include "../util/strx.h"
-
-#define DEBUG_SHADERS TRUE
+#include "../batterytech.h"
+#include "../Context.h"
 
 namespace BatteryTech {
 
 int ShaderProgram::binds = 0;
 ShaderProgram* ShaderProgram::currentProgram = NULL;
+static BOOL32 debugShaders = FALSE;
 
 ShaderProgram::ShaderProgram(const char *tag, const char *vertShaderAssetName, const char *fragShaderAssetName) {
 	vertShader = fragShader = program = 0;
@@ -68,6 +69,10 @@ void ShaderProgram::load(BOOL32 force) {
 		// already initialized
 		return;
 	}
+	Property *prop = btGetContext()->appProperties->get("debug_shaders");
+	if (prop) {
+		debugShaders = prop->getBoolValue();
+	}
 	uniformLocs->deleteElements();
 	attribLocs->deleteElements();
 	GLint status = 0;
@@ -86,11 +91,11 @@ void ShaderProgram::load(BOOL32 force) {
 		GLint activeAttributes;
 		glGetProgramiv(program, GL_ACTIVE_UNIFORMS, &activeUniforms);
 		glGetProgramiv(program, GL_ACTIVE_ATTRIBUTES, &activeAttributes);
-#if DEBUG_SHADERS
-		char buf[255];
-		sprintf(buf, "%s uniforms=%d attribs=%d", tag, activeUniforms, activeAttributes);
-		logmsg(buf);
-#endif
+		if (debugShaders) {
+			char buf[255];
+			sprintf(buf, "%s uniforms=%d attribs=%d", tag, activeUniforms, activeAttributes);
+			logmsg(buf);
+		}
 		for (GLuint i = 0; i < (GLuint)activeUniforms; i++) {
 			char name[255];
 			GLsizei nameLength;
@@ -101,10 +106,11 @@ void ShaderProgram::load(BOOL32 force) {
 				// by default we just want the base name to be consistent
 				name[strlen(name)-3] = '\0';
 			}
-#if DEBUG_SHADERS
-			sprintf(buf, "%s uniform %d = %s", tag, i, name);
-			logmsg(buf);
-#endif
+			if (debugShaders) {
+				char buf[1024];
+				sprintf(buf, "%s uniform %d = %s", tag, i, name);
+				logmsg(buf);
+			}
 			addUniformLoc(name);
 		}
 		// we say the attribute locations are contiguous if they are like 0,1,2,3 etc but 0 5 8 30 is not nor is 1,2,3,4, must start at 0.
@@ -119,10 +125,11 @@ void ShaderProgram::load(BOOL32 force) {
 			GLint size;
 			GLenum type;
 			glGetActiveAttrib(program, i, 255, &nameLength, &size, &type, name);
-#if DEBUG_SHADERS
-			sprintf(buf, "%s attrib %d = %s", tag, i, name);
-			logmsg(buf);
-#endif
+			if (debugShaders) {
+				char buf[1024];
+				sprintf(buf, "%s attrib %d = %s", tag, i, name);
+				logmsg(buf);
+			}
 			// determine if sequential starting from 0 and mark as contiguous
 			GLint attLoc = addVertexAttributeLoc(name);
 			if (attLoc > 32) {
@@ -255,11 +262,11 @@ GLint ShaderProgram::getVertexAttributeLoc(const char *name) {
 	if (loc != -2) {
 		return loc;
 	}
-#if DEBUG_SHADERS
-	char buf[1024];
-	sprintf(buf, "%s-%s - get - Vertex Attribute %s not found, attempting to auto-add", vertShaderAssetName, fragShaderAssetName, name);
-	logmsg(buf);
-#endif
+	if (debugShaders) {
+		char buf[1024];
+		sprintf(buf, "%s-%s - get - Vertex Attribute %s not found, attempting to auto-add", vertShaderAssetName, fragShaderAssetName, name);
+		logmsg(buf);
+	}
 	return addVertexAttributeLoc(name);
 }
 
@@ -268,11 +275,11 @@ GLint ShaderProgram::getUniformLoc(const char *name) {
 	if (loc != -2) {
 		return loc;
 	}
-#if DEBUG_SHADERS
-	char buf[1024];
-	sprintf(buf, "%s-%s - get - Uniform %s not found, attempting to auto-add", vertShaderAssetName, fragShaderAssetName, name);
-	logmsg(buf);
-#endif
+	if (debugShaders) {
+		char buf[1024];
+		sprintf(buf, "%s-%s - get - Uniform %s not found, attempting to auto-add", vertShaderAssetName, fragShaderAssetName, name);
+		logmsg(buf);
+	}
 	return addUniformLoc(name);
 }
 
@@ -297,8 +304,10 @@ GLuint ShaderProgram::loadShaderFromAsset(GLenum type, const char *assetName) {
 
 GLuint ShaderProgram::loadShader(GLenum type, const char *shaderSrc, const char *assetName) {
 	char buf[255];
-	sprintf(buf, "Loading Shader %s", assetName);
-	logmsg(buf);
+	if (debugShaders) {
+		sprintf(buf, "Loading Shader %s", assetName);
+		logmsg(buf);
+	}
 	GLuint shader;
 	GLint compiled;
 	// Create the shader object

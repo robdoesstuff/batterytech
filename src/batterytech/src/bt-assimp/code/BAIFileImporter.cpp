@@ -73,9 +73,9 @@ static void importBAI(unsigned char *data, size_t dataLength, aiScene *scene) {
 	bai_u32 offset = 0;
 	offset=readFromData(&mainHeader, offset, data, sizeof(bai_header));
 	if (mainHeader.token == BAI_MAGIC) {
-		cout << "magic number matches" << endl;
+		// cout << "magic number matches" << endl;
 	} else {
-		cout << "magic number mismatch" << endl;
+		cout << "BAI Importer - magic number mismatch" << endl;
 		return;
 	}
 //	cout << "data length = " << mainHeader.length << endl;

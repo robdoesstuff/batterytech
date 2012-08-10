@@ -114,6 +114,11 @@ namespace BatteryTech {
 
     // TTF
     void TextRasterRenderer::loadTTF() {
+		Property *prop = context->appProperties->get("debug_fonts");
+		BOOL32 debugFonts = FALSE;
+		if (prop) {
+			debugFonts = prop->getBoolValue();
+		}
 		S32 bmpWidth = context->appProperties->get("initial_font_texture_width")->getIntValue();
 		S32 bmpHeight = context->appProperties->get("initial_font_texture_height")->getIntValue();
 		S32 size = 0;
@@ -130,10 +135,15 @@ namespace BatteryTech {
 			stbtt_InitFont(&f, data, 0);
 			stbtt_GetFontVMetrics(&f, &ascent, &descent, &lineGap);
 			stbtt_GetFontHMetrics(&f, &advanceWidthMax, &minLeftSideBearing, &minRightSideBearing, &xMaxExtent);
-			printf("Font Metrics: ascent=%d, descent=%d, lineGap=%d, awm=%d, mlsb=%d, mrsb=%d, xmax=%d\n", ascent, descent, lineGap, advanceWidthMax, minLeftSideBearing, minRightSideBearing, xMaxExtent);
 			F32 scaledFontSize = fontSize * context->gConfig->uiScale;
 			F32 scale = stbtt_ScaleForPixelHeight(&f, scaledFontSize);
-			printf("Bitmap Scale: %f = %f, awmScaled=%f, xmaxScaled=%f\n", scaledFontSize, scale, advanceWidthMax*scale, xMaxExtent*scale);
+			char buf[1024];
+			if (debugFonts) {
+				sprintf(buf, "Font Metrics: ascent=%d, descent=%d, lineGap=%d, awm=%d, mlsb=%d, mrsb=%d, xmax=%d\n", ascent, descent, lineGap, advanceWidthMax, minLeftSideBearing, minRightSideBearing, xMaxExtent);
+				logmsg(buf);
+				printf("Bitmap Scale: %f = %f, awmScaled=%f, xmaxScaled=%f\n", scaledFontSize, scale, advanceWidthMax*scale, xMaxExtent*scale);
+				logmsg(buf);
+			}
 			while (!fit) {
 				// this isn't the most efficient way to do this but anything better will require modifying stb_truetype to do a dry run with no allocation
 				temp_bitmap = (unsigned char*) malloc(sizeof(unsigned char) * bmpWidth*bmpHeight);
@@ -194,10 +204,7 @@ namespace BatteryTech {
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, bmpWidth, bmpHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, temp_bitmap_rgba);
 			free(temp_bitmap_rgba);
-			GLenum error = glGetError();
-			if (error) {
-				Logger::logMsg("GL Error");
-			}
+			checkGLError("loadTTF");
 			// can free temp_bitmap at this point
 			_platform_free_asset(data);
 		} else {
@@ -245,6 +252,8 @@ namespace BatteryTech {
                             wordEnd = nextSpace;
                         } else if (!nextSpace) {
                             wordEnd = nextNL;
+                        } else {
+                        	wordEnd = text+strlen(text);
                         }
                         char word[255];
                         S32 wordLength = wordEnd-(text+i+1);
@@ -650,6 +659,8 @@ namespace BatteryTech {
                             wordEnd = nextSpace;
                         } else if (!nextSpace) {
                             wordEnd = nextNL;
+                        } else {
+                        	wordEnd = text+strlen(text);
                         }
                         char word[255];
                         S32 wordLength = wordEnd-(text+i+1);

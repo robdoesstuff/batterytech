@@ -24,6 +24,8 @@
 #include <stdio.h>
 #include <assert.h>
 #include "../batterytech_globals.h"
+#include "../batterytech.h"
+#include "../Context.h"
 
 struct stb_vorbis;
 
@@ -62,6 +64,11 @@ namespace BatteryTech {
 	}
 
 	S32 PCMAudioManager::loadSound(const char *assetName) {
+		Property *prop = btGetContext()->appProperties->get("debug_sounds");
+		BOOL32 debugSounds = FALSE;
+		if (prop) {
+			debugSounds = prop->getBoolValue();
+		}
         if (isSoundLoaded(assetName)) {
             return getSoundId(assetName);
         }
@@ -73,9 +80,11 @@ namespace BatteryTech {
 			int channels, len;
 			unsigned int sampleRate = 0;
 			len = stb_vorbis_decode_memory(fileData, assetSize, &channels, &sampleRate, &decoded);
-			char buf[1024];
-			sprintf(buf, "Loaded %s: (%i enc bytes) length=%i channels=%i rate=%i", assetName, assetSize, len, channels, sampleRate);
-			logmsg(buf);
+			if (debugSounds) {
+				char buf[1024];
+				sprintf(buf, "Loaded %s: (%i enc bytes) length=%i channels=%i rate=%i", assetName, assetSize, len, channels, sampleRate);
+				logmsg(buf);
+			}
 			sndId = loadSound(decoded, len * channels, sampleRate, channels, assetName);
 		}
 		_platform_free_asset(fileData);

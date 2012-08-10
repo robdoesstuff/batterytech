@@ -24,8 +24,8 @@
 using namespace Assimp;
 #include "../../../bt-assimp/include/aiPostProcess.h"
 #include "BTIOSystem.h"
-
-#define DEBUG_ASSIMP TRUE
+#include "../../batterytech.h"
+#include "../../Context.h"
 
 namespace BatteryTech {
 
@@ -38,9 +38,16 @@ BTAssimpImporter::~BTAssimpImporter() {
 }
 
 Importer* BTAssimpImporter::importAsset(const char* assetName) {
+	Property *prop = btGetContext()->appProperties->get("debug_assimp");
+	BOOL32 debugAssimp = FALSE;
+	if (prop) {
+		debugAssimp = prop->getBoolValue();
+	}
 	char buf[1024];
-	sprintf(buf, "Importing Asset [%s]", assetName);
-	logmsg(buf);
+	if (debugAssimp) {
+		sprintf(buf, "Importing Asset [%s]", assetName);
+		logmsg(buf);
+	}
 	//S32 size;
 	//unsigned char *data = _platform_load_asset(assetName, &size);
 	//const aiScene *scene = importer->ReadFileFromMemory(data, size, aiProcess_LimitBoneWeights, "");
@@ -57,51 +64,51 @@ Importer* BTAssimpImporter::importAsset(const char* assetName) {
 	importer->SetIOHandler(new BTIOSystem(importedAssetBasename));
 	const aiScene *scene = importer->ReadFile(fileName, aiProcess_LimitBoneWeights);
 	if (scene) {
-#ifdef DEBUG_ASSIMP
-		sprintf(buf, "(Scene) Meshes=%d Animations=%d", scene->mNumMeshes, scene->mNumAnimations);
-		logmsg(buf);
-#endif
+		if (debugAssimp) {
+			sprintf(buf, "(Scene) Meshes=%d Animations=%d", scene->mNumMeshes, scene->mNumAnimations);
+			logmsg(buf);
+		}
 		S32 totalVerts = 0;
 		S32 totalBones = 0;
 		for (U32 i = 0; i < scene->mNumMeshes; i++) {
 			aiMesh *mesh = scene->mMeshes[i];
-#ifdef DEBUG_ASSIMP
-			sprintf(buf, "(Scene) (Mesh %d) Name=%s Verts=%d Bones=%d", i, mesh->mName.data, mesh->mNumVertices, mesh->mNumBones);
-            logmsg(buf);
-#endif
+			if (debugAssimp) {
+				sprintf(buf, "(Scene) (Mesh %d) Name=%s Verts=%d Bones=%d", i, mesh->mName.data, mesh->mNumVertices, mesh->mNumBones);
+				logmsg(buf);
+			}
 			totalVerts += mesh->mNumVertices;
 			totalBones += mesh->mNumBones;
-#ifdef DEBUG_ASSIMP
-			for (U32 j = 0; j < mesh->mNumBones; j++) {
-				aiBone *bone = mesh->mBones[j];
-				sprintf(buf, "(Scene) (Mesh %d) (Bone %d) Name=%s Weights=%d", i, j, bone->mName.data, bone->mNumWeights);
-				logmsg(buf);
+			if (debugAssimp) {
+				for (U32 j = 0; j < mesh->mNumBones; j++) {
+					aiBone *bone = mesh->mBones[j];
+					sprintf(buf, "(Scene) (Mesh %d) (Bone %d) Name=%s Weights=%d", i, j, bone->mName.data, bone->mNumWeights);
+					logmsg(buf);
+				}
 			}
-#endif
 		}
-#ifdef DEBUG_ASSIMP
-		for (U32 i = 0; i < scene->mNumAnimations; i++) {
-			aiAnimation *anim = scene->mAnimations[i];
-			sprintf(buf, "(Scene) (Animation %d) Channels=%d MeshChannels=%d Duration=%f TPS=%f", i, anim->mNumChannels, anim->mNumMeshChannels, anim->mDuration, anim->mTicksPerSecond);
+		if (debugAssimp) {
+			for (U32 i = 0; i < scene->mNumAnimations; i++) {
+				aiAnimation *anim = scene->mAnimations[i];
+				sprintf(buf, "(Scene) (Animation %d) Channels=%d MeshChannels=%d Duration=%f TPS=%f", i, anim->mNumChannels, anim->mNumMeshChannels, anim->mDuration, anim->mTicksPerSecond);
+				logmsg(buf);
+				for (U32 j = 0; j < anim->mNumChannels; j++) {
+					aiNodeAnim *nodeAnim = anim->mChannels[j];
+					sprintf(buf, "(Scene) (Animation %d) (Channel %d) NodeName=%s posKeys=%d, rotKeys=%d, scaleKeys=%d, time[0]=%f, time[1]=%f", i, j, nodeAnim->mNodeName.data, nodeAnim->mNumPositionKeys, nodeAnim->mNumRotationKeys, nodeAnim->mNumScalingKeys, nodeAnim->mPositionKeys[0].mTime, nodeAnim->mPositionKeys[1].mTime);
+					logmsg(buf);
+				}
+			}
+			sprintf(buf, "Assimp Scene loaded: [%d] meshes, [%d] verts, [%d] bones, [%d] animations", scene->mNumMeshes, totalVerts, totalBones, scene->mNumAnimations);
 			logmsg(buf);
-			for (U32 j = 0; j < anim->mNumChannels; j++) {
-				aiNodeAnim *nodeAnim = anim->mChannels[j];
-				sprintf(buf, "(Scene) (Animation %d) (Channel %d) NodeName=%s posKeys=%d, rotKeys=%d, scaleKeys=%d, time[0]=%f, time[1]=%f", i, j, nodeAnim->mNodeName.data, nodeAnim->mNumPositionKeys, nodeAnim->mNumRotationKeys, nodeAnim->mNumScalingKeys, nodeAnim->mPositionKeys[0].mTime, nodeAnim->mPositionKeys[1].mTime);
-				logmsg(buf);
-			}
 		}
-#endif
-		sprintf(buf, "Assimp Scene loaded: [%d] meshes, [%d] verts, [%d] bones, [%d] animations", scene->mNumMeshes, totalVerts, totalBones, scene->mNumAnimations);
-		logmsg(buf);
 		// convert to Z-Up
 		scene->mRootNode->mTransformation *= aiMatrix4x4(
 				 1,  0,  0,  0,
 				 0,  0,  -1,  0,
 				 0, 1,  0,  0,
 				 0,  0,  0,  1);
-#ifdef DEBUG_ASSIMP
-		processNode(scene->mRootNode);
-#endif
+		if (debugAssimp) {
+			processNode(scene->mRootNode);
+		}
 		//_platform_free_asset(data);
 	} else {
 		logmsg("No scene!");

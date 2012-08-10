@@ -27,9 +27,6 @@
 #include "AtlasMappedTexture.h"
 #include "GLResourceManager.h"
 
-#define DEBUG_TEXTURE TRUE
-#define HALF_SIZE_WIDTH 960
-#define HALF_SIZE_HEIGHT 640
 #define MAX_ATLAS_MAPPED_TEXTURES 50
 
 namespace BatteryTech {
@@ -73,6 +70,11 @@ namespace BatteryTech {
 	}
 
 	void AssetTexture::loadBTXAtlas() {
+		Property *prop = context->appProperties->get("debug_textures");
+		BOOL32 debugTextures = FALSE;
+		if (prop) {
+			debugTextures = prop->getBoolValue();
+		}
 		char *data = _platform_load_text_asset(assetName);
 		if (!data) {
 			return;
@@ -118,8 +120,10 @@ namespace BatteryTech {
 			} else if (strEquals(keyBuf, "image.assetname")) {
 				// finish up previous one
 				if (vTex) {
-					sprintf(logbuf, "Atlas Mapped Texture %s orig size %d %d tsize %d %d offsets %d %d", vTex->assetName, vTex->origSize.x, vTex->origSize.y, vTex->trimmedSize.x, vTex->trimmedSize.y, vTex->cornerOffset.x, vTex->cornerOffset.y);
-					logmsg(logbuf);
+					if (debugTextures) {
+						sprintf(logbuf, "Atlas Mapped Texture %s orig size %d %d tsize %d %d offsets %d %d", vTex->assetName, vTex->origSize.x, vTex->origSize.y, vTex->trimmedSize.x, vTex->trimmedSize.y, vTex->cornerOffset.x, vTex->cornerOffset.y);
+						logmsg(logbuf);
+					}
 					vTex->createMat();
 				}
 				// add path to btx onto assetname
@@ -174,8 +178,10 @@ namespace BatteryTech {
 		}
 		// and now last one
 		if (vTex) {
-			sprintf(logbuf, "Atlas Mapped Texture %s orig size %d %d tsize %d %d offsets %d %d", vTex->assetName, vTex->origSize.x, vTex->origSize.y, vTex->trimmedSize.x, vTex->trimmedSize.y, vTex->cornerOffset.x, vTex->cornerOffset.y);
-			logmsg(logbuf);
+			if (debugTextures) {
+				sprintf(logbuf, "Atlas Mapped Texture %s orig size %d %d tsize %d %d offsets %d %d", vTex->assetName, vTex->origSize.x, vTex->origSize.y, vTex->trimmedSize.x, vTex->trimmedSize.y, vTex->cornerOffset.x, vTex->cornerOffset.y);
+				logmsg(logbuf);
+			}
 			vTex->createMat();
 		}
 		_platform_free_asset((unsigned char*)data);
@@ -220,6 +226,21 @@ namespace BatteryTech {
 	}
 
 	void AssetTexture::loadImageData(const char *imageAssetName) {
+		Property *prop = context->appProperties->get("debug_textures");
+		BOOL32 debugTextures = FALSE;
+		if (prop) {
+			debugTextures = prop->getBoolValue();
+		}
+		S32 halfWidthThreshold = 0;
+		S32 halfHeightThreshold = 0;
+		prop = context->appProperties->get("texture_half_width_threshold");
+		if (prop) {
+			halfWidthThreshold = prop->getIntValue();
+		}
+		prop = context->appProperties->get("texture_half_height_threshold");
+		if (prop) {
+			halfHeightThreshold = prop->getIntValue();
+		}
 		S32 x, y, n;
 		S32 assetSize = 0;
 		unsigned char *fileData = _platform_load_asset(imageAssetName, &assetSize);
@@ -235,7 +256,7 @@ namespace BatteryTech {
 			if (dataRaw) {
 				BOOL32 scaleDown = FALSE;
 				// This is where we flip to half-size textures for smaller screens.
-				if (context->gConfig->viewportWidth <= HALF_SIZE_WIDTH && context->gConfig->viewportHeight <= HALF_SIZE_HEIGHT) {
+				if (context->gConfig->viewportWidth <= halfWidthThreshold || context->gConfig->viewportHeight <= halfHeightThreshold) {
 					scaleDown = TRUE;
 				}
 				int bytes = x * y * n * sizeof(unsigned char);
@@ -320,7 +341,7 @@ namespace BatteryTech {
 					scaleDown = true;
 					data = newData;
 				}
-				if (DEBUG_TEXTURE) {
+				if (debugTextures) {
 					char buf[1024];
 					sprintf(buf, "Loaded Texture %s (%d enc bytes): %ix%i components=%i bytes=%i", imageAssetName, assetSize, x, y, n, bytes);
 					logmsg(buf);
