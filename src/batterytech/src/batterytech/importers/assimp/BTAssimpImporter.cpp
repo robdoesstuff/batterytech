@@ -63,7 +63,7 @@ Importer* BTAssimpImporter::importAsset(const char* assetName) {
 	_platform_convert_path_to_forward(importedAssetBasename, importedAssetBasename);
 	importer->SetIOHandler(new BTIOSystem(importedAssetBasename));
 	const aiScene *scene = importer->ReadFile(fileName, aiProcess_LimitBoneWeights);
-	if (scene) {
+	if (scene && scene->mRootNode) {
 		if (debugAssimp) {
 			sprintf(buf, "(Scene) Meshes=%d Animations=%d", scene->mNumMeshes, scene->mNumAnimations);
 			logmsg(buf);
@@ -111,7 +111,7 @@ Importer* BTAssimpImporter::importAsset(const char* assetName) {
 		}
 		//_platform_free_asset(data);
 	} else {
-		logmsg("No scene!");
+		logmsg("No scene or no scene root node - does file exist?");
 	}
 	return importer;
 }
