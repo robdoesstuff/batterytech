@@ -188,6 +188,7 @@
 		CD19389A15A3538000A22B4A /* VibrationManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CD19384515A3538000A22B4A /* VibrationManager.cpp */; };
 		CD19389B15A3538000A22B4A /* btFFMpegPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CD19384815A3538000A22B4A /* btFFMpegPlayer.cpp */; };
 		CD19389C15A3538000A22B4A /* VideoManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CD19384A15A3538000A22B4A /* VideoManager.cpp */; };
+		CDB659C915D8DED0001AE83B /* phystests.lua in Resources */ = {isa = PBXBuildFile; fileRef = CDB659C815D8DED0001AE83B /* phystests.lua */; };
 		CDC9048815B0C2DB004F6B19 /* Box2DConfig.cmake in Resources */ = {isa = PBXBuildFile; fileRef = CDC9043915B0C2DB004F6B19 /* Box2DConfig.cmake */; };
 		CDC9048915B0C2DB004F6B19 /* CMakeLists.txt in Resources */ = {isa = PBXBuildFile; fileRef = CDC9043A15B0C2DB004F6B19 /* CMakeLists.txt */; };
 		CDC9048A15B0C2DB004F6B19 /* b2BroadPhase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CDC9043C15B0C2DB004F6B19 /* b2BroadPhase.cpp */; };
@@ -665,6 +666,7 @@
 		CD19384915A3538000A22B4A /* btFFMpegPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = btFFMpegPlayer.h; sourceTree = "<group>"; };
 		CD19384A15A3538000A22B4A /* VideoManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VideoManager.cpp; sourceTree = "<group>"; };
 		CD19384B15A3538000A22B4A /* VideoManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoManager.h; sourceTree = "<group>"; };
+		CDB659C815D8DED0001AE83B /* phystests.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = phystests.lua; path = ../assets/scripts/phystests.lua; sourceTree = "<group>"; };
 		CDC9043815B0C2DB004F6B19 /* Box2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Box2D.h; sourceTree = "<group>"; };
 		CDC9043915B0C2DB004F6B19 /* Box2DConfig.cmake */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Box2DConfig.cmake; sourceTree = "<group>"; };
 		CDC9043A15B0C2DB004F6B19 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
@@ -793,6 +795,7 @@
 		29B97314FDCFA39411CA2CEA /* bt-luaengine-osx */ = {
 			isa = PBXGroup;
 			children = (
+				CDB659C815D8DED0001AE83B /* phystests.lua */,
 				3D56C33E131DF9AC00BF7F17 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -1757,6 +1760,7 @@
 				CDC9048815B0C2DB004F6B19 /* Box2DConfig.cmake in Resources */,
 				CDC9048915B0C2DB004F6B19 /* CMakeLists.txt in Resources */,
 				CDC904AD15B0C2DB004F6B19 /* license.txt in Resources */,
+				CDB659C915D8DED0001AE83B /* phystests.lua in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

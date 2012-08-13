@@ -22,8 +22,11 @@
 #include "../World.h"
 #include <batterytech/render/GLResourceManager.h>
 #include <batterytech/render/ShaderProgram.h>
+#include <batterytech/render/RenderContext.h>
 
 #define CIRCLE_TESSELATION 12
+
+static ShaderProgram *shader = NULL;
 
 B2DebugRenderer::B2DebugRenderer(GameContext *context) {
 	this->context = context;
@@ -47,7 +50,15 @@ void B2DebugRenderer::render(World *world) {
 	if (!context->gConfig->useShaders) {
 		glDisable(GL_TEXTURE_2D);
 		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-	}
+	} else {
+        shader = context->glResourceManager->getShaderProgram("line");
+        if (shader) {
+            shader->bind();
+        } else {
+            // no shader
+            return;
+        }
+    }
 	b2Body *nextBody = world->boxWorld->GetBodyList();
 	while (nextBody) {
 		if (nextBody->GetUserData()) {
@@ -83,34 +94,39 @@ void B2DebugRenderer::renderPolyShape(b2Body *body, b2PolygonShape *polyShape) {
 	b2Vec2 pos = body->GetPosition();
 	S32 vertCount = polyShape->GetVertexCount();
 	// 12 is max verts for a polyshape
-	F32 glVerts[12 * 3 * 2];
-	S32 i;
-	b2Vec2 vert2;
-	for (i = 0; i < vertCount; i++) {
-		b2Vec2 vert = polyShape->GetVertex(i);
-		if (i == vertCount - 1) {
-			vert2 = polyShape->GetVertex(0);
-		} else {
-			vert2 = polyShape->GetVertex(i + 1);
-		}
-		glVerts[i * 6] = vert.x;
-		glVerts[i * 6 + 1] = vert.y;
-		glVerts[i * 6 + 2] = 0;
-		glVerts[i * 6 + 3] = vert2.x;
-		glVerts[i * 6 + 4] = vert2.y;
-		glVerts[i * 6 + 5] = 0;
+    Vector3f verts[12];
+    Vector4f colors[12];
+    S32 indices[24];
+    for (S32 i = 0; i < vertCount; i++) {
+        indices[i*2] = i;
+        if (i == vertCount - 1) {
+            indices[i*2+1] = 0;
+        } else {
+            indices[i*2+1] = i + 1;
+        }
+        colors[i] = Vector4f(1,1,1,1);
+    }
+	for (S32 i = 0; i < vertCount; i++) {
+		b2Vec2 b2v = polyShape->GetVertex(i);
+        verts[i] = Vector3f(b2v.x, b2v.y, 0);
 	}
 	glFrontFace(GL_CCW);
 	if (context->gConfig->useShaders) {
-		// mv + proj
-		// v position
-		// v color
+        Matrix4f myMv = context->renderContext->mvMatrix;
+        myMv.translate(pos.x, pos.y, 0);
+        myMv.rotate(angle * (180 / PI), 0, 0, 1.0f);
+		// mv + proj, position and color
+        glUniformMatrix4fv(shader->getUniformLoc("modelview_matrix"), 1, FALSE, myMv.data);
+        glUniformMatrix4fv(shader->getUniformLoc("projection_matrix"), 1, FALSE, context->renderContext->projMatrix.data);
+		glVertexAttribPointer(shader->getVertexAttributeLoc("vPosition"), 3, GL_FLOAT, GL_FALSE, 0, verts);
+		glVertexAttribPointer(shader->getVertexAttributeLoc("vColor"), 4, GL_FLOAT, GL_FALSE, 0, colors);
+        glDrawElements(GL_LINES, vertCount*2, GL_UNSIGNED_SHORT, indices);
 	} else {
-		glVertexPointer(3, GL_FLOAT, 0, &glVerts);
+		glVertexPointer(3, GL_FLOAT, 0, verts);
 		glPushMatrix();
 		glTranslatef(pos.x, pos.y, 0);
 		glRotatef(angle * (180 / PI), 0, 0, 1.0f);
-		glDrawArrays(GL_LINES, 0, vertCount * 2);
+        glDrawElements(GL_LINES, vertCount*2, GL_UNSIGNED_SHORT, indices);
 		glPopMatrix();
 	}
 }
@@ -120,37 +136,40 @@ void B2DebugRenderer::renderCircleShape(b2Body *body, b2CircleShape *shape) {
 	b2Vec2 pos = body->GetPosition();
 	S32 vertCount = CIRCLE_TESSELATION;
 	F32 radsPerSegment = TAU / CIRCLE_TESSELATION;
-	F32 glVerts[CIRCLE_TESSELATION * 3 * 2];
-	S32 i;
-	for (i = 0; i < vertCount; i++) {
+    Vector3f verts[CIRCLE_TESSELATION];
+    Vector4f colors[CIRCLE_TESSELATION];
+    S32 indices[CIRCLE_TESSELATION*2];
+    for (S32 i = 0; i < CIRCLE_TESSELATION; i++) {
+        indices[i*2] = i;
+        if (i == vertCount - 1) {
+            indices[i*2+1] = 0;
+        } else {
+            indices[i*2+1] = i + 1;
+        }
+        colors[i] = Vector4f(1,1,1,1);
+    }
+	for (S32 i = 0; i < vertCount; i++) {
 		F32 thisX = cos(radsPerSegment * i) * shape->m_radius;
 		F32 thisY = sin(radsPerSegment * i) * shape->m_radius;
-		F32 nextX, nextY;
-		if (i == vertCount - 1) {
-			nextX = cos(0.0f) * shape->m_radius;
-			nextY = sin(0.0f) * shape->m_radius;
-		} else {
-			nextX = cos(radsPerSegment * (i + 1)) * shape->m_radius;
-			nextY = sin(radsPerSegment * (i + 1)) * shape->m_radius;
-		}
-		glVerts[i * 6] = thisX;
-		glVerts[i * 6 + 1] = thisY;
-		glVerts[i * 6 + 2] = 0;
-		glVerts[i * 6 + 3] = nextX;
-		glVerts[i * 6 + 4] = nextY;
-		glVerts[i * 6 + 5] = 0;
+        verts[i] = Vector3f(thisX, thisY, 0);
 	}
+    glFrontFace(GL_CCW);
 	if (context->gConfig->useShaders) {
-		// mv + proj
-		// v position
-		// v color
+        Matrix4f myMv = context->renderContext->mvMatrix;
+        myMv.translate(pos.x, pos.y, 0);
+        myMv.rotate(angle * (180 / PI), 0, 0, 1.0f);
+		// mv + proj, position and color
+        glUniformMatrix4fv(shader->getUniformLoc("modelview_matrix"), 1, FALSE, myMv.data);
+        glUniformMatrix4fv(shader->getUniformLoc("projection_matrix"), 1, FALSE, context->renderContext->projMatrix.data);
+		glVertexAttribPointer(shader->getVertexAttributeLoc("vPosition"), 3, GL_FLOAT, GL_FALSE, 0, verts);
+		glVertexAttribPointer(shader->getVertexAttributeLoc("vColor"), 4, GL_FLOAT, GL_FALSE, 0, colors);
+        glDrawElements(GL_LINES, vertCount*2, GL_UNSIGNED_SHORT, indices);
 	} else {
-		glFrontFace(GL_CCW);
-		glVertexPointer(3, GL_FLOAT, 0, &glVerts);
+		glVertexPointer(3, GL_FLOAT, 0, verts);
 		glPushMatrix();
 		glTranslatef(pos.x, pos.y, 0);
 		glRotatef(angle * (180 / PI), 0, 0, 1.0f);
-		glDrawArrays(GL_LINES, 0, vertCount * 2);
+        glDrawElements(GL_LINES, vertCount*2, GL_UNSIGNED_SHORT, indices);
 		glPopMatrix();
 	}
 }

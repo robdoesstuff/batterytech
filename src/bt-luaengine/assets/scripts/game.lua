@@ -21,6 +21,7 @@ function Game:init()
 	self.playModule = Play.new()
 	self.optionsModule = Options.new()
     self.testsModule = Tests.new()
+    self.physicsTestsModule = PhysicsTests.new()
 	self.currentModule = self.mainMenuModule
 	math.randomseed(os.time())
 	setSoundEnabled(true)
@@ -42,7 +43,7 @@ function Game:setMode(mode)
     elseif mode == MODE_3D_TESTS then
         self.currentModule = self.testsModule
     elseif mode == MODE_PHYSICS_TESTS then
-        self.currentModule = self.testsModule
+        self.currentModule = self.physicsTestsModule
  	end
 	self.currentModule:show()
 end

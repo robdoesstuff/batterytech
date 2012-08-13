@@ -9,6 +9,7 @@ execScript("scripts/resources.lua")
 execScript("scripts/touchcontrol.lua")
 execScript("scripts/uifactory.lua")
 execScript("scripts/tests.lua")
+execScript("scripts/phystests.lua")
 
 -- place any other scripts you want executed here
 
