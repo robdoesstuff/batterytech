@@ -1158,12 +1158,17 @@ static int lua_GameObject_physics_createCircleShape(lua_State *L) {
 	allocatePhysicsModelConfigIfNull(o);
 	// param 2 is the index of the model config
 	S32 configIdx = lua_tointeger(L, 2);
-
+	if (configIdx > o->physicsModelConfigs->capacity-1) {
+		logmsg("GameObject: physics model config out of range");
+		return 0;
+	}
 	PhysicsModelConfig *modelConfig = o->physicsModelConfigs->array[configIdx];
 	// param 3 is radius
 	b2CircleShape *shape = new b2CircleShape;
 	shape->m_radius = lua_tonumber(L, 3);
     modelConfig->shape = shape;
+    modelConfig->bodyDef = new b2BodyDef;
+    modelConfig->bodyDef->position = b2Vec2(300, 300);
 	return 0;
 }
 

@@ -67,6 +67,7 @@ public:
 
 	BOOL32 levelLoaded;
 	BOOL32 renderersReady;
+	BOOL32 physicsDrawDebug;
 };
 
 #endif /* WORLD_H_ */

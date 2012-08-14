@@ -41,9 +41,24 @@ loading_texture=textures/loading.png
 loading_width=512
 loading_height=128
 
+# to support larger screen textures but keep performance good on smaller screen devices, we support "halving" textures.
+# these numbers are the thresholds where a screen with either dimension this size or smaller will have its textures resized smaller for efficiency.
+# set these to 0 if you never want the textures scaled down
+texture_half_width_threshold=640
+texture_half_height_threshold=640
+
 # background clear color
 clear_color=0.0 0.0 0.0 1.0
 
 # asset_default_find_func controls where to look for assets.  
 # "internal" is default, "external" only looks in external storage and "auto" looks in external first, internal second
 asset_default_find_func=internal
+
+# enable this setting to see details about textures that are being loaded
+debug_textures=false
+# enable this setting to see details about models that are being loaded
+debug_assimp=false
+# enable this setting to see details about shaders as they are loaded
+debug_shaders=false
+# enable this setting to see details about sounds as they are loaded
+debug_sounds=false

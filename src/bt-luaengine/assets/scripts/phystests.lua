@@ -1,10 +1,28 @@
 -- Physics Tests module
 
+Circle = table.copy(GameObject)
+
+function Circle.new(subclass)
+	local self = allocMeta(Circle.createInstance(), subclass or Circle)
+	self.objType = "Circle"
+	self:physics_allocConfigs(1)
+	self:physics_createCircleShape(0, 50.0)
+	self:cInit()
+	return o
+end
+
+function Circle:render()
+end
+
+function Circle:onCollision(other)
+end
+
 PhysicsTests = {}
 
 function PhysicsTests.new()
 	local self = table.copy(PhysicsTests)
 	self.wasInput = false
+	self.objects = {}
 	return self
 end
 
@@ -41,6 +59,9 @@ function PhysicsTests:setupUI()
 end
 
 function PhysicsTests:setupScene()
+	game:createPhysicsWorld()
+	game:setPhysicsDrawDebug(true)
+	table.insert(self.objects, Circle.new())
 end
 
 function PhysicsTests:makeBox(x,y,color,twosided)
@@ -62,6 +83,7 @@ function PhysicsTests:update(tickDelta)
     end
     self:updateTestsState(tickDelta)
     self.wasInput = (getPointerState(0) or getKeyState(0))
+    game:updatePhysics(tickDelta, 5, 5)
 end
 
 function PhysicsTests:updateTestsState(tickDelta)

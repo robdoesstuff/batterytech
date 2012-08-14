@@ -41,8 +41,11 @@ static int lua_Game_getInstance(lua_State *L);
 static int lua_Game_replaceMetatable(lua_State *L);
 static int lua_Game_addScreenControl(lua_State *L);
 static int lua_Game_createPhysicsWorld(lua_State *L);
+static int lua_Game_clearPhysicsWorld(lua_State *L);
+static int lua_Game_destroyPhysicsWorld(lua_State *L);
 static int lua_Game_updatePhysics(lua_State *L);
 static int lua_Game_setPhysicsGravity(lua_State *L);
+static int lua_Game_setPhysicsDrawDebug(lua_State *L);
 static int lua_Game_updateScreenControl(lua_State *L);
 static int lua_Game_updateScreenControlTexture(lua_State *L);
 static int lua_Game_removeScreenControl(lua_State *L);
@@ -100,7 +103,10 @@ static const luaL_reg lua_methods[] = {
 	{ "getInstance", lua_Game_getInstance },
 	{ "replaceMetatable", lua_Game_replaceMetatable },
 	{ "createPhysicsWorld", lua_Game_createPhysicsWorld },
+	{ "clearPhysicsWorld", lua_Game_clearPhysicsWorld },
+	{ "destroyPhysicsWorld", lua_Game_destroyPhysicsWorld },
 	{ "updatePhysics", lua_Game_updatePhysics },
+	{ "setPhysicsDrawDebug", lua_Game_setPhysicsDrawDebug },
 	{ "addScreenControl", lua_Game_addScreenControl },
 	{ "updateScreenControl", lua_Game_updateScreenControl },
 	{ "updateScreenControlTexture", lua_Game_updateScreenControlTexture },
@@ -416,6 +422,33 @@ static int lua_Game_createPhysicsWorld(lua_State *L) {
     return 0;
 }
 
+static int lua_Game_clearPhysicsWorld(lua_State *L) {
+    Game *game = *(Game**)lua_touserdata(L, 1);
+#ifdef BATTERYTECH_INCLUDE_BOX2D
+    if (static_context->world->boxWorld) {
+    	while (static_context->world->boxWorld->GetBodyList()) {
+    		static_context->world->boxWorld->DestroyBody(static_context->world->boxWorld->GetBodyList());
+    	}
+     }
+#endif
+#ifdef BATTERYTECH_INCLUDE_BULLET
+#endif
+    return 0;
+}
+
+static int lua_Game_destroyPhysicsWorld(lua_State *L) {
+    Game *game = *(Game**)lua_touserdata(L, 1);
+#ifdef BATTERYTECH_INCLUDE_BOX2D
+    if (static_context->world->boxWorld) {
+    	delete static_context->world->boxWorld;
+    	static_context->world->boxWorld = NULL;
+    }
+#endif
+#ifdef BATTERYTECH_INCLUDE_BULLET
+#endif
+    return 0;
+}
+
 static int lua_Game_updatePhysics(lua_State *L) {
     Game *game = *(Game**)lua_touserdata(L, 1);
     F32 delta = static_context->tickDelta;
@@ -444,6 +477,11 @@ static int lua_Game_setPhysicsGravity(lua_State *L) {
     static_context->world->btWorld->setGravity(btVector3(gravity.x, gravity.y, gravity.z));
 #endif
     return 0;
+}
+
+static int lua_Game_setPhysicsDrawDebug(lua_State *L) {
+	// Game *game = *(Game**)lua_touserdata(L, 1);
+	static_context->world->physicsDrawDebug = lua_toboolean(L, 2);
 }
 
 // Game:addScreenControl(name, label, textureAssetName, u1,v1,u2,v2, x1,y1,x2,y2, x3,y3,x4,y4, isInteractive)

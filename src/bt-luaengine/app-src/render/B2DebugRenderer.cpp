@@ -96,14 +96,7 @@ void B2DebugRenderer::renderPolyShape(b2Body *body, b2PolygonShape *polyShape) {
 	// 12 is max verts for a polyshape
     Vector3f verts[12];
     Vector4f colors[12];
-    S32 indices[24];
     for (S32 i = 0; i < vertCount; i++) {
-        indices[i*2] = i;
-        if (i == vertCount - 1) {
-            indices[i*2+1] = 0;
-        } else {
-            indices[i*2+1] = i + 1;
-        }
         colors[i] = Vector4f(1,1,1,1);
     }
 	for (S32 i = 0; i < vertCount; i++) {
@@ -120,13 +113,13 @@ void B2DebugRenderer::renderPolyShape(b2Body *body, b2PolygonShape *polyShape) {
         glUniformMatrix4fv(shader->getUniformLoc("projection_matrix"), 1, FALSE, context->renderContext->projMatrix.data);
 		glVertexAttribPointer(shader->getVertexAttributeLoc("vPosition"), 3, GL_FLOAT, GL_FALSE, 0, verts);
 		glVertexAttribPointer(shader->getVertexAttributeLoc("vColor"), 4, GL_FLOAT, GL_FALSE, 0, colors);
-        glDrawElements(GL_LINES, vertCount*2, GL_UNSIGNED_SHORT, indices);
+        glDrawArrays(GL_LINE_LOOP, 0, vertCount);
 	} else {
 		glVertexPointer(3, GL_FLOAT, 0, verts);
 		glPushMatrix();
 		glTranslatef(pos.x, pos.y, 0);
 		glRotatef(angle * (180 / PI), 0, 0, 1.0f);
-        glDrawElements(GL_LINES, vertCount*2, GL_UNSIGNED_SHORT, indices);
+        glDrawArrays(GL_LINE_LOOP, 0, vertCount);
 		glPopMatrix();
 	}
 }
@@ -138,14 +131,7 @@ void B2DebugRenderer::renderCircleShape(b2Body *body, b2CircleShape *shape) {
 	F32 radsPerSegment = TAU / CIRCLE_TESSELATION;
     Vector3f verts[CIRCLE_TESSELATION];
     Vector4f colors[CIRCLE_TESSELATION];
-    S32 indices[CIRCLE_TESSELATION*2];
     for (S32 i = 0; i < CIRCLE_TESSELATION; i++) {
-        indices[i*2] = i;
-        if (i == vertCount - 1) {
-            indices[i*2+1] = 0;
-        } else {
-            indices[i*2+1] = i + 1;
-        }
         colors[i] = Vector4f(1,1,1,1);
     }
 	for (S32 i = 0; i < vertCount; i++) {
@@ -163,13 +149,13 @@ void B2DebugRenderer::renderCircleShape(b2Body *body, b2CircleShape *shape) {
         glUniformMatrix4fv(shader->getUniformLoc("projection_matrix"), 1, FALSE, context->renderContext->projMatrix.data);
 		glVertexAttribPointer(shader->getVertexAttributeLoc("vPosition"), 3, GL_FLOAT, GL_FALSE, 0, verts);
 		glVertexAttribPointer(shader->getVertexAttributeLoc("vColor"), 4, GL_FLOAT, GL_FALSE, 0, colors);
-        glDrawElements(GL_LINES, vertCount*2, GL_UNSIGNED_SHORT, indices);
+         glDrawArrays(GL_LINE_LOOP, 0, vertCount);
 	} else {
 		glVertexPointer(3, GL_FLOAT, 0, verts);
 		glPushMatrix();
 		glTranslatef(pos.x, pos.y, 0);
 		glRotatef(angle * (180 / PI), 0, 0, 1.0f);
-        glDrawElements(GL_LINES, vertCount*2, GL_UNSIGNED_SHORT, indices);
+        glDrawArrays(GL_LINE_LOOP, 0, vertCount);
 		glPopMatrix();
 	}
 }

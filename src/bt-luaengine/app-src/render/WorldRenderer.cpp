@@ -524,7 +524,9 @@ void WorldRenderer::render2D() {
 	}
     spriteRenderer->endBatch();
 #ifdef BATTERYTECH_INCLUDE_BOX2D
-    b2DebugRenderer->render(world);
+    if (world->physicsDrawDebug) {
+    	b2DebugRenderer->render(world);
+    }
 #endif
 	if (context->showFPS) {
 		char fpsText[50];

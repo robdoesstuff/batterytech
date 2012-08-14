@@ -319,6 +319,16 @@ Vector3f GameObject::getModelScale() {
 }
 
 void GameObject::init() {
+#ifdef BATTERYTECH_INCLUDE_BOX2D
+	for (S32 i = 0; i < physicsModelConfigs->getSize(); i++) {
+		PhysicsModelConfig *config = physicsModelConfigs->array[i];
+		boxBody = context->world->boxWorld->CreateBody(config->bodyDef);
+		b2FixtureDef fixDef;
+		fixDef.shape = config->shape;
+		fixDef.density = 1.0f;
+		boxBody->CreateFixture(&fixDef);
+	}
+#endif
 	/*
 	for (S32 i = 0; i < physicsModelConfigs->getSize(); i++) {
 		PhysicsModelConfig *config = physicsModelConfigs->array[i];
