@@ -35,7 +35,7 @@ namespace BatteryTech {
  */
 AssimpAnimator::AssimpAnimator() {
 	rootNode = NULL;
-	scene = NULL;
+	assimpBinding = NULL;
 	nodeTable = NULL;
 	nodeCount = 0;
     meshBoneMatrices = NULL;
@@ -49,10 +49,11 @@ AssimpAnimator::~AssimpAnimator() {
 	rootNode = NULL;
 	delete nodeTable;
 	nodeTable = NULL;
+	assimpBinding = NULL;
 }
 
-void AssimpAnimator::init(const aiScene *scene, const char *meshName) {
-	this->scene = scene;
+void AssimpAnimator::init(GLAssimpBinding *assimpBinding, const char *meshName) {
+	this->assimpBinding = assimpBinding;
     /*
 	if (meshName) {
 		for (U32 i = 0; i < scene->mNumMeshes; i++) {
@@ -63,6 +64,7 @@ void AssimpAnimator::init(const aiScene *scene, const char *meshName) {
 			}
 		}
 	}*/
+	const aiScene *scene = assimpBinding->scene;
     meshBoneMatrices = new HashTable<const aiMesh*, MeshBoneMatrices*>(scene->mNumMeshes * 1.5f);
     for (U32 meshIdx = 0; meshIdx < scene->mNumMeshes; meshIdx++) {
         aiMesh *mesh = scene->mMeshes[meshIdx];
@@ -167,6 +169,7 @@ RenderNode* AssimpAnimator::createRenderNode(const aiScene *scene, aiNode *node,
 }
 
 void AssimpAnimator::updateGlobalTransforms(RenderNode *node) {
+	const aiScene *scene = assimpBinding->scene;
 	if (node->parentNode) {
 		node->globalTransform = node->parentNode->globalTransform * node->localTransform;
 	} else {
@@ -191,8 +194,13 @@ void AssimpAnimator::updateGlobalTransforms(RenderNode *node) {
 void AssimpAnimator::interpolate(F32 pTime) {
 	// find closest frames for time
 	// update transforms to match
-    if (!scene) {
+    if (!assimpBinding) {
         logmsg("Unable to interpolate animation - animator not initialized");
+        return;
+    }
+	const aiScene *scene = assimpBinding->scene;
+    if (!scene) {
+        logmsg("Unable to interpolate animation - binding has no scene");
         return;
     }
 	// TODO - support multiple animations!
@@ -335,6 +343,7 @@ void AssimpAnimator::applyTransforms(RenderNode *meshNode, const aiMesh *mesh, G
 }
 
 void AssimpAnimator::applyNodeTransform(Matrix4f &globalInverse, RenderNode *node, aiMesh *mesh, Vector4f *transformedVerts, Vector4f *transformedNormals) {
+	const aiScene *scene = assimpBinding->scene;
     MeshBoneMatrices *mbMats = meshBoneMatrices->get(mesh);
     U32 meshIdx = 0;
     for (U32 i = 0; i < scene->mNumMeshes; i++) {

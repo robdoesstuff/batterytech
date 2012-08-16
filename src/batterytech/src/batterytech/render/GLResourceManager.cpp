@@ -88,6 +88,10 @@ namespace BatteryTech {
 			ShaderProgram *shader = shaderPrograms->getNext(i);
 			shader->invalidateGL();
 		}
+		for (StrHashTable<GLAssimpBinding*>::Iterator i = assimpBindings->getIterator(); i.hasNext;) {
+			GLAssimpBinding *assimpBinding = assimpBindings->getNext(i);
+			assimpBinding->invalidateGL();
+		}
 	}
 
 	void GLResourceManager::addTexture(const char *assetName, BOOL32 loadOnDemand) {

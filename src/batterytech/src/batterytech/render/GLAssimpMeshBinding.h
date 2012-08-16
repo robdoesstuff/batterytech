@@ -64,7 +64,7 @@ public:
 	void unbind();
 	void loadGeometry(const aiMesh *mesh, U16 *faceIndices);
 	void updateDynamicDraw();
-	void clearGL();
+	void invalidateGL();
 	GLAssimpMeshVertex *vertBasicAtts;
 	GLAssimpSkinnedMeshVertex *vertSkinnedAtts;
 	Vector4f matDiffuse;

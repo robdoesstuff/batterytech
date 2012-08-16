@@ -23,6 +23,7 @@
 #include "../batterytech_globals.h"
 #include "RenderNode.h"
 #include "GLAssimpMeshBinding.h"
+#include "GLAssimpBinding.h"
 
 #ifdef BATTERYTECH_INCLUDE_ASSIMP
 
@@ -54,7 +55,7 @@ class AssimpAnimator {
 public:
 	AssimpAnimator();
 	virtual ~AssimpAnimator();
-	void init(const aiScene *scene, const char *meshName);
+	void init(GLAssimpBinding *assimpBinding, const char *meshName);
 	void interpolate(F32 time);
 	void applyTransforms(RenderNode *meshNode, const aiMesh *mesh, GLAssimpSkinnedMeshVertex *vertAtts);
 	Matrix4f* updateGlobalInverseBoneMatrices(RenderNode *meshNode, const aiMesh *mesh);
@@ -68,7 +69,7 @@ private:
 	RenderNode* createRenderNode(const aiScene *scene, aiNode *node, RenderNode *parent);
 	void updateGlobalTransforms(RenderNode *node);
 	void applyNodeTransform(Matrix4f &globalInverse, RenderNode *node, aiMesh *mesh, Vector4f *transformedVerts, Vector4f *transformedNormals);
-	const aiScene *scene;
+	GLAssimpBinding *assimpBinding;
     BOOL32 sceneHasBones;
 };
 

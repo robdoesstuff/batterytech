@@ -44,9 +44,21 @@ QuadRenderer::QuadRenderer(Context *context) {
     inBatch = FALSE;
     vertVBOId = 0;
     idxVBOId = 0;
-    vertBuffer = NULL;
     quadsBatched = 0;
     batchStatesSet = FALSE;
+    vertBuffer = new GLQuadVertex[BATCH_BUFFER_SIZE*4];
+    indices = new U16[BATCH_BUFFER_SIZE*6];
+    // generate the face indices
+    for (S32 i = 0; i < BATCH_BUFFER_SIZE; i++) {
+        S32 ii = i*6;
+        S32 jj = i*4;
+        indices[ii+0] = jj+0;
+        indices[ii+1] = jj+1;
+        indices[ii+2] = jj+2;
+        indices[ii+3] = jj+0;
+        indices[ii+4] = jj+2;
+        indices[ii+5] = jj+3;
+    }
 }
 
 QuadRenderer::~QuadRenderer() {
@@ -75,19 +87,6 @@ void QuadRenderer::init(BOOL32 newContext) {
 		shaderProgram->load(FALSE);
 	}
     batchEnabled = TRUE;
-    vertBuffer = new GLQuadVertex[BATCH_BUFFER_SIZE*4];
-    indices = new U16[BATCH_BUFFER_SIZE*6];
-    // generate the face indices
-    for (S32 i = 0; i < BATCH_BUFFER_SIZE; i++) {
-        S32 ii = i*6;
-        S32 jj = i*4;
-        indices[ii+0] = jj+0;
-        indices[ii+1] = jj+1;
-        indices[ii+2] = jj+2;
-        indices[ii+3] = jj+0;
-        indices[ii+4] = jj+2;
-        indices[ii+5] = jj+3;
-    }
     if (USE_VBOS_WHEN_AVAILBLE && (context->gConfig->useShaders || context->gConfig->supportsVBOs)) {
         if (!newContext) {
             if (vertVBOId) {

@@ -136,6 +136,7 @@ TextRasterRenderer* WorldRenderer::getTextRenderer(const char *tag) {
 }
 
 void WorldRenderer::setupGL() {
+	logmsg("WorldRenderer::setupGL()");
 	if (context->gConfig->useShaders) {
 	} else {
 		glEnableClientState(GL_VERTEX_ARRAY);
@@ -153,7 +154,6 @@ void WorldRenderer::setupGL() {
 	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
 	glViewport(0, 0, gConfig->viewportWidth, gConfig->viewportHeight);
-	spriteRenderer->init(TRUE);
 	context->quadRenderer->init(TRUE);
 }
 
@@ -184,8 +184,8 @@ void WorldRenderer::init(BOOL32 newContext) {
 	logmsg("Initializing dynamic stuff");
 	//btDebugRenderer->init(newContext);
 	if (newContext) {
+		// TODO - instead of fully unloading/reloading, keep the CPU-side stuff and just reload the bindings
 		context->glResourceManager->unloadObjScenes();
-		context->glResourceManager->unloadAssimps();
 	}
 	context->glResourceManager->loadShaderPrograms();
 	context->glResourceManager->loadTextures();
@@ -210,6 +210,8 @@ void WorldRenderer::render() {
 			logmsg("loadingScreenDisplayed set");
 		} else if (context->newGraphicsContext || !loadingTex->isLoaded()) {
 			loadingScreenDisplayed = FALSE;
+			// clear the shader program cache
+			ShaderProgram::currentProgram = NULL;
 			ShaderProgram *quadShader = context->glResourceManager->getShaderProgram("quad");
 			if (quadShader) {
 				quadShader->invalidateGL();

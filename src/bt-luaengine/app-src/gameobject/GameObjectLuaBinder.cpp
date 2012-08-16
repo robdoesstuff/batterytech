@@ -439,7 +439,7 @@ static int lua_GameObject_anim_initDynamic(lua_State *L) {
             sprintf(buf, "Unable to initialize animator for asset %s, asset added but not yet loaded", assetName);
             logmsg(buf);
         } else {
-            o->animators->array[idx]->init(binding->scene, meshName);            
+            o->animators->array[idx]->init(binding, meshName);
         }
 	} else {
 		logmsg("Assimp Binding not found in anim_initDynamic");

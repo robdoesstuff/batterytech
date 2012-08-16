@@ -38,6 +38,7 @@ public:
 	virtual ~GLAssimpBinding();
 	void load(Context *context);
 	void unload(Context *context);
+	void invalidateGL();
 	GLAssimpMeshBinding* getMeshBinding(const char* name);
 	char *objAssetName;
 	Assimp::Importer *importer;

@@ -77,7 +77,15 @@ void GLAssimpBinding::load(Context *context) {
 			meshBindingPtrs[i] = mb;
 		}
 		defaultAnimator = new AssimpAnimator();
-		defaultAnimator->init(scene, NULL);
+		defaultAnimator->init(this, NULL);
+	} else {
+		// already have loaded once, check for GL reloads
+		for (StrHashTable<GLAssimpMeshBinding*>::Iterator i = meshBindings->getIterator(); i.hasNext;) {
+			GLAssimpMeshBinding *binding = meshBindings->getNext(i);
+			if (!binding->faceIndicesVBOId || !binding->vertAttsVBOId) {
+				binding->load(this->scene, binding->mesh);
+			}
+		}
 	}
 }
 
@@ -103,6 +111,15 @@ void GLAssimpBinding::unload(Context *context) {
 		delete defaultAnimator;
 	}
 	defaultAnimator = NULL;
+}
+
+void GLAssimpBinding::invalidateGL() {
+	if (meshBindings) {
+		for (StrHashTable<GLAssimpMeshBinding*>::Iterator i = meshBindings->getIterator(); i.hasNext;) {
+			GLAssimpMeshBinding *binding = meshBindings->getNext(i);
+			binding->invalidateGL();
+		}
+	}
 }
 
 GLAssimpMeshBinding* GLAssimpBinding::getMeshBinding(const char* name) {
