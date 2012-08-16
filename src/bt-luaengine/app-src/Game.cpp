@@ -107,8 +107,10 @@ void Game::update() {
 			// init menu renderer first so we can expose the font to world renderer
 			// (perhaps GLResourceManager should manage all fonts?)
 			context->menuRenderer->init(TRUE);
-            // always init lua after menu so that it can display error messages
-			initializeLua();
+			if (!initialized) {
+				// always init lua after menu so that it can display error messages
+				initializeLua();
+			}
             // lua must be before world so that resources can be marked for loading
 			context->worldRenderer->init(TRUE);
 			context->newGraphicsContext = FALSE;

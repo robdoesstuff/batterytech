@@ -117,7 +117,9 @@ void AssimpRenderer::render(RenderItem *item, BOOL32 transparent) {
         if( meshName[0] != '\0' ) {
             node = animator->nodeTable->get(meshName);
         }
-		renderNode(node, binding, myMv, item, ecLightDir, halfplane, transparent);
+        if (node) {
+        	renderNode(node, binding, myMv, item, ecLightDir, halfplane, transparent);
+        }
 	}
 #ifdef COUNT_RENDER_NODES
 	char buf[255];

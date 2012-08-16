@@ -160,6 +160,7 @@ void WorldRenderer::setupGL() {
 // init won't be called until loading screen is displayed, but render is always called so get that ready there
 void WorldRenderer::init(BOOL32 newContext) {
 	if (newContext) {
+		logmsg("WorldRenderer: New Context - Invalidating all previous GL resources");
 		context->glResourceManager->invalidateGL();
 	}
 	if (!textRenderers->get(FONT_TAG_UI)) {
