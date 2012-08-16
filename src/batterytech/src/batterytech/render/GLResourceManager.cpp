@@ -82,7 +82,9 @@ namespace BatteryTech {
 		//is called from renderer when context was killed.
 		for (StrHashTable<Texture*>::Iterator iter = texTable->getIterator(); iter.hasNext;) {
 			Texture *tex = texTable->getNext(iter);
-			tex->invalidateGL();
+			if (tex) {
+				tex->invalidateGL();
+			}
 		}
 		for (StrHashTable<ShaderProgram*>::Iterator i = shaderPrograms->getIterator(); i.hasNext;) {
 			ShaderProgram *shader = shaderPrograms->getNext(i);
