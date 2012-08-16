@@ -133,11 +133,6 @@ public class BatteryTechRenderer implements Renderer, InputHandler, SensorEventL
 				boot.init(width, height, usingGLES2);
 				bootInitialized = true;
 			}
-		}
-	}
-
-	public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-		synchronized (tickMutex) {
 			if (lastGL != null) {
 				if (lastGL != gl) {
 					boot.setGraphicsContextLost(true);
@@ -145,6 +140,9 @@ public class BatteryTechRenderer implements Renderer, InputHandler, SensorEventL
 			}
 			lastGL = gl;
 		}
+	}
+
+	public void onSurfaceCreated(GL10 gl, EGLConfig config) {
 	}
 
 	public void onPause() {
