@@ -72,9 +72,12 @@ static int lua_getExternalStorageDirectoryName(lua_State *L);
 static int lua_getApplicationStorageDirectoryName(lua_State *L);
 static int lua_getPathSeperator(lua_State *L);
 static int lua_pathExists(lua_State *L);
+static int lua_showKeyboard(lua_State *L);
+static int lua_hideKeyboard(lua_State* L);
 static int lua_requestPurchase(lua_State *L);
 static int lua_submitTime(lua_State *L);
 static int lua_submitMPH(lua_State *L);
+static int lua_submitLeaderboard(lua_State * L);
 static int lua_unlockAchievement(lua_State *L);
 static int lua_showAd(lua_State *L);
 static int lua_showMessageDialog(lua_State *L);
@@ -157,9 +160,12 @@ lua_State* LuaBinder::newState(GameContext *context) {
 	registerFunction(L, "getPathSeperator", lua_getPathSeperator);//retuns: string
 	registerFunction(L, "pathExists", lua_pathExists);//returns: boolean
 	registerFunction(L, "showAd", lua_showAd);//param: boolean show
+	registerFunction(L, "showKeyboard", lua_showKeyboard);
+	registerFunction(L, "hideKeyboard", lua_hideKeyboard);
 	registerFunction(L, "requestPurchase", lua_requestPurchase);//param: string productId, double price, string name, string desc
 	registerFunction(L, "submitTime", lua_submitTime);//takes: float time, float top speed
 	registerFunction(L, "submitMPH", lua_submitMPH);//takes: float time, float top speed
+	registerFunction(L, "submitLeaderboard", lua_submitLeaderboard);//takes: board id, top distance
 	registerFunction(L, "unlockAchievement", lua_unlockAchievement);//takes: achievementID
 	registerFunction(L, "platformHook", lua_platformHook);// param: hook return: hookresult
 	registerFunction(L, "showMessageDialog", lua_showMessageDialog); // param: title, message
@@ -967,6 +973,16 @@ static int lua_showAd(lua_State *L) {
 	return 0;
 }
 
+static int lua_showKeyboard(lua_State *L) {
+	_platform_show_keyboard();
+	return 0;
+}
+
+static int lua_hideKeyboard(lua_State *L) {
+	_platform_hide_keyboard();
+	return 0;
+}
+
 static int lua_requestPurchase(lua_State *L) {
 	const char* productId = lua_tostring(L, 1);
 	// double price = lua_tonumber(L, 2);
@@ -1003,6 +1019,16 @@ static int lua_submitMPH(lua_State *L) {
 	F32 time = lua_tonumber(L, 3);
 	char cBuf[255];
 	sprintf(cBuf, "submitMPH %s %f %f", leaderBoardID, mph, time);
+	logmsg(cBuf);
+	_platform_hook(cBuf, NULL, 0);
+	return 0;
+}
+
+static int lua_submitLeaderboard(lua_State *L) {
+	const char *leaderBoardID = lua_tostring(L, 1);
+	F32 distance = lua_tonumber(L, 2);
+	char cBuf[255];
+	sprintf(cBuf, "submitLeaderboard %s %f", leaderBoardID, distance);
 	logmsg(cBuf);
 	_platform_hook(cBuf, NULL, 0);
 	return 0;

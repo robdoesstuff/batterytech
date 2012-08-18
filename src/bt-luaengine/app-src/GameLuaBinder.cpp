@@ -88,6 +88,7 @@ static int lua_Game_setParticleEmitterPosition(lua_State *L);
 static int lua_Game_setParticleEmitterDirection(lua_State *L);
 static int lua_Game_setParticleEmitterTextureAsset(lua_State *L);
 static int lua_Game_removeParticleEmitter(lua_State *L);
+static int lua_Game_stopParticleEmitter(lua_State *L);
 static int lua_Game_clearParticleEmitters(lua_State *L);
 static int lua_Game_startParticleEmitter(lua_State *L);
 static int lua_Game_setParticleEmitterConeRange(lua_State *L);
@@ -152,6 +153,7 @@ static const luaL_reg lua_methods[] = {
     { "setParticleEmitterDirection", lua_Game_setParticleEmitterDirection },
     { "setParticleEmitterTextureAsset", lua_Game_setParticleEmitterTextureAsset },
     { "removeParticleEmitter", lua_Game_removeParticleEmitter },
+    { "stopParticleEmitter", lua_Game_stopParticleEmitter },
     { "clearParticleEmitters", lua_Game_clearParticleEmitters },
     { "startParticleEmitter", lua_Game_startParticleEmitter },
     { "setParticleEmitterConeRange", lua_Game_setParticleEmitterConeRange },
@@ -1339,6 +1341,15 @@ static int lua_Game_removeParticleEmitter(lua_State *L) {
         delete emitter;
     }
 
+    return 0;
+}
+
+static int lua_Game_stopParticleEmitter(lua_State *L) {
+	S32 emitterID = lua_tointeger(L, 2);
+    ParticleEmitter* emitter = static_context->world->emitters->get(emitterID);
+    if( emitter ) {
+        emitter->stopEmitter();
+    }
     return 0;
 }
 

@@ -41,6 +41,7 @@ ParticleEmitter::ParticleEmitter() {
     this->rotationRange         = Vector2f(0.0, TAU);
     this->rotationSpeedRange    = Vector2f(-5.0, 5.0);
     this->gravity               = 0;
+    this->stopped               = FALSE;
 }
 
 ParticleEmitter::~ParticleEmitter() {
@@ -92,7 +93,7 @@ void ParticleEmitter::update(F32 delta) {
 	}
 	nextEmissionTimeLeft -= delta;
 	// interpolate if we need to emit more than one for this update
-	if (nextEmissionTimeLeft <= 0) {
+	if ( !stopped && (nextEmissionTimeLeft <= 0)) {
 		F32 timeRemainder = -nextEmissionTimeLeft;
 		F32 rateTimeLeft = 1.0f/emissionRate;
 		Vector3f locDelta = sourceLoc - lastSourceLoc;
@@ -144,7 +145,7 @@ void ParticleEmitter::update(F32 delta) {
 }
 
 void ParticleEmitter::stopEmitter() {
-	running = FALSE;
+	stopped = TRUE;
 }
 
 void ParticleEmitter::setEmitterSourceLocation(Vector3f srcLoc) {

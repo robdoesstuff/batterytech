@@ -98,6 +98,7 @@ public:
     
 private:
     BOOL32		running;
+    BOOL32      stopped;
 	Vector3f	lastSourceLoc;
 	F32			emissionRange;
 	F32			emissionRate;
