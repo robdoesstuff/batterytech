@@ -44,6 +44,7 @@ void _platform_log(const char* message) {
 }
 
 unsigned char* _platform_load_internal_asset(const char *filename, S32 *size) {
+	// __android_log_print(ANDROID_LOG_DEBUG, "BatteryTech", "Loading asset %s", filename);
 	extern JNIEnv* jnienv;
 	extern jobject javaBoot;
 	jclass bootClass = jnienv->GetObjectClass(javaBoot);
@@ -59,7 +60,7 @@ unsigned char* _platform_load_internal_asset(const char *filename, S32 *size) {
 	jsize dataLength = jnienv->GetArrayLength(jdata);
 	//__android_log_print(ANDROID_LOG_DEBUG, "BatteryTech", "Got data length");
 	*size = dataLength;
-	//__android_log_print(ANDROID_LOG_DEBUG, "BatteryTech", "Data Size=%d", *size);
+	// __android_log_print(ANDROID_LOG_DEBUG, "BatteryTech", "Data Size=%d", *size);
 	jbyte *data;
 	data = (jbyte*) malloc(sizeof(jbyte) * *size);
 	if (!data) {
