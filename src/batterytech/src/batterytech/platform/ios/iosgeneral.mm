@@ -394,6 +394,7 @@ void _platform_hide_ad() {
 
 void _platform_hook(const char *hook, char *result, S32 resultLen) {
 	// Handle custom hooks here
+    [btViewController hook:hook withResult:result withResultLen:resultLen];
 }
 
 BOOL32 _platform_has_special_key(BatteryTech::SpecialKey sKey) {
