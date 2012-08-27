@@ -50,9 +50,20 @@ struct PhysicsModelConfig {
 #ifdef BATTERYTECH_INCLUDE_BOX2D
     b2BodyDef *bodyDef;
     b2Shape *shape;
+    F32 friction;
+    F32 restitution;
+    F32 density;
+    b2Filter filter;
+    BOOL32 isSensor;
     PhysicsModelConfig() {
         bodyDef = NULL;
         shape = NULL;
+        friction = 0.2f;
+        restitution = 0;
+        density = 1.0f;
+ 		filter.categoryBits = 0x0001;
+		filter.maskBits = 0xFFFF;
+		filter.groupIndex = 0;
     }
 #endif
 #ifdef BATTERYTECH_INCLUDE_BULLET

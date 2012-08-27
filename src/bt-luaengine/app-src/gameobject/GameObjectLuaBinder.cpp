@@ -94,6 +94,16 @@ static int lua_GameObject_physics_enableConstraintMotorTarget(lua_State *L);
 static int lua_GameObject_physics_allocConfigs(lua_State *L); // param: number of physics model configurations, defaults to 1 if not called
 static int lua_GameObject_physics_createPolygonShape(lua_State *L);
 static int lua_GameObject_physics_createCircleShape(lua_State *L);
+static int lua_GameObject_physics_setBodyTransform(lua_State *L);
+static int lua_GameObject_physics_setBodyVelocities(lua_State *L);
+static int lua_GameObject_physics_setBodyDampings(lua_State *L);
+static int lua_GameObject_physics_setBodyAllowSleep(lua_State *L);
+static int lua_GameObject_physics_setBodyAwake(lua_State *L);
+static int lua_GameObject_physics_setBodyFixedRotation(lua_State *L);
+static int lua_GameObject_physics_setBodyBullet(lua_State *L);
+static int lua_GameObject_physics_setBodyActive(lua_State *L);
+static int lua_GameObject_physics_setBodyType(lua_State *L);
+
 #endif
 
 static const luaL_reg lua_methods[] = {
@@ -152,6 +162,16 @@ static const luaL_reg lua_methods[] = {
 	{ "physics_allocConfigs", lua_GameObject_physics_allocConfigs },
 	{ "physics_createPolygonShape", lua_GameObject_physics_createPolygonShape },
 	{ "physics_createCircleShape", lua_GameObject_physics_createCircleShape },
+    { "physics_setBodyTransform", lua_GameObject_physics_setBodyTransform },
+    { "physics_setBodyVelocities", lua_GameObject_physics_setBodyVelocities },
+    { "physics_setBodyDampings", lua_GameObject_physics_setBodyDampings },
+    { "physics_SetBodyAllowSleep", lua_GameObject_physics_setBodyAllowSleep },
+    { "physics_setBodyAwake", lua_GameObject_physics_setBodyAwake },
+    { "physics_setBodyFixedRotation", lua_GameObject_physics_setBodyFixedRotation },
+    { "physics_setBodyBullet", lua_GameObject_physics_setBodyBullet },
+    { "physics_setBodyActivee", lua_GameObject_physics_setBodyActive },
+    { "physics_setBodyType", lua_GameObject_physics_setBodyType },
+
 #endif
 
 	{ 0, 0 } };
@@ -1128,12 +1148,16 @@ static void allocatePhysicsModelConfigIfNull(GameObject *o) {
     
 }
 
+// idx, x0,y0, x1,y1, x2,y2, x3,y3, etc
 static int lua_GameObject_physics_createPolygonShape(lua_State *L) {
 	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
 	allocatePhysicsModelConfigIfNull(o);
 	// param 2 is the index of the model config
 	S32 configIdx = lua_tointeger(L, 2);
-    
+	if (configIdx > o->physicsModelConfigs->capacity-1) {
+		logmsg("GameObject: physics model config out of range");
+		return 0;
+	}
 	PhysicsModelConfig *modelConfig = o->physicsModelConfigs->array[configIdx];
     b2Vec2 verts[12];
     // for each point pair, add
@@ -1150,9 +1174,11 @@ static int lua_GameObject_physics_createPolygonShape(lua_State *L) {
     }
     shape->Set(verts, pointCount);
     modelConfig->shape = shape;
+    modelConfig->bodyDef = new b2BodyDef;
 	return 0;
 }
 
+// idx, radius
 static int lua_GameObject_physics_createCircleShape(lua_State *L) {
 	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
 	allocatePhysicsModelConfigIfNull(o);
@@ -1168,8 +1194,226 @@ static int lua_GameObject_physics_createCircleShape(lua_State *L) {
 	shape->m_radius = lua_tonumber(L, 3);
     modelConfig->shape = shape;
     modelConfig->bodyDef = new b2BodyDef;
-    modelConfig->bodyDef->position = b2Vec2(300, 300);
 	return 0;
+}
+
+// idx, x, y, angle
+static int lua_GameObject_physics_setBodyTransform(lua_State *L) {
+	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
+	allocatePhysicsModelConfigIfNull(o);
+    S32 configIdx = lua_tointeger(L, 2);
+	if (configIdx > o->physicsModelConfigs->capacity-1) {
+		logmsg("GameObject: physics model config out of range");
+		return 0;
+	}
+	PhysicsModelConfig *modelConfig = o->physicsModelConfigs->array[configIdx];
+    if (!modelConfig->bodyDef) {
+        logmsg("GameObject: physics model not yet initialized (Call create<type>Shape first)");
+        return 0;
+    }
+    modelConfig->bodyDef->position = b2Vec2(lua_tonumber(L, 3), lua_tonumber(L, 4));
+    modelConfig->bodyDef->angle = lua_tonumber(L, 5);
+    return 0;
+}
+
+// idx, linearX, linearY, angular
+static int lua_GameObject_physics_setBodyVelocities(lua_State *L) {
+	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
+	allocatePhysicsModelConfigIfNull(o);
+    S32 configIdx = lua_tointeger(L, 2);
+	if (configIdx > o->physicsModelConfigs->capacity-1) {
+		logmsg("GameObject: physics model config out of range");
+		return 0;
+	}
+	PhysicsModelConfig *modelConfig = o->physicsModelConfigs->array[configIdx];
+    if (!modelConfig->bodyDef) {
+        logmsg("GameObject: physics model not yet initialized (Call create<type>Shape first)");
+        return 0;
+    }
+    modelConfig->bodyDef->linearVelocity = b2Vec2(lua_tonumber(L, 3), lua_tonumber(L, 4));
+    modelConfig->bodyDef->angularVelocity = lua_tonumber(L, 5);
+    return 0;
+}
+
+// idx, linearDamping, angularDamping
+static int lua_GameObject_physics_setBodyDampings(lua_State *L) {
+	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
+	allocatePhysicsModelConfigIfNull(o);
+    S32 configIdx = lua_tointeger(L, 2);
+	if (configIdx > o->physicsModelConfigs->capacity-1) {
+		logmsg("GameObject: physics model config out of range");
+		return 0;
+	}
+	PhysicsModelConfig *modelConfig = o->physicsModelConfigs->array[configIdx];
+    if (!modelConfig->bodyDef) {
+        logmsg("GameObject: physics model not yet initialized (Call create<type>Shape first)");
+        return 0;
+    }
+    modelConfig->bodyDef->linearDamping = lua_tonumber(L, 3);
+    modelConfig->bodyDef->angularDamping = lua_tonumber(L, 4);
+    return 0;
+}
+
+// idx, allowSleep
+static int lua_GameObject_physics_setBodyAllowSleep(lua_State *L) {
+	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
+	allocatePhysicsModelConfigIfNull(o);
+    S32 configIdx = lua_tointeger(L, 2);
+	if (configIdx > o->physicsModelConfigs->capacity-1) {
+		logmsg("GameObject: physics model config out of range");
+		return 0;
+	}
+	PhysicsModelConfig *modelConfig = o->physicsModelConfigs->array[configIdx];
+    if (!modelConfig->bodyDef) {
+        logmsg("GameObject: physics model not yet initialized (Call create<type>Shape first)");
+        return 0;
+    }
+    modelConfig->bodyDef->allowSleep = lua_toboolean(L, 3);
+    return 0;
+}
+
+// idx, isAwake
+static int lua_GameObject_physics_setBodyAwake(lua_State *L) {
+	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
+	allocatePhysicsModelConfigIfNull(o);
+    S32 configIdx = lua_tointeger(L, 2);
+	if (configIdx > o->physicsModelConfigs->capacity-1) {
+		logmsg("GameObject: physics model config out of range");
+		return 0;
+	}
+	PhysicsModelConfig *modelConfig = o->physicsModelConfigs->array[configIdx];
+    if (!modelConfig->bodyDef) {
+        logmsg("GameObject: physics model not yet initialized (Call create<type>Shape first)");
+        return 0;
+    }
+    modelConfig->bodyDef->awake = lua_toboolean(L, 3);
+    return 0;
+}
+
+// idx, fixedRotation
+static int lua_GameObject_physics_setBodyFixedRotation(lua_State *L) {
+	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
+	allocatePhysicsModelConfigIfNull(o);
+    S32 configIdx = lua_tointeger(L, 2);
+	if (configIdx > o->physicsModelConfigs->capacity-1) {
+		logmsg("GameObject: physics model config out of range");
+		return 0;
+	}
+	PhysicsModelConfig *modelConfig = o->physicsModelConfigs->array[configIdx];
+    if (!modelConfig->bodyDef) {
+        logmsg("GameObject: physics model not yet initialized (Call create<type>Shape first)");
+        return 0;
+    }
+    modelConfig->bodyDef->fixedRotation = lua_toboolean(L, 3);
+    return 0;
+}
+
+// idx, bullet
+static int lua_GameObject_physics_setBodyBullet(lua_State *L) {
+	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
+	allocatePhysicsModelConfigIfNull(o);
+    S32 configIdx = lua_tointeger(L, 2);
+	if (configIdx > o->physicsModelConfigs->capacity-1) {
+		logmsg("GameObject: physics model config out of range");
+		return 0;
+	}
+	PhysicsModelConfig *modelConfig = o->physicsModelConfigs->array[configIdx];
+    if (!modelConfig->bodyDef) {
+        logmsg("GameObject: physics model not yet initialized (Call create<type>Shape first)");
+        return 0;
+    }
+    modelConfig->bodyDef->bullet = lua_toboolean(L, 3);
+    return 0;
+}
+
+// idx, active
+static int lua_GameObject_physics_setBodyActive(lua_State *L) {
+	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
+	allocatePhysicsModelConfigIfNull(o);
+    S32 configIdx = lua_tointeger(L, 2);
+	if (configIdx > o->physicsModelConfigs->capacity-1) {
+		logmsg("GameObject: physics model config out of range");
+		return 0;
+	}
+	PhysicsModelConfig *modelConfig = o->physicsModelConfigs->array[configIdx];
+    if (!modelConfig->bodyDef) {
+        logmsg("GameObject: physics model not yet initialized (Call create<type>Shape first)");
+        return 0;
+    }
+    modelConfig->bodyDef->active = lua_toboolean(L, 3);
+    return 0;
+}
+
+// idx, type
+static int lua_GameObject_physics_setBodyType(lua_State *L) {
+	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
+	allocatePhysicsModelConfigIfNull(o);
+    S32 configIdx = lua_tointeger(L, 2);
+	if (configIdx > o->physicsModelConfigs->capacity-1) {
+		logmsg("GameObject: physics model config out of range");
+		return 0;
+	}
+	PhysicsModelConfig *modelConfig = o->physicsModelConfigs->array[configIdx];
+    if (!modelConfig->bodyDef) {
+        logmsg("GameObject: physics model not yet initialized (Call create<type>Shape first)");
+        return 0;
+    }
+    switch (lua_tointeger(L, 3)) {
+        case 0:
+            modelConfig->bodyDef->type = b2_staticBody;
+            break;
+        case 1:
+            modelConfig->bodyDef->type = b2_kinematicBody;
+            break;
+        case 2:
+            modelConfig->bodyDef->type = b2_dynamicBody;
+            break;
+        default:
+            break;
+    }
+    return 0;
+}
+
+// idx, density
+static int lua_GameObject_physics_setFixtureDensity(lua_State *L) {
+	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
+	allocatePhysicsModelConfigIfNull(o);
+    S32 configIdx = lua_tointeger(L, 2);
+	if (configIdx > o->physicsModelConfigs->capacity-1) {
+		logmsg("GameObject: physics model config out of range");
+		return 0;
+	}
+	PhysicsModelConfig *modelConfig = o->physicsModelConfigs->array[configIdx];
+    modelConfig->density = lua_tonumber(L, 3);
+    return 0;
+}
+
+// idx, friction
+static int lua_GameObject_physics_setFixtureFriction(lua_State *L) {
+	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
+	allocatePhysicsModelConfigIfNull(o);
+    S32 configIdx = lua_tointeger(L, 2);
+	if (configIdx > o->physicsModelConfigs->capacity-1) {
+		logmsg("GameObject: physics model config out of range");
+		return 0;
+	}
+	PhysicsModelConfig *modelConfig = o->physicsModelConfigs->array[configIdx];
+    modelConfig->friction = lua_tonumber(L, 3);
+    return 0;
+}
+
+// idx, restitution
+static int lua_GameObject_physics_setFixtureRestitution(lua_State *L) {
+	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
+	allocatePhysicsModelConfigIfNull(o);
+    S32 configIdx = lua_tointeger(L, 2);
+	if (configIdx > o->physicsModelConfigs->capacity-1) {
+		logmsg("GameObject: physics model config out of range");
+		return 0;
+	}
+	PhysicsModelConfig *modelConfig = o->physicsModelConfigs->array[configIdx];
+    modelConfig->restitution = lua_tonumber(L, 3);
+    return 0;
 }
 
 #endif

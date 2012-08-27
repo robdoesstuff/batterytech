@@ -107,6 +107,7 @@ static const luaL_reg lua_methods[] = {
 	{ "clearPhysicsWorld", lua_Game_clearPhysicsWorld },
 	{ "destroyPhysicsWorld", lua_Game_destroyPhysicsWorld },
 	{ "updatePhysics", lua_Game_updatePhysics },
+	{ "setPhysicsGravity", lua_Game_setPhysicsGravity },
 	{ "setPhysicsDrawDebug", lua_Game_setPhysicsDrawDebug },
 	{ "addScreenControl", lua_Game_addScreenControl },
 	{ "updateScreenControl", lua_Game_updateScreenControl },

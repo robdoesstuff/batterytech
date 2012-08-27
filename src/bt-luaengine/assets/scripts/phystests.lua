@@ -2,11 +2,17 @@
 
 Circle = table.copy(GameObject)
 
-function Circle.new(subclass)
-	local self = allocMeta(Circle.createInstance(), subclass or Circle)
+function Circle.new(x, y, radius)
+	local self = allocMeta(Circle.createInstance(), Circle)
 	self.objType = "Circle"
 	self:physics_allocConfigs(1)
 	self:physics_createCircleShape(0, 50.0)
+    self:physics_setBodyTransform(0, x, y, 0)
+    if not isStatic then
+        self:physics_setBodyType(0, 2)
+    else
+        self:physics_setBodyType(0, 0)
+    end
 	self:cInit()
 	return o
 end
@@ -15,6 +21,30 @@ function Circle:render()
 end
 
 function Circle:onCollision(other)
+end
+
+Box = table.copy(GameObject)
+
+function Box.new(x, y, width, height, isStatic)
+	local self = allocMeta(Box.createInstance(), Box)
+	self.objType = "Box"
+	self:physics_allocConfigs(1)
+	self:physics_createPolygonShape(0, -width/2, -height/2, width/2, -height/2, width/2, height/2, -width/2, height/2)
+    self:physics_setBodyTransform(0, x, y, 0)
+    if not isStatic then
+        self:physics_setBodyType(0, 2)
+    else
+        self:physics_setBodyType(0, 0)
+    end
+	self:cInit()
+	return o
+end
+
+function Box:render()
+end
+
+-- TODO - need collision points
+function Box:onCollision(other)
 end
 
 PhysicsTests = {}
@@ -27,6 +57,8 @@ function PhysicsTests.new()
 end
 
 function PhysicsTests:cleanUp()
+    self.objects = {}
+    game:destroyPhysicsWorld()
 end
 
 function PhysicsTests:show()
@@ -61,7 +93,16 @@ end
 function PhysicsTests:setupScene()
 	game:createPhysicsWorld()
 	game:setPhysicsDrawDebug(true)
-	table.insert(self.objects, Circle.new())
+	table.insert(self.objects, Circle.new(300, 300, 50))
+	table.insert(self.objects, Circle.new(350, 200, 50))
+	table.insert(self.objects, Circle.new(400, 300, 50))
+	table.insert(self.objects, Box.new(200, 200, 50, 50))
+	table.insert(self.objects, Box.new(300, 200, 50, 50))
+	table.insert(self.objects, Box.new(400, 200, 50, 50))
+	table.insert(self.objects, Box.new(500, 200, 50, 50))
+	table.insert(self.objects, Box.new(600, 200, 50, 50))
+	table.insert(self.objects, Box.new(640, 750, 1280, 100, true))
+    game:setPhysicsGravity(0, 100)   
 end
 
 function PhysicsTests:makeBox(x,y,color,twosided)
@@ -78,12 +119,12 @@ function PhysicsTests:makeBox(x,y,color,twosided)
 end
 
 function PhysicsTests:update(tickDelta)
+    game:updatePhysics(tickDelta, 10, 20)
     for i,v in ipairs(self.buttons) do
         v:update(tickDelta)
     end
     self:updateTestsState(tickDelta)
     self.wasInput = (getPointerState(0) or getKeyState(0))
-    game:updatePhysics(tickDelta, 5, 5)
 end
 
 function PhysicsTests:updateTestsState(tickDelta)

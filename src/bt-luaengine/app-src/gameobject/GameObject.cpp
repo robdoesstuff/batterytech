@@ -327,8 +327,15 @@ void GameObject::init() {
 			boxBody = context->world->boxWorld->CreateBody(config->bodyDef);
 			b2FixtureDef fixDef;
 			fixDef.shape = config->shape;
-			fixDef.density = 1.0f;
-			boxBody->CreateFixture(&fixDef);
+            fixDef.density = 1.0f;
+            /*
+            fixDef.friction = config->friction;
+			fixDef.density = config->density;
+            fixDef.restitution = config->restitution;
+            fixDef.isSensor = config->isSensor;
+            fixDef.filter = config->filter;
+             */
+ 			boxBody->CreateFixture(&fixDef);
 		}
 	}
 #endif

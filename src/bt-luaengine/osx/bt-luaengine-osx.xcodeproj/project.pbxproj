@@ -74,7 +74,6 @@
 		3DF3D894155E00A800B78035 /* print.c in Sources */ = {isa = PBXBuildFile; fileRef = 3DF3D80D155E00A800B78035 /* print.c */; };
 		3DF3D896155E00D800B78035 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DF3D895155E00D800B78035 /* main.m */; };
 		3DF3D898155E051500B78035 /* osxhooks.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3DF3D897155E051500B78035 /* osxhooks.mm */; };
-		3DF3D89A155E059200B78035 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 3DF3D899155E059200B78035 /* assets */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		CD19376115A3535900A22B4A /* Game.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CD19371D15A3535900A22B4A /* Game.cpp */; };
@@ -188,7 +187,6 @@
 		CD19389A15A3538000A22B4A /* VibrationManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CD19384515A3538000A22B4A /* VibrationManager.cpp */; };
 		CD19389B15A3538000A22B4A /* btFFMpegPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CD19384815A3538000A22B4A /* btFFMpegPlayer.cpp */; };
 		CD19389C15A3538000A22B4A /* VideoManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CD19384A15A3538000A22B4A /* VideoManager.cpp */; };
-		CDB659C915D8DED0001AE83B /* phystests.lua in Resources */ = {isa = PBXBuildFile; fileRef = CDB659C815D8DED0001AE83B /* phystests.lua */; };
 		CDC9048815B0C2DB004F6B19 /* Box2DConfig.cmake in Resources */ = {isa = PBXBuildFile; fileRef = CDC9043915B0C2DB004F6B19 /* Box2DConfig.cmake */; };
 		CDC9048915B0C2DB004F6B19 /* CMakeLists.txt in Resources */ = {isa = PBXBuildFile; fileRef = CDC9043A15B0C2DB004F6B19 /* CMakeLists.txt */; };
 		CDC9048A15B0C2DB004F6B19 /* b2BroadPhase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CDC9043C15B0C2DB004F6B19 /* b2BroadPhase.cpp */; };
@@ -228,6 +226,7 @@
 		CDC904AC15B0C2DB004F6B19 /* b2WeldJoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CDC9048515B0C2DB004F6B19 /* b2WeldJoint.cpp */; };
 		CDC904AD15B0C2DB004F6B19 /* license.txt in Resources */ = {isa = PBXBuildFile; fileRef = CDC9048715B0C2DB004F6B19 /* license.txt */; };
 		CDC904B115B0C52A004F6B19 /* B2DebugRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CDC904AF15B0C52A004F6B19 /* B2DebugRenderer.cpp */; };
+		CDF7D91815E9D49100C148AC /* assets in Resources */ = {isa = PBXBuildFile; fileRef = CDF7D91715E9D49100C148AC /* assets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -415,7 +414,6 @@
 		3DF3D80D155E00A800B78035 /* print.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = print.c; sourceTree = "<group>"; };
 		3DF3D895155E00D800B78035 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		3DF3D897155E051500B78035 /* osxhooks.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = osxhooks.mm; sourceTree = "<group>"; };
-		3DF3D899155E059200B78035 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = ../assets; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* batterytech_osx-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "batterytech_osx-Info.plist"; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* BatteryTech Lua Engine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BatteryTech Lua Engine.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD19371D15A3535900A22B4A /* Game.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Game.cpp; sourceTree = "<group>"; };
@@ -666,7 +664,6 @@
 		CD19384915A3538000A22B4A /* btFFMpegPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = btFFMpegPlayer.h; sourceTree = "<group>"; };
 		CD19384A15A3538000A22B4A /* VideoManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VideoManager.cpp; sourceTree = "<group>"; };
 		CD19384B15A3538000A22B4A /* VideoManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoManager.h; sourceTree = "<group>"; };
-		CDB659C815D8DED0001AE83B /* phystests.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = phystests.lua; path = ../assets/scripts/phystests.lua; sourceTree = "<group>"; };
 		CDC9043815B0C2DB004F6B19 /* Box2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Box2D.h; sourceTree = "<group>"; };
 		CDC9043915B0C2DB004F6B19 /* Box2DConfig.cmake */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Box2DConfig.cmake; sourceTree = "<group>"; };
 		CDC9043A15B0C2DB004F6B19 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
@@ -743,6 +740,7 @@
 		CDC9048715B0C2DB004F6B19 /* license.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = license.txt; sourceTree = "<group>"; };
 		CDC904AF15B0C52A004F6B19 /* B2DebugRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = B2DebugRenderer.cpp; sourceTree = "<group>"; };
 		CDC904B015B0C52A004F6B19 /* B2DebugRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = B2DebugRenderer.h; sourceTree = "<group>"; };
+		CDF7D91715E9D49100C148AC /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = ../assets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -795,7 +793,6 @@
 		29B97314FDCFA39411CA2CEA /* bt-luaengine-osx */ = {
 			isa = PBXGroup;
 			children = (
-				CDB659C815D8DED0001AE83B /* phystests.lua */,
 				3D56C33E131DF9AC00BF7F17 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -821,7 +818,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				3DF3D899155E059200B78035 /* assets */,
+				CDF7D91715E9D49100C148AC /* assets */,
 				8D1107310486CEB800E47090 /* batterytech_osx-Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 				1DDD58140DA1D0A300B32029 /* MainMenu.xib */,
@@ -1755,12 +1752,11 @@
 				3DF3D872155E00A800B78035 /* aiMatrix3x3.inl in Resources */,
 				3DF3D873155E00A800B78035 /* aiMatrix4x4.inl in Resources */,
 				3DF3D874155E00A800B78035 /* aiVector3D.inl in Resources */,
-				3DF3D89A155E059200B78035 /* assets in Resources */,
 				CD19385115A3538000A22B4A /* batterytech.dox in Resources */,
 				CDC9048815B0C2DB004F6B19 /* Box2DConfig.cmake in Resources */,
 				CDC9048915B0C2DB004F6B19 /* CMakeLists.txt in Resources */,
 				CDC904AD15B0C2DB004F6B19 /* license.txt in Resources */,
-				CDB659C915D8DED0001AE83B /* phystests.lua in Resources */,
+				CDF7D91815E9D49100C148AC /* assets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

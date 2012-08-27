@@ -107,7 +107,7 @@ void B2DebugRenderer::renderPolyShape(b2Body *body, b2PolygonShape *polyShape) {
 	if (context->gConfig->useShaders) {
         Matrix4f myMv = context->renderContext->mvMatrix;
         myMv.translate(pos.x, pos.y, 0);
-        myMv.rotate(angle * (180 / PI), 0, 0, 1.0f);
+        myMv.rotate(-angle * (180 / PI), 0, 0, 1.0f);
 		// mv + proj, position and color
         glUniformMatrix4fv(shader->getUniformLoc("modelview_matrix"), 1, FALSE, myMv.data);
         glUniformMatrix4fv(shader->getUniformLoc("projection_matrix"), 1, FALSE, context->renderContext->projMatrix.data);
@@ -118,7 +118,7 @@ void B2DebugRenderer::renderPolyShape(b2Body *body, b2PolygonShape *polyShape) {
 		glVertexPointer(3, GL_FLOAT, 0, verts);
 		glPushMatrix();
 		glTranslatef(pos.x, pos.y, 0);
-		glRotatef(angle * (180 / PI), 0, 0, 1.0f);
+		glRotatef(-angle * (180 / PI), 0, 0, 1.0f);
         glDrawArrays(GL_LINE_LOOP, 0, vertCount);
 		glPopMatrix();
 	}
@@ -143,7 +143,7 @@ void B2DebugRenderer::renderCircleShape(b2Body *body, b2CircleShape *shape) {
 	if (context->gConfig->useShaders) {
         Matrix4f myMv = context->renderContext->mvMatrix;
         myMv.translate(pos.x, pos.y, 0);
-        myMv.rotate(angle * (180 / PI), 0, 0, 1.0f);
+        myMv.rotate(-angle * (180 / PI), 0, 0, 1.0f);
 		// mv + proj, position and color
         glUniformMatrix4fv(shader->getUniformLoc("modelview_matrix"), 1, FALSE, myMv.data);
         glUniformMatrix4fv(shader->getUniformLoc("projection_matrix"), 1, FALSE, context->renderContext->projMatrix.data);
@@ -154,7 +154,7 @@ void B2DebugRenderer::renderCircleShape(b2Body *body, b2CircleShape *shape) {
 		glVertexPointer(3, GL_FLOAT, 0, verts);
 		glPushMatrix();
 		glTranslatef(pos.x, pos.y, 0);
-		glRotatef(angle * (180 / PI), 0, 0, 1.0f);
+		glRotatef(-angle * (180 / PI), 0, 0, 1.0f);
         glDrawArrays(GL_LINE_LOOP, 0, vertCount);
 		glPopMatrix();
 	}
