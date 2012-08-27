@@ -73,6 +73,7 @@ public:
 	Vector4f matEmissive;
 	char *matDiffuseTexture;
 	F32 matOpacity;
+	F32 matShininess;
 	GLuint vertAttsVBOId;
 	GLuint faceIndicesVBOId;
 	S32 vCount;

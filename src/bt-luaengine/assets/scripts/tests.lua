@@ -312,7 +312,7 @@ function Tests:updatePointLights(tickDelta)
             end
             game:setLocalLightParam(lightIdx, "ambient", 0,0,0,0);
             game:setLocalLightParam(lightIdx, "diffuse", r,g,b,1);
-            game:setLocalLightParam(lightIdx, "specular", 0,0,0,0);
+            game:setLocalLightParam(lightIdx, "specular", r,g,b,1);
             game:setLocalLightParam(lightIdx, "attenuation", 0.2, 0.05, 0.01);
             local pl = PointLight.new(lightIdx, 0,-20,5)
             pl.r = r
@@ -395,9 +395,9 @@ function Tests:render()
     game:setShadowOrtho(15, -15, 15, -15)
 	game:setShadowType(self.shadowType)
 	game:setGlobalLightDir(-0.2, 0.2, .7)
-	game:setGlobalLightAmbient(.7, .7, .7, 1)
-	game:setGlobalLightDiffuse(.7, .7, .7, 1)
-	game:setGlobalLightSpecular(.5, .5, .5, 1)
+	game:setGlobalLightAmbient(.8, .8, .8, 1)
+	game:setGlobalLightDiffuse(.8, .8, .8, 1)
+	game:setGlobalLightSpecular(.9, .9, .9, 1)
 	game:setGlobalLightEnabled(self.globalLightEnabled)
     game:setFogEnabled(self.fogEnabled)
     if self.fogEnabled then

@@ -364,7 +364,7 @@ void AssimpRenderer::bindMaterial(RenderItem *item, GLAssimpMeshBinding *meshBin
 		glUniform4f(shaderProgram->getUniformLoc("material.ambient_color"), amb.x, amb.y, amb.z, amb.w);
 		glUniform4f(shaderProgram->getUniformLoc("material.diffuse_color"), dif.x, dif.y, dif.z, dif.w);
 		glUniform4f(shaderProgram->getUniformLoc("material.specular_color"), spec.x, spec.y, spec.z, spec.w);
-		glUniform1f(shaderProgram->getUniformLoc("material.specular_exponent"), 0.8f);
+		glUniform1f(shaderProgram->getUniformLoc("material.specular_exponent"), meshBinding->matShininess);
 	}
 	Vector4f colorFilter = context->renderContext->colorFilter;
 	glUniform4f(shaderProgram->getUniformLoc("colorFilter"), colorFilter.x,colorFilter.y,colorFilter.z,colorFilter.a);

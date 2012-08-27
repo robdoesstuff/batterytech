@@ -38,6 +38,7 @@ namespace BatteryTech {
 		matSpecular = Vector4f(0.7, 0.7, 0.7, 1.0);
 		matEmissive = Vector4f(0,0,0,1);
 		matOpacity = 1.0f;
+		matShininess = 1.0f;
 		matDiffuseTexture = NULL;
 	}
 
@@ -149,6 +150,9 @@ namespace BatteryTech {
 		}
 		if (AI_SUCCESS != aiGetMaterialFloat(material, AI_MATKEY_OPACITY, &matOpacity)) {
 			matOpacity = 1.0f;
+		}
+		if (AI_SUCCESS != aiGetMaterialFloat(material, AI_MATKEY_SHININESS, &matShininess)) {
+			matShininess = 1.0f;
 		}
 		aiString path;
 		F32 blend;
