@@ -200,6 +200,8 @@ void WorldRenderer::init(BOOL32 newContext) {
 void WorldRenderer::render() {
 	World *world = context->world;
 	ShaderProgram::binds = 0;
+	// clear the shader program cache
+	ShaderProgram::currentProgram = NULL;
 	checkGLError("WorldRenderer Start");
 	glViewport(0, 0, gConfig->viewportWidth, gConfig->viewportHeight);
     
@@ -210,8 +212,6 @@ void WorldRenderer::render() {
 			logmsg("loadingScreenDisplayed set");
 		} else if (context->newGraphicsContext || !loadingTex->isLoaded()) {
 			loadingScreenDisplayed = FALSE;
-			// clear the shader program cache
-			ShaderProgram::currentProgram = NULL;
 			ShaderProgram *quadShader = context->glResourceManager->getShaderProgram("quad");
 			if (quadShader) {
 				quadShader->invalidateGL();

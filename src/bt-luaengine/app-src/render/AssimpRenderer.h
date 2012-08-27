@@ -39,6 +39,13 @@ struct AssimpShaderConfig {
 		this->withFog = withFog;
 		this->pointLightCount = pointLightCount;
 	}
+	BOOL32 equals(const AssimpShaderConfig &other) {
+		return (hwAccel == other.hwAccel &&
+				withRGBAShadowmap == other.withRGBAShadowmap &&
+				withDirectionalLight == other.withDirectionalLight &&
+				withFog == other.withFog &&
+				pointLightCount == other.pointLightCount);
+	}
 	BOOL32 hwAccel;
 	BOOL32 withRGBAShadowmap;
 	BOOL32 withDirectionalLight;
@@ -57,7 +64,7 @@ public:
         
 private:
 	ShaderProgram* createShadowShaderProgram(BOOL32 newContext, BOOL32 hwSkinned);
-	void bindShader(ShaderProgram *shaderProgram, const Vector3f &ecLightDir, const Vector3f &halfplane, const AssimpShaderConfig &config);
+	void bindShader(ShaderProgram *shaderProgram, const Vector3f &ecLightDir, const AssimpShaderConfig &config);
 	void setupPointLights(ShaderProgram *shaderProgram, RenderItem *item, Matrix4f mv);
 	void renderNode(RenderNode *node, GLAssimpBinding *binding, Matrix4f mv, RenderItem *item, const Vector3f &ecLightDir, const Vector3f &halfplane, BOOL32 transparent);
     

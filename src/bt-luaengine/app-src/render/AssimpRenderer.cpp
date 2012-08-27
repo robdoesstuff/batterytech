@@ -54,7 +54,7 @@ void AssimpRenderer::init(BOOL32 newContext) {
 	checkGLError("AssimpRenderer init");
 }
 
-void AssimpRenderer::bindShader(ShaderProgram *shaderProgram, const Vector3f &ecLightDir, const Vector3f &halfplane, const AssimpShaderConfig &config) {
+void AssimpRenderer::bindShader(ShaderProgram *shaderProgram, const Vector3f &ecLightDir, const AssimpShaderConfig &config) {
 	// switch to the shader for this node
 	shaderProgram->bind();
 	glUniform1i(shaderProgram->getUniformLoc("tex"), 0);
@@ -67,7 +67,6 @@ void AssimpRenderer::bindShader(ShaderProgram *shaderProgram, const Vector3f &ec
 		glUniform4f(shaderProgram->getUniformLoc("dirLight.ambient_color"), gAmbient.x, gAmbient.y, gAmbient.z, gAmbient.w);
 		glUniform4f(shaderProgram->getUniformLoc("dirLight.diffuse_color"), gDiffuse.x, gDiffuse.y, gDiffuse.z, gDiffuse.w);
 		glUniform4f(shaderProgram->getUniformLoc("dirLight.specular_color"), gSpecular.x, gSpecular.y, gSpecular.z, gSpecular.w);
-		glUniform3f(shaderProgram->getUniformLoc("dirLight.halfplane"), halfplane.x, halfplane.y, halfplane.z);
 	}
 	if (config.withRGBAShadowmap) {
 	    glUniform1i(shaderProgram->getUniformLoc("shadowTexture"), 2);
@@ -274,7 +273,7 @@ void AssimpRenderer::renderNode(RenderNode *node, GLAssimpBinding *binding, Matr
                 bool shaderChanged = false;
                 
                 if(shaderProgram != ShaderProgram::currentProgram) {
-                    bindShader(shaderProgram, ecLightDir, halfplane, config);
+                    bindShader(shaderProgram, ecLightDir, config);
                     lightsBound = FALSE;
                     shaderChanged = true;
                 }
@@ -285,6 +284,10 @@ void AssimpRenderer::renderNode(RenderNode *node, GLAssimpBinding *binding, Matr
 					lightsBound = TRUE;
 				}
 				bindMaterial(item, meshBinding, binding, config);
+				if (config.withDirectionalLight) {
+					// half-plane is object translation dependent so don't let it be cached with the global light
+					glUniform3f(shaderProgram->getUniformLoc("dirLight.halfplane"), halfplane.x, halfplane.y, halfplane.z);
+				}
 				Matrix3f inv3;
 				checkGLError("AssimpRenderer render2");
 				glUniformMatrix4fv(shaderProgram->getUniformLoc("modelview_matrix"), 1, GL_FALSE, (GLfloat*) myMv.data);
