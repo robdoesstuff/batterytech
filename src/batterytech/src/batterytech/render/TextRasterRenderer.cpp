@@ -62,6 +62,7 @@ namespace BatteryTech {
         bmFontPage = NULL;
         bmFontPageTable = NULL;
         bmFontCharTable = NULL;
+        bmKerningTable = NULL;
         bmCurrentPage = 0;
         ftex = 0;
         vertBuffer = new GLQuadVertex[TEXT_RENDER_BUFFER_SIZE * 4];
@@ -100,6 +101,11 @@ namespace BatteryTech {
         if (bmFontPage) {
             delete bmFontPage;
             bmFontPage = NULL;
+        }
+        if (bmKerningTable) {
+        	bmKerningTable->deleteElements();
+        	delete bmKerningTable;
+        	bmKerningTable = NULL;
         }
 	}
 
@@ -497,7 +503,8 @@ namespace BatteryTech {
     		_platform_convert_path_to_forward(basePath, basePath);
             // parse .fnt file
             bmInfo = new BMFontInfo();
-            S32 pos = 0;
+           	S32 kerningsCount = 0;
+           	S32 pos = 0;
             char lineBuf[2048];
             BOOL32 more = TextFileUtil::readLine(lineBuf, data, &pos);
             while (more) {
@@ -594,7 +601,28 @@ namespace BatteryTech {
 						bmChar->uvs[3] = Vector2f((F32)bmChar->x / scaleW, (F32)(bmChar->y+bmChar->height) / scaleH);
 						bmFontCharTable->put(bmChar->id, bmChar);
                 	}
-               }
+                } else if (strStartsWith(lineBuf, "kernings")) {
+                	// has count
+                	if (bmKerningTable) {
+                		bmKerningTable->deleteElements();
+                		delete bmKerningTable;
+                	}
+                 	BMGetIntProperty(lineBuf, "count", &kerningsCount);
+                	bmKerningTable = new HashTable<S32, HashTable<S32, F32>*>(kerningsCount * 1.5f);
+                } else if (strStartsWith(lineBuf, "kerning")) {
+                	S32 first, second;
+                	F32 amount;
+                	BMGetIntProperty(lineBuf, "first", &first);
+                	BMGetIntProperty(lineBuf, "second", &second);
+                	BMGetFloatProperty(lineBuf, "amount", &amount);
+                	HashTable<S32, F32> *kernings = bmKerningTable->get(first);
+                	if (!kernings) {
+                		kernings = new HashTable<S32, F32>();
+                		bmKerningTable->put(first, kernings);
+                		kernings->setNullReturnVal(0);
+                	}
+               		kernings->put(second, amount);
+                }
                 more = TextFileUtil::readLine(lineBuf, data, &pos);
             }
             _platform_free_asset((unsigned char*)data);
@@ -607,6 +635,7 @@ namespace BatteryTech {
     	scale *= localScale;
 		// switch to bottom-left to match TTF renderer
 		y = y - bmInfo->lineHeight * scale;
+		char lastChar = 0;
 		while (*text) {
 			if (*text >= 32 && *text < 256) {
 				BMFontChar *bmChar = bmFontCharTable->get(*text);
@@ -617,6 +646,15 @@ namespace BatteryTech {
                             bmCurrentPage = bmChar->page;
                         }
                     }
+                    // now check kerning and adjust
+                    F32 kerning = 0;
+                    if (bmKerningTable && lastChar) {
+                    	HashTable<S32, F32> *kernings = bmKerningTable->get(lastChar);
+                    	if (kernings) {
+                    		kerning = kernings->get(*text);
+                    	}
+                    }
+                    x += kerning * scale;
 					// topleft, topright, bottomright, bottomleft
 					Vector3f pos[4];
 					F32 offsetx = bmChar->xoffset;
@@ -628,6 +666,7 @@ namespace BatteryTech {
 					pos[3] = Vector3f(offsetx, offsety+bmChar->height, 0) * scale + start;
 	                addToBuffer(pos[0], pos[1], pos[2], pos[3], bmChar->uvs[0], bmChar->uvs[1], bmChar->uvs[2], bmChar->uvs[3]);
 					x += bmChar->xadvance * scale;
+					lastChar = *text;
 				}
  			}
 			++text;
@@ -644,11 +683,13 @@ namespace BatteryTech {
 		//F32 origY = y;
 		F32 lineHeight = bmInfo->lineHeight * scale * vertSpaceMult;
 		S32 i = 0;
+		char lastChar = 0;
 		char c = *text;
 		while (c) {
 			if (c == '\n') {
 				y += lineHeight;
 				x = origX;
+				lastChar = 0;
 				if (maxY && y > maxY) {
 					break;
 				}
@@ -681,6 +722,7 @@ namespace BatteryTech {
                         if (x + width > maxX) {
                             y += lineHeight;
                             x = origX;
+        					lastChar = 0;
                             ++i;
                             c = *(text + i);
                             if (!c) {
@@ -692,6 +734,15 @@ namespace BatteryTech {
 				}
 				BMFontChar *bmChar = bmFontCharTable->get(c);
 				if (bmChar) {
+                    // now check kerning and adjust
+                    F32 kerning = 0;
+                    if (bmKerningTable && lastChar) {
+                    	HashTable<S32, F32> *kernings = bmKerningTable->get(lastChar);
+                    	if (kernings) {
+                    		kerning = kernings->get(c);
+                    	}
+                    }
+                    x += kerning * scale;
 					x += bmChar->xadvance * scale;
                     if (bmInfo->pages > 1) {
                         if (bmChar->page != bmCurrentPage) {
@@ -711,6 +762,7 @@ namespace BatteryTech {
 				}
 			}
 			++i;
+			lastChar = c;
 			c = *(text + i);
 		}
     }
@@ -727,6 +779,7 @@ namespace BatteryTech {
     	F32 localScale = fontSize / bmInfo->size;
     	scale *= localScale;
 		F32 width = 0;
+		char lastChar = 0;
 		while (*text) {
 			if (*text == '\n') {
 				//newline, restart.
@@ -735,9 +788,19 @@ namespace BatteryTech {
 			if (*text >= 32 && *text < 256) {
 				BMFontChar *bmChar = bmFontCharTable->get(*text);
 				if (bmChar) {
-					width += bmChar->xadvance;
+                    // now check kerning and adjust
+                    F32 kerning = 0;
+                    if (bmKerningTable && lastChar) {
+                    	HashTable<S32, F32> *kernings = bmKerningTable->get(lastChar);
+                    	if (kernings) {
+                    		kerning = kernings->get(*text);
+                    	}
+                    }
+ 					width += bmChar->xadvance;
+                    width += kerning;
 				}
 			}
+			lastChar = *text;
 			++text;
 		}
 		return width * scale;
@@ -755,6 +818,7 @@ namespace BatteryTech {
 		// first line's height
 		F32 y = lineHeight;
 		char c = *text;
+		char lastChar = 0;
 		while (c) {
 			if (c == '\n') {
 				lastSpaceIdx = -1;
@@ -762,16 +826,25 @@ namespace BatteryTech {
 				x = 0;
 			}
 			if (c >= 32 && c < 256) {
+                // now check kerning and adjust
+                F32 kerning = 0;
+                if (x > 0 && bmKerningTable && lastChar) {
+                	HashTable<S32, F32> *kernings = bmKerningTable->get(lastChar);
+                	if (kernings) {
+                		kerning = kernings->get(*text);
+                	}
+                }
 				if (c == 32) {
 					lastSpaceIdx = i;
 				}
 				BMFontChar *bmChar = bmFontCharTable->get(*text);
 				if (bmChar) {
-					x += bmChar->xadvance;
+					x += bmChar->xadvance + kerning;
 				}
 				if (x > availableWidth) {
 					x = 0;
 					y += lineHeight;
+					lastChar = 0;
 					// rewind to 1 past last space
 					if (lastSpaceIdx != -1) {
 						i = lastSpaceIdx + 1;
@@ -787,6 +860,7 @@ namespace BatteryTech {
 				}
 			}
 			++i;
+			lastChar = c;
 			c = *(text + i);
 		}
 		return y;
