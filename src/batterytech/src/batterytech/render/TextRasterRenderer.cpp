@@ -368,7 +368,14 @@ namespace BatteryTech {
         char *start = strstr(data, buf);
         if (start) {
             char *valStart = start+strlen(buf);
-            char *valEnd = strchr(valStart, ' ');
+            char *valEnd;
+            if (valStart[0] == '"') {
+            	// we're starting with a quote which may have spaces inside so switch to endquote check
+            	// we want to include the end quote
+            	valEnd = strchr(valStart+1, '"')+1;
+            } else {
+            	valEnd = strchr(valStart, ' ');
+            }
             if (!valEnd) {
                 valEnd = strchr(valStart, '\n');
             }
