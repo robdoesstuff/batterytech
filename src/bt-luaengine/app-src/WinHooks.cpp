@@ -7,11 +7,28 @@
 #include <stdlib.h>
 #include <string.h>
 #include <iostream>
+#include <windows.h>
 
 using namespace std;
 
 // This file is required for a Windows BatteryTech build.
 // It implements several application-specific, platform-dependent functions.
+
+DWORD CallbackThreadStart (LPVOID lpdwThreadParam );
+
+void doCallback(const char *str) {
+	char callback[512];
+	sprintf(callback, "purchaseSucceeded %s", str);
+	while (!btCallback(callback)) {
+		Sleep(100);
+	}
+}
+
+DWORD CallbackThreadStart (LPVOID lpdwThreadParam ) {
+	doCallback((const char*) lpdwThreadParam);
+	return 0;
+}
+
 
 void winHook(const char *hook, char *result, S32 resultLen) {
 	// Handle custom hooks here
@@ -23,8 +40,15 @@ void winHook(const char *hook, char *result, S32 resultLen) {
 		char *productId = strtok(NULL, " ");
 		char callback[512];
 		sprintf(callback, "purchaseSucceeded %s", productId);
-		btCallback(callback);
-		cout << callback << endl;
+		// if queue is full this won't work
+		if (!btCallback(callback)) {
+			cout << "Callback queue is full" << endl;
+		}
+	} else if (strStartsWith(hook, "restorePurchases")) {
+		DWORD dwThreadId;
+		CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)&CallbackThreadStart, (LPVOID)"com.touchscreenpromotion.diesel.batmotriple", 0, &dwThreadId);
+		CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)&CallbackThreadStart, (LPVOID)"com.touchscreenpromotion.diesel.rockwellrearend", 0, &dwThreadId);
+		CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)&CallbackThreadStart, (LPVOID)"com.touchscreenpromotion.diesel.pipekittriple", 0, &dwThreadId);
 	}
 }
 
