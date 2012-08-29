@@ -55,12 +55,12 @@ clear_color=0.0 0.0 0.0 1.0
 asset_default_find_func=internal
 
 # enable this setting to see details about textures that are being loaded
-debug_textures=true
+debug_textures=false
 # enable this setting to see details about models that are being loaded
 debug_assimp=false
 # enable this setting to see details about shaders as they are loaded
-debug_shaders=true
+debug_shaders=false
 # enable this setting to see details about fonts as they are loaded
-debug_fonts=true
+debug_fonts=false
 # enable this setting to see details about sounds as they are loaded
 debug_sounds=false
