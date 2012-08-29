@@ -374,11 +374,30 @@ double getCurrentTime() {
 }
 
 - (void)accelerometer:(UIAccelerometer *)accelerometer didAccelerate:(UIAcceleration *)acceleration {
-	UIAccelerationValue x,y,z;
-	x = acceleration.x;
-	y = acceleration.y;
-	z = acceleration.z;
     if (isContextInitialized) {
+        UIAccelerationValue x,y,z;
+        UIInterfaceOrientation o = [[UIApplication sharedApplication] statusBarOrientation];
+        z = acceleration.z;
+        switch (o) {
+            case UIInterfaceOrientationPortrait:
+                x = acceleration.x;
+                y = acceleration.y;
+                break;
+            case UIInterfaceOrientationLandscapeRight:
+                x = -acceleration.y;
+                y = acceleration.x;
+                break;
+            case UIInterfaceOrientationPortraitUpsideDown:
+                x = -acceleration.x;
+                y = -acceleration.y;
+                break;
+            case UIInterfaceOrientationLandscapeLeft:
+                x = acceleration.y;
+                y = -acceleration.x;
+                break;
+            default:
+                break;
+        }
         btAccelerometerChanged(-9.8f*x,-9.8f*y,-9.8f*z);
     }
 }
