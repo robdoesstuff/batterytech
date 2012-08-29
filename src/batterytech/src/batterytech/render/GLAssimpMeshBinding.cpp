@@ -18,10 +18,14 @@
 #include "../Logger.h"
 #include "../util/strx.h"
 #include <stdio.h>
+#include "../batterytech.h"
+#include "../Context.h"
 
 #ifdef BATTERYTECH_INCLUDE_ASSIMP
 
 #define BUFFER_OFFSET(i) (reinterpret_cast<void*>(i))
+
+static BOOL32 debugAssimp = FALSE;
 
 namespace BatteryTech {
 
@@ -59,6 +63,10 @@ namespace BatteryTech {
 	void GLAssimpMeshBinding::load(const aiScene *scene, const aiMesh *mesh) {
 		// only process if we haven't already loaded this - otherwise is just GL reload
 		if (!this->mesh) {
+			Property *prop = btGetContext()->appProperties->get("debug_assimp");
+			if (prop) {
+				debugAssimp = prop->getBoolValue();
+			}
 			this->mesh = mesh;
 			hasBones = (mesh->mNumBones > 0);
 			if (hasBones) {
@@ -158,6 +166,19 @@ namespace BatteryTech {
 		F32 blend;
 		aiGetMaterialTexture(material, aiTextureType_DIFFUSE, 0, &path, NULL, NULL, &blend, NULL, NULL, NULL);
 		matDiffuseTexture = strDuplicate(path.data);
+		if (debugAssimp) {
+			char buf[1024];
+			sprintf(buf, "Diffuse: %f %f %f %f", matDiffuse.x, matDiffuse.y, matDiffuse.z, matDiffuse.w);
+			logmsg(buf);
+			sprintf(buf, "Specular: %f %f %f %f", matSpecular.x, matSpecular.y, matSpecular.z, matSpecular.w);
+			logmsg(buf);
+			sprintf(buf, "Ambient: %f %f %f %f", matAmbient.x, matAmbient.y, matAmbient.z, matAmbient.w);
+			logmsg(buf);
+			sprintf(buf, "Emissive: %f %f %f %f", matEmissive.x, matEmissive.y, matEmissive.z, matEmissive.w);
+			logmsg(buf);
+			sprintf(buf, "Opacity: %f Shininess: %f", matOpacity, matShininess);
+			logmsg(buf);
+		}
 	}
 
 	void GLAssimpMeshBinding::unload(Context *context) {
