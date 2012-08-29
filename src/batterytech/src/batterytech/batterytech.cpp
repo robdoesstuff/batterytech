@@ -261,7 +261,7 @@ void btAccelerometerChanged(F32 x, F32 y, F32 z) {
 	}
 }
 
-void btCallback(const char *data) {
+BOOL32 btCallback(const char *data) {
 	if (context) {
 		strcpy(context->callbackData, data);
 		context->callbackDataReady = TRUE;

@@ -91,8 +91,12 @@ void btRelease();
 
 /**
  * Callback from host OS (generally has something to do with an async callback from an earlier hook like IAP)
+ *
+ * Does not block but may not register callback if queue is full
+ *
+ * @return TRUE if callback was queued, FALSE if queue is full
  */
-void btCallback(const char *data);
+BOOL32 btCallback(const char *data);
 
 /**
  * Gets the static instance of the application context
