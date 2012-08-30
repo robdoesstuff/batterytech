@@ -145,17 +145,19 @@ void Java_com_batterypoweredgames_batterytech_Boot_fillAudioBuffer(JNIEnv* env, 
 	}
 }
 
-void Java_com_batterypoweredgames_batterytech_Boot_callback(JNIEnv* env, jobject thiz, jstring data) {
+jboolean Java_com_batterypoweredgames_batterytech_Boot_callback(JNIEnv* env, jobject thiz, jstring data) {
 	jnienv = env;
 	javaBoot = thiz;
+	jboolean ret = FALSE;
 	if (data) {
 		jboolean isCopy;
 		const char *jnibuf = jnienv->GetStringUTFChars(data, &isCopy);
-		btCallback(jnibuf);
+		ret = btCallback(jnibuf);
 		jnienv->ReleaseStringUTFChars(data, jnibuf);
 	}
 	jnienv = 0;
 	javaBoot = 0;
+	return ret;
 }
 
 void determineGPUCapabilities() {

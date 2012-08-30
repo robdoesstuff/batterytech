@@ -309,6 +309,6 @@ public class Boot {
 	public native void keyDown(int keyChar, int keyCode);
 	public native void keyPressed(int keyChar, int keyCode);
 	public native void accelerometerChanged(float x, float y, float z);
-	public native void callback(String data);
+	public native boolean callback(String data);
 	public native void setGraphicsContextLost(boolean wasLost);
 }
