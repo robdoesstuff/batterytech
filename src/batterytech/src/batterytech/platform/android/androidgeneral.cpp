@@ -133,6 +133,8 @@ void _platform_get_external_storage_dir_name(char* buf, S32 buflen) {
 	const char *jnibuf = jnienv->GetStringUTFChars(pathStringUTF, &isCopy);
 	strcpy(buf, jnibuf);
 	jnienv->ReleaseStringUTFChars(pathStringUTF, jnibuf);
+	strcat(buf, "/");
+	strcat(buf, btGetContext()->appProperties->get("storage_dir")->getValue());
 	__android_log_print(ANDROID_LOG_DEBUG, "BatteryTech", buf);
 }
 
