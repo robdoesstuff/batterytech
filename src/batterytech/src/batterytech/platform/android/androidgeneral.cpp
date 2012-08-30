@@ -34,6 +34,8 @@
 #include <arpa/inet.h>
 #include <netinet/in.h>
 #include <time.h>
+#include "../../Context.h"
+#include "../../batterytech.h"
 
 using namespace BatteryTech;
 

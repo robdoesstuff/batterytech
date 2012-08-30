@@ -235,7 +235,7 @@ using namespace std;
 				int consumed = 0;
 				while (consumed < packet.size) {
 	                AVFrame* pAudioFrame = audioRingBuffer->getCurrent();
-	                cout << "writing to ring buffer " << audioRingBuffer->fillPoint << endl;
+	                //cout << "writing to ring buffer " << audioRingBuffer->fillPoint << endl;
 					int result = avcodec_decode_audio4(audioCodecContext, pAudioFrame, &frameFinished, &packet);
 					if (result < 0) {
 						break;
@@ -290,12 +290,12 @@ using namespace std;
                 if( audioBytesLeft == 0 ) {
                    //  cout << "fill\n";
                     audioFrame = audioRingBuffer->read();
-                    cout << "reading from ring buffer " << audioRingBuffer->oldest << endl;
+                    //cout << "reading from ring buffer " << audioRingBuffer->oldest << endl;
                     while (audioFrame == NULL) {
-                    cout << "NULL - decoding from addAudioBuffer " << endl;
+                    //cout << "NULL - decoding from addAudioBuffer " << endl;
                    		decodeFrame();
                     	audioFrame = audioRingBuffer->read();
-                        cout << "reading from ring buffer " << audioRingBuffer->oldest << endl;
+                        //cout << "reading from ring buffer " << audioRingBuffer->oldest << endl;
                     }
                     audioBytesLeft = av_samples_get_buffer_size(NULL, audioCodecContext->channels, audioFrame->nb_samples, audioCodecContext->sample_fmt, 1);
                     // audioBytesLeft = audioFrame->nb_samples * 4;
@@ -324,6 +324,7 @@ using namespace std;
 	}
 
 	F32 btFFMpegPlayer::getPosition() {
+		if (state == STATE_ENDED ) return -1;
 		return position;
 	}
 
