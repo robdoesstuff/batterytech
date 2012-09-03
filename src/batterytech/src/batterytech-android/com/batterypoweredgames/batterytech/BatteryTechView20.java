@@ -66,6 +66,8 @@ public class BatteryTechView20 extends GLSurfaceView implements BatteryTechView 
 		setRenderer(renderer);
 		setRenderMode(RENDERMODE_CONTINUOUSLY);
 		btPreserveContext(); 
+		setFocusable(true);
+		setFocusableInTouchMode(true);
 	}
 	
 	private void btPreserveContext() {

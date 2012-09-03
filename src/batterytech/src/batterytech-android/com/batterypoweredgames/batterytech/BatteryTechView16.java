@@ -42,6 +42,8 @@ import android.opengl.GLSurfaceView;
 		renderer = new BatteryTechRenderer(activity, this, false);
 		setRenderer(renderer);
 		setRenderMode(RENDERMODE_CONTINUOUSLY);
+		setFocusable(true);
+		setFocusableInTouchMode(true);
 	}
 	
 	public BatteryTechRenderer getRenderer() {

@@ -32,6 +32,10 @@ function Game:init()
 	self.smileyRotation = 0
 end
 
+function Game:reset(force)
+	self:setMode(MODE_MAINMENU)
+end
+
 function Game:setMode(mode)
 	self.mode = mode
 	if mode == MODE_PLAY then
