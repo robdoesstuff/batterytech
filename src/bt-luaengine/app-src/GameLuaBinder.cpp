@@ -735,7 +735,7 @@ static int lua_Game_renderAssimpM(lua_State *L) {
 	return 1;
 }
 
-// (tag), text, position2
+// (tag), text, position2, (scale)
 static int lua_Game_renderText2D(lua_State *L) {
 	//Game *game = *(Game**)lua_touserdata(L, 1);
 	if (static_context->world->renderItemsUsed == MAX_RENDERITEMS) {
@@ -748,20 +748,28 @@ static int lua_Game_renderText2D(lua_State *L) {
 	const char *tag = FONT_TAG_UI;
 	const char* text;
 	F32 x, y;
+	F32 scale = 1.0f;
 	if (lua_gettop(L) == 5) {
 		// has tag
 		tag = lua_tostring(L, 2);
 		text = lua_tostring(L, 3);
 		x = lua_tonumber(L, 4);
 		y = lua_tonumber(L, 5);
+		if (lua_isnumber(L, 6)) {
+			scale = lua_tonumber(L, 6);
+		}
 	} else {
 		text = lua_tostring(L, 2);
 		x = lua_tonumber(L, 3);
 		y = lua_tonumber(L, 4);
+		if (lua_isnumber(L, 5)) {
+			scale = lua_tonumber(L, 5);
+		}
 	}
 	strcpy(item->attr1, text);
 	strcpy(item->attr2, tag);
 	item->pos = Vector3f(x,y,0);
+	item->scale = Vector3f(scale, scale, 0);
 	lua_pushinteger(L, static_context->world->renderItemsUsed-1);
 	return 1;
 }

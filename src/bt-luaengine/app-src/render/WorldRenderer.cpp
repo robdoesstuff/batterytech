@@ -518,6 +518,7 @@ void WorldRenderer::render2D() {
                 BOOL32 isMultiline = item->flags & RENDERITEM_FLAG_MULTILINE_TEXT;
                 F32 posX = item->pos.x;
                 F32 posY = item->pos.y;
+                F32 scale = item->scale.x;
 				if (item->alignment == RenderItem::ALIGN_LEFT) {
                     // noop
 				} else if (item->alignment == RenderItem::ALIGN_CENTER) {
@@ -528,9 +529,9 @@ void WorldRenderer::render2D() {
                     posX = item->pos.x - width;
 				}
                 if (isMultiline) {
-                    curTextRenderer->renderMultiline(item->attr1, posX, posY, 0, 0, 1.0f);
+                    curTextRenderer->renderMultiline(item->attr1, posX, posY, 0, 0, scale);
                 } else {
-                    curTextRenderer->render(item->attr1, posX, posY, 1.0f);
+                    curTextRenderer->render(item->attr1, posX, posY, scale);
                 }
 			}
 		}
