@@ -285,6 +285,7 @@ void WorldRenderer::render() {
 			    glFrontFace(GL_CW);
 			}
 			// just for 2D Backgrounds behind the 3D
+			BOOL32 blendEnabled = FALSE;
 			//glEnable(GL_BLEND);
 			glDisable(GL_DEPTH_TEST);
 			context->renderContext->projMatrix.identity();
@@ -296,6 +297,16 @@ void WorldRenderer::render() {
 			for (S32 i = 0; i < world->renderItemsUsed; i++) {
 				RenderItem *item = &world->renderItems[i];
 				if (item->renderType == RenderItem::RENDERTYPE_2DBG) {
+					// use the item's opaque flag to determine if we should blend or not
+					BOOL32 needsBlend = ((item->flags & RENDERITEM_FLAG_IS_OPAQUE) == 0);
+					if (needsBlend != blendEnabled) {
+						if (blendEnabled) {
+							glDisable(GL_BLEND);
+						} else {
+							glEnable(GL_BLEND);
+						}
+						blendEnabled = !blendEnabled;
+					}
 					spriteRenderer->render(item);
 				}
 			}
@@ -303,6 +314,9 @@ void WorldRenderer::render() {
 			if (has3DObjects) {
 		        context->renderContext->projMatrix = world->camera->proj;
 		        context->renderContext->mvMatrix = world->camera->matrix;
+		        if (blendEnabled) {
+		        	glDisable(GL_BLEND);
+		        }
 			}
 		}
 		context->videoManager->render();

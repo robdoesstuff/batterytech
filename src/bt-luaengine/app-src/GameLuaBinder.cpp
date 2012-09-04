@@ -1251,7 +1251,12 @@ static int lua_Game_setRenderItemParam(lua_State *L) {
 		} else {
 			item->flags = item->flags & RENDERITEM_FLAG_MULTILINE_TEXT;
 		}
-        
+    } else if (strcmp(paramName, "isOpaque") == 0) {
+    	if (!lua_toboolean(L, 4)) {
+			item->flags = item->flags & ~RENDERITEM_FLAG_IS_OPAQUE;
+		} else {
+			item->flags = item->flags | RENDERITEM_FLAG_IS_OPAQUE;
+		}
     }
 	return 0;
 }
