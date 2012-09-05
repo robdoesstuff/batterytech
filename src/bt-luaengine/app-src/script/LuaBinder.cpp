@@ -692,6 +692,11 @@ static int lua_removeSound(lua_State *L) {
 
 static int lua_playSound(lua_State *L) {
 	const char *assetName = lua_tostring(L, 1);
+	if (!assetName) {
+		logmsg("playSound(nil) called - ignoring");
+		lua_pushinteger(L, -1);
+		return 1;
+	}
 	S16 loops = 0;
 	F32 vol = 1.0f;
 	F32 rate = 1.0f;
