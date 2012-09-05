@@ -631,7 +631,7 @@ namespace BatteryTech {
     
     void TextRasterRenderer::renderBMFont(const char *text, F32 x, F32 y, F32 scale) {
     	// adjust scale to requested font size
-    	F32 localScale = fontSize / bmInfo->size;
+    	F32 localScale = (fontSize / bmInfo->size) * context->gConfig->uiScale;
     	scale *= localScale;
 		// switch to bottom-left to match TTF renderer
 		y = y - bmInfo->lineHeight * scale;
@@ -675,7 +675,7 @@ namespace BatteryTech {
     
     void TextRasterRenderer::renderMultilineBMFont(const char *text, F32 x, F32 y, F32 maxX, F32 maxY, F32 scale) {
     	// adjust scale to requested font size
-    	F32 localScale = fontSize / bmInfo->size;
+    	F32 localScale = (fontSize / bmInfo->size) * context->gConfig->uiScale;
        	scale *= localScale;
 		// switch to bottom-left to match TTF renderer
 		y = y - bmInfo->lineHeight * scale;
@@ -769,14 +769,14 @@ namespace BatteryTech {
     
     F32 TextRasterRenderer::getBMFontHeight(F32 scale) {
     	// adjust scale to requested font size
-    	F32 localScale = fontSize / bmInfo->size;
+    	F32 localScale = (fontSize / bmInfo->size) * context->gConfig->uiScale;
     	scale *= localScale;
         return bmInfo->lineHeight * scale;
     }
     
     F32 TextRasterRenderer::measureBMFontWidth(const char *text, F32 scale) {
     	// adjust scale to requested font size
-    	F32 localScale = fontSize / bmInfo->size;
+    	F32 localScale = (fontSize / bmInfo->size) * context->gConfig->uiScale;
     	scale *= localScale;
 		F32 width = 0;
 		char lastChar = 0;
@@ -809,7 +809,7 @@ namespace BatteryTech {
     
     F32 TextRasterRenderer::measureBMFontMultilineHeight(const char *text, F32 availableWidth, F32 scale) {
     	// adjust scale to requested font size
-    	F32 localScale = fontSize / bmInfo->size;
+    	F32 localScale = (fontSize / bmInfo->size) * context->gConfig->uiScale;
     	scale *= localScale;
 		S32 i = 0;
 		S32 lastSpaceIdx = -1;
