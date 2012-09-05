@@ -749,7 +749,7 @@ static int lua_Game_renderText2D(lua_State *L) {
 	const char* text;
 	F32 x, y;
 	F32 scale = 1.0f;
-	if (lua_gettop(L) == 5) {
+	if (lua_gettop(L) >= 5) {
 		// has tag
 		tag = lua_tostring(L, 2);
 		text = lua_tostring(L, 3);
