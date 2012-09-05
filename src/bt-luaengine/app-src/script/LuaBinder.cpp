@@ -46,6 +46,7 @@ static int lua_addAssimp(lua_State *L);
 static int lua_removeAssimp(lua_State *L);
 static int lua_clearAssimps(lua_State *L);
 static int lua_addSound(lua_State *L);
+static int lua_removeSound(lua_State *L);
 static int lua_playSound(lua_State *L);
 static int lua_stopSound(lua_State *L);
 static int lua_playStreamingSound(lua_State *L);
@@ -129,6 +130,7 @@ lua_State* LuaBinder::newState(GameContext *context) {
 	registerFunction(L, "removeAssimp", lua_removeAssimp); // param: string assimpAssetName
 	registerFunction(L, "clearAssimps", lua_clearAssimps);
 	registerFunction(L, "addSound", lua_addSound);
+	registerFunction(L, "removeSound", lua_removeSound);
 	registerFunction(L, "playSound", lua_playSound);
 	registerFunction(L, "stopSound", lua_stopSound);
 	registerFunction(L, "playStreamingSound", lua_playStreamingSound);
@@ -679,6 +681,12 @@ static int lua_clearAssimps(lua_State *L) {
 static int lua_addSound(lua_State *L) {
 	const char *assetName = lua_tostring(L, 1);
 	static_context->audioManager->loadSound(assetName);
+	return 0;
+}
+
+static int lua_removeSound(lua_State *L) {
+	const char *assetName = lua_tostring(L, 1);
+	static_context->audioManager->unloadSound(assetName);
 	return 0;
 }
 
