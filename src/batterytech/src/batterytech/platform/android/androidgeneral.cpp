@@ -109,7 +109,7 @@ S32 _platform_read_asset_chunk(const char *filename, S32 offset, unsigned char *
 
 
 void _platform_get_application_storage_dir_name(char* buf, S32 buflen) {
-	__android_log_print(ANDROID_LOG_DEBUG, "BatteryTech", "Getting Application Storage Dir");
+	// __android_log_print(ANDROID_LOG_DEBUG, "BatteryTech", "Getting Application Storage Dir");
 	extern JNIEnv* jnienv;
 	extern jobject javaBoot;
 	// pull from android java apis
@@ -120,11 +120,11 @@ void _platform_get_application_storage_dir_name(char* buf, S32 buflen) {
 	const char *jnibuf = jnienv->GetStringUTFChars(pathStringUTF, &isCopy);
 	strcpy(buf, jnibuf);
 	jnienv->ReleaseStringUTFChars(pathStringUTF, jnibuf);
-	__android_log_print(ANDROID_LOG_DEBUG, "BatteryTech", buf);
+	// __android_log_print(ANDROID_LOG_DEBUG, "BatteryTech", buf);
 }
 
 void _platform_get_external_storage_dir_name(char* buf, S32 buflen) {
-	__android_log_print(ANDROID_LOG_DEBUG, "BatteryTech", "Getting External Storage Dir");
+	// __android_log_print(ANDROID_LOG_DEBUG, "BatteryTech", "Getting External Storage Dir");
 	extern JNIEnv* jnienv;
 	extern jobject javaBoot;
 	// pull from android java apis
@@ -137,7 +137,7 @@ void _platform_get_external_storage_dir_name(char* buf, S32 buflen) {
 	jnienv->ReleaseStringUTFChars(pathStringUTF, jnibuf);
 	strcat(buf, "/");
 	strcat(buf, btGetContext()->appProperties->get("storage_dir")->getValue());
-	__android_log_print(ANDROID_LOG_DEBUG, "BatteryTech", buf);
+	// __android_log_print(ANDROID_LOG_DEBUG, "BatteryTech", buf);
 }
 
 const char* _platform_get_path_separator() {
