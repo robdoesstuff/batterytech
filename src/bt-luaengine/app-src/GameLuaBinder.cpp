@@ -485,6 +485,7 @@ static int lua_Game_setPhysicsGravity(lua_State *L) {
 static int lua_Game_setPhysicsDrawDebug(lua_State *L) {
 	// Game *game = *(Game**)lua_touserdata(L, 1);
 	static_context->world->physicsDrawDebug = lua_toboolean(L, 2);
+	return 0;
 }
 
 // Game:addScreenControl(name, label, textureAssetName, u1,v1,u2,v2, x1,y1,x2,y2, x3,y3,x4,y4, isInteractive)

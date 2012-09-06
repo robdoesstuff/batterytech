@@ -99,6 +99,13 @@ void btRelease();
 BOOL32 btCallback(const char *data);
 
 /**
+ * Clears current tick delta and any other values stored for smoothing
+ *
+ * Useful after a big single-frame operation like loading
+ */
+void btClearTickDeltas();
+
+/**
  * Gets the static instance of the application context
  */
 BatteryTech::Context* btGetContext();

@@ -9,6 +9,7 @@
 #include "GameContext.h"
 #include "GameConstants.h"
 #include "GameUtil.h"
+#include <batterytech/batterytech.h>
 #include <batterytech/primitives.h>
 #include <batterytech/platform/platformgeneral.h>
 #include <batterytech/network/NetworkManager.h>
@@ -228,7 +229,7 @@ void Game::updateState() {
 		if (getWorld()->renderersReady) {
 			getWorld()->gameState = getWorld()->nextGameState;
 			// reset the tickDelta to 0 to avoid bad timings in first update after load
-			context->tickDelta = 0;
+			btClearTickDeltas();
 		}
 	}
 	if (stateChanged) {

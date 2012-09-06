@@ -63,9 +63,7 @@ void btInit(GraphicsConfiguration *graphicsConfig, S32 width, S32 height) {
 	btSetScreenSize(width, height);
 	// initialize random number generator
 	srand(time(NULL));
-	for (S32 i = 0; i < TICK_SMOOTHER_SAMPLES; i++) {
-		updateTimes[i] = -1;
-	}
+	btClearTickDeltas();
 	if (graphicsConfig->supportsShaders && context->appProperties->get("use_shaders")->getBoolValue()) {
 		graphicsConfig->useShaders = TRUE;
 		logmsg("Using Shaders");
@@ -109,6 +107,14 @@ void btSetScreenSize(S32 width, S32 height) {
 	}
 }
 
+void btClearTickDeltas() {
+	for (S32 i = 0; i < TICK_SMOOTHER_SAMPLES; i++) {
+		updateTimes[i] = -1;
+	}
+	updateTimeIdx = 0;
+	context->tickDelta = 0;
+}
+
 void btUpdate(F32 delta) {
 	if (!btReady) {
 		return;
@@ -132,7 +138,7 @@ void btUpdate(F32 delta) {
 		}
 	} else {
 		// reset the tick delta after a suspend
-		context->tickDelta = 0;
+		btClearTickDeltas();
 		btWasSuspended = FALSE;
 	}
 	//char buf[50];
@@ -149,7 +155,6 @@ void btUpdate(F32 delta) {
 	context->keyPressed = 0;
 	context->specialKeyPressed = BatteryTech::SKEY_NULL;
 }
-
 
 void btDraw() {
 	if (!btReady) {
