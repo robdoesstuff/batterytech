@@ -62,6 +62,7 @@ public:
 	ManagedArray<GameObject> *gameObjects;
 	ManagedArray<ScreenControl> *screenControls;
 	HashTable<S32, ParticleEmitter*> *emitters;
+	ManagedArray<char> *soundsPendingLoad;
 	RenderItem *renderItems;
 	S32 renderItemsUsed;
 

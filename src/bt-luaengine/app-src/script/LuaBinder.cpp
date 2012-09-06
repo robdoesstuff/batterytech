@@ -680,7 +680,16 @@ static int lua_clearAssimps(lua_State *L) {
 
 static int lua_addSound(lua_State *L) {
 	const char *assetName = lua_tostring(L, 1);
-	static_context->audioManager->loadSound(assetName);
+	// default behavior is to load during loadNewResources()
+	BOOL32 loadInstant = FALSE;
+	if (lua_isboolean(L, 2)) {
+		BOOL32 loadInstant = lua_toboolean(L, 2);
+	}
+	if (loadInstant) {
+		static_context->audioManager->loadSound(assetName);
+	} else {
+		static_context->world->soundsPendingLoad->add(strDuplicate(assetName));
+	}
 	return 0;
 }
 

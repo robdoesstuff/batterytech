@@ -118,6 +118,15 @@ void Game::update() {
 		} else {
 			context->worldRenderer->init(FALSE);
 		}
+		// load any pending sounds
+		S32 soundsPending = context->world->soundsPendingLoad->getSize();
+		for (S32 i = 0; i < soundsPending; i++) {
+			char* assetName = context->world->soundsPendingLoad->array[i];
+			context->audioManager->loadSound(assetName);
+		}
+		if (soundsPending) {
+			context->world->soundsPendingLoad->deleteElements();
+		}
         initialized = TRUE;
  	}
 	updateInput();

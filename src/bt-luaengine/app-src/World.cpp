@@ -34,6 +34,7 @@ World::World() {
 	localLightsUsed = 0;
 	globalLight = new GlobalLight;
 	emitters = new HashTable<S32, ParticleEmitter*>(MAX_PARTICLE_EMITTER);
+	soundsPendingLoad = new ManagedArray<char>(MAX_SOUND_LOAD_PENDING);
 	physicsUpdateTime = 0;
 	levelLoaded = FALSE;
 	renderersReady = FALSE;
@@ -72,6 +73,9 @@ World::~World() {
 	emitters->deleteElements();
 	delete emitters;
 	emitters = NULL;
+	soundsPendingLoad->deleteElements();
+	delete soundsPendingLoad;
+	soundsPendingLoad = NULL;
 	if (luaState) {
 		LuaBinder::closeState(luaState);
 	}
