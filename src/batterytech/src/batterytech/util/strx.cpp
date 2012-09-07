@@ -212,4 +212,19 @@ S32 strnUTF8ToUnicodeArray(const char *str, S32 *unicodeArray, const S32 maxLen)
 	return arrayIdx;
 }
 
+U32 strHash(const char *str) {
+    // This is Jenkin's one-at-a-time hash function
+    U32 hash, i, len;
+	len = strlen(str);
+	for(hash = i = 0; i < len; ++i) {
+		hash += str[i];
+		hash += (hash << 10);
+		hash ^= (hash >> 6);
+	}
+	hash += (hash << 3);
+	hash ^= (hash >> 11);
+	hash += (hash << 15);
+    return hash;
+}
+
 #endif /* STRX_H_ */

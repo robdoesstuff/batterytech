@@ -57,4 +57,7 @@ S32 strToUnicode(const char *str, S32 *bytesConsumed);
 // returns number of unicode code points in unicodeArray (<= maxLen)
 S32 strnUTF8ToUnicodeArray(const char *str, S32 *unicodeArray, const S32 maxLen);
 
+// Hashes a string
+U32 strHash(const char *str);
+
 #endif /* STRX_H_ */
