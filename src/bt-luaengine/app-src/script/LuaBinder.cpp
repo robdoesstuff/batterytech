@@ -36,6 +36,7 @@ static int lua_loadAsset(lua_State *L);
 static int lua_addFont(lua_State *L);
 static int lua_addTexture(lua_State *L);
 static int lua_removeTexture(lua_State *L);
+static int lua_setDefaultTextureParams(lua_State *L);
 static int lua_setTextureParams(lua_State *L);
 static int lua_getTextureDimensions(lua_State *L);
 static int lua_clearTextures(lua_State *L);
@@ -118,6 +119,7 @@ lua_State* LuaBinder::newState(GameContext *context) {
 	registerFunction(L, "addTexture", lua_addTexture); // param: string textureAssetName
 	registerFunction(L, "removeTexture", lua_removeTexture); // param: string textureAssetName
 	registerFunction(L, "setTextureParams", lua_setTextureParams); // param: string textureAssetName, multiple key/value pairs of parameters
+    registerFunction(L, "setDefaultTextureParams", lua_setDefaultTextureParams); // params: multiple key/value pairs of parameters
 	registerFunction(L, "getTextureDimensions", lua_getTextureDimensions); // param: string textureAssetName
 	registerFunction(L, "clearTextures", lua_clearTextures);
 	registerFunction(L, "addObj", lua_addObj); // param: string objAssetName
@@ -578,26 +580,55 @@ static int lua_setTextureParams(lua_State *L) {
 	if (assetName) {
 		Texture *tex = static_context->glResourceManager->getTexture(assetName);
 		if (tex) {
+            // TODO - if texture is already loaded, live modify
 			int n = 2;
 			while (lua_isstring(L, n) && !lua_isnil(L, n+1)) {
 				const char *paramName = lua_tostring(L, n);
 				if (strEquals(paramName, "mipmap")) {
 					tex->mipmap = lua_toboolean(L, n+1);
+                } else if (strEquals(paramName, "filter")) {
+                    // nearest, linear, bilinear, trilinear
+                    const char *filter = lua_tostring(L, n+1);
+					if (strEquals(filter, "nearest")) {
+						tex->filter = GraphicsConfiguration::NONE;
+					} else if (strEquals(filter, "linear")) {
+						tex->filter = GraphicsConfiguration::LINEAR;
+					} else if (strEquals(filter, "bilinear")) {
+						tex->filter = GraphicsConfiguration::BILINEAR;
+					} else if (strEquals(filter, "trilinear")) {
+						tex->filter = GraphicsConfiguration::TRILINEAR;
+					} else {
+                        tex->filter = GraphicsConfiguration::DEFAULT;
+                    }
 				} else if (strEquals(paramName, "minfilter")) {
 					const char *filter = lua_tostring(L, n+1);
 					if (strEquals(filter, "nearest")) {
 						tex->minFilter = Texture::TEX_FILTER_NEAREST;
 					} else if (strEquals(filter, "linear")) {
 						tex->minFilter = Texture::TEX_FILTER_LINEAR;
-					}
+					} else {
+                        tex->minFilter = Texture::TEX_FILTER_DEFAULT;
+                    }
 				} else if (strEquals(paramName, "magfilter")) {
 					const char *filter = lua_tostring(L, n+1);
 					if (strEquals(filter, "nearest")) {
 						tex->magFilter = Texture::TEX_FILTER_NEAREST;
 					} else if (strEquals(filter, "linear")) {
 						tex->magFilter = Texture::TEX_FILTER_LINEAR;
-					}
-				}
+					} else {
+                        tex->minFilter = Texture::TEX_FILTER_DEFAULT;
+                    }
+				} else if (strEquals(paramName, "repeat")) {
+                    BOOL32 on = lua_toboolean(L, n+1);
+                    tex->repeatX = on;
+                    tex->repeatY = on;
+                } else if (strEquals(paramName, "repeatX")) {
+                    BOOL32 on = lua_toboolean(L, n+1);
+                    tex->repeatX = on;
+                } else if (strEquals(paramName, "repeatY")) {
+                    BOOL32 on = lua_toboolean(L, n+1);
+                    tex->repeatY = on;
+                }
 				n += 2;
 			}
 		} else {
@@ -607,6 +638,31 @@ static int lua_setTextureParams(lua_State *L) {
 		}
 	}
 	return 0;
+}
+
+static int lua_setDefaultTextureParams(lua_State *L) {
+    int n = 1;
+    while (lua_isstring(L, n) && !lua_isnil(L, n+1)) {
+        const char *paramName = lua_tostring(L, n);
+        if (strEquals(paramName, "filter")) {
+            // nearest, linear, bilinear, trilinear
+            const char *filter = lua_tostring(L, n+1);
+            if (strEquals(filter, "nearest")) {
+                static_context->gConfig->textureFilter = GraphicsConfiguration::NONE;
+            } else if (strEquals(filter, "linear")) {
+                static_context->gConfig->textureFilter = GraphicsConfiguration::LINEAR;
+            } else if (strEquals(filter, "bilinear")) {
+                static_context->gConfig->textureFilter = GraphicsConfiguration::BILINEAR;
+            } else if (strEquals(filter, "trilinear")) {
+                static_context->gConfig->textureFilter = GraphicsConfiguration::TRILINEAR;
+            }
+        } else if (strEquals(paramName, "repeat")) {
+            BOOL32 on = lua_toboolean(L, n+1);
+            static_context->gConfig->textureRepeat = on;
+        }
+        n += 2;
+    }
+    return 0;
 }
 
 static int lua_removeTexture(lua_State *L) {
