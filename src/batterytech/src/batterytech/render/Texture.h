@@ -20,6 +20,7 @@
 #include "../primitives.h"
 #include "../platform/platformgl.h"
 #include "../math/Matrix4.h"
+#include "GraphicsConfiguration.h"
 
 namespace BatteryTech {
 
@@ -30,7 +31,7 @@ namespace BatteryTech {
 	 */
 	class Texture {
 	public:
-		enum TextureFilter { TEX_FILTER_NEAREST, TEX_FILTER_LINEAR };
+		enum TextureFilter { TEX_FILTER_DEFAULT, TEX_FILTER_NEAREST, TEX_FILTER_LINEAR };
 		Texture(const char *assetName);
 		virtual ~Texture();
 		/** \brief Tells this texture that the OpenGL Context is now invalid */
@@ -111,6 +112,7 @@ namespace BatteryTech {
 		static GLuint lastTextureId;
 		char *assetName;
 		BOOL32 mipmap;
+        GraphicsConfiguration::TextureFilter filter;
 		TextureFilter magFilter, minFilter;
 		BOOL32 repeatX, repeatY;
 	};

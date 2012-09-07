@@ -25,8 +25,9 @@ namespace BatteryTech {
 	Texture::Texture(const char *assetName) {
 		this->assetName = strDuplicate(assetName);
 		mipmap = FALSE;
-		magFilter = TEX_FILTER_LINEAR;
-		minFilter = TEX_FILTER_LINEAR;
+        filter = GraphicsConfiguration::DEFAULT;
+		magFilter = TEX_FILTER_DEFAULT;
+		minFilter = TEX_FILTER_DEFAULT;
 		repeatX = TRUE;
 		repeatY = TRUE;
 	}

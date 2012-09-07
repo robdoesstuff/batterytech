@@ -28,6 +28,7 @@ namespace BatteryTech {
 		viewportWidth = 0;
 		textureRes = HIGH;
 		textureFilter = LINEAR;
+        textureRepeat = true;
 		useShaders = FALSE;
 		softGPU = FALSE;
 		supportsVBOs = FALSE;

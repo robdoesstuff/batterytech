@@ -357,12 +357,18 @@ namespace BatteryTech {
 				}
 				glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, repeatX ? GL_REPEAT : GL_CLAMP_TO_EDGE);
 				glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, repeatY ? GL_REPEAT : GL_CLAMP_TO_EDGE);
-				if (magFilter == Texture::TEX_FILTER_NEAREST) {
+                // if it's default and default is no filter OR mag is override to nearest
+                GraphicsConfiguration::TextureFilter filter = this->filter;
+                if (filter == GraphicsConfiguration::DEFAULT) {
+                    filter = context->gConfig->textureFilter;
+                }
+                if ((magFilter == Texture::TEX_FILTER_DEFAULT && filter == GraphicsConfiguration::NONE) || magFilter == Texture::TEX_FILTER_NEAREST) {
 					glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 				} else {
 					glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 				}
-				if (minFilter == Texture::TEX_FILTER_NEAREST) {
+                // if min filter is default and default is no filter OR min is override to nearest
+				if ((minFilter == Texture::TEX_FILTER_DEFAULT && filter == GraphicsConfiguration::NONE) || minFilter == Texture::TEX_FILTER_NEAREST) {
 					if (mipmap && data) {
 						glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
 					} else {
@@ -370,7 +376,7 @@ namespace BatteryTech {
 					}
 				} else {
 					if (mipmap && data) {
-						if (context->gConfig->textureFilter == GraphicsConfiguration::TRILINEAR) {
+						if (filter == GraphicsConfiguration::TRILINEAR) {
 							glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 						} else {
 							glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);

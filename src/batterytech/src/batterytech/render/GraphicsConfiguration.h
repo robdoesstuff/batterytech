@@ -37,6 +37,7 @@ namespace BatteryTech {
 		 * What types of filtering options will you use for your game?
 		 */
 		enum TextureFilter {
+            DEFAULT,
 			NONE,
 			LINEAR,
 			BILINEAR,
@@ -84,10 +85,13 @@ namespace BatteryTech {
 		 */
 		TextureRes textureRes;
 		/**
-		 * The filter mode for textures.
-		 * This must be implemented by your rendering system.
+		 * The default filter mode for textures.
 		 */
 		TextureFilter textureFilter;
+        /**
+         * The default texture clamp or repeat mode.
+         */
+        BOOL32 textureRepeat;
 		/**
 		 * If we're using shaders to render.
 		 * Each platform will have a flag to set for using shaders when available.
