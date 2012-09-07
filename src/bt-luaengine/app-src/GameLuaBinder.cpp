@@ -173,11 +173,14 @@ static const luaL_reg metatable[] = {
 	{0, 0}
 };
 
+static void initRenderItemFunctions();
+
 GameLuaBinder::GameLuaBinder(lua_State *L, Game *game, GameContext *context) :
 	LuaBinder(L) {
 	this->game = game;
 	this->context = context;
 	gameRef = 0;
+    initRenderItemFunctions();
 }
 
 GameLuaBinder::~GameLuaBinder() {
@@ -1180,95 +1183,179 @@ static int lua_Game_getMeshInfoFromAssimp(lua_State *L) {
 	return 1;
 }
 
+//-------------------- RENDERITEM PARAM Start --------------------
+
+static int setRenderItemParam_uvs(lua_State *L, RenderItem *item) {
+    item->uvs = lua_toVector4f(L, 4);
+    return 0;
+}
+
+static int setRenderItemParam_align(lua_State *L, RenderItem *item) {
+    const char *paramValue = lua_tostring(L, 4);
+    if (strcmp(paramValue, "left") == 0) {
+        item->alignment = RenderItem::ALIGN_LEFT;
+    } else if (strcmp(paramValue, "center") == 0) {
+        item->alignment = RenderItem::ALIGN_CENTER;
+    } else if (strcmp(paramValue, "right") == 0) {
+        item->alignment = RenderItem::ALIGN_RIGHT;
+    }
+    return 0;
+}
+
+static int setRenderItemParam_alpha(lua_State *L, RenderItem *item) {
+    item->colorFilter.a = lua_tonumber(L, 4);
+    return 0;
+}
+
+static int setRenderItemParam_colorFilter(lua_State *L, RenderItem *item) {
+    item->colorFilter = lua_toVector4f(L, 4);
+    return 0;
+}
+
+static int setRenderItemParam_nofog(lua_State *L, RenderItem *item) {
+    if (lua_toboolean(L, 4)) {
+        item->flags = item->flags | RENDERITEM_FLAG_NO_FOG;
+    } else {
+        item->flags = item->flags & ~RENDERITEM_FLAG_NO_FOG;
+    }
+    return 0;
+}
+
+static int setRenderItemParam_maxPointLights(lua_State *L, RenderItem *item) {
+    item->maxPointLights = lua_tointeger(L, 4);
+    return 0;
+}
+
+static int setRenderItemParam_useCameraClosestPointLights(lua_State *L, RenderItem *item) {
+    if (lua_toboolean(L, 4)) {
+        item->flags = item->flags | RENDERITEM_FLAG_USE_CAMERA_CLOSEST_POINT_LIGHTS;
+    } else {
+        item->flags = item->flags & ~RENDERITEM_FLAG_USE_CAMERA_CLOSEST_POINT_LIGHTS;
+    }
+    return 0;
+}
+
+static int setRenderItemParam_viewport(lua_State *L, RenderItem *item) {
+    item->viewport = lua_toVector4i(L, 4);
+    return 0;
+}
+
+static int setRenderItemParam_nodesCullFrustum(lua_State *L, RenderItem *item) {
+    if (lua_toboolean(L, 4)) {
+        item->flags = item->flags | RENDERITEM_FLAG_NODES_CULL_FRUSTUM_TEST;
+    } else {
+        item->flags = item->flags & ~RENDERITEM_FLAG_NODES_CULL_FRUSTUM_TEST;
+    }
+    return 0;
+}
+
+static int setRenderItemParam_nodirlight(lua_State *L, RenderItem *item) {
+    if (lua_toboolean(L, 4)) {
+        item->flags = item->flags | RENDERITEM_FLAG_NO_DIR_LIGHT;
+    } else {
+        item->flags = item->flags & ~RENDERITEM_FLAG_NO_DIR_LIGHT;
+    }
+    return 0;
+}
+
+static int setRenderItemParam_noshadowgen(lua_State *L, RenderItem *item) {
+    if (lua_toboolean(L, 4)) {
+        item->flags = item->flags | RENDERITEM_FLAG_NO_SHADOW_GEN;
+    } else {
+        item->flags = item->flags & ~RENDERITEM_FLAG_NO_SHADOW_GEN;
+    }
+    return 0;
+}
+
+static int setRenderItemParam_noshadowrecv(lua_State *L, RenderItem *item) {
+    if (lua_toboolean(L, 4)) {
+        item->flags = item->flags | RENDERITEM_FLAG_NO_SHADOW_RECV;
+    } else {
+        item->flags = item->flags & RENDERITEM_FLAG_NO_SHADOW_RECV;
+    }
+    return 0;
+}
+
+static int setRenderItemParam_drawfirst(lua_State *L, RenderItem *item) {
+    if (lua_toboolean(L, 4)) {
+        item->flags = item->flags | RENDERITEM_FLAG_DRAW_FIRST;
+    } else {
+        item->flags = item->flags & RENDERITEM_FLAG_DRAW_FIRST;
+    }
+    return 0;
+}
+
+static int setRenderItemParam_twosided(lua_State *L, RenderItem *item) {
+    if (lua_toboolean(L, 4)) {
+        item->flags = item->flags | RENDERITEM_FLAG_TWO_SIDED;
+    } else {
+        item->flags = item->flags & RENDERITEM_FLAG_TWO_SIDED;
+    }
+    return 0;
+}
+
+static int setRenderItemParam_multiline(lua_State *L, RenderItem *item) {
+    if (lua_toboolean(L, 4)) {
+        item->flags = item->flags | RENDERITEM_FLAG_MULTILINE_TEXT;
+    } else {
+        item->flags = item->flags & RENDERITEM_FLAG_MULTILINE_TEXT;
+    }
+    return 0;
+}
+
+static int setRenderItemParam_isOpaque(lua_State *L, RenderItem *item) {
+    if (!lua_toboolean(L, 4)) {
+        item->flags = item->flags & ~RENDERITEM_FLAG_IS_OPAQUE;
+    } else {
+        item->flags = item->flags | RENDERITEM_FLAG_IS_OPAQUE;
+    }
+    return 0;
+}
+
+#define RENDERITEMFUNC int(*)(lua_State*, RenderItem*)
+
+static StrHashTable<RENDERITEMFUNC> *renderItemFuncs = new StrHashTable<RENDERITEMFUNC>();
+
+void initRenderItemFunctions() {
+    if (renderItemFuncs->size()) {
+        // already initialized
+        return;
+    }
+    renderItemFuncs->put("uvs", setRenderItemParam_uvs);
+    renderItemFuncs->put("align", setRenderItemParam_align);
+    renderItemFuncs->put("alpha", setRenderItemParam_alpha);
+    renderItemFuncs->put("colorFilter", setRenderItemParam_colorFilter);
+    renderItemFuncs->put("nofog", setRenderItemParam_nofog);
+    renderItemFuncs->put("maxPointLights", setRenderItemParam_maxPointLights);
+    renderItemFuncs->put("useCameraClosestPointLights", setRenderItemParam_useCameraClosestPointLights);
+    renderItemFuncs->put("viewport", setRenderItemParam_viewport);
+    renderItemFuncs->put("nodesCullFrustum", setRenderItemParam_nodesCullFrustum);
+    renderItemFuncs->put("nodirlight", setRenderItemParam_nodirlight);
+    renderItemFuncs->put("noshadowgen", setRenderItemParam_noshadowgen);
+    renderItemFuncs->put("noshadowrecv", setRenderItemParam_noshadowrecv);
+    renderItemFuncs->put("drawfirst", setRenderItemParam_drawfirst);
+    renderItemFuncs->put("twosided", setRenderItemParam_twosided);
+    renderItemFuncs->put("multiline", setRenderItemParam_multiline);
+    renderItemFuncs->put("isOpaque", setRenderItemParam_isOpaque);
+}
+
 // game, renderItemIdx, paramName, values...
 static int lua_Game_setRenderItemParam(lua_State *L) {
 	//Game *game = *(Game**)lua_touserdata(L, 1);
 	S32 idx = lua_tointeger(L, 2);
 	RenderItem *item = &static_context->world->renderItems[idx];
 	const char *paramName = lua_tostring(L, 3);
-    // TODO - optimize by hashing the names and selecting case
-    if (strcmp(paramName, "uvs") == 0) {
-		item->uvs = lua_toVector4f(L, 4);
-	} else if (strcmp(paramName, "align") == 0) {
-		const char *paramValue = lua_tostring(L, 4);
-		if (strcmp(paramValue, "left") == 0) {
-			item->alignment = RenderItem::ALIGN_LEFT;
-		} else if (strcmp(paramValue, "center") == 0) {
-			item->alignment = RenderItem::ALIGN_CENTER;
-		} else if (strcmp(paramValue, "right") == 0) {
-			item->alignment = RenderItem::ALIGN_RIGHT;
-		}
-	} else if (strcmp(paramName, "alpha") == 0) {
-        item->colorFilter.a = lua_tonumber(L, 4);
-    } else if (strcmp(paramName, "colorFilter") == 0) {
-        item->colorFilter = lua_toVector4f(L, 4);
-    } else if (strcmp(paramName, "nofog") == 0) {
-		if (lua_toboolean(L, 4)) {
-			item->flags = item->flags | RENDERITEM_FLAG_NO_FOG;
-		} else {
-			item->flags = item->flags & ~RENDERITEM_FLAG_NO_FOG;
-		}
-	} else if (strcmp(paramName, "maxPointLights") == 0) {
-		item->maxPointLights = lua_tointeger(L, 4);
-	} else if (strcmp(paramName, "useCameraClosestPointLights") == 0) {
-		if (lua_toboolean(L, 4)) {
-			item->flags = item->flags | RENDERITEM_FLAG_USE_CAMERA_CLOSEST_POINT_LIGHTS;
-		} else {
-			item->flags = item->flags & ~RENDERITEM_FLAG_USE_CAMERA_CLOSEST_POINT_LIGHTS;
-		}
-	} else if (strcmp(paramName, "viewport") == 0) {
-		item->viewport = lua_toVector4i(L, 4);
-	}else if (strcmp(paramName, "nodesCullFrustum") == 0) {
-		if (lua_toboolean(L, 4)) {
-			item->flags = item->flags | RENDERITEM_FLAG_NODES_CULL_FRUSTUM_TEST;
-		} else {
-			item->flags = item->flags & ~RENDERITEM_FLAG_NODES_CULL_FRUSTUM_TEST;
-		}
-	} else if (strcmp(paramName, "nodirlight") == 0) {
-		if (lua_toboolean(L, 4)) {
-			item->flags = item->flags | RENDERITEM_FLAG_NO_DIR_LIGHT;
-		} else {
-			item->flags = item->flags & ~RENDERITEM_FLAG_NO_DIR_LIGHT;
-		}
-	} else if (strcmp(paramName, "noshadowgen") == 0) {
-		if (lua_toboolean(L, 4)) {
-			item->flags = item->flags | RENDERITEM_FLAG_NO_SHADOW_GEN;
-		} else {
-			item->flags = item->flags & ~RENDERITEM_FLAG_NO_SHADOW_GEN;
-		}
-	} else if (strcmp(paramName, "noshadowrecv") == 0) {
-		if (lua_toboolean(L, 4)) {
-			item->flags = item->flags | RENDERITEM_FLAG_NO_SHADOW_RECV;
-		} else {
-			item->flags = item->flags & RENDERITEM_FLAG_NO_SHADOW_RECV;
-		}
-	} else if (strcmp(paramName, "drawfirst") == 0) {
-		if (lua_toboolean(L, 4)) {
-			item->flags = item->flags | RENDERITEM_FLAG_DRAW_FIRST;
-		} else {
-			item->flags = item->flags & RENDERITEM_FLAG_DRAW_FIRST;
-		}
-	} else if (strcmp(paramName, "twosided") == 0) {
-		if (lua_toboolean(L, 4)) {
-			item->flags = item->flags | RENDERITEM_FLAG_TWO_SIDED;
-		} else {
-			item->flags = item->flags & RENDERITEM_FLAG_TWO_SIDED;
-		}
-    } else if (strcmp(paramName, "multiline") == 0) {
-        if (lua_toboolean(L, 4)) {
-			item->flags = item->flags | RENDERITEM_FLAG_MULTILINE_TEXT;
-		} else {
-			item->flags = item->flags & RENDERITEM_FLAG_MULTILINE_TEXT;
-		}
-    } else if (strcmp(paramName, "isOpaque") == 0) {
-    	if (!lua_toboolean(L, 4)) {
-			item->flags = item->flags & ~RENDERITEM_FLAG_IS_OPAQUE;
-		} else {
-			item->flags = item->flags | RENDERITEM_FLAG_IS_OPAQUE;
-		}
+    // we hashed the key of param setting code so that we could expand the list without significant computational cost
+    // of using a key string
+    int(*func)(lua_State*, RenderItem*) = renderItemFuncs->get(paramName);
+    if (func) {
+        return func(L, item);
     }
 	return 0;
 }
+
+//-------------------- RENDERITEM PARAM End --------------------
+
 
 // game, tag, text -- returns width/height
 static int lua_Game_measureText(lua_State *L) {
