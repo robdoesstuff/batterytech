@@ -789,6 +789,10 @@ static int lua_Game_render2D(lua_State *L) {
 	item->reset();
 	item->renderType = RenderItem::RENDERTYPE_2D;
 	const char *assetName = lua_tostring(L, 2);
+	if (!assetName) {
+		logmsg("render2D(nil, ...) called - invalid");
+		return 0;
+	}
 	F32 x = lua_tonumber(L, 3);
 	F32 y = lua_tonumber(L, 4);
 	F32 width = lua_tonumber(L, 5);
@@ -823,6 +827,10 @@ static int lua_Game_render2DBG(lua_State *L) {
 	item->reset();
 	item->renderType = RenderItem::RENDERTYPE_2DBG;
 	const char *assetName = lua_tostring(L, 2);
+	if (!assetName) {
+		logmsg("render2DBG(nil, ...) called - invalid");
+		return 0;
+	}
 	F32 x = lua_tonumber(L, 3);
 	F32 y = lua_tonumber(L, 4);
 	F32 width = lua_tonumber(L, 5);
@@ -856,6 +864,10 @@ static int lua_Game_renderBB(lua_State *L) {
 	item->reset();
 	item->renderType = RenderItem::RENDERTYPE_BB;
 	const char *assetName = lua_tostring(L, 2);
+	if (!assetName) {
+		logmsg("renderBB(nil, ...) called - invalid");
+		return 0;
+	}
 	F32 x = lua_tonumber(L, 3);
 	F32 y = lua_tonumber(L, 4);
 	F32 z = lua_tonumber(L, 5);

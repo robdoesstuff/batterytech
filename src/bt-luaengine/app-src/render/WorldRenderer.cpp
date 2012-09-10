@@ -481,7 +481,8 @@ void WorldRenderer::render2D() {
     glFrontFace(GL_CW);
 	// now 2D in front of the 3D
     TextRasterRenderer *curTextRenderer = NULL;
-    char *curFontTag = NULL;
+    char curFontTag[255];
+    curFontTag[0] = '\0';
     spriteRenderer->startBatch();
 	for (S32 i = 0; i < world->renderItemsUsed; i++) {
 		RenderItem *item = &world->renderItems[i];
@@ -489,7 +490,7 @@ void WorldRenderer::render2D() {
 			if (curTextRenderer) {
 				curTextRenderer->finishText();
 				curTextRenderer = NULL;
-				curFontTag = NULL;
+				curFontTag[0] = '\0';
                 spriteRenderer->startBatch();
 			}
 			context->renderContext->colorFilter = Vector4f(1,1,1,1);
@@ -501,16 +502,30 @@ void WorldRenderer::render2D() {
 			}
 			spriteRenderer->render(item);
 		} else if (item->renderType == RenderItem::RENDERTYPE_TEXT2D) {
-			if (!curFontTag) {
+			if (!curFontTag[0]) {
                 spriteRenderer->endBatch();
-				curFontTag = item->attr2;
+				strcpy(curFontTag, item->attr2);
 				curTextRenderer = textRenderers->get(curFontTag);
+				if (!curTextRenderer) {
+					char buf[255];
+					sprintf(buf, "Render Error - Font Tag \"%s\" not found", curFontTag);
+					logmsg(buf);
+					strcpy(curFontTag, FONT_TAG_UI);
+					curTextRenderer = textRenderers->get(curFontTag);
+				}
 				curTextRenderer->startText();
 			} else {
 				if (!strEquals(curFontTag, item->attr2) && curTextRenderer) {
 					curTextRenderer->finishText();
-					curFontTag = item->attr2;
+					strcpy(curFontTag, item->attr2);
 					curTextRenderer = textRenderers->get(curFontTag);
+					if (!curTextRenderer) {
+						char buf[255];
+						sprintf(buf, "Render Error - Font Tag \"%s\" not found", curFontTag);
+						logmsg(buf);
+						strcpy(curFontTag, FONT_TAG_UI);
+						curTextRenderer = textRenderers->get(curFontTag);
+					}
 					curTextRenderer->startText();
 				}
 			}
@@ -522,10 +537,10 @@ void WorldRenderer::render2D() {
 				if (item->alignment == RenderItem::ALIGN_LEFT) {
                     // noop
 				} else if (item->alignment == RenderItem::ALIGN_CENTER) {
-					S32 width = curTextRenderer->measureWidth(item->attr1, 1.0f);
+					S32 width = curTextRenderer->measureWidth(item->attr1, scale);
                     posX = item->pos.x - width/2;
 				}  else if (item->alignment == RenderItem::ALIGN_RIGHT) {
-					S32 width = curTextRenderer->measureWidth(item->attr1, 1.0f);
+					S32 width = curTextRenderer->measureWidth(item->attr1, scale);
                     posX = item->pos.x - width;
 				}
                 if (isMultiline) {
