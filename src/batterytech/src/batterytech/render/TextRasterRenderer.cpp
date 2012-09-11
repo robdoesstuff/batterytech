@@ -743,7 +743,6 @@ namespace BatteryTech {
                     	}
                     }
                     x += kerning * scale;
-					x += bmChar->xadvance * scale;
                     if (bmInfo->pages > 1) {
                         if (bmChar->page != bmCurrentPage) {
                             renderBuffer();
@@ -759,6 +758,7 @@ namespace BatteryTech {
 					pos[2] = Vector3f(offsetx+bmChar->width, offsety+bmChar->height, 0) * scale + start;
 					pos[3] = Vector3f(offsetx, offsety+bmChar->height, 0) * scale + start;
 					addToBuffer(pos[0], pos[1], pos[2], pos[3], bmChar->uvs[0], bmChar->uvs[1], bmChar->uvs[2], bmChar->uvs[3]);
+					x += bmChar->xadvance * scale;
 				}
 			}
 			++i;
