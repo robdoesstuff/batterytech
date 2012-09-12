@@ -35,6 +35,7 @@ void SimpleSpriteRenderer::render(RenderItem *item) {
 	}
 	Matrix4f bbMat;
 	BOOL32 isBB = item->renderType == RenderItem::RENDERTYPE_BB;
+	Vector4f newUvs = item->uvs;
 	if (isBB) {
 		// calculate billboard matrix
 		Vector3f dir = context->world->camera->pos - item->pos;
@@ -50,8 +51,11 @@ void SimpleSpriteRenderer::render(RenderItem *item) {
 		bbMat.data[8] = dir.x;
 		bbMat.data[9] = dir.y;
 		bbMat.data[10] = dir.z;
+		// uvs will need flipping to avoid switching to LHS to flip Y
+		newUvs.y = newUvs.w;
+		newUvs.w = item->uvs.y;
 	}
-	context->quadRenderer->render(texture, item->pos, item->orientation.v.z, item->uvs, Vector2f(item->scale.x, item->scale.y), item->colorFilter, item->flags & RENDERITEM_FLAG_IS_OPAQUE, isBB, bbMat);
+	context->quadRenderer->render(texture, item->pos, item->orientation.v.z, newUvs, Vector2f(item->scale.x, item->scale.y), item->colorFilter, item->flags & RENDERITEM_FLAG_IS_OPAQUE, isBB, bbMat);
 }
 
 void SimpleSpriteRenderer::startBatch() {
