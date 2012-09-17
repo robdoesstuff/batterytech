@@ -203,12 +203,12 @@ public:
     // the primary box2d body of this gameobject (be careful messing with this - it may not be the main one!)
 	b2Body *boxBody;
     virtual F32 getLinearVelocity() { return 0.0f; };
-	// resets the impact solution
-	virtual void clearImpact();
 	ManagedArray<PhysicsModelConfig> *physicsModelConfigs;
 	ManagedArray<PhysicsConstraintConfig> *physicsConstraintConfigs;
     // information about the physics contacts which we use to make callbacks
     ManagedArray<PhysicsContact2D> *contacts;
+    // a hashed set of pointers to gameobjects that we've notified the script about contacts
+    HashTable<GameObject*, GameObject*> *contactObjects;
     S32 contactsUsed;
     PhysicsCallbackDetail callbackDetail;
 #endif
@@ -260,10 +260,6 @@ protected:
 	GameContext *context;
 #ifdef BATTERYTECH_INCLUDE_BOX2D
     PhysicsContact2D* findContact(b2Contact* contact);
-    BOOL32 processContact;
-	F32 preSolveVelocity;
-	F32 postSolveVelocity;
-	F32 impactVelocityDelta;
 #endif
 };
 

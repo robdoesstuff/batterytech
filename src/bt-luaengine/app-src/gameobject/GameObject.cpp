@@ -33,16 +33,13 @@ GameObject::GameObject(GameContext *context) : PhysicsBodyObject(PHYSICS_BODY_TY
 	animators = NULL;
 #ifdef BATTERYTECH_INCLUDE_BOX2D
     boxBody = NULL;
-    processContact = FALSE;
-	preSolveVelocity = 0;
-	postSolveVelocity = 0;
-	impactVelocityDelta = 0;
 	physicsModelConfigs = NULL; 
     callbackDetail = CALLBACK_DETAIL_NONE;
     contacts = new ManagedArray<PhysicsContact2D>(GAMEOBJECT_MAX_CONTACTS);
     for (S32 i = 0; i < GAMEOBJECT_MAX_CONTACTS; i++) {
         contacts->add(new PhysicsContact2D);
     }
+    contactObjects = new HashTable<GameObject*, GameObject*>(GAMEOBJECT_MAX_CONTACTS * 1.5f);
     contactsUsed = 0;
 #endif
 	/*
@@ -90,6 +87,11 @@ GameObject::~GameObject() {
 		delete animators;
 	}
 	animators = NULL;
+	contacts->deleteElements();
+	delete contacts;
+	contacts = NULL;
+	delete contactObjects;
+	contactObjects = NULL;
 }
 
 #ifdef BATTERYTECH_INCLUDE_BOX2D
@@ -121,6 +123,9 @@ GameObject::PhysicsContact2D* GameObject::findContact(b2Contact* contact) {
 }
 
 void GameObject::contactStarted(b2Contact* contact) {
+	if (callbackDetail == CALLBACK_DETAIL_NONE) {
+		return;
+	}
     if (contactsUsed == GAMEOBJECT_MAX_CONTACTS) {
         // error - no more contacts available
         logmsg("Error - no more contacts available for GameObject.  Increase max or simplify collisions!");
@@ -152,6 +157,7 @@ void GameObject::contactStarted(b2Contact* contact) {
     pc->isTouching = contact->IsTouching();
     pc->other = other;
     pc->fixture = f;
+    pc->callbackProcessed = FALSE;
     b2Manifold *manifold = contact->GetManifold();
     for (S32 i = 0; i < manifold->pointCount; i++) {
         pc->localPoint[i] = Vector2f(manifold->points[i].localPoint.x, manifold->points[i].localPoint.y);
@@ -160,6 +166,9 @@ void GameObject::contactStarted(b2Contact* contact) {
 }
 
 void GameObject::contactEnded(b2Contact* contact) {
+	if (callbackDetail == CALLBACK_DETAIL_NONE) {
+		return;
+	}
     // broad
     // remove from list
     PhysicsContact2D *pc = findContact(contact);
@@ -173,16 +182,27 @@ void GameObject::contactPreSolve(b2Contact* contact, const b2Manifold* oldManifo
 }
 
 void GameObject::contactPostSolve(b2Contact* contact, const b2ContactImpulse* impulse) {
-    // gather impulse data and update contact point locations
-    // TODO
+	if (callbackDetail == CALLBACK_DETAIL_NONE) {
+		return;
+	}
+	// gather impulse data and update contact point locations
+	PhysicsContact2D *pc = findContact(contact);
+	pc->impulse += impulse->normalImpulses[0];
+    b2Manifold *manifold = contact->GetManifold();
+    pc->pointCount = manifold->pointCount;
+	if (pc->pointCount > 1) {
+		pc->impulse += impulse->normalImpulses[1];
+	}
+    for (S32 i = 0; i < manifold->pointCount; i++) {
+        pc->localPoint[i] = Vector2f(manifold->points[i].localPoint.x, manifold->points[i].localPoint.y);
+    }
+	if (callbackDetail != CALLBACK_DETAIL_NARROW) {
+		return;
+	}
+	// only set it to not processed for narrow collision callbacks
+	pc->callbackProcessed = FALSE;
 }
 
-void GameObject::clearImpact() {
-	processContact = FALSE;
-	preSolveVelocity = 0;
-	postSolveVelocity = 0;
-	impactVelocityDelta = 0;
-}
 #endif
 
 void GameObject::setPosition(Vector3f pos) {
@@ -451,25 +471,49 @@ void GameObject::update() {
 
 #ifdef BATTERYTECH_INCLUDE_BOX2D
 	// TODO - B2 iterate contacts and issue callbacks then clear all cached impulse values
-    for (S32 i = 0; i < contactsUsed; i++) {
-        PhysicsContact2D *pc = contacts->array[i];
-        if (!pc->callbackProcessed) {
-            if (!pc->wasTouching && pc->isTouching) {
-                luaBinder->onCollisionStarted(pc->other);
-                pc->wasTouching = TRUE;
-            } else if (pc->wasTouching && !pc->isTouching) {
-                luaBinder->onCollisionEnded(pc->other);
-                pc->wasTouching = FALSE;
-            }
-        }
-        if (!pc->isActive) {
-            // swap with last
-            contacts->array[i] = contacts->array[contactsUsed-1];
-            contacts->array[contactsUsed-1] = pc;
-            contactsUsed--;
-            i--;
-        }
-    }
+	if (callbackDetail != CALLBACK_DETAIL_NONE) {
+		for (S32 i = 0; i < contactsUsed; i++) {
+			PhysicsContact2D *pc = contacts->array[i];
+			if (!pc->callbackProcessed) {
+				BOOL32 isNew = (contactObjects->get(pc->other) == NULL);
+				if (!pc->wasTouching && pc->isTouching) {
+					if (isNew) {
+						contactObjects->put(pc->other, pc->other);
+						luaBinder->onCollisionStarted(pc->other, pc->impulse);
+					}
+					pc->wasTouching = TRUE;
+				} else if (pc->wasTouching && !pc->isTouching) {
+					// are there any other contacts still alive?  If not, notify script that contact has ended
+					BOOL32 otherContactsExist = FALSE;
+					for (S32 j = 0; j < contactsUsed; j++) {
+						PhysicsContact2D *otherPC = contacts->array[j];
+						if (otherPC != pc && otherPC->other == pc->other) {
+							otherContactsExist = TRUE;
+							break;
+						}
+					}
+					if (!otherContactsExist) {
+						luaBinder->onCollisionEnded(pc->other);
+						contactObjects->remove(pc->other);
+					}
+					pc->wasTouching = FALSE;
+				} else {
+					if (callbackDetail == CALLBACK_DETAIL_NARROW) {
+						luaBinder->onCollisionUpdated(pc->other, pc->impulse);
+					}
+				}
+				pc->impulse = 0;
+				pc->callbackProcessed = TRUE;
+			}
+			if (!pc->isActive) {
+				// swap with last
+				contacts->array[i] = contacts->array[contactsUsed-1];
+				contacts->array[contactsUsed-1] = pc;
+				contactsUsed--;
+				i--;
+			}
+		}
+	}
 #endif
 
 	if (luaBinder) {

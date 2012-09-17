@@ -17,18 +17,40 @@ function Circle.new(x, y, radius)
         self:physics_setBodyType(0, 0)
     end
 	self:cInit()
-	return o
+--    self:setPhysicsCallbackDetail(2)	
+	return self
+end
+
+function Circle:update(delta)
+    local c = self:countPhysicsContacts()
+	logmsg("(Circle) " .. c .. " contacts")
+	for i = 0, c-1 do
+		local other, pointCount, x1,y1, x2,y2, isTouching, isActive = self:getPhysicsContact(i)
+		logmsg("(Circle) contact is " .. other.objType .. " " .. pointCount .. " " .. x1 .. "," .. y1)
+	end
 end
 
 function Circle:render()
 end
 
 function Circle:onCollisionStarted(other, force)
-    logmsg("(Circle) onContactStarted - " .. other.objType)
+	if force then
+    	logmsg("(Circle) onCollisionStarted - " .. other.objType .. " " .. force)
+    else
+    	logmsg("(Circle) onCollisionStarted - " .. other.objType)
+    end
+end
+
+function Circle:onCollisionUpdated(other, force)
+	if force then
+    	logmsg("(Circle) onCollisionUpdated - " .. other.objType .. " " .. force)
+    else
+    	logmsg("(Circle) onCollisionUpdated - " .. other.objType)
+    end
 end
 
 function Circle:onCollisionEnded(other)
-    logmsg("(Circle) onContactEnded - " .. other.objType)
+    logmsg("(Circle) onCollisionEnded - " .. other.objType)
 end
 
 Box = table.copy(GameObject)
@@ -45,16 +67,10 @@ function Box.new(x, y, width, height, isStatic)
         self:physics_setBodyType(0, 0)
     end
 	self:cInit()
-    self:setPhysicsCallbackDetail(2)
 	return self
 end
 
 function Box:render()
-end
-
--- TODO - opt in for collision callbacks, then opt in for collision point detail
--- TODO - need collision points (opt in)
-function Box:onCollision(other)
 end
 
 PhysicsTests = {}
@@ -104,7 +120,9 @@ function PhysicsTests:setupScene()
 	game:createPhysicsWorld()
 	game:setPhysicsDrawDebug(true, 0, PHYS_WORLD_WIDTH, PHYS_WORLD_HEIGHT, 0, -1, 1)
 	table.insert(self.objects, Circle.new(30, 80, 5))
-	table.insert(self.objects, Circle.new(35, 70, 5))
+	local c = Circle.new(35, 70, 5)
+	c:setPhysicsCallbackDetail(2)
+	table.insert(self.objects, c)
 	table.insert(self.objects, Circle.new(40, 80, 5))
 	table.insert(self.objects, Box.new(20, 70, 5, 5))
 	table.insert(self.objects, Box.new(30, 70, 5, 5))

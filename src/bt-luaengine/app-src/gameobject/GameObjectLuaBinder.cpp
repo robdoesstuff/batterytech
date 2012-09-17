@@ -104,7 +104,8 @@ static int lua_GameObject_physics_setBodyBullet(lua_State *L);
 static int lua_GameObject_physics_setBodyActive(lua_State *L);
 static int lua_GameObject_physics_setBodyType(lua_State *L);
 static int lua_GameObject_setPhysicsCallbackDetail(lua_State *L);
-
+static int lua_GameObject_countPhysicsContacts(lua_State *L);
+static int lua_GameObject_getPhysicsContact(lua_State *L);
 #endif
 
 static const luaL_reg lua_methods[] = {
@@ -173,7 +174,8 @@ static const luaL_reg lua_methods[] = {
     { "physics_setBodyActivee", lua_GameObject_physics_setBodyActive },
     { "physics_setBodyType", lua_GameObject_physics_setBodyType },
     { "setPhysicsCallbackDetail", lua_GameObject_setPhysicsCallbackDetail },
-
+    { "countPhysicsContacts", lua_GameObject_countPhysicsContacts },
+    { "getPhysicsContact", lua_GameObject_getPhysicsContact },
 #endif
 
 	{ 0, 0 } };
@@ -226,10 +228,17 @@ void GameObjectLuaBinder::update() {
 	}
 }
 
-void GameObjectLuaBinder::onCollisionStarted(GameObject *other) {
+void GameObjectLuaBinder::onCollisionStarted(GameObject *other, F32 force) {
 	S32 otherRef = other->luaBinder->luaRef;
 	if (pushInstanceFunction("onCollisionStarted")) {
-		callFunctionVA("GameObject:onCollisionStarted", TRUE, "r>", otherRef);
+		callFunctionVA("GameObject:onCollisionStarted", TRUE, "rd>", otherRef, force);
+	}
+}
+
+void GameObjectLuaBinder::onCollisionUpdated(GameObject *other, F32 force) {
+	S32 otherRef = other->luaBinder->luaRef;
+	if (pushInstanceFunction("onCollisionUpdated")) {
+		callFunctionVA("GameObject:onCollisionUpdated", TRUE, "rd>", otherRef, force);
 	}
 }
 
@@ -1431,6 +1440,31 @@ static int lua_GameObject_setPhysicsCallbackDetail(lua_State *L) {
     }
     return 0;
 }
+
+static int lua_GameObject_countPhysicsContacts(lua_State *L) {
+    GameObject *o = *(GameObject**)lua_touserdata(L, 1);
+    lua_pushinteger(L, o->contactsUsed);
+    return 1;
+}
+
+static int lua_GameObject_getPhysicsContact(lua_State *L) {
+    GameObject *o = *(GameObject**)lua_touserdata(L, 1);
+    S32 idx = lua_tointeger(L, 2);
+    if (idx > o->contactsUsed-1) {
+    	return 0;
+    }
+    GameObject::PhysicsContact2D *pc = o->contacts->array[idx];
+	lua_rawgeti( L, LUA_REGISTRYINDEX, pc->other->luaBinder->luaRef ); // push userdata of other gameobject via reference
+    lua_pushinteger(L, pc->pointCount);
+    lua_pushnumber(L, pc->localPoint[0].x);
+    lua_pushnumber(L, pc->localPoint[0].y);
+    lua_pushnumber(L, pc->localPoint[1].x);
+    lua_pushnumber(L, pc->localPoint[1].y);
+    lua_pushboolean(L, pc->isTouching);
+    lua_pushboolean(L, pc->isActive);
+    return 8;
+}
+
 #endif
 
 static int lua_GameObject_gc (lua_State *L) {
