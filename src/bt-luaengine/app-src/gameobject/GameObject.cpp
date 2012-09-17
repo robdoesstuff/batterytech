@@ -87,11 +87,13 @@ GameObject::~GameObject() {
 		delete animators;
 	}
 	animators = NULL;
+#ifdef BATTERYTECH_INCLUDE_BOX2D
 	contacts->deleteElements();
 	delete contacts;
 	contacts = NULL;
 	delete contactObjects;
 	contactObjects = NULL;
+#endif
 }
 
 #ifdef BATTERYTECH_INCLUDE_BOX2D
