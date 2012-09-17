@@ -448,7 +448,9 @@ void GameObject::update() {
 	if (!isInitialized) {
 		return;
 	}
-    // TODO - B2 iterate contacts and issue callbacks then clear all cached impulse values
+
+#ifdef BATTERYTECH_INCLUDE_BOX2D
+	// TODO - B2 iterate contacts and issue callbacks then clear all cached impulse values
     for (S32 i = 0; i < contactsUsed; i++) {
         PhysicsContact2D *pc = contacts->array[i];
         if (!pc->callbackProcessed) {
@@ -468,6 +470,7 @@ void GameObject::update() {
             i--;
         }
     }
+#endif
 
 	if (luaBinder) {
 		luaBinder->update();
