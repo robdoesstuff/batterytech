@@ -739,7 +739,7 @@ static int lua_addSound(lua_State *L) {
 	// default behavior is to load during loadNewResources()
 	BOOL32 loadInstant = FALSE;
 	if (lua_isboolean(L, 2)) {
-		BOOL32 loadInstant = lua_toboolean(L, 2);
+		loadInstant = lua_toboolean(L, 2);
 	}
 	if (loadInstant) {
 		static_context->audioManager->loadSound(assetName);

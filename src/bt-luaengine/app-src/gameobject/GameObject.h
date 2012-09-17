@@ -25,7 +25,7 @@
 #endif
 
 #define GAMEOBJECT_MAX_PATH 100
-#define GAMEOBJECT_MAX_CONTACTS 100
+#define GAMEOBJECT_MAX_CONTACTS 16
 #define GAMEOBJECT_MAX_EXTRA_BODIES 10
 #define GAMEOBJECT_MAX_CONSTRAINTS 10
 
@@ -46,8 +46,12 @@ class GameObjectLuaBinder;
 
 using namespace BatteryTech;
 
+enum PhysicsCallbackDetail { CALLBACK_DETAIL_NONE = 0, CALLBACK_DETAIL_BROAD, CALLBACK_DETAIL_NARROW };
+
 struct PhysicsModelConfig {
 #ifdef BATTERYTECH_INCLUDE_BOX2D
+    // This assumes 1 shape/fixture per body, we should add multiple fixture support in the future
+    // to support compound bodies
     b2BodyDef *bodyDef;
     b2Shape *shape;
     F32 friction;
@@ -123,6 +127,7 @@ struct PhysicsConstraintConfig {
 
 class GameObject : PhysicsBodyObject {
 public:
+    
 	struct PathNode {
 		Vector3f pos;
 		GameObject *attachment;
@@ -157,6 +162,30 @@ public:
     // destroys the b2Body attached to a gameobject
 	void destroyBody();
 #ifdef BATTERYTECH_INCLUDE_BOX2D
+    // multiple fixtures of the same gameobject may be contacting each with up to 2 points
+    struct PhysicsContact2D {
+        Vector2f localPoint[2];
+        S32 pointCount;
+        GameObject *other;
+        b2Fixture *fixture;
+        BOOL32 wasTouching;
+        BOOL32 isTouching;
+        BOOL32 isActive;
+        BOOL32 callbackProcessed;
+        F32 impulse;
+        PhysicsContact2D() {
+            localPoint[0] = Vector2f(0,0);
+            localPoint[1] = Vector2f(0,0);
+            pointCount = 0;
+            other = NULL;
+            fixture = NULL;
+            wasTouching = FALSE;
+            isTouching = FALSE;
+            isActive = FALSE;
+            callbackProcessed = FALSE;
+            impulse = 0;
+        }
+    };
     // called when contact has started with another game object
 	// do NOT modify the contents of boxWorld here!  It will crash
 	virtual void contactStarted(b2Contact* contact);
@@ -178,6 +207,10 @@ public:
 	virtual void clearImpact();
 	ManagedArray<PhysicsModelConfig> *physicsModelConfigs;
 	ManagedArray<PhysicsConstraintConfig> *physicsConstraintConfigs;
+    // information about the physics contacts which we use to make callbacks
+    ManagedArray<PhysicsContact2D> *contacts;
+    S32 contactsUsed;
+    PhysicsCallbackDetail callbackDetail;
 #endif
 #ifdef BATTERYTECH_INCLUDE_BULLET
 	void setAllOrientationYPR(Vector3f ypr);
@@ -226,6 +259,7 @@ protected:
 	// a reference to the game context
 	GameContext *context;
 #ifdef BATTERYTECH_INCLUDE_BOX2D
+    PhysicsContact2D* findContact(b2Contact* contact);
     BOOL32 processContact;
 	F32 preSolveVelocity;
 	F32 postSolveVelocity;

@@ -37,7 +37,13 @@ GameObject::GameObject(GameContext *context) : PhysicsBodyObject(PHYSICS_BODY_TY
 	preSolveVelocity = 0;
 	postSolveVelocity = 0;
 	impactVelocityDelta = 0;
-	physicsModelConfigs = NULL;
+	physicsModelConfigs = NULL; 
+    callbackDetail = CALLBACK_DETAIL_NONE;
+    contacts = new ManagedArray<PhysicsContact2D>(GAMEOBJECT_MAX_CONTACTS);
+    for (S32 i = 0; i < GAMEOBJECT_MAX_CONTACTS; i++) {
+        contacts->add(new PhysicsContact2D);
+    }
+    contactsUsed = 0;
 #endif
 	/*
 	btBody = NULL;
@@ -87,48 +93,88 @@ GameObject::~GameObject() {
 }
 
 #ifdef BATTERYTECH_INCLUDE_BOX2D
+GameObject::PhysicsContact2D* GameObject::findContact(b2Contact* contact) {
+    GameObject *other = NULL;
+    b2Fixture *f = NULL;
+    ::PhysicsBodyObject *objA = (::PhysicsBodyObject*) contact->GetFixtureA()->GetBody()->GetUserData();
+    ::PhysicsBodyObject *objB = (::PhysicsBodyObject*) contact->GetFixtureB()->GetBody()->GetUserData();
+    if (objA->bodyType == PHYSICS_BODY_TYPE_GAMEOBJECT && objB->bodyType == PHYSICS_BODY_TYPE_GAMEOBJECT) {
+        GameObject *gObjA = (GameObject*) objA;
+        GameObject *gObjB = (GameObject*) objB;
+        if (gObjA == this) {
+            other = gObjB;
+            f = contact->GetFixtureB();
+        } else if (gObjB == this) {
+            other = gObjA;
+            f = contact->GetFixtureA();
+        }
+    }
+    if (other && f) {
+        for (S32 i = 0; i < contactsUsed; i++) {
+            PhysicsContact2D *pc = contacts->array[i];
+            if (pc->other == other && pc->fixture == f) {
+                return pc;
+            }
+        }
+    }
+    return NULL;
+}
+
 void GameObject::contactStarted(b2Contact* contact) {
+    if (contactsUsed == GAMEOBJECT_MAX_CONTACTS) {
+        // error - no more contacts available
+        logmsg("Error - no more contacts available for GameObject.  Increase max or simplify collisions!");
+        return;
+    }
+    // add to list
+    GameObject *other = NULL;
+    b2Fixture *f = NULL;
+    ::PhysicsBodyObject *objA = (::PhysicsBodyObject*) contact->GetFixtureA()->GetBody()->GetUserData();
+    ::PhysicsBodyObject *objB = (::PhysicsBodyObject*) contact->GetFixtureB()->GetBody()->GetUserData();
+    if (objA->bodyType == PHYSICS_BODY_TYPE_GAMEOBJECT && objB->bodyType == PHYSICS_BODY_TYPE_GAMEOBJECT) {
+        GameObject *gObjA = (GameObject*) objA;
+        GameObject *gObjB = (GameObject*) objB;
+        if (gObjA == this) {
+            other = gObjB;
+            f = contact->GetFixtureB();
+        } else if (gObjB == this) {
+            other = gObjA;
+            f = contact->GetFixtureA();
+        }
+    }
+    if (!other || !f) {
+        logmsg("Error - contact is not of gameobject type");
+        return;
+    }
+    PhysicsContact2D *pc = contacts->array[contactsUsed++];
+    pc->isActive = TRUE;
+    pc->wasTouching = FALSE;
+    pc->isTouching = contact->IsTouching();
+    pc->other = other;
+    pc->fixture = f;
+    b2Manifold *manifold = contact->GetManifold();
+    for (S32 i = 0; i < manifold->pointCount; i++) {
+        pc->localPoint[i] = Vector2f(manifold->points[i].localPoint.x, manifold->points[i].localPoint.y);
+    }
+    pc->pointCount = manifold->pointCount;
 }
 
 void GameObject::contactEnded(b2Contact* contact) {
+    // broad
+    // remove from list
+    PhysicsContact2D *pc = findContact(contact);
+    if (pc) {
+        pc->isActive = FALSE;
+        pc->isTouching = FALSE;
+    }
 }
 
 void GameObject::contactPreSolve(b2Contact* contact, const b2Manifold* oldManifold) {
-	::PhysicsBodyObject *objA = (::PhysicsBodyObject*) contact->GetFixtureA()->GetBody()->GetUserData();
-	::PhysicsBodyObject *objB = (::PhysicsBodyObject*) contact->GetFixtureB()->GetBody()->GetUserData();
-	if (objA->bodyType == PHYSICS_BODY_TYPE_GAMEOBJECT) {
-		GameObject *gObjA = (GameObject*) objA;
-        if (gObjA == this) {
-            preSolveVelocity = gObjA->getLinearVelocity();
-        }
-	}
-	if (objB->bodyType == PHYSICS_BODY_TYPE_GAMEOBJECT) {
-		GameObject *gObjB = (GameObject*) objB;
-        if (gObjB == this) {
-            preSolveVelocity = gObjB->getLinearVelocity();
-        }
-	}
 }
 
 void GameObject::contactPostSolve(b2Contact* contact, const b2ContactImpulse* impulse) {
-	::PhysicsBodyObject *objA = (::PhysicsBodyObject*) contact->GetFixtureA()->GetBody()->GetUserData();
-	::PhysicsBodyObject *objB = (::PhysicsBodyObject*) contact->GetFixtureB()->GetBody()->GetUserData();
-	if (objA->bodyType == PHYSICS_BODY_TYPE_GAMEOBJECT) {
-		GameObject *gObjA = (GameObject*) objA;
-		if (gObjA == this) {
-			postSolveVelocity = gObjA->getLinearVelocity();
-			impactVelocityDelta += preSolveVelocity - postSolveVelocity;
-			processContact = TRUE;
-		}
-	}
-	if (objB->bodyType == PHYSICS_BODY_TYPE_GAMEOBJECT) {
-		GameObject *gObjB = (GameObject*) objB;
-		if (gObjB == this) {
-			postSolveVelocity = gObjB->getLinearVelocity();
-			impactVelocityDelta += preSolveVelocity - postSolveVelocity;
-			processContact = TRUE;
-		}
-	}
+    // gather impulse data and update contact point locations
+    // TODO
 }
 
 void GameObject::clearImpact() {
@@ -325,6 +371,7 @@ void GameObject::init() {
 		for (S32 i = 0; i < physicsModelConfigs->getSize(); i++) {
 			PhysicsModelConfig *config = physicsModelConfigs->array[i];
 			boxBody = context->world->boxWorld->CreateBody(config->bodyDef);
+            boxBody->SetUserData(this);
 			b2FixtureDef fixDef;
 			fixDef.shape = config->shape;
             fixDef.density = 1.0f;
@@ -335,6 +382,7 @@ void GameObject::init() {
             fixDef.isSensor = config->isSensor;
             fixDef.filter = config->filter;
              */
+            // TODO - fix up the other parameters and create extra bodies for each fixture
  			boxBody->CreateFixture(&fixDef);
 		}
 	}
@@ -400,6 +448,27 @@ void GameObject::update() {
 	if (!isInitialized) {
 		return;
 	}
+    // TODO - B2 iterate contacts and issue callbacks then clear all cached impulse values
+    for (S32 i = 0; i < contactsUsed; i++) {
+        PhysicsContact2D *pc = contacts->array[i];
+        if (!pc->callbackProcessed) {
+            if (!pc->wasTouching && pc->isTouching) {
+                luaBinder->onCollisionStarted(pc->other);
+                pc->wasTouching = TRUE;
+            } else if (pc->wasTouching && !pc->isTouching) {
+                luaBinder->onCollisionEnded(pc->other);
+                pc->wasTouching = FALSE;
+            }
+        }
+        if (!pc->isActive) {
+            // swap with last
+            contacts->array[i] = contacts->array[contactsUsed-1];
+            contacts->array[contactsUsed-1] = pc;
+            contactsUsed--;
+            i--;
+        }
+    }
+
 	if (luaBinder) {
 		luaBinder->update();
 	}

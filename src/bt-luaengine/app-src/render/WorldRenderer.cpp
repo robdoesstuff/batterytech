@@ -549,7 +549,11 @@ void WorldRenderer::render2D() {
                     curTextRenderer->render(item->attr1, posX, posY, scale);
                 }
 			}
-		}
+		} else if (item->renderType == RenderItem::RENDERTYPE_2DPROJ) {
+            Matrix4f *m = &item->mat;
+            context->renderContext->projMatrix.identity();
+            context->renderContext->projMatrix.ortho(m->data[0], m->data[1], m->data[2], m->data[3], m->data[4], m->data[5]);
+        }
 	}
 	if (curTextRenderer) {
 		curTextRenderer->finishText();
@@ -558,10 +562,17 @@ void WorldRenderer::render2D() {
     spriteRenderer->endBatch();
 #ifdef BATTERYTECH_INCLUDE_BOX2D
     if (world->physicsDrawDebug) {
+        if (world->physicsDrawDebugUsingProjection) {
+            F32 *p = world->physicsDrawDebugProjection;
+            context->renderContext->projMatrix.identity();
+            context->renderContext->projMatrix.ortho(p[0], p[1], p[2], p[3], p[4], p[5]);
+        }
     	b2DebugRenderer->render(world);
     }
 #endif
 	if (context->showFPS) {
+        context->renderContext->projMatrix.identity();
+        context->renderContext->projMatrix.ortho(0, gConfig->width, gConfig->height, 0, -1, 1);
 		char fpsText[50];
 		sprintf(fpsText, "FPS: %d", fps);
 		TextRasterRenderer *textRenderer = textRenderers->get(FONT_TAG_UI);

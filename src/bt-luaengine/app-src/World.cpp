@@ -46,6 +46,7 @@ World::World() {
 	lastGameState = 0;
 	nextGameState = 0;
 	physicsDrawDebug = FALSE;
+    physicsDrawDebugUsingProjection = FALSE;
 }
 
 World::~World() {

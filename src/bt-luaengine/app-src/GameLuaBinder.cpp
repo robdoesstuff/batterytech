@@ -59,6 +59,8 @@ static int lua_Game_render2DBG(lua_State *L);
 static int lua_Game_renderAssimp(lua_State *L);
 static int lua_Game_renderAssimpM(lua_State *L);
 static int lua_Game_renderBB(lua_State *L);
+static int lua_Game_start2DProjection(lua_State *L);
+static int lua_Game_end2DProjection(lua_State *L);
 static int lua_Game_setShadowLightOrigin(lua_State *L);
 static int lua_Game_setShadowColorAndEpsilon(lua_State *L);
 static int lua_Game_setShadowLightFrustumNearFar(lua_State *L);
@@ -126,6 +128,8 @@ static const luaL_reg lua_methods[] = {
 	{ "render2DBG", lua_Game_render2DBG },
 	{ "renderBB", lua_Game_renderBB },
 	{ "setRenderItemParam", lua_Game_setRenderItemParam },
+    { "start2DProjection", lua_Game_start2DProjection },
+    { "end2DProjection", lua_Game_end2DProjection },
 	{ "loadNewResources", lua_Game_loadNewResources },
 	{ "getShadowType", lua_Game_getShadowType },
 	{ "setShadowType", lua_Game_setShadowType },
@@ -485,9 +489,18 @@ static int lua_Game_setPhysicsGravity(lua_State *L) {
     return 0;
 }
 
+// boolean (on/off), then for 2D - optional projection left, right, bottom, top, near, far
 static int lua_Game_setPhysicsDrawDebug(lua_State *L) {
 	// Game *game = *(Game**)lua_touserdata(L, 1);
 	static_context->world->physicsDrawDebug = lua_toboolean(L, 2);
+    if (lua_isnumber(L, 3) && lua_isnumber(L, 8)) {
+        static_context->world->physicsDrawDebugUsingProjection = TRUE;
+        for (S32 i = 0; i < 6; i++) {
+            static_context->world->physicsDrawDebugProjection[i] = lua_tonumber(L, i+3);
+        }
+    } else {
+        static_context->world->physicsDrawDebugUsingProjection = FALSE;
+    }
 	return 0;
 }
 
@@ -893,6 +906,52 @@ static int lua_Game_renderBB(lua_State *L) {
 		item->flags = item->flags | RENDERITEM_FLAG_IS_OPAQUE;
 	}
 	item->colorFilter.a = alpha;
+	lua_pushinteger(L, static_context->world->renderItemsUsed-1);
+	return 1;
+}
+
+// left, right, bottom, top, near, far
+static int lua_Game_start2DProjection(lua_State *L) {
+    //Game *game = *(Game**)lua_touserdata(L, 1);
+	if (static_context->world->renderItemsUsed == MAX_RENDERITEMS) {
+		lua_pushinteger(L, -1);
+		return 1;
+	}
+	RenderItem *item = &static_context->world->renderItems[static_context->world->renderItemsUsed++];
+	item->reset();
+	item->renderType = RenderItem::RENDERTYPE_2DPROJ;
+    Vector4f lrbt = lua_toVector4f(L, 2);
+    Vector2f nf = lua_toVector2f(L, 6);
+    // values packed into matrix, left, right, bottom, top, near, far
+    Matrix4f *mat = &item->mat;
+    mat->data[0] = lrbt.x;
+    mat->data[1] = lrbt.y;
+    mat->data[2] = lrbt.z;
+    mat->data[3] = lrbt.w;
+    mat->data[4] = nf.x;
+    mat->data[5] = nf.y;
+	lua_pushinteger(L, static_context->world->renderItemsUsed-1);
+	return 1;    
+}
+
+static int lua_Game_end2DProjection(lua_State *L) {
+	if (static_context->world->renderItemsUsed == MAX_RENDERITEMS) {
+		lua_pushinteger(L, -1);
+		return 1;
+	}
+	RenderItem *item = &static_context->world->renderItems[static_context->world->renderItemsUsed++];
+	item->reset();
+	item->renderType = RenderItem::RENDERTYPE_2DPROJ;
+    // values packed into matrix, left, right, bottom, top, near, far
+    Matrix4f *mat = &item->mat;
+    GraphicsConfiguration *gConfig = static_context->gConfig;
+    // reset to default values (screen pixel ortho with 1, -1 z range)
+    mat->data[0] = 0;
+    mat->data[1] = gConfig->width;
+    mat->data[2] = gConfig->height;
+    mat->data[3] = 0;
+    mat->data[4] = -1;
+    mat->data[5] = 1;
 	lua_pushinteger(L, static_context->world->renderItemsUsed-1);
 	return 1;
 }

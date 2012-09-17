@@ -103,6 +103,7 @@ static int lua_GameObject_physics_setBodyFixedRotation(lua_State *L);
 static int lua_GameObject_physics_setBodyBullet(lua_State *L);
 static int lua_GameObject_physics_setBodyActive(lua_State *L);
 static int lua_GameObject_physics_setBodyType(lua_State *L);
+static int lua_GameObject_setPhysicsCallbackDetail(lua_State *L);
 
 #endif
 
@@ -171,6 +172,7 @@ static const luaL_reg lua_methods[] = {
     { "physics_setBodyBullet", lua_GameObject_physics_setBodyBullet },
     { "physics_setBodyActivee", lua_GameObject_physics_setBodyActive },
     { "physics_setBodyType", lua_GameObject_physics_setBodyType },
+    { "setPhysicsCallbackDetail", lua_GameObject_setPhysicsCallbackDetail },
 
 #endif
 
@@ -224,10 +226,10 @@ void GameObjectLuaBinder::update() {
 	}
 }
 
-void GameObjectLuaBinder::onCollision(GameObject *other) {
+void GameObjectLuaBinder::onCollisionStarted(GameObject *other) {
 	S32 otherRef = other->luaBinder->luaRef;
-	if (pushInstanceFunction("onCollision")) {
-		callFunctionVA("GameObject:onCollision", TRUE, "r>", otherRef);
+	if (pushInstanceFunction("onCollisionStarted")) {
+		callFunctionVA("GameObject:onCollisionStarted", TRUE, "r>", otherRef);
 	}
 }
 
@@ -1416,6 +1418,19 @@ static int lua_GameObject_physics_setFixtureRestitution(lua_State *L) {
     return 0;
 }
 
+// 0 = none, 1 = broad, 2 = narrow
+static int lua_GameObject_setPhysicsCallbackDetail(lua_State *L) {
+    GameObject *o = *(GameObject**)lua_touserdata(L, 1);
+    S32 detail = lua_tointeger(L, 2);
+    if (detail == 1) {
+        o->callbackDetail = CALLBACK_DETAIL_BROAD;
+    } else if (detail == 2) {
+        o->callbackDetail = CALLBACK_DETAIL_NARROW;
+    } else {
+        o->callbackDetail = CALLBACK_DETAIL_NONE;
+    }
+    return 0;
+}
 #endif
 
 static int lua_GameObject_gc (lua_State *L) {

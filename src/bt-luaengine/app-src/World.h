@@ -69,6 +69,9 @@ public:
 	BOOL32 levelLoaded;
 	BOOL32 renderersReady;
 	BOOL32 physicsDrawDebug;
+    BOOL32 physicsDrawDebugUsingProjection;
+    // match glOrtho params
+    F32 physicsDrawDebugProjection[6];
 };
 
 #endif /* WORLD_H_ */
