@@ -565,6 +565,8 @@ namespace BatteryTech {
                     }
                     if (!context->glResourceManager->getTexture(page->assetName)) {
                         AssetTexture *texture = new AssetTexture(context, page->assetName, FALSE);
+                        // default fonts to bilinear because they can look really bad with any nearest neighbor filtering
+                        texture->filter = GraphicsConfiguration::BILINEAR;
                         texture->load(TRUE);
                         context->glResourceManager->addTexture(texture);                        
                     };
