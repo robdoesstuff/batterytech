@@ -227,7 +227,7 @@ namespace BatteryTech {
 
 	void AssetTexture::loadImageData(const char *imageAssetName) {
 		Property *prop = context->appProperties->get("debug_textures");
-		BOOL32 debugTextures = FALSE;
+		debugTextures = FALSE;
 		if (prop) {
 			debugTextures = prop->getBoolValue();
 		}
@@ -362,27 +362,39 @@ namespace BatteryTech {
                 if (filter == GraphicsConfiguration::DEFAULT) {
                     filter = context->gConfig->textureFilter;
                 }
+                // Some quick terminology:
+                // Nearest neighbor filtering or "None" as we call it is Min = Nearest, Mag = Nearest
+                // Linear filtering is Min = Nearest, Mag = Linear
+                // Bilinear filtering is Min = Linear OR Linear_mipmap_nearest, Mag = Linear
+                // Trilinear filtering is Min = Linear OR Linear_mipmap_linear, Mag = Linear
                 if ((magFilter == Texture::TEX_FILTER_DEFAULT && filter == GraphicsConfiguration::NONE) || magFilter == Texture::TEX_FILTER_NEAREST) {
 					glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+					logDebugInfo("Mag Filter = Nearest");
 				} else {
 					glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+					logDebugInfo("Mag Filter = Linear");
 				}
                 // if min filter is default and default is no filter OR min is override to nearest
-				if ((minFilter == Texture::TEX_FILTER_DEFAULT && filter == GraphicsConfiguration::NONE) || minFilter == Texture::TEX_FILTER_NEAREST) {
+				if ((minFilter == Texture::TEX_FILTER_DEFAULT && (filter == GraphicsConfiguration::NONE || filter == GraphicsConfiguration::LINEAR)) || minFilter == Texture::TEX_FILTER_NEAREST) {
 					if (mipmap && data) {
 						glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
+						logDebugInfo("Min Filter = Nearest Mipmap Nearest");
 					} else {
 						glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+						logDebugInfo("Min Filter = Nearest");
 					}
 				} else {
 					if (mipmap && data) {
 						if (filter == GraphicsConfiguration::TRILINEAR) {
 							glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+							logDebugInfo("Min Filter = Linear Mipmap Linear");
 						} else {
 							glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
+							logDebugInfo("Min Filter = Linear Mipmap Nearest");
 						}
 					} else {
 						glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+						logDebugInfo("Min Filter = Linear");
 					}
 				}
 				if (n == 3) {
@@ -465,5 +477,11 @@ namespace BatteryTech {
 			Renderer::checkGLError("Renderer Load Compressed Texture");
 		}
 		_platform_free_asset(fileData);
+	}
+
+	void AssetTexture::logDebugInfo(const char *message) {
+		if (debugTextures) {
+			logmsg(message);
+		}
 	}
 }

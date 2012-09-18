@@ -75,7 +75,8 @@ namespace BatteryTech {
 		void loadBTXAtlas();
 		void loadImageData(const char *imageAssetName);
 		ManagedArray<char> *atlasMappedTexureNames;
-
+		void logDebugInfo(const char *message);
+		BOOL32 debugTextures;
 	};
 
 }
