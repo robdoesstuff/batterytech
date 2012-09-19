@@ -228,17 +228,17 @@ void GameObjectLuaBinder::update() {
 	}
 }
 
-void GameObjectLuaBinder::onCollisionStarted(GameObject *other, F32 force) {
+void GameObjectLuaBinder::onCollisionStarted(GameObject *other, F32 force, F32 approachVelocity) {
 	S32 otherRef = other->luaBinder->luaRef;
 	if (pushInstanceFunction("onCollisionStarted")) {
-		callFunctionVA("GameObject:onCollisionStarted", TRUE, "rd>", otherRef, force);
+		callFunctionVA("GameObject:onCollisionStarted", TRUE, "rdd>", otherRef, force, approachVelocity);
 	}
 }
 
-void GameObjectLuaBinder::onCollisionUpdated(GameObject *other, F32 force) {
+void GameObjectLuaBinder::onCollisionUpdated(GameObject *other, F32 force, F32 approachVelocity) {
 	S32 otherRef = other->luaBinder->luaRef;
 	if (pushInstanceFunction("onCollisionUpdated")) {
-		callFunctionVA("GameObject:onCollisionUpdated", TRUE, "rd>", otherRef, force);
+		callFunctionVA("GameObject:onCollisionUpdated", TRUE, "rdd>", otherRef, force, approachVelocity);
 	}
 }
 

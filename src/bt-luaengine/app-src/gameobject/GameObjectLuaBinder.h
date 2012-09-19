@@ -40,8 +40,8 @@ public:
 	// lua functions
 	void init();
 	void update();
-	void onCollisionStarted(GameObject *other, F32 force);
-	void onCollisionUpdated(GameObject *other, F32 force);
+	void onCollisionStarted(GameObject *other, F32 force, F32 approachVelocity);
+	void onCollisionUpdated(GameObject *other, F32 force, F32 approachVelocity);
 	void onCollisionEnded(GameObject *other);
 	void onLevelCollision();
 	void onLevelCollisionEnded();

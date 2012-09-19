@@ -160,6 +160,8 @@ void GameObject::contactStarted(b2Contact* contact) {
     pc->other = other;
     pc->fixture = f;
     pc->callbackProcessed = FALSE;
+    pc->approachVelocity = 0;
+    pc->impulse = 0;
     b2Manifold *manifold = contact->GetManifold();
     for (S32 i = 0; i < manifold->pointCount; i++) {
         pc->localPoint[i] = Vector2f(manifold->points[i].localPoint.x, manifold->points[i].localPoint.y);
@@ -181,6 +183,22 @@ void GameObject::contactEnded(b2Contact* contact) {
 }
 
 void GameObject::contactPreSolve(b2Contact* contact, const b2Manifold* oldManifold) {
+    b2WorldManifold worldManifold;
+    contact->GetWorldManifold(&worldManifold);
+    b2PointState state1[2], state2[2];
+    b2GetPointStates(state1, state2, oldManifold, contact->GetManifold());
+    if (state2[0] == b2_addState) {
+        PhysicsContact2D *pc = findContact(contact);
+        if (pc) {
+            const b2Body* bodyA = contact->GetFixtureA()->GetBody();
+            const b2Body* bodyB = contact->GetFixtureB()->GetBody();
+            b2Vec2 point = worldManifold.points[0];
+            b2Vec2 vA = bodyA->GetLinearVelocityFromWorldPoint(point);
+            b2Vec2 vB = bodyB->GetLinearVelocityFromWorldPoint(point);
+            F32 approachVelocity = b2Dot(vB - vA, worldManifold.normal);
+            pc->approachVelocity += approachVelocity;
+        }
+    }
 }
 
 void GameObject::contactPostSolve(b2Contact* contact, const b2ContactImpulse* impulse) {
@@ -189,6 +207,9 @@ void GameObject::contactPostSolve(b2Contact* contact, const b2ContactImpulse* im
 	}
 	// gather impulse data and update contact point locations
 	PhysicsContact2D *pc = findContact(contact);
+    if (!pc) {
+        return;
+    }
 	pc->impulse += impulse->normalImpulses[0];
     b2Manifold *manifold = contact->GetManifold();
     pc->pointCount = manifold->pointCount;
@@ -472,7 +493,6 @@ void GameObject::update() {
 	}
 
 #ifdef BATTERYTECH_INCLUDE_BOX2D
-	// TODO - B2 iterate contacts and issue callbacks then clear all cached impulse values
 	if (callbackDetail != CALLBACK_DETAIL_NONE) {
 		for (S32 i = 0; i < contactsUsed; i++) {
 			PhysicsContact2D *pc = contacts->array[i];
@@ -481,7 +501,7 @@ void GameObject::update() {
 				if (!pc->wasTouching && pc->isTouching) {
 					if (isNew) {
 						contactObjects->put(pc->other, pc->other);
-						luaBinder->onCollisionStarted(pc->other, pc->impulse);
+						luaBinder->onCollisionStarted(pc->other, pc->impulse, pc->approachVelocity);
 					}
 					pc->wasTouching = TRUE;
 				} else if (pc->wasTouching && !pc->isTouching) {
@@ -501,10 +521,11 @@ void GameObject::update() {
 					pc->wasTouching = FALSE;
 				} else {
 					if (callbackDetail == CALLBACK_DETAIL_NARROW) {
-						luaBinder->onCollisionUpdated(pc->other, pc->impulse);
+						luaBinder->onCollisionUpdated(pc->other, pc->impulse, pc->approachVelocity);
 					}
 				}
 				pc->impulse = 0;
+                pc->approachVelocity = 0;
 				pc->callbackProcessed = TRUE;
 			}
 			if (!pc->isActive) {

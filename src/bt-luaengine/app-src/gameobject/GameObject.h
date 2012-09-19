@@ -173,6 +173,7 @@ public:
         BOOL32 isActive;
         BOOL32 callbackProcessed;
         F32 impulse;
+        F32 approachVelocity;
         PhysicsContact2D() {
             localPoint[0] = Vector2f(0,0);
             localPoint[1] = Vector2f(0,0);
@@ -184,6 +185,7 @@ public:
             isActive = FALSE;
             callbackProcessed = FALSE;
             impulse = 0;
+            approachVelocity = 0;
         }
     };
     // called when contact has started with another game object

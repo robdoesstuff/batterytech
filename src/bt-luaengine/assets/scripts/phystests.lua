@@ -33,17 +33,17 @@ end
 function Circle:render()
 end
 
-function Circle:onCollisionStarted(other, force)
+function Circle:onCollisionStarted(other, force, velocity)
 	if force then
-    	logmsg("(Circle) onCollisionStarted - " .. other.objType .. " " .. force)
+    	logmsg("(Circle) onCollisionStarted - " .. other.objType .. " " .. force .. " " .. velocity)
     else
     	logmsg("(Circle) onCollisionStarted - " .. other.objType)
     end
 end
 
-function Circle:onCollisionUpdated(other, force)
+function Circle:onCollisionUpdated(other, force, velocity)
 	if force then
-    	logmsg("(Circle) onCollisionUpdated - " .. other.objType .. " " .. force)
+    	logmsg("(Circle) onCollisionUpdated - " .. other.objType .. " " .. force .. " " .. velocity)
     else
     	logmsg("(Circle) onCollisionUpdated - " .. other.objType)
     end
