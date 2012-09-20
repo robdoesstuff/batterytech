@@ -181,9 +181,26 @@ public class BatteryTechRenderer implements Renderer, InputHandler, SensorEventL
 		}
 	}
 	
+	/**
+	 * Calls back from asynchronous function into game engine
+	 * 
+	 * Blocks until callback slot is free
+	 * 
+	 * @param callbackData The string to pass back to engine
+	 */
 	public void callback(String callbackData) {
-		synchronized (tickMutex) {		
-			boot.callback(callbackData);
+		boolean success = false;
+		while (!success) {
+			synchronized (tickMutex) {
+				success = boot.callback(callbackData);
+			}
+			if (!success) {
+				try {
+					Thread.sleep(33);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 
