@@ -259,7 +259,11 @@ namespace BatteryTech {
                         } else if (!nextSpace) {
                             wordEnd = nextNL;
                         } else {
-                        	wordEnd = text+strlen(text);
+                        	if (nextSpace < nextNL) {
+								wordEnd = nextSpace;
+							} else {
+								wordEnd = nextNL;
+							}
                         }
                         char word[255];
                         S32 wordLength = wordEnd-(text+i+1);
@@ -710,8 +714,12 @@ namespace BatteryTech {
                         } else if (!nextSpace) {
                             wordEnd = nextNL;
                         } else {
-                        	wordEnd = text+strlen(text);
-                        }
+                        	if (nextSpace < nextNL) {
+                        		wordEnd = nextSpace;
+                        	} else {
+                        		wordEnd = nextNL;
+                        	}
+                         }
                         char word[255];
                         S32 wordLength = wordEnd-(text+i+1);
                         if (wordLength > 255) {
@@ -781,10 +789,14 @@ namespace BatteryTech {
     	F32 localScale = (fontSize / bmInfo->size) * context->gConfig->uiScale;
     	scale *= localScale;
 		F32 width = 0;
+		F32 longestWidth = 0;
 		char lastChar = 0;
 		while (*text) {
 			if (*text == '\n') {
 				//newline, restart.
+				if (width > longestWidth) {
+					longestWidth = width;
+				}
 				width = 0;
 			}
 			if (*text >= 32 && *text < 256) {
@@ -805,7 +817,10 @@ namespace BatteryTech {
 			lastChar = *text;
 			++text;
 		}
-		return width * scale;
+		if (width > longestWidth) {
+			longestWidth = width;
+		}
+		return longestWidth * scale;
 
     }
     
