@@ -26,6 +26,7 @@
 #include "../batterytech_globals.h"
 #include "../batterytech.h"
 #include "../Context.h"
+#include "../util/strx.h"
 
 struct stb_vorbis;
 
@@ -264,7 +265,7 @@ namespace BatteryTech {
 				stream->streamId = streamId;
 				stream->volumeLeft = leftVol;
 				stream->volumeRight = rightVol;
-				stream->assetName = assetName;
+				stream->assetName = strDuplicate(assetName);
 				stream->channels = 0;
 				stream->playbackRate = rate;
 				stream->filePosition = 0;
@@ -363,6 +364,9 @@ namespace BatteryTech {
 					stb_vorbis_close((stb_vorbis*)stream->audioHandle);
 					stream->audioHandle = NULL;
 				}
+                // we previously allocated the name in playStreamingSound
+                delete [] stream->assetName;
+                stream->assetName = NULL;
 			}
 		}
 	}
@@ -381,6 +385,12 @@ namespace BatteryTech {
 			//logmsg(cBuf);
 			BOOL32 eof = FALSE;
 			S32 bytesRead = _platform_read_asset_chunk(stream->assetName, stream->filePosition, buf, CHUNKED_READ_BUFFER_SIZE, &eof);
+            if (bytesRead == 0) {
+                // can't decode 0 bytes!  The file must not be available.
+                logmsg("Stream asset unavailable - stopping playback");
+                stream->isPlaying = FALSE;
+                return;
+            }
 			S32 eofByte = 0;
 			if (eof) {
 				eofByte = bytesRead;

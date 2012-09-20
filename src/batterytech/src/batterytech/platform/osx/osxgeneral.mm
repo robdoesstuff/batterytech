@@ -150,7 +150,7 @@ S32 _platform_read_asset_chunk(const char *assetName, S32 offset, unsigned char 
 		int bytesRead = fread(buffer, sizeof(unsigned char), bufferLength, handle);
 		int error = ferror(handle);
 		if (error) {
-			//cout << "IO error " << error << endl;
+            NSLog(@"IO error %d", error);
 		}
 		if (feof(handle)) {
 			*eof = TRUE;
