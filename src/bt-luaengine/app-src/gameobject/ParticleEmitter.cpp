@@ -25,6 +25,7 @@ ParticleEmitter::ParticleEmitter() {
 	this->numActiveParticles	= 0;
 	this->sourceLoc				= Vector3f(0,0,0);
 	this->lastSourceLoc			= Vector3f(0,0,0);
+	this->positionRange			= Vector3f(0,0,0);
 	this->emissionRange			= 0.1f;
 	// particles per second
 	this->emissionRate			= 30.0f;
@@ -40,8 +41,11 @@ ParticleEmitter::ParticleEmitter() {
     this->textureAssetName      = NULL;
     this->rotationRange         = Vector2f(0.0, TAU);
     this->rotationSpeedRange    = Vector2f(-5.0, 5.0);
-    this->gravity               = 0;
+    this->gravity               = Vector3f(0,0,0);
     this->stopped               = FALSE;
+    this->is2D					= FALSE;
+    this->autoStopAmount		= 0;
+    this->emittedCount			= 0;
 }
 
 ParticleEmitter::~ParticleEmitter() {
@@ -56,11 +60,23 @@ void ParticleEmitter::addParticle(Vector3f position) {
 		logmsg("No more particles available");
 		return;
 	}
+	if (stopped) {
+		return;
+	}
 	Vector3f dir = emissionDirection;
 	// subtract half the emission range so that we center on the emission direction
-	F32 halfEmissionRangeDeg = emissionRange * 180.0f;
-	F32 emissionRangeDegrees = emissionRange * 360.0f;
-	dir.rotate(frand() * emissionRangeDegrees - halfEmissionRangeDeg, frand() * emissionRangeDegrees - halfEmissionRangeDeg, frand() * emissionRangeDegrees - halfEmissionRangeDeg);
+	if (this->is2D) {
+		F32 emissionTau = emissionRange * TAU;
+		F32 angle = atan2(dir.y, dir.x) + (emissionTau * frand() - emissionTau/2);
+		dir.x = cos(angle);
+		dir.y = sin(angle);
+		dir.z = 0;
+		dir.normalize();
+	} else {
+		F32 halfEmissionRangeDeg = emissionRange * 180.0f;
+		F32 emissionRangeDegrees = emissionRange * 360.0f;
+		dir.rotate(frand() * emissionRangeDegrees - halfEmissionRangeDeg, frand() * emissionRangeDegrees - halfEmissionRangeDeg, frand() * emissionRangeDegrees - halfEmissionRangeDeg);
+	}
 	dir.normalize();
 
 	F32 speed		= randomNumberWithinRange(this->particleSpeedRange);	// 0.7*maxspeed < spd < maxspeed
@@ -71,8 +87,21 @@ void ParticleEmitter::addParticle(Vector3f position) {
     F32 rotaterate  = randomNumberWithinRange(this->rotationSpeedRange);
     
 	int i = numActiveParticles++;
-	this->particles[i].setupParticle(position,dir, rotation,this->alpha,this->scale,
+	Vector3f newPos;
+	if (positionRange == Vector3f(0,0,0)) {
+		newPos = position;
+	} else {
+		newPos = Vector3f(position.x + (positionRange.x * frand() - positionRange.x/2),
+				position.y + (positionRange.y * frand() - positionRange.y/2),
+				position.z + (positionRange.z * frand() - positionRange.z/2));
+	}
+	this->particles[i].setupParticle(newPos,dir, rotation,this->alpha,this->scale,
 									 speed, lifetime, scalerate, alpharate, rotaterate);
+	emittedCount++;
+	if (autoStopAmount > 0 && emittedCount >= autoStopAmount) {
+		// that's as many as we're supposed to do.
+		stopped = TRUE;
+	}
 }
 
 void ParticleEmitter::removeParticle(int i) {
@@ -85,6 +114,7 @@ void ParticleEmitter::removeParticle(int i) {
 
 void ParticleEmitter::startEmitter() {
 	running = TRUE;
+    this->emittedCount = 0;
 }
 
 void ParticleEmitter::update(F32 delta) {
@@ -123,9 +153,11 @@ void ParticleEmitter::update(F32 delta) {
         Particle *p = &this->particles[i];
         // all particles remaining are now currently active
         // update the particle
+        // apply gravity
+        p->dir += gravity * delta;
+        // we let dir get bigger than a unit size because its a cheap and easy way to add gravity
         p->pos = p->pos + p->dir*p->speed*delta;
-        p->pos.z = p->pos.z + gravity*delta*delta;
-        
+
         p->rotation = p->rotation - delta*0.5;
         p->alpha = p->alpha+p->alphaSpeed*delta;
         if(p->alpha > 1.0) { p->alpha=1.0; }
@@ -190,14 +222,18 @@ void ParticleEmitter::setParticleMaxSpeedRange(F32 mx, F32 mn)
 
 void ParticleEmitter::setParticleInitialAlpha(F32 initAlpha)
 {
-	if(initAlpha>=0 && initAlpha<=1)
+	if (initAlpha < 0) {
+		this->alpha = 0;
+	} else if (initAlpha > 1) {
+		this->alpha = 1;
+	} else {
 		this->alpha = initAlpha;
+	}
 }
 
 void ParticleEmitter::setParticleInitialScale(F32 initScale)
 {
-	if(initScale>=0 && initScale<=1)
-		this->scale = initScale;
+	this->scale = initScale;
 }
 
 void ParticleEmitter::setParticleRotationSpeedRange(F32 mx, F32 mn)
@@ -215,8 +251,19 @@ void ParticleEmitter::setEmissionRate(F32 rate)
     emissionRate = rate;
 }
 
-void ParticleEmitter::setGravity(F32 zGravity)
+void ParticleEmitter::setGravity(Vector3f gravity)
 {
-    gravity = zGravity;
+   this->gravity = gravity;
 }
 
+void ParticleEmitter::setPositionRange(Vector3f range) {
+	this->positionRange = range;
+}
+
+void ParticleEmitter::setIs2D(BOOL32 is2D) {
+	this->is2D = is2D;
+}
+
+void ParticleEmitter::setAutoStopMax(S32 max) {
+	this->autoStopAmount = max;
+}

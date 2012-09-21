@@ -400,7 +400,7 @@ void WorldRenderer::render3D() {
     glDisable(GL_CULL_FACE);
     // shut off depth writes for particle renderer
     glDepthMask(FALSE);
-    particleRenderer->render();
+    particleRenderer->render(FALSE);
     glFrontFace(GL_CCW);
 	//glEnable(GL_ALPHA_TEST);
 	//glAlphaFunc(GL_GREATER, 0.1f);
@@ -560,6 +560,7 @@ void WorldRenderer::render2D() {
 		curTextRenderer = NULL;
 	}
     spriteRenderer->endBatch();
+    particleRenderer->render(TRUE);
 #ifdef BATTERYTECH_INCLUDE_BOX2D
     if (world->physicsDrawDebug) {
         if (world->physicsDrawDebugUsingProjection) {

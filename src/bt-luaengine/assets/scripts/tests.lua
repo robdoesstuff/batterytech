@@ -113,6 +113,23 @@ function Tests:show()
 		game:setParticleInitialScale(emitterId,2.0)
 		game:setParticleAlphaSpeedRange(emitterId, -0.5, -0.5)
 		game:startParticleEmitter(emitterId)
+		test2DParticles = false
+		if test2DParticles then
+			local emitterId = game:add2DParticleEmitter()
+			game:setParticleEmitterTextureAsset(emitterId,"textures/particle.png")
+			game:setParticleEmitterPosition(emitterId, 640, 400)
+			game:setParticleEmitterPositionRange(emitterId, 50, 30)
+			game:setParticleEmitterDirection(emitterId, 0, 1)
+			game:setParticleEmissionRate(emitterId, 40)
+			game:setParticleEmitterTimeRange(emitterId,1.5,3.0)
+			game:setParticleEmitterConeRange(emitterId,0.5)
+			game:setParticleInitialScale(emitterId,25.0)
+			game:setParticleAlphaSpeedRange(emitterId, -0.5, -0.5)
+			game:setParticleMaxSpeedRange(emitterId, 50, 50)
+			game:setParticleGravity(emitterId, 0, 10)
+			game:setParticleAutoStopMax(emitterId, 50)
+			game:startParticleEmitter(emitterId)
+		end
 	end
     if not self.newResourcesAdded then
         addTestResources()

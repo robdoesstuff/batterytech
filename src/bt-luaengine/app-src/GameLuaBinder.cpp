@@ -85,8 +85,10 @@ static int lua_Game_getMeshInfoFromAssimp(lua_State *L);
 static int lua_Game_measureText(lua_State *L);
 static int lua_Game_engineReset(lua_State *L);
 static int lua_Game_addParticleEmitter(lua_State *L);
+static int lua_Game_add2DParticleEmitter(lua_State *L);
 static int lua_Game_setParticleEmitterTimeRange(lua_State *L);
 static int lua_Game_setParticleEmitterPosition(lua_State *L);
+static int lua_Game_setParticleEmitterPositionRange(lua_State *L);
 static int lua_Game_setParticleEmitterDirection(lua_State *L);
 static int lua_Game_setParticleEmitterTextureAsset(lua_State *L);
 static int lua_Game_removeParticleEmitter(lua_State *L);
@@ -101,6 +103,7 @@ static int lua_Game_setParticleEmissionRate(lua_State *L);
 static int lua_Game_setParticleInitialScale(lua_State *L);
 static int lua_Game_setParticleRotationSpeedRange(lua_State *L);
 static int lua_Game_setParticleGravity(lua_State *L);
+static int lua_Game_setParticleAutoStopMax(lua_State *L);
 
 static const luaL_reg lua_methods[] = {
 	{ "getInstance", lua_Game_getInstance },
@@ -153,8 +156,10 @@ static const luaL_reg lua_methods[] = {
 	{ "measureText", lua_Game_measureText },
 	{ "engineReset", lua_Game_engineReset },
     { "addParticleEmitter", lua_Game_addParticleEmitter },
+    { "add2DParticleEmitter", lua_Game_add2DParticleEmitter },
     { "setParticleEmitterTimeRange", lua_Game_setParticleEmitterTimeRange },
     { "setParticleEmitterPosition", lua_Game_setParticleEmitterPosition },
+    { "setParticleEmitterPositionRange", lua_Game_setParticleEmitterPositionRange },
     { "setParticleEmitterDirection", lua_Game_setParticleEmitterDirection },
     { "setParticleEmitterTextureAsset", lua_Game_setParticleEmitterTextureAsset },
     { "removeParticleEmitter", lua_Game_removeParticleEmitter },
@@ -169,6 +174,7 @@ static const luaL_reg lua_methods[] = {
     { "setParticleEmissionRate", lua_Game_setParticleEmissionRate },
     { "setParticleRotationSpeedRange", lua_Game_setParticleRotationSpeedRange },
     { "setParticleGravity", lua_Game_setParticleGravity },
+    { "setParticleAutoStopMax", lua_Game_setParticleAutoStopMax },
 	{ 0, 0 } };
 
 static const luaL_reg metatable[] = {
@@ -1460,6 +1466,14 @@ static int lua_Game_addParticleEmitter(lua_State *L) {
     return 1;
 }
 
+static int lua_Game_add2DParticleEmitter(lua_State *L) {
+    ParticleEmitter* emitter = new ParticleEmitter();
+    emitter->is2D = TRUE;
+    static_context->world->emitters->put(emitter->getID(),emitter);
+    lua_pushinteger(L, emitter->getID());
+    return 1;
+}
+
 static int lua_Game_setParticleEmitterTimeRange(lua_State *L) {
 	S32 emitterID = lua_tointeger(L, 2);
     ParticleEmitter* emitter = static_context->world->emitters->get(emitterID);
@@ -1476,12 +1490,29 @@ static int lua_Game_setParticleEmitterTimeRange(lua_State *L) {
 static int lua_Game_setParticleEmitterPosition(lua_State *L) {
 	S32 emitterID = lua_tointeger(L, 2);
     ParticleEmitter* emitter = static_context->world->emitters->get(emitterID);
-
-	Vector3f pos = lua_toVector3f(L, 3);
-    if( emitter )
-        emitter->setEmitterSourceLocation(pos);
-
+    if( emitter ) {
+	   if (emitter->is2D) {
+		   Vector2f loc2D = lua_toVector2f(L, 3);
+		   emitter->setEmitterSourceLocation(Vector3f(loc2D.x, loc2D.y, 0));
+	   } else {
+		   emitter->setEmitterSourceLocation(lua_toVector3f(L, 3));
+	   }
+    }
     return 0;
+}
+
+static int lua_Game_setParticleEmitterPositionRange(lua_State *L) {
+	S32 emitterID = lua_tointeger(L, 2);
+    ParticleEmitter* emitter = static_context->world->emitters->get(emitterID);
+    if( emitter ) {
+ 	   if (emitter->is2D) {
+ 		   Vector2f range2D = lua_toVector2f(L, 3);
+ 		   emitter->setPositionRange(Vector3f(range2D.x, range2D.y, 0));
+ 	   } else {
+ 		   emitter->setPositionRange(lua_toVector3f(L, 3));
+ 	   }
+    }
+	return 0;
 }
 
 static int lua_Game_setParticleEmitterDirection(lua_State *L) {
@@ -1534,9 +1565,9 @@ static int lua_Game_clearParticleEmitters(lua_State *L) {
 static int lua_Game_startParticleEmitter(lua_State *L) {
 	S32 emitterID = lua_tointeger(L, 2);
     ParticleEmitter* emitter = static_context->world->emitters->get(emitterID);
-    if( emitter )
+    if( emitter ) {
         emitter->startEmitter();
-
+    }
     return 0;
 }
 
@@ -1545,9 +1576,9 @@ static int lua_Game_setParticleEmitterConeRange(lua_State *L) {
     ParticleEmitter* emitter = static_context->world->emitters->get(emitterID);
     F32 range = lua_tonumber(L, 3);
 
-    if( emitter )
+    if( emitter ) {
         emitter->setEmissionConeRange(range);
-
+    }
     return 0;
 }
 
@@ -1605,10 +1636,10 @@ static int lua_Game_setParticleInitialScale(lua_State *L) {
 	S32 emitterID = lua_tointeger(L, 2);
     ParticleEmitter* emitter = static_context->world->emitters->get(emitterID);
 
-    F32 rate = (F32)lua_tonumber(L, 3);
-    if( emitter )
-        emitter->setParticleInitialScale(rate);
-
+    F32 scale = (F32)lua_tonumber(L, 3);
+    if( emitter ) {
+        emitter->setParticleInitialScale(scale);
+    }
     return 0;
 }
 
@@ -1628,13 +1659,40 @@ static int lua_Game_setParticleRotationSpeedRange(lua_State *L) {
 static int lua_Game_setParticleGravity(lua_State *L) {
 	S32 emitterID = lua_tointeger(L, 2);
     ParticleEmitter* emitter = static_context->world->emitters->get(emitterID);
-    
-    F32 gravity = (F32)lua_tonumber(L, 3);
-    
-    if( emitter )
-        emitter->setGravity(gravity);
-
+    if (!emitter) {
+    	return 0;
+    }
+    Vector3f newGravity(0,0,0);
+    if (lua_isnumber(L, 3) && lua_isnumber(L, 4) && lua_isnumber(L, 5)) {
+    	// 3D gravity vector
+    	newGravity = lua_toVector3f(L, 3);
+    } else if (lua_isnumber(L, 3) && lua_isnumber(L, 4)) {
+    	// 2D gravity vector
+    	F32 x = lua_tonumber(L, 3);
+    	F32 y = lua_tonumber(L, 4);
+    	newGravity.x = x;
+    	newGravity.y = y;
+    } else {
+    	// 1D gravity vector (Z axis for 3D, Y axis for 2D)
+    	F32 gravity = (F32)lua_tonumber(L, 3);
+    	if (emitter->is2D) {
+    		newGravity.y = gravity;
+    	} else {
+    		newGravity.z = gravity;
+    	}
+    }
+    emitter->setGravity(newGravity);
     return 0;
+}
+
+static int lua_Game_setParticleAutoStopMax(lua_State *L) {
+	S32 emitterID = lua_tointeger(L, 2);
+    ParticleEmitter* emitter = static_context->world->emitters->get(emitterID);
+    if( emitter ) {
+       S32 max = lua_tointeger(L, 3);
+       emitter->setAutoStopMax(max);
+    }
+	return 0;
 }
 
 // --------------- metamethods ----------------

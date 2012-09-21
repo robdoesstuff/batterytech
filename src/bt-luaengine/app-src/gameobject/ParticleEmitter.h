@@ -68,21 +68,42 @@ public:
 	virtual ~ParticleEmitter();
 	void addParticle(Vector3f position);
 	void removeParticle(int i);
+	// starts emitter
 	void startEmitter();
+	// stops emitter
 	void stopEmitter();
+	// updates particles
 	void update(F32 delta);
+	// where the current source location is for new particles
 	void setEmitterSourceLocation(Vector3f srcLoc);
+	// Range of 0-1 for 360 degree emission range
 	void setEmissionConeRange(F32 range);
+	// The base direction that the cone is based on
 	void setEmissionDirection(Vector3f emissiondir);
+	// Particle life time range in seconds
 	void setParticleLifeTimeRange(F32 mx, F32 mn);
+	// Particle scaling speed range (how fast the particle increases/decreases in size)
 	void setParticleScaleSpeedRange(F32 mx, F32 mn);
+	// Particle alpha speed range (how fast it becomes transparent or opaque)
 	void setParticleAlphaSpeedRange(F32 mx, F32 mn);	
+	// Particle movement speed range
 	void setParticleMaxSpeedRange(F32 mx, F32 mn);
-	void setParticleInitialAlpha(F32 initAlpha);
-	void setParticleInitialScale(F32 initScale);
-    void setEmissionRate(F32 rate); // particles per second
+    // Particle rotation speed range
     void setParticleRotationSpeedRange(F32 mx, F32 mn);
-    void setGravity(F32 zGravity);
+	// Starting alpha value
+	void setParticleInitialAlpha(F32 initAlpha);
+	// Starting scale value
+	void setParticleInitialScale(F32 initScale);
+	// How many particles per second we emit
+    void setEmissionRate(F32 rate); // particles per second
+    // Gravity
+    void setGravity(Vector3f gravity);
+    // How wide of an area to spawn particles from centering on source location
+	void setPositionRange(Vector3f range);
+	// Are we 2D or 3D
+    void setIs2D(BOOL32 is2D);
+    // How many particles to emit before stopping
+    void setAutoStopMax(S32 max);
     
     S32 getID() { return emitterID; }
 	Vector3f	sourceLoc;
@@ -95,6 +116,7 @@ public:
     	}
     	this->textureAssetName = strDuplicate(textureAssetName);
     }
+    BOOL32		is2D;
     
 private:
     BOOL32		running;
@@ -107,14 +129,17 @@ private:
 	Vector3f	emissionDirection;
 	
 	F32			alpha;
-	F32			scale;	
-    F32         gravity;
+	F32			scale;
+    Vector3f	gravity;
+	Vector3f	positionRange;
 	Vector2f	ltRange;
 	Vector2f	scaleSpeedRange;
 	Vector2f	alphaSpeedRange;
 	Vector2f	particleSpeedRange;	
     Vector2f    rotationRange;
-	Vector2f	rotationSpeedRange;	
+	Vector2f	rotationSpeedRange;
+	S32			autoStopAmount;
+	S32			emittedCount;
 	
     S32         emitterID;
     char*    	textureAssetName;

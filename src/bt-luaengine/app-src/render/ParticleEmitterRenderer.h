@@ -39,7 +39,7 @@ public:
 	void updateVertBuffer(ParticleEmitter *emitter);
 	void loadVerts();
 	void loadFaceIndices();
-	void render();	
+	void render(BOOL32 do2D);
 private:
 	GameContext *context;
 	ShaderProgram* shaderProgram;

@@ -105,30 +105,33 @@ static int particle_sort_function(const void *a, const void *b) {
 
 void ParticleEmitterRenderer::updateVertBuffer(ParticleEmitter *emitter) {
 	if (emitter->numActiveParticles < 1) return;
-	Vector3f dirToCamera = emitter->sourceLoc - this->context->world->camera->pos;
-	dirToCamera.normalize(); // z
-	Vector3f yRot = context->world->camera->up;
-	Vector3f xRot = dirToCamera.cross(yRot);
 	Matrix4f bbMat;
-	bbMat.data[0] = xRot.x;
-	bbMat.data[1] = xRot.y;
-	bbMat.data[2] = xRot.z;
-	bbMat.data[4] = yRot.x;
-	bbMat.data[5] = yRot.y;
-	bbMat.data[6] = yRot.z;
-	bbMat.data[8] = dirToCamera.x;
-	bbMat.data[9] = dirToCamera.y;
-	bbMat.data[10] = dirToCamera.z;
-    // sort particles back to front so we can have depth test enabled
-    // we'll use distance squared from camera
-#ifdef SORT_PARTICLES
-    Vector3f cameraPos = context->world->camera->pos;
-	for (U32 j = 0; j < emitter->numActiveParticles; j++) {
-		Particle *p = &emitter->particles[j];
-        p->sortValue = (cameraPos-p->pos).lengthSq();
-    }
-    qsort(emitter->particles, emitter->numActiveParticles, sizeof(Particle), particle_sort_function);
-#endif
+	if (!emitter->is2D) {
+		// for 3D we need to billboard
+		Vector3f dirToCamera = emitter->sourceLoc - this->context->world->camera->pos;
+		dirToCamera.normalize(); // z
+		Vector3f yRot = context->world->camera->up;
+		Vector3f xRot = dirToCamera.cross(yRot);
+		bbMat.data[0] = xRot.x;
+		bbMat.data[1] = xRot.y;
+		bbMat.data[2] = xRot.z;
+		bbMat.data[4] = yRot.x;
+		bbMat.data[5] = yRot.y;
+		bbMat.data[6] = yRot.z;
+		bbMat.data[8] = dirToCamera.x;
+		bbMat.data[9] = dirToCamera.y;
+		bbMat.data[10] = dirToCamera.z;
+	    // sort particles back to front so we can have depth test enabled
+	    // we'll use distance squared from camera
+	#ifdef SORT_PARTICLES
+	    Vector3f cameraPos = context->world->camera->pos;
+		for (U32 j = 0; j < emitter->numActiveParticles; j++) {
+			Particle *p = &emitter->particles[j];
+	        p->sortValue = (cameraPos-p->pos).lengthSq();
+	    }
+	    qsort(emitter->particles, emitter->numActiveParticles, sizeof(Particle), particle_sort_function);
+	#endif
+	}
  	for (U32 j = 0; j < emitter->numActiveParticles; j++) {
 		Particle *p = &emitter->particles[j];
  		int i = j*4;
@@ -145,38 +148,50 @@ void ParticleEmitterRenderer::updateVertBuffer(ParticleEmitter *emitter) {
         //curStep = curStep + toCamStep;
         Vector3f pos = p->pos;
         F32 alpha = p->alpha;
-		this->vertAtts[i+0].position	= pos + bbMat * pt1;
+    	if (!emitter->is2D) {
+			this->vertAtts[i+0].position	= pos + bbMat * pt1;
+			this->vertAtts[i+1].position	= pos + bbMat * pt2;
+			this->vertAtts[i+2].position	= pos + bbMat * pt3;
+			this->vertAtts[i+3].position	= pos + bbMat * pt4;
+       	} else {
+			this->vertAtts[i+0].position	= pos + pt1;
+			this->vertAtts[i+1].position	= pos + pt2;
+			this->vertAtts[i+2].position	= pos + pt3;
+			this->vertAtts[i+3].position	= pos + pt4;
+        }
 		this->vertAtts[i+0].alpha		= alpha;
-		this->vertAtts[i+0].uv			= Vector2f(0,1);
-		this->vertAtts[i+1].position	= pos + bbMat * pt2;
 		this->vertAtts[i+1].alpha		= alpha;
-		this->vertAtts[i+1].uv			= Vector2f(1,1);
-		this->vertAtts[i+2].position	= pos + bbMat * pt3;
 		this->vertAtts[i+2].alpha		= alpha;
-		this->vertAtts[i+2].uv			= Vector2f(0,0);
-		this->vertAtts[i+3].position	= pos + bbMat * pt4;
 		this->vertAtts[i+3].alpha		= alpha;
+		this->vertAtts[i+0].uv			= Vector2f(0,1);
+		this->vertAtts[i+1].uv			= Vector2f(1,1);
+		this->vertAtts[i+2].uv			= Vector2f(0,0);
 		this->vertAtts[i+3].uv			= Vector2f(1,0);
-	}
+ 	}
     if (USE_VBOS_WHEN_AVAILBLE) {
         glBufferSubData(GL_ARRAY_BUFFER, 0, emitter->numActiveParticles*sizeof(GLParticleVertex)*4, this->vertAtts);
     }
 	// printf("Drawing buffer from 0 to %d\n",emitter->numActiveParticles*sizeof(GLParticleVertex)*4);
 }
 
-void ParticleEmitterRenderer::render()
-{
-	checkGLError("PE start render");
+void ParticleEmitterRenderer::render(BOOL32 do2D) {
+	checkGLError("ParticleEmitter start render");
     HashTable<S32, ParticleEmitter*> *emitters = context->world->emitters;
-
-	int numActiveEmitters = emitters->size();
-
-	if (numActiveEmitters>0)
-	{
-		glFrontFace(GL_CW);
+	BOOL32 hasMatchingEmitter = FALSE;
+	for (HashTable<S32,ParticleEmitter*>::Iterator i = emitters->getIterator(); i.hasNext;) {
+        ParticleEmitter *emitter = emitters->getNext(i);
+        if (emitter->is2D == do2D) {
+        	hasMatchingEmitter = TRUE;
+        	break;
+        }
+	}
+	if (hasMatchingEmitter) {
+		if (do2D) {
+			glFrontFace(GL_CCW);
+		} else {
+			glFrontFace(GL_CW);
+		}
 		shaderProgram->bind();
-		checkGLError("after shaderProgram->bind()");
-		
 		glUniformMatrix4fv(shaderProgram->getUniformLoc("projection_matrix"), 1, GL_FALSE, (GLfloat*) context->renderContext->projMatrix.data);
 		glUniformMatrix4fv(shaderProgram->getUniformLoc("modelview_matrix"), 1, GL_FALSE, (GLfloat*) context->renderContext->mvMatrix.data);
 		glUniform1i(shaderProgram->getUniformLoc("tex"), 0);
@@ -193,6 +208,9 @@ void ParticleEmitterRenderer::render()
         
 		for (HashTable<S32,ParticleEmitter*>::Iterator i = emitters->getIterator(); i.hasNext;) {
             ParticleEmitter *emitter = emitters->getNext(i);
+            if (emitter->is2D != do2D) {
+            	continue;
+            }
 			updateVertBuffer(emitter);
             if (emitter->getTextureAssetName()) {
             	Texture *texture = context->glResourceManager->getTexture(emitter->getTextureAssetName());
@@ -209,7 +227,6 @@ void ParticleEmitterRenderer::render()
                 glDrawElements(GL_TRIANGLES, emitter->numActiveParticles*6, GL_UNSIGNED_SHORT, faceIndices);
             }
 		}
-		//printf("Render: number of Emitter %d",numActiveEmitters);
 	}
 	
 }
