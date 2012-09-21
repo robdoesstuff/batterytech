@@ -1615,9 +1615,9 @@ static int lua_Game_setParticleMaxSpeedRange(lua_State *L) {
     F32 min = (F32)lua_tonumber(L, 3);
     F32 max = (F32)lua_tonumber(L, 4);
 
-    if( emitter )
+    if( emitter ) {
         emitter->setParticleMaxSpeedRange(max, min);
-
+    }
     return 0;
 }
 

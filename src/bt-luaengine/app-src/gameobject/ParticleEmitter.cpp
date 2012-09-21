@@ -238,7 +238,7 @@ void ParticleEmitter::setParticleInitialScale(F32 initScale)
 
 void ParticleEmitter::setParticleRotationSpeedRange(F32 mx, F32 mn)
 {
-    this->particleSpeedRange = Vector2f(mx,mn);
+    this->rotationSpeedRange = Vector2f(mx,mn);
 }
 
 void ParticleEmitter::setEmissionDirection(Vector3f emissiondir)

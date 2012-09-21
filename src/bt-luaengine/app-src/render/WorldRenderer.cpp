@@ -561,6 +561,8 @@ void WorldRenderer::render2D() {
 	}
     spriteRenderer->endBatch();
     particleRenderer->render(TRUE);
+    // end on CW front face because 2D particles switch it to CCW
+    glFrontFace(GL_CW);
 #ifdef BATTERYTECH_INCLUDE_BOX2D
     if (world->physicsDrawDebug) {
         if (world->physicsDrawDebugUsingProjection) {
