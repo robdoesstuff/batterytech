@@ -210,7 +210,7 @@ public class BatteryTechActivity extends Activity {
 	 * 
 	 * @return a subclass of VibrationManager
 	 */
-	public VibrationManager createVibrationManager() { return new VibrationManager(this); }
+	public VibrationManager createVibrationManager() { return new DefaultVibrationManager(this); }
 	
 	/**
 	 * Allows a BatteryTech application to use different OpenGL ES Settings, such as 2.0.

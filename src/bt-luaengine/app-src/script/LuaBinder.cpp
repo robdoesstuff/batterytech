@@ -96,6 +96,10 @@ static int lua_stopVideo(lua_State *L);
 static int lua_unloadVideo(lua_State *L);
 static int lua_pauseVideo(lua_State *L);
 static int lua_getVideoPosition(lua_State *L);
+static int lua_playVibrationEffect(lua_State *L);
+static int lua_startVibrationEffect(lua_State *L);
+static int lua_stopVibrationEffect(lua_State *L);
+static int lua_stopAllVibrationEffects(lua_State *L);
 
 static GameContext* static_context;
 
@@ -185,6 +189,10 @@ lua_State* LuaBinder::newState(GameContext *context) {
 	registerFunction(L, "unloadVideo", lua_unloadVideo);
 	registerFunction(L, "pauseVideo", lua_pauseVideo);
 	registerFunction(L, "getVideoPosition", lua_getVideoPosition);
+	registerFunction(L, "playVibrationEffect", lua_playVibrationEffect);
+	registerFunction(L, "startVibrationEffect", lua_startVibrationEffect);
+	registerFunction(L, "stopVibrationEffect", lua_stopVibrationEffect);
+	registerFunction(L, "stopAllVibrationEffects", lua_stopAllVibrationEffects);
 	return L;
 }
 
@@ -1210,6 +1218,33 @@ static int lua_getVideoPosition(lua_State *L) {
 	F32 pos = static_context->videoManager->getPosition();
 	lua_pushnumber(L, pos);
 	return 1;
+}
+
+static int lua_playVibrationEffect(lua_State *L) {
+	S32 effectId = lua_tointeger(L, 1);
+	F32 intensity = 1.0f;
+	if (lua_isnumber(L, 2)) {
+		intensity = lua_tonumber(L, 2);
+	}
+	static_context->vibrationManager->playEffect(effectId, intensity);
+}
+
+static int lua_startVibrationEffect(lua_State *L) {
+	S32 effectId = lua_tointeger(L, 1);
+	F32 intensity = 1.0f;
+	if (lua_isnumber(L, 2)) {
+		intensity = lua_tonumber(L, 2);
+	}
+	static_context->vibrationManager->startEffect(effectId, intensity);
+}
+
+static int lua_stopVibrationEffect(lua_State *L) {
+	S32 effectId = lua_tointeger(L, 1);
+	static_context->vibrationManager->stopEffect(effectId);
+}
+
+static int lua_stopAllVibrationEffects(lua_State *L) {
+	static_context->vibrationManager->stopAllEffects();
 }
 
 Vector2f lua_toVector2f(lua_State *L, S32 startIdx) {
