@@ -143,20 +143,21 @@ void Game::update() {
 	}
 	if (context->callbackDataReady) {
 		//context->callbackData;
+		luaBinder->callGlobalVA("callback", "s>", context->callbackData);
 		if (strStartsWith(context->callbackData, "purchaseSucceeded")) {
+			// deprecated!
 			char *tok = strtok(context->callbackData, " ");
 			tok = strtok(NULL, " ");
 			if (tok) {
 				luaBinder->callGlobalVA("purchaseResult", "bs>", TRUE, tok);
 			}
 		} else if (strStartsWith(context->callbackData, "purchaseFailed")) {
+			// deprecated!
 			char *tok = strtok(context->callbackData, " ");
 			tok = strtok(NULL, " ");
 			if (tok) {
 				luaBinder->callGlobalVA("purchaseResult", "bs>", FALSE, tok);
 			}
-		} else {
-			luaBinder->callGlobalVA("callback", "s>", context->callbackData);
 		}
 		context->callbackDataReady = FALSE;
 		context->callbackData[0] = '\0';
