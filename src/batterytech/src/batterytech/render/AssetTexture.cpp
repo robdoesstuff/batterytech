@@ -204,6 +204,11 @@ namespace BatteryTech {
 		if (textureId == 0 && loadOnDemand) {
 			load(TRUE);
 		}
+		if (textureId == 0) {
+			char buf[1024];
+			sprintf(buf, "Texture not loaded %s", assetName);
+			logmsg(buf);
+		}
 		if (Texture::lastTextureId != textureId) {
 			Texture::textureSwitches++;
 			glBindTexture(GL_TEXTURE_2D, textureId);

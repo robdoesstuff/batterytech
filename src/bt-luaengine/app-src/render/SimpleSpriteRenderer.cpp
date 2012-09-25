@@ -32,6 +32,11 @@ void SimpleSpriteRenderer::render(RenderItem *item) {
 	Texture *texture = NULL;
 	if (item->textureName[0]) {
 		texture = context->glResourceManager->getTexture(item->textureName);
+		if (!texture) {
+			char buf[1024];
+			sprintf(buf, "Texture not found %s", item->textureName);
+			logmsg(buf);
+		}
 	}
 	Matrix4f bbMat;
 	BOOL32 isBB = item->renderType == RenderItem::RENDERTYPE_BB;
