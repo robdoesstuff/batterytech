@@ -353,6 +353,7 @@ typename StrHashTable<V>::Bucket* StrHashTable<V>::findBucket(const char* key, b
 			}
 			return bucket;
 		}
+		lastBucket = bucket;
 		bucket = bucket->next;
 	}
 	return NULL;
