@@ -52,7 +52,7 @@ namespace BatteryTech {
 	void VideoManager::load(const char *assetName) {
 	#ifdef VM_USE_FFMPEG
 			ffmpegPlayer = new btFFMpegPlayer(context, assetName);
-	#else
+	#else  
 			char mAssetName[512];
 			_platform_get_modified_asset_name(mAssetName, assetName);
 			char buf[512];

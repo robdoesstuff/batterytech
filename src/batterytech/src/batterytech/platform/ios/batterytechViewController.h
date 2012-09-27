@@ -68,6 +68,8 @@
 - (void) hook:(const char*)hookData withResult:(char*) result withResultLen:(int) resultLen;
 - (bool) useGLES2;
 - (bool) forceLandscape;
+// Calls back into BatteryTech, waiting for an open slot.  Do not call this from the game thread or you may loop forever!
+- (void) callback:(const char*)data;
 @end
 
 #endif
