@@ -423,8 +423,14 @@ double getCurrentTime() {
 
 // Calls back into BatteryTech, waiting for an open slot.  Do not call this from the game thread or you may loop forever!
 - (void) callback:(const char*)data {
-    while (!btCallback(data)) {
-        usleep(100);
+    bool success = false;
+    while (!success) {
+        @synchronized(self.view) {
+            success = btCallback(data);
+        }
+        if (!success) {
+            usleep(100);
+        }
     }
 }
 
