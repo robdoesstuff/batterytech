@@ -230,6 +230,9 @@ void GameObject::contactPostSolve(b2Contact* contact, const b2ContactImpulse* im
 
 void GameObject::setPosition(Vector3f pos) {
 	this->pos = pos;
+#ifdef BATTERYTECH_INCLUDE_BOX2D
+	this->boxBody->SetTransform(b2Vec2(pos.x, pos.y), this->boxBody->GetAngle());
+#endif
 	if (this->lastPos == Vector3f(0,0,0)) {
 		this->lastPos = pos;
 	}
@@ -418,13 +421,11 @@ void GameObject::init() {
 			b2FixtureDef fixDef;
 			fixDef.shape = config->shape;
             fixDef.density = 1.0f;
-            /*
             fixDef.friction = config->friction;
-			fixDef.density = config->density;
-            fixDef.restitution = config->restitution;
-            fixDef.isSensor = config->isSensor;
-            fixDef.filter = config->filter;
-             */
+ 			fixDef.density = config->density;
+			fixDef.restitution = config->restitution;
+			fixDef.isSensor = config->isSensor;
+			fixDef.filter = config->filter;
             // TODO - fix up the other parameters and create extra bodies for each fixture
  			boxBody->CreateFixture(&fixDef);
 		}
@@ -493,6 +494,9 @@ void GameObject::update() {
 	}
 
 #ifdef BATTERYTECH_INCLUDE_BOX2D
+	b2Vec2 pos = boxBody->GetPosition();
+	this->pos.x = pos.x;
+	this->pos.y = pos.y;
 	if (callbackDetail != CALLBACK_DETAIL_NONE) {
 		for (S32 i = 0; i < contactsUsed; i++) {
 			PhysicsContact2D *pc = contacts->array[i];

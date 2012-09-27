@@ -65,6 +65,7 @@ struct PhysicsModelConfig {
         friction = 0.2f;
         restitution = 0;
         density = 1.0f;
+        isSensor = FALSE;
  		filter.categoryBits = 0x0001;
 		filter.maskBits = 0xFFFF;
 		filter.groupIndex = 0;

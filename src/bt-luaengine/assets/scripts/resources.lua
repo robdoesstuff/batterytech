@@ -17,6 +17,8 @@ addTexture("textures/play_panel_bg.png")
 addTexture("textures/particle.png")
 addTexture("ui/button1_tex.png")
 addTexture("ui/button1_pressed_tex.png")
+addTexture("textures/circle.png")
+addTexture("textures/rectangle.png")
 addAssimp("models/box.obj")
 
 

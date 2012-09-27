@@ -8,6 +8,7 @@ Circle = table.copy(GameObject)
 function Circle.new(x, y, radius)
 	local self = allocMeta(Circle.createInstance(), Circle)
 	self.objType = "Circle"
+	self.radius = radius
 	self:physics_allocConfigs(1)
 	self:physics_createCircleShape(0, radius)
     self:physics_setBodyTransform(0, x, y, 0)
@@ -23,14 +24,17 @@ end
 
 function Circle:update(delta)
     local c = self:countPhysicsContacts()
-	logmsg("(Circle) " .. c .. " contacts")
+	-- logmsg("(Circle) " .. c .. " contacts")
 	for i = 0, c-1 do
-		local other, pointCount, x1,y1, x2,y2, isTouching, isActive = self:getPhysicsContact(i)
-		logmsg("(Circle) contact is " .. other.objType .. " " .. pointCount .. " " .. x1 .. "," .. y1)
+		-- local other, pointCount, x1,y1, x2,y2, isTouching, isActive = self:getPhysicsContact(i)
+		-- logmsg("(Circle) contact is " .. other.objType .. " " .. pointCount .. " " .. x1 .. "," .. y1)
 	end
 end
 
 function Circle:render()
+	local x,y,angle = self:getTransform()
+	-- logmsg("Circle render: " .. x .. " " .. y)
+	game:render2D("textures/circle.png", x,y, self.radius * 2, self.radius * 2, angle)
 end
 
 function Circle:onCollisionStarted(other, force, velocity)
@@ -43,9 +47,9 @@ end
 
 function Circle:onCollisionUpdated(other, force, velocity)
 	if force then
-    	logmsg("(Circle) onCollisionUpdated - " .. other.objType .. " " .. force .. " " .. velocity)
+    	-- logmsg("(Circle) onCollisionUpdated - " .. other.objType .. " " .. force .. " " .. velocity)
     else
-    	logmsg("(Circle) onCollisionUpdated - " .. other.objType)
+    	-- logmsg("(Circle) onCollisionUpdated - " .. other.objType)
     end
 end
 
@@ -58,6 +62,8 @@ Box = table.copy(GameObject)
 function Box.new(x, y, width, height, isStatic)
 	local self = allocMeta(Box.createInstance(), Box)
 	self.objType = "Box"
+	self.width = width
+	self.height = height
 	self:physics_allocConfigs(1)
 	self:physics_createPolygonShape(0, -width/2, -height/2, width/2, -height/2, width/2, height/2, -width/2, height/2)
     self:physics_setBodyTransform(0, x, y, 0)
@@ -71,6 +77,9 @@ function Box.new(x, y, width, height, isStatic)
 end
 
 function Box:render()
+	local x,y,angle = self:getTransform()
+	-- logmsg("Circle render: " .. x .. " " .. y)
+	game:render2D("textures/rectangle.png", x,y, self.width, self.height, angle)
 end
 
 PhysicsTests = {}
@@ -109,8 +118,10 @@ function PhysicsTests:setupUI()
         self.debugPhysics = not self.debugPhysics
         if self.debugPhysics then
             button.label = "Debug: on"
+			game:setPhysicsDrawDebug(true, 0, PHYS_WORLD_WIDTH, PHYS_WORLD_HEIGHT, 0, -1, 1)
         else
             button.label = "Debug: off"
+			game:setPhysicsDrawDebug(false)
         end
 	end
 	table.insert(self.buttons, button)
@@ -118,7 +129,6 @@ end
 
 function PhysicsTests:setupScene()
 	game:createPhysicsWorld()
-	game:setPhysicsDrawDebug(true, 0, PHYS_WORLD_WIDTH, PHYS_WORLD_HEIGHT, 0, -1, 1)
 	table.insert(self.objects, Circle.new(30, 80, 5))
 	local c = Circle.new(35, 70, 5)
 	c:setPhysicsCallbackDetail(2)
@@ -166,6 +176,11 @@ function PhysicsTests:render()
 	for i,v in ipairs(self.buttons) do
 		v:render()
 	end
+	game:start2DProjection(0, PHYS_WORLD_WIDTH, PHYS_WORLD_HEIGHT, 0, -1, 1)
+	for i,v in ipairs(self.objects) do
+		v:render()
+	end
+	game:end2DProjection()
 	-- local idx = game:renderText2D("test", "Test... gpBMFont-Render!^", 400, 400)
 	-- local idx = game:renderText2D("test2", "Test... gpBMFont-Render!^", 400, 400)
  	-- local idx = game:renderText2D("ui", "Test... gpBMFont-Render!^", 400, 400)

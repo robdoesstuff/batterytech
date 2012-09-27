@@ -550,7 +550,12 @@ void WorldRenderer::render2D() {
                 }
 			}
 		} else if (item->renderType == RenderItem::RENDERTYPE_2DPROJ) {
-            Matrix4f *m = &item->mat;
+			if (curTextRenderer) {
+				curTextRenderer->finishText();
+				curTextRenderer = NULL;
+			}
+		    spriteRenderer->endBatch();
+		    Matrix4f *m = &item->mat;
             context->renderContext->projMatrix.identity();
             context->renderContext->projMatrix.ortho(m->data[0], m->data[1], m->data[2], m->data[3], m->data[4], m->data[5]);
         }

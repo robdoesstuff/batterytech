@@ -106,6 +106,9 @@ static int lua_GameObject_physics_setBodyType(lua_State *L);
 static int lua_GameObject_setPhysicsCallbackDetail(lua_State *L);
 static int lua_GameObject_countPhysicsContacts(lua_State *L);
 static int lua_GameObject_getPhysicsContact(lua_State *L);
+static int lua_GameObject_setTransform(lua_State *L);
+static int lua_GameObject_getTransform(lua_State *L);
+
 #endif
 
 static const luaL_reg lua_methods[] = {
@@ -176,6 +179,8 @@ static const luaL_reg lua_methods[] = {
     { "setPhysicsCallbackDetail", lua_GameObject_setPhysicsCallbackDetail },
     { "countPhysicsContacts", lua_GameObject_countPhysicsContacts },
     { "getPhysicsContact", lua_GameObject_getPhysicsContact },
+	{ "setTransform", lua_GameObject_setTransform },
+	{ "getTransform", lua_GameObject_getTransform },
 #endif
 
 	{ 0, 0 } };
@@ -1463,6 +1468,27 @@ static int lua_GameObject_getPhysicsContact(lua_State *L) {
     lua_pushboolean(L, pc->isTouching);
     lua_pushboolean(L, pc->isActive);
     return 8;
+}
+
+static int lua_GameObject_setTransform(lua_State *L) {
+	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
+	F32 x = lua_tonumber(L, 2);
+	F32 y = lua_tonumber(L, 3);
+	F32 z = 0;
+	o->setPosition(Vector3f(x,y,z));
+	if (lua_isnumber(L, 4)) {
+		o->boxBody->SetTransform(b2Vec2(x,y), lua_tonumber(L,4));
+	}
+	return 0;
+}
+
+static int lua_GameObject_getTransform(lua_State *L) {
+	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
+	Vector3f pos = o->getPosition();
+	lua_pushnumber(L, pos.x);
+	lua_pushnumber(L, pos.y);
+	lua_pushnumber(L, o->boxBody->GetAngle());
+	return 3;
 }
 
 #endif
