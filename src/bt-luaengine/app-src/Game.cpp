@@ -216,6 +216,8 @@ void Game::updateState() {
 	U8 gameState = getWorld()->gameState;
 	if (getWorld()->lastGameState != gameState) {
 		stateChanged = TRUE;
+		// reset the tickDelta to 0 to avoid bad timings in first update after load
+		btClearTickDeltas();
 	}
 	if (gameState == GAMESTATE_READY && stateChanged) {
 		World *world = getWorld();
@@ -238,8 +240,6 @@ void Game::updateState() {
 		}
 		if (getWorld()->renderersReady) {
 			getWorld()->gameState = getWorld()->nextGameState;
-			// reset the tickDelta to 0 to avoid bad timings in first update after load
-			btClearTickDeltas();
 		}
 	}
 	if (stateChanged) {

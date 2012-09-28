@@ -374,15 +374,15 @@ namespace BatteryTech {
 	void PCMAudioManager::fillStreamingBuffer(PCMStream *stream, U16 bufNum) {
 		BOOL32 done = FALSE;
 		U32 audioBufPos = 0;
-		//char cBuf[50];
-		//sprintf(cBuf, "Filling bufNum %d", bufNum);
-		//logmsg(cBuf);
+		// char cBuf[50];
+		// sprintf(cBuf, "Filling bufNum %d", bufNum);
+		// logmsg(cBuf);
 		// U32 startingFilePos = stream->filePosition;
 		while (!done) {
 			// read data
 			unsigned char buf[CHUNKED_READ_BUFFER_SIZE];
-			//sprintf(cBuf, "Reading at %d", stream->filePosition);
-			//logmsg(cBuf);
+			// sprintf(cBuf, "Reading at %d", stream->filePosition);
+			// logmsg(cBuf);
 			BOOL32 eof = FALSE;
 			S32 bytesRead = _platform_read_asset_chunk(stream->assetName, stream->filePosition, buf, CHUNKED_READ_BUFFER_SIZE, &eof);
             if (bytesRead == 0) {
@@ -391,16 +391,10 @@ namespace BatteryTech {
                 stream->isPlaying = FALSE;
                 return;
             }
-			S32 eofByte = 0;
-			if (eof) {
-				eofByte = bytesRead;
-				if (bytesRead < CHUNKED_READ_BUFFER_SIZE) {
-					eof = FALSE;
-					//sprintf(cBuf, "Reading at 0");
-					//logmsg(cBuf);
-					bytesRead += _platform_read_asset_chunk(stream->assetName, 0, buf + bytesRead, CHUNKED_READ_BUFFER_SIZE - bytesRead, &eof);
-				}
-			}
+            if (stream->filePosition == 0) {
+            	// starting loop over, must flush or some audio files get stuck
+            	stb_vorbis_flush_pushdata((stb_vorbis*) stream->audioHandle);
+            }
 			S32 bytesConsumed = 0;
 			// fill up audio buffer
 			F32 **audioBuf;
@@ -412,8 +406,10 @@ namespace BatteryTech {
 				S32 dBytesConsumed = stb_vorbis_decode_frame_pushdata((stb_vorbis*) stream->audioHandle, buf + bytesConsumed, bytesRead - bytesConsumed, &channelsUsed, &audioBuf, &samplesDecoded);
 				if (dBytesConsumed < 0) {
 					logmsg("vorbis decoder error");
+					hasMoreData = FALSE;
 				} else if (dBytesConsumed == 0 && samplesDecoded == 0) {
 					hasMoreData = FALSE;
+					// logmsg("no bytes consumed or samples decoded");
 				} else if (samplesDecoded) {
 					bytesConsumed += dBytesConsumed;
 					// convert to interleaved short
@@ -445,21 +441,18 @@ namespace BatteryTech {
 					if (!stream->length) {
 						stream->tempLength += samplesDecoded * channelsUsed;
 					}
-					if (eofByte && bytesConsumed >= eofByte) {
-						eofByte = 0;
-						if (!stream->length) {
-							stream->length = stream->tempLength;
-							stream->tempLength = 0;
-						}
-					}
 					audioBufPos += samplesDecoded * channelsUsed;
 				} else {
 					bytesConsumed += dBytesConsumed;
 				}
 			}
 			stream->audioBufLimit[bufNum] = audioBufPos;
-			stream->filePosition += bytesConsumed;
-			stream->filePosition %= stream->assetLength;
+			if (eof) {
+				stream->filePosition = 0;
+			} else {
+				stream->filePosition += bytesConsumed;
+				stream->filePosition %= stream->assetLength;
+			}
 			stream->audioBufEmpty[bufNum] = FALSE;
 			if (hasMoreData) {
 				// buffer is full
