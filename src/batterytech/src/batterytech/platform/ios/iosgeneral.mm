@@ -21,6 +21,7 @@
 #if TARGET_OS_IPHONE
 
 #include "../platformgeneral.h"
+#import "../../batterytech.h"
 #include "batterytechKeyboardDelegate.h"
 #include <stdlib.h>
 #include <Foundation/Foundation.h>
@@ -43,8 +44,8 @@
 using namespace BatteryTech;
 
 AudioManager *_iosSndMgr;
-UITextView *myTextView;
-batterytechKeyboardDelegate *kbDelegate;
+@class btInputView;
+btInputView *myTextView;
 extern batterytechViewController *btViewController;
 
 static const char* getFilePathForAsset(const char *assetName) {
@@ -265,16 +266,42 @@ void _platform_sound_set_rate(S32 streamId, F32 rate){}
 S32 _platform_play_streaming_sound(const char *assetName, S16 loops, F32 leftVol, F32 rightVol, F32 rate){ return 0; }
 void _platform_stop_streaming_sound(const char *assetName){}
 
+@interface btInputView : UIView<UIKeyInput>
+@end
+
+@implementation btInputView
+
+-(BOOL)canBecomeFirstResponder {
+    return TRUE;
+}
+-(void)deleteBackward {
+    @synchronized([self superview]) {
+        NSLog(@"backspace pressed");
+        btKeyPressed(8, BatteryTech::SKEY_NULL);
+    }
+}
+
+-(BOOL)hasText {
+    return TRUE;
+}
+
+-(void)insertText:(NSString *)text {
+    @synchronized([self superview]) {
+        NSLog(@"%@ key pressed", text);
+        btKeyPressed([text characterAtIndex:0], BatteryTech::SKEY_NULL);
+    }
+}
+
+@end
+
+
 void _platform_show_keyboard() {
     dispatch_async( dispatch_get_main_queue(), ^{
         NSLog(@"Showing keyboard");
         extern UIView *batterytechRootView;
         // create hidden textview and set as first responder
-        myTextView = [[UITextView alloc] init];
+        myTextView = [[btInputView alloc] initWithFrame:CGRectMake(0, 0,1,1)];
         [batterytechRootView addSubview:myTextView];
-        [myTextView setFrame:CGRectMake(0, 0,1,1)];
-        kbDelegate = [[batterytechKeyboardDelegate alloc] init];
-        myTextView.delegate = kbDelegate;
         [myTextView becomeFirstResponder];
     });
 }
@@ -289,10 +316,6 @@ void _platform_hide_keyboard() {
             [myTextView removeFromSuperview]; 
             [myTextView release];
             myTextView = NULL;
-        }
-        if (kbDelegate) {
-            [kbDelegate release];
-            kbDelegate = NULL;
         }
         if (FALSE) {
             // uncomment this if you need failsafe keyboard removal
