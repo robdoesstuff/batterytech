@@ -276,12 +276,12 @@ double getCurrentTime() {
 }
 
 -(BOOL)shouldAutorotate {
-    if ([self forceLandscape])
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad && [self forceLandscape])
         return NO;
     return YES;
 }
 -(NSUInteger)supportedInterfaceOrientations {
-    if ([self forceLandscape])
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad && [self forceLandscape])
         return UIInterfaceOrientationLandscapeRight;
     return UIInterfaceOrientationMaskAll;
 }
