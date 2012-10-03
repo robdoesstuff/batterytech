@@ -120,6 +120,8 @@ double getCurrentTime() {
 	sprintf(buf, "OpenGL Version [%s]", version);
 	logmsg(buf);
 	
+    [self.view setTransform:CGAffineTransformMakeRotation(M_PI / 2)];
+    
 	gConfig->supportsHWmipmapgen = TRUE;
 	gConfig->supportsVBOs = TRUE;
 	gConfig->supportsUVTransform = TRUE;
@@ -273,6 +275,16 @@ double getCurrentTime() {
     NSLog(@"Received memory warning!");
 }
 
+-(BOOL)shouldAutorotate {
+    if ([self forceLandscape])
+        return NO;
+    return YES;
+}
+-(NSUInteger)supportedInterfaceOrientations {
+    if ([self forceLandscape])
+        return UIInterfaceOrientationLandscapeRight;
+    return UIInterfaceOrientationMaskAll;
+}
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
 {
     if (toInterfaceOrientation == UIInterfaceOrientationLandscapeRight && [self forceLandscape]) {
