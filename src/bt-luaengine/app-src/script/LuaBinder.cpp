@@ -1227,6 +1227,7 @@ static int lua_playVibrationEffect(lua_State *L) {
 		intensity = lua_tonumber(L, 2);
 	}
 	static_context->vibrationManager->playEffect(effectId, intensity);
+    return 0;
 }
 
 static int lua_startVibrationEffect(lua_State *L) {
@@ -1236,15 +1237,18 @@ static int lua_startVibrationEffect(lua_State *L) {
 		intensity = lua_tonumber(L, 2);
 	}
 	static_context->vibrationManager->startEffect(effectId, intensity);
+    return 0;
 }
 
 static int lua_stopVibrationEffect(lua_State *L) {
 	S32 effectId = lua_tointeger(L, 1);
 	static_context->vibrationManager->stopEffect(effectId);
+    return 0;
 }
 
 static int lua_stopAllVibrationEffects(lua_State *L) {
 	static_context->vibrationManager->stopAllEffects();
+    return 0;
 }
 
 Vector2f lua_toVector2f(lua_State *L, S32 startIdx) {
