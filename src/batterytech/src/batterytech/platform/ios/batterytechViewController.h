@@ -61,6 +61,8 @@
 
 - (void)startAnimation;
 - (void)stopAnimation;
+- (void)pauseBTApplication;
+- (void)resumeBTApplication;
 - (void)runMainLoop;
 - (void)drawFrame;
 // now for hooks and customizations

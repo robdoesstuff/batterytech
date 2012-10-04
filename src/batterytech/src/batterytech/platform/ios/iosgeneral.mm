@@ -218,11 +218,12 @@ BOOL32 _platform_path_create(const char* path) {
 }
 
 void _platform_play_vibration_effect(S32 effectId, F32 intensity) {
-	AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+    if (effectId == 0) {
+        AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+    }
 }
 
 void _platform_start_vibration_effect(S32 effectId, F32 intensity) {
-	AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
 }
 
 void _platform_stop_vibration_effect(S32 effectId) {

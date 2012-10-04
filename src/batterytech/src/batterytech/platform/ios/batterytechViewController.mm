@@ -168,7 +168,6 @@ double getCurrentTime() {
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-     NSLog(@"viewWillAppear");
     [super viewWillAppear:animated];
 }
 
@@ -180,12 +179,9 @@ double getCurrentTime() {
         NSLog(@"batterytechViewController is first responder.");
     }
     [self startAnimation];
-	btResume();
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
-    //NSLog(@"viewWillDisappear");
-	btSuspend();
     [self stopAnimation];
     [super viewWillDisappear:animated];
 }
@@ -219,6 +215,19 @@ double getCurrentTime() {
             [self stopAnimation];
             [self startAnimation];
         }
+    }
+}
+
+// Suspend and Resume are controlled by the main app delegate, the animation start/stop happens more frequently
+- (void)pauseBTApplication {
+    @synchronized(self.view) {
+        btSuspend();
+    }
+}
+
+- (void)resumeBTApplication {
+    @synchronized(self.view) {
+        btResume();
     }
 }
 

@@ -31,11 +31,13 @@
 {
     //NSLog(@"applicationWillResignActive");
     [viewController stopAnimation];
+    [viewController pauseBTApplication];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
      //NSLog(@"applicationDidBecomeActive");
+    [viewController resumeBTApplication];
     [viewController startAnimation];
 }
 
