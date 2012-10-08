@@ -360,8 +360,22 @@ void WorldRenderer::renderLoadingScreen() {
 	//sprintf(buf, "Loading textureID = %d, gConfig dimensions=%d, %d", loadingTex->textureId, gConfig->width, gConfig->height);
 	//logmsg(buf);
 	//render loading image centered scaled up from 512x256
+	// default scale mode is uiScale
 	F32 loadWidth = this->loadingSize.x * gConfig->uiScale;
 	F32 loadHeight = this->loadingSize.y * gConfig->uiScale;
+	Property *prop = context->appProperties->get("loading_scale_mode");
+	if (prop) {
+		if (strEquals(prop->getValue(), "scaleAspectX")) {
+			loadWidth = this->loadingSize.x * gConfig->scaleX2d;
+			loadHeight = this->loadingSize.y * gConfig->scaleX2d;
+		} else if (strEquals(prop->getValue(), "scaleAspectY")) {
+			loadWidth = this->loadingSize.x * gConfig->scaleY2d;
+			loadHeight = this->loadingSize.y * gConfig->scaleY2d;
+		} else if (strEquals(prop->getValue(), "scaleXY")) {
+			loadWidth = this->loadingSize.x * gConfig->scaleX2d;
+			loadHeight = this->loadingSize.y * gConfig->scaleY2d;
+		}
+	}
 	context->quadRenderer->render(loadingTex, gConfig->height/2 - loadHeight/2, gConfig->width/2 + loadWidth/2, gConfig->height/2 + loadHeight/2, gConfig->width/2 - loadWidth/2);
    	checkGLError("WorldRenderer After loading render");
 }
