@@ -11,12 +11,31 @@
 #include "script/LuaBinder.h"
 #include <batterytech/primitives.h>
 #include <batterytech/Logger.h>
+#ifdef BATTERYTECH_INCLUDE_BOX2D
+#include <bt-box2d/Dynamics/b2Fixture.h>
+#include <bt-box2d/Dynamics/b2Body.h>
+#include <bt-box2d/Dynamics/b2WorldCallbacks.h>
+#include "PhysicsBodyObject.h"
+#endif
 
 class Game;
 class GameObject;
 class GameContext;
 
 using namespace BatteryTech;
+
+#ifdef BATTERYTECH_INCLUDE_BOX2D
+class LuaBinderQueryCallback : public b2QueryCallback {
+public:
+	LuaBinderQueryCallback(lua_State *L) {
+		this->L = L;
+		returnCount = 0;
+	}
+    bool ReportFixture(b2Fixture* fixture);
+    lua_State *L;
+    S32 returnCount;
+};
+#endif
 
 struct GameEditorObject {
 	char *name;

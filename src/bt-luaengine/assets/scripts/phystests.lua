@@ -3,6 +3,11 @@
 PHYS_WORLD_WIDTH = 160
 PHYS_WORLD_HEIGHT = 100
 
+function unprojectScreenToWorld(x,y)
+	vpw, vph = getViewportSize()
+	return x * (PHYS_WORLD_WIDTH / vpw), y * (PHYS_WORLD_HEIGHT / vph)
+end
+
 Circle = table.copy(GameObject)
 
 function Circle.new(x, y, radius)
@@ -39,9 +44,9 @@ function Circle:render()
 	local x,y,angle = self:getTransform(0)
 	-- logmsg("Circle render: " .. x .. " " .. y)
 	game:render2D("textures/circle.png", x,y, self.radius * 2, self.radius * 2, angle)
-	local x,y,angle = self:getTransform(1)
+	-- local x,y,angle = self:getTransform(1)
 	-- logmsg("Circle render: " .. x .. " " .. y)
-	game:render2D("textures/circle.png", x,y, self.radius * 2, self.radius * 2, angle)
+	-- game:render2D("textures/circle.png", x,y, self.radius * 2, self.radius * 2, angle)
 end
 
 function Circle:onCollisionStarted(other, force, velocity)
@@ -173,7 +178,14 @@ function PhysicsTests:update(tickDelta)
     self:updateTestsState(tickDelta)
     self.wasInput = (getPointerState(0) or getKeyState(0))
     -- Query for anything under cursor
-    
+    local isDown, x,y = getPointerState(0)
+    local wx, wy = unprojectScreenToWorld(x,y)
+    local obj1, obj2 = game:queryPhysicsAABB(wx-1,wy-1, wx+1,wy+1)
+    if obj1 then
+    	logmsg("Clicked on " .. obj1.objType)
+    	local objX, objY = obj1:getTransform()
+    	obj1:applyForce(500,0, objX + 500, objY)
+    end
 end
 
 function PhysicsTests:updateTestsState(tickDelta)

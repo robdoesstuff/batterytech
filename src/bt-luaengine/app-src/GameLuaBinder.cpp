@@ -514,7 +514,20 @@ static int lua_Game_setPhysicsDrawDebug(lua_State *L) {
 
 static int lua_Game_queryPhysicsAABB(lua_State *L) {
 	// Game *game = *(Game**)lua_touserdata(L, 1);
-
+	if (!static_context->world->boxWorld) {
+		return 0;
+	}
+	F32 x1,y1,x2,y2;
+	x1 = lua_tonumber(L, 2);
+	y1 = lua_tonumber(L, 3);
+	x2 = lua_tonumber(L, 4);
+	y2 = lua_tonumber(L, 5);
+	LuaBinderQueryCallback callback(L);
+	b2AABB aabb;
+	aabb.lowerBound.Set(x1, y1);
+	aabb.upperBound.Set(x2, y2);
+	static_context->world->boxWorld->QueryAABB(&callback, aabb);
+	return callback.returnCount;
 }
 
 // Game:addScreenControl(name, label, textureAssetName, u1,v1,u2,v2, x1,y1,x2,y2, x3,y3,x4,y4, isInteractive)
@@ -1718,3 +1731,19 @@ static int lua_Game_tostring (lua_State *L) {
   lua_pushfstring(L, "Game: %p", *(Game**)lua_touserdata(L, 1));
   return 1;
 }
+
+// ---------------- callbacks for box2d -----------------
+
+#ifdef BATTERYTECH_INCLUDE_BOX2D
+	bool LuaBinderQueryCallback::ReportFixture(b2Fixture* fixture) {
+		b2Body* body = fixture->GetBody();
+		PhysicsBodyObject *o1 = (PhysicsBodyObject*) body->GetUserData();
+		if (o1->bodyType == PHYSICS_BODY_TYPE_GAMEOBJECT) {
+			GameObject *go = (GameObject*) o1;
+			lua_rawgeti(L, LUA_REGISTRYINDEX, go->luaBinder->luaRef);
+			returnCount++;
+		}
+		// Return true to continue the query.
+		return true;
+	}
+#endif

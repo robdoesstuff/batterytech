@@ -419,20 +419,24 @@ void Game::PostSolve(b2Contact* contact, const b2ContactImpulse* impulse) {
 }
 
 void Game::SayGoodbye(b2Joint* joint) {
+	/*
 	if (context->world) {
 		World *world = context->world;
 		for (S32 i = 0; i < world->gameObjects->getSize(); i++) {
 			world->gameObjects->array[i]->SayGoodbye(joint);
 		}
 	}
+	*/
 }
 
 void Game::SayGoodbye(b2Fixture* fixture) {
+	/*
 	if (context->world) {
 		World *world = context->world;
 		for (S32 i = 0; i < world->gameObjects->getSize(); i++) {
 			world->gameObjects->array[i]->SayGoodbye(fixture);
 		}
 	}
+	*/
 }
 #endif

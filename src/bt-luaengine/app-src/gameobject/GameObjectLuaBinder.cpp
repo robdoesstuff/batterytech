@@ -103,11 +103,19 @@ static int lua_GameObject_physics_setBodyFixedRotation(lua_State *L);
 static int lua_GameObject_physics_setBodyBullet(lua_State *L);
 static int lua_GameObject_physics_setBodyActive(lua_State *L);
 static int lua_GameObject_physics_setBodyType(lua_State *L);
+static int lua_GameObject_physics_setFixtureDensity(lua_State *L);
+static int lua_GameObject_physics_setFixtureFriction(lua_State *L);
+static int lua_GameObject_physics_setFixtureRestitution(lua_State *L);
 static int lua_GameObject_setPhysicsCallbackDetail(lua_State *L);
 static int lua_GameObject_countPhysicsContacts(lua_State *L);
 static int lua_GameObject_getPhysicsContact(lua_State *L);
 static int lua_GameObject_setTransform(lua_State *L);
+static int lua_GameObject_setTransformByIdx(lua_State *L);
 static int lua_GameObject_getTransform(lua_State *L);
+static int lua_GameObject_applyForce(lua_State *L);
+static int lua_GameObject_applyTorque(lua_State *L);
+static int lua_GameObject_applyLinearImpulse(lua_State *L);
+static int lua_GameObject_applyAngularImpulse(lua_State *L);
 
 #endif
 
@@ -176,11 +184,19 @@ static const luaL_reg lua_methods[] = {
     { "physics_setBodyBullet", lua_GameObject_physics_setBodyBullet },
     { "physics_setBodyActivee", lua_GameObject_physics_setBodyActive },
     { "physics_setBodyType", lua_GameObject_physics_setBodyType },
+    { "physics_setFixtureDensity", lua_GameObject_physics_setFixtureDensity },
+    { "physics_setFixtureFriction", lua_GameObject_physics_setFixtureFriction },
+    { "physics_setFixtureRestitution", lua_GameObject_physics_setFixtureRestitution },
     { "setPhysicsCallbackDetail", lua_GameObject_setPhysicsCallbackDetail },
     { "countPhysicsContacts", lua_GameObject_countPhysicsContacts },
     { "getPhysicsContact", lua_GameObject_getPhysicsContact },
 	{ "setTransform", lua_GameObject_setTransform },
+	{ "setTransformByIdx", lua_GameObject_setTransformByIdx },
 	{ "getTransform", lua_GameObject_getTransform },
+	{ "applyForce", lua_GameObject_applyForce },
+	{ "applyTorque", lua_GameObject_applyTorque },
+	{ "applyLinearImpulse", lua_GameObject_applyLinearImpulse },
+	{ "applyAngularImpulse", lua_GameObject_applyAngularImpulse },
 #endif
 
 	{ 0, 0 } };
@@ -1482,6 +1498,31 @@ static int lua_GameObject_setTransform(lua_State *L) {
 	return 0;
 }
 
+static int lua_GameObject_setTransformByIdx(lua_State *L) {
+	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
+	S32 idx = lua_tointeger(L, 2);
+	F32 x = lua_tonumber(L, 3);
+	F32 y = lua_tonumber(L, 4);
+	F32 z = 0;
+	b2Body *body = NULL;
+	if (idx == 0) {
+		body = o->boxBody;
+	} else {
+		if (o->extraBodies->getSize() >= idx) {
+			body = o->extraBodies->array[idx];
+		}
+	}
+	if (!body) {
+		return 0;
+	}
+	if (lua_isnumber(L, 5)) {
+		body->SetTransform(b2Vec2(x,y), lua_tonumber(L,5));
+	} else {
+		body->SetTransform(b2Vec2(x, y), body->GetAngle());
+	}
+	return 0;
+}
+
 static int lua_GameObject_getTransform(lua_State *L) {
 	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
 	S32 idx = 0;
@@ -1494,6 +1535,9 @@ static int lua_GameObject_getTransform(lua_State *L) {
 		lua_pushnumber(L, pos.y);
 		lua_pushnumber(L, o->boxBody->GetAngle());
 	} else {
+		if (o->extraBodies->getSize() < idx) {
+			return 0;
+		}
 		b2Body *bod = o->extraBodies->array[idx-1];
 		b2Vec2 b2Pos = bod->GetPosition();
 		lua_pushnumber(L, b2Pos.x);
@@ -1501,6 +1545,104 @@ static int lua_GameObject_getTransform(lua_State *L) {
 		lua_pushnumber(L, bod->GetAngle());
 	}
 	return 3;
+}
+
+static int lua_GameObject_applyForce(lua_State *L) {
+	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
+	b2Body *bod = NULL;
+	S32 i = 2;
+	if (!lua_isnone(L, 6)) {
+		S32 idx = lua_tointeger(L, i++);
+		// has index
+		if (idx == 0) {
+			bod = o->boxBody;
+		} else {
+			if (o->extraBodies->getSize() < idx) {
+				return 0;
+			}
+			bod = o->extraBodies->array[idx-1];
+		}
+	} else {
+		bod = o->boxBody;
+	}
+	F32 forceX = lua_tonumber(L, i++);
+	F32 forceY = lua_tonumber(L, i++);
+	F32 pointX = lua_tonumber(L, i++);
+	F32 pointY = lua_tonumber(L, i++);
+	bod->ApplyForce(b2Vec2(forceX, forceY), b2Vec2(pointX, pointY));
+	return 0;
+}
+
+static int lua_GameObject_applyTorque(lua_State *L) {
+	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
+	b2Body *bod = NULL;
+	S32 i = 2;
+	if (!lua_isnone(L, 6)) {
+		S32 idx = lua_tointeger(L, i++);
+		// has index
+		if (idx == 0) {
+			bod = o->boxBody;
+		} else {
+			if (o->extraBodies->getSize() < idx) {
+				return 0;
+			}
+			bod = o->extraBodies->array[idx-1];
+		}
+	} else {
+		bod = o->boxBody;
+	}
+	F32 torque = lua_tonumber(L, i++);
+	bod->ApplyTorque(torque);
+	return 0;
+}
+
+static int lua_GameObject_applyLinearImpulse(lua_State *L) {
+	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
+	b2Body *bod = NULL;
+	S32 i = 2;
+	if (!lua_isnone(L, 6)) {
+		S32 idx = lua_tointeger(L, i++);
+		// has index
+		if (idx == 0) {
+			bod = o->boxBody;
+		} else {
+			if (o->extraBodies->getSize() < idx) {
+				return 0;
+			}
+			bod = o->extraBodies->array[idx-1];
+		}
+	} else {
+		bod = o->boxBody;
+	}
+	F32 forceX = lua_tonumber(L, i++);
+	F32 forceY = lua_tonumber(L, i++);
+	F32 pointX = lua_tonumber(L, i++);
+	F32 pointY = lua_tonumber(L, i++);
+	bod->ApplyLinearImpulse(b2Vec2(forceX, forceY), b2Vec2(pointX, pointY));
+	return 0;
+}
+
+static int lua_GameObject_applyAngularImpulse(lua_State *L) {
+	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
+	b2Body *bod = NULL;
+	S32 i = 2;
+	if (!lua_isnone(L, 6)) {
+		S32 idx = lua_tointeger(L, i++);
+		// has index
+		if (idx == 0) {
+			bod = o->boxBody;
+		} else {
+			if (o->extraBodies->getSize() < idx) {
+				return 0;
+			}
+			bod = o->extraBodies->array[idx-1];
+		}
+	} else {
+		bod = o->boxBody;
+	}
+	F32 torque = lua_tonumber(L, i++);
+	bod->ApplyAngularImpulse(torque);
+	return 0;
 }
 
 #endif
