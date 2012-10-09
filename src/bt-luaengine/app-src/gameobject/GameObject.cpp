@@ -33,6 +33,7 @@ GameObject::GameObject(GameContext *context) : PhysicsBodyObject(PHYSICS_BODY_TY
 	animators = NULL;
 #ifdef BATTERYTECH_INCLUDE_BOX2D
     boxBody = NULL;
+	extraBodies = new ManagedArray<b2Body>(GAMEOBJECT_MAX_EXTRA_BODIES);
 	physicsModelConfigs = NULL; 
     callbackDetail = CALLBACK_DETAIL_NONE;
     contacts = new ManagedArray<PhysicsContact2D>(GAMEOBJECT_MAX_CONTACTS);
@@ -79,6 +80,16 @@ GameObject::~GameObject() {
 	delete constraints;
 	constraints = NULL;
 	*/
+#ifdef BATTERYTECH_INCLUDE_BOX2D
+	destroyBody();
+	delete extraBodies;
+	extraBodies = NULL;
+	contacts->deleteElements();
+	delete contacts;
+	contacts = NULL;
+	delete contactObjects;
+	contactObjects = NULL;
+#endif
 	delete luaBinder;
 	luaBinder = NULL;
 	context = NULL;
@@ -87,13 +98,6 @@ GameObject::~GameObject() {
 		delete animators;
 	}
 	animators = NULL;
-#ifdef BATTERYTECH_INCLUDE_BOX2D
-	contacts->deleteElements();
-	delete contacts;
-	contacts = NULL;
-	delete contactObjects;
-	contactObjects = NULL;
-#endif
 }
 
 #ifdef BATTERYTECH_INCLUDE_BOX2D
@@ -416,8 +420,8 @@ void GameObject::init() {
 	if (physicsModelConfigs) {
 		for (S32 i = 0; i < physicsModelConfigs->getSize(); i++) {
 			PhysicsModelConfig *config = physicsModelConfigs->array[i];
-			boxBody = context->world->boxWorld->CreateBody(config->bodyDef);
-            boxBody->SetUserData(this);
+			b2Body *body = context->world->boxWorld->CreateBody(config->bodyDef);
+			body->SetUserData(this);
 			b2FixtureDef fixDef;
 			fixDef.shape = config->shape;
             fixDef.density = 1.0f;
@@ -426,8 +430,12 @@ void GameObject::init() {
 			fixDef.restitution = config->restitution;
 			fixDef.isSensor = config->isSensor;
 			fixDef.filter = config->filter;
-            // TODO - fix up the other parameters and create extra bodies for each fixture
- 			boxBody->CreateFixture(&fixDef);
+			body->CreateFixture(&fixDef);
+			if (i == 0) {
+				boxBody = body;
+			} else {
+				extraBodies->add(body);
+			}
 		}
 	}
 #endif
@@ -689,6 +697,11 @@ void GameObject::destroyBody() {
 		//logmsg("b2World->DestroyBody");
 		context->world->boxWorld->DestroyBody(boxBody);
 		boxBody = NULL;
+		if (extraBodies) {
+			for (S32 i = 0; i < extraBodies->getSize(); i++) {
+				context->world->boxWorld->DestroyBody(extraBodies->array[i]);
+			}
+		}
 	}
 #endif
 }

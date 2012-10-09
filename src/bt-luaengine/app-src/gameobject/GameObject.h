@@ -205,6 +205,7 @@ public:
 	virtual void SayGoodbye(b2Fixture* fixture){};
     // the primary box2d body of this gameobject (be careful messing with this - it may not be the main one!)
 	b2Body *boxBody;
+	ManagedArray<b2Body> *extraBodies;
     virtual F32 getLinearVelocity() { return 0.0f; };
 	ManagedArray<PhysicsModelConfig> *physicsModelConfigs;
 	ManagedArray<PhysicsConstraintConfig> *physicsConstraintConfigs;

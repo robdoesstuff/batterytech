@@ -1484,10 +1484,22 @@ static int lua_GameObject_setTransform(lua_State *L) {
 
 static int lua_GameObject_getTransform(lua_State *L) {
 	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
-	Vector3f pos = o->getPosition();
-	lua_pushnumber(L, pos.x);
-	lua_pushnumber(L, pos.y);
-	lua_pushnumber(L, o->boxBody->GetAngle());
+	S32 idx = 0;
+	if (lua_isnumber(L, 2)) {
+		idx = lua_tointeger(L, 2);
+	}
+	if (idx == 0) {
+		Vector3f pos = o->getPosition();
+		lua_pushnumber(L, pos.x);
+		lua_pushnumber(L, pos.y);
+		lua_pushnumber(L, o->boxBody->GetAngle());
+	} else {
+		b2Body *bod = o->extraBodies->array[idx-1];
+		b2Vec2 b2Pos = bod->GetPosition();
+		lua_pushnumber(L, b2Pos.x);
+		lua_pushnumber(L, b2Pos.y);
+		lua_pushnumber(L, bod->GetAngle());
+	}
 	return 3;
 }
 

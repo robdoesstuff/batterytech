@@ -46,6 +46,7 @@ static int lua_Game_destroyPhysicsWorld(lua_State *L);
 static int lua_Game_updatePhysics(lua_State *L);
 static int lua_Game_setPhysicsGravity(lua_State *L);
 static int lua_Game_setPhysicsDrawDebug(lua_State *L);
+static int lua_Game_queryPhysicsAABB(lua_State *L);
 static int lua_Game_updateScreenControl(lua_State *L);
 static int lua_Game_updateScreenControlTexture(lua_State *L);
 static int lua_Game_removeScreenControl(lua_State *L);
@@ -114,6 +115,7 @@ static const luaL_reg lua_methods[] = {
 	{ "updatePhysics", lua_Game_updatePhysics },
 	{ "setPhysicsGravity", lua_Game_setPhysicsGravity },
 	{ "setPhysicsDrawDebug", lua_Game_setPhysicsDrawDebug },
+	{ "queryPhysicsAABB", lua_Game_queryPhysicsAABB },
 	{ "addScreenControl", lua_Game_addScreenControl },
 	{ "updateScreenControl", lua_Game_updateScreenControl },
 	{ "updateScreenControlTexture", lua_Game_updateScreenControlTexture },
@@ -508,6 +510,11 @@ static int lua_Game_setPhysicsDrawDebug(lua_State *L) {
         static_context->world->physicsDrawDebugUsingProjection = FALSE;
     }
 	return 0;
+}
+
+static int lua_Game_queryPhysicsAABB(lua_State *L) {
+	// Game *game = *(Game**)lua_touserdata(L, 1);
+
 }
 
 // Game:addScreenControl(name, label, textureAssetName, u1,v1,u2,v2, x1,y1,x2,y2, x3,y3,x4,y4, isInteractive)

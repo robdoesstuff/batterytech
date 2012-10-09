@@ -5,6 +5,7 @@
 -- addDynamic(assetName)
 -- addFont(tag, assetName, size, inner stroke, outer stroke, r,g,b,a)
 
+setDefaultTextureParams("filter", "bilinear")
 
 addTexture("textures/smiley_tex.png")
 addTexture("textures/box_surface.jpg")

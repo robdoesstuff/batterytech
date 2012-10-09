@@ -17,6 +17,10 @@ function Circle.new(x, y, radius)
     else
         self:physics_setBodyType(0, 0)
     end
+    
+	-- self:physics_createCircleShape(1, radius)
+    -- self:physics_setBodyTransform(1, x+5, y, 0)
+   -- self:physics_setBodyType(1, 2)
 	self:cInit()
 --    self:setPhysicsCallbackDetail(2)	
 	return self
@@ -32,7 +36,10 @@ function Circle:update(delta)
 end
 
 function Circle:render()
-	local x,y,angle = self:getTransform()
+	local x,y,angle = self:getTransform(0)
+	-- logmsg("Circle render: " .. x .. " " .. y)
+	game:render2D("textures/circle.png", x,y, self.radius * 2, self.radius * 2, angle)
+	local x,y,angle = self:getTransform(1)
 	-- logmsg("Circle render: " .. x .. " " .. y)
 	game:render2D("textures/circle.png", x,y, self.radius * 2, self.radius * 2, angle)
 end
@@ -165,6 +172,8 @@ function PhysicsTests:update(tickDelta)
     end
     self:updateTestsState(tickDelta)
     self.wasInput = (getPointerState(0) or getKeyState(0))
+    -- Query for anything under cursor
+    
 end
 
 function PhysicsTests:updateTestsState(tickDelta)
