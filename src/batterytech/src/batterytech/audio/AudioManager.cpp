@@ -132,6 +132,7 @@ namespace BatteryTech {
 			_platform_get_modified_asset_name(mAssetName, assetName);
 			_platform_unload_sound(mAssetName);
 		} else {
+			pcmSoundMgr->stopSound(assetName);
 			pcmSoundMgr->unloadSound(assetName);
 		}
 	}
