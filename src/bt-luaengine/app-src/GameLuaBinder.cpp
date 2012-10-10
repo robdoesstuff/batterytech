@@ -514,6 +514,7 @@ static int lua_Game_setPhysicsDrawDebug(lua_State *L) {
 
 static int lua_Game_queryPhysicsAABB(lua_State *L) {
 	// Game *game = *(Game**)lua_touserdata(L, 1);
+#ifdef BATTERYTECH_INCLUDE_BOX2D
 	if (!static_context->world->boxWorld) {
 		return 0;
 	}
@@ -528,6 +529,9 @@ static int lua_Game_queryPhysicsAABB(lua_State *L) {
 	aabb.upperBound.Set(x2, y2);
 	static_context->world->boxWorld->QueryAABB(&callback, aabb);
 	return callback.returnCount;
+#else
+	return 0;
+#endif
 }
 
 // Game:addScreenControl(name, label, textureAssetName, u1,v1,u2,v2, x1,y1,x2,y2, x3,y3,x4,y4, isInteractive)
