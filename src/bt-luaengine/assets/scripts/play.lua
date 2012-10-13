@@ -138,6 +138,15 @@ function Play:setupLevel()
 end
 
 function Play:update(tickDelta)
+    if not self.jug then
+        self.jug = 1
+    else
+        self.jug = self.jug + 1
+        if self.jug == 3 then
+            removeSound("sounds/whoosh.ogg")
+            logmsg("removing whoosh")
+        end
+    end
 	for i,v in ipairs(self.buttons) do
 		v:update(tickDelta)
 	end
