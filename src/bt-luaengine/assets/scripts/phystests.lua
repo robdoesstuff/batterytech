@@ -154,7 +154,8 @@ function PhysicsTests:setupScene()
     local groundbox = Box.new(PHYS_WORLD_WIDTH/2, PHYS_WORLD_HEIGHT-2, PHYS_WORLD_WIDTH, 2, true)
     groundbox.objType = "Ground Box"
 	table.insert(self.objects, groundbox)
-    game:setPhysicsGravity(0, 10)   
+    game:setPhysicsGravity(0, 10)
+    -- local jointId = game:addDistanceJoint(c, 0, groundbox, 0, 35,70, PHYS_WORLD_WIDTH/2, PHYS_WORLD_HEIGHT-2)
 end
 
 function PhysicsTests:makeBox(x,y,color,twosided)

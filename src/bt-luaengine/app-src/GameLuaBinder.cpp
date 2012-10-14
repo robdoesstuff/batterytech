@@ -26,6 +26,11 @@
 #include "render/WorldRenderer.h"
 #include <batterytech/render/RenderContext.h>
 #include "gameobject/ParticleEmitter.h"
+#ifdef BATTERYTECH_INCLUDE_BOX2D
+#include <bt-box2d/Dynamics/Joints/b2DistanceJoint.h>
+#include <bt-box2d/Dynamics/Joints/b2MouseJoint.h>
+#include <bt-box2d/Dynamics/Joints/b2RevoluteJoint.h>
+#endif
 
 #define LUA_GAME "Game"
 #define LUA_GAME_MT "GameMetaTable"
@@ -105,6 +110,10 @@ static int lua_Game_setParticleInitialScale(lua_State *L);
 static int lua_Game_setParticleRotationSpeedRange(lua_State *L);
 static int lua_Game_setParticleGravity(lua_State *L);
 static int lua_Game_setParticleAutoStopMax(lua_State *L);
+#ifdef BATTERYTECH_INCLUDE_BOX2D
+static int lua_Game_addDistanceJoint(lua_State *L);
+static int lua_Game_removeJoint(lua_State *L);
+#endif
 
 static const luaL_reg lua_methods[] = {
 	{ "getInstance", lua_Game_getInstance },
@@ -177,6 +186,10 @@ static const luaL_reg lua_methods[] = {
     { "setParticleRotationSpeedRange", lua_Game_setParticleRotationSpeedRange },
     { "setParticleGravity", lua_Game_setParticleGravity },
     { "setParticleAutoStopMax", lua_Game_setParticleAutoStopMax },
+#ifdef BATTERYTECH_INCLUDE_BOX2D
+    { "addDistanceJoint", lua_Game_addDistanceJoint },
+    { "removeJoint", lua_Game_removeJoint },
+#endif
 	{ 0, 0 } };
 
 static const luaL_reg metatable[] = {
@@ -186,6 +199,10 @@ static const luaL_reg metatable[] = {
 };
 
 static void initRenderItemFunctions();
+
+#ifdef BATTERYTECH_INCLUDE_BOX2D
+static int nextJointID = 0;
+#endif
 
 GameLuaBinder::GameLuaBinder(lua_State *L, Game *game, GameContext *context) :
 	LuaBinder(L) {
@@ -1718,6 +1735,64 @@ static int lua_Game_setParticleAutoStopMax(lua_State *L) {
     }
 	return 0;
 }
+
+#ifdef BATTERYTECH_INCLUDE_BOX2D
+static b2Body* getBody(GameObject *obj, S32 idx) {
+    if (idx == 0) {
+        return obj->boxBody;
+    } else {
+        return obj->extraBodies->array[idx-1];
+    }
+}
+
+static int lua_Game_addDistanceJoint(lua_State *L) {
+    // param 1 is game
+    // param 2 is gameobject1, 3 is index1
+    // param 4 is gameobject2, 5 is index2
+    // params 6,7 are anchorA X,Y
+    // params 8,9 are anchorB X,Y
+    // param 10 (optional) is collideConnected
+    // param 11 (optional) is frequencyHz
+    // param 12 (optional) is dampingRatio
+    GameObject *objA = *(GameObject**)lua_touserdata(L, 2);
+    S32 idxA = lua_tointeger(L, 3);
+    GameObject *objB = *(GameObject**)lua_touserdata(L, 4);
+    S32 idxB = lua_tointeger(L, 5);
+    b2Body *myBodyA = getBody(objA, idxA);
+    b2Body *myBodyB = getBody(objB, idxB);
+    b2Vec2 worldAnchorOnBodyA = b2Vec2(lua_tonumber(L, 6), lua_tonumber(L, 7));
+    b2Vec2 worldAnchorOnBodyB = b2Vec2(lua_tonumber(L, 8), lua_tonumber(L, 9));
+    S32 jointID = nextJointID++;
+    b2DistanceJointDef jointDef;
+    jointDef.Initialize(myBodyA, myBodyB, worldAnchorOnBodyA, worldAnchorOnBodyB);
+    if (lua_isboolean(L, 10)) {
+        jointDef.collideConnected = lua_toboolean(L, 10);
+        if (lua_isnumber(L, 11)) {
+            jointDef.frequencyHz = lua_tonumber(L, 11);
+            if (lua_isnumber(L, 12)) {
+                jointDef.dampingRatio = lua_tonumber(L, 12);
+            }
+        }
+    }
+    b2Joint *joint = static_context->world->boxWorld->CreateJoint(&jointDef);
+    joint->SetUserData((void*)jointID);
+    static_context->world->boxJoints->put(jointID, joint);
+    lua_pushinteger(L, jointID);
+    return 1;
+}
+
+static int lua_Game_removeJoint(lua_State *L) {
+    // param 1 is game
+    // param 2 is joint ID
+    S32 jointID = lua_tointeger(L, 2);
+    b2Joint *joint = static_context->world->boxJoints->get(jointID);
+    if (joint) {
+        // no further operation is needed because the destroy operation will trigger a callback removing it from the hashtable
+        static_context->world->boxWorld->DestroyJoint(joint);
+    }
+    return 0;
+}
+#endif
 
 // --------------- metamethods ----------------
 

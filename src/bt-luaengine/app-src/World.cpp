@@ -25,6 +25,7 @@ World::World() {
 #endif
 #ifdef BATTERYTECH_INCLUDE_BOX2D
     boxWorld = NULL;
+    boxJoints = new HashTable<S32, b2Joint*>(MAX_JOINTS*1.3f);
 #endif
 	gameObjects = new ManagedArray<GameObject>(MAX_GAMEOBJECTS);
 	screenControls = new ManagedArray<ScreenControl>(MAX_SCREENCONTROLS);
@@ -64,6 +65,14 @@ World::~World() {
 #ifdef BATTERYTECH_INCLUDE_BULLET
 	delete btProfiler;
 	btProfiler = NULL;
+#endif
+#ifdef BATTERYTECH_INCLUDE_BOX2D
+    delete boxJoints;
+    boxJoints = NULL;
+    if (boxWorld) {
+		delete boxWorld;
+	}
+	boxWorld = NULL;
 #endif
 	delete camera;
 	camera = NULL;

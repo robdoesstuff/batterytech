@@ -36,6 +36,7 @@
 #ifdef BATTERYTECH_INCLUDE_BOX2D
 #include <bt-box2d/Dynamics/b2World.h>
 #include <bt-box2d/Dynamics/Contacts/b2Contact.h>
+#include <bt-box2d/Dynamics/Joints/b2Joint.h>
 #endif
 
 Context* btAppCreateContext(GraphicsConfiguration *graphicsConfig) {
@@ -419,14 +420,12 @@ void Game::PostSolve(b2Contact* contact, const b2ContactImpulse* impulse) {
 }
 
 void Game::SayGoodbye(b2Joint* joint) {
-	/*
 	if (context->world) {
 		World *world = context->world;
-		for (S32 i = 0; i < world->gameObjects->getSize(); i++) {
-			world->gameObjects->array[i]->SayGoodbye(joint);
-		}
+        // actually points to the value of the key held in the joints table
+        S32 jointId = (S32)(size_t)joint->GetUserData();
+        world->boxJoints->remove(jointId);
 	}
-	*/
 }
 
 void Game::SayGoodbye(b2Fixture* fixture) {

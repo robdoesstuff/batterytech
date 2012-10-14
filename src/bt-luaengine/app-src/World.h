@@ -45,6 +45,7 @@ public:
 #endif
 #ifdef BATTERYTECH_INCLUDE_BOX2D
     b2World *boxWorld;
+    HashTable<S32, b2Joint*> *boxJoints;
 #endif
 	BOOL32 wfMode;
 	Level *level;
