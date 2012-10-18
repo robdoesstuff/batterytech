@@ -142,10 +142,11 @@ end
 function PhysicsTests:setupScene()
 	game:createPhysicsWorld()
 	table.insert(self.objects, Circle.new(30, 80, 5))
-	local c = Circle.new(35, 70, 5)
+	local c = Circle.new(35, 30, 5)
+    local c2 = Circle.new(40, 80, 5)
 	c:setPhysicsCallbackDetail(2)
 	table.insert(self.objects, c)
-	table.insert(self.objects, Circle.new(40, 80, 5))
+	table.insert(self.objects, c2)
 	table.insert(self.objects, Box.new(20, 70, 5, 5))
 	table.insert(self.objects, Box.new(30, 70, 5, 5))
 	table.insert(self.objects, Box.new(40, 70, 5, 5))
@@ -155,7 +156,7 @@ function PhysicsTests:setupScene()
     groundbox.objType = "Ground Box"
 	table.insert(self.objects, groundbox)
     game:setPhysicsGravity(0, 10)
-    -- local jointId = game:addDistanceJoint(c, 0, groundbox, 0, 35,70, PHYS_WORLD_WIDTH/2, PHYS_WORLD_HEIGHT-2)
+    -- self.jointId = game:addDistanceJoint(c, 0, c2, 0, 35,30, 40, 80)
 end
 
 function PhysicsTests:makeBox(x,y,color,twosided)
@@ -202,10 +203,22 @@ function PhysicsTests:render()
 	for i,v in ipairs(self.objects) do
 		v:render()
 	end
+    -- local x1,y1, x2,y2 = game:getJointAnchorPoints(self.jointId)
+    -- self:renderLineObject("textures/rectangle.png", 1, x1,y1, x2,y2)
 	game:end2DProjection()
 	-- local idx = game:renderText2D("test", "Test... gpBMFont-Render!^", 400, 400)
 	-- local idx = game:renderText2D("test2", "Test... gpBMFont-Render!^", 400, 400)
  	-- local idx = game:renderText2D("ui", "Test... gpBMFont-Render!^", 400, 400)
     -- local idx = game:renderText2D("test2", "This Is\nMultiline\nText", 400, 400)
     -- game:setRenderItemParam(idx, "multiline", true)
+end
+
+function PhysicsTests:renderLineObject(texture, width, x1,y1, x2,y2)
+    local xd = x2-x1
+    local yd = y2-y1
+    local angle = math.atan(yd/xd)
+    local length = math.sqrt(xd*xd+yd*yd)
+    local centerX = x1+(xd)/2
+    local centerY = y1+(yd)/2
+    game:render2D(texture, centerX, centerY, length, width, angle)
 end

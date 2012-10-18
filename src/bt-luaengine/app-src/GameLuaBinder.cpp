@@ -113,6 +113,7 @@ static int lua_Game_setParticleAutoStopMax(lua_State *L);
 #ifdef BATTERYTECH_INCLUDE_BOX2D
 static int lua_Game_addDistanceJoint(lua_State *L);
 static int lua_Game_removeJoint(lua_State *L);
+static int lua_Game_getJointAnchorPoints(lua_State *L);
 #endif
 
 static const luaL_reg lua_methods[] = {
@@ -189,6 +190,7 @@ static const luaL_reg lua_methods[] = {
 #ifdef BATTERYTECH_INCLUDE_BOX2D
     { "addDistanceJoint", lua_Game_addDistanceJoint },
     { "removeJoint", lua_Game_removeJoint },
+    { "getJointAnchorPoints", lua_Game_getJointAnchorPoints },
 #endif
 	{ 0, 0 } };
 
@@ -1792,6 +1794,23 @@ static int lua_Game_removeJoint(lua_State *L) {
     }
     return 0;
 }
+
+static int lua_Game_getJointAnchorPoints(lua_State *L) {
+    // param 1 is game
+    // param 2 is joint ID
+    S32 jointID = lua_tointeger(L, 2);
+    b2Joint *joint = static_context->world->boxJoints->get(jointID);
+    if (joint) {
+        lua_pushnumber(L, joint->GetAnchorA().x);
+        lua_pushnumber(L, joint->GetAnchorA().y);
+        lua_pushnumber(L, joint->GetAnchorB().x);
+        lua_pushnumber(L, joint->GetAnchorB().y);
+        return 4;
+    }
+    return 0;
+}
+
+
 #endif
 
 // --------------- metamethods ----------------

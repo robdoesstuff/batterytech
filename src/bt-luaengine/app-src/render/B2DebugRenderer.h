@@ -33,6 +33,7 @@ private:
 	void renderCircleShape(b2Body *body, b2CircleShape *shape);
 	void renderOrientationLine(b2Body *body);
 	void renderLine(F32 x, F32 y, F32 angle, F32 length);
+    void renderLine2(F32 x1, F32 y1, F32 x2, F32 y2);
 	void renderDrawLines(ManagedArray<Vector2f> *points);
 	GameContext *context;
 };

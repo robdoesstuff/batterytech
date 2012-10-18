@@ -16,6 +16,8 @@
 #include <bt-box2d/Dynamics/b2World.h>
 #include <bt-box2d/Dynamics/b2Fixture.h>
 #include <bt-box2d/Collision/Shapes/b2Shape.h>
+#include <bt-box2d/Dynamics/Joints/b2Joint.h>
+#include <bt-box2d/Dynamics/Joints/b2DistanceJoint.h>
 #include <math.h>
 #include "../GameConstants.h"
 #include "../gameobject/GameObject.h"
@@ -82,6 +84,15 @@ void B2DebugRenderer::render(World *world) {
 		}
 		nextBody = nextBody->GetNext();
 	}
+    b2Joint *nextJoint = world->boxWorld->GetJointList();
+    while (nextJoint) {
+        b2JointType jt = nextJoint->GetType();
+        if (jt == e_distanceJoint) {
+            b2DistanceJoint *dj = (b2DistanceJoint*) nextJoint;
+            renderLine2(dj->GetAnchorA().x, dj->GetAnchorA().y, dj->GetAnchorB().x, dj->GetAnchorB().y);
+        }
+        nextJoint = nextJoint->GetNext();
+    }
 	if (!context->gConfig->useShaders) {
 		glEnable(GL_TEXTURE_2D);
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -161,7 +172,6 @@ void B2DebugRenderer::renderCircleShape(b2Body *body, b2CircleShape *shape) {
 }
 
 void B2DebugRenderer::renderOrientationLine(b2Body *body) {
-	glColor4f(0, 1, 0.25f, 1);
 	F32 angle = body->GetAngle();
 	b2Vec2 pos = body->GetPosition();
 	F32 glVerts[6];
@@ -169,13 +179,28 @@ void B2DebugRenderer::renderOrientationLine(b2Body *body) {
 	glVerts[1] = 0;
 	glVerts[2] = 0;
 	glVerts[3] = 0;
-	glVerts[4] = 0.5f;
+	glVerts[4] = 1.0f;
 	glVerts[5] = 0;
+    Vector4f colors[2];
+    for (S32 i = 0; i < 2; i++) {
+        colors[i] = Vector4f(1,0,0,1);
+    }
+
 	if (context->gConfig->useShaders) {
 		// mv + proj
 		// v position
 		// v color
+        Matrix4f myMv = context->renderContext->mvMatrix;
+        myMv.translate(pos.x, pos.y, 0);
+        myMv.rotate(-angle * (180 / PI), 0, 0, 1.0f);
+		// mv + proj, position and color
+        glUniformMatrix4fv(shader->getUniformLoc("modelview_matrix"), 1, FALSE, myMv.data);
+        glUniformMatrix4fv(shader->getUniformLoc("projection_matrix"), 1, FALSE, context->renderContext->projMatrix.data);
+		glVertexAttribPointer(shader->getVertexAttributeLoc("vPosition"), 3, GL_FLOAT, GL_FALSE, 0, glVerts);
+		glVertexAttribPointer(shader->getVertexAttributeLoc("vColor"), 4, GL_FLOAT, GL_FALSE, 0, colors);
+        glDrawArrays(GL_LINES, 0, 2);
 	} else {
+        glColor4f(0, 1, 0.25f, 1);
 		glVertexPointer(3, GL_FLOAT, 0, &glVerts);
 		glPushMatrix();
 		glTranslatef(pos.x, pos.y, 0);
@@ -193,10 +218,23 @@ void B2DebugRenderer::renderLine(F32 x, F32 y, F32 angle, F32 length) {
 	glVerts[3] = 0;
 	glVerts[4] = length;
 	glVerts[5] = 0;
+    Vector4f colors[2];
+    for (S32 i = 0; i < 2; i++) {
+        colors[i] = Vector4f(1,1,1,1);
+    }
 	if (context->gConfig->useShaders) {
 		// mv + proj
 		// v position
 		// v color
+        Matrix4f myMv = context->renderContext->mvMatrix;
+        myMv.translate(x, y, 0);
+        myMv.rotate(-angle * (180 / PI), 0, 0, 1.0f);
+		// mv + proj, position and color
+        glUniformMatrix4fv(shader->getUniformLoc("modelview_matrix"), 1, FALSE, myMv.data);
+        glUniformMatrix4fv(shader->getUniformLoc("projection_matrix"), 1, FALSE, context->renderContext->projMatrix.data);
+		glVertexAttribPointer(shader->getVertexAttributeLoc("vPosition"), 3, GL_FLOAT, GL_FALSE, 0, glVerts);
+		glVertexAttribPointer(shader->getVertexAttributeLoc("vColor"), 4, GL_FLOAT, GL_FALSE, 0, colors);
+        glDrawArrays(GL_LINES, 0, 2);
 	} else {
 		glVertexPointer(3, GL_FLOAT, 0, &glVerts);
 		glPushMatrix();
@@ -204,6 +242,35 @@ void B2DebugRenderer::renderLine(F32 x, F32 y, F32 angle, F32 length) {
 		glRotatef(angle * (180 / PI), 0, 0, 1.0f);
 		glDrawArrays(GL_LINES, 0, 2);
 		glPopMatrix();
+	}
+}
+
+void B2DebugRenderer::renderLine2(F32 x1, F32 y1, F32 x2, F32 y2) {
+	F32 glVerts[6];
+	glVerts[0] = x1;
+	glVerts[1] = y1;
+	glVerts[2] = 0;
+	glVerts[3] = x2;
+	glVerts[4] = y2;
+	glVerts[5] = 0;
+    Vector4f colors[2];
+    for (S32 i = 0; i < 2; i++) {
+        colors[i] = Vector4f(0,0,1,1);
+    }
+	if (context->gConfig->useShaders) {
+		// mv + proj
+		// v position
+		// v color
+        Matrix4f myMv = context->renderContext->mvMatrix;
+		// mv + proj, position and color
+        glUniformMatrix4fv(shader->getUniformLoc("modelview_matrix"), 1, FALSE, myMv.data);
+        glUniformMatrix4fv(shader->getUniformLoc("projection_matrix"), 1, FALSE, context->renderContext->projMatrix.data);
+		glVertexAttribPointer(shader->getVertexAttributeLoc("vPosition"), 3, GL_FLOAT, GL_FALSE, 0, glVerts);
+		glVertexAttribPointer(shader->getVertexAttributeLoc("vColor"), 4, GL_FLOAT, GL_FALSE, 0, colors);
+        glDrawArrays(GL_LINES, 0, 2);
+	} else {
+		glVertexPointer(3, GL_FLOAT, 0, &glVerts);
+		glDrawArrays(GL_LINES, 0, 2);
 	}
 }
 
