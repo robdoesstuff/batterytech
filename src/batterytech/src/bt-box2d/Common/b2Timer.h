@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2006-2010 Erin Catto http://www.gphysics.com
+* Copyright (c) 2011 Erin Catto http://box2d.org
 *
 * This software is provided 'as-is', without any express or implied
 * warranty.  In no event will the authors be held liable for any damages
@@ -16,36 +16,30 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef B2_TOI_SOLVER_H
-#define B2_TOI_SOLVER_H
+#include "b2Settings.h"
 
-#include "../../Common/b2Math.h"
-
-class b2Contact;
-class b2Body;
-struct b2TOIConstraint;
-class b2StackAllocator;
-
-/// This is a pure position solver for a single movable body in contact with
-/// multiple non-moving bodies.
-class b2TOISolver
+/// Timer for profiling. This has platform specific code and may
+/// not work on every platform.
+class b2Timer
 {
 public:
-	b2TOISolver(b2StackAllocator* allocator);
-	~b2TOISolver();
 
-	void Initialize(b2Contact** contacts, int32 contactCount, b2Body* toiBody);
-	void Clear();
+	/// Constructor
+	b2Timer();
 
-	// Perform one solver iteration. Returns true if converged.
-	bool Solve(float32 baumgarte);
+	/// Reset the timer.
+	void Reset();
+
+	/// Get the time since construction or the last reset.
+	float32 GetMilliseconds() const;
 
 private:
 
-	b2TOIConstraint* m_constraints;
-	int32 m_count;
-	b2Body* m_toiBody;
-	b2StackAllocator* m_allocator;
-};
-
+#if defined(_WIN32)
+	float64 m_start;
+	static float64 s_invFrequency;
+#elif defined(__linux__) || defined (__APPLE__)
+	unsigned long m_start_sec;
+	unsigned long m_start_msec;
 #endif
+};

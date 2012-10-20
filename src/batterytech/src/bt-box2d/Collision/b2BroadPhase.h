@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2006-2009 Erin Catto http://www.gphysics.com
+* Copyright (c) 2006-2009 Erin Catto http://www.box2d.org
 *
 * This software is provided 'as-is', without any express or implied
 * warranty.  In no event will the authors be held liable for any damages
@@ -22,7 +22,7 @@
 #include "../Common/b2Settings.h"
 #include "b2Collision.h"
 #include "b2DynamicTree.h"
-#include <stdlib.h>
+#include <algorithm>
 
 struct b2Pair
 {
@@ -40,7 +40,7 @@ public:
 
 	enum
 	{
-		e_nullProxy = -1,
+		e_nullProxy = -1
 	};
 
 	b2BroadPhase();
@@ -56,6 +56,9 @@ public:
 	/// Call MoveProxy as many times as you like, then when you are done
 	/// call UpdatePairs to finalized the proxy pairs (for your time step).
 	void MoveProxy(int32 proxyId, const b2AABB& aabb, const b2Vec2& displacement);
+
+	/// Call to trigger a re-processing of it's pairs on the next call to UpdatePairs.
+	void TouchProxy(int32 proxyId);
 
 	/// Get the fat AABB for a proxy.
 	const b2AABB& GetFatAABB(int32 proxyId) const;
@@ -88,8 +91,14 @@ public:
 	template <typename T>
 	void RayCast(T* callback, const b2RayCastInput& input) const;
 
-	/// Compute the height of the embedded tree.
-	int32 ComputeHeight() const;
+	/// Get the height of the embedded tree.
+	int32 GetTreeHeight() const;
+
+	/// Get the balance of the embedded tree.
+	int32 GetTreeBalance() const;
+
+	/// Get the quality metric of the embedded tree.
+	float32 GetTreeQuality() const;
 
 private:
 
@@ -153,40 +162,21 @@ inline int32 b2BroadPhase::GetProxyCount() const
 	return m_proxyCount;
 }
 
-inline int32 b2BroadPhase::ComputeHeight() const
+inline int32 b2BroadPhase::GetTreeHeight() const
 {
-	return m_tree.ComputeHeight();
+	return m_tree.GetHeight();
 }
 
-//The return value of this function should represent whether elem1 is considered less than,
-//equal to, or greater than elem2 by returning, respectively, a negative value, zero or a positive value.
-inline int b2PairCompareQSort(const void * elem1, const void * elem2)
+inline int32 b2BroadPhase::GetTreeBalance() const
 {
-   b2Pair* pair1 = (b2Pair*) elem1;
-   b2Pair* pair2 = (b2Pair*) elem2;
-
-   if (pair1->proxyIdA < pair2->proxyIdA)
-   {
-      return -1;
-   }
-
-   if (pair1->proxyIdA == pair2->proxyIdA)
-   {
-      if( pair1->proxyIdB < pair2->proxyIdB ) {
-         return -1;
-      }
-      else if(pair1->proxyIdB > pair2->proxyIdB) {
-         return 1;
-      }
-      else {
-         return 0;
-      }
-   }
-   else {
-      return 1;
-   }
-
+	return m_tree.GetMaxBalance();
 }
+
+inline float32 b2BroadPhase::GetTreeQuality() const
+{
+	return m_tree.GetAreaRatio();
+}
+
 template <typename T>
 void b2BroadPhase::UpdatePairs(T* callback)
 {
@@ -214,9 +204,7 @@ void b2BroadPhase::UpdatePairs(T* callback)
 	m_moveCount = 0;
 
 	// Sort the pair buffer to expose duplicates.
-	// std::sort(m_pairBuffer, m_pairBuffer + m_pairCount, b2PairLessThan);
-
-	qsort(m_pairBuffer, sizeof(m_pairBuffer) / sizeof(struct b2Pair) , sizeof(struct b2Pair), b2PairCompareQSort);
+	std::sort(m_pairBuffer, m_pairBuffer + m_pairCount, b2PairLessThan);
 
 	// Send the pairs back to the client.
 	int32 i = 0;
@@ -242,7 +230,7 @@ void b2BroadPhase::UpdatePairs(T* callback)
 	}
 
 	// Try to keep the tree balanced.
-	m_tree.Rebalance(4);
+	//m_tree.Rebalance(4);
 }
 
 template <typename T>

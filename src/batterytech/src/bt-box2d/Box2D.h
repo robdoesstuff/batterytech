@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2006-2009 Erin Catto http://www.gphysics.com
+* Copyright (c) 2006-2009 Erin Catto http://www.box2d.org
 *
 * This software is provided 'as-is', without any express or implied
 * warranty.  In no event will the authors be held liable for any damages
@@ -32,8 +32,12 @@ For discussion please visit http://box2d.org/forum
 // These include files constitute the main Box2D API
 
 #include "Common/b2Settings.h"
+#include "Common/b2Draw.h"
+#include "Common/b2Timer.h"
 
 #include "Collision/Shapes/b2CircleShape.h"
+#include "Collision/Shapes/b2EdgeShape.h"
+#include "Collision/Shapes/b2ChainShape.h"
 #include "Collision/Shapes/b2PolygonShape.h"
 
 #include "Collision/b2BroadPhase.h"
@@ -52,11 +56,12 @@ For discussion please visit http://box2d.org/forum
 #include "Dynamics/Joints/b2DistanceJoint.h"
 #include "Dynamics/Joints/b2FrictionJoint.h"
 #include "Dynamics/Joints/b2GearJoint.h"
-#include "Dynamics/Joints/b2LineJoint.h"
+#include "Dynamics/Joints/b2WheelJoint.h"
 #include "Dynamics/Joints/b2MouseJoint.h"
 #include "Dynamics/Joints/b2PrismaticJoint.h"
 #include "Dynamics/Joints/b2PulleyJoint.h"
 #include "Dynamics/Joints/b2RevoluteJoint.h"
+#include "Dynamics/Joints/b2RopeJoint.h"
 #include "Dynamics/Joints/b2WeldJoint.h"
 
 #endif
