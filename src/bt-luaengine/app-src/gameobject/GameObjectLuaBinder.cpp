@@ -94,6 +94,7 @@ static int lua_GameObject_physics_enableConstraintMotorTarget(lua_State *L);
 static int lua_GameObject_physics_allocConfigs(lua_State *L); // param: number of physics model configurations, defaults to 1 if not called
 static int lua_GameObject_physics_createPolygonShape(lua_State *L);
 static int lua_GameObject_physics_createCircleShape(lua_State *L);
+static int lua_GameObject_physics_createEdgeShape(lua_State *L);
 static int lua_GameObject_physics_setBodyTransform(lua_State *L);
 static int lua_GameObject_physics_setBodyVelocities(lua_State *L);
 static int lua_GameObject_physics_setBodyDampings(lua_State *L);
@@ -1222,6 +1223,26 @@ static int lua_GameObject_physics_createCircleShape(lua_State *L) {
 	}
 	PhysicsModelConfig *modelConfig = o->physicsModelConfigs->array[configIdx];
 	// param 3 is radius
+	b2CircleShape *shape = new b2CircleShape;
+	shape->m_radius = lua_tonumber(L, 3);
+    modelConfig->shape = shape;
+    modelConfig->bodyDef = new b2BodyDef;
+	return 0;
+}
+
+// idx, radius
+static int lua_GameObject_physics_createEdgeShape(lua_State *L) {
+	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
+	allocatePhysicsModelConfigIfNull(o);
+	// param 2 is the index of the model config
+	S32 configIdx = lua_tointeger(L, 2);
+	if (configIdx > o->physicsModelConfigs->capacity-1) {
+		logmsg("GameObject: physics model config out of range");
+		return 0;
+	}
+	PhysicsModelConfig *modelConfig = o->physicsModelConfigs->array[configIdx];
+	// param 3 is radius
+    
 	b2CircleShape *shape = new b2CircleShape;
 	shape->m_radius = lua_tonumber(L, 3);
     modelConfig->shape = shape;
