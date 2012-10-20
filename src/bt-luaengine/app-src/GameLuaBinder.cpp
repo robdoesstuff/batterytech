@@ -443,7 +443,7 @@ static int lua_Game_createPhysicsWorld(lua_State *L) {
     Game *game = *(Game**)lua_touserdata(L, 1);
 #ifdef BATTERYTECH_INCLUDE_BOX2D
     b2Vec2 gravity(0.0f, DEFAULT_GRAVITY);
-	static_context->world->boxWorld = new b2World(gravity, true);
+	static_context->world->boxWorld = new b2World(gravity);
 	static_context->world->boxWorld->SetContinuousPhysics(game);
 	static_context->world->boxWorld->SetContactListener(game);
 	static_context->world->boxWorld->SetDestructionListener(game);
