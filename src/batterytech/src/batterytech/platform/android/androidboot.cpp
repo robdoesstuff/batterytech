@@ -52,6 +52,14 @@ void Java_com_batterypoweredgames_batterytech_Boot_init(JNIEnv* env, jobject thi
 	javaBoot = 0;
 }
 
+void Java_com_batterypoweredgames_batterytech_Boot_setScreenSize(JNIEnv* env, jobject thiz, jint width, jint height) {
+	jnienv = env;
+	javaBoot = thiz;
+	btSetScreenSize(width, height);
+	jnienv = 0;
+	javaBoot = 0;
+}
+
 void Java_com_batterypoweredgames_batterytech_Boot_release(JNIEnv* env, jobject thiz) {
 	jnienv = env;
 	javaBoot = thiz;

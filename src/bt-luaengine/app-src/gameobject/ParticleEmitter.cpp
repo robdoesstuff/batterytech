@@ -114,6 +114,7 @@ void ParticleEmitter::removeParticle(int i) {
 
 void ParticleEmitter::startEmitter() {
 	running = TRUE;
+	stopped = FALSE;
     this->emittedCount = 0;
 }
 

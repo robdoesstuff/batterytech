@@ -302,7 +302,8 @@ namespace BatteryTech {
 		stbtt_aligned_quad q;
 		stbtt_GetBakedQuad(cdata, bmpWidth, bmpHeight, 'A'-32, &x,&y,&q,1, scale);//1=opengl,0=old d3d
 		// subtract outer stroke amount or it doesn't measure out right
-		return (q.y1 - q.y0) * scale;
+		// Don't scale this value - it's already scaled from GetBakedQuad!
+		return q.y1 - q.y0;
     }
     
     F32 TextRasterRenderer::measureTTFWidth(const char *text, F32 scale) {
@@ -328,7 +329,8 @@ namespace BatteryTech {
 			}
 			++text;
 		}
-		return (highestX - lowestX) * scale;
+		// Don't scale this value - it's already scaled from GetBakedQuad!
+		return highestX - lowestX;
     }
     
     F32 TextRasterRenderer::measureTTFMultilineHeight(const char *text, F32 availableWidth, F32 scale) {

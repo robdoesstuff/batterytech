@@ -49,6 +49,14 @@ void winHook(const char *hook, char *result, S32 resultLen) {
 		CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)&CallbackThreadStart, (LPVOID)"com.touchscreenpromotion.diesel.batmotriple", 0, &dwThreadId);
 		CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)&CallbackThreadStart, (LPVOID)"com.touchscreenpromotion.diesel.rockwellrearend", 0, &dwThreadId);
 		CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)&CallbackThreadStart, (LPVOID)"com.touchscreenpromotion.diesel.pipekittriple", 0, &dwThreadId);
+	} else if (strStartsWith(hook, "openURL")) {
+		char hookData[512];
+		strcpy(hookData, hook);
+		strtok(hookData, " ");
+		char *url = strtok(NULL, " ");
+		ShellExecute(NULL, "open", url, NULL, NULL, SW_SHOWNORMAL);
+	} else if (strStartsWith(hook, "supportsOfferwall")) {
+		strcpy(result, "true");
 	}
 }
 

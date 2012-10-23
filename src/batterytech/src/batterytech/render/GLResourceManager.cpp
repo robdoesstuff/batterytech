@@ -99,6 +99,8 @@ namespace BatteryTech {
 	void GLResourceManager::addTexture(const char *assetName, BOOL32 loadOnDemand) {
 		if (!texTable->contains(assetName)) {
 			Texture *texture = new AssetTexture(context, assetName, loadOnDemand);
+			texture->repeatX = context->gConfig->textureRepeat;
+			texture->repeatY = context->gConfig->textureRepeat;
 			// AssetTexture = asset-backed texture
 			// AtlasMappedTexture = virtualized texture coordinate system using assetName pointing to a real texture
 			texArray->add(texture);

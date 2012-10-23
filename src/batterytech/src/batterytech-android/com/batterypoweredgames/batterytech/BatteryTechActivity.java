@@ -45,6 +45,7 @@ public class BatteryTechActivity extends Activity {
 
 	private TouchProcessor touchProcessor;
 	private boolean hasMultitouch = false;
+	private boolean throttleTouchInput = false;
 	private ArrayBlockingQueue<InputObject> inputObjectPool; 
 	
     /** Called when the activity is first created. */
@@ -60,6 +61,11 @@ public class BatteryTechActivity extends Activity {
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 		int sdkVersion = new Integer(android.os.Build.VERSION.SDK);
+		if (sdkVersion < 4) {
+			throttleTouchInput = true;
+		} else {
+			throttleTouchInput = false;
+		}
 		if (sdkVersion < 5) {
 			btechView = new BatteryTechView16(this);
 		} else {
@@ -104,10 +110,12 @@ public class BatteryTechActivity extends Activity {
 			InputHandler renderer = btechView.getRenderer();
 			if (renderer != null) {
 				touchProcessor.processTouchEvent(event, inputObjectPool, renderer);
-				// don't allow more than 35 motion events per second
-				try {
-					Thread.sleep(28);
-				} catch (InterruptedException e) {
+				if (throttleTouchInput == true) {
+					// don't allow more than 35 motion events per second
+					try {
+						Thread.sleep(28);
+					} catch (InterruptedException e) {
+					}
 				}
 				return true;
 			}

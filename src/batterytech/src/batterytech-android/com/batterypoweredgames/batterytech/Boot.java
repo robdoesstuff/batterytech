@@ -289,6 +289,7 @@ public class Boot {
 
 
 	public native void init(int width, int height, boolean usingGLES2);
+	public native void setScreenSize(int width, int height);
 	public native void release();
 	public native void update(float delta);
 	public native void draw();

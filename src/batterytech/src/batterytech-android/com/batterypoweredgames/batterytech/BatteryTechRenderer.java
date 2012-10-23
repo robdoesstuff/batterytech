@@ -132,6 +132,8 @@ public class BatteryTechRenderer implements Renderer, InputHandler, SensorEventL
 				Log.i(TAG, "Calling boot.init()");
 				boot.init(width, height, usingGLES2);
 				bootInitialized = true;
+			} else {
+				boot.setScreenSize(width, height);
 			}
 			if (lastGL != null) {
 				if (lastGL != gl) {
