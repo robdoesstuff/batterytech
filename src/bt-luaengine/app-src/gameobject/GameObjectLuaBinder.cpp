@@ -1584,7 +1584,7 @@ static int lua_GameObject_physics_createPolygonFixture(lua_State *L) {
 	return 0;
 }
 
-// bodyId, radius
+// bodyId, radius, (optional body offset x,y)
 static int lua_GameObject_physics_createCircleFixture(lua_State *L) {
 	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
 	S32 bodyIdx = lua_tointeger(L, 2);
@@ -1594,6 +1594,9 @@ static int lua_GameObject_physics_createCircleFixture(lua_State *L) {
 		// param 3 is radius
 		b2CircleShape *shape = new b2CircleShape;
 		shape->m_radius = lua_tonumber(L, 3);
+		if (lua_isnumber(L, 4) && lua_isnumber(L, 5)) {
+			shape->m_p = b2Vec2(lua_tonumber(L, 4), lua_tonumber(L, 5));
+		}
 	    b2FixtureDef fixDef;
 	    setFixtureDefaults(fixDef);
 	    fixDef.shape = shape;
@@ -1607,9 +1610,10 @@ static int lua_GameObject_physics_createCircleFixture(lua_State *L) {
 	return 0;
 }
 
-// bodyId, radius
+// bodyId, x1,y1
 static int lua_GameObject_physics_createChainFixture(lua_State *L) {
 	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
+	// TODO - support ghost verts allowing for multiple chains to be connected
 	return 0;
 }
 

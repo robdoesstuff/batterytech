@@ -3,10 +3,12 @@
 PHYS_WORLD_WIDTH = 160
 PHYS_WORLD_HEIGHT = 100
 
+-- TODO - improve debug draw
 -- TODO - collisions should report body/fixture ID
 -- TODO - revolute joint
 -- TODO - prismatic joint
--- TODO - all joint controls
+-- TODO - mouse joint
+-- TODO - all joint controls / motors / etc
 
 function unprojectScreenToWorld(x,y)
 	vpw, vph = getViewportSize()
@@ -23,7 +25,7 @@ function Circle.new(x, y, radius)
 	local bodyId = self:physics_createBody(type, x, y)
 	self:physics_setBodyType(bodyId, 2)
 	local fixtureId = self:physics_createCircleFixture(bodyId, radius);
-	local fixtureId2 = self:physics_createCircleFixture(bodyId, radius/2);
+	local fixtureId2 = self:physics_createCircleFixture(bodyId, radius/2, 5, 5);
 	
 --    self:setPhysicsCallbackDetail(2)	
 	return self

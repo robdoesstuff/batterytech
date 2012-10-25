@@ -30,6 +30,8 @@
 
 static ShaderProgram *shader = NULL;
 
+// TODO - implement b2Draw and ditch this garbage
+
 B2DebugRenderer::B2DebugRenderer(GameContext *context) {
 	this->context = context;
 }
@@ -137,7 +139,9 @@ void B2DebugRenderer::renderPolyShape(b2Body *body, b2PolygonShape *polyShape) {
 
 void B2DebugRenderer::renderCircleShape(b2Body *body, b2CircleShape *shape) {
 	F32 angle = body->GetAngle();
-	b2Vec2 pos = body->GetPosition();
+	// TODO - incorrect, needs transform
+
+	b2Vec2 pos = b2Mul(body->GetTransform(), shape->m_p);
 	S32 vertCount = CIRCLE_TESSELATION;
 	F32 radsPerSegment = TAU / CIRCLE_TESSELATION;
     Vector3f verts[CIRCLE_TESSELATION];
