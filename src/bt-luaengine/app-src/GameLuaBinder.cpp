@@ -1740,11 +1740,7 @@ static int lua_Game_setParticleAutoStopMax(lua_State *L) {
 
 #ifdef BATTERYTECH_INCLUDE_BOX2D
 static b2Body* getBody(GameObject *obj, S32 idx) {
-    if (idx == 0) {
-        return obj->boxBody;
-    } else {
-        return obj->extraBodies->array[idx-1];
-    }
+	return obj->boxBodies->array[idx];
 }
 
 static int lua_Game_addDistanceJoint(lua_State *L) {

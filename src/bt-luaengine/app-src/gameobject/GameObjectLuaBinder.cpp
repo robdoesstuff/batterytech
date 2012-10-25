@@ -91,32 +91,46 @@ static int lua_GameObject_physics_enableConstraintMotorTarget(lua_State *L);
 
 #ifdef BATTERYTECH_INCLUDE_BOX2D
 // Box2D bindings
-static int lua_GameObject_physics_allocConfigs(lua_State *L); // param: number of physics model configurations, defaults to 1 if not called
-static int lua_GameObject_physics_createPolygonShape(lua_State *L);
-static int lua_GameObject_physics_createCircleShape(lua_State *L);
-static int lua_GameObject_physics_createEdgeShape(lua_State *L);
+// b2Body
+static int lua_GameObject_physics_createBody(lua_State *L);
+static int lua_GameObject_physics_removeBody(lua_State *L);
 static int lua_GameObject_physics_setBodyTransform(lua_State *L);
-static int lua_GameObject_physics_setBodyVelocities(lua_State *L);
-static int lua_GameObject_physics_setBodyDampings(lua_State *L);
+static int lua_GameObject_physics_setBodyAngularVelocity(lua_State *L);
+static int lua_GameObject_physics_setBodyLinearVelocity(lua_State *L);
+static int lua_GameObject_physics_setBodyAngularDamping(lua_State *L);
+static int lua_GameObject_physics_setBodyLinearDamping(lua_State *L);
 static int lua_GameObject_physics_setBodyAllowSleep(lua_State *L);
 static int lua_GameObject_physics_setBodyAwake(lua_State *L);
 static int lua_GameObject_physics_setBodyFixedRotation(lua_State *L);
 static int lua_GameObject_physics_setBodyBullet(lua_State *L);
 static int lua_GameObject_physics_setBodyActive(lua_State *L);
 static int lua_GameObject_physics_setBodyType(lua_State *L);
+static int lua_GameObject_physics_setBodyGravityScale(lua_State *L);
+static int lua_GameObject_physics_getBodyTransform(lua_State *L);
+static int lua_GameObject_physics_getBodyAngularVelocity(lua_State *L);
+static int lua_GameObject_physics_getBodyLinearVelocity(lua_State *L);
+static int lua_GameObject_physics_getBodyWorldPoint(lua_State *l);
+static int lua_GameObject_physics_getBodyLocalPoint(lua_State *l);
+static int lua_GameObject_physics_getBodyLocalCenter(lua_State *l);
+static int lua_GameObject_physics_applyForce(lua_State *L);
+static int lua_GameObject_physics_applyTorque(lua_State *L);
+static int lua_GameObject_physics_applyLinearImpulse(lua_State *L);
+static int lua_GameObject_physics_applyAngularImpulse(lua_State *L);
+// b2Shape and b2Fixture
+static int lua_GameObject_physics_createPolygonFixture(lua_State *L);
+static int lua_GameObject_physics_createCircleFixture(lua_State *L);
+static int lua_GameObject_physics_createChainFixture(lua_State *L);
+static int lua_GameObject_physics_removeFixture(lua_State *L);
 static int lua_GameObject_physics_setFixtureDensity(lua_State *L);
 static int lua_GameObject_physics_setFixtureFriction(lua_State *L);
 static int lua_GameObject_physics_setFixtureRestitution(lua_State *L);
+static int lua_GameObject_physics_setFixtureIsSensor(lua_State *L);
+static int lua_GameObject_physics_setFixtureFilter(lua_State *L);
+static int lua_GameObject_physics_fixtureTestPoint(lua_State *l);
+// collision callbacks
 static int lua_GameObject_setPhysicsCallbackDetail(lua_State *L);
 static int lua_GameObject_countPhysicsContacts(lua_State *L);
 static int lua_GameObject_getPhysicsContact(lua_State *L);
-static int lua_GameObject_setTransform(lua_State *L);
-static int lua_GameObject_setTransformByIdx(lua_State *L);
-static int lua_GameObject_getTransform(lua_State *L);
-static int lua_GameObject_applyForce(lua_State *L);
-static int lua_GameObject_applyTorque(lua_State *L);
-static int lua_GameObject_applyLinearImpulse(lua_State *L);
-static int lua_GameObject_applyAngularImpulse(lua_State *L);
 
 #endif
 
@@ -173,31 +187,43 @@ static const luaL_reg lua_methods[] = {
 #endif
 #ifdef BATTERYTECH_INCLUDE_BOX2D
 // Box2D bindings
-	{ "physics_allocConfigs", lua_GameObject_physics_allocConfigs },
-	{ "physics_createPolygonShape", lua_GameObject_physics_createPolygonShape },
-	{ "physics_createCircleShape", lua_GameObject_physics_createCircleShape },
+	{ "physics_createBody", lua_GameObject_physics_createBody },
+	{ "physics_removeBody", lua_GameObject_physics_removeBody },
     { "physics_setBodyTransform", lua_GameObject_physics_setBodyTransform },
-    { "physics_setBodyVelocities", lua_GameObject_physics_setBodyVelocities },
-    { "physics_setBodyDampings", lua_GameObject_physics_setBodyDampings },
+    { "physics_setBodyAngularVelocity", lua_GameObject_physics_setBodyAngularVelocity },
+    { "physics_setBodyLinearVelocity", lua_GameObject_physics_setBodyLinearVelocity },
+    { "physics_setBodyAngularDamping", lua_GameObject_physics_setBodyAngularDamping },
+    { "physics_setBodyLinearDamping", lua_GameObject_physics_setBodyLinearDamping },
     { "physics_SetBodyAllowSleep", lua_GameObject_physics_setBodyAllowSleep },
     { "physics_setBodyAwake", lua_GameObject_physics_setBodyAwake },
     { "physics_setBodyFixedRotation", lua_GameObject_physics_setBodyFixedRotation },
     { "physics_setBodyBullet", lua_GameObject_physics_setBodyBullet },
-    { "physics_setBodyActivee", lua_GameObject_physics_setBodyActive },
+    { "physics_setBodyActive", lua_GameObject_physics_setBodyActive },
     { "physics_setBodyType", lua_GameObject_physics_setBodyType },
+    { "physics_setBodyGravityScale", lua_GameObject_physics_setBodyGravityScale },
+    { "physics_getBodyTransform", lua_GameObject_physics_getBodyTransform },
+    { "physics_getBodyAngularVelocity", lua_GameObject_physics_getBodyAngularVelocity },
+    { "physics_getBodyLinearVelocity", lua_GameObject_physics_getBodyLinearVelocity },
+    { "physics_getBodyWorldPoint", lua_GameObject_physics_getBodyWorldPoint },
+    { "physics_getBodyLocalPoint", lua_GameObject_physics_getBodyLocalPoint },
+    { "physics_getBodyLocalCenter", lua_GameObject_physics_getBodyLocalCenter },
+	{ "physics_applyForce", lua_GameObject_physics_applyForce },
+	{ "physics_applyTorque", lua_GameObject_physics_applyTorque },
+	{ "physics_applyLinearImpulse", lua_GameObject_physics_applyLinearImpulse },
+	{ "physics_applyAngularImpulse", lua_GameObject_physics_applyAngularImpulse },
+	{ "physics_createPolygonFixture", lua_GameObject_physics_createPolygonFixture },
+	{ "physics_createCircleFixture", lua_GameObject_physics_createCircleFixture },
+	{ "physics_createChainFixture", lua_GameObject_physics_createChainFixture },
+	{ "physics_removeFixture", lua_GameObject_physics_removeFixture },
     { "physics_setFixtureDensity", lua_GameObject_physics_setFixtureDensity },
     { "physics_setFixtureFriction", lua_GameObject_physics_setFixtureFriction },
     { "physics_setFixtureRestitution", lua_GameObject_physics_setFixtureRestitution },
+    { "physics_setFixtureIsSensor", lua_GameObject_physics_setFixtureIsSensor },
+    { "physics_setFixtureFilter", lua_GameObject_physics_setFixtureFilter },
+    { "physics_fixtureTestPoint", lua_GameObject_physics_fixtureTestPoint },
     { "setPhysicsCallbackDetail", lua_GameObject_setPhysicsCallbackDetail },
     { "countPhysicsContacts", lua_GameObject_countPhysicsContacts },
     { "getPhysicsContact", lua_GameObject_getPhysicsContact },
-	{ "setTransform", lua_GameObject_setTransform },
-	{ "setTransformByIdx", lua_GameObject_setTransformByIdx },
-	{ "getTransform", lua_GameObject_getTransform },
-	{ "applyForce", lua_GameObject_applyForce },
-	{ "applyTorque", lua_GameObject_applyTorque },
-	{ "applyLinearImpulse", lua_GameObject_applyLinearImpulse },
-	{ "applyAngularImpulse", lua_GameObject_applyAngularImpulse },
 #endif
 
 	{ 0, 0 } };
@@ -1159,313 +1185,514 @@ static int lua_GameObject_physics_setGhost(lua_State *L) {
 #endif
 
 #ifdef BATTERYTECH_INCLUDE_BOX2D
-static int lua_GameObject_physics_allocConfigs(lua_State *L) {
-	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
-	// param 2 is number of configurations
-	S32 configs = lua_tointeger(L, 2);
-    
-	o->physicsModelConfigs = new ManagedArray<PhysicsModelConfig>(configs);
-	for (S32 i = 0; i < configs; i++) {
-		o->physicsModelConfigs->add(new PhysicsModelConfig);
-	}
-    
-	return 0;
+#define CHECK_IDX_BOUNDS(idx) if (idx > GAMEOBJECT_MAX_EXTRA_BODIES) { logmsg("Error - body index out of bounds"); return 0; }
+
+static void setFixtureDefaults(b2FixtureDef &fixDef) {
+    fixDef.friction = 0.2f;
+    fixDef.restitution = 0;
+    fixDef.density = 1.0f;
+    fixDef.isSensor = FALSE;
+    fixDef.filter.categoryBits = 0x0001;
+    fixDef.filter.maskBits = 0xFFFF;
+    fixDef.filter.groupIndex = 0;
 }
 
-static void allocatePhysicsModelConfigIfNull(GameObject *o) {
-    
-	if (!o->physicsModelConfigs) {
-		o->physicsModelConfigs = new ManagedArray<PhysicsModelConfig>(1);
-		o->physicsModelConfigs->add(new PhysicsModelConfig);
-	}
-    
-}
-
-// idx, x0,y0, x1,y1, x2,y2, x3,y3, etc
-static int lua_GameObject_physics_createPolygonShape(lua_State *L) {
+static int lua_GameObject_physics_createBody(lua_State *L) {
+	// returns local ID of box body, sequentially available starting at 0
 	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
-	allocatePhysicsModelConfigIfNull(o);
-	// param 2 is the index of the model config
-	S32 configIdx = lua_tointeger(L, 2);
-	if (configIdx > o->physicsModelConfigs->capacity-1) {
-		logmsg("GameObject: physics model config out of range");
-		return 0;
-	}
-	PhysicsModelConfig *modelConfig = o->physicsModelConfigs->array[configIdx];
-    b2Vec2 verts[12];
-    // for each point pair, add
-    S32 n = 3;
-    S32 pointCount = 0;
-    b2PolygonShape *shape = new b2PolygonShape;
-    while (lua_isnumber(L, n) && lua_isnumber(L, n+1)) {
-        verts[pointCount] = b2Vec2(lua_tonumber(L, n), lua_tonumber(L, n+1));
-        pointCount++;
-        n+=2;
-        if (pointCount == 12) {
+	b2BodyDef def;
+    switch (lua_tointeger(L, 2)) {
+        case 0:
+        	def.type = b2_staticBody;
             break;
-        }
+        case 1:
+        	def.type = b2_kinematicBody;
+            break;
+        case 2:
+        	def.type = b2_dynamicBody;
+            break;
+        default:
+            break;
     }
-    shape->Set(verts, pointCount);
-    modelConfig->shape = shape;
-    modelConfig->bodyDef = new b2BodyDef;
-	return 0;
+    if (lua_isnumber(L, 3) && lua_isnumber(L, 4)) {
+        def.position = b2Vec2(lua_tonumber(L, 3), lua_tonumber(L, 4));
+    } else {
+    	def.position = b2Vec2_zero;
+    }
+ 	b2Body *body = static_context->world->boxWorld->CreateBody(&def);
+	body->SetUserData(o);
+	for (S32 i = 0; i < GAMEOBJECT_MAX_EXTRA_BODIES; i++) {
+		if (o->boxBodies->array[i] == NULL) {
+			o->boxBodies->array[i] = body;
+			if (i > o->boxBodies->lastItemIndex) {
+				o->boxBodies->lastItemIndex = i;
+			}
+			lua_pushinteger(L, i);
+			return 1;
+		}
+	}
+	// bad - no more bodies allowed
+	lua_pushinteger(L, -1);
+	return 1;
 }
 
-// idx, radius
-static int lua_GameObject_physics_createCircleShape(lua_State *L) {
+static int lua_GameObject_physics_removeBody(lua_State *L) {
 	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
-	allocatePhysicsModelConfigIfNull(o);
-	// param 2 is the index of the model config
-	S32 configIdx = lua_tointeger(L, 2);
-	if (configIdx > o->physicsModelConfigs->capacity-1) {
-		logmsg("GameObject: physics model config out of range");
-		return 0;
+	S32 bodyIdx = lua_tointeger(L, 2);
+	CHECK_IDX_BOUNDS(bodyIdx);
+	b2Body *body = o->boxBodies->array[bodyIdx];
+	if (body) {
+		b2Fixture *fixture = body->GetFixtureList();
+		while (fixture) {
+			o->boxFixtures->remove((S32)(size_t)fixture->GetUserData());
+			fixture = fixture->GetNext();
+		}
+		static_context->world->boxWorld->DestroyBody(body);
+		o->boxBodies->array[bodyIdx] = NULL;
+		// don't mess with last item index
 	}
-	PhysicsModelConfig *modelConfig = o->physicsModelConfigs->array[configIdx];
-	// param 3 is radius
-	b2CircleShape *shape = new b2CircleShape;
-	shape->m_radius = lua_tonumber(L, 3);
-    modelConfig->shape = shape;
-    modelConfig->bodyDef = new b2BodyDef;
-	return 0;
-}
-
-// idx, radius
-static int lua_GameObject_physics_createEdgeShape(lua_State *L) {
-	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
-	allocatePhysicsModelConfigIfNull(o);
-	// param 2 is the index of the model config
-	S32 configIdx = lua_tointeger(L, 2);
-	if (configIdx > o->physicsModelConfigs->capacity-1) {
-		logmsg("GameObject: physics model config out of range");
-		return 0;
-	}
-	PhysicsModelConfig *modelConfig = o->physicsModelConfigs->array[configIdx];
-	// param 3 is radius
-    
-	b2CircleShape *shape = new b2CircleShape;
-	shape->m_radius = lua_tonumber(L, 3);
-    modelConfig->shape = shape;
-    modelConfig->bodyDef = new b2BodyDef;
 	return 0;
 }
 
 // idx, x, y, angle
 static int lua_GameObject_physics_setBodyTransform(lua_State *L) {
 	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
-	allocatePhysicsModelConfigIfNull(o);
-    S32 configIdx = lua_tointeger(L, 2);
-	if (configIdx > o->physicsModelConfigs->capacity-1) {
-		logmsg("GameObject: physics model config out of range");
-		return 0;
+	S32 bodyIdx = lua_tointeger(L, 2);
+	CHECK_IDX_BOUNDS(bodyIdx);
+	b2Body *body = o->boxBodies->array[bodyIdx];
+	if (body) {
+		body->SetTransform(b2Vec2(lua_tonumber(L, 3), lua_tonumber(L, 4)), lua_tonumber(L, 5));
 	}
-	PhysicsModelConfig *modelConfig = o->physicsModelConfigs->array[configIdx];
-    if (!modelConfig->bodyDef) {
-        logmsg("GameObject: physics model not yet initialized (Call create<type>Shape first)");
-        return 0;
-    }
-    modelConfig->bodyDef->position = b2Vec2(lua_tonumber(L, 3), lua_tonumber(L, 4));
-    modelConfig->bodyDef->angle = lua_tonumber(L, 5);
     return 0;
 }
 
-// idx, linearX, linearY, angular
-static int lua_GameObject_physics_setBodyVelocities(lua_State *L) {
+// idx, velocity
+static int lua_GameObject_physics_setBodyAngularVelocity(lua_State *L) {
 	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
-	allocatePhysicsModelConfigIfNull(o);
-    S32 configIdx = lua_tointeger(L, 2);
-	if (configIdx > o->physicsModelConfigs->capacity-1) {
-		logmsg("GameObject: physics model config out of range");
-		return 0;
+	S32 bodyIdx = lua_tointeger(L, 2);
+	CHECK_IDX_BOUNDS(bodyIdx);
+	b2Body *body = o->boxBodies->array[bodyIdx];
+	if (body) {
+		body->SetAngularVelocity(lua_tonumber(L, 3));
 	}
-	PhysicsModelConfig *modelConfig = o->physicsModelConfigs->array[configIdx];
-    if (!modelConfig->bodyDef) {
-        logmsg("GameObject: physics model not yet initialized (Call create<type>Shape first)");
-        return 0;
-    }
-    modelConfig->bodyDef->linearVelocity = b2Vec2(lua_tonumber(L, 3), lua_tonumber(L, 4));
-    modelConfig->bodyDef->angularVelocity = lua_tonumber(L, 5);
     return 0;
 }
 
-// idx, linearDamping, angularDamping
-static int lua_GameObject_physics_setBodyDampings(lua_State *L) {
+// idx, linearX, linearY
+static int lua_GameObject_physics_setBodyLinearVelocity(lua_State *L) {
 	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
-	allocatePhysicsModelConfigIfNull(o);
-    S32 configIdx = lua_tointeger(L, 2);
-	if (configIdx > o->physicsModelConfigs->capacity-1) {
-		logmsg("GameObject: physics model config out of range");
-		return 0;
+	S32 bodyIdx = lua_tointeger(L, 2);
+	CHECK_IDX_BOUNDS(bodyIdx);
+	b2Body *body = o->boxBodies->array[bodyIdx];
+	if (body) {
+		body->SetLinearVelocity(b2Vec2(lua_tonumber(L, 3), lua_tonumber(L, 4)));
 	}
-	PhysicsModelConfig *modelConfig = o->physicsModelConfigs->array[configIdx];
-    if (!modelConfig->bodyDef) {
-        logmsg("GameObject: physics model not yet initialized (Call create<type>Shape first)");
-        return 0;
-    }
-    modelConfig->bodyDef->linearDamping = lua_tonumber(L, 3);
-    modelConfig->bodyDef->angularDamping = lua_tonumber(L, 4);
+    return 0;
+}
+
+// idx, velocity
+static int lua_GameObject_physics_setBodyAngularDamping(lua_State *L) {
+	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
+	S32 bodyIdx = lua_tointeger(L, 2);
+	CHECK_IDX_BOUNDS(bodyIdx);
+	b2Body *body = o->boxBodies->array[bodyIdx];
+	if (body) {
+		body->SetAngularDamping(lua_tonumber(L, 3));
+	}
+    return 0;
+}
+
+// idx, linearX, linearY
+static int lua_GameObject_physics_setBodyLinearDamping(lua_State *L) {
+	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
+	S32 bodyIdx = lua_tointeger(L, 2);
+	CHECK_IDX_BOUNDS(bodyIdx);
+	b2Body *body = o->boxBodies->array[bodyIdx];
+	if (body) {
+		body->SetLinearDamping(lua_tonumber(L, 3));
+	}
     return 0;
 }
 
 // idx, allowSleep
 static int lua_GameObject_physics_setBodyAllowSleep(lua_State *L) {
 	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
-	allocatePhysicsModelConfigIfNull(o);
-    S32 configIdx = lua_tointeger(L, 2);
-	if (configIdx > o->physicsModelConfigs->capacity-1) {
-		logmsg("GameObject: physics model config out of range");
-		return 0;
+	S32 bodyIdx = lua_tointeger(L, 2);
+	CHECK_IDX_BOUNDS(bodyIdx);
+	b2Body *body = o->boxBodies->array[bodyIdx];
+	if (body) {
+		body->SetSleepingAllowed(lua_toboolean(L, 3));
 	}
-	PhysicsModelConfig *modelConfig = o->physicsModelConfigs->array[configIdx];
-    if (!modelConfig->bodyDef) {
-        logmsg("GameObject: physics model not yet initialized (Call create<type>Shape first)");
-        return 0;
-    }
-    modelConfig->bodyDef->allowSleep = lua_toboolean(L, 3);
     return 0;
 }
 
 // idx, isAwake
 static int lua_GameObject_physics_setBodyAwake(lua_State *L) {
 	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
-	allocatePhysicsModelConfigIfNull(o);
-    S32 configIdx = lua_tointeger(L, 2);
-	if (configIdx > o->physicsModelConfigs->capacity-1) {
-		logmsg("GameObject: physics model config out of range");
-		return 0;
+	S32 bodyIdx = lua_tointeger(L, 2);
+	CHECK_IDX_BOUNDS(bodyIdx);
+	b2Body *body = o->boxBodies->array[bodyIdx];
+	if (body) {
+		body->SetAwake(lua_toboolean(L, 3));
 	}
-	PhysicsModelConfig *modelConfig = o->physicsModelConfigs->array[configIdx];
-    if (!modelConfig->bodyDef) {
-        logmsg("GameObject: physics model not yet initialized (Call create<type>Shape first)");
-        return 0;
-    }
-    modelConfig->bodyDef->awake = lua_toboolean(L, 3);
     return 0;
 }
 
 // idx, fixedRotation
 static int lua_GameObject_physics_setBodyFixedRotation(lua_State *L) {
 	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
-	allocatePhysicsModelConfigIfNull(o);
-    S32 configIdx = lua_tointeger(L, 2);
-	if (configIdx > o->physicsModelConfigs->capacity-1) {
-		logmsg("GameObject: physics model config out of range");
-		return 0;
+	S32 bodyIdx = lua_tointeger(L, 2);
+	CHECK_IDX_BOUNDS(bodyIdx);
+	b2Body *body = o->boxBodies->array[bodyIdx];
+	if (body) {
+		body->SetFixedRotation(lua_toboolean(L, 3));
 	}
-	PhysicsModelConfig *modelConfig = o->physicsModelConfigs->array[configIdx];
-    if (!modelConfig->bodyDef) {
-        logmsg("GameObject: physics model not yet initialized (Call create<type>Shape first)");
-        return 0;
-    }
-    modelConfig->bodyDef->fixedRotation = lua_toboolean(L, 3);
     return 0;
 }
 
 // idx, bullet
 static int lua_GameObject_physics_setBodyBullet(lua_State *L) {
 	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
-	allocatePhysicsModelConfigIfNull(o);
-    S32 configIdx = lua_tointeger(L, 2);
-	if (configIdx > o->physicsModelConfigs->capacity-1) {
-		logmsg("GameObject: physics model config out of range");
-		return 0;
+	S32 bodyIdx = lua_tointeger(L, 2);
+	CHECK_IDX_BOUNDS(bodyIdx);
+	b2Body *body = o->boxBodies->array[bodyIdx];
+	if (body) {
+		body->SetBullet(lua_toboolean(L, 3));
 	}
-	PhysicsModelConfig *modelConfig = o->physicsModelConfigs->array[configIdx];
-    if (!modelConfig->bodyDef) {
-        logmsg("GameObject: physics model not yet initialized (Call create<type>Shape first)");
-        return 0;
-    }
-    modelConfig->bodyDef->bullet = lua_toboolean(L, 3);
     return 0;
 }
 
 // idx, active
 static int lua_GameObject_physics_setBodyActive(lua_State *L) {
 	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
-	allocatePhysicsModelConfigIfNull(o);
-    S32 configIdx = lua_tointeger(L, 2);
-	if (configIdx > o->physicsModelConfigs->capacity-1) {
-		logmsg("GameObject: physics model config out of range");
-		return 0;
+	S32 bodyIdx = lua_tointeger(L, 2);
+	CHECK_IDX_BOUNDS(bodyIdx);
+	b2Body *body = o->boxBodies->array[bodyIdx];
+	if (body) {
+		body->SetActive(lua_toboolean(L, 3));
 	}
-	PhysicsModelConfig *modelConfig = o->physicsModelConfigs->array[configIdx];
-    if (!modelConfig->bodyDef) {
-        logmsg("GameObject: physics model not yet initialized (Call create<type>Shape first)");
-        return 0;
-    }
-    modelConfig->bodyDef->active = lua_toboolean(L, 3);
     return 0;
 }
 
 // idx, type
 static int lua_GameObject_physics_setBodyType(lua_State *L) {
 	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
-	allocatePhysicsModelConfigIfNull(o);
-    S32 configIdx = lua_tointeger(L, 2);
-	if (configIdx > o->physicsModelConfigs->capacity-1) {
-		logmsg("GameObject: physics model config out of range");
-		return 0;
+	S32 bodyIdx = lua_tointeger(L, 2);
+	CHECK_IDX_BOUNDS(bodyIdx);
+	b2Body *body = o->boxBodies->array[bodyIdx];
+	if (body) {
+	    switch (lua_tointeger(L, 3)) {
+	        case 0:
+	        	body->SetType(b2_staticBody);
+	            break;
+	        case 1:
+	        	body->SetType(b2_kinematicBody);
+	            break;
+	        case 2:
+	        	body->SetType(b2_dynamicBody);
+	            break;
+	        default:
+	            break;
+	    }
 	}
-	PhysicsModelConfig *modelConfig = o->physicsModelConfigs->array[configIdx];
-    if (!modelConfig->bodyDef) {
-        logmsg("GameObject: physics model not yet initialized (Call create<type>Shape first)");
-        return 0;
-    }
-    switch (lua_tointeger(L, 3)) {
-        case 0:
-            modelConfig->bodyDef->type = b2_staticBody;
-            break;
-        case 1:
-            modelConfig->bodyDef->type = b2_kinematicBody;
-            break;
-        case 2:
-            modelConfig->bodyDef->type = b2_dynamicBody;
-            break;
-        default:
-            break;
-    }
     return 0;
 }
 
-// idx, density
+// idx, gravityscale
+static int lua_GameObject_physics_setBodyGravityScale(lua_State *L) {
+	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
+	S32 bodyIdx = lua_tointeger(L, 2);
+	CHECK_IDX_BOUNDS(bodyIdx);
+	b2Body *body = o->boxBodies->array[bodyIdx];
+	if (body) {
+		body->SetGravityScale(lua_tonumber(L, 3));
+	}
+    return 0;
+}
+
+
+// idx
+static int lua_GameObject_physics_getBodyTransform(lua_State *L) {
+	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
+	S32 bodyIdx = lua_tointeger(L, 2);
+	CHECK_IDX_BOUNDS(bodyIdx);
+	b2Body *body = o->boxBodies->array[bodyIdx];
+	if (body) {
+		b2Transform transform = body->GetTransform();
+		lua_pushnumber(L, transform.p.x);
+		lua_pushnumber(L, transform.p.y);
+		lua_pushnumber(L, transform.q.GetAngle());
+		return 3;
+	}
+    return 0;
+}
+
+// idx
+static int lua_GameObject_physics_getBodyAngularVelocity(lua_State *L) {
+	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
+	S32 bodyIdx = lua_tointeger(L, 2);
+	CHECK_IDX_BOUNDS(bodyIdx);
+	b2Body *body = o->boxBodies->array[bodyIdx];
+	if (body) {
+		lua_pushnumber(L, body->GetAngularVelocity());
+		return 1;
+	}
+    return 0;
+}
+
+// idx
+static int lua_GameObject_physics_getBodyLinearVelocity(lua_State *L) {
+	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
+	S32 bodyIdx = lua_tointeger(L, 2);
+	CHECK_IDX_BOUNDS(bodyIdx);
+	b2Body *body = o->boxBodies->array[bodyIdx];
+	if (body) {
+		b2Vec2 vel = body->GetLinearVelocity();
+		lua_pushnumber(L, vel.x);
+		lua_pushnumber(L, vel.y);
+		return 2;
+	}
+    return 0;
+}
+
+// idx, localX,localY
+static int lua_GameObject_physics_getBodyWorldPoint(lua_State *L) {
+	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
+	S32 bodyIdx = lua_tointeger(L, 2);
+	CHECK_IDX_BOUNDS(bodyIdx);
+	b2Body *body = o->boxBodies->array[bodyIdx];
+	if (body) {
+		b2Vec2 p = body->GetWorldPoint(b2Vec2(lua_tonumber(L, 3), lua_tonumber(L, 4)));
+		lua_pushnumber(L, p.x);
+		lua_pushnumber(L, p.y);
+		return 2;
+	}
+    return 0;
+}
+
+static int lua_GameObject_physics_getBodyLocalPoint(lua_State *L) {
+	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
+	S32 bodyIdx = lua_tointeger(L, 2);
+	CHECK_IDX_BOUNDS(bodyIdx);
+	b2Body *body = o->boxBodies->array[bodyIdx];
+	if (body) {
+		b2Vec2 p = body->GetLocalPoint(b2Vec2(lua_tonumber(L, 3), lua_tonumber(L, 4)));
+		lua_pushnumber(L, p.x);
+		lua_pushnumber(L, p.y);
+		return 2;
+	}
+    return 0;
+}
+
+static int lua_GameObject_physics_getBodyLocalCenter(lua_State *L) {
+	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
+	S32 bodyIdx = lua_tointeger(L, 2);
+	CHECK_IDX_BOUNDS(bodyIdx);
+	b2Body *body = o->boxBodies->array[bodyIdx];
+	if (body) {
+		b2Vec2 p = body->GetLocalCenter();
+		lua_pushnumber(L, p.x);
+		lua_pushnumber(L, p.y);
+		return 2;
+	}
+    return 0;
+}
+
+static int lua_GameObject_physics_applyForce(lua_State *L) {
+	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
+	S32 bodyIdx = lua_tointeger(L, 2);
+	CHECK_IDX_BOUNDS(bodyIdx);
+	b2Body *body = o->boxBodies->array[bodyIdx];
+	if (body) {
+		F32 forceX = lua_tonumber(L, 3);
+		F32 forceY = lua_tonumber(L, 4);
+		F32 pointX = lua_tonumber(L, 5);
+		F32 pointY = lua_tonumber(L, 6);
+		body->ApplyForce(b2Vec2(forceX, forceY), b2Vec2(pointX, pointY));
+	}
+    return 0;
+}
+
+static int lua_GameObject_physics_applyTorque(lua_State *L) {
+	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
+	S32 bodyIdx = lua_tointeger(L, 2);
+	CHECK_IDX_BOUNDS(bodyIdx);
+	b2Body *body = o->boxBodies->array[bodyIdx];
+	if (body) {
+		body->ApplyTorque(lua_tonumber(L, 3));
+	}
+    return 0;
+}
+
+static int lua_GameObject_physics_applyLinearImpulse(lua_State *L) {
+	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
+	S32 bodyIdx = lua_tointeger(L, 2);
+	CHECK_IDX_BOUNDS(bodyIdx);
+	b2Body *body = o->boxBodies->array[bodyIdx];
+	if (body) {
+		F32 forceX = lua_tonumber(L, 3);
+		F32 forceY = lua_tonumber(L, 4);
+		F32 pointX = lua_tonumber(L, 5);
+		F32 pointY = lua_tonumber(L, 6);
+		body->ApplyLinearImpulse(b2Vec2(forceX, forceY), b2Vec2(pointX, pointY));
+	}
+    return 0;
+}
+
+static int lua_GameObject_physics_applyAngularImpulse(lua_State *L) {
+	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
+	S32 bodyIdx = lua_tointeger(L, 2);
+	CHECK_IDX_BOUNDS(bodyIdx);
+	b2Body *body = o->boxBodies->array[bodyIdx];
+	if (body) {
+		body->ApplyAngularImpulse(lua_tonumber(L, 3));
+	}
+    return 0;
+}
+
+// bodyId, x0,y0, x1,y1, x2,y2, x3,y3, etc
+static int lua_GameObject_physics_createPolygonFixture(lua_State *L) {
+	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
+	S32 bodyIdx = lua_tointeger(L, 2);
+	CHECK_IDX_BOUNDS(bodyIdx);
+	b2Body *body = o->boxBodies->array[bodyIdx];
+	if (body) {
+	    b2Vec2 verts[12];
+	    // for each point pair, add
+	    S32 n = 3;
+	    S32 pointCount = 0;
+	    b2PolygonShape *shape = new b2PolygonShape;
+	    while (lua_isnumber(L, n) && lua_isnumber(L, n+1)) {
+	        verts[pointCount] = b2Vec2(lua_tonumber(L, n), lua_tonumber(L, n+1));
+	        pointCount++;
+	        n+=2;
+	        if (pointCount == 12) {
+	            break;
+	        }
+	    }
+	    shape->Set(verts, pointCount);
+	    b2FixtureDef fixDef;
+	    setFixtureDefaults(fixDef);
+	    fixDef.shape = shape;
+	    b2Fixture *fixture = body->CreateFixture(&fixDef);
+	    S32 id = o->nextFixtureId++;
+	    fixture->SetUserData((void*)id);
+	    o->boxFixtures->put(id, fixture);
+	    lua_pushinteger(L, id);
+	    return 1;
+	}
+	return 0;
+}
+
+// bodyId, radius
+static int lua_GameObject_physics_createCircleFixture(lua_State *L) {
+	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
+	S32 bodyIdx = lua_tointeger(L, 2);
+	CHECK_IDX_BOUNDS(bodyIdx);
+	b2Body *body = o->boxBodies->array[bodyIdx];
+	if (body) {
+		// param 3 is radius
+		b2CircleShape *shape = new b2CircleShape;
+		shape->m_radius = lua_tonumber(L, 3);
+	    b2FixtureDef fixDef;
+	    setFixtureDefaults(fixDef);
+	    fixDef.shape = shape;
+	    b2Fixture *fixture = body->CreateFixture(&fixDef);
+	    S32 id = o->nextFixtureId++;
+	    fixture->SetUserData((void*)id);
+	    o->boxFixtures->put(id, fixture);
+	    lua_pushinteger(L, id);
+	    return 1;
+	}
+	return 0;
+}
+
+// bodyId, radius
+static int lua_GameObject_physics_createChainFixture(lua_State *L) {
+	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
+	return 0;
+}
+
+// fixture id
+static int lua_GameObject_physics_removeFixture(lua_State *L) {
+	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
+	S32 fixtureId = lua_tointeger(L, 2);
+	b2Fixture *fixture = o->boxFixtures->remove(fixtureId);
+	if (fixture) {
+		fixture->GetBody()->DestroyFixture(fixture);
+	}
+	return 0;
+}
+
+// fixture id, density
 static int lua_GameObject_physics_setFixtureDensity(lua_State *L) {
 	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
-	allocatePhysicsModelConfigIfNull(o);
-    S32 configIdx = lua_tointeger(L, 2);
-	if (configIdx > o->physicsModelConfigs->capacity-1) {
-		logmsg("GameObject: physics model config out of range");
-		return 0;
+	S32 fixtureId = lua_tointeger(L, 2);
+	b2Fixture *fixture = o->boxFixtures->get(fixtureId);
+	if (fixture) {
+		fixture->SetDensity(lua_tonumber(L,3));
 	}
-	PhysicsModelConfig *modelConfig = o->physicsModelConfigs->array[configIdx];
-    modelConfig->density = lua_tonumber(L, 3);
     return 0;
 }
 
-// idx, friction
+// fixture id, friction
 static int lua_GameObject_physics_setFixtureFriction(lua_State *L) {
 	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
-	allocatePhysicsModelConfigIfNull(o);
-    S32 configIdx = lua_tointeger(L, 2);
-	if (configIdx > o->physicsModelConfigs->capacity-1) {
-		logmsg("GameObject: physics model config out of range");
-		return 0;
+	S32 fixtureId = lua_tointeger(L, 2);
+	b2Fixture *fixture = o->boxFixtures->get(fixtureId);
+	if (fixture) {
+		fixture->SetFriction(lua_tonumber(L,3));
 	}
-	PhysicsModelConfig *modelConfig = o->physicsModelConfigs->array[configIdx];
-    modelConfig->friction = lua_tonumber(L, 3);
     return 0;
 }
 
-// idx, restitution
+// fixture id, restitution
 static int lua_GameObject_physics_setFixtureRestitution(lua_State *L) {
 	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
-	allocatePhysicsModelConfigIfNull(o);
-    S32 configIdx = lua_tointeger(L, 2);
-	if (configIdx > o->physicsModelConfigs->capacity-1) {
-		logmsg("GameObject: physics model config out of range");
-		return 0;
+	S32 fixtureId = lua_tointeger(L, 2);
+	b2Fixture *fixture = o->boxFixtures->get(fixtureId);
+	if (fixture) {
+		fixture->SetRestitution(lua_tonumber(L,3));
 	}
-	PhysicsModelConfig *modelConfig = o->physicsModelConfigs->array[configIdx];
-    modelConfig->restitution = lua_tonumber(L, 3);
+    return 0;
+}
+
+// fixture id, isSensor
+static int lua_GameObject_physics_setFixtureIsSensor(lua_State *L) {
+	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
+	S32 fixtureId = lua_tointeger(L, 2);
+	b2Fixture *fixture = o->boxFixtures->get(fixtureId);
+	if (fixture) {
+		fixture->SetSensor(lua_toboolean(L, 3));
+	}
+    return 0;
+}
+
+// fixture id, filter
+static int lua_GameObject_physics_setFixtureFilter(lua_State *L) {
+	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
+	S32 fixtureId = lua_tointeger(L, 2);
+	b2Fixture *fixture = o->boxFixtures->get(fixtureId);
+	if (fixture) {
+		b2Filter filter;
+		filter.categoryBits = (U16)lua_tointeger(L, 3);
+		filter.maskBits = (U16)lua_tointeger(L, 4);
+		filter.groupIndex = (S16)lua_tointeger(L, 5);
+		fixture->SetFilterData(filter);
+	}
+    return 0;
+}
+
+static int lua_GameObject_physics_fixtureTestPoint(lua_State *L) {
+	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
+	S32 fixtureId = lua_tointeger(L, 2);
+	b2Fixture *fixture = o->boxFixtures->get(fixtureId);
+	if (fixture) {
+		F32 x = lua_tonumber(L, 3);
+		F32 y = lua_tonumber(L, 4);
+		lua_pushboolean(L, fixture->TestPoint(b2Vec2(x,y)));
+		return 1;
+	}
     return 0;
 }
 
@@ -1505,165 +1732,6 @@ static int lua_GameObject_getPhysicsContact(lua_State *L) {
     lua_pushboolean(L, pc->isTouching);
     lua_pushboolean(L, pc->isActive);
     return 8;
-}
-
-static int lua_GameObject_setTransform(lua_State *L) {
-	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
-	F32 x = lua_tonumber(L, 2);
-	F32 y = lua_tonumber(L, 3);
-	F32 z = 0;
-	o->setPosition(Vector3f(x,y,z));
-	if (lua_isnumber(L, 4)) {
-		o->boxBody->SetTransform(b2Vec2(x,y), lua_tonumber(L,4));
-	}
-	return 0;
-}
-
-static int lua_GameObject_setTransformByIdx(lua_State *L) {
-	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
-	S32 idx = lua_tointeger(L, 2);
-	F32 x = lua_tonumber(L, 3);
-	F32 y = lua_tonumber(L, 4);
-	F32 z = 0;
-	b2Body *body = NULL;
-	if (idx == 0) {
-		body = o->boxBody;
-	} else {
-		if (o->extraBodies->getSize() >= idx) {
-			body = o->extraBodies->array[idx];
-		}
-	}
-	if (!body) {
-		return 0;
-	}
-	if (lua_isnumber(L, 5)) {
-		body->SetTransform(b2Vec2(x,y), lua_tonumber(L,5));
-	} else {
-		body->SetTransform(b2Vec2(x, y), body->GetAngle());
-	}
-	return 0;
-}
-
-static int lua_GameObject_getTransform(lua_State *L) {
-	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
-	S32 idx = 0;
-	if (lua_isnumber(L, 2)) {
-		idx = lua_tointeger(L, 2);
-	}
-	if (idx == 0) {
-		Vector3f pos = o->getPosition();
-		lua_pushnumber(L, pos.x);
-		lua_pushnumber(L, pos.y);
-		lua_pushnumber(L, o->boxBody->GetAngle());
-	} else {
-		if (o->extraBodies->getSize() < idx) {
-			return 0;
-		}
-		b2Body *bod = o->extraBodies->array[idx-1];
-		b2Vec2 b2Pos = bod->GetPosition();
-		lua_pushnumber(L, b2Pos.x);
-		lua_pushnumber(L, b2Pos.y);
-		lua_pushnumber(L, bod->GetAngle());
-	}
-	return 3;
-}
-
-static int lua_GameObject_applyForce(lua_State *L) {
-	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
-	b2Body *bod = NULL;
-	S32 i = 2;
-	if (!lua_isnone(L, 6)) {
-		S32 idx = lua_tointeger(L, i++);
-		// has index
-		if (idx == 0) {
-			bod = o->boxBody;
-		} else {
-			if (o->extraBodies->getSize() < idx) {
-				return 0;
-			}
-			bod = o->extraBodies->array[idx-1];
-		}
-	} else {
-		bod = o->boxBody;
-	}
-	F32 forceX = lua_tonumber(L, i++);
-	F32 forceY = lua_tonumber(L, i++);
-	F32 pointX = lua_tonumber(L, i++);
-	F32 pointY = lua_tonumber(L, i++);
-	bod->ApplyForce(b2Vec2(forceX, forceY), b2Vec2(pointX, pointY));
-	return 0;
-}
-
-static int lua_GameObject_applyTorque(lua_State *L) {
-	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
-	b2Body *bod = NULL;
-	S32 i = 2;
-	if (!lua_isnone(L, 6)) {
-		S32 idx = lua_tointeger(L, i++);
-		// has index
-		if (idx == 0) {
-			bod = o->boxBody;
-		} else {
-			if (o->extraBodies->getSize() < idx) {
-				return 0;
-			}
-			bod = o->extraBodies->array[idx-1];
-		}
-	} else {
-		bod = o->boxBody;
-	}
-	F32 torque = lua_tonumber(L, i++);
-	bod->ApplyTorque(torque);
-	return 0;
-}
-
-static int lua_GameObject_applyLinearImpulse(lua_State *L) {
-	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
-	b2Body *bod = NULL;
-	S32 i = 2;
-	if (!lua_isnone(L, 6)) {
-		S32 idx = lua_tointeger(L, i++);
-		// has index
-		if (idx == 0) {
-			bod = o->boxBody;
-		} else {
-			if (o->extraBodies->getSize() < idx) {
-				return 0;
-			}
-			bod = o->extraBodies->array[idx-1];
-		}
-	} else {
-		bod = o->boxBody;
-	}
-	F32 forceX = lua_tonumber(L, i++);
-	F32 forceY = lua_tonumber(L, i++);
-	F32 pointX = lua_tonumber(L, i++);
-	F32 pointY = lua_tonumber(L, i++);
-	bod->ApplyLinearImpulse(b2Vec2(forceX, forceY), b2Vec2(pointX, pointY));
-	return 0;
-}
-
-static int lua_GameObject_applyAngularImpulse(lua_State *L) {
-	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
-	b2Body *bod = NULL;
-	S32 i = 2;
-	if (!lua_isnone(L, 6)) {
-		S32 idx = lua_tointeger(L, i++);
-		// has index
-		if (idx == 0) {
-			bod = o->boxBody;
-		} else {
-			if (o->extraBodies->getSize() < idx) {
-				return 0;
-			}
-			bod = o->extraBodies->array[idx-1];
-		}
-	} else {
-		bod = o->boxBody;
-	}
-	F32 torque = lua_tonumber(L, i++);
-	bod->ApplyAngularImpulse(torque);
-	return 0;
 }
 
 #endif

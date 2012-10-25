@@ -186,39 +186,49 @@ ASSIMP_LIB=$(BUILD_DIR)\libassimp.a
 BOX2D_SOURCES=\
 	bt-box2d\Collision\b2BroadPhase.cpp \
 	bt-box2d\Collision\b2CollideCircle.cpp \
+	bt-box2d\Collision\b2CollideEdge.cpp \
 	bt-box2d\Collision\b2CollidePolygon.cpp \
 	bt-box2d\Collision\b2Collision.cpp \
 	bt-box2d\Collision\b2Distance.cpp \
 	bt-box2d\Collision\b2DynamicTree.cpp \
 	bt-box2d\Collision\b2TimeOfImpact.cpp \
+	bt-box2d\Collision\Shapes\b2ChainShape.cpp \
 	bt-box2d\Collision\Shapes\b2CircleShape.cpp \
+	bt-box2d\Collision\Shapes\b2EdgeShape.cpp \
 	bt-box2d\Collision\Shapes\b2PolygonShape.cpp \
 	bt-box2d\Common\b2BlockAllocator.cpp \
+	bt-box2d\Common\b2Draw.cpp \
 	bt-box2d\Common\b2Math.cpp \
 	bt-box2d\Common\b2Settings.cpp \
 	bt-box2d\Common\b2StackAllocator.cpp \
+	bt-box2d\Common\b2Timer.cpp \
 	bt-box2d\Dynamics\b2Body.cpp \
 	bt-box2d\Dynamics\b2ContactManager.cpp \
 	bt-box2d\Dynamics\b2Fixture.cpp \
 	bt-box2d\Dynamics\b2Island.cpp \
 	bt-box2d\Dynamics\b2World.cpp \
 	bt-box2d\Dynamics\b2WorldCallbacks.cpp \
+	bt-box2d\Dynamics\Contacts\b2ChainAndCircleContact.cpp \
+	bt-box2d\Dynamics\Contacts\b2ChainAndPolygonContact.cpp \
 	bt-box2d\Dynamics\Contacts\b2CircleContact.cpp \
 	bt-box2d\Dynamics\Contacts\b2Contact.cpp \
 	bt-box2d\Dynamics\Contacts\b2ContactSolver.cpp \
+	bt-box2d\Dynamics\Contacts\b2EdgeAndCircleContact.cpp \
+	bt-box2d\Dynamics\Contacts\b2EdgeAndPolygonContact.cpp \
 	bt-box2d\Dynamics\Contacts\b2PolygonAndCircleContact.cpp \
 	bt-box2d\Dynamics\Contacts\b2PolygonContact.cpp \
-	bt-box2d\Dynamics\Contacts\b2TOISolver.cpp \
 	bt-box2d\Dynamics\Joints\b2DistanceJoint.cpp \
 	bt-box2d\Dynamics\Joints\b2FrictionJoint.cpp \
 	bt-box2d\Dynamics\Joints\b2GearJoint.cpp \
 	bt-box2d\Dynamics\Joints\b2Joint.cpp \
-	bt-box2d\Dynamics\Joints\b2LineJoint.cpp \
 	bt-box2d\Dynamics\Joints\b2MouseJoint.cpp \
 	bt-box2d\Dynamics\Joints\b2PrismaticJoint.cpp \
 	bt-box2d\Dynamics\Joints\b2PulleyJoint.cpp \
 	bt-box2d\Dynamics\Joints\b2RevoluteJoint.cpp \
-	bt-box2d\Dynamics\Joints\b2WeldJoint.cpp
+	bt-box2d\Dynamics\Joints\b2RopeJoint.cpp \
+	bt-box2d\Dynamics\Joints\b2WeldJoint.cpp \
+	bt-box2d\Dynamics\Joints\b2WheelJoint.cpp \
+	bt-box2d\Rope\b2Rope.cpp
 	
 BOX2D_OBJECTS=$(addprefix $(BUILD_DIR)\, $(addsuffix .o,$(BOX2D_SOURCES)))
 BOX2D_DEPS=$(BOX2D_OBJECTS:.o=.d)
@@ -227,7 +237,8 @@ BOX2D_OBJDIRS=$(BUILD_DIR)\bt-box2d\Collision \
 	$(BUILD_DIR)\bt-box2d\Common \
 	$(BUILD_DIR)\bt-box2d\Dynamics \
 	$(BUILD_DIR)\bt-box2d\Dynamics\Contacts \
-	$(BUILD_DIR)\bt-box2d\Dynamics\Joints
+	$(BUILD_DIR)\bt-box2d\Dynamics\Joints \
+	$(BUILD_DIR)\bt-box2d\Rope
 
 BOX2D_LIB=$(BUILD_DIR)\libbox2d.a
 	

@@ -32,9 +32,11 @@ GameObject::GameObject(GameContext *context) : PhysicsBodyObject(PHYSICS_BODY_TY
 	lastPos = Vector3f(0,0,0);
 	animators = NULL;
 #ifdef BATTERYTECH_INCLUDE_BOX2D
-    boxBody = NULL;
-	extraBodies = new ManagedArray<b2Body>(GAMEOBJECT_MAX_EXTRA_BODIES);
-	physicsModelConfigs = NULL; 
+ 	boxBodies = new ManagedArray<b2Body>(GAMEOBJECT_MAX_EXTRA_BODIES);
+ 	for (S32 i = 0; i < GAMEOBJECT_MAX_EXTRA_BODIES; i++) {
+ 		boxBodies->array[i] = NULL;
+ 	}
+ 	boxFixtures = new HashTable<S32, b2Fixture*>(GAMEOBJECT_MAX_FIXTURES * 1.3f);
     callbackDetail = CALLBACK_DETAIL_NONE;
     contacts = new ManagedArray<PhysicsContact2D>(GAMEOBJECT_MAX_CONTACTS);
     for (S32 i = 0; i < GAMEOBJECT_MAX_CONTACTS; i++) {
@@ -42,6 +44,7 @@ GameObject::GameObject(GameContext *context) : PhysicsBodyObject(PHYSICS_BODY_TY
     }
     contactObjects = new HashTable<GameObject*, GameObject*>(GAMEOBJECT_MAX_CONTACTS * 1.5f);
     contactsUsed = 0;
+    nextFixtureId = 0;
 #endif
 	/*
 	btBody = NULL;
@@ -82,13 +85,15 @@ GameObject::~GameObject() {
 	*/
 #ifdef BATTERYTECH_INCLUDE_BOX2D
 	destroyBody();
-	delete extraBodies;
-	extraBodies = NULL;
+	delete boxBodies;
+	boxBodies = NULL;
 	contacts->deleteElements();
 	delete contacts;
 	contacts = NULL;
 	delete contactObjects;
 	contactObjects = NULL;
+	delete boxFixtures;
+	boxFixtures = NULL;
 #endif
 	delete luaBinder;
 	luaBinder = NULL;
@@ -234,9 +239,6 @@ void GameObject::contactPostSolve(b2Contact* contact, const b2ContactImpulse* im
 
 void GameObject::setPosition(Vector3f pos) {
 	this->pos = pos;
-#ifdef BATTERYTECH_INCLUDE_BOX2D
-	this->boxBody->SetTransform(b2Vec2(pos.x, pos.y), this->boxBody->GetAngle());
-#endif
 	if (this->lastPos == Vector3f(0,0,0)) {
 		this->lastPos = pos;
 	}
@@ -416,29 +418,6 @@ Vector3f GameObject::getModelScale() {
 }
 
 void GameObject::init() {
-#ifdef BATTERYTECH_INCLUDE_BOX2D
-	if (physicsModelConfigs) {
-		for (S32 i = 0; i < physicsModelConfigs->getSize(); i++) {
-			PhysicsModelConfig *config = physicsModelConfigs->array[i];
-			b2Body *body = context->world->boxWorld->CreateBody(config->bodyDef);
-			body->SetUserData(this);
-			b2FixtureDef fixDef;
-			fixDef.shape = config->shape;
-            fixDef.density = 1.0f;
-            fixDef.friction = config->friction;
- 			fixDef.density = config->density;
-			fixDef.restitution = config->restitution;
-			fixDef.isSensor = config->isSensor;
-			fixDef.filter = config->filter;
-			body->CreateFixture(&fixDef);
-			if (i == 0) {
-				boxBody = body;
-			} else {
-				extraBodies->add(body);
-			}
-		}
-	}
-#endif
 	/*
 	for (S32 i = 0; i < physicsModelConfigs->getSize(); i++) {
 		PhysicsModelConfig *config = physicsModelConfigs->array[i];
@@ -502,9 +481,14 @@ void GameObject::update() {
 	}
 
 #ifdef BATTERYTECH_INCLUDE_BOX2D
-	b2Vec2 pos = boxBody->GetPosition();
-	this->pos.x = pos.x;
-	this->pos.y = pos.y;
+	for (S32 i = 0; i < boxBodies->getSize(); i++) {
+		// use position of first box body
+		if (boxBodies->array[i] != NULL) {
+			b2Vec2 pos = boxBodies->array[i]->GetPosition();
+			this->pos.x = pos.x;
+			this->pos.y = pos.y;
+		}
+	}
 	if (callbackDetail != CALLBACK_DETAIL_NONE) {
 		for (S32 i = 0; i < contactsUsed; i++) {
 			PhysicsContact2D *pc = contacts->array[i];
@@ -693,13 +677,10 @@ void GameObject::destroyBody() {
 	}
 #endif
 #ifdef BATTERYTECH_INCLUDE_BOX2D
-    if (boxBody && context && context->world && context->world->boxWorld) {
-		//logmsg("b2World->DestroyBody");
-		context->world->boxWorld->DestroyBody(boxBody);
-		boxBody = NULL;
-		if (extraBodies) {
-			for (S32 i = 0; i < extraBodies->getSize(); i++) {
-				context->world->boxWorld->DestroyBody(extraBodies->array[i]);
+    if (context && context->world && context->world->boxWorld && boxBodies) {
+		for (S32 i = 0; i < boxBodies->getSize(); i++) {
+			if (boxBodies->array[i]) {
+				context->world->boxWorld->DestroyBody(boxBodies->array[i]);
 			}
 		}
 	}

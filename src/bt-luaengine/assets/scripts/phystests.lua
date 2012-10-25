@@ -3,6 +3,11 @@
 PHYS_WORLD_WIDTH = 160
 PHYS_WORLD_HEIGHT = 100
 
+-- TODO - collisions should report body/fixture ID
+-- TODO - revolute joint
+-- TODO - prismatic joint
+-- TODO - all joint controls
+
 function unprojectScreenToWorld(x,y)
 	vpw, vph = getViewportSize()
 	return x * (PHYS_WORLD_WIDTH / vpw), y * (PHYS_WORLD_HEIGHT / vph)
@@ -12,21 +17,14 @@ Circle = table.copy(GameObject)
 
 function Circle.new(x, y, radius)
 	local self = allocMeta(Circle.createInstance(), Circle)
+	self:cInit()
 	self.objType = "Circle"
 	self.radius = radius
-	self:physics_allocConfigs(1)
-	self:physics_createCircleShape(0, radius)
-    self:physics_setBodyTransform(0, x, y, 0)
-    if not isStatic then
-        self:physics_setBodyType(0, 2)
-    else
-        self:physics_setBodyType(0, 0)
-    end
-    
-	-- self:physics_createCircleShape(1, radius)
-    -- self:physics_setBodyTransform(1, x+5, y, 0)
-   -- self:physics_setBodyType(1, 2)
-	self:cInit()
+	local bodyId = self:physics_createBody(type, x, y)
+	self:physics_setBodyType(bodyId, 2)
+	local fixtureId = self:physics_createCircleFixture(bodyId, radius);
+	local fixtureId2 = self:physics_createCircleFixture(bodyId, radius/2);
+	
 --    self:setPhysicsCallbackDetail(2)	
 	return self
 end
@@ -41,10 +39,10 @@ function Circle:update(delta)
 end
 
 function Circle:render()
-	local x,y,angle = self:getTransform(0)
+	local x,y,angle = self:physics_getBodyTransform(0)
 	-- logmsg("Circle render: " .. x .. " " .. y)
 	game:render2D("textures/circle.png", x,y, self.radius * 2, self.radius * 2, angle)
-	-- local x,y,angle = self:getTransform(1)
+	-- local x,y,angle = self:physics_getBodyTransform(1)
 	-- logmsg("Circle render: " .. x .. " " .. y)
 	-- game:render2D("textures/circle.png", x,y, self.radius * 2, self.radius * 2, angle)
 end
@@ -73,23 +71,22 @@ Box = table.copy(GameObject)
 
 function Box.new(x, y, width, height, isStatic)
 	local self = allocMeta(Box.createInstance(), Box)
+	self:cInit()
 	self.objType = "Box"
 	self.width = width
 	self.height = height
-	self:physics_allocConfigs(1)
-	self:physics_createPolygonShape(0, -width/2, -height/2, width/2, -height/2, width/2, height/2, -width/2, height/2)
-    self:physics_setBodyTransform(0, x, y, 0)
+	local bodyId = self:physics_createBody(type, x, y)
+	local fixtureId = self:physics_createPolygonFixture(bodyId, -width/2, -height/2, width/2, -height/2, width/2, height/2, -width/2, height/2)
     if not isStatic then
         self:physics_setBodyType(0, 2)
     else
         self:physics_setBodyType(0, 0)
     end
-	self:cInit()
 	return self
 end
 
 function Box:render()
-	local x,y,angle = self:getTransform()
+	local x,y,angle = self:physics_getBodyTransform(0)
 	-- logmsg("Circle render: " .. x .. " " .. y)
 	game:render2D("textures/rectangle.png", x,y, self.width, self.height, angle)
 end
@@ -156,7 +153,7 @@ function PhysicsTests:setupScene()
     groundbox.objType = "Ground Box"
 	table.insert(self.objects, groundbox)
     game:setPhysicsGravity(0, 10)
-    -- self.jointId = game:addDistanceJoint(c, 0, c2, 0, 35,30, 40, 80)
+    self.jointId = game:addDistanceJoint(c, 0, c2, 0, 35,30, 40, 80)
 end
 
 function PhysicsTests:makeBox(x,y,color,twosided)
@@ -185,8 +182,8 @@ function PhysicsTests:update(tickDelta)
     local obj1, obj2 = game:queryPhysicsAABB(wx-1,wy-1, wx+1,wy+1)
     if obj1 then
     	logmsg("Clicked on " .. obj1.objType)
-    	local objX, objY = obj1:getTransform()
-    	obj1:applyForce(500,0, objX + 500, objY)
+    	local objX, objY = obj1:physics_getBodyTransform(0)
+    	obj1:physics_applyForce(0, 500,0, objX + 500, objY)
     end
 end
 
@@ -203,8 +200,8 @@ function PhysicsTests:render()
 	for i,v in ipairs(self.objects) do
 		v:render()
 	end
-    -- local x1,y1, x2,y2 = game:getJointAnchorPoints(self.jointId)
-    -- self:renderLineObject("textures/rectangle.png", 1, x1,y1, x2,y2)
+    local x1,y1, x2,y2 = game:getJointAnchorPoints(self.jointId)
+    self:renderLineObject("textures/rectangle.png", 1, x1,y1, x2,y2)
 	game:end2DProjection()
 	-- local idx = game:renderText2D("test", "Test... gpBMFont-Render!^", 400, 400)
 	-- local idx = game:renderText2D("test2", "Test... gpBMFont-Render!^", 400, 400)

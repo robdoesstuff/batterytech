@@ -27,6 +27,7 @@
 #define GAMEOBJECT_MAX_PATH 100
 #define GAMEOBJECT_MAX_CONTACTS 16
 #define GAMEOBJECT_MAX_EXTRA_BODIES 10
+#define GAMEOBJECT_MAX_FIXTURES 100
 #define GAMEOBJECT_MAX_CONSTRAINTS 10
 
 #define GAMEOBJECT_SMALL_ROTATIONAL_SPEED 90.0f
@@ -49,28 +50,6 @@ using namespace BatteryTech;
 enum PhysicsCallbackDetail { CALLBACK_DETAIL_NONE = 0, CALLBACK_DETAIL_BROAD, CALLBACK_DETAIL_NARROW };
 
 struct PhysicsModelConfig {
-#ifdef BATTERYTECH_INCLUDE_BOX2D
-    // This assumes 1 shape/fixture per body, we should add multiple fixture support in the future
-    // to support compound bodies
-    b2BodyDef *bodyDef;
-    b2Shape *shape;
-    F32 friction;
-    F32 restitution;
-    F32 density;
-    b2Filter filter;
-    BOOL32 isSensor;
-    PhysicsModelConfig() {
-        bodyDef = NULL;
-        shape = NULL;
-        friction = 0.2f;
-        restitution = 0;
-        density = 1.0f;
-        isSensor = FALSE;
- 		filter.categoryBits = 0x0001;
-		filter.maskBits = 0xFFFF;
-		filter.groupIndex = 0;
-    }
-#endif
 #ifdef BATTERYTECH_INCLUDE_BULLET
 	btCollisionShape* shape;
 	btScalar mass;
@@ -203,12 +182,9 @@ public:
 	/// Called when any fixture is about to be destroyed due
 	/// to the destruction of its parent body.
 	virtual void SayGoodbye(b2Fixture* fixture){};
-    // the primary box2d body of this gameobject (be careful messing with this - it may not be the main one!)
-	b2Body *boxBody;
-	ManagedArray<b2Body> *extraBodies;
-    virtual F32 getLinearVelocity() { return 0.0f; };
-	ManagedArray<PhysicsModelConfig> *physicsModelConfigs;
-	ManagedArray<PhysicsConstraintConfig> *physicsConstraintConfigs;
+ 	ManagedArray<b2Body> *boxBodies;
+ 	HashTable<S32, b2Fixture*> *boxFixtures;
+ 	S32 nextFixtureId;
     // information about the physics contacts which we use to make callbacks
     ManagedArray<PhysicsContact2D> *contacts;
     // a hashed set of pointers to gameobjects that we've notified the script about contacts
