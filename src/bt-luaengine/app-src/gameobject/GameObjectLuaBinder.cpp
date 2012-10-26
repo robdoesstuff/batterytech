@@ -109,9 +109,10 @@ static int lua_GameObject_physics_setBodyGravityScale(lua_State *L);
 static int lua_GameObject_physics_getBodyTransform(lua_State *L);
 static int lua_GameObject_physics_getBodyAngularVelocity(lua_State *L);
 static int lua_GameObject_physics_getBodyLinearVelocity(lua_State *L);
-static int lua_GameObject_physics_getBodyWorldPoint(lua_State *l);
-static int lua_GameObject_physics_getBodyLocalPoint(lua_State *l);
-static int lua_GameObject_physics_getBodyLocalCenter(lua_State *l);
+static int lua_GameObject_physics_getBodyWorldPoint(lua_State *L);
+static int lua_GameObject_physics_getBodyWorldPoints(lua_State *L);
+static int lua_GameObject_physics_getBodyLocalPoint(lua_State *L);
+static int lua_GameObject_physics_getBodyLocalCenter(lua_State *L);
 static int lua_GameObject_physics_applyForce(lua_State *L);
 static int lua_GameObject_physics_applyTorque(lua_State *L);
 static int lua_GameObject_physics_applyLinearImpulse(lua_State *L);
@@ -126,7 +127,8 @@ static int lua_GameObject_physics_setFixtureFriction(lua_State *L);
 static int lua_GameObject_physics_setFixtureRestitution(lua_State *L);
 static int lua_GameObject_physics_setFixtureIsSensor(lua_State *L);
 static int lua_GameObject_physics_setFixtureFilter(lua_State *L);
-static int lua_GameObject_physics_fixtureTestPoint(lua_State *l);
+static int lua_GameObject_physics_fixtureTestPoint(lua_State *L);
+static int lua_GameObject_physics_getFixtureBodyId(lua_State *L);
 // collision callbacks
 static int lua_GameObject_setPhysicsCallbackDetail(lua_State *L);
 static int lua_GameObject_countPhysicsContacts(lua_State *L);
@@ -205,6 +207,7 @@ static const luaL_reg lua_methods[] = {
     { "physics_getBodyAngularVelocity", lua_GameObject_physics_getBodyAngularVelocity },
     { "physics_getBodyLinearVelocity", lua_GameObject_physics_getBodyLinearVelocity },
     { "physics_getBodyWorldPoint", lua_GameObject_physics_getBodyWorldPoint },
+    { "physics_getBodyWorldPoints", lua_GameObject_physics_getBodyWorldPoints },
     { "physics_getBodyLocalPoint", lua_GameObject_physics_getBodyLocalPoint },
     { "physics_getBodyLocalCenter", lua_GameObject_physics_getBodyLocalCenter },
 	{ "physics_applyForce", lua_GameObject_physics_applyForce },
@@ -221,6 +224,7 @@ static const luaL_reg lua_methods[] = {
     { "physics_setFixtureIsSensor", lua_GameObject_physics_setFixtureIsSensor },
     { "physics_setFixtureFilter", lua_GameObject_physics_setFixtureFilter },
     { "physics_fixtureTestPoint", lua_GameObject_physics_fixtureTestPoint },
+    { "physics_getFixtureBodyId", lua_GameObject_physics_getFixtureBodyId },
     { "setPhysicsCallbackDetail", lua_GameObject_setPhysicsCallbackDetail },
     { "countPhysicsContacts", lua_GameObject_countPhysicsContacts },
     { "getPhysicsContact", lua_GameObject_getPhysicsContact },
@@ -1470,6 +1474,27 @@ static int lua_GameObject_physics_getBodyWorldPoint(lua_State *L) {
     return 0;
 }
 
+// bodyId, pointCount, p1x,p1y, etc
+static int lua_GameObject_physics_getBodyWorldPoints(lua_State *L) {
+	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
+	S32 bodyIdx = lua_tointeger(L, 2);
+	CHECK_IDX_BOUNDS(bodyIdx);
+	b2Body *body = o->boxBodies->array[bodyIdx];
+	if (body) {
+        S32 pointCount = lua_tointeger(L, 3);
+        for (S32 i = 0; i < pointCount; i++) {
+            F32 x = lua_tonumber(L, 4 + i*2);
+            F32 y = lua_tonumber(L, 4 + i*2+1);
+            b2Vec2 p = body->GetWorldPoint(b2Vec2(x,y));
+            lua_pushnumber(L, p.x);
+            lua_pushnumber(L, p.y);
+        }
+		return pointCount * 2;
+	}
+    return 0;
+}
+
+
 static int lua_GameObject_physics_getBodyLocalPoint(lua_State *L) {
 	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
 	S32 bodyIdx = lua_tointeger(L, 2);
@@ -1696,6 +1721,22 @@ static int lua_GameObject_physics_fixtureTestPoint(lua_State *L) {
 		F32 y = lua_tonumber(L, 4);
 		lua_pushboolean(L, fixture->TestPoint(b2Vec2(x,y)));
 		return 1;
+	}
+    return 0;
+}
+
+static int lua_GameObject_physics_getFixtureBodyId(lua_State *L) {
+    GameObject *o = *(GameObject**)lua_touserdata(L, 1);
+	S32 fixtureId = lua_tointeger(L, 2);
+	b2Fixture *fixture = o->boxFixtures->get(fixtureId);
+	if (fixture) {
+        b2Body *body = fixture->GetBody();
+        for (S32 i = 0; i < o->boxBodies->getSize(); i++) {
+            if (o->boxBodies->array[i] == body) {
+                lua_pushinteger(L, i);
+                return 1;
+            }
+        }
 	}
     return 0;
 }

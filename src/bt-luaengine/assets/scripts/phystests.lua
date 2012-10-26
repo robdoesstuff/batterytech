@@ -3,9 +3,6 @@
 PHYS_WORLD_WIDTH = 160
 PHYS_WORLD_HEIGHT = 100
 
--- TODO - query needs to tell us which fixture ID
--- TODO - need body lookup for fixture ID
--- TODO - mouse joint needs to know which body to fix to
 -- TODO - prismatic joint
 -- TODO - rope joint
 -- TODO - chain shape w/ghost verts
@@ -25,7 +22,7 @@ function Circle.new(x, y, radius)
 	local bodyId = self:physics_createBody(type, x, y)
 	self:physics_setBodyType(bodyId, 2)
 	local fixtureId = self:physics_createCircleFixture(bodyId, radius);
-	local fixtureId2 = self:physics_createCircleFixture(bodyId, radius/2, 5, 5);
+	self.fixtureId2 = self:physics_createCircleFixture(bodyId, radius/2, 5, 5);
 	
 --    self:setPhysicsCallbackDetail(2)	
 	return self
@@ -44,9 +41,9 @@ function Circle:render()
 	local x,y,angle = self:physics_getBodyTransform(0)
 	-- logmsg("Circle render: " .. x .. " " .. y)
 	game:render2D("textures/circle.png", x,y, self.radius * 2, self.radius * 2, angle)
-	-- local x,y,angle = self:physics_getBodyTransform(1)
+	local x,y = self:physics_getBodyWorldPoints(0, 1, 5,5)
 	-- logmsg("Circle render: " .. x .. " " .. y)
-	-- game:render2D("textures/circle.png", x,y, self.radius * 2, self.radius * 2, angle)
+	game:render2D("textures/circle.png", x,y, self.radius, self.radius, angle)
 end
 
 function Circle:onCollisionStarted(other, force, velocity)
@@ -166,9 +163,9 @@ function PhysicsTests:setupScene()
 	table.insert(self.objects, Box.new(40, 70, 5, 5))
 	table.insert(self.objects, Box.new(50, 70, 5, 5))
 	table.insert(self.objects, Box.new(60, 70, 5, 5))
-    local groundbox = Box.new(PHYS_WORLD_WIDTH/2, PHYS_WORLD_HEIGHT-2, PHYS_WORLD_WIDTH, 2, true)
-    groundbox.objType = "Ground Box"
-	table.insert(self.objects, groundbox)
+    self.groundbox = Box.new(PHYS_WORLD_WIDTH/2, PHYS_WORLD_HEIGHT-2, PHYS_WORLD_WIDTH, 2, true)
+    self.groundbox.objType = "Ground Box"
+	table.insert(self.objects, self.groundbox)
     game:setPhysicsGravity(0, 10)
     self.jointId = game:physics_addDistanceJoint(c, 0, c2, 0, 35,30, 40, 80)
 end
@@ -197,20 +194,21 @@ function PhysicsTests:update(tickDelta)
     local isDown, x,y = getPointerState(0)
     if isDown then
 	    local wx, wy = unprojectScreenToWorld(x,y)
-	    local obj1, obj2 = game:queryPhysicsAABB(wx-1,wy-1, wx+1,wy+1)
+	    local obj1, fixtureId1, obj2, fixtureId2 = game:queryPhysicsAABB(wx-1,wy-1, wx+1,wy+1)
 	    if obj1 then
 	    	logmsg("Clicked on " .. obj1.objType)
 	    	local objX, objY = obj1:physics_getBodyTransform(0)
-	    	obj1:physics_applyForce(0, 500,0, objX + 500, objY)
-	    	-- TODO - query needs to tell us which fixture ID
-	    	-- TODO - need body lookup for fixture ID
-	    	-- TODO - mouse joint needs to know which body to fix to
-	    	if not self.mouseJointId then
-	    		-- self.mouseJointId = game:physics_addMouseJoint(wx,wy)
+	    	-- obj1:physics_applyForce(0, 500,0, objX + 500, objY)
+	    	if not self.mouseJointId and obj1 ~= self.groundbox then
+                local bodyId = obj1:physics_getFixtureBodyId(fixtureId1)
+                if bodyId then
+                    self.mouseJointId = game:physics_addMouseJoint(self.groundbox, 0, obj1, bodyId, wx,wy, 5000)
+                end
 	    	end
 	    end
 	    if self.mouseJointId then
-	   		game:physics_setMouseJointPosition(self.mousejointId, wx,wy)
+            logmsg("Moving mouse joint to " .. wx .. " " .. wy)
+	   		game:physics_setMouseJointPosition(self.mouseJointId, wx,wy)
 	    end
     else
     	if self.mouseJointId then

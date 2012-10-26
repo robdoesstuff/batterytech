@@ -1819,11 +1819,16 @@ static int lua_Game_physics_setRevoluteJointLimits(lua_State *L) {
 	// param 5 is limit high (opt)
 	S32 jointID = lua_tointeger(L, 2);
 	if (static_context->world->boxJoints) {
-		b2RevoluteJoint *joint = (b2RevoluteJoint*) static_context->world->boxJoints->get(jointID);
-		joint->EnableLimit(lua_toboolean(L, 3));
-		if (lua_isnumber(L, 4) && lua_isnumber(L, 5)) {
-			joint->SetLimits(lua_tonumber(L, 4), lua_tonumber(L, 5));
-		}
+		b2Joint *joint = static_context->world->boxJoints->get(jointID);
+        if (joint->GetType() == e_revoluteJoint) {
+            b2RevoluteJoint *rJoint = (b2RevoluteJoint*) joint;
+            rJoint->EnableLimit(lua_toboolean(L, 3));
+            if (lua_isnumber(L, 4) && lua_isnumber(L, 5)) {
+                rJoint->SetLimits(lua_tonumber(L, 4), lua_tonumber(L, 5));
+            }
+        } else {
+            logmsg("physics_setRevoluteJointLimits called on non-revolute joint");
+        }
 	}
 	return 0;
 }
@@ -1836,37 +1841,51 @@ static int lua_Game_physics_setRevoluteJointMotor(lua_State *L) {
 	// param 5 is max motor torque (opt)
 	S32 jointID = lua_tointeger(L, 2);
 	if (static_context->world->boxJoints) {
-		b2RevoluteJoint *joint = (b2RevoluteJoint*) static_context->world->boxJoints->get(jointID);
-		joint->EnableMotor(lua_toboolean(L, 3));
-		if (lua_isnumber(L, 4)) {
-			joint->SetMotorSpeed(lua_tonumber(L, 4));
-		}
-		if (lua_isnumber(L, 5)) {
-			joint->SetMaxMotorTorque(lua_tonumber(L, 5));
-		}
+		b2Joint *joint = static_context->world->boxJoints->get(jointID);
+        if (joint->GetType() == e_revoluteJoint) {
+            b2RevoluteJoint *rJoint = (b2RevoluteJoint*) joint;
+            rJoint->EnableMotor(lua_toboolean(L, 3));
+            if (lua_isnumber(L, 4)) {
+                rJoint->SetMotorSpeed(lua_tonumber(L, 4));
+            }
+            if (lua_isnumber(L, 5)) {
+                rJoint->SetMaxMotorTorque(lua_tonumber(L, 5));
+            }
+        } else {
+            logmsg("physics_setRevoluteJointMotor called on non-revolute joint");
+        }
 	}
 	return 0;
 }
 
 static int lua_Game_physics_addMouseJoint(lua_State *L) {
     // param 1 is game
-    // params 2,3 are anchorA X,Y
-	// param 4 (optional) is maxForce
-    // param 5 (optional) is frequencyHz
-    // param 6 (optional) is dampingRatio
-    b2Vec2 worldAnchorOnBodyA = b2Vec2(lua_tonumber(L, 2), lua_tonumber(L, 3));
+    // param 2 is gameobject1, 3 is index1
+    // param 4 is gameobject2, 5 is index2
+    // params 6,7 are anchorA X,Y
+	// param 8 (optional) is maxForce
+    // param 9 (optional) is frequencyHz
+    // param 10 (optional) is dampingRatio
+    GameObject *objA = *(GameObject**)lua_touserdata(L, 2);
+    S32 idxA = lua_tointeger(L, 3);
+    GameObject *objB = *(GameObject**)lua_touserdata(L, 4);
+    S32 idxB = lua_tointeger(L, 5);
+    b2Vec2 worldAnchorOnBodyA = b2Vec2(lua_tonumber(L, 6), lua_tonumber(L, 7));
     S32 jointID = nextJointID++;
     b2MouseJointDef jointDef;
-    // TODO - add body - mousejoint only uses mBodyB
     jointDef.target = worldAnchorOnBodyA;
-    if (lua_isnumber(L, 4)) {
-		jointDef.maxForce = lua_tonumber(L, 4);
-		if (lua_isnumber(L, 5)) {
-            jointDef.frequencyHz = lua_tonumber(L, 5);
-            if (lua_isnumber(L, 6)) {
-                jointDef.dampingRatio = lua_tonumber(L, 6);
+    jointDef.bodyA = getBody(objA, idxA);
+    jointDef.bodyB = getBody(objB, idxB);
+    if (lua_isnumber(L, 8)) {
+		jointDef.maxForce = lua_tonumber(L, 8);
+		if (lua_isnumber(L, 9)) {
+            jointDef.frequencyHz = lua_tonumber(L, 9);
+            if (lua_isnumber(L, 10)) {
+                jointDef.dampingRatio = lua_tonumber(L, 10);
             }
         }
+    } else {
+        jointDef.maxForce = 1000 * jointDef.bodyB->GetMass();
     }
     b2Joint *joint = static_context->world->boxWorld->CreateJoint(&jointDef);
     joint->SetUserData((void*)jointID);
@@ -1882,8 +1901,13 @@ static int lua_Game_physics_setMouseJointPosition(lua_State *L) {
 	// param 3 and 4 are position
 	S32 jointID = lua_tointeger(L, 2);
 	if (static_context->world->boxJoints) {
-		b2MouseJoint *joint = (b2MouseJoint*) static_context->world->boxJoints->get(jointID);
-		joint->SetTarget(b2Vec2(lua_tonumber(L, 3), lua_tonumber(L, 4)));
+		b2Joint *joint = static_context->world->boxJoints->get(jointID);
+        if (joint->GetType() == e_mouseJoint) {
+            b2MouseJoint *mJoint = (b2MouseJoint*) joint;
+            mJoint->SetTarget(b2Vec2(lua_tonumber(L, 3), lua_tonumber(L, 4)));
+        } else {
+            logmsg("physics_setMouseJointPosition called on non-mouse joint");
+        }
 	}
 	return 0;
 }
@@ -1944,7 +1968,8 @@ static int lua_Game_tostring (lua_State *L) {
 		if (o1->bodyType == PHYSICS_BODY_TYPE_GAMEOBJECT) {
 			GameObject *go = (GameObject*) o1;
 			lua_rawgeti(L, LUA_REGISTRYINDEX, go->luaBinder->luaRef);
-			returnCount++;
+            lua_pushinteger(L, (size_t)fixture->GetUserData());
+			returnCount+=2;
 		}
 		// Return true to continue the query.
 		return true;
