@@ -1735,6 +1735,7 @@ static int lua_GameObject_getPhysicsContact(lua_State *L) {
     lua_pushnumber(L, pc->localPoint[1].y);
     lua_pushboolean(L, pc->isTouching);
     lua_pushboolean(L, pc->isActive);
+    lua_pushinteger(L, (size_t)pc->fixture->GetUserData());
     return 8;
 }
 

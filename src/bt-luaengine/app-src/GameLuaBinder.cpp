@@ -111,9 +111,14 @@ static int lua_Game_setParticleRotationSpeedRange(lua_State *L);
 static int lua_Game_setParticleGravity(lua_State *L);
 static int lua_Game_setParticleAutoStopMax(lua_State *L);
 #ifdef BATTERYTECH_INCLUDE_BOX2D
-static int lua_Game_addDistanceJoint(lua_State *L);
-static int lua_Game_removeJoint(lua_State *L);
-static int lua_Game_getJointAnchorPoints(lua_State *L);
+static int lua_Game_physics_addDistanceJoint(lua_State *L);
+static int lua_Game_physics_addRevoluteJoint(lua_State *L);
+static int lua_Game_physics_setRevoluteJointLimits(lua_State *L);
+static int lua_Game_physics_setRevoluteJointMotor(lua_State *L);
+static int lua_Game_physics_addMouseJoint(lua_State *L);
+static int lua_Game_physics_setMouseJointPosition(lua_State *L);
+static int lua_Game_physics_removeJoint(lua_State *L);
+static int lua_Game_physics_getJointAnchorPoints(lua_State *L);
 #endif
 
 static const luaL_reg lua_methods[] = {
@@ -188,9 +193,14 @@ static const luaL_reg lua_methods[] = {
     { "setParticleGravity", lua_Game_setParticleGravity },
     { "setParticleAutoStopMax", lua_Game_setParticleAutoStopMax },
 #ifdef BATTERYTECH_INCLUDE_BOX2D
-    { "addDistanceJoint", lua_Game_addDistanceJoint },
-    { "removeJoint", lua_Game_removeJoint },
-    { "getJointAnchorPoints", lua_Game_getJointAnchorPoints },
+    { "physics_addDistanceJoint", lua_Game_physics_addDistanceJoint },
+    { "physics_addRevoluteJoint", lua_Game_physics_addRevoluteJoint },
+    { "physics_setRevoluteJointLimits", lua_Game_physics_setRevoluteJointLimits },
+    { "physics_setRevoluteJointMotor", lua_Game_physics_setRevoluteJointMotor },
+    { "physics_addMouseJoint", lua_Game_physics_addMouseJoint },
+    { "physics_setMouseJointPosition", lua_Game_physics_setMouseJointPosition },
+    { "physics_removeJoint", lua_Game_physics_removeJoint },
+    { "physics_getJointAnchorPoints", lua_Game_physics_getJointAnchorPoints },
 #endif
 	{ 0, 0 } };
 
@@ -1743,7 +1753,7 @@ static b2Body* getBody(GameObject *obj, S32 idx) {
 	return obj->boxBodies->array[idx];
 }
 
-static int lua_Game_addDistanceJoint(lua_State *L) {
+static int lua_Game_physics_addDistanceJoint(lua_State *L) {
     // param 1 is game
     // param 2 is gameobject1, 3 is index1
     // param 4 is gameobject2, 5 is index2
@@ -1779,7 +1789,106 @@ static int lua_Game_addDistanceJoint(lua_State *L) {
     return 1;
 }
 
-static int lua_Game_removeJoint(lua_State *L) {
+static int lua_Game_physics_addRevoluteJoint(lua_State *L) {
+    // param 1 is game
+    // param 2 is gameobject1, 3 is index1
+    // param 4 is gameobject2, 5 is index2
+    // params 6,7 are anchorA X,Y
+    GameObject *objA = *(GameObject**)lua_touserdata(L, 2);
+    S32 idxA = lua_tointeger(L, 3);
+    GameObject *objB = *(GameObject**)lua_touserdata(L, 4);
+    S32 idxB = lua_tointeger(L, 5);
+    b2Body *myBodyA = getBody(objA, idxA);
+    b2Body *myBodyB = getBody(objB, idxB);
+    b2Vec2 worldAnchorOnBodyA = b2Vec2(lua_tonumber(L, 6), lua_tonumber(L, 7));
+    S32 jointID = nextJointID++;
+    b2RevoluteJointDef jointDef;
+    jointDef.Initialize(myBodyA, myBodyB, worldAnchorOnBodyA);
+    b2Joint *joint = static_context->world->boxWorld->CreateJoint(&jointDef);
+    joint->SetUserData((void*)jointID);
+    static_context->world->boxJoints->put(jointID, joint);
+    lua_pushinteger(L, jointID);
+    return 1;
+}
+
+static int lua_Game_physics_setRevoluteJointLimits(lua_State *L) {
+    // param 1 is game
+	// param 2 is jointID
+	// param 3 is limits enabled
+	// param 4 is limit low (opt)
+	// param 5 is limit high (opt)
+	S32 jointID = lua_tointeger(L, 2);
+	if (static_context->world->boxJoints) {
+		b2RevoluteJoint *joint = (b2RevoluteJoint*) static_context->world->boxJoints->get(jointID);
+		joint->EnableLimit(lua_toboolean(L, 3));
+		if (lua_isnumber(L, 4) && lua_isnumber(L, 5)) {
+			joint->SetLimits(lua_tonumber(L, 4), lua_tonumber(L, 5));
+		}
+	}
+	return 0;
+}
+
+static int lua_Game_physics_setRevoluteJointMotor(lua_State *L) {
+    // param 1 is game
+	// param 2 is jointID
+	// param 3 is motor enabled
+	// param 4 is motor speed (opt)
+	// param 5 is max motor torque (opt)
+	S32 jointID = lua_tointeger(L, 2);
+	if (static_context->world->boxJoints) {
+		b2RevoluteJoint *joint = (b2RevoluteJoint*) static_context->world->boxJoints->get(jointID);
+		joint->EnableMotor(lua_toboolean(L, 3));
+		if (lua_isnumber(L, 4)) {
+			joint->SetMotorSpeed(lua_tonumber(L, 4));
+		}
+		if (lua_isnumber(L, 5)) {
+			joint->SetMaxMotorTorque(lua_tonumber(L, 5));
+		}
+	}
+	return 0;
+}
+
+static int lua_Game_physics_addMouseJoint(lua_State *L) {
+    // param 1 is game
+    // params 2,3 are anchorA X,Y
+	// param 4 (optional) is maxForce
+    // param 5 (optional) is frequencyHz
+    // param 6 (optional) is dampingRatio
+    b2Vec2 worldAnchorOnBodyA = b2Vec2(lua_tonumber(L, 2), lua_tonumber(L, 3));
+    S32 jointID = nextJointID++;
+    b2MouseJointDef jointDef;
+    // TODO - add body - mousejoint only uses mBodyB
+    jointDef.target = worldAnchorOnBodyA;
+    if (lua_isnumber(L, 4)) {
+		jointDef.maxForce = lua_tonumber(L, 4);
+		if (lua_isnumber(L, 5)) {
+            jointDef.frequencyHz = lua_tonumber(L, 5);
+            if (lua_isnumber(L, 6)) {
+                jointDef.dampingRatio = lua_tonumber(L, 6);
+            }
+        }
+    }
+    b2Joint *joint = static_context->world->boxWorld->CreateJoint(&jointDef);
+    joint->SetUserData((void*)jointID);
+    static_context->world->boxJoints->put(jointID, joint);
+    lua_pushinteger(L, jointID);
+    return 1;
+}
+
+
+static int lua_Game_physics_setMouseJointPosition(lua_State *L) {
+    // param 1 is game
+	// param 2 is jointID
+	// param 3 and 4 are position
+	S32 jointID = lua_tointeger(L, 2);
+	if (static_context->world->boxJoints) {
+		b2MouseJoint *joint = (b2MouseJoint*) static_context->world->boxJoints->get(jointID);
+		joint->SetTarget(b2Vec2(lua_tonumber(L, 3), lua_tonumber(L, 4)));
+	}
+	return 0;
+}
+
+static int lua_Game_physics_removeJoint(lua_State *L) {
     // param 1 is game
     // param 2 is joint ID
     S32 jointID = lua_tointeger(L, 2);
@@ -1791,7 +1900,7 @@ static int lua_Game_removeJoint(lua_State *L) {
     return 0;
 }
 
-static int lua_Game_getJointAnchorPoints(lua_State *L) {
+static int lua_Game_physics_getJointAnchorPoints(lua_State *L) {
     // param 1 is game
     // param 2 is joint ID
     S32 jointID = lua_tointeger(L, 2);

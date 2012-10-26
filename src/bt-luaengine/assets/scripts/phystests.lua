@@ -3,12 +3,7 @@
 PHYS_WORLD_WIDTH = 160
 PHYS_WORLD_HEIGHT = 100
 
--- TODO - improve debug draw
--- TODO - collisions should report body/fixture ID
--- TODO - revolute joint
 -- TODO - prismatic joint
--- TODO - mouse joint
--- TODO - all joint controls / motors / etc
 
 function unprojectScreenToWorld(x,y)
 	vpw, vph = getViewportSize()
@@ -35,7 +30,7 @@ function Circle:update(delta)
     local c = self:countPhysicsContacts()
 	-- logmsg("(Circle) " .. c .. " contacts")
 	for i = 0, c-1 do
-		-- local other, pointCount, x1,y1, x2,y2, isTouching, isActive = self:getPhysicsContact(i)
+		-- local other, pointCount, x1,y1, x2,y2, isTouching, isActive, fixtureId = self:getPhysicsContact(i)
 		-- logmsg("(Circle) contact is " .. other.objType .. " " .. pointCount .. " " .. x1 .. "," .. y1)
 	end
 end
@@ -93,12 +88,17 @@ function Box:render()
 	game:render2D("textures/rectangle.png", x,y, self.width, self.height, angle)
 end
 
+
+------------------------------- Module Main Def -----------------------------
+
 PhysicsTests = {}
 
 function PhysicsTests.new()
 	local self = table.copy(PhysicsTests)
 	self.wasInput = false
+	self.shouldRender = true
 	self.objects = {}
+	self.mouseJointId = nil
 	return self
 end
 
@@ -136,6 +136,16 @@ function PhysicsTests:setupUI()
         end
 	end
 	table.insert(self.buttons, button)
+	local button = makeButtonCentered(settingButtonWidth/2, 300, settingButtonWidth, 100, "Render: on")
+	button.onClickUp = function(button)
+        self.shouldRender = not self.shouldRender
+        if self.shouldRender then
+            button.label = "Render: on"
+        else
+            button.label = "Render: off"
+        end
+	end
+	table.insert(self.buttons, button)
 end
 
 function PhysicsTests:setupScene()
@@ -155,7 +165,7 @@ function PhysicsTests:setupScene()
     groundbox.objType = "Ground Box"
 	table.insert(self.objects, groundbox)
     game:setPhysicsGravity(0, 10)
-    self.jointId = game:addDistanceJoint(c, 0, c2, 0, 35,30, 40, 80)
+    self.jointId = game:physics_addDistanceJoint(c, 0, c2, 0, 35,30, 40, 80)
 end
 
 function PhysicsTests:makeBox(x,y,color,twosided)
@@ -180,12 +190,28 @@ function PhysicsTests:update(tickDelta)
     self.wasInput = (getPointerState(0) or getKeyState(0))
     -- Query for anything under cursor
     local isDown, x,y = getPointerState(0)
-    local wx, wy = unprojectScreenToWorld(x,y)
-    local obj1, obj2 = game:queryPhysicsAABB(wx-1,wy-1, wx+1,wy+1)
-    if obj1 then
-    	logmsg("Clicked on " .. obj1.objType)
-    	local objX, objY = obj1:physics_getBodyTransform(0)
-    	obj1:physics_applyForce(0, 500,0, objX + 500, objY)
+    if isDown then
+	    local wx, wy = unprojectScreenToWorld(x,y)
+	    local obj1, obj2 = game:queryPhysicsAABB(wx-1,wy-1, wx+1,wy+1)
+	    if obj1 then
+	    	logmsg("Clicked on " .. obj1.objType)
+	    	local objX, objY = obj1:physics_getBodyTransform(0)
+	    	obj1:physics_applyForce(0, 500,0, objX + 500, objY)
+	    	-- TODO - query needs to tell us which fixture ID
+	    	-- TODO - need body lookup for fixture ID
+	    	-- TODO - mouse joint needs to know which body to fix to
+	    	if not self.mouseJointId then
+	    		-- self.mouseJointId = game:physics_addMouseJoint(wx,wy)
+	    	end
+	    end
+	    if self.mouseJointId then
+	   		game:physics_setMouseJointPosition(self.mousejointId, wx,wy)
+	    end
+    else
+    	if self.mouseJointId then
+    		game:physics_removeJoint(self.mouseJointId)
+    		self.mouseJointId = nil
+    	end
     end
 end
 
@@ -199,11 +225,13 @@ function PhysicsTests:render()
 		v:render()
 	end
 	game:start2DProjection(0, PHYS_WORLD_WIDTH, PHYS_WORLD_HEIGHT, 0, -1, 1)
-	for i,v in ipairs(self.objects) do
-		v:render()
-	end
-    local x1,y1, x2,y2 = game:getJointAnchorPoints(self.jointId)
-    self:renderLineObject("textures/rectangle.png", 1, x1,y1, x2,y2)
+	if self.shouldRender then
+		for i,v in ipairs(self.objects) do
+			v:render()
+		end
+	    local x1,y1, x2,y2 = game:physics_getJointAnchorPoints(self.jointId)
+	    self:renderLineObject("textures/rectangle.png", 1, x1,y1, x2,y2)
+    end
 	game:end2DProjection()
 	-- local idx = game:renderText2D("test", "Test... gpBMFont-Render!^", 400, 400)
 	-- local idx = game:renderText2D("test2", "Test... gpBMFont-Render!^", 400, 400)
