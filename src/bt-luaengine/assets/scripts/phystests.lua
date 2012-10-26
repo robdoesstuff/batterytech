@@ -3,7 +3,12 @@
 PHYS_WORLD_WIDTH = 160
 PHYS_WORLD_HEIGHT = 100
 
+-- TODO - query needs to tell us which fixture ID
+-- TODO - need body lookup for fixture ID
+-- TODO - mouse joint needs to know which body to fix to
 -- TODO - prismatic joint
+-- TODO - rope joint
+-- TODO - chain shape w/ghost verts
 
 function unprojectScreenToWorld(x,y)
 	vpw, vph = getViewportSize()
