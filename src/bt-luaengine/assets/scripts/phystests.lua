@@ -3,10 +3,6 @@
 PHYS_WORLD_WIDTH = 160
 PHYS_WORLD_HEIGHT = 100
 
--- TODO - prismatic joint
--- TODO - rope joint
--- TODO - chain shape w/ghost verts
-
 function unprojectScreenToWorld(x,y)
 	vpw, vph = getViewportSize()
 	return x * (PHYS_WORLD_WIDTH / vpw), y * (PHYS_WORLD_HEIGHT / vph)
@@ -90,6 +86,24 @@ function Box:render()
 	game:render2D("textures/rectangle.png", x,y, self.width, self.height, angle)
 end
 
+StaticChain = table.copy(GameObject)
+
+function StaticChain.new()
+	local self = allocMeta(StaticChain.createInstance(), StaticChain)
+	self:cInit()
+	self.objType = "Static"
+	self.width = width
+	self.height = height
+	local y = 19
+	local verts = {0,y, 30,y, 43,y}
+	local bodyId = self:physics_createBody(type, x, y)
+	local fixtureId = self:physics_createChainFixture(bodyId, false, unpack(verts))
+    self:physics_setBodyType(0, 0)
+	return self
+end
+
+function StaticChain:render()
+end
 
 ------------------------------- Module Main Def -----------------------------
 
@@ -152,6 +166,7 @@ end
 
 function PhysicsTests:setupScene()
 	game:createPhysicsWorld()
+	table.insert(self.objects, StaticChain.new())
 	table.insert(self.objects, Circle.new(30, 80, 5))
 	local c = Circle.new(35, 30, 5)
     local c2 = Circle.new(40, 80, 5)
@@ -196,7 +211,7 @@ function PhysicsTests:update(tickDelta)
 	    local wx, wy = unprojectScreenToWorld(x,y)
 	    local obj1, fixtureId1, obj2, fixtureId2 = game:queryPhysicsAABB(wx-1,wy-1, wx+1,wy+1)
 	    if obj1 then
-	    	logmsg("Clicked on " .. obj1.objType)
+	    	-- logmsg("Clicked on " .. obj1.objType)
 	    	local objX, objY = obj1:physics_getBodyTransform(0)
 	    	-- obj1:physics_applyForce(0, 500,0, objX + 500, objY)
 	    	if not self.mouseJointId and obj1 ~= self.groundbox then
@@ -207,7 +222,7 @@ function PhysicsTests:update(tickDelta)
 	    	end
 	    end
 	    if self.mouseJointId then
-            logmsg("Moving mouse joint to " .. wx .. " " .. wy)
+            -- logmsg("Moving mouse joint to " .. wx .. " " .. wy)
 	   		game:physics_setMouseJointPosition(self.mouseJointId, wx,wy)
 	    end
     else

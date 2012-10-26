@@ -20,6 +20,7 @@
 #include <bt-box2d/Collision/Shapes/b2Shape.h>
 #include <bt-box2d/Collision/Shapes/b2PolygonShape.h>
 #include <bt-box2d/Collision/Shapes/b2CircleShape.h>
+#include <bt-box2d/Collision/Shapes/b2ChainShape.h>
 #endif
 
 #define LUA_GAME_OBJECT "GameObject"
@@ -1635,10 +1636,42 @@ static int lua_GameObject_physics_createCircleFixture(lua_State *L) {
 	return 0;
 }
 
-// bodyId, x1,y1
+// bodyId, loop, x1,y1, x2,y2
 static int lua_GameObject_physics_createChainFixture(lua_State *L) {
 	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
-	// TODO - support ghost verts allowing for multiple chains to be connected
+	S32 bodyIdx = lua_tointeger(L, 2);
+	CHECK_IDX_BOUNDS(bodyIdx);
+	b2Body *body = o->boxBodies->array[bodyIdx];
+	if (body) {
+		BOOL32 loop = lua_toboolean(L, 3);
+	    b2Vec2 verts[1024];
+	    // for each point pair, add
+	    S32 n = 4;
+	    S32 pointCount = 0;
+	    b2ChainShape *shape = new b2ChainShape;
+	    while (lua_isnumber(L, n) && lua_isnumber(L, n+1)) {
+	        verts[pointCount] = b2Vec2(lua_tonumber(L, n), lua_tonumber(L, n+1));
+	        pointCount++;
+	        n+=2;
+	        if (pointCount == 1024) {
+	            break;
+	        }
+	    }
+	    if (loop) {
+	    	shape->CreateLoop(verts, pointCount);
+	    } else {
+		    shape->CreateChain(verts, pointCount);
+	    }
+	    b2FixtureDef fixDef;
+	    setFixtureDefaults(fixDef);
+	    fixDef.shape = shape;
+	    b2Fixture *fixture = body->CreateFixture(&fixDef);
+	    S32 id = o->nextFixtureId++;
+	    fixture->SetUserData((void*)id);
+	    o->boxFixtures->put(id, fixture);
+	    lua_pushinteger(L, id);
+	    return 1;
+	}
 	return 0;
 }
 
