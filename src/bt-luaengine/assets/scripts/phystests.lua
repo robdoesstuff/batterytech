@@ -3,6 +3,8 @@
 PHYS_WORLD_WIDTH = 160
 PHYS_WORLD_HEIGHT = 100
 
+local DRAW_MODE = false
+
 function unprojectScreenToWorld(x,y)
 	vpw, vph = getViewportSize()
 	return x * (PHYS_WORLD_WIDTH / vpw), y * (PHYS_WORLD_HEIGHT / vph)
@@ -88,16 +90,12 @@ end
 
 StaticChain = table.copy(GameObject)
 
-function StaticChain.new()
+function StaticChain.new(verts)
 	local self = allocMeta(StaticChain.createInstance(), StaticChain)
 	self:cInit()
 	self.objType = "Static"
-	self.width = width
-	self.height = height
-	local y = 19
-	local verts = {0,y, 30,y, 43,y}
-	local bodyId = self:physics_createBody(type, x, y)
-	local fixtureId = self:physics_createChainFixture(bodyId, false, unpack(verts))
+	local bodyId = self:physics_createBody(type, 0, 0)
+	local fixtureId = self:physics_createChainFixture(bodyId, true, unpack(verts))
     self:physics_setBodyType(0, 0)
 	return self
 end
@@ -112,6 +110,8 @@ PhysicsTests = {}
 function PhysicsTests.new()
 	local self = table.copy(PhysicsTests)
 	self.wasInput = false
+	self.wasDown = false
+	self.chainPoints = {}
 	self.shouldRender = true
 	self.objects = {}
 	self.mouseJointId = nil
@@ -166,7 +166,17 @@ end
 
 function PhysicsTests:setupScene()
 	game:createPhysicsWorld()
-	table.insert(self.objects, StaticChain.new())
+	local verts = {76.875,86.125, 80,89.375, 83.875,92.25, 88.25,93.75, 92.75,94.875, 97.25,95.25, 101.875,95.25, 106.5,95.625,
+	111,96, 115.5,96.125, 119.875,95, 124.25,93.625, 128.5,91.75, 132.625,89.625, 136.5,87.375, 139.625,84, 142.25,80.25, 
+	143.375,75.875, 143.375,71.375, 143.375,66.75, 143,62.25,143.5, 57.75,143.625, 53.25,143.75, 48.75,144.375, 44.125,144.375,
+	39.625,144, 35.125,143.75, 30.5,143,25.875, 141.875,21.5, 140.625,17.125, 139.875,12.5, 138,8.25,134.5, 5,130.75,2.375, 126.375,0.875,
+	121.625,0.75, 117.125,1.375, 112.625,1, 108,0.875, 103.375,1.125, 98.625,1.125, 94.125,1.5, 89.625,1.375, 85.125,0.875, 80.375,0.75,
+	75.625,0.625, 71.125,1.125, 66.625,0.125, 47.875,0, 43.375,0.375, 38.75,0.75, 34.125,1.625, 29.625,2.75, 25.25,3.75, 21.625,6.5, 18.875,10.25,
+	17.25,14.5, 16.25,18.875, 15.25,23.25, 14.625,28.125, 14.875,32.75, 14.375,37.25, 14.25,41.75, 15,46.25, 14.5,50.875, 14.5,55.5, 14.375,60,
+	14.375,64.5, 14.375,69, 14.875,73.5, 15.875,77.875, 17,82.25, 20.25,85.5, 22.5,89.375, 26.25,92.125, 30,94.625, 34.375,96.25, 39,96.875,
+	43.5,97.25,48, 97.5,54.75, 97.75,61.25, 97.75,63.75, 96.5,66,95, 70.125,92.75, 73.5,89.625, 76.625,86.25}
+	self.groundbox = StaticChain.new(verts)
+	table.insert(self.objects, self.groundbox)
 	table.insert(self.objects, Circle.new(30, 80, 5))
 	local c = Circle.new(35, 30, 5)
     local c2 = Circle.new(40, 80, 5)
@@ -178,9 +188,6 @@ function PhysicsTests:setupScene()
 	table.insert(self.objects, Box.new(40, 70, 5, 5))
 	table.insert(self.objects, Box.new(50, 70, 5, 5))
 	table.insert(self.objects, Box.new(60, 70, 5, 5))
-    self.groundbox = Box.new(PHYS_WORLD_WIDTH/2, PHYS_WORLD_HEIGHT-2, PHYS_WORLD_WIDTH, 2, true)
-    self.groundbox.objType = "Ground Box"
-	table.insert(self.objects, self.groundbox)
     game:setPhysicsGravity(0, 10)
     self.jointId = game:physics_addDistanceJoint(c, 0, c2, 0, 35,30, 40, 80)
 end
@@ -209,17 +216,34 @@ function PhysicsTests:update(tickDelta)
     local isDown, x,y = getPointerState(0)
     if isDown then
 	    local wx, wy = unprojectScreenToWorld(x,y)
-	    local obj1, fixtureId1, obj2, fixtureId2 = game:queryPhysicsAABB(wx-1,wy-1, wx+1,wy+1)
-	    if obj1 then
-	    	-- logmsg("Clicked on " .. obj1.objType)
-	    	local objX, objY = obj1:physics_getBodyTransform(0)
-	    	-- obj1:physics_applyForce(0, 500,0, objX + 500, objY)
-	    	if not self.mouseJointId and obj1 ~= self.groundbox then
-                local bodyId = obj1:physics_getFixtureBodyId(fixtureId1)
-                if bodyId then
-                    self.mouseJointId = game:physics_addMouseJoint(self.groundbox, 0, obj1, bodyId, wx,wy, 5000)
-                end
-	    	end
+	    if DRAW_MODE then
+		    if not self.wasDown then
+		    	-- start drawing
+		    	self.chainPoints[#self.chainPoints+1] = wx
+		    	self.chainPoints[#self.chainPoints+1] = wy
+		    	self.wasDown = true
+		    else
+		    	lastX = self.chainPoints[#self.chainPoints-1] 
+		    	lastY = self.chainPoints[#self.chainPoints] 
+		    	if (lastX-wx)*(lastX-wx)+(lastY-wy)*(lastY-wy) > 20 then
+			    	self.chainPoints[#self.chainPoints+1] = wx
+			    	self.chainPoints[#self.chainPoints+1] = wy
+			    	logmsg("New Point " .. wx .. " " .. wy)
+		    	end
+		    end
+	    else
+		    local obj1, fixtureId1, obj2, fixtureId2 = game:queryPhysicsAABB(wx-1,wy-1, wx+1,wy+1)
+		    if obj1 then
+		    	-- logmsg("Clicked on " .. obj1.objType)
+		    	local objX, objY = obj1:physics_getBodyTransform(0)
+		    	-- obj1:physics_applyForce(0, 500,0, objX + 500, objY)
+		    	if not self.mouseJointId and obj1 ~= self.groundbox then
+	                local bodyId = obj1:physics_getFixtureBodyId(fixtureId1)
+	                if bodyId then
+	                    self.mouseJointId = game:physics_addMouseJoint(self.groundbox, 0, obj1, bodyId, wx,wy, 5000)
+	                end
+		    	end
+		    end
 	    end
 	    if self.mouseJointId then
             -- logmsg("Moving mouse joint to " .. wx .. " " .. wy)
@@ -230,6 +254,15 @@ function PhysicsTests:update(tickDelta)
     		game:physics_removeJoint(self.mouseJointId)
     		self.mouseJointId = nil
     	end
+    	if self.wasDown then
+    		-- make chain, output array for use
+    		if #self.chainPoints > 2 then
+    			table.insert(self.objects, StaticChain.new(self.chainPoints))
+    			logtable(self.chainPoints)
+    		end
+    		self.chainPoints = {}
+    	end
+    	self.wasDown = false
     end
 end
 
@@ -238,6 +271,9 @@ end
 
 function PhysicsTests:render()
     local vpWidth, vpHeight = getViewportSize()
+    if self.shouldRender then
+    	game:render2D("textures/physics_bg.jpg", vpWidth/2, vpHeight/2, vpWidth, vpHeight)
+    end
 	-- buttons
 	for i,v in ipairs(self.buttons) do
 		v:render()
