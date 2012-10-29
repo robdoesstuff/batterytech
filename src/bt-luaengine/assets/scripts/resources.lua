@@ -22,6 +22,7 @@ addTexture("textures/circle.png")
 addTexture("textures/rectangle.png")
 addAssimp("models/box.obj")
 addTexture("textures/physics_bg.jpg")
+addTexture("textures/sinewave1.png")
 
 -- tag, assetname, size, innerstroke, outerstroke, color
 addFont("title", "ui/digital.ttf", 100, 1, 1, 255,255,255,255)

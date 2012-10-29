@@ -24,12 +24,13 @@ function Game:init()
     self.physicsTestsModule = PhysicsTests.new()
 	self.currentModule = self.mainMenuModule
 	math.randomseed(os.time())
+    math.random(); math.random(); math.random()
 	setSoundEnabled(true)
 	setVibrationEnabled(true)
 	showFPS(true)
 	setShadowType(0)
-	self.smileyX = 0
-	self.smileyRotation = 0
+    self.waves = {Wave.new(0.1, 0.1),Wave.new(0.2, 0.2),Wave.new(0.3, 0.3),Wave.new(0.4, 0.4),Wave.new(0.5, 0.5),
+    Wave.new(0.6, 0.6),Wave.new(0.15, 0.7),Wave.new(0.25, 0.8),Wave.new(0.35, 0.9),Wave.new(0.45, 1.0)}
 end
 
 function Game:reset(force)
@@ -56,6 +57,7 @@ end
 function Game:update(tickDelta)
 	-- logmsg("updating")
 	self.currentModule:update(tickDelta)
+    self:updateWaves(tickDelta)
 end
 
 -- called from engine to render the game
@@ -74,15 +76,17 @@ end
 function Game:screenControlPointerUp(name, x, y)
 end
 
+function Game:updateWaves(tickDelta)
+    for i = 1,#self.waves do
+        local wave = self.waves[i]
+        wave:update(tickDelta)
+    end
+end
+
 -- Some common stuff to multiple modules
-function Game:drawSmileys()
-	local vpWidth, vpHeight = getViewportSize()
-	sw, sh = scaleForUI(60, 60)
-	for i = 0, 5 do
-		local myX = self.smileyX + i * .2
-		myX = myX % 1
-		local smileyScaleX = vpWidth * myX
-		local smileyScaleY = vpHeight - sh/2
-		game:render2D("textures/smiley_tex.png", smileyScaleX, smileyScaleY, sw, sh, self.smileyRotation)
-	end
+function Game:renderWaves()
+    for i = 1,#self.waves do
+        local wave = self.waves[i]
+        wave:render()
+    end
 end

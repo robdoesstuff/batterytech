@@ -44,10 +44,6 @@ function Options:update(tickDelta)
 	for i,v in ipairs(self.buttons) do
 		v:update(tickDelta)
 	end
-	game.smileyX = game.smileyX - tickDelta * .1
-	game.smileyX = game.smileyX % 1
-	game.smileyRotation = game.smileyRotation - tickDelta * 2.0
-	
 	local c, sc = getLastCharacterTyped()
 	-- special key 1 is "back" button when available
 	if sc == 1 then
@@ -63,7 +59,7 @@ function Options:render()
 	for i,v in ipairs(self.buttons) do
 		v:render()
 	end
-	game:drawSmileys()
+	game:renderWaves()
 end
 
 

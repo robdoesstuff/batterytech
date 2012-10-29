@@ -43,9 +43,6 @@ function MainMenu:update(tickDelta)
 	for i,v in ipairs(self.buttons) do
 		v:update(tickDelta)
 	end
-	game.smileyX = game.smileyX + tickDelta * .1
-	game.smileyX = game.smileyX % 1
-	game.smileyRotation = game.smileyRotation + tickDelta * 2.0
 	if self.showAnim < 1 then
 		self.showAnim = self.showAnim + tickDelta * 2
 		if self.showAnim > 1 then
@@ -73,7 +70,7 @@ function MainMenu:render()
 	for i,v in ipairs(self.buttons) do
 		v:render()
 	end
-	game:drawSmileys()
+	game:renderWaves()
 end
 
 
