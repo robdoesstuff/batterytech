@@ -57,7 +57,6 @@ public:
 	void setPropertyString(const char* key, const char* value);
 	// gameRef should be private but needs to be accessible to static functions.
 	S32 luaRef;
-protected:
 	BOOL32 pushInstanceFunction(const char *name);
 private:
 	GameObject *gameObject;

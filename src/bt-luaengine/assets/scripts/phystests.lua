@@ -5,10 +5,19 @@ PHYS_WORLD_HEIGHT = 100
 
 local DRAW_MODE = false
 
+local CAT_DEFAULT = 1
+local CAT_GROUND = 2
+
+local TYPE_STATIC = 0
+local TYPE_KINEMATIC = 1
+local TYPE_DYNAMIC = 2
+
 function unprojectScreenToWorld(x,y)
 	vpw, vph = getViewportSize()
 	return x * (PHYS_WORLD_WIDTH / vpw), y * (PHYS_WORLD_HEIGHT / vph)
 end
+
+------------------- Physics Objects -----------------
 
 Circle = table.copy(GameObject)
 
@@ -17,12 +26,8 @@ function Circle.new(x, y, radius)
 	self:cInit()
 	self.objType = "Circle"
 	self.radius = radius
-	local bodyId = self:physics_createBody(type, x, y)
-	self:physics_setBodyType(bodyId, 2)
+	local bodyId = self:physics_createBody(TYPE_DYNAMIC, x, y)
 	local fixtureId = self:physics_createCircleFixture(bodyId, radius);
-	self.fixtureId2 = self:physics_createCircleFixture(bodyId, radius/2, 5, 5);
-	
---    self:setPhysicsCallbackDetail(2)	
 	return self
 end
 
@@ -39,9 +44,6 @@ function Circle:render()
 	local x,y,angle = self:physics_getBodyTransform(0)
 	-- logmsg("Circle render: " .. x .. " " .. y)
 	game:render2D("textures/circle.png", x,y, self.radius * 2, self.radius * 2, angle)
-	local x,y = self:physics_getBodyWorldPoints(0, 1, 5,5)
-	-- logmsg("Circle render: " .. x .. " " .. y)
-	game:render2D("textures/circle.png", x,y, self.radius, self.radius, angle)
 end
 
 function Circle:onCollisionStarted(other, force, velocity)
@@ -66,19 +68,23 @@ end
 
 Box = table.copy(GameObject)
 
-function Box.new(x, y, width, height, isStatic)
+-- angle is in degrees
+function Box.new(x, y, width, height, angle, isStatic)
 	local self = allocMeta(Box.createInstance(), Box)
 	self:cInit()
 	self.objType = "Box"
 	self.width = width
 	self.height = height
+	local type = TYPE_STATIC
+    if not isStatic then
+        type = TYPE_DYNAMIC
+    end
 	local bodyId = self:physics_createBody(type, x, y)
 	local fixtureId = self:physics_createPolygonFixture(bodyId, -width/2, -height/2, width/2, -height/2, width/2, height/2, -width/2, height/2)
-    if not isStatic then
-        self:physics_setBodyType(0, 2)
-    else
-        self:physics_setBodyType(0, 0)
-    end
+	if not isStatic then
+		self:physics_setFixtureDensity(fixtureId, 0.1)
+	end
+    self:physics_setBodyTransform(bodyId, x, y, math.rad(angle))
 	return self
 end
 
@@ -88,19 +94,134 @@ function Box:render()
 	game:render2D("textures/rectangle.png", x,y, self.width, self.height, angle)
 end
 
+Pinwheel = table.copy(GameObject)
+
+-- angle is in degrees
+function Pinwheel.new(x, y, size)
+	local self = allocMeta(Pinwheel.createInstance(), Pinwheel)
+	self:cInit()
+	self.objType = "Pinwheel"
+	self.size = size
+	self.nSize = size / 8
+	-- two bodies - one is static circle in center, other is compound fixture dynamic attached to static via revolute joint
+	self.staticBody = self:physics_createBody(TYPE_STATIC, x, y)
+	local circleFixture = self:physics_createCircleFixture(staticBody, 1);
+	self:physics_setFixtureDensity(circleFixture, 0)
+	self.dynBody = self:physics_createBody(TYPE_DYNAMIC, x, y)
+	local nSize = self.nSize
+	local fixtureId = self:physics_createPolygonFixture(self.dynBody, -size/2, -nSize/2, size/2, -nSize/2, size/2, nSize/2, -size/2, nSize/2)
+	local fixtureId = self:physics_createPolygonFixture(self.dynBody, -nSize/2, -size/2, nSize/2, -size/2, nSize/2, size/2, -nSize/2, size/2)
+	local revJoint = game:physics_addRevoluteJoint(self, self.staticBody, self, self.dynBody, x, y)
+	game:physics_setRevoluteJointMotor(revJoint, true, 0.75, 10000.0)
+	return self
+end
+
+function Pinwheel:render()
+	local x,y,angle = self:physics_getBodyTransform(self.dynBody)
+	-- logmsg("Circle render: " .. x .. " " .. y)
+	game:render2D("textures/rectangle.png", x,y, self.size, self.nSize, angle)
+	game:render2D("textures/rectangle.png", x,y, self.nSize, self.size, angle)
+end
+
 StaticChain = table.copy(GameObject)
 
 function StaticChain.new(verts)
 	local self = allocMeta(StaticChain.createInstance(), StaticChain)
 	self:cInit()
 	self.objType = "Static"
-	local bodyId = self:physics_createBody(type, 0, 0)
+	local bodyId = self:physics_createBody(TYPE_STATIC, 0, 0)
 	local fixtureId = self:physics_createChainFixture(bodyId, true, unpack(verts))
-    self:physics_setBodyType(0, 0)
+	self:physics_setFixtureFilter(fixtureId, CAT_GROUND, 0xffff, 0)
 	return self
 end
 
-function StaticChain:render()
+SensorBox = table.copy(GameObject)
+
+function SensorBox.new(x, y, width, height, angle)
+	local self = allocMeta(SensorBox.createInstance(), SensorBox)
+	self:cInit()
+	self.objType = "SensorBox"
+	self.width = width
+	self.height = height
+	self.bodyId = self:physics_createBody(TYPE_STATIC, x, y)
+	local fixtureId = self:physics_createPolygonFixture(bodyId, -width/2, -height/2, width/2, -height/2, width/2, height/2, -width/2, height/2)
+	self:physics_setFixtureIsSensor(fixtureId, true)
+    self:physics_setBodyTransform(bodyId, x, y, math.rad(angle))
+	return self
+end
+
+function SensorBox:update(delta)
+	local num = self:queryPhysicsContacts(self.bodyId, "queryCallback")
+	if num > 0 then
+		-- logmsg("sb " .. num)
+	end
+end
+
+function SensorBox:queryCallback(otherObj, otherFixtureId, pointCount, x1,y1, x2,y2)
+	if otherObj.objType == "Circle" then
+		self:startPusher()
+	end
+end
+
+Pusher = table.copy(GameObject)
+
+local PUSHER_STATE_WAIT = 0
+local PUSHER_STATE_PUSH = 1
+local PUSHER_STATE_RETRACT = 2
+local PUSHER_TIME = 1
+
+-- angle is in degrees
+function Pusher.new(x, y, width, height, angle)
+	local self = allocMeta(Pusher.createInstance(), Pusher)
+	self:cInit()
+	self.objType = "Pusher"
+	self.initX = x
+	self.initY = y
+	self.width = width
+	self.height = height
+	self.angle = angle
+	self.state = PUSHER_STATE_WAIT
+	self.pushT = 0
+	-- two bodies - one is static circle in center, other is box attached by prismatic joint
+	self.staticBody = self:physics_createBody(TYPE_STATIC, x, y)
+	local circleFixture = self:physics_createCircleFixture(self.staticBody, 1);
+	self:physics_setFixtureDensity(circleFixture, 0)
+	self.dynBody = self:physics_createBody(TYPE_DYNAMIC, x, y)
+	local fixtureId = self:physics_createPolygonFixture(self.dynBody, -width/2, -height/2, width/2, -height/2, width/2, height/2, -width/2, height/2)
+	-- don't collide with 0x0002 (ground)
+	self:physics_setFixtureFilter(fixtureId, CAT_DEFAULT, 0xfffd, 0)
+	self.pJoint = game:physics_addPrismaticJoint(self, self.staticBody, self, self.dynBody, x,y, 1,0, false)
+    self:physics_setBodyTransform(bodyId, x, y, math.rad(self.angle))
+    game:physics_setPrismaticJointLimits(self.pJoint, true, 0, 40)
+	return self
+end
+
+function Pusher:update(delta)
+	if self.state == PUSHER_STATE_PUSH then
+		local translation, speed, force = game:physics_getPrismaticJointValues(self.pJoint)
+		if translation >= 40 then
+			self.state = PUSHER_STATE_RETRACT
+			game:physics_setPrismaticJointMotor(self.pJoint, true, -200, 1000)
+		end
+	elseif self.state == PUSHER_STATE_RETRACT then
+		local translation, speed, force = game:physics_getPrismaticJointValues(self.pJoint)
+		if translation <= 0 then
+			self.state = PUSHER_STATE_WAIT
+			game:physics_setPrismaticJointMotor(self.pJoint, false, 0, 0)
+		end
+	end
+end
+
+function Pusher:render()
+	local x,y,angle = self:physics_getBodyTransform(self.dynBody)
+	game:render2D("textures/rectangle.png", x,y, self.width, self.height, angle)
+end
+
+function Pusher:push()
+	if self.state ~= PUSHER_STATE_PUSH then
+		self.state = PUSHER_STATE_PUSH
+    	game:physics_setPrismaticJointMotor(self.pJoint, true, 300, 2000)
+	end
 end
 
 ------------------------------- Module Main Def -----------------------------
@@ -140,7 +261,7 @@ function PhysicsTests:setupUI()
 	table.insert(self.buttons, button)
     local settingButtonWidth = 350
 	-- global light button
-	local button = makeButtonCentered(settingButtonWidth/2, 200, settingButtonWidth, 100, "Debug: off")
+	local button = makeButtonCentered(250 + settingButtonWidth/2, 50, settingButtonWidth, 100, "Debug: off")
 	button.onClickUp = function(button)
         self.debugPhysics = not self.debugPhysics
         if self.debugPhysics then
@@ -152,7 +273,7 @@ function PhysicsTests:setupUI()
         end
 	end
 	table.insert(self.buttons, button)
-	local button = makeButtonCentered(settingButtonWidth/2, 300, settingButtonWidth, 100, "Render: on")
+	local button = makeButtonCentered(650 + settingButtonWidth/2, 50, settingButtonWidth, 100, "Render: on")
 	button.onClickUp = function(button)
         self.shouldRender = not self.shouldRender
         if self.shouldRender then
@@ -166,6 +287,7 @@ end
 
 function PhysicsTests:setupScene()
 	game:createPhysicsWorld()
+	-- create static world components
 	local verts = {76.875,86.125, 80,89.375, 83.875,92.25, 88.25,93.75, 92.75,94.875, 97.25,95.25, 101.875,95.25, 106.5,95.625,
 	111,96, 115.5,96.125, 119.875,95, 124.25,93.625, 128.5,91.75, 132.625,89.625, 136.5,87.375, 139.625,84, 142.25,80.25, 
 	143.375,75.875, 143.375,71.375, 143.375,66.75, 143,62.25,143.5, 57.75,143.625, 53.25,143.75, 48.75,144.375, 44.125,144.375,
@@ -177,32 +299,44 @@ function PhysicsTests:setupScene()
 	43.5,97.25,48, 97.5,54.75, 97.75,61.25, 97.75,63.75, 96.5,66,95, 70.125,92.75, 73.5,89.625, 76.625,86.25}
 	self.groundbox = StaticChain.new(verts)
 	table.insert(self.objects, self.groundbox)
-	table.insert(self.objects, Circle.new(30, 80, 5))
-	local c = Circle.new(35, 30, 5)
-    local c2 = Circle.new(40, 80, 5)
-	c:setPhysicsCallbackDetail(2)
+	table.insert(self.objects, Box.new(30, 25, 20, 5, 30, true))
+	table.insert(self.objects, Box.new(50, 37, 20, 5, -30, true))
+	table.insert(self.objects, Box.new(30, 49, 20, 5, 30, true))
+	table.insert(self.objects, Box.new(50, 61, 20, 5, -30, true))
+	
+	table.insert(self.objects, Pinwheel.new(30, 80, 20))
+	local sensorBox = SensorBox.new(50, 95, 20, 5, 0)
+	table.insert(self.objects, sensorBox)
+	self.pusher = Pusher.new(20, 95, 10, 5, 0)
+	table.insert(self.objects, self.pusher)
+	local c = Circle.new(35, 10, 2)
 	table.insert(self.objects, c)
-	table.insert(self.objects, c2)
-	table.insert(self.objects, Box.new(20, 70, 5, 5))
-	table.insert(self.objects, Box.new(30, 70, 5, 5))
-	table.insert(self.objects, Box.new(40, 70, 5, 5))
-	table.insert(self.objects, Box.new(50, 70, 5, 5))
-	table.insert(self.objects, Box.new(60, 70, 5, 5))
-    game:setPhysicsGravity(0, 10)
-    self.jointId = game:physics_addDistanceJoint(c, 0, c2, 0, 35,30, 40, 80)
-end
-
-function PhysicsTests:makeBox(x,y,color,twosided)
-    local box = table.copy(Box)
-    box.x = x
-    box.y = y
-    box.color = color
-    if twosided then
-        box.twosided = true
-    else
-        box.twosided = false
-    end
-    table.insert(self.boxes, box)
+	
+	sensorBox.startPusher = function(sb)
+		self.pusher:push()
+	end
+	
+	-- dynamic boxes
+	local bottomY = 92.7
+	local x = 100
+	table.insert(self.objects, Box.new(x, bottomY, 5, 5, 0, false))
+	table.insert(self.objects, Box.new(x, bottomY-5, 5, 5, 0, false))
+ 	table.insert(self.objects, Box.new(x, bottomY-10, 5, 5, 0, false))
+ 	table.insert(self.objects, Box.new(x, bottomY-15, 5, 5, 0, false))
+ 	table.insert(self.objects, Box.new(x, bottomY-20, 5, 5, 0, false))
+	table.insert(self.objects, Box.new(x, bottomY-25, 5, 5, 0, false))
+	table.insert(self.objects, Box.new(x, bottomY-30, 5, 5, 0, false))
+	table.insert(self.objects, Box.new(x, bottomY-35, 5, 5, 0, false))
+	local x = 105
+	table.insert(self.objects, Box.new(x, bottomY, 5, 5, 0, false))
+	table.insert(self.objects, Box.new(x, bottomY-5, 5, 5, 0, false))
+ 	table.insert(self.objects, Box.new(x, bottomY-10, 5, 5, 0, false))
+ 	table.insert(self.objects, Box.new(x, bottomY-15, 5, 5, 0, false))
+ 	table.insert(self.objects, Box.new(x, bottomY-20, 5, 5, 0, false))
+	table.insert(self.objects, Box.new(x, bottomY-25, 5, 5, 0, false))
+	table.insert(self.objects, Box.new(x, bottomY-30, 5, 5, 0, false))
+	table.insert(self.objects, Box.new(x, bottomY-35, 5, 5, 0, false))
+    game:setPhysicsGravity(0, 40)
 end
 
 function PhysicsTests:update(tickDelta)
@@ -281,17 +415,12 @@ function PhysicsTests:render()
 	game:start2DProjection(0, PHYS_WORLD_WIDTH, PHYS_WORLD_HEIGHT, 0, -1, 1)
 	if self.shouldRender then
 		for i,v in ipairs(self.objects) do
-			v:render()
+			if v.render then
+				v:render()
+			end
 		end
-	    local x1,y1, x2,y2 = game:physics_getJointAnchorPoints(self.jointId)
-	    self:renderLineObject("textures/rectangle.png", 1, x1,y1, x2,y2)
     end
 	game:end2DProjection()
-	-- local idx = game:renderText2D("test", "Test... gpBMFont-Render!^", 400, 400)
-	-- local idx = game:renderText2D("test2", "Test... gpBMFont-Render!^", 400, 400)
- 	-- local idx = game:renderText2D("ui", "Test... gpBMFont-Render!^", 400, 400)
-    -- local idx = game:renderText2D("test2", "This Is\nMultiline\nText", 400, 400)
-    -- game:setRenderItemParam(idx, "multiline", true)
 end
 
 function PhysicsTests:renderLineObject(texture, width, x1,y1, x2,y2)

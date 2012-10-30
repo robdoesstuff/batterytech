@@ -4,29 +4,37 @@ Options = {}
 
 function Options.new()
 	local self = table.copy(Options)
-	self.soundEnabled = true
-	self.showFPS = true
 	self.buttons = {}
-	local button = makeButtonCentered(640, 400, 380, 100, "Sound: On")
+	local label = "Sound: On"
+	if not saveState.soundEnabled then
+		label = "Sound: Off"
+	end
+	local button = makeButtonCentered(640, 400, 380, 100, label)
 	button.onClickUp = function(button)
-		self.soundEnabled = not self.soundEnabled
-		setSoundEnabled(self.soundEnabled)
-		if self.soundEnabled then
+		saveState.soundEnabled = not saveState.soundEnabled
+		setSoundEnabled(saveState.soundEnabled)
+		if saveState.soundEnabled then
 			button.label = "Sound: On"
 		else
 			button.label = "Sound: Off"
 		end
+		saveGame()
 	end
 	table.insert(self.buttons, button)
-	button = makeButtonCentered(640, 510, 380, 100, "ShowFPS: On")
+	local label = "ShowFPS: On"
+	if not saveState.showFPS then
+		label = "ShowFPS: Off"
+	end
+	button = makeButtonCentered(640, 510, 380, 100, label)
 	button.onClickUp = function(button)
-		self.showFPS = not self.showFPS
-		showFPS(self.showFPS)
-		if self.showFPS then
+		saveState.showFPS = not saveState.showFPS
+		showFPS(saveState.showFPS)
+		if saveState.showFPS then
 			button.label = "ShowFPS: On"
 		else
 			button.label = "ShowFPS: Off"
 		end
+		saveGame()
 	end
 	table.insert(self.buttons, button)
 	button = makeButtonCentered(640, 620, 380, 100, "Back")

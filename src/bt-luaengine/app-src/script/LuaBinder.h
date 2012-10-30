@@ -46,11 +46,11 @@ public:
 	F32 getGlobalFloat(const char* name);
 	void callGlobalVA(const char *name, const char *sig, ...);
 	lua_State *L;
+	void callFunction(const char *name, BOOL32 withSelf);
+	void callFunctionVA(const char *name, BOOL32 withSelf, const char *sig, ...);
 protected:
 	static void registerFunction(lua_State *L, const char *name, int (*func)(lua_State*));
 	void registerFunction(const char *name, int (*func)(lua_State*));
-	void callFunction(const char *name, BOOL32 withSelf);
-	void callFunctionVA(const char *name, BOOL32 withSelf, const char *sig, ...);
 	void stackDump();
 };
 

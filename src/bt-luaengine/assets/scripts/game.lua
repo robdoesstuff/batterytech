@@ -12,9 +12,14 @@ MODE_PHYSICS_TESTS = 4
 
 MUSIC = 0
 
+gameSettings = nil
+
 -- called from engine when the Game is initializing
 function Game:init()
 	logmsg("Game init()")
+	math.randomseed(os.time())
+    math.random(); math.random(); math.random()
+    loadGame()
 	self.gameState = GAMESTATE_NONE
 	self.mode = MODE_MAINMENU
 	self.mainMenuModule = MainMenu.new()
@@ -23,12 +28,6 @@ function Game:init()
     self.testsModule = Tests.new()
     self.physicsTestsModule = PhysicsTests.new()
 	self.currentModule = self.mainMenuModule
-	math.randomseed(os.time())
-    math.random(); math.random(); math.random()
-	setSoundEnabled(true)
-	setVibrationEnabled(true)
-	showFPS(true)
-	setShadowType(0)
     self.waves = {Wave.new(0.1, 0.1),Wave.new(0.2, 0.2),Wave.new(0.3, 0.3),Wave.new(0.4, 0.4),Wave.new(0.5, 0.5),
     Wave.new(0.6, 0.6),Wave.new(0.15, 0.7),Wave.new(0.25, 0.8),Wave.new(0.35, 0.9),Wave.new(0.45, 1.0)}
 end
@@ -89,4 +88,30 @@ function Game:renderWaves()
         local wave = self.waves[i]
         wave:render()
     end
+end
+
+function loadGame()
+	local savepath = getApplicationStorageDirectoryName()..getPathSeparator().."savegame.data"
+	if pathExists(savepath) then
+		logmsg("loading from: "..savepath)
+		execScript(savepath, true, true)
+	end
+	if not gameSettings then
+		saveState = {}
+		saveState.soundEnabled = true
+		saveState.vibrationEnabled = true
+		saveState.showFPS = false
+	end
+	setSoundEnabled(saveState.soundEnabled)
+	setVibrationEnabled(saveState.vibrationEnabled)
+	showFPS(saveState.showFPS)
+	setShadowType(0)
+end
+
+function saveGame()
+	local savepath = getApplicationStorageDirectoryName()..getPathSeparator().."savegame.data"
+	local save = table.toString(saveState, "saveState")
+	io.output(savepath)
+	io.write(save)
+	io.close()
 end

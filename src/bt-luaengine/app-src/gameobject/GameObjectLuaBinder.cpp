@@ -130,6 +130,8 @@ static int lua_GameObject_physics_setFixtureIsSensor(lua_State *L);
 static int lua_GameObject_physics_setFixtureFilter(lua_State *L);
 static int lua_GameObject_physics_fixtureTestPoint(lua_State *L);
 static int lua_GameObject_physics_getFixtureBodyId(lua_State *L);
+// collision query
+static int lua_GameObject_queryPhysicsContacts(lua_State *L);
 // collision callbacks
 static int lua_GameObject_setPhysicsCallbackDetail(lua_State *L);
 static int lua_GameObject_countPhysicsContacts(lua_State *L);
@@ -226,6 +228,7 @@ static const luaL_reg lua_methods[] = {
     { "physics_setFixtureFilter", lua_GameObject_physics_setFixtureFilter },
     { "physics_fixtureTestPoint", lua_GameObject_physics_fixtureTestPoint },
     { "physics_getFixtureBodyId", lua_GameObject_physics_getFixtureBodyId },
+    { "queryPhysicsContacts", lua_GameObject_queryPhysicsContacts },
     { "setPhysicsCallbackDetail", lua_GameObject_setPhysicsCallbackDetail },
     { "countPhysicsContacts", lua_GameObject_countPhysicsContacts },
     { "getPhysicsContact", lua_GameObject_getPhysicsContact },
@@ -1693,6 +1696,7 @@ static int lua_GameObject_physics_setFixtureDensity(lua_State *L) {
 	b2Fixture *fixture = o->boxFixtures->get(fixtureId);
 	if (fixture) {
 		fixture->SetDensity(lua_tonumber(L,3));
+		fixture->GetBody()->ResetMassData();
 	}
     return 0;
 }
@@ -1730,7 +1734,7 @@ static int lua_GameObject_physics_setFixtureIsSensor(lua_State *L) {
     return 0;
 }
 
-// fixture id, filter
+// fixture id, category, mask, group
 static int lua_GameObject_physics_setFixtureFilter(lua_State *L) {
 	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
 	S32 fixtureId = lua_tointeger(L, 2);
@@ -1772,6 +1776,46 @@ static int lua_GameObject_physics_getFixtureBodyId(lua_State *L) {
         }
 	}
     return 0;
+}
+
+
+static int lua_GameObject_queryPhysicsContacts(lua_State *L) {
+	// 2 = bodyIdx
+	// 3 = function name to callback details to - signature is func(otherObj, otherFixtureId, pointCount, x1,y1, x2,y2)
+	// returns number of contacts
+    GameObject *o = *(GameObject**)lua_touserdata(L, 1);
+	S32 bodyIdx = lua_tointeger(L, 2);
+	const char *functionName = lua_tostring(L, 3);
+	CHECK_IDX_BOUNDS(bodyIdx);
+	b2Body *body = o->boxBodies->array[bodyIdx];
+	S32 count = 0;
+	if (body) {
+		for (b2ContactEdge* ce = body->GetContactList(); ce; ce = ce->next) {
+			b2Contact* c = ce->contact;
+			if (c->IsEnabled() && c->IsTouching()) {
+				b2Fixture *other = NULL;
+				if (c->GetFixtureA()->GetBody()->GetUserData() == o) {
+					other = c->GetFixtureB();
+				} else {
+					other = c->GetFixtureA();
+				}
+				b2Body *otherBody = other->GetBody();
+				GameObject *otherObj = (GameObject*) otherBody->GetUserData();
+				b2Manifold *manifold = c->GetManifold();
+				count++;
+				if (functionName) {
+					if (o->luaBinder->pushInstanceFunction(functionName)) {
+						// calls func(otherObj, otherFixtureId, pointCount, x1,y1, x2,y2)
+						o->luaBinder->callFunctionVA("GameObject:<callback function>", TRUE, "riidddd>",
+								otherObj->luaBinder->luaRef, (size_t)other->GetUserData(), manifold->pointCount, manifold->points[0].localPoint.x, manifold->points[0].localPoint.y,
+								manifold->points[0].localPoint.x, manifold->points[0].localPoint.y);
+					}
+				}
+			}
+		}
+	}
+	lua_pushinteger(L, count);
+    return 1;
 }
 
 // 0 = none, 1 = broad, 2 = narrow

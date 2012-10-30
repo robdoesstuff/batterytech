@@ -72,7 +72,7 @@ static int lua_getViewportSize(lua_State *L);
 static int lua_panic(lua_State *L);
 static int lua_getExternalStorageDirectoryName(lua_State *L);
 static int lua_getApplicationStorageDirectoryName(lua_State *L);
-static int lua_getPathSeperator(lua_State *L);
+static int lua_getPathSeparator(lua_State *L);
 static int lua_pathExists(lua_State *L);
 static int lua_showKeyboard(lua_State *L);
 static int lua_hideKeyboard(lua_State* L);
@@ -165,7 +165,8 @@ lua_State* LuaBinder::newState(GameContext *context) {
 	registerFunction(L, "getViewportSize", lua_getViewportSize); // return: scaleX2d, scaleY2d
 	registerFunction(L, "getExternalStorageDirectoryName", lua_getExternalStorageDirectoryName);//return: string
 	registerFunction(L, "getApplicationStorageDirectoryName", lua_getApplicationStorageDirectoryName);//return: string
-	registerFunction(L, "getPathSeperator", lua_getPathSeperator);//retuns: string
+	registerFunction(L, "getPathSeperator", lua_getPathSeparator);//returns: string // deprecated - use correct spelling version
+	registerFunction(L, "getPathSeparator", lua_getPathSeparator);//returns: string
 	registerFunction(L, "pathExists", lua_pathExists);//returns: boolean
 	registerFunction(L, "showAd", lua_showAd);//param: boolean show
 	registerFunction(L, "showKeyboard", lua_showKeyboard);
@@ -269,7 +270,7 @@ char* LuaBinder::getGlobalString(const char* name) {
 }
 
 char* LuaBinder::getStringFromGlobalTable(const char* tableName, const char* fieldName) {
-	char* string;
+	char* string = NULL;
 	lua_getglobal(L, tableName);
 	if(lua_istable(L, -1)) {
 		lua_getfield(L, -1, fieldName);
@@ -1036,7 +1037,7 @@ static int lua_getApplicationStorageDirectoryName(lua_State *L) {
 	return 1;
 }
 
-static int lua_getPathSeperator(lua_State *L) {
+static int lua_getPathSeparator(lua_State *L) {
 	lua_pushstring(L, _platform_get_path_separator());
 	return 1;
 }
