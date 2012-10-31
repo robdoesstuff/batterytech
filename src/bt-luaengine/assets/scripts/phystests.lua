@@ -12,6 +12,10 @@ local TYPE_STATIC = 0
 local TYPE_KINEMATIC = 1
 local TYPE_DYNAMIC = 2
 
+local CALLBACK_DETAIL_NONE = 0
+local CALLBACK_DETAIL_BROAD = 1
+local CALLBACK_DETAIL_NARROW = 2
+
 function unprojectScreenToWorld(x,y)
 	vpw, vph = getViewportSize()
 	return x * (PHYS_WORLD_WIDTH / vpw), y * (PHYS_WORLD_HEIGHT / vph)
@@ -26,44 +30,24 @@ function Circle.new(x, y, radius)
 	self:cInit()
 	self.objType = "Circle"
 	self.radius = radius
-	local bodyId = self:physics_createBody(TYPE_DYNAMIC, x, y)
-	local fixtureId = self:physics_createCircleFixture(bodyId, radius);
+	self.bodyId = self:physics_createBody(TYPE_DYNAMIC, x, y)
+	local fixtureId = self:physics_createCircleFixture(self.bodyId, radius);
 	return self
 end
 
 function Circle:update(delta)
-    local c = self:countPhysicsContacts()
+    -- local c = self:countPhysicsContacts()
 	-- logmsg("(Circle) " .. c .. " contacts")
-	for i = 0, c-1 do
+	-- for i = 0, c-1 do
 		-- local other, pointCount, x1,y1, x2,y2, isTouching, isActive, fixtureId = self:getPhysicsContact(i)
 		-- logmsg("(Circle) contact is " .. other.objType .. " " .. pointCount .. " " .. x1 .. "," .. y1)
-	end
+	-- end
 end
 
 function Circle:render()
 	local x,y,angle = self:physics_getBodyTransform(0)
 	-- logmsg("Circle render: " .. x .. " " .. y)
 	game:render2D("textures/circle.png", x,y, self.radius * 2, self.radius * 2, angle)
-end
-
-function Circle:onCollisionStarted(other, force, velocity)
-	if force then
-    	logmsg("(Circle) onCollisionStarted - " .. other.objType .. " " .. force .. " " .. velocity)
-    else
-    	logmsg("(Circle) onCollisionStarted - " .. other.objType)
-    end
-end
-
-function Circle:onCollisionUpdated(other, force, velocity)
-	if force then
-    	-- logmsg("(Circle) onCollisionUpdated - " .. other.objType .. " " .. force .. " " .. velocity)
-    else
-    	-- logmsg("(Circle) onCollisionUpdated - " .. other.objType)
-    end
-end
-
-function Circle:onCollisionEnded(other)
-    logmsg("(Circle) onCollisionEnded - " .. other.objType)
 end
 
 Box = table.copy(GameObject)
@@ -75,11 +59,13 @@ function Box.new(x, y, width, height, angle, isStatic)
 	self.objType = "Box"
 	self.width = width
 	self.height = height
-	local type = TYPE_STATIC
+	self.x = x
+	self.y = y
+	self.type = TYPE_STATIC
     if not isStatic then
-        type = TYPE_DYNAMIC
+        self.type = TYPE_DYNAMIC
     end
-	local bodyId = self:physics_createBody(type, x, y)
+	local bodyId = self:physics_createBody(self.type, x, y)
 	local fixtureId = self:physics_createPolygonFixture(bodyId, -width/2, -height/2, width/2, -height/2, width/2, height/2, -width/2, height/2)
 	if not isStatic then
 		self:physics_setFixtureDensity(fixtureId, 0.1)
@@ -224,6 +210,52 @@ function Pusher:push()
 	end
 end
 
+------------------------------- Other Objects -------------------------------
+
+SmokePuff = {}
+
+function SmokePuff.new(x,y)
+	local self = table.copy(SmokePuff)
+	self.x = x
+	self.y = y
+	self.scale = 1
+	self.spin = math.random()
+	self.alpha = 1
+	self.isDone = false
+	return self
+end
+
+function SmokePuff:update(delta)
+	self.scale = self.scale + delta
+	self.spin = self.spin + delta
+	self.alpha = self.alpha - delta
+	if self.alpha <= 0 then
+		self.isDone = true
+	end
+end
+
+function SmokePuff:render()
+	local idx = game:render2D("textures/smokepuff.png", self.x, self.y, 5*self.scale, 5*self.scale, self.spin)
+	game:setRenderItemParam(idx, "alpha", self.alpha)
+end
+
+ActionTimer = {}
+
+function ActionTimer.new(time, action)
+	local self = table.copy(ActionTimer)
+	self.time = time
+	self.action = action
+	return self
+end
+
+function ActionTimer:update(delta)
+	self.time = self.time - delta
+	if self.time <= 0 then
+		self.action()
+		self.isDone = true
+	end
+end
+
 ------------------------------- Module Main Def -----------------------------
 
 PhysicsTests = {}
@@ -235,12 +267,20 @@ function PhysicsTests.new()
 	self.chainPoints = {}
 	self.shouldRender = true
 	self.objects = {}
+	self.localObjects = {}
 	self.mouseJointId = nil
 	return self
 end
 
 function PhysicsTests:cleanUp()
+	-- Deactivate/deallocate objects
+	for i = 1,#self.objects do
+		self.objects[i]:cDeactivate()
+	end
     self.objects = {}
+    self.localObjects = {}
+    self.mouseObj = nil
+    self.ball = nil
     game:destroyPhysicsWorld()
 end
 
@@ -309,42 +349,130 @@ function PhysicsTests:setupScene()
 	table.insert(self.objects, sensorBox)
 	self.pusher = Pusher.new(20, 95, 10, 5, 0)
 	table.insert(self.objects, self.pusher)
-	local c = Circle.new(35, 10, 2)
-	table.insert(self.objects, c)
-	
 	sensorBox.startPusher = function(sb)
 		self.pusher:push()
 	end
-	
+	self:resetDynamicObjects()
+    game:setPhysicsGravity(0, 40)
+    self.countingDown = false
+end
+
+function PhysicsTests:resetDynamicObjects()
+	-- ball
+	if self.ball then
+		-- mark previous for removal
+		self.ball.remove = true
+		-- remove body ahead of time to not interfere with anything else
+		self.ball:physics_removeBody(self.ball.bodyId)
+	end
+	self.ball = Circle.new(35, 10, 2)
+	table.insert(self.objects, self.ball)
 	-- dynamic boxes
 	local bottomY = 92.7
 	local x = 100
-	table.insert(self.objects, Box.new(x, bottomY, 5, 5, 0, false))
-	table.insert(self.objects, Box.new(x, bottomY-5, 5, 5, 0, false))
- 	table.insert(self.objects, Box.new(x, bottomY-10, 5, 5, 0, false))
- 	table.insert(self.objects, Box.new(x, bottomY-15, 5, 5, 0, false))
- 	table.insert(self.objects, Box.new(x, bottomY-20, 5, 5, 0, false))
-	table.insert(self.objects, Box.new(x, bottomY-25, 5, 5, 0, false))
-	table.insert(self.objects, Box.new(x, bottomY-30, 5, 5, 0, false))
-	table.insert(self.objects, Box.new(x, bottomY-35, 5, 5, 0, false))
+	self:addBreakableBox(x, bottomY)
+	self:addBreakableBox(x, bottomY-5)
+	self:addBreakableBox(x, bottomY-10)
+	self:addBreakableBox(x, bottomY-15)
+	self:addBreakableBox(x, bottomY-20)
+	self:addBreakableBox(x, bottomY-25)
+	self:addBreakableBox(x, bottomY-30)
 	local x = 105
-	table.insert(self.objects, Box.new(x, bottomY, 5, 5, 0, false))
-	table.insert(self.objects, Box.new(x, bottomY-5, 5, 5, 0, false))
- 	table.insert(self.objects, Box.new(x, bottomY-10, 5, 5, 0, false))
- 	table.insert(self.objects, Box.new(x, bottomY-15, 5, 5, 0, false))
- 	table.insert(self.objects, Box.new(x, bottomY-20, 5, 5, 0, false))
-	table.insert(self.objects, Box.new(x, bottomY-25, 5, 5, 0, false))
-	table.insert(self.objects, Box.new(x, bottomY-30, 5, 5, 0, false))
-	table.insert(self.objects, Box.new(x, bottomY-35, 5, 5, 0, false))
-    game:setPhysicsGravity(0, 40)
+	local bottomY = 93
+	self:addBreakableBox(x, bottomY)
+	self:addBreakableBox(x, bottomY-5)
+	self:addBreakableBox(x, bottomY-10)
+	self:addBreakableBox(x, bottomY-15)
+	self:addBreakableBox(x, bottomY-20)
+	self:addBreakableBox(x, bottomY-25)
+	self:addBreakableBox(x, bottomY-30)
+	self:addBreakableBox(x, bottomY-35)
+	local x = 111
+	local bottomY = 93.5
+	self:addBreakableBox(x, bottomY)
+	self:addBreakableBox(x, bottomY-5)
+	self:addBreakableBox(x, bottomY-10)
+	self:addBreakableBox(x, bottomY-15)
+	self:addBreakableBox(x, bottomY-20)
+	self:addBreakableBox(x, bottomY-25)
+	self:addBreakableBox(x, bottomY-30)
 end
+
+-------------- Main Update Function -----------------
 
 function PhysicsTests:update(tickDelta)
     game:updatePhysics(tickDelta, 10, 20)
     for i,v in ipairs(self.buttons) do
         v:update(tickDelta)
     end
-    self:updateTestsState(tickDelta)
+    for i = 1,#self.localObjects do
+		self.localObjects[i]:update(tickDelta)
+	end
+	for i = 1,#self.objects do
+		local obj = self.objects[i]
+    	if obj and obj.remove then
+    		if self.mouseObj == obj then
+    			self.mouseObj = nil
+    		end
+     		obj:cDeactivate()
+    		table.remove(self.objects, i)
+    		i = i - 1
+    		if i == 0 then
+    			break
+    		end
+    	end
+	end
+    for i = 1,#self.localObjects do
+    	local obj = self.localObjects[i]
+    	if obj and obj.isDone then
+    		table.remove(self.localObjects, i)
+    		i = i - 1
+    		if i == 0 then
+    			break
+    		end
+    	end
+	end
+    self:updateInput(tickDelta)
+end
+
+----------------- Main Render Function -------------------
+
+function PhysicsTests:render()
+    local vpWidth, vpHeight = getViewportSize()
+    if self.shouldRender then
+    	game:render2D("textures/physics_bg.jpg", vpWidth/2, vpHeight/2, vpWidth, vpHeight)
+    end
+	-- buttons
+	for i,v in ipairs(self.buttons) do
+		v:render()
+	end
+	game:start2DProjection(0, PHYS_WORLD_WIDTH, PHYS_WORLD_HEIGHT, 0, -1, 1)
+	if self.shouldRender then
+		for i = 1,#self.objects do
+			if self.objects[i].render then
+				self.objects[i]:render()
+			end
+		end
+		for i = 1,#self.localObjects do
+			if self.localObjects[i].render then
+				self.localObjects[i]:render()
+			end
+		end
+    end
+	game:end2DProjection()
+end
+
+function PhysicsTests:renderLineObject(texture, width, x1,y1, x2,y2)
+    local xd = x2-x1
+    local yd = y2-y1
+    local angle = math.atan(yd/xd)
+    local length = math.sqrt(xd*xd+yd*yd)
+    local centerX = x1+(xd)/2
+    local centerY = y1+(yd)/2
+    game:render2D(texture, centerX, centerY, length, width, angle)
+end
+
+function PhysicsTests:updateInput(tickDelta)
     self.wasInput = (getPointerState(0) or getKeyState(0))
     -- Query for anything under cursor
     local isDown, x,y = getPointerState(0)
@@ -375,14 +503,19 @@ function PhysicsTests:update(tickDelta)
 	                local bodyId = obj1:physics_getFixtureBodyId(fixtureId1)
 	                if bodyId then
 	                    self.mouseJointId = game:physics_addMouseJoint(self.groundbox, 0, obj1, bodyId, wx,wy, 5000)
+	                    self.mouseObj = obj1
 	                end
 		    	end
 		    end
 	    end
 	    if self.mouseJointId then
-            -- logmsg("Moving mouse joint to " .. wx .. " " .. wy)
-	   		game:physics_setMouseJointPosition(self.mouseJointId, wx,wy)
-	    end
+	    	if not self.mouseObj then
+	    		-- the object we were controlling was removed
+	    		self.mouseJointId = nil
+	    	else
+	   			game:physics_setMouseJointPosition(self.mouseJointId, wx,wy)
+	    	end
+  	    end
     else
     	if self.mouseJointId then
     		game:physics_removeJoint(self.mouseJointId)
@@ -400,35 +533,37 @@ function PhysicsTests:update(tickDelta)
     end
 end
 
-function PhysicsTests:updateTestsState(tickDelta)
+function PhysicsTests:addSmokePuff(x,y)
+	self.localObjects[#self.localObjects+1] = SmokePuff.new(x,y)
 end
 
-function PhysicsTests:render()
-    local vpWidth, vpHeight = getViewportSize()
-    if self.shouldRender then
-    	game:render2D("textures/physics_bg.jpg", vpWidth/2, vpHeight/2, vpWidth, vpHeight)
-    end
-	-- buttons
-	for i,v in ipairs(self.buttons) do
-		v:render()
-	end
-	game:start2DProjection(0, PHYS_WORLD_WIDTH, PHYS_WORLD_HEIGHT, 0, -1, 1)
-	if self.shouldRender then
-		for i,v in ipairs(self.objects) do
-			if v.render then
-				v:render()
+function PhysicsTests:addActionTimer(time,action)
+	self.localObjects[#self.localObjects+1] = ActionTimer.new(time,action)
+end
+
+function PhysicsTests:addBreakableBox(x,y)
+	local box = Box.new(x, y, 5, 5, 0, false)
+	box.onCollisionStarted = function(box, other, force, velocity)
+		if force and force > 15 then
+			local curX,curY = box:physics_getBodyTransform(0)
+			self:addSmokePuff(curX,curY)
+			-- mark for removal
+			box.remove = true
+			if not self.countingDown then
+				self.countingDown = true
+				self:addActionTimer(5, function()
+					self:resetDynamicObjects()
+					self.countingDown = false
+				end
+				)
 			end
 		end
-    end
-	game:end2DProjection()
-end
-
-function PhysicsTests:renderLineObject(texture, width, x1,y1, x2,y2)
-    local xd = x2-x1
-    local yd = y2-y1
-    local angle = math.atan(yd/xd)
-    local length = math.sqrt(xd*xd+yd*yd)
-    local centerX = x1+(xd)/2
-    local centerY = y1+(yd)/2
-    game:render2D(texture, centerX, centerY, length, width, angle)
+		if force then
+	    	-- logmsg("(Box) onCollisionStarted - " .. other.objType .. " " .. force .. " " .. velocity)
+	    else
+	    	-- logmsg("(Box) onCollisionStarted - " .. other.objType)
+	    end
+	end
+	box:setPhysicsCallbackDetail(CALLBACK_DETAIL_BROAD)
+	self.objects[#self.objects+1] = box
 end

@@ -78,6 +78,10 @@ function Tests:cleanUp()
 	game:clearParticleEmitters()
     self.pointLights = {}
     self.pointLightCount = 0
+    if self.seymour then
+    	self.seymour:cDeactivate()
+    	self.seymour = nil
+    end
 end
 
 function Tests:show()
