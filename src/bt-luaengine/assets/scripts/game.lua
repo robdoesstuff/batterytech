@@ -96,7 +96,7 @@ function loadGame()
 		logmsg("loading from: "..savepath)
 		execScript(savepath, true, true)
 	end
-	if not gameSettings then
+	if not saveState then
 		saveState = {}
 		saveState.soundEnabled = true
 		saveState.vibrationEnabled = true

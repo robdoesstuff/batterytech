@@ -5,19 +5,19 @@ MainMenu = {}
 function MainMenu.new()
 	local self = table.copy(MainMenu)
 	self.buttons = {}
-	local button = makeButtonCentered(640, 400, 380, 100, "Play")
+	local button = makeButtonCentered(640, 400, 440, 100, "Physics Demo")
 	button.onClickUp = function()
-		game:setMode(MODE_PLAY)
+		game:setMode(MODE_PHYSICS_TESTS)
 	end
 	table.insert(self.buttons, button)
-	button = makeButtonCentered(640, 510, 380, 100, "3D Tests")
+	local button = makeButtonCentered(640, 510, 440, 100, "Basic 3D Tests")
 	button.onClickUp = function()
 		game:setMode(MODE_3D_TESTS)
 	end
 	table.insert(self.buttons, button)
-	button = makeButtonCentered(640, 620, 380, 100, "Physics Tests")
+	local button = makeButtonCentered(640, 620, 440, 100, "Example Game")
 	button.onClickUp = function()
-		game:setMode(MODE_PHYSICS_TESTS)
+		game:setMode(MODE_PLAY)
 	end
 	table.insert(self.buttons, button)
 	button = makeButtonCentered(180, 620, 280, 100, "Options")

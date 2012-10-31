@@ -98,7 +98,7 @@ function Pinwheel.new(x, y, size)
 	local fixtureId = self:physics_createPolygonFixture(self.dynBody, -size/2, -nSize/2, size/2, -nSize/2, size/2, nSize/2, -size/2, nSize/2)
 	local fixtureId = self:physics_createPolygonFixture(self.dynBody, -nSize/2, -size/2, nSize/2, -size/2, nSize/2, size/2, -nSize/2, size/2)
 	local revJoint = game:physics_addRevoluteJoint(self, self.staticBody, self, self.dynBody, x, y)
-	game:physics_setRevoluteJointMotor(revJoint, true, 0.75, 10000.0)
+	game:physics_setRevoluteJointMotor(revJoint, true, -1.0, 10000.0)
 	return self
 end
 
@@ -339,13 +339,13 @@ function PhysicsTests:setupScene()
 	43.5,97.25,48, 97.5,54.75, 97.75,61.25, 97.75,63.75, 96.5,66,95, 70.125,92.75, 73.5,89.625, 76.625,86.25}
 	self.groundbox = StaticChain.new(verts)
 	table.insert(self.objects, self.groundbox)
-	table.insert(self.objects, Box.new(30, 25, 20, 5, 30, true))
-	table.insert(self.objects, Box.new(50, 37, 20, 5, -30, true))
-	table.insert(self.objects, Box.new(30, 49, 20, 5, 30, true))
-	table.insert(self.objects, Box.new(50, 61, 20, 5, -30, true))
+	table.insert(self.objects, Box.new(30, 25, 20, 5, 45, true))
+	table.insert(self.objects, Box.new(50, 37, 20, 5, -45, true))
+	table.insert(self.objects, Box.new(30, 49, 20, 5, 45, true))
+	table.insert(self.objects, Box.new(50, 61, 20, 5, -45, true))
 	
 	table.insert(self.objects, Pinwheel.new(30, 80, 20))
-	local sensorBox = SensorBox.new(50, 95, 20, 5, 0)
+	local sensorBox = SensorBox.new(45, 95, 30, 5, 0)
 	table.insert(self.objects, sensorBox)
 	self.pusher = Pusher.new(20, 95, 10, 5, 0)
 	table.insert(self.objects, self.pusher)

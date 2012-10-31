@@ -1860,9 +1860,9 @@ static int lua_GameObject_getPhysicsContact(lua_State *L) {
 #endif
 
 static int lua_GameObject_gc (lua_State *L) {
-	char buf[255];
-	sprintf(buf, "**GC** GameObject (%p)\n", *(GameObject**)lua_touserdata(L, 1));
-	logmsg(buf);
+	//char buf[255];
+	//sprintf(buf, "**GC** GameObject (%p)\n", *(GameObject**)lua_touserdata(L, 1));
+	//logmsg(buf);
 	return 0;
 }
 
