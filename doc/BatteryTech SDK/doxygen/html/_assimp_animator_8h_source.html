@@ -115,25 +115,25 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &quot;../batterytech_globals.h&quot;</span></div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_render_node_8h.html">RenderNode.h</a>&quot;</span></div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_g_l_assimp_mesh_binding_8h.html">GLAssimpMeshBinding.h</a>&quot;</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#ifdef BATTERYTECH_INCLUDE_ASSIMP</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &quot;../../bt-assimp/include/aiScene.h&quot;</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">namespace </span>BatteryTech {</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">class </span>AssimpAnimator {</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        AssimpAnimator();</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="keyword">virtual</span> ~AssimpAnimator();</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keywordtype">void</span> init(<span class="keyword">const</span> aiScene *scene, <span class="keyword">const</span> <span class="keywordtype">char</span> *meshName);</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <span class="keywordtype">void</span> interpolate(<a class="code" href="primitives_8h.html#ad47a6c3871edfa71ee0057c3a7184161" title="A 32 bit floating point number.">F32</a> time);</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="keywordtype">void</span> applyTransforms(<a class="code" href="class_battery_tech_1_1_render_node.html">RenderNode</a> *meshNode, <span class="keyword">const</span> aiMesh *mesh, GLAssimpSkinnedMeshVertex *vertAtts);</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <a class="code" href="struct_battery_tech_1_1_matrix4.html">Matrix4f</a>* updateGlobalInverseBoneMatrices(<a class="code" href="class_battery_tech_1_1_render_node.html">RenderNode</a> *meshNode, <span class="keyword">const</span> aiMesh *mesh);</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <a class="code" href="class_battery_tech_1_1_render_node.html">RenderNode</a> *rootNode;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <a class="code" href="primitives_8h.html#a7fd0f901ce5fa28f2315830b2c4aea34" title="A signed 32 bit integer.">S32</a> nodeCount;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="comment">// BoneName-&gt;RenderNode</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <a class="code" href="class_battery_tech_1_1_str_hash_table.html">StrHashTable &lt;RenderNode*&gt;</a> *nodeTable;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_g_l_assimp_binding_8h.html">GLAssimpBinding.h</a>&quot;</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#ifdef BATTERYTECH_INCLUDE_ASSIMP</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#include &quot;../../bt-assimp/include/aiScene.h&quot;</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">namespace </span>BatteryTech {</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keyword">struct </span>MeshBoneMatrices {</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    MeshBoneMatrices() {</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        boneMatrices = <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="Standard null, suitable for pointers.">NULL</a>;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        boneMatricesWithRootInv = <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="Standard null, suitable for pointers.">NULL</a>;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        boneMatrixCount = 0;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    }</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keyword">virtual</span> ~MeshBoneMatrices() {</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="keyword">delete</span> [] boneMatrices;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <span class="keyword">delete</span> [] boneMatricesWithRootInv;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keyword">delete</span> boneMatrixIdxTable;        </div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    }</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <span class="comment">// Ordered list of global bone transforms, 1 per bone.</span></div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <a class="code" href="struct_battery_tech_1_1_matrix4.html">Matrix4f</a> *boneMatrices;</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <a class="code" href="primitives_8h.html#a7fd0f901ce5fa28f2315830b2c4aea34" title="A signed 32 bit integer.">S32</a> boneMatrixCount;</div>
@@ -141,23 +141,39 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <a class="code" href="struct_battery_tech_1_1_matrix4.html">Matrix4f</a> *boneMatricesWithRootInv;</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="comment">// BoneName-&gt;boneMatrices idx - eg: Matrix4f m = boneMatrices[boneMatrixIdxTable-&gt;get(&quot;HipJoint&quot;)]</span></div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <a class="code" href="class_battery_tech_1_1_str_hash_table.html">StrHashTable &lt;S32&gt;</a> *boneMatrixIdxTable;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="keywordtype">void</span> addNodeToTable(<a class="code" href="class_battery_tech_1_1_render_node.html">RenderNode</a> *node);</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <a class="code" href="class_battery_tech_1_1_render_node.html">RenderNode</a>* createRenderNode(<span class="keyword">const</span> aiScene *scene, aiNode *node, <a class="code" href="class_battery_tech_1_1_render_node.html">RenderNode</a> *parent, aiMesh *mesh);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="keywordtype">void</span> updateGlobalTransforms(<a class="code" href="class_battery_tech_1_1_render_node.html">RenderNode</a> *node);</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keywordtype">void</span> applyNodeTransform(<a class="code" href="struct_battery_tech_1_1_matrix4.html">Matrix4f</a> &amp;globalInverse, <a class="code" href="class_battery_tech_1_1_render_node.html">RenderNode</a> *node, aiMesh *mesh, <a class="code" href="struct_battery_tech_1_1_vector4.html">Vector4f</a> *transformedVerts, <a class="code" href="struct_battery_tech_1_1_vector4.html">Vector4f</a> *transformedNormals);</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="keyword">const</span> aiScene *scene;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;};</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;}</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* ASSIMPANIMATOR_H_ */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;};</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    </div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="keyword">class </span>AssimpAnimator {</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        AssimpAnimator();</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="keyword">virtual</span> ~AssimpAnimator();</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <span class="keywordtype">void</span> init(GLAssimpBinding *assimpBinding, <span class="keyword">const</span> <span class="keywordtype">char</span> *meshName);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="keywordtype">void</span> interpolate(<a class="code" href="primitives_8h.html#ad47a6c3871edfa71ee0057c3a7184161" title="A 32 bit floating point number.">F32</a> time);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="keywordtype">void</span> applyTransforms(<a class="code" href="class_battery_tech_1_1_render_node.html">RenderNode</a> *meshNode, <span class="keyword">const</span> aiMesh *mesh, GLAssimpSkinnedMeshVertex *vertAtts);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        <a class="code" href="struct_battery_tech_1_1_matrix4.html">Matrix4f</a>* updateGlobalInverseBoneMatrices(<a class="code" href="class_battery_tech_1_1_render_node.html">RenderNode</a> *meshNode, <span class="keyword">const</span> aiMesh *mesh);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        <a class="code" href="class_battery_tech_1_1_render_node.html">RenderNode</a> *rootNode;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <a class="code" href="primitives_8h.html#a7fd0f901ce5fa28f2315830b2c4aea34" title="A signed 32 bit integer.">S32</a> nodeCount;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="comment">// BoneName-&gt;RenderNode</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <a class="code" href="class_battery_tech_1_1_str_hash_table.html">StrHashTable &lt;RenderNode*&gt;</a> *nodeTable;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <a class="code" href="class_battery_tech_1_1_hash_table.html">HashTable&lt;const aiMesh*, MeshBoneMatrices*&gt;</a> *meshBoneMatrices;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        <span class="keywordtype">void</span> addNodeToTable(<a class="code" href="class_battery_tech_1_1_render_node.html">RenderNode</a> *node);</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <a class="code" href="class_battery_tech_1_1_render_node.html">RenderNode</a>* createRenderNode(<span class="keyword">const</span> aiScene *scene, aiNode *node, <a class="code" href="class_battery_tech_1_1_render_node.html">RenderNode</a> *parent);</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        <span class="keywordtype">void</span> updateGlobalTransforms(<a class="code" href="class_battery_tech_1_1_render_node.html">RenderNode</a> *node);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        <span class="keywordtype">void</span> applyNodeTransform(<a class="code" href="struct_battery_tech_1_1_matrix4.html">Matrix4f</a> &amp;globalInverse, <a class="code" href="class_battery_tech_1_1_render_node.html">RenderNode</a> *node, aiMesh *mesh, <a class="code" href="struct_battery_tech_1_1_vector4.html">Vector4f</a> *transformedVerts, <a class="code" href="struct_battery_tech_1_1_vector4.html">Vector4f</a> *transformedNormals);</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        GLAssimpBinding *assimpBinding;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <a class="code" href="primitives_8h.html#a4e430bd419df1d91b447c49d0974b8d8" title="A 32 bit boolean value.">BOOL32</a> sceneHasBones;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;};</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;}</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* ASSIMPANIMATOR_H_ */</span><span class="preprocessor"></span></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jul 6 2012 15:08:37 for BatteryTech SDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Oct 31 2012 23:19:07 for BatteryTech SDK by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.1
 </small></address>

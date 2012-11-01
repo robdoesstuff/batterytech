@@ -260,6 +260,8 @@ Protected Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>We have a very optimized bind here.</p>
+<p>1) It won't rebind to a shader that's already bound 2) It has optimizations for sequentially numbered vertex attribute locations starting at 0 2a) In this case, which is either 99 or 100% of the time, this will only unbind/bind to deltas in the attribute counts. </p>
 
 </div>
 </div>
@@ -542,7 +544,7 @@ Protected Member Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jul 6 2012 15:08:38 for BatteryTech SDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Oct 31 2012 23:19:07 for BatteryTech SDK by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.1
 </small></address>

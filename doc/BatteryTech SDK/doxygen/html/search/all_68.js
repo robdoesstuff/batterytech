@@ -1,8 +1,6 @@
 var searchData=
 [
   ['h',['h',['../glext_8h.html#afa0fb1b5e976920c0abeff2dca3ed774',1,'glext.h']]],
-  ['half_5fsize_5fheight',['HALF_SIZE_HEIGHT',['../_asset_texture_8cpp.html#a575d469876033b6254d637e8c3e72b3f',1,'AssetTexture.cpp']]],
-  ['half_5fsize_5fwidth',['HALF_SIZE_WIDTH',['../_asset_texture_8cpp.html#a5bc61997999a24e40ac54b7a4da53318',1,'AssetTexture.cpp']]],
   ['hash',['hash',['../class_battery_tech_1_1_hash_table.html#a49fa1367801cab40eeb1934143769f00',1,'BatteryTech::HashTable::hash()'],['../class_battery_tech_1_1_str_hash_table.html#a3c07240e4e4970e5bc316db8aa451a21',1,'BatteryTech::StrHashTable::hash()']]],
   ['hasharraysize',['hashArraySize',['../class_battery_tech_1_1_hash_table.html#a1eba927ad99d43b3dfd1dc6b53ef9d98',1,'BatteryTech::HashTable']]],
   ['hashtable',['HashTable',['../class_battery_tech_1_1_hash_table.html',1,'BatteryTech']]],
@@ -15,6 +13,9 @@ var searchData=
   ['hashtable_3c_20char_20_2a_2c_20texture_20_2a_20_3e',['HashTable&lt; char *, Texture * &gt;',['../class_battery_tech_1_1_hash_table.html',1,'BatteryTech']]],
   ['hashtable_3c_20char_20_2a_2c_20v_20_3e',['HashTable&lt; char *, V &gt;',['../class_battery_tech_1_1_hash_table.html',1,'BatteryTech']]],
   ['hashtable_3c_20char_20_2a_2c_20void_20_2a_20_3e',['HashTable&lt; char *, void * &gt;',['../class_battery_tech_1_1_hash_table.html',1,'BatteryTech']]],
+  ['hashtable_3c_20s32_2c_20bmfontchar_20_2a_20_3e',['HashTable&lt; S32, BMFontChar * &gt;',['../class_battery_tech_1_1_hash_table.html',1,'BatteryTech']]],
+  ['hashtable_3c_20s32_2c_20bmfontpage_20_2a_20_3e',['HashTable&lt; S32, BMFontPage * &gt;',['../class_battery_tech_1_1_hash_table.html',1,'BatteryTech']]],
+  ['hashtable_3c_20s32_2c_20hashtable_3c_20s32_2c_20f32_20_3e_20_2a_20_3e',['HashTable&lt; S32, HashTable&lt; S32, F32 &gt; * &gt;',['../class_battery_tech_1_1_hash_table.html',1,'BatteryTech']]],
   ['hasnext',['hasNext',['../struct_battery_tech_1_1_hash_table_1_1_iterator.html#ac8e1a45d2a8ee3242ac0a73c44082473',1,'BatteryTech::HashTable::Iterator']]],
   ['height',['height',['../class_battery_tech_1_1_graphics_configuration.html#a2d68bcce4ebd7ad34a0aea240be1ceea',1,'BatteryTech::GraphicsConfiguration::height()'],['../glext_8h.html#adfc5239a084231275658aaa86eb21f78',1,'height():&#160;glext.h']]],
   ['heightdips',['heightDips',['../class_battery_tech_1_1_u_i_component.html#a98f8ef688cd2caf5de9c88082e9fa265',1,'BatteryTech::UIComponent']]],

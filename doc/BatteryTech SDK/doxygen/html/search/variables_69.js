@@ -14,5 +14,6 @@ var searchData=
   ['isstreaming',['isStreaming',['../class_battery_tech_1_1_p_c_m_stream.html#a4b2fe7a5caf845700f5cfae16aa75264',1,'BatteryTech::PCMStream']]],
   ['istextmultiline',['isTextMultiline',['../class_battery_tech_1_1_u_i_component.html#ab257495bd05e59c05fb90010fd46e02d',1,'BatteryTech::UIComponent']]],
   ['isuiconsumingkeys',['isUIConsumingKeys',['../class_battery_tech_1_1_context.html#a106c4e61745b9bab55162126466f0124',1,'BatteryTech::Context']]],
-  ['isuiconsumingpointers',['isUIConsumingPointers',['../class_battery_tech_1_1_context.html#a9507edee6f676fe3689306e02d254293',1,'BatteryTech::Context']]]
+  ['isuiconsumingpointers',['isUIConsumingPointers',['../class_battery_tech_1_1_context.html#a9507edee6f676fe3689306e02d254293',1,'BatteryTech::Context']]],
+  ['isused',['isUsed',['../struct_battery_tech_1_1_render_node_mesh_bone.html#a99a0fec7f4069caccd2a4609f62b9807',1,'BatteryTech::RenderNodeMeshBone']]]
 ];

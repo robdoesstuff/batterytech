@@ -19,7 +19,7 @@ var searchData=
   ['fillbuffer',['fillBuffer',['../class_battery_tech_1_1_audio_manager.html#ab3017bb7ca939e2ca6a6959ae61d1460',1,'BatteryTech::AudioManager::fillBuffer()'],['../class_battery_tech_1_1_p_c_m_audio_manager.html#a0b852f2f6659832f6c6f29b69d9743c4',1,'BatteryTech::PCMAudioManager::fillBuffer()']]],
   ['fillcount',['fillCount',['../class_battery_tech_1_1_ring_buffer.html#aff30853cd3278f1908c59101b13f10ef',1,'BatteryTech::RingBuffer']]],
   ['fillpoint',['fillPoint',['../class_battery_tech_1_1_ring_buffer.html#aea25b72c646663db055c92b6b9dcb312',1,'BatteryTech::RingBuffer']]],
-  ['filter',['filter',['../glext_8h.html#a8bed50656d87c3eeed9d8f5e539c6b3e',1,'glext.h']]],
+  ['filter',['filter',['../class_battery_tech_1_1_texture.html#a6d33b0225fc708c0831d41f1172fb8eb',1,'BatteryTech::Texture::filter()'],['../glext_8h.html#a8bed50656d87c3eeed9d8f5e539c6b3e',1,'filter():&#160;glext.h']]],
   ['findbucket',['findBucket',['../class_battery_tech_1_1_hash_table.html#aeb76fdb8b6e2f6c0d757fa3a421ec8d3',1,'BatteryTech::HashTable::findBucket()'],['../class_battery_tech_1_1_str_hash_table.html#a9b22bc7cb92086717d0ca11a2de4927e',1,'BatteryTech::StrHashTable::findBucket()']]],
   ['findhost',['findHost',['../class_battery_tech_1_1_network_manager.html#ac8c776e22bb0ff7da158d9919e6369d1',1,'BatteryTech::NetworkManager']]],
   ['findmenu',['findMenu',['../class_battery_tech_1_1_u_i_manager.html#a270f11c0cba3525198972018de960801',1,'BatteryTech::UIManager']]],

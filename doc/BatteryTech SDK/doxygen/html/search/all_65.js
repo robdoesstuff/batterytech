@@ -6,6 +6,7 @@ var searchData=
   ['enabled',['enabled',['../class_battery_tech_1_1_vibration_manager.html#a9fcbe20162e6747c10e4ab24aafbfbc8',1,'BatteryTech::VibrationManager::enabled()'],['../glext_8h.html#a0455a397ab5468d21c3021f2efa6dd3c',1,'enabled():&#160;glext.h']]],
   ['encode',['encode',['../class_battery_tech_1_1_network_message.html#ad6c772aedf39e7c51fbe6f46c3fd8617',1,'BatteryTech::NetworkMessage']]],
   ['end',['end',['../glext_8h.html#a432111147038972f06e049e18a837002',1,'glext.h']]],
+  ['endbatch',['endBatch',['../class_battery_tech_1_1_quad_renderer.html#a24958af6a14cb699211fd7cd39ab940d',1,'BatteryTech::QuadRenderer']]],
   ['enter',['enter',['../class_battery_tech_1_1_u_i_component.html#a9f62d14020d88b260d74904d290d32d9',1,'BatteryTech::UIComponent']]],
   ['entries',['entries',['../class_battery_tech_1_1_hash_table.html#ae40148935aba49a8ea37627212d9a79e',1,'BatteryTech::HashTable']]],
   ['entriesvisited',['entriesVisited',['../struct_battery_tech_1_1_hash_table_1_1_iterator.html#ae95e14de99be6b8492cd190b23d7129a',1,'BatteryTech::HashTable::Iterator']]],

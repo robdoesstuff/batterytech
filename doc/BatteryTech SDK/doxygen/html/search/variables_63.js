@@ -10,6 +10,7 @@ var searchData=
   ['clickdownvibeeffectid',['clickDownVibeEffectId',['../class_battery_tech_1_1_u_i_component.html#a31d75e9534c5fa7994d4ceaa7dab5b1d',1,'BatteryTech::UIComponent']]],
   ['clickupsoundasset',['clickUpSoundAsset',['../class_battery_tech_1_1_u_i_component.html#a5d59c8fe89cc43a733d7c4a9f0c22136',1,'BatteryTech::UIComponent']]],
   ['clickupvibeeffectid',['clickUpVibeEffectId',['../class_battery_tech_1_1_u_i_component.html#a6005b7fb0c90f5ceec7deb9ef2eab6ad',1,'BatteryTech::UIComponent']]],
+  ['color',['color',['../struct_battery_tech_1_1_g_l_quad_vertex.html#a0c707db64773f082ddc128c0cbee32d3',1,'BatteryTech::GLQuadVertex']]],
   ['colorfilter',['colorFilter',['../class_battery_tech_1_1_render_context.html#a15efc8a910d3c4c4923d2920fc239029',1,'BatteryTech::RenderContext']]],
   ['component',['component',['../class_battery_tech_1_1_u_i_animator.html#a607fa7e39095c24e896fc2b40cf88f41',1,'BatteryTech::UIAnimator']]],
   ['components',['components',['../class_battery_tech_1_1_u_i_component.html#abd2328133dec604592d96950365dbc1e',1,'BatteryTech::UIComponent']]],

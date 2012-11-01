@@ -131,47 +131,45 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor"></span><span class="comment">// Maximum number of UI rendering assets.</span></div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="comment">// Increase if necessary.</span></div>
 <div class="line"><a name="l00043"></a><span class="lineno"><a class="code" href="batterytech__globals_8h.html#aad8c6c910f791335941e3e939e336042">   43</a></span>&#160;<span class="preprocessor">#define MAX_UI_ASSET_NAMES 300</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor"></span><span class="comment">// Maximum number of characters in a single line of text</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno"><a class="code" href="batterytech__globals_8h.html#aaeee82ade849411fefa8d30449b27301">   45</a></span>&#160;<span class="preprocessor">#define TEXT_RENDER_MAX_LINE_LENGTH 255</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor"></span><span class="comment">// Maximum number of characters in a multiline of text</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno"><a class="code" href="batterytech__globals_8h.html#aa7ff08c302257447f4bf704b940d4aff">   47</a></span>&#160;<span class="preprocessor">#define TEXT_RENDER_MAX_MULTILINE_LENGTH 2048</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="comment">// Number of simultaneous audio streams for mixing sound samples</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno"><a class="code" href="batterytech__globals_8h.html#a66c0ff3fe632a2fca372ef81a4f133d3">   51</a></span>&#160;<span class="preprocessor">#define MAX_AUDIO_STREAMS 20</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="preprocessor"></span><span class="comment">// Maximum number of simultaneous PCM sounds loadable when using native PCM mixing</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno"><a class="code" href="batterytech__globals_8h.html#a474530fae3400f01f24a568559e5c253">   53</a></span>&#160;<span class="preprocessor">#define MAX_PCM_SOUNDS 200</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="preprocessor"></span><span class="comment">// Playback rate - must match target platforms audio bridge/player</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno"><a class="code" href="batterytech__globals_8h.html#ae712dad815f5523596ea45457dfc21b9">   55</a></span>&#160;<span class="preprocessor">#define PCM_AUDIO_PLAYBACK_RATE 44100</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor"></span><span class="comment">// Playback channels - must match target platforms audio bridge/player</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno"><a class="code" href="batterytech__globals_8h.html#ae7f501112ef8f686898225c8d1391de3">   57</a></span>&#160;<span class="preprocessor">#define PCM_AUDIO_PLAYBACK_CHANNELS 2</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="preprocessor"></span><span class="comment">// Number of buffers used when playing streaming sound.</span></div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="comment">// Increase this and decrease buffer size to lower decoding lag.</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno"><a class="code" href="batterytech__globals_8h.html#a7ba7d45279cee8d985ab27eee83ea8e3">   60</a></span>&#160;<span class="preprocessor">#define PCM_AUDIO_STREAM_BUFFERS 2</span></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="preprocessor"></span><span class="comment">// The size of each streaming buffer.  Decrease to lower decoding lag (increases risk of underrun).</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="comment">// Must be bigger than VORBIS_MAX_LEGAL_FRAME</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno"><a class="code" href="batterytech__globals_8h.html#a5459ba5913cdca17944ea93c8f065d69">   63</a></span>&#160;<span class="preprocessor">#define PCM_AUDIO_STREAM_BUFFER_SIZE 64000</span></div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="preprocessor"></span><span class="comment">// How much data (in bytes) is read from disk/package for each chunked read.</span></div>
-<div class="line"><a name="l00065"></a><span class="lineno"><a class="code" href="batterytech__globals_8h.html#a4375dbda9602613c5942a7b4cc061bfe">   65</a></span>&#160;<span class="preprocessor">#define CHUNKED_READ_BUFFER_SIZE 16384</span></div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="preprocessor"></span><span class="comment">// Do not change unless you know what you&#39;re doing.</span></div>
-<div class="line"><a name="l00067"></a><span class="lineno"><a class="code" href="batterytech__globals_8h.html#a66747182d19a9b97b2ca8aabe3970798">   67</a></span>&#160;<span class="preprocessor">#define VORBIS_MAX_LEGAL_FRAME 8192</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="preprocessor"></span><span class="comment">// Maximum number of PCM Plugins</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno"><a class="code" href="batterytech__globals_8h.html#a3204ca7301183331aef3140c5f5d756b">   69</a></span>&#160;<span class="preprocessor">#define MAX_PCM_PLUGINS 10</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="comment">// if we want to use OpenGL ES 2.0 shader GPU-accelerated animation</span></div>
-<div class="line"><a name="l00073"></a><span class="lineno"><a class="code" href="batterytech__globals_8h.html#a1eb287b34d16d75f07a9436c6157875c">   73</a></span>&#160;<span class="preprocessor">#define ASSIMP_GPU_ACCELERATED_RENDER TRUE</span></div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="comment">// misc</span></div>
-<div class="line"><a name="l00076"></a><span class="lineno"><a class="code" href="batterytech__globals_8h.html#ad6d61d9120adc8d90d76b79d8dbfcecc">   76</a></span>&#160;<span class="preprocessor">#define FORCE_SQUARE_TEXTURES FALSE</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno"><a class="code" href="batterytech__globals_8h.html#a311391b7158af1f16bb7caeb5e021b36">   77</a></span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define FORCE_32_BIT_TEXTURES FALSE</span></div>
-<div class="line"><a name="l00078"></a><span class="lineno"><a class="code" href="batterytech__globals_8h.html#a3e0c8c699b3b422f7e4249caddd1484f">   78</a></span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define FORCE_16_BIT_RGB_TEXTURES FALSE</span></div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00081"></a><span class="lineno"><a class="code" href="batterytech__globals_8h.html#aa0b2ab7eea8fda0845d2b693578db7eb">   81</a></span>&#160;<span class="preprocessor">#define BATTERYTECH_VERSION &quot;2.0 alpha&quot;</span></div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* BATTERYTECH_GLOBALS_H_ */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor"></span><span class="comment">// Maximum number of characters in a multiline of text</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno"><a class="code" href="batterytech__globals_8h.html#aa8b6814071bccc9fba30a91fcaf4afe0">   45</a></span>&#160;<span class="preprocessor">#define TEXT_RENDER_BUFFER_SIZE 2048</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="comment">// Number of simultaneous audio streams for mixing sound samples</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno"><a class="code" href="batterytech__globals_8h.html#a66c0ff3fe632a2fca372ef81a4f133d3">   49</a></span>&#160;<span class="preprocessor">#define MAX_AUDIO_STREAMS 20</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor"></span><span class="comment">// Maximum number of simultaneous PCM sounds loadable when using native PCM mixing</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno"><a class="code" href="batterytech__globals_8h.html#a474530fae3400f01f24a568559e5c253">   51</a></span>&#160;<span class="preprocessor">#define MAX_PCM_SOUNDS 200</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="preprocessor"></span><span class="comment">// Playback rate - must match target platforms audio bridge/player</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno"><a class="code" href="batterytech__globals_8h.html#ae712dad815f5523596ea45457dfc21b9">   53</a></span>&#160;<span class="preprocessor">#define PCM_AUDIO_PLAYBACK_RATE 44100</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="preprocessor"></span><span class="comment">// Playback channels - must match target platforms audio bridge/player</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno"><a class="code" href="batterytech__globals_8h.html#ae7f501112ef8f686898225c8d1391de3">   55</a></span>&#160;<span class="preprocessor">#define PCM_AUDIO_PLAYBACK_CHANNELS 2</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor"></span><span class="comment">// Number of buffers used when playing streaming sound.</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="comment">// Increase this and decrease buffer size to lower decoding lag.</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno"><a class="code" href="batterytech__globals_8h.html#a7ba7d45279cee8d985ab27eee83ea8e3">   58</a></span>&#160;<span class="preprocessor">#define PCM_AUDIO_STREAM_BUFFERS 2</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="preprocessor"></span><span class="comment">// The size of each streaming buffer.  Decrease to lower decoding lag (increases risk of underrun).</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="comment">// Must be bigger than VORBIS_MAX_LEGAL_FRAME</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno"><a class="code" href="batterytech__globals_8h.html#a5459ba5913cdca17944ea93c8f065d69">   61</a></span>&#160;<span class="preprocessor">#define PCM_AUDIO_STREAM_BUFFER_SIZE 64000</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="preprocessor"></span><span class="comment">// How much data (in bytes) is read from disk/package for each chunked read.</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno"><a class="code" href="batterytech__globals_8h.html#a4375dbda9602613c5942a7b4cc061bfe">   63</a></span>&#160;<span class="preprocessor">#define CHUNKED_READ_BUFFER_SIZE 16384</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="preprocessor"></span><span class="comment">// Do not change unless you know what you&#39;re doing.</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno"><a class="code" href="batterytech__globals_8h.html#a66747182d19a9b97b2ca8aabe3970798">   65</a></span>&#160;<span class="preprocessor">#define VORBIS_MAX_LEGAL_FRAME 8192</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="preprocessor"></span><span class="comment">// Maximum number of PCM Plugins</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno"><a class="code" href="batterytech__globals_8h.html#a3204ca7301183331aef3140c5f5d756b">   67</a></span>&#160;<span class="preprocessor">#define MAX_PCM_PLUGINS 10</span></div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="comment">// if we want to use OpenGL ES 2.0 shader GPU-accelerated animation</span></div>
+<div class="line"><a name="l00071"></a><span class="lineno"><a class="code" href="batterytech__globals_8h.html#a1eb287b34d16d75f07a9436c6157875c">   71</a></span>&#160;<span class="preprocessor">#define ASSIMP_GPU_ACCELERATED_RENDER TRUE</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="comment">// misc</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno"><a class="code" href="batterytech__globals_8h.html#ad6d61d9120adc8d90d76b79d8dbfcecc">   74</a></span>&#160;<span class="preprocessor">#define FORCE_SQUARE_TEXTURES FALSE</span></div>
+<div class="line"><a name="l00075"></a><span class="lineno"><a class="code" href="batterytech__globals_8h.html#a311391b7158af1f16bb7caeb5e021b36">   75</a></span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define FORCE_32_BIT_TEXTURES FALSE</span></div>
+<div class="line"><a name="l00076"></a><span class="lineno"><a class="code" href="batterytech__globals_8h.html#a3e0c8c699b3b422f7e4249caddd1484f">   76</a></span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define FORCE_16_BIT_RGB_TEXTURES FALSE</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00079"></a><span class="lineno"><a class="code" href="batterytech__globals_8h.html#aa0b2ab7eea8fda0845d2b693578db7eb">   79</a></span>&#160;<span class="preprocessor">#define BATTERYTECH_VERSION &quot;2.0 alpha&quot;</span></div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* BATTERYTECH_GLOBALS_H_ */</span><span class="preprocessor"></span></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jul 6 2012 15:08:36 for BatteryTech SDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Oct 31 2012 23:19:06 for BatteryTech SDK by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.1
 </small></address>

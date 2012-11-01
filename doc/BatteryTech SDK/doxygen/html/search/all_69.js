@@ -47,6 +47,7 @@ var searchData=
   ['istextmultiline',['isTextMultiline',['../class_battery_tech_1_1_u_i_component.html#ab257495bd05e59c05fb90010fd46e02d',1,'BatteryTech::UIComponent']]],
   ['isuiconsumingkeys',['isUIConsumingKeys',['../class_battery_tech_1_1_context.html#a106c4e61745b9bab55162126466f0124',1,'BatteryTech::Context']]],
   ['isuiconsumingpointers',['isUIConsumingPointers',['../class_battery_tech_1_1_context.html#a9507edee6f676fe3689306e02d254293',1,'BatteryTech::Context']]],
+  ['isused',['isUsed',['../struct_battery_tech_1_1_render_node_mesh_bone.html#a99a0fec7f4069caccd2a4609f62b9807',1,'BatteryTech::RenderNodeMeshBone']]],
   ['isvirtuallargerthandrawable',['isVirtualLargerThanDrawable',['../class_battery_tech_1_1_u_i_component.html#a9aba87e232032cc796ee073523f4eb2b',1,'BatteryTech::UIComponent']]],
   ['iterator',['Iterator',['../struct_battery_tech_1_1_hash_table_1_1_iterator.html',1,'BatteryTech::HashTable']]],
   ['ios_20and_20osx_20project_20setup_20using_20xcode_204',['iOS and OSX Project Setup using XCode 4',['../group___x_code_setup.html',1,'']]]

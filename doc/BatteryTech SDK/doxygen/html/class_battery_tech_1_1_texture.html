@@ -119,7 +119,8 @@ Inheritance diagram for BatteryTech::Texture:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a2bd99ae566dd006506777df4e92ea9d0"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_battery_tech_1_1_texture.html#a2bd99ae566dd006506777df4e92ea9d0">TextureFilter</a> { <a class="el" href="class_battery_tech_1_1_texture.html#a2bd99ae566dd006506777df4e92ea9d0a903ee799bdfbef7abb4866963f9a6029">TEX_FILTER_NEAREST</a>, 
+<tr class="memitem:a2bd99ae566dd006506777df4e92ea9d0"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_battery_tech_1_1_texture.html#a2bd99ae566dd006506777df4e92ea9d0">TextureFilter</a> { <a class="el" href="class_battery_tech_1_1_texture.html#a2bd99ae566dd006506777df4e92ea9d0ab2dd50726d6507428ee21836340ee051">TEX_FILTER_DEFAULT</a>, 
+<a class="el" href="class_battery_tech_1_1_texture.html#a2bd99ae566dd006506777df4e92ea9d0a903ee799bdfbef7abb4866963f9a6029">TEX_FILTER_NEAREST</a>, 
 <a class="el" href="class_battery_tech_1_1_texture.html#a2bd99ae566dd006506777df4e92ea9d0a2c5541f8dbac694dd31cc4f55c8563bd">TEX_FILTER_LINEAR</a>
  }</td></tr>
 </table><table class="memberdecls">
@@ -147,11 +148,14 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:aa5f2bcf56177ad902232ac04d161e0cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">returns a matrix which will transform normal UV coordinates into this texture's UVs.  <a href="#aa5f2bcf56177ad902232ac04d161e0cb"></a><br/></td></tr>
 <tr class="memitem:a3a44a7bbb359839e10142ce76a562601"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="glext_8h.html#a3db05964a3cc4410f35b7ea2b7eb850d">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_battery_tech_1_1_texture.html#a3a44a7bbb359839e10142ce76a562601">clearAliases</a> ()</td></tr>
 <tr class="memdesc:a3a44a7bbb359839e10142ce76a562601"><td class="mdescLeft">&#160;</td><td class="mdescRight">instructs this texture to callback and clear any alias textures it created on its last load  <a href="#a3a44a7bbb359839e10142ce76a562601"></a><br/></td></tr>
+<tr class="memitem:a454cc73500151c90ac222eeb949e2da4"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="glext_8h.html#a2f0c8cd5c21f9fcbd931c3f48bc90dfc">GLuint</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_battery_tech_1_1_texture.html#a454cc73500151c90ac222eeb949e2da4">getTextureId</a> ()=0</td></tr>
+<tr class="memdesc:a454cc73500151c90ac222eeb949e2da4"><td class="mdescLeft">&#160;</td><td class="mdescRight">gets the texture ID  <a href="#a454cc73500151c90ac222eeb949e2da4"></a><br/></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:a36d8e1b556a8231e1fc70c03f6cb57ef"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_battery_tech_1_1_texture.html#a36d8e1b556a8231e1fc70c03f6cb57ef">assetName</a></td></tr>
 <tr class="memitem:a016ddeb022767c4dbcf32d0d478f7097"><td class="memItemLeft" align="right" valign="top"><a class="el" href="primitives_8h.html#a4e430bd419df1d91b447c49d0974b8d8">BOOL32</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_battery_tech_1_1_texture.html#a016ddeb022767c4dbcf32d0d478f7097">mipmap</a></td></tr>
+<tr class="memitem:a6d33b0225fc708c0831d41f1172fb8eb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_battery_tech_1_1_graphics_configuration.html#a9beda12dc10502fc37c3d3bf82bc3fde">GraphicsConfiguration::TextureFilter</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_battery_tech_1_1_texture.html#a6d33b0225fc708c0831d41f1172fb8eb">filter</a></td></tr>
 <tr class="memitem:ace27c4bafa0394974ca4706df3690ed2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_battery_tech_1_1_texture.html#a2bd99ae566dd006506777df4e92ea9d0">TextureFilter</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_battery_tech_1_1_texture.html#ace27c4bafa0394974ca4706df3690ed2">magFilter</a></td></tr>
 <tr class="memitem:aca31b247cbf95f40f87393e7aa9d71d5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_battery_tech_1_1_texture.html#a2bd99ae566dd006506777df4e92ea9d0">TextureFilter</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_battery_tech_1_1_texture.html#aca31b247cbf95f40f87393e7aa9d71d5">minFilter</a></td></tr>
 <tr class="memitem:accd8c5eb394e9e2076a53ac637ee4f9b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="primitives_8h.html#a4e430bd419df1d91b447c49d0974b8d8">BOOL32</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_battery_tech_1_1_texture.html#accd8c5eb394e9e2076a53ac637ee4f9b">repeatX</a></td></tr>
@@ -173,6 +177,8 @@ Static Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <dl><dt><b>Enumerator: </b></dt><dd><table border="0" cellspacing="2" cellpadding="0">
+<tr><td valign="top"><em><a class="anchor" id="a2bd99ae566dd006506777df4e92ea9d0ab2dd50726d6507428ee21836340ee051"></a>TEX_FILTER_DEFAULT</em>&nbsp;</td><td>
+</td></tr>
 <tr><td valign="top"><em><a class="anchor" id="a2bd99ae566dd006506777df4e92ea9d0a903ee799bdfbef7abb4866963f9a6029"></a>TEX_FILTER_NEAREST</em>&nbsp;</td><td>
 </td></tr>
 <tr><td valign="top"><em><a class="anchor" id="a2bd99ae566dd006506777df4e92ea9d0a2c5541f8dbac694dd31cc4f55c8563bd"></a>TEX_FILTER_LINEAR</em>&nbsp;</td><td>
@@ -359,6 +365,32 @@ Static Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a454cc73500151c90ac222eeb949e2da4"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="glext_8h.html#a2f0c8cd5c21f9fcbd931c3f48bc90dfc">GLuint</a> BatteryTech::Texture::getTextureId </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns:</dt><dd>The ID of this texture </dd></dl>
+
+<p>Implemented in <a class="el" href="class_battery_tech_1_1_asset_texture.html#a5ad02b82ba6bf56773f4371d829b859c">BatteryTech::AssetTexture</a>, and <a class="el" href="class_battery_tech_1_1_atlas_mapped_texture.html#aea2cbcebe2c86a84ac20ea06dad04bd7">BatteryTech::AtlasMappedTexture</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a19d4264437b9037d5d7109d8041719fb"></a>
 <div class="memitem">
 <div class="memproto">
@@ -508,6 +540,18 @@ Static Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a6d33b0225fc708c0831d41f1172fb8eb"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_battery_tech_1_1_graphics_configuration.html#a9beda12dc10502fc37c3d3bf82bc3fde">GraphicsConfiguration::TextureFilter</a> BatteryTech::Texture::filter</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="a1d1629583cdfa60a4f0246713970a09c"></a>
 <div class="memitem">
 <div class="memproto">
@@ -615,7 +659,7 @@ Static Public Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jul 6 2012 15:08:38 for BatteryTech SDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Oct 31 2012 23:19:07 for BatteryTech SDK by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.1
 </small></address>

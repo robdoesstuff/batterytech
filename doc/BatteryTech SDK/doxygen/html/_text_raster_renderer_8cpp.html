@@ -107,6 +107,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <code>#include &quot;<a class="el" href="_shader_program_8h_source.html">ShaderProgram.h</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="_texture_8h_source.html">Texture.h</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="_g_l_resource_manager_8h_source.html">GLResourceManager.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="_text_file_util_8h_source.html">../util/TextFileUtil.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="_asset_texture_8h_source.html">AssetTexture.h</a>&quot;</code><br/>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2><a name="namespaces"></a>
 Namespaces</h2></td></tr>
@@ -116,8 +118,26 @@ Namespaces</h2></td></tr>
 Macros</h2></td></tr>
 <tr class="memitem:afaa2f2d0d9d6726cfae6da070e736347"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_text_raster_renderer_8cpp.html#afaa2f2d0d9d6726cfae6da070e736347">STB_TRUETYPE_IMPLEMENTATION</a></td></tr>
 <tr class="memitem:ad2da48360f5364ff062e9cb92dc3ec17"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_text_raster_renderer_8cpp.html#ad2da48360f5364ff062e9cb92dc3ec17">SHADER_PROGRAM_TAG</a>&#160;&#160;&#160;&quot;quad&quot;</td></tr>
+<tr class="memitem:a559eb5024d84db6a38c7ca99673c805b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_text_raster_renderer_8cpp.html#a559eb5024d84db6a38c7ca99673c805b">USE_VBOS_WHEN_AVAILBLE</a>&#160;&#160;&#160;<a class="el" href="primitives_8h.html#aa93f0eb578d23995850d61f7d61c55c1">FALSE</a></td></tr>
+<tr class="memitem:a063a3af905ecefe83d76ca3f0fe0653e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_text_raster_renderer_8cpp.html#a063a3af905ecefe83d76ca3f0fe0653e">BUFFER_OFFSET</a>(i)&#160;&#160;&#160;(reinterpret_cast&lt;<a class="el" href="glext_8h.html#a3db05964a3cc4410f35b7ea2b7eb850d">void</a>*&gt;(i))</td></tr>
 </table>
 <hr/><h2>Macro Definition Documentation</h2>
+<a class="anchor" id="a063a3af905ecefe83d76ca3f0fe0653e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define BUFFER_OFFSET</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">i</td><td>)</td>
+          <td>&#160;&#160;&#160;(reinterpret_cast&lt;<a class="el" href="glext_8h.html#a3db05964a3cc4410f35b7ea2b7eb850d">void</a>*&gt;(i))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="ad2da48360f5364ff062e9cb92dc3ec17"></a>
 <div class="memitem">
 <div class="memproto">
@@ -142,10 +162,22 @@ Macros</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a559eb5024d84db6a38c7ca99673c805b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define USE_VBOS_WHEN_AVAILBLE&#160;&#160;&#160;<a class="el" href="primitives_8h.html#aa93f0eb578d23995850d61f7d61c55c1">FALSE</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jul 6 2012 15:08:37 for BatteryTech SDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Oct 31 2012 23:19:07 for BatteryTech SDK by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.1
 </small></address>

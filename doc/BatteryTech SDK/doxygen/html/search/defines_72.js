@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['r',['R',['../stb__vorbis_8c.html#a5c71a5e59a53413cd6c270266d63b031',1,'stb_vorbis.c']]],
-  ['restart',['RESTART',['../stb__image_8c.html#a3743ff2eb7667f3a1a2cb411ad8203ec',1,'stb_image.c']]]
+  ['rotate_5fx',['ROTATE_X',['../_quad_renderer_8cpp.html#ab35587e4d322c2c593b02f8170b9530e',1,'QuadRenderer.cpp']]],
+  ['rotate_5fy',['ROTATE_Y',['../_quad_renderer_8cpp.html#ab0229c4e692307fc6a3573e9eeff5c55',1,'QuadRenderer.cpp']]]
 ];

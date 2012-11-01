@@ -1,6 +1,7 @@
 var searchData=
 [
   ['encode',['encode',['../class_battery_tech_1_1_network_message.html#ad6c772aedf39e7c51fbe6f46c3fd8617',1,'BatteryTech::NetworkMessage']]],
+  ['endbatch',['endBatch',['../class_battery_tech_1_1_quad_renderer.html#a24958af6a14cb699211fd7cd39ab940d',1,'BatteryTech::QuadRenderer']]],
   ['enter',['enter',['../class_battery_tech_1_1_u_i_component.html#a9f62d14020d88b260d74904d290d32d9',1,'BatteryTech::UIComponent']]],
   ['escopy',['esCopy',['../es_transform_8cpp.html#a8c423996815776f9035466cf62a8d234',1,'esCopy(ESMatrix *result, const ESMatrix *source):&#160;esTransform.cpp'],['../es_transform_8h.html#a8c423996815776f9035466cf62a8d234',1,'esCopy(ESMatrix *result, const ESMatrix *source):&#160;esTransform.cpp']]],
   ['esfrustum',['esFrustum',['../es_transform_8cpp.html#af0646b86b447eeaf33280a915d79c3ec',1,'esFrustum(ESMatrix *result, float left, float right, float bottom, float top, float nearZ, float farZ):&#160;esTransform.cpp'],['../es_transform_8h.html#af0646b86b447eeaf33280a915d79c3ec',1,'esFrustum(ESMatrix *result, float left, float right, float bottom, float top, float nearZ, float farZ):&#160;esTransform.cpp']]],

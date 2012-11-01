@@ -7,7 +7,7 @@ var searchData=
   ['nbuffers',['nbuffers',['../glext_8h.html#aaaa03368c8f3e2e7cda82c4e3978ddfc',1,'glext.h']]],
   ['networking',['Networking',['../group___networking.html',1,'']]],
   ['networkmanager',['NetworkManager',['../class_battery_tech_1_1_network_manager.html',1,'BatteryTech']]],
-  ['networkmanager',['NetworkManager',['../class_battery_tech_1_1_network_manager.html#ad739e966065eaf217225491579162bc7',1,'BatteryTech::NetworkManager::NetworkManager()'],['../class_battery_tech_1_1_context.html#a3c0b3694b0b1669c7a310ccbfc377e5e',1,'BatteryTech::Context::networkManager()']]],
+  ['networkmanager',['networkManager',['../class_battery_tech_1_1_context.html#a3c0b3694b0b1669c7a310ccbfc377e5e',1,'BatteryTech::Context::networkManager()'],['../class_battery_tech_1_1_network_manager.html#ad739e966065eaf217225491579162bc7',1,'BatteryTech::NetworkManager::NetworkManager()']]],
   ['networkmanager_2ecpp',['NetworkManager.cpp',['../_network_manager_8cpp.html',1,'']]],
   ['networkmanager_2eh',['NetworkManager.h',['../_network_manager_8h.html',1,'']]],
   ['networkmessage',['NetworkMessage',['../class_battery_tech_1_1_network_message.html',1,'BatteryTech']]],

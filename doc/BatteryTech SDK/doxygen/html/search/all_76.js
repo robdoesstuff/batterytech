@@ -44,7 +44,7 @@ var searchData=
   ['verts',['verts',['../struct_battery_tech_1_1_obj_meta_scene.html#addbb82ab8b9746ada4f4cf7123c94ba1',1,'BatteryTech::ObjMetaScene']]],
   ['vibration_20control',['Vibration Control',['../group___vibration.html',1,'']]],
   ['vibrationmanager',['VibrationManager',['../class_battery_tech_1_1_vibration_manager.html',1,'BatteryTech']]],
-  ['vibrationmanager',['vibrationManager',['../class_battery_tech_1_1_context.html#a7c85e397b4cebf106a5a43e56268623f',1,'BatteryTech::Context::vibrationManager()'],['../class_battery_tech_1_1_vibration_manager.html#acbf755948f3cdada69a62491ef252741',1,'BatteryTech::VibrationManager::VibrationManager()']]],
+  ['vibrationmanager',['VibrationManager',['../class_battery_tech_1_1_vibration_manager.html#acbf755948f3cdada69a62491ef252741',1,'BatteryTech::VibrationManager::VibrationManager()'],['../class_battery_tech_1_1_context.html#a7c85e397b4cebf106a5a43e56268623f',1,'BatteryTech::Context::vibrationManager()']]],
   ['vibrationmanager_2ecpp',['VibrationManager.cpp',['../_vibration_manager_8cpp.html',1,'']]],
   ['vibrationmanager_2eh',['VibrationManager.h',['../_vibration_manager_8h.html',1,'']]],
   ['videomanager',['VideoManager',['../class_battery_tech_1_1_video_manager.html#a305aceab7bcf3783ab66676155555c4d',1,'BatteryTech::VideoManager::VideoManager()'],['../class_battery_tech_1_1_context.html#a7f9f9e1e4328b89db71edf9a84d7d2f2',1,'BatteryTech::Context::videoManager()']]],

@@ -117,7 +117,8 @@ Functions</h2></td></tr>
 <tr class="memitem:af8139e0b83960e0d8cd1d54fc5b41ea2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glext_8h.html#a3db05964a3cc4410f35b7ea2b7eb850d">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="batterytech_8h.html#af8139e0b83960e0d8cd1d54fc5b41ea2">btSetGraphicsContextLost</a> (<a class="el" href="primitives_8h.html#a4e430bd419df1d91b447c49d0974b8d8">BOOL32</a> wasLost)</td></tr>
 <tr class="memitem:adcac5700389b6506b80322522af3802c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glext_8h.html#a3db05964a3cc4410f35b7ea2b7eb850d">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="batterytech_8h.html#adcac5700389b6506b80322522af3802c">btResume</a> ()</td></tr>
 <tr class="memitem:aec38210ab3f9bedd85c158b19eaadab5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glext_8h.html#a3db05964a3cc4410f35b7ea2b7eb850d">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="batterytech_8h.html#aec38210ab3f9bedd85c158b19eaadab5">btRelease</a> ()</td></tr>
-<tr class="memitem:a38e11783b6299376fcddb96665193eaa"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glext_8h.html#a3db05964a3cc4410f35b7ea2b7eb850d">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="batterytech_8h.html#a38e11783b6299376fcddb96665193eaa">btCallback</a> (const char *<a class="el" href="glext_8h.html#ae71d2e007af6a1d1ed622d3e8be266e2">data</a>)</td></tr>
+<tr class="memitem:ad48daf3b399b217cf4ee951bc45cc492"><td class="memItemLeft" align="right" valign="top"><a class="el" href="primitives_8h.html#a4e430bd419df1d91b447c49d0974b8d8">BOOL32</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="batterytech_8h.html#ad48daf3b399b217cf4ee951bc45cc492">btCallback</a> (const char *<a class="el" href="glext_8h.html#ae71d2e007af6a1d1ed622d3e8be266e2">data</a>)</td></tr>
+<tr class="memitem:ad47ee557d5de2886a6ad7b81d231fbdb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glext_8h.html#a3db05964a3cc4410f35b7ea2b7eb850d">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="batterytech_8h.html#ad47ee557d5de2886a6ad7b81d231fbdb">btClearTickDeltas</a> ()</td></tr>
 <tr class="memitem:ac97b2770563906c667be30e59704718d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_battery_tech_1_1_context.html">BatteryTech::Context</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="batterytech_8h.html#ac97b2770563906c667be30e59704718d">btGetContext</a> ()</td></tr>
 </table>
 <hr/><h2>Function Documentation</h2>
@@ -154,12 +155,12 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a38e11783b6299376fcddb96665193eaa"></a>
+<a class="anchor" id="ad48daf3b399b217cf4ee951bc45cc492"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="glext_8h.html#a3db05964a3cc4410f35b7ea2b7eb850d">void</a> btCallback </td>
+          <td class="memname"><a class="el" href="primitives_8h.html#a4e430bd419df1d91b447c49d0974b8d8">BOOL32</a> btCallback </td>
           <td>(</td>
           <td class="paramtype">const char *&#160;</td>
           <td class="paramname"><em>data</em></td><td>)</td>
@@ -167,7 +168,26 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Callback from host OS (generally has something to do with an async callback from an earlier hook like IAP) </p>
+<p>Callback from host OS (generally has something to do with an async callback from an earlier hook like IAP)</p>
+<p>Does not block but may not register callback if queue is full</p>
+<dl class="section return"><dt>Returns:</dt><dd>TRUE if callback was queued, FALSE if queue is full </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ad47ee557d5de2886a6ad7b81d231fbdb"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="glext_8h.html#a3db05964a3cc4410f35b7ea2b7eb850d">void</a> btClearTickDeltas </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Clears current tick delta and any other values stored for smoothing</p>
+<p>Useful after a big single-frame operation like loading </p>
 
 </div>
 </div>
@@ -461,7 +481,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jul 6 2012 15:08:37 for BatteryTech SDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Oct 31 2012 23:19:07 for BatteryTech SDK by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.1
 </small></address>

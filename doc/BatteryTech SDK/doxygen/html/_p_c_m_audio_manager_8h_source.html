@@ -141,22 +141,23 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                <span class="keywordtype">void</span> <a class="code" href="class_battery_tech_1_1_p_c_m_audio_manager.html#ac8f3af48265e4868fb9dca5f07cc2910">update</a>();</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="keyword">private</span>:</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                <a class="code" href="primitives_8h.html#a7fd0f901ce5fa28f2315830b2c4aea34" title="A signed 32 bit integer.">S32</a> getSoundId(<span class="keyword">const</span> <span class="keywordtype">char</span> *assetName);</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                <a class="code" href="class_battery_tech_1_1_p_c_m_sound.html">PCMSound</a>* getSound(<a class="code" href="primitives_8h.html#a7fd0f901ce5fa28f2315830b2c4aea34" title="A signed 32 bit integer.">S32</a> soundId);</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                <span class="keywordtype">void</span> fillStreamingBuffer(<a class="code" href="class_battery_tech_1_1_p_c_m_stream.html">PCMStream</a> *pcmStream, <a class="code" href="primitives_8h.html#aa01b3be6e49ff185039be8049ac5b290" title="An unsigned 16 bit integer.">U16</a> bufNum);</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                <a class="code" href="primitives_8h.html#acd85e891f8abe13e2e0c5785454972ac" title="An unsigned 8 bit integer.">U8</a> streamCount;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                <a class="code" href="class_battery_tech_1_1_managed_array.html">ManagedArray&lt;PCMSound&gt;</a> *pcmSounds;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                <a class="code" href="class_battery_tech_1_1_p_c_m_stream.html">PCMStream</a> *pcmStreams;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                <a class="code" href="primitives_8h.html#a4e430bd419df1d91b447c49d0974b8d8" title="A 32 bit boolean value.">BOOL32</a> isReady;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                <a class="code" href="primitives_8h.html#a7fd0f901ce5fa28f2315830b2c4aea34" title="A signed 32 bit integer.">S32</a> lastSoundId;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                <a class="code" href="primitives_8h.html#a7fd0f901ce5fa28f2315830b2c4aea34" title="A signed 32 bit integer.">S32</a> lastStreamId;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        };</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;}</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* SOUNDMANAGER_H_ */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <a class="code" href="primitives_8h.html#a4e430bd419df1d91b447c49d0974b8d8" title="A 32 bit boolean value.">BOOL32</a> isSoundLoaded(<span class="keyword">const</span> <span class="keywordtype">char</span> *assetName);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                <a class="code" href="class_battery_tech_1_1_p_c_m_sound.html">PCMSound</a>* getSound(<a class="code" href="primitives_8h.html#a7fd0f901ce5fa28f2315830b2c4aea34" title="A signed 32 bit integer.">S32</a> soundId);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                <span class="keywordtype">void</span> fillStreamingBuffer(<a class="code" href="class_battery_tech_1_1_p_c_m_stream.html">PCMStream</a> *pcmStream, <a class="code" href="primitives_8h.html#aa01b3be6e49ff185039be8049ac5b290" title="An unsigned 16 bit integer.">U16</a> bufNum);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                <a class="code" href="primitives_8h.html#acd85e891f8abe13e2e0c5785454972ac" title="An unsigned 8 bit integer.">U8</a> streamCount;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                <a class="code" href="class_battery_tech_1_1_managed_array.html">ManagedArray&lt;PCMSound&gt;</a> *pcmSounds;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                <a class="code" href="class_battery_tech_1_1_p_c_m_stream.html">PCMStream</a> *pcmStreams;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                <a class="code" href="primitives_8h.html#a4e430bd419df1d91b447c49d0974b8d8" title="A 32 bit boolean value.">BOOL32</a> isReady;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                <a class="code" href="primitives_8h.html#a7fd0f901ce5fa28f2315830b2c4aea34" title="A signed 32 bit integer.">S32</a> lastSoundId;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                <a class="code" href="primitives_8h.html#a7fd0f901ce5fa28f2315830b2c4aea34" title="A signed 32 bit integer.">S32</a> lastStreamId;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        };</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;}</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* SOUNDMANAGER_H_ */</span><span class="preprocessor"></span></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jul 6 2012 15:08:36 for BatteryTech SDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Oct 31 2012 23:19:06 for BatteryTech SDK by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.1
 </small></address>

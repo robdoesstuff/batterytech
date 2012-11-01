@@ -445,83 +445,84 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;                        }</div>
 <div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;                        <span class="keywordflow">return</span> bucket;</div>
 <div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;                }</div>
-<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;                bucket = bucket-&gt;next;</div>
-<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;        }</div>
-<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="Standard null, suitable for pointers.">NULL</a>;</div>
-<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;}</div>
-<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;</div>
-<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> V&gt;</div>
-<div class="line"><a name="l00362"></a><span class="lineno"><a class="code" href="class_battery_tech_1_1_str_hash_table.html#a3c07240e4e4970e5bc316db8aa451a21">  362</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="class_battery_tech_1_1_str_hash_table.html#a3c07240e4e4970e5bc316db8aa451a21">StrHashTable&lt;V&gt;::hash</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* key)<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;        <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> hash, i, <a class="code" href="glext_8h.html#ac759c9f8b2506530e65879e566e59f02">len</a>;</div>
-<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;        len = strlen(key);</div>
-<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;        <span class="keywordflow">for</span>(hash = i = 0; i &lt; <a class="code" href="glext_8h.html#ac759c9f8b2506530e65879e566e59f02">len</a>; ++i) {</div>
-<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;                hash += key[i];</div>
-<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;                hash += (hash &lt;&lt; 10);</div>
-<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;                hash ^= (hash &gt;&gt; 6);</div>
-<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;        }</div>
-<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;        hash += (hash &lt;&lt; 3);</div>
-<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;        hash ^= (hash &gt;&gt; 11);</div>
-<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;        hash += (hash &lt;&lt; 15);</div>
-<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;        <span class="keywordflow">return</span> (<span class="keywordtype">int</span>) (hash % <a class="code" href="class_battery_tech_1_1_hash_table.html">HashTable&lt;char*, V&gt;::hashArraySize</a>);</div>
-<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;}</div>
-<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;</div>
-<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> V&gt;</div>
-<div class="line"><a name="l00377"></a><span class="lineno"><a class="code" href="class_battery_tech_1_1_str_hash_table.html#a9bf8d22d303d81b7ea6f052077dffa5d">  377</a></span>&#160;<a class="code" href="class_battery_tech_1_1_str_hash_table.html">StrHashTable&lt;V&gt;</a>* <a class="code" href="class_battery_tech_1_1_str_hash_table.html#a9bf8d22d303d81b7ea6f052077dffa5d">StrHashTable&lt;V&gt;::put</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* key, <span class="keyword">const</span> V &amp;<a class="code" href="glext_8h.html#ae71d2e007af6a1d1ed622d3e8be266e2">data</a>) {</div>
-<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;        <span class="keywordflow">if</span> (((<span class="keywordtype">double</span>) <a class="code" href="class_battery_tech_1_1_hash_table.html">HashTable&lt;char*, V&gt;::entries</a> / <a class="code" href="class_battery_tech_1_1_hash_table.html">HashTable&lt;char*, V&gt;::hashArraySize</a>) &gt;= <a class="code" href="class_battery_tech_1_1_hash_table.html">HashTable&lt;char*, V&gt;::THRESHOLD</a>) {</div>
-<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;                <a class="code" href="class_battery_tech_1_1_hash_table.html#a89d3ac610335d07f619c0f895fdb13c6">HashTable&lt;char*, V&gt;::grow</a>();</div>
-<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;        }</div>
-<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;        <span class="keywordtype">int</span> hashValue = hash(key);</div>
-<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;        <a class="code" href="class_battery_tech_1_1_hash_table.html">HashTable&lt;char*, V&gt;::entries</a>++;</div>
-<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;        <span class="keywordtype">char</span> *safeKey = <span class="keyword">new</span> <span class="keywordtype">char</span>[strlen(key)+1];</div>
-<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;        strcpy(safeKey, key);</div>
-<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;        <span class="keyword">typename</span> <a class="code" href="class_battery_tech_1_1_hash_table.html">HashTable&lt;char*, V&gt;::Bucket</a> *bucket = <span class="keyword">new</span> <span class="keyword">typename</span> <a class="code" href="class_battery_tech_1_1_hash_table.html">HashTable&lt;char*, V&gt;::Bucket</a>((<span class="keywordtype">char</span>*)safeKey, data);</div>
-<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;        <span class="comment">/*</span></div>
-<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;<span class="comment">         If there are already buckets in the bucket list for the given hash</span></div>
-<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;<span class="comment">         value, prepend the new one to the existing list.  Regardless,</span></div>
-<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;<span class="comment">         update the Bucket pointer in the hash array.</span></div>
-<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;<span class="comment">         */</span></div>
-<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;        <span class="keywordflow">if</span> (<a class="code" href="class_battery_tech_1_1_hash_table.html">HashTable&lt;char*, V&gt;::buckets</a>[hashValue] != <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="Standard null, suitable for pointers.">NULL</a>) {</div>
-<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;                bucket-&gt;next = <a class="code" href="class_battery_tech_1_1_hash_table.html">HashTable&lt;char*, V&gt;::buckets</a>[hashValue];</div>
-<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;        }</div>
-<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;        <a class="code" href="class_battery_tech_1_1_hash_table.html">HashTable&lt;char*, V&gt;::buckets</a>[hashValue] = bucket;</div>
-<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">this</span>;</div>
-<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;}</div>
-<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;</div>
-<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> V&gt;</div>
-<div class="line"><a name="l00399"></a><span class="lineno"><a class="code" href="class_battery_tech_1_1_str_hash_table.html#aa257ef3fb1985f71b113019944e5c4b0">  399</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="class_battery_tech_1_1_str_hash_table.html#aa257ef3fb1985f71b113019944e5c4b0">StrHashTable&lt;V&gt;::contains</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* key)<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;        <span class="keywordflow">return</span> findBucket(key, <span class="keyword">false</span>) != <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="Standard null, suitable for pointers.">NULL</a>;</div>
-<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;}</div>
-<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;</div>
-<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> V&gt;</div>
-<div class="line"><a name="l00404"></a><span class="lineno"><a class="code" href="class_battery_tech_1_1_str_hash_table.html#a513f7bf8d6ab1eb3f050a41689b6bdcb">  404</a></span>&#160;V <a class="code" href="class_battery_tech_1_1_str_hash_table.html#a513f7bf8d6ab1eb3f050a41689b6bdcb">StrHashTable&lt;V&gt;::get</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* key) {</div>
-<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;        <span class="keyword">typename</span> <a class="code" href="class_battery_tech_1_1_hash_table.html">HashTable&lt;char*, V&gt;::Bucket</a> *bucket = findBucket(key, <span class="keyword">false</span>);</div>
-<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;        <span class="keywordflow">if</span> (!bucket) {</div>
-<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;                <span class="keywordflow">return</span> <a class="code" href="class_battery_tech_1_1_hash_table.html">HashTable&lt;char*, V&gt;::nullReturnVal</a>;</div>
-<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;        }</div>
-<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;        <span class="keywordflow">return</span> bucket-&gt;data;</div>
-<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;}</div>
-<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;</div>
-<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> V&gt;</div>
-<div class="line"><a name="l00413"></a><span class="lineno"><a class="code" href="class_battery_tech_1_1_str_hash_table.html#a7323d6bbe2829f8c8e7c6d713ef264b0">  413</a></span>&#160;V <a class="code" href="class_battery_tech_1_1_str_hash_table.html#a7323d6bbe2829f8c8e7c6d713ef264b0">StrHashTable&lt;V&gt;::remove</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* key) {</div>
-<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;        <span class="keyword">typename</span> <a class="code" href="class_battery_tech_1_1_hash_table.html">HashTable&lt;char*, V&gt;::Bucket</a> *bucket = findBucket(key, <span class="keyword">true</span>);</div>
-<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;        <span class="keywordflow">if</span> (!bucket) {</div>
-<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;                <span class="keywordflow">return</span> <a class="code" href="class_battery_tech_1_1_hash_table.html">HashTable&lt;char*, V&gt;::nullReturnVal</a>;</div>
-<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;        }</div>
-<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;        V <a class="code" href="glext_8h.html#ae71d2e007af6a1d1ed622d3e8be266e2">data</a> = bucket-&gt;data;</div>
-<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;        <span class="comment">// bucket key is string we allocated with new</span></div>
-<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;        <span class="keyword">delete</span> [] bucket-&gt;key;</div>
-<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;        <span class="comment">// bucket allocated with new</span></div>
-<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;        <span class="keyword">delete</span> bucket;</div>
-<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;        <a class="code" href="class_battery_tech_1_1_hash_table.html">HashTable&lt;char*, V&gt;::entries</a>--;</div>
-<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="glext_8h.html#ae71d2e007af6a1d1ed622d3e8be266e2">data</a>;</div>
-<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;}</div>
-<div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160;</div>
-<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;} <span class="comment">/* end namespace BatteryTech */</span></div>
-<div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* HASHTABLE_H_ */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;                lastBucket = bucket;</div>
+<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;                bucket = bucket-&gt;next;</div>
+<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;        }</div>
+<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="Standard null, suitable for pointers.">NULL</a>;</div>
+<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;}</div>
+<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;</div>
+<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> V&gt;</div>
+<div class="line"><a name="l00363"></a><span class="lineno"><a class="code" href="class_battery_tech_1_1_str_hash_table.html#a3c07240e4e4970e5bc316db8aa451a21">  363</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="class_battery_tech_1_1_str_hash_table.html#a3c07240e4e4970e5bc316db8aa451a21">StrHashTable&lt;V&gt;::hash</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* key)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;        <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> hash, i, <a class="code" href="glext_8h.html#ac759c9f8b2506530e65879e566e59f02">len</a>;</div>
+<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;        len = strlen(key);</div>
+<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;        <span class="keywordflow">for</span>(hash = i = 0; i &lt; <a class="code" href="glext_8h.html#ac759c9f8b2506530e65879e566e59f02">len</a>; ++i) {</div>
+<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;                hash += key[i];</div>
+<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;                hash += (hash &lt;&lt; 10);</div>
+<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;                hash ^= (hash &gt;&gt; 6);</div>
+<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;        }</div>
+<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;        hash += (hash &lt;&lt; 3);</div>
+<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;        hash ^= (hash &gt;&gt; 11);</div>
+<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;        hash += (hash &lt;&lt; 15);</div>
+<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;        <span class="keywordflow">return</span> (<span class="keywordtype">int</span>) (hash % <a class="code" href="class_battery_tech_1_1_hash_table.html">HashTable&lt;char*, V&gt;::hashArraySize</a>);</div>
+<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;}</div>
+<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;</div>
+<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> V&gt;</div>
+<div class="line"><a name="l00378"></a><span class="lineno"><a class="code" href="class_battery_tech_1_1_str_hash_table.html#a9bf8d22d303d81b7ea6f052077dffa5d">  378</a></span>&#160;<a class="code" href="class_battery_tech_1_1_str_hash_table.html">StrHashTable&lt;V&gt;</a>* <a class="code" href="class_battery_tech_1_1_str_hash_table.html#a9bf8d22d303d81b7ea6f052077dffa5d">StrHashTable&lt;V&gt;::put</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* key, <span class="keyword">const</span> V &amp;<a class="code" href="glext_8h.html#ae71d2e007af6a1d1ed622d3e8be266e2">data</a>) {</div>
+<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;        <span class="keywordflow">if</span> (((<span class="keywordtype">double</span>) <a class="code" href="class_battery_tech_1_1_hash_table.html">HashTable&lt;char*, V&gt;::entries</a> / <a class="code" href="class_battery_tech_1_1_hash_table.html">HashTable&lt;char*, V&gt;::hashArraySize</a>) &gt;= <a class="code" href="class_battery_tech_1_1_hash_table.html">HashTable&lt;char*, V&gt;::THRESHOLD</a>) {</div>
+<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;                <a class="code" href="class_battery_tech_1_1_hash_table.html#a89d3ac610335d07f619c0f895fdb13c6">HashTable&lt;char*, V&gt;::grow</a>();</div>
+<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;        }</div>
+<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;        <span class="keywordtype">int</span> hashValue = hash(key);</div>
+<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;        <a class="code" href="class_battery_tech_1_1_hash_table.html">HashTable&lt;char*, V&gt;::entries</a>++;</div>
+<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;        <span class="keywordtype">char</span> *safeKey = <span class="keyword">new</span> <span class="keywordtype">char</span>[strlen(key)+1];</div>
+<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;        strcpy(safeKey, key);</div>
+<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;        <span class="keyword">typename</span> <a class="code" href="class_battery_tech_1_1_hash_table.html">HashTable&lt;char*, V&gt;::Bucket</a> *bucket = <span class="keyword">new</span> <span class="keyword">typename</span> <a class="code" href="class_battery_tech_1_1_hash_table.html">HashTable&lt;char*, V&gt;::Bucket</a>((<span class="keywordtype">char</span>*)safeKey, data);</div>
+<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;        <span class="comment">/*</span></div>
+<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;<span class="comment">         If there are already buckets in the bucket list for the given hash</span></div>
+<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;<span class="comment">         value, prepend the new one to the existing list.  Regardless,</span></div>
+<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;<span class="comment">         update the Bucket pointer in the hash array.</span></div>
+<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;<span class="comment">         */</span></div>
+<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;        <span class="keywordflow">if</span> (<a class="code" href="class_battery_tech_1_1_hash_table.html">HashTable&lt;char*, V&gt;::buckets</a>[hashValue] != <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="Standard null, suitable for pointers.">NULL</a>) {</div>
+<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;                bucket-&gt;next = <a class="code" href="class_battery_tech_1_1_hash_table.html">HashTable&lt;char*, V&gt;::buckets</a>[hashValue];</div>
+<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;        }</div>
+<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;        <a class="code" href="class_battery_tech_1_1_hash_table.html">HashTable&lt;char*, V&gt;::buckets</a>[hashValue] = bucket;</div>
+<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">this</span>;</div>
+<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;}</div>
+<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;</div>
+<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> V&gt;</div>
+<div class="line"><a name="l00400"></a><span class="lineno"><a class="code" href="class_battery_tech_1_1_str_hash_table.html#aa257ef3fb1985f71b113019944e5c4b0">  400</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="class_battery_tech_1_1_str_hash_table.html#aa257ef3fb1985f71b113019944e5c4b0">StrHashTable&lt;V&gt;::contains</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* key)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;        <span class="keywordflow">return</span> findBucket(key, <span class="keyword">false</span>) != <a class="code" href="primitives_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4" title="Standard null, suitable for pointers.">NULL</a>;</div>
+<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;}</div>
+<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;</div>
+<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> V&gt;</div>
+<div class="line"><a name="l00405"></a><span class="lineno"><a class="code" href="class_battery_tech_1_1_str_hash_table.html#a513f7bf8d6ab1eb3f050a41689b6bdcb">  405</a></span>&#160;V <a class="code" href="class_battery_tech_1_1_str_hash_table.html#a513f7bf8d6ab1eb3f050a41689b6bdcb">StrHashTable&lt;V&gt;::get</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* key) {</div>
+<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;        <span class="keyword">typename</span> <a class="code" href="class_battery_tech_1_1_hash_table.html">HashTable&lt;char*, V&gt;::Bucket</a> *bucket = findBucket(key, <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;        <span class="keywordflow">if</span> (!bucket) {</div>
+<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;                <span class="keywordflow">return</span> <a class="code" href="class_battery_tech_1_1_hash_table.html">HashTable&lt;char*, V&gt;::nullReturnVal</a>;</div>
+<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;        }</div>
+<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;        <span class="keywordflow">return</span> bucket-&gt;data;</div>
+<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;}</div>
+<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;</div>
+<div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> V&gt;</div>
+<div class="line"><a name="l00414"></a><span class="lineno"><a class="code" href="class_battery_tech_1_1_str_hash_table.html#a7323d6bbe2829f8c8e7c6d713ef264b0">  414</a></span>&#160;V <a class="code" href="class_battery_tech_1_1_str_hash_table.html#a7323d6bbe2829f8c8e7c6d713ef264b0">StrHashTable&lt;V&gt;::remove</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* key) {</div>
+<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;        <span class="keyword">typename</span> <a class="code" href="class_battery_tech_1_1_hash_table.html">HashTable&lt;char*, V&gt;::Bucket</a> *bucket = findBucket(key, <span class="keyword">true</span>);</div>
+<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;        <span class="keywordflow">if</span> (!bucket) {</div>
+<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;                <span class="keywordflow">return</span> <a class="code" href="class_battery_tech_1_1_hash_table.html">HashTable&lt;char*, V&gt;::nullReturnVal</a>;</div>
+<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;        }</div>
+<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;        V <a class="code" href="glext_8h.html#ae71d2e007af6a1d1ed622d3e8be266e2">data</a> = bucket-&gt;data;</div>
+<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;        <span class="comment">// bucket key is string we allocated with new</span></div>
+<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;        <span class="keyword">delete</span> [] bucket-&gt;key;</div>
+<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;        <span class="comment">// bucket allocated with new</span></div>
+<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;        <span class="keyword">delete</span> bucket;</div>
+<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;        <a class="code" href="class_battery_tech_1_1_hash_table.html">HashTable&lt;char*, V&gt;::entries</a>--;</div>
+<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="glext_8h.html#ae71d2e007af6a1d1ed622d3e8be266e2">data</a>;</div>
+<div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160;}</div>
+<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;</div>
+<div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;} <span class="comment">/* end namespace BatteryTech */</span></div>
+<div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* HASHTABLE_H_ */</span><span class="preprocessor"></span></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jul 6 2012 15:08:37 for BatteryTech SDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Oct 31 2012 23:19:07 for BatteryTech SDK by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.1
 </small></address>
