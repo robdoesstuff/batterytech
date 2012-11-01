@@ -14,7 +14,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8D1107260486CEB800E47090"
-               BuildableName = "bt-luaengine-osx.app"
+               BuildableName = "BatteryTech Lua Engine.app"
                BlueprintName = "bt-luaengine-osx"
                ReferencedContainer = "container:bt-luaengine-osx.xcodeproj">
             </BuildableReference>
@@ -32,7 +32,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8D1107260486CEB800E47090"
-            BuildableName = "bt-luaengine-osx.app"
+            BuildableName = "BatteryTech Lua Engine.app"
             BlueprintName = "bt-luaengine-osx"
             ReferencedContainer = "container:bt-luaengine-osx.xcodeproj">
          </BuildableReference>
@@ -51,12 +51,22 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8D1107260486CEB800E47090"
-            BuildableName = "bt-luaengine-osx.app"
+            BuildableName = "BatteryTech Lua Engine.app"
             BlueprintName = "bt-luaengine-osx"
             ReferencedContainer = "container:bt-luaengine-osx.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
+         <AdditionalOption
+            key = "DYLD_INSERT_LIBRARIES"
+            value = "/usr/lib/libgmalloc.dylib"
+            isEnabled = "YES">
+         </AdditionalOption>
+         <AdditionalOption
+            key = "MallocGuardEdges"
+            value = ""
+            isEnabled = "YES">
+         </AdditionalOption>
       </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
@@ -69,7 +79,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8D1107260486CEB800E47090"
-            BuildableName = "bt-luaengine-osx.app"
+            BuildableName = "BatteryTech Lua Engine.app"
             BlueprintName = "bt-luaengine-osx"
             ReferencedContainer = "container:bt-luaengine-osx.xcodeproj">
          </BuildableReference>
