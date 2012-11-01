@@ -22,8 +22,11 @@ addTexture("textures/circle.png")
 addTexture("textures/rectangle.png")
 addAssimp("models/box.obj")
 addTexture("textures/physics_bg.jpg")
+addTexture("textures/crate.jpg")
+addTexture("textures/rock.png")
 addTexture("textures/sinewave1.png")
 addTexture("textures/smokepuff.png")
+addTexture("textures/pinwheel.png")
 
 -- tag, assetname, size, innerstroke, outerstroke, color
 addFont("title", "ui/digital.ttf", 100, 1, 1, 255,255,255,255)

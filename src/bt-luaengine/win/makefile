@@ -25,7 +25,7 @@ endif
 APP_SOURCE_DIR=..\app-src
 SOURCE_DIR=..\..\batterytech\src
 CPPFLAGS=-c -Wall -I$(SOURCE_DIR) -I$(APP_SOURCE_DIR) -I$(SOURCE_DIR)\bt-assimp\contrib
-CFLAGS=-c -Wall
+CFLAGS=-c -Wall 
 LDFLAGS=-mwindows -static-libgcc -static-libstdc++
 # important - order matters to GCC when one static lib is dep on another, so always do -lbatterytech first!
 LINKED_LIBS=Resources\resources.o -L$(BUILD_DIR) -lbatterytech -lassimp -lbox2d -llua -lgdi32 -lws2_32 -lopengl32 -lwinmm

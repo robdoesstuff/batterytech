@@ -27,8 +27,8 @@ initial_font_texture_height=256
 text_vertical_spacing_multiplier=1.2
 
 # The UI font, size, stroke and color
-menu_font=ui/digital.ttf
-ui_font_size=60.0
+menu_font=ui/btdemo.fnt
+ui_font_size=50.0
 ui_menu_inner_stroke=1
 ui_menu_outer_stroke=1
 ui_menu_font_color=1.0 1.0 1.0 1.0

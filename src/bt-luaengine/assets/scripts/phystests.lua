@@ -77,7 +77,11 @@ end
 function Box:render()
 	local x,y,angle = self:physics_getBodyTransform(0)
 	-- logmsg("Circle render: " .. x .. " " .. y)
-	game:render2D("textures/rectangle.png", x,y, self.width, self.height, angle)
+	if self.type == TYPE_STATIC then
+		game:render2D("textures/rock.png", x,y, self.width, self.height, angle)
+	else
+		game:render2D("textures/crate.jpg", x,y, self.width, self.height, angle)
+	end
 end
 
 Pinwheel = table.copy(GameObject)
@@ -105,8 +109,8 @@ end
 function Pinwheel:render()
 	local x,y,angle = self:physics_getBodyTransform(self.dynBody)
 	-- logmsg("Circle render: " .. x .. " " .. y)
-	game:render2D("textures/rectangle.png", x,y, self.size, self.nSize, angle)
-	game:render2D("textures/rectangle.png", x,y, self.nSize, self.size, angle)
+	game:render2D("textures/pinwheel.png", x,y, self.size, self.nSize, angle)
+	game:render2D("textures/pinwheel.png", x,y, self.size, self.nSize, angle+math.rad(90))
 end
 
 StaticChain = table.copy(GameObject)
