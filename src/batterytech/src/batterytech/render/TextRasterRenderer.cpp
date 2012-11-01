@@ -432,6 +432,16 @@ namespace BatteryTech {
         return FALSE;
     }
 
+    static BOOL32 BMGetU8Property(char *data, const char *name, U8 *val) {
+        char prop[255];
+        BOOL32 exists = BMGetProperty(data, name, prop);
+        if (exists) {
+            *val = (U8)atoi(prop);
+            return TRUE;
+        }
+        return FALSE;
+    }
+
     static BOOL32 BMGetBoolProperty(char *data, const char *name, BOOL32 *val) {
         return BMGetIntProperty(data, name, (S32*)val);
     }
@@ -537,10 +547,10 @@ namespace BatteryTech {
                     BMGetIntProperty(lineBuf, "scaleH", &bmInfo->scaleH);
                     BMGetIntProperty(lineBuf, "pages", &bmInfo->pages);
                     BMGetBoolProperty(lineBuf, "packed", &bmInfo->packed);
-                    BMGetIntProperty(lineBuf, "alphaChnl", (S32*)&bmInfo->alphaChnl);
-                    BMGetIntProperty(lineBuf, "redChnl", (S32*)&bmInfo->redChnl);
-                    BMGetIntProperty(lineBuf, "greenChnl", (S32*)&bmInfo->greenChnl);
-                    BMGetIntProperty(lineBuf, "blueChnl", (S32*)&bmInfo->blueChnl);
+                    BMGetU8Property(lineBuf, "alphaChnl", &bmInfo->alphaChnl);
+                    BMGetU8Property(lineBuf, "redChnl", &bmInfo->redChnl);
+                    BMGetU8Property(lineBuf, "greenChnl", &bmInfo->greenChnl);
+                    BMGetU8Property(lineBuf, "blueChnl", &bmInfo->blueChnl);
                     if (bmInfo->pages > 1) {
                     	bmFontPageTable = new HashTable<S32, BMFontPage*>(bmInfo->pages * 1.5f);
                     } else {
