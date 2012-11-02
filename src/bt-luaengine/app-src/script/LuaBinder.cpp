@@ -41,13 +41,41 @@ logmsg(string message);
 
 /**
  * \brief Executes a script
- * \param assetName The script assetname
+ * \param assetName The script asset name
  * \param showErrorWhenNotFound If we should prompt an error when the script isn't found
  * \param isAbsolutePath If this is an absolute path name
  * \ingroup OtherFunctions
  *
  */
 execScript(string assetName, boolean showErrorWhenNotFound, boolean isAbsolutePath);
+/**
+ * \brief Loads a text-based asset
+ * \param assetName The file asset name
+ * \return The file contents as a string
+ * \ingroup FileIO
+ */
+string loadAsset(string assetName);
+/**
+ * \brief Adds a font file to the resource manager
+ * \param tag The font tag
+ * \param assetName The font file asset name
+ * \param size The font point size
+ * \param innerStroke The black inner stroke to apply
+ * \param outerStroke The black outer stroke to apply
+ * \param R (optional) Red color filter value 0-255
+ * \param G (optional) Green color filter value 0-255
+ * \param B (optional) Blue color filter value 0-255
+ * \param A (optional) Alpha color filter value 0-255
+ * \ingroup LoadingFonts
+ */
+addFont(string tag, string assetName, int size, int innerStroke, int outerStroke, int R, int G, int B, int A);
+/**
+ * \brief Adds a texture file to the resource manager
+ * \param assetName The texture file asset name
+ * \param onDemand (optional) Flags the texture to be only loaded on first use
+ * \ingroup Loading2DGraphics
+ */
+addTexture(string assetName, boolean onDemand);
 #endif
 static int lua_logmsg(lua_State *L);
 static int lua_execScript(lua_State *L);
