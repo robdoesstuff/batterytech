@@ -1,4 +1,4 @@
-# Doxyfile 1.8.1.1
+# Doxyfile 1.8.1
 
 # This file describes the settings to be used by the documentation system
 # doxygen (www.doxygen.org) for a project
@@ -45,7 +45,7 @@ PROJECT_BRIEF          = "Cross-Platform Game Engine"
 # exceed 55 pixels and the maximum width should not exceed 200 pixels. 
 # Doxygen will copy the logo to the output directory.
 
-PROJECT_LOGO           = /Users/rgreen/Documents/xcode-projects/batterytech-trunk/doc/batterytech_logo_tm.png
+PROJECT_LOGO           = ../batterytech_logo_tm.png
 
 # The OUTPUT_DIRECTORY tag is used to specify the (relative or absolute) 
 # base path where the generated documentation will be put. 
@@ -588,7 +588,7 @@ FILE_VERSION_FILTER    =
 
 # The LAYOUT_FILE tag can be used to specify a layout file which will be parsed 
 # by doxygen. The layout file controls the global structure of the generated 
-# output files in an output format independent way. To create the layout file 
+# output files in an output format independent way. The create the layout file 
 # that represents doxygen's defaults, run doxygen with the -l option. 
 # You can optionally specify a file name after the option, if omitted 
 # DoxygenLayout.xml will be used as the name of the layout file.
@@ -665,7 +665,8 @@ WARN_LOGFILE           =
 # directories like "/usr/src/myproject". Separate the files or directories 
 # with spaces.
 
-INPUT                  = ../../src/bt-luaengine/app-src
+INPUT                  = ../../src/bt-luaengine/app-src \
+                         btluaengine.dox
 
 # This tag can be used to specify the character encoding of the source files 
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding, which is 
@@ -833,7 +834,7 @@ INLINE_SOURCES         = NO
 
 # Setting the STRIP_CODE_COMMENTS tag to YES (the default) will instruct 
 # doxygen to hide any special comment blocks from generated source code 
-# fragments. Normal C, C++ and Fortran comments will always remain visible.
+# fragments. Normal C and C++ comments will always remain visible.
 
 STRIP_CODE_COMMENTS    = YES
 

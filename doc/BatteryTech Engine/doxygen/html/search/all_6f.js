@@ -15,5 +15,6 @@ var searchData=
   ['onspecialkey',['onSpecialKey',['../class_error_menu.html#af4700b9da77a943c6e864cd2b86e3423',1,'ErrorMenu']]],
   ['onsuspend',['onSuspend',['../class_game.html#ab688b90c9507721afebcf075e8b85314',1,'Game']]],
   ['orientation',['orientation',['../class_render_item.html#ab9aa132142db3e8f6813a6b245924647',1,'RenderItem']]],
-  ['origin',['origin',['../class_global_light.html#ac4abcb90295006f261f721afb99bcbfd',1,'GlobalLight']]]
+  ['origin',['origin',['../class_global_light.html#ac4abcb90295006f261f721afb99bcbfd',1,'GlobalLight']]],
+  ['other_20functions',['Other Functions',['../group___other_functions.html',1,'']]]
 ];

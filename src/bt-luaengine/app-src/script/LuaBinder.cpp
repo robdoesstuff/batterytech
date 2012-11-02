@@ -30,6 +30,25 @@
 using namespace BatteryTech;
 
 // c functions available to lua (LuaBinder should have all global functions)
+#ifdef DOXYGEN
+/**
+ * \brief Logs a message
+ * \param message The message to log
+ * \ingroup OtherFunctions
+ *
+ */
+logmsg(string message);
+
+/**
+ * \brief Executes a script
+ * \param assetName The script assetname
+ * \param showErrorWhenNotFound If we should prompt an error when the script isn't found
+ * \param isAbsolutePath If this is an absolute path name
+ * \ingroup OtherFunctions
+ *
+ */
+execScript(string assetName, boolean showErrorWhenNotFound, boolean isAbsolutePath);
+#endif
 static int lua_logmsg(lua_State *L);
 static int lua_execScript(lua_State *L);
 static int lua_loadAsset(lua_State *L);

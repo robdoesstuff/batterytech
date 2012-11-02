@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['user_20interface',['User Interface',['../group___u_i.html',1,'']]],
   ['ui_5fbutton_5f1',['UI_BUTTON_1',['../_u_i_constants_8h.html#a2c801f41ff2b7f0fc3f0a71a05cc17b0',1,'UIConstants.h']]],
   ['ui_5fbutton_5f1_5fpressed',['UI_BUTTON_1_PRESSED',['../_u_i_constants_8h.html#a28a973f0982288ce38c065aec6906f08',1,'UIConstants.h']]],
   ['ui_5fcheckbox',['UI_CHECKBOX',['../_u_i_constants_8h.html#a4ed3fb5ed87046d4808934a2fe2372f5',1,'UIConstants.h']]],
