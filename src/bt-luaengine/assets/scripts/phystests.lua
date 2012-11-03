@@ -204,7 +204,7 @@ end
 
 function Pusher:render()
 	local x,y,angle = self:physics_getBodyTransform(self.dynBody)
-	game:render2D("textures/rectangle.png", x,y, self.width, self.height, angle)
+	game:render2D("textures/pusher.png", x,y, self.width, self.height, angle)
 end
 
 function Pusher:push()

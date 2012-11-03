@@ -17,8 +17,8 @@ TAU = 2 * math.pi
 TO_DEGREES = 180 / math.pi
 TO_RADS = math.pi / 180
 
-ENABLE_POINT_LIGHT = false
-ENABLE_PARTICLES = true
+local ENABLE_POINT_LIGHT = false
+local ENABLE_PARTICLES = false
 
 Box = {
 	x = 0,
@@ -298,17 +298,16 @@ function Play:render()
 	setCameraParams(self.x, self.y, 2, 90, TO_DEGREES * self.dir)
 	setCameraNearFarFOV(1, 500, 60)
 	game:setShadowType(0)
-	game:setGlobalLightDir(-0.2, 0.2, .7)
-	game:setGlobalLightAmbient(.7, .7, .7, 1)
-	game:setGlobalLightDiffuse(.7, .7, .7, 1)
-	game:setGlobalLightSpecular(.5, .5, .5, 1)
-	game:setGlobalLightEnabled(true)
+	game:setGlobalLightEnabled(false)
     game:setFogEnabled(false)
+    -- draw BG
+    local vpWidth, vpHeight = getViewportSize()
+    local idx = game:render2DBG("textures/space.jpg", vpWidth/2, vpHeight/2, vpWidth, vpHeight, 0)
 	-- draw boxes
 	for i = 1, #self.boxes do
 		local box = self.boxes[i]
-		local idx = game:renderAssimpM(nil, 0, "models/box.obj", nil, "textures/box_star.jpg", true, 1,0,0,0,0,1,0,0,0,0,1,0,box.x,box.y,PLAY_BOX_SIZE/2,1, PLAY_BOX_SIZE,PLAY_BOX_SIZE,PLAY_BOX_SIZE, self.boxrot)
-		-- game:setRenderItemParam(idx, "maxPointLights", 1)
+		local idx = game:renderAssimpM(nil, 0, "models/star.obj", nil, nil, true, 1,0,0,0,0,1,0,0,0,0,1,0,box.x,box.y,PLAY_BOX_SIZE/2,1, PLAY_BOX_SIZE,PLAY_BOX_SIZE,PLAY_BOX_SIZE, self.boxrot)
+		game:setRenderItemParam(idx, "alpha", 0.5)
 	end
 	-- draw playing surface - preserve order to optimize
 	local idx = game:renderAssimpM(nil, 0, "models/box.obj", nil, "textures/box_surface.jpg", true, 1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1, 100.0,100.0,1.0, 0)
