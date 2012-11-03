@@ -68,7 +68,8 @@ vec4 compute_directional_light(vec3 normal) {
 	ndoth = max(c_zero, dot(normal, dirLight.halfplane));
 	computed_color += (dirLight.ambient_color * material.ambient_color);
 	computed_color += (ndotl * dirLight.diffuse_color * material.diffuse_color);
-	if (ndoth > c_zero) {
+	// no need to check ndoth - it should never be 0 if ndotl isn't 0
+	if (ndotl != c_zero) {
 		computed_color += (pow(ndoth, material.specular_exponent) * material.specular_color * dirLight.specular_color);
 	}
 	return computed_color;
@@ -110,14 +111,12 @@ vec4 compute_point_light(int lightIdx, vec3 eye, vec3 ecPosition3, vec3 normal) 
 	halfVector = normalize(VP + eye);
 	nDotVP = max(0.0, dot(normal, VP));
 	nDotHV = max(0.0, dot(normal, halfVector));
-	if (nDotHV == 0.0) {
-		pf = 0.0;
-	} else {
-		pf = pow(nDotHV, material.specular_exponent);
-	}
 	computed_color += pointLight[lightIdx].ambient_color * material.ambient_color * attenuation;
 	computed_color += pointLight[lightIdx].diffuse_color * material.diffuse_color * nDotVP * attenuation;
-	computed_color += pointLight[lightIdx].specular_color * material.specular_color * pf * attenuation;
+	if (nDotVP != 0.0) {
+		pf = pow(nDotHV, material.specular_exponent);
+		computed_color += pointLight[lightIdx].specular_color * material.specular_color * pf * attenuation;
+	}
 	return computed_color;
 }
 #endif
