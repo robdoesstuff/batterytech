@@ -15,7 +15,7 @@ function AnimatedModel.new()
     self = allocMeta(AnimatedModel.createInstance(), AnimatedModel)
     self:cInit()
     self:anim_allocAnimations(1)
-    self:anim_initDynamic(0, "models/Seymour.dae", nil)
+    self:anim_initDynamic(0, "models/Seymour.bai", nil)
     self.animPos = 0
     return self
 end
@@ -30,7 +30,7 @@ function AnimatedModel:render(pointLightCount)
     local y = -20
     local z = 1.05
     local scale = 0.75
-    local idx = game:renderAssimpM(self, 0, "models/Seymour.dae", nil, nil, true, 1,0,0,0,0,1,0,0,0,0,1,0,x,y,z,1, scale,scale,scale, 180)
+    local idx = game:renderAssimpM(self, 0, "models/Seymour.bai", nil, nil, true, 1,0,0,0,0,1,0,0,0,0,1,0,x,y,z,1, scale,scale,scale, 180)
     game:setRenderItemParam(idx, "maxPointLights", pointLightCount)
 end
 
@@ -431,14 +431,14 @@ function Tests:render()
         game:setRenderItemParam(idx, "uvs", 0.2+uvOffset, 0.2, 0.8+uvOffset, 0.8)
     end
 	-- draw playing surface - preserve order to optimize
-	local idx = game:renderAssimpM(nil, 0, "models/box.obj", nil, "textures/box_star.jpg", true, 1,0,0,0,0,1,0,0,0,0,1,0,0,-20,0,1, 50.0,50.0,1.0, 0)
+	local idx = game:renderAssimpM(nil, 0, "models/box.bai", nil, "textures/box_star.jpg", true, 1,0,0,0,0,1,0,0,0,0,1,0,0,-20,0,1, 50.0,50.0,1.0, 0)
     game:setRenderItemParam(idx, "drawfirst", "true")
     game:setRenderItemParam(idx, "maxPointLights", self.pointLightCount)
     game:setRenderItemParam(idx, "noshadowgen", "true")
 	-- draw boxes
 	for i = 1, #self.boxes do
 		local box = self.boxes[i]
-		local idx = game:renderAssimpM(nil, 0, "models/box.obj", nil, "textures/box_star.jpg", true, 1,0,0,0,0,1,0,0,0,0,1,0,box.x,box.y,PLAY_BOX_SIZE/2,1, PLAY_BOX_SIZE,PLAY_BOX_SIZE,PLAY_BOX_SIZE, self.boxrot)
+		local idx = game:renderAssimpM(nil, 0, "models/box.bai", nil, "textures/box_star.jpg", true, 1,0,0,0,0,1,0,0,0,0,1,0,box.x,box.y,PLAY_BOX_SIZE/2,1, PLAY_BOX_SIZE,PLAY_BOX_SIZE,PLAY_BOX_SIZE, self.boxrot)
         game:setRenderItemParam(idx, "colorFilter", box.color[1], box.color[2], box.color[3], box.color[4])
         if box.twosided then
             game:setRenderItemParam(idx, "twosided", "true")

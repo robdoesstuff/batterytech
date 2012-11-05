@@ -25,6 +25,30 @@ Box = {
 	y = 0
 }
 
+Battery = table.copy(GameObject)
+function Battery.new()
+    self = allocMeta(Battery.createInstance(), Battery)
+    self:cInit()
+    self:anim_allocAnimations(1)
+    self:anim_initDynamic(0, "models/Battery.bai", nil)
+    self.animPos = 0
+    return self
+end
+
+function Battery:update(tickDelta)
+    self.animPos = self.animPos + tickDelta
+    self:anim_interpolate(0, self.animPos)
+end
+
+function Battery:render()
+    local x = 0
+    local y = -20
+    local z = 1
+    local scale = 0.3
+    local idx = game:renderAssimp(self, 0, "models/Battery.bai", nil, nil, true, x,y,z, scale,scale,scale, 0,0,0)
+    -- local idx = game:renderAssimpM(self, 0, "models/Battery.bai", nil, nil, true, 1,0,0,0,0,1,0,0,0,0,1,0,x,y,z,1, scale,scale,scale, 180)
+end
+
 Play = {}
 
 function Play.new()
@@ -135,6 +159,7 @@ function Play:setupLevel()
 		box.y = math.random() * PLAY_WORLD_LENGTH*2 - PLAY_WORLD_LENGTH
 		table.insert(self.boxes, box)
 	end
+	self.battery = Battery.new()
 end
 
 function Play:update(tickDelta)
@@ -265,6 +290,7 @@ function Play:updatePlayState(tickDelta)
 		self.nextRandomNoiseTime = math.random(12,18)
 		playSound("sounds/space_noises.ogg", 0, 0.25, math.random(0.9,1.1))
 	end
+	if self.battery then self.battery:update(tickDelta) end
 end
 
 function Play:startGame()
@@ -306,11 +332,12 @@ function Play:render()
 	-- draw boxes
 	for i = 1, #self.boxes do
 		local box = self.boxes[i]
-		local idx = game:renderAssimpM(nil, 0, "models/star.obj", nil, nil, true, 1,0,0,0,0,1,0,0,0,0,1,0,box.x,box.y,PLAY_BOX_SIZE/2,1, PLAY_BOX_SIZE,PLAY_BOX_SIZE,PLAY_BOX_SIZE, self.boxrot)
+		local idx = game:renderAssimpM(nil, 0, "models/star.bai", nil, nil, true, 1,0,0,0,0,1,0,0,0,0,1,0,box.x,box.y,PLAY_BOX_SIZE/2,1, PLAY_BOX_SIZE,PLAY_BOX_SIZE,PLAY_BOX_SIZE, self.boxrot)
 		game:setRenderItemParam(idx, "alpha", 0.5)
 	end
+	if self.battery then self.battery:render() end
 	-- draw playing surface - preserve order to optimize
-	local idx = game:renderAssimpM(nil, 0, "models/box.obj", nil, "textures/box_surface.jpg", true, 1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1, 100.0,100.0,1.0, 0)
+	local idx = game:renderAssimpM(nil, 0, "models/box.bai", nil, "textures/box_surface.jpg", true, 1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1, 100.0,100.0,1.0, 0)
     game:setRenderItemParam(idx, "drawfirst", "true")
 	local timeString = string.format("Time: %2d", self.timeLeft)
 	local renderIdx = game:renderText2D("ui", timeString, scaleX(640), scaleY(50))
