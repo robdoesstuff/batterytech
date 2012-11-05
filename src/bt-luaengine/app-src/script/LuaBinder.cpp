@@ -76,6 +76,546 @@ addFont(string tag, string assetName, int size, int innerStroke, int outerStroke
  * \ingroup Loading2DGraphics
  */
 addTexture(string assetName, boolean onDemand);
+/**
+ * \brief Removes a texture file from the resource manager
+ * \param assetName The texture file asset name
+ * \ingroup Loading2DGraphics
+ */
+removeTexture(string assetName);
+/**
+ * \brief Sets default texture parameters
+ *
+ * Parameters are:
+ * filter - "nearest", "linear", "bilinear", "trilinear"
+ * repeat - boolean true or false
+ * 
+ * \param paramName1 The first parameter name
+ * \param paramValue1 The first parameter value
+ * \ingroup Loading2DGraphics
+ */
+setDefaultTextureParams(string paramName1, notype paramValue1, ...);
+
+/**
+ * \brief Sets texture parameters
+ *
+ * Parameters are:
+ * filter - "nearest", "linear", "bilinear", "trilinear"
+ * minfilter - "nearest", "linear"
+ * magfilter - "nearest", "linear"
+ * repeat - boolean true or false
+ * repeatX - boolean true or false
+ * repeatY - boolean true or false
+ *
+ * \param assetName The texture's file asset name
+ * \param paramName1 The first parameter name
+ * \param paramValue1 The first parameter value
+ * \ingroup Loading2DGraphics
+ */
+setTextureParams(string assetName, string paramName1, notype paramValue1, ...);
+
+/**
+ * \brief Gets the texture dimensions for a texture
+ * \param assetName The texture asset's name
+ * \return origWidth: The original width
+ * \return origHeight: The original height
+ * \return trimmedWidth: The trimmed width
+ * \return trimmedHeight: The trimmed height
+ * \return offsetX: The X offset
+ * \return offsetY: The Y offset
+ * \ingroup Rendering2D
+ */
+origWidth__origHeight__trimmedWidth__trimmedHeight__offsetX__offsetY getTextureDimensions(string assetName);
+
+/**
+ * \brief Removes all textures from the resource manager
+ * \ingroup Loading2DGraphics
+ */
+clearTextures();
+
+/**
+ * \brief (Deprecated) Adds an obj file to the resource manager
+ *
+ * Deprecated - use addAssimp/removeAssimp/renderAssimp instead.
+ *
+ * \ingroup Loading3DModels
+ */
+addObj(string assetName);
+
+/**
+ * \brief (Deprecated) Removes an obj file from the resource manager
+ *
+ * Deprecated - use addAssimp/removeAssimp/renderAssimp instead.
+ *
+ * \ingroup loading3DModels
+ */
+removeObj(string assetName);
+
+/**
+ * \brief (Deprecated) Removes all obj files from the resource manager
+ *
+ * Deprecated - use addAssimp/removeAssimp/renderAssimp instead.
+ *
+ * \ingroup loading3DModels
+ */
+clearObjs();
+
+/**
+ * \brief Adds an obj or dae (Collada) file to the resource manager
+ * \ingroup loading3DModels
+ */
+addAssimp(string assetName);
+
+/**
+ * \brief Removes an obj or dae (Collada) file from the resource manager
+ * \ingroup loading3DModels
+ */
+removeAssimp(string assetName);
+
+/**
+ * \brief Removes all obj/dae files from the resource manager
+ * \ingroup loading3DModels
+ */
+clearAssimps();
+
+/**
+ * \brief Adds a sound into the sound manager and loads it
+ *
+ * Must be OGG Vorbis file format
+ *
+ * \param assetName The asset name of the sound file
+ * \param loadInstant true if the sound file should be loaded now, false if it should be loaded during the loading state
+ * \ingroup LoadingSounds
+ */
+addSound(string assetName, boolean loadInstant);
+
+/**
+ * \brief Unloads a sound from the sound manager
+ * \param assetName The name of the sound file asset
+ * \ingroup LoadingSounds
+ */
+removeSound(string assetName);
+
+/**
+ * \brief Plays a sound that was previously loaded
+ *
+ * If loops, volume and rate are specified, they must all be specified together
+ * Sound must have previously been loaded with addSound()
+ * 
+ * \param assetName The name of the sound file asset
+ * \param loops (optional) The number of loops, 0 for infinite
+ * \param volume (optional) The volume range 0-1
+ * \param rate (optional) The playback rate range 0.5-1.5
+ * \return channelId: The channel number of the sound's playback
+ * \ingroup Audio
+ */
+channelId playSound(string assetName, int loops, float volume, float rate);
+
+/**
+ * \brief Stops a sound's playback
+ *
+ * If multiple instances of the sound are played, all will be stopped with this function
+ * \param assetName The name of the sound file asset
+ * \ingroup Audio
+ */
+stopSound(string assetName);
+
+/**
+ * \brief Stops a specific sound channel's playback
+ *
+ * \param channelId The channel id value given from playSound
+ * \ingroup Audio
+ */
+stopSound(int channelId);
+
+/**
+ * \brief Streams audio from a file without previously loading
+ *
+ * Only OGG Vorbis files are currently supported.
+ * This function is suitable for music.  Do not use addSound() in conjunction with this for an asset - it is not necessary and will waste memory and loading time.
+ * This function reads the audio in small chunks for buffering.  Higher bitrate, higher quality and stereo audio files may cause small bits of stutter on slower devices.  We recommand using medium or low quality mono encodings to reduce decoding CPU requirements.
+ * If loops, volume and rate are specified, they must all be specified together
+ *
+ * \param assetName The name of the sound file asset
+ * \param loops (optional) The number of loops, 0 for infinite
+ * \param volume (optional) The volume range 0-1
+ * \param rate (optional) The playback rate range 0.5-1.5
+ * \return channelId: The channel number of the sound's playback
+ * \ingroup Audio
+ */
+channelId playStreamingSound(string assetName, int loops, float volume, float rate);
+
+/**
+ * \brief Stops a streaming sound's playback
+ *
+ * Will only stop sounds played from playStreamingSound() - not playSound()
+ *
+ * If multiple instances of the sound are played, all will be stopped with this function
+ * \param assetName The name of the sound file asset
+ * \ingroup Audio
+ */
+stopStreamingSound(string assetName);
+
+/**
+ * \brief Stops a streaming sound's playback
+ *
+ * Will only stop sounds played from playStreamingSound() - not playSound()
+ *
+ * \param channelId The channel id value given from playStreamingSound
+ * \ingroup Audio
+ */
+stopStreamingSound(int channelId);
+
+/**
+ * \brief Changes the sound channel's playback rate
+ *
+ * \param channelId The channel id value given from playStreamingSound
+ * \param rate The playback rate range 0.5-1.5
+ * \ingroup Audio
+ */
+setSoundRate(int channelId, float rate);
+
+/**
+ * \brief Retrieves the current state of a touch/click/pointer
+ *
+ * \param pointerNumber The number of the pointer (0-9)
+ * \return isDown: if the pointer is currently down
+ * \return x: The window's x coordinate
+ * \return y: The window's y coordinate
+ * \ingroup Input
+ */
+isDown__x__y getPointerState(int pointerNumber);
+
+/**
+ * \brief Determines if a native BatteryTech menu is currently consuming a pointer
+ * \return isConsuming: If it is consuming a pointer
+ * \ingroup Input
+ */
+isConsuming isUIConsumingPointers();
+
+/**
+ * \brief Returns the current accelerometer values
+ *
+ * The relative axis will be constant no matter the "default" orientation or app orientation. so if you are making a portrait orientation game,
+ * your x axis may be what was the y axis in landscape, but it will be the same across all devices so whatever you get working will always work.
+ * \return x The x axis value
+ * \return y The y axis value
+ * \return z The z axis value
+ * \ingroup Input
+ */
+x__y__z getAccelerometerState();
+
+/**
+ * \brief Returns the last ASCII character typed by the user
+ *
+ * \return char The character
+ * \ingroup Input
+ */
+char getLastCharacterTyped();
+
+/**
+ * \brief Returns the current state of the keyboard for a given index
+ *
+ * \param index Which key input slot to check (0-9)
+ * \return isDown: If this key is down
+ * \return keyCode The code number of the key (platform-dependent)
+ * \ingroup Input
+ */
+isDown__keyCode getKeyState(int index);
+
+/**
+ * \brief Determines if a native BatteryTech menu is currently consuming key input
+ *
+ * \return true if the UI is consuming keys, false if not
+ * \ingroup Input
+ */
+isConsuming isUIConsumingKeys();
+
+/**
+ * \brief returns the screen-space coordinates for a point in world-space
+ *
+ * Uses the current camera settings to project the point from 2D to 3D
+ * \return x: The screen-space X coordinate
+ * \return y: The screen-space Y coordinate
+ * \return z: The screen-space Z coordinate
+ * \ingroup Rendering3D
+ */
+x__y__z getScreenCoord();
+
+/**
+ * \brief returns the current camera's parameters
+ *
+ * \return x: Position X
+ * \return y: Position Y
+ * \return z: Position Z
+ * \return tilt: Rotation about the Y-Axis
+ * \return rotation: Rotation about the Z-Axis
+ * \ingroup Rendering3D
+ */
+x__y__z__tilt__rotation getCameraParams();
+
+/**
+ * \brief Sets the current camera's parameters
+ *
+ * \param x: Position X
+ * \param y: Position Y
+ * \param z: Position Z
+ * \param tilt: Rotation about the Y-Axis
+ * \param rotation: Rotation about the Z-Axis
+ * \ingroup Rendering3D
+ */
+setCameraParams(float x, float y, float z, float tilt, float rotation);
+
+/**
+ * \brief Sets the current camera's Near, Far and Field-Of-View
+ *
+ * \param near The near-plane distance
+ * \param far The far-plan distance
+ * \param fov The field-of-view
+ * \ingroup Rendering3D
+ */
+setCameraNearFarFOV(float near, float far, float fov);
+
+/**
+ * \brief Zooms the current camera
+ * \param amount The zoom amount
+ * \ingroup Rendering3D
+ */
+zoomCamera(float amount);
+
+/**
+ * \brief Pans the current camera
+ * \param x The x amount to pan
+ * \param y The y amount to pan
+ * \ingroup Rendering3D
+ */
+panCamera(float x, float y);
+
+/**
+ * \brief Returns the look-at vector of the current camera
+ * \return x: The x component
+ * \return y: The y component
+ * \return z: The z component
+ * \ingroup Rendering3D
+ */
+x__y__z getCameraLookVec();
+
+/**
+ * \brief Returns the singular scale value for scaling UI components
+ *
+ * This calculation uses the non-variable dimension of the current orientation to obtain a scale value that is appropriate for the current screen.
+ * Scaling both width and height by this value will result in correctly scaled, proportionate UI components.
+ * \return scale: The scale
+ * \ingroup Rendering2D
+ */
+scale getUIScale();
+
+/**
+ * \brief Returns the scale for both dimensions of the screen
+ * \return scaleX: The X-axis scale
+ * \return scaleY: The Y-axis scale
+ * \ingroup Rendering2D
+ */
+scaleX__scaleY getScale2d();
+
+/**
+ * \brief Returns the size of the current screen
+ * \return width: The screen's width
+ * \return height: The screen's height
+ * \ingroup Rendering2D
+ */
+width__height getViewportSize();
+
+/**
+ * \brief Returns the directory path name of a place suitable to store files exposed in some form to the user
+ * \return path: The path to store to
+ * \ingroup FileIO
+ */
+path getExternalStorageDirectoryName();
+
+/**
+ * \brief Returns the directory path name of a place suitable to store private user data
+ *
+ * It will either be the Application Data or Application Support directory for the platform
+ * \return path: The path to store to
+ * \ingroup FileIO
+ */
+path getApplicationStorageDirectoryName();
+
+/**
+ * \brief Returns the path separator character for this platform
+ * \return separator: The path separator
+ * \ingroup FileIO
+ */
+separator getPathSeparator();
+
+/**
+ * \brief Determines if a path exists
+ * \return exists: If the path exists
+ * \ingroup FileIO
+ */
+exists pathExists();
+
+/**
+ * \brief Shows the soft keyboard on applicable platforms
+ * \ingroup Input
+ */
+showKeyboard();
+
+/**
+ * \brief Hides the soft keyboard on applicable platforms
+ * \ingroup Input
+ */
+hideKeyboard();
+
+/**
+ * \brief Shows or hides an ad (requires platform integration)
+ * \param show If the ad is to be shown
+ * \ingroup PlatformHooks
+ */
+showAd(boolean show);
+
+/**
+ * \brief Shows a built-in native message dialog
+ * \param title The title
+ * \param message The message to display
+ * \param width (optional) width in reference units
+ * \ingroup UI
+ */
+showMessageDialog(string title, string message, int width);
+
+/**
+ * \brief Calls a hook for the platform
+ *
+ * See the section in the BatteryTech SDK docs about customizing behavior for a platform for more info on how to implement hooks.
+ * \param hookData The data to pass to the platform
+ * \return value: The platform's return value
+ * \ingroup PlatformHooks
+ */
+value platformHook(string hookData);
+
+/**
+ * \brief Quits the application
+ *
+ * Is not implemented or possible to impelement for all platforms
+ * \ingroup OtherFunctions
+ */
+platformExit();
+
+/**
+ * \brief Gets a high resolution time
+ *
+ * This function is not designed to return any time of day but rather information for profiling
+ * \return timeMs: A relative time to the app starting
+ * \ingroup OtherFunctions
+ */
+timeMs getTimeMillis();
+
+/**
+ * \brief Sets if audio is enabled
+ * \param enabled true if audio is enabled, false if not
+ * \ingroup Audio
+ */
+setSoundEnabled(boolean enabled);
+
+/**
+ * \brief Sets if vibration is enabled
+ *
+ * Not all platforms support vibration and platform-side integration is required for advanced effects.
+ *
+ * \param enabled true if vibration is enabled, false if not
+ * \ingroup PlatformHooks
+ */
+setVibrationEnabled(boolean enabled);
+
+/**
+ * \brief Sets whether to show the built-in FPS counter
+ * \param show true to show, false to hide
+ * \ingroup OtherFunctions
+ */
+showFPS(boolean show);
+
+/**
+ * \brief Sets the shadow type
+ *
+ * Shadows require detailed configuration to obtain reasonable results.  Just enabling without setting the options won't do anything useful.
+ * \param shadowType 0 = None, 1 = ShadowMap Low, 2 = ShadowMap High
+ * \ingroup Rendering3D
+ */
+setShadowType(int shadowType);
+
+/**
+ * \brief Loads a video
+ *
+ * Video playback requires platform integration or engine customization based on the requirements of the application.  By default, these video functions do nothing
+ * \param assetName The name of the asset file to load
+ * \ingroup Video
+ */
+loadVideo(string assetName);
+
+/**
+ * \brief Plays the loaded video
+ * \ingroup Video
+ */
+playVideo();
+
+/**
+ * \brief Stops the current playing video
+ * \ingroup Video
+ */
+stopVideo();
+
+/**
+ * \brief Unloads the current loaded video
+ * \ingroup Video
+ */
+unloadVideo();
+
+/**
+ * \brief Pauses the current playing video
+ * \ingroup Video
+ */
+pauseVideo();
+
+/**
+ * \brief Returns the current playing video's position
+ * \return position The position
+ * \ingroup Video
+ */
+position getVideoPosition();
+
+/**
+ * \brief Plays a vibration effect
+ *
+ * Effect 0 is the stock vibration on iOS and Android
+ * Anything more advanced for Android requires customization of the vibration manager or integration of Immersion UHL Haptics Library
+ * \param effectId The effect number
+ * \param intensity The effect intensity
+ * \ingroup Vibration
+ */
+playVibrationEffect(int effectId, float intensity);
+
+/**
+ * \brief Starts a looping vibration effect
+ *
+ * \param effectId The effect number
+ * \param intensity The effect intensity
+ * \ingroup Vibration
+ */
+startVibrationEffect(int effectId, float intensity);
+
+/**
+ * \brief Stops a vibration effect
+ *
+ * \param effectId The effect number
+ * \ingroup Vibration
+ */
+stopVibrationEffect(int effectId);
+
+/**
+ * \brief Stops all vibration effects
+ * \ingroup Vibration
+ */
+stopAllVibrationEffects();
 #endif
 static int lua_logmsg(lua_State *L);
 static int lua_execScript(lua_State *L);

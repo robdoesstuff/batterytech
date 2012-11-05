@@ -93,6 +93,12 @@ Functions</h2></td></tr>
 <tr class="memdesc:ga0a159062fa451fe21ac8acd2d193b5f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Logs a message.  <a href="#ga0a159062fa451fe21ac8acd2d193b5f3"></a><br/></td></tr>
 <tr class="memitem:gadb41d8463323db52e0589ec7b44cabc4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___other_functions.html#gadb41d8463323db52e0589ec7b44cabc4">execScript</a> (string assetName, boolean showErrorWhenNotFound, boolean isAbsolutePath)</td></tr>
 <tr class="memdesc:gadb41d8463323db52e0589ec7b44cabc4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Executes a script.  <a href="#gadb41d8463323db52e0589ec7b44cabc4"></a><br/></td></tr>
+<tr class="memitem:ga4d9ccf92847df436a98761e52cfefe5a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___other_functions.html#ga4d9ccf92847df436a98761e52cfefe5a">platformExit</a> ()</td></tr>
+<tr class="memdesc:ga4d9ccf92847df436a98761e52cfefe5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Quits the application.  <a href="#ga4d9ccf92847df436a98761e52cfefe5a"></a><br/></td></tr>
+<tr class="memitem:gaf22f02f830be2f2924701b4745935aa2"><td class="memItemLeft" align="right" valign="top">timeMs&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___other_functions.html#gaf22f02f830be2f2924701b4745935aa2">getTimeMillis</a> ()</td></tr>
+<tr class="memdesc:gaf22f02f830be2f2924701b4745935aa2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a high resolution time.  <a href="#gaf22f02f830be2f2924701b4745935aa2"></a><br/></td></tr>
+<tr class="memitem:gafba092fe23cb4395797e8b84aa7b1f41"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___other_functions.html#gafba092fe23cb4395797e8b84aa7b1f41">showFPS</a> (boolean show)</td></tr>
+<tr class="memdesc:gafba092fe23cb4395797e8b84aa7b1f41"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets whether to show the built-in FPS counter.  <a href="#gafba092fe23cb4395797e8b84aa7b1f41"></a><br/></td></tr>
 </table>
 <hr/><h2>Function Documentation</h2>
 <a class="anchor" id="gadb41d8463323db52e0589ec7b44cabc4"></a>
@@ -135,6 +141,23 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="gaf22f02f830be2f2924701b4745935aa2"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">timeMs getTimeMillis </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This function is not designed to return any time of day but rather information for profiling </p>
+<dl class="section return"><dt>Returns:</dt><dd>timeMs: A relative time to the app starting </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="ga0a159062fa451fe21ac8acd2d193b5f3"></a>
 <div class="memitem">
 <div class="memproto">
@@ -157,10 +180,48 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="ga4d9ccf92847df436a98761e52cfefe5a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">platformExit </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Is not implemented or possible to impelement for all platforms </p>
+
+</div>
+</div>
+<a class="anchor" id="gafba092fe23cb4395797e8b84aa7b1f41"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">showFPS </td>
+          <td>(</td>
+          <td class="paramtype">boolean&#160;</td>
+          <td class="paramname"><em>show</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="params"><dt>Parameters:</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">show</td><td>true to show, false to hide </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Nov 2 2012 15:25:46 for BatteryTech Lua Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Nov 4 2012 23:40:52 for BatteryTech Lua Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.1
 </small></address>

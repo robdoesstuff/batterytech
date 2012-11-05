@@ -12,5 +12,7 @@ var searchData=
   ['isinteractive',['isInteractive',['../class_screen_control.html#a960854d2f1847a94f732e4cca07e0e8d',1,'ScreenControl']]],
   ['isinview',['isInView',['../class_camera.html#a5d6f0bf39332ebe82ad6bd659648de3c',1,'Camera']]],
   ['isloadingscreendisplayed',['isLoadingScreenDisplayed',['../class_world_renderer.html#aa554d92c5c5fac6aa64bb306cbe97735',1,'WorldRenderer']]],
+  ['isuiconsumingkeys',['isUIConsumingKeys',['../group___input.html#gadc01c777f3f903de3c708af64b888cfc',1,'LuaBinder.cpp']]],
+  ['isuiconsumingpointers',['isUIConsumingPointers',['../group___input.html#gaca1d8ec428c33f28da5c6166138c4472',1,'LuaBinder.cpp']]],
   ['isvalidgameobject',['isValidGameObject',['../class_game_object.html#ad5baa7f1328df24e46f30587aa890ab6',1,'GameObject']]]
 ];

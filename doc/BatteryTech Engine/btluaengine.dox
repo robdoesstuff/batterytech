@@ -112,6 +112,11 @@ namespace BTLuaEngine {
  * \defgroup UI User Interface
  * \brief Adding buttons and controls to your game
  *
+ * \defgroup Vibration Vibration and Haptics Feedback
+ * \brief Controlling the vibration hardware of a device
+ *
+ * \defgroup Video Video playback integration
+ * \brief Functions for controlling platform-integrated video playback
  */
 
 /**

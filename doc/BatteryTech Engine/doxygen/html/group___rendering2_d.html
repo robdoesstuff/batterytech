@@ -76,6 +76,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 
 <div class="header">
+  <div class="summary">
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">2D</div>  </div>
 <div class="ingroups"><a class="el" href="group___rendering.html">Rendering</a></div></div><!--header-->
@@ -83,10 +85,110 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <p>How to render 2D Graphics.  
 <a href="#details">More...</a></p>
+<hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:ga3949a0436526c8910cdd92b4a8409032"><td class="memItemLeft" align="right" valign="top">origWidth__origHeight__trimmedWidth__trimmedHeight__offsetX__offsetY&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___rendering2_d.html#ga3949a0436526c8910cdd92b4a8409032">getTextureDimensions</a> (string assetName)</td></tr>
+<tr class="memdesc:ga3949a0436526c8910cdd92b4a8409032"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the texture dimensions for a texture.  <a href="#ga3949a0436526c8910cdd92b4a8409032"></a><br/></td></tr>
+<tr class="memitem:ga30c1ca2c9fd5911dfc466f78d399e4a8"><td class="memItemLeft" align="right" valign="top">scale&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___rendering2_d.html#ga30c1ca2c9fd5911dfc466f78d399e4a8">getUIScale</a> ()</td></tr>
+<tr class="memdesc:ga30c1ca2c9fd5911dfc466f78d399e4a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the singular scale value for scaling UI components.  <a href="#ga30c1ca2c9fd5911dfc466f78d399e4a8"></a><br/></td></tr>
+<tr class="memitem:ga683a2764f3f1af5f06930b23fb851b9e"><td class="memItemLeft" align="right" valign="top">scaleX__scaleY&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___rendering2_d.html#ga683a2764f3f1af5f06930b23fb851b9e">getScale2d</a> ()</td></tr>
+<tr class="memdesc:ga683a2764f3f1af5f06930b23fb851b9e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the scale for both dimensions of the screen.  <a href="#ga683a2764f3f1af5f06930b23fb851b9e"></a><br/></td></tr>
+<tr class="memitem:gafc8d56292561db3021a8b99a50c3035d"><td class="memItemLeft" align="right" valign="top">width__height&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___rendering2_d.html#gafc8d56292561db3021a8b99a50c3035d">getViewportSize</a> ()</td></tr>
+<tr class="memdesc:gafc8d56292561db3021a8b99a50c3035d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the size of the current screen.  <a href="#gafc8d56292561db3021a8b99a50c3035d"></a><br/></td></tr>
+</table>
+<hr/><h2>Function Documentation</h2>
+<a class="anchor" id="ga683a2764f3f1af5f06930b23fb851b9e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">scaleX__scaleY getScale2d </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns:</dt><dd>scaleX: The X-axis scale </dd>
+<dd>
+scaleY: The Y-axis scale </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ga3949a0436526c8910cdd92b4a8409032"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">origWidth__origHeight__trimmedWidth__trimmedHeight__offsetX__offsetY getTextureDimensions </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>assetName</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="params"><dt>Parameters:</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">assetName</td><td>The texture asset's name </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns:</dt><dd>origWidth: The original width </dd>
+<dd>
+origHeight: The original height </dd>
+<dd>
+trimmedWidth: The trimmed width </dd>
+<dd>
+trimmedHeight: The trimmed height </dd>
+<dd>
+offsetX: The X offset </dd>
+<dd>
+offsetY: The Y offset </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ga30c1ca2c9fd5911dfc466f78d399e4a8"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">scale getUIScale </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This calculation uses the non-variable dimension of the current orientation to obtain a scale value that is appropriate for the current screen. Scaling both width and height by this value will result in correctly scaled, proportionate UI components. </p>
+<dl class="section return"><dt>Returns:</dt><dd>scale: The scale </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="gafc8d56292561db3021a8b99a50c3035d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">width__height getViewportSize </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns:</dt><dd>width: The screen's width </dd>
+<dd>
+height: The screen's height </dd></dl>
+
+</div>
+</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Nov 2 2012 15:25:46 for BatteryTech Lua Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Nov 4 2012 23:40:52 for BatteryTech Lua Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.1
 </small></address>

@@ -91,8 +91,65 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 Functions</h2></td></tr>
 <tr class="memitem:gae804bb1b4ee860cd474aee149454f8ca"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___file_i_o.html#gae804bb1b4ee860cd474aee149454f8ca">loadAsset</a> (string assetName)</td></tr>
 <tr class="memdesc:gae804bb1b4ee860cd474aee149454f8ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Loads a text-based asset.  <a href="#gae804bb1b4ee860cd474aee149454f8ca"></a><br/></td></tr>
+<tr class="memitem:ga3aaa7ed71e07d7739c6dc99fd2eda0da"><td class="memItemLeft" align="right" valign="top">path&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___file_i_o.html#ga3aaa7ed71e07d7739c6dc99fd2eda0da">getExternalStorageDirectoryName</a> ()</td></tr>
+<tr class="memdesc:ga3aaa7ed71e07d7739c6dc99fd2eda0da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the directory path name of a place suitable to store files exposed in some form to the user.  <a href="#ga3aaa7ed71e07d7739c6dc99fd2eda0da"></a><br/></td></tr>
+<tr class="memitem:ga04fe74cb40deab0bb6732009a981f2c1"><td class="memItemLeft" align="right" valign="top">path&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___file_i_o.html#ga04fe74cb40deab0bb6732009a981f2c1">getApplicationStorageDirectoryName</a> ()</td></tr>
+<tr class="memdesc:ga04fe74cb40deab0bb6732009a981f2c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the directory path name of a place suitable to store private user data.  <a href="#ga04fe74cb40deab0bb6732009a981f2c1"></a><br/></td></tr>
+<tr class="memitem:ga8078910800c04a3c9f556b52611a78a8"><td class="memItemLeft" align="right" valign="top">separator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___file_i_o.html#ga8078910800c04a3c9f556b52611a78a8">getPathSeparator</a> ()</td></tr>
+<tr class="memdesc:ga8078910800c04a3c9f556b52611a78a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the path separator character for this platform.  <a href="#ga8078910800c04a3c9f556b52611a78a8"></a><br/></td></tr>
+<tr class="memitem:ga25b543d8db643f0bb2860855245653af"><td class="memItemLeft" align="right" valign="top">exists&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___file_i_o.html#ga25b543d8db643f0bb2860855245653af">pathExists</a> ()</td></tr>
+<tr class="memdesc:ga25b543d8db643f0bb2860855245653af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines if a path exists.  <a href="#ga25b543d8db643f0bb2860855245653af"></a><br/></td></tr>
 </table>
 <hr/><h2>Function Documentation</h2>
+<a class="anchor" id="ga04fe74cb40deab0bb6732009a981f2c1"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">path getApplicationStorageDirectoryName </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>It will either be the Application Data or Application Support directory for the platform </p>
+<dl class="section return"><dt>Returns:</dt><dd>path: The path to store to </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ga3aaa7ed71e07d7739c6dc99fd2eda0da"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">path getExternalStorageDirectoryName </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns:</dt><dd>path: The path to store to </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ga8078910800c04a3c9f556b52611a78a8"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">separator getPathSeparator </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns:</dt><dd>separator: The path separator </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="gae804bb1b4ee860cd474aee149454f8ca"></a>
 <div class="memitem">
 <div class="memproto">
@@ -116,10 +173,26 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="ga25b543d8db643f0bb2860855245653af"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">exists pathExists </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns:</dt><dd>exists: If the path exists </dd></dl>
+
+</div>
+</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Nov 2 2012 15:25:46 for BatteryTech Lua Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Nov 4 2012 23:40:52 for BatteryTech Lua Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.1
 </small></address>

@@ -91,6 +91,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 Functions</h2></td></tr>
 <tr class="memitem:gae17317142d8393f735230f1b2bed19e4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___loading2_d_graphics.html#gae17317142d8393f735230f1b2bed19e4">addTexture</a> (string assetName, boolean onDemand)</td></tr>
 <tr class="memdesc:gae17317142d8393f735230f1b2bed19e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a texture file to the resource manager.  <a href="#gae17317142d8393f735230f1b2bed19e4"></a><br/></td></tr>
+<tr class="memitem:ga86b448010b539140a0b95dddf74f6fe9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___loading2_d_graphics.html#ga86b448010b539140a0b95dddf74f6fe9">removeTexture</a> (string assetName)</td></tr>
+<tr class="memdesc:ga86b448010b539140a0b95dddf74f6fe9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes a texture file from the resource manager.  <a href="#ga86b448010b539140a0b95dddf74f6fe9"></a><br/></td></tr>
+<tr class="memitem:ga94969610ca6a769ca84a09375c130f23"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___loading2_d_graphics.html#ga94969610ca6a769ca84a09375c130f23">setDefaultTextureParams</a> (string paramName1, notype paramValue1,...)</td></tr>
+<tr class="memdesc:ga94969610ca6a769ca84a09375c130f23"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets default texture parameters.  <a href="#ga94969610ca6a769ca84a09375c130f23"></a><br/></td></tr>
+<tr class="memitem:ga1c4a39bdbf73272e9537ad97b25b07fe"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___loading2_d_graphics.html#ga1c4a39bdbf73272e9537ad97b25b07fe">setTextureParams</a> (string assetName, string paramName1, notype paramValue1,...)</td></tr>
+<tr class="memdesc:ga1c4a39bdbf73272e9537ad97b25b07fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets texture parameters.  <a href="#ga1c4a39bdbf73272e9537ad97b25b07fe"></a><br/></td></tr>
+<tr class="memitem:ga3804de5b3501fc8f1395f10a455a39cc"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___loading2_d_graphics.html#ga3804de5b3501fc8f1395f10a455a39cc">clearTextures</a> ()</td></tr>
+<tr class="memdesc:ga3804de5b3501fc8f1395f10a455a39cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes all textures from the resource manager.  <a href="#ga3804de5b3501fc8f1395f10a455a39cc"></a><br/></td></tr>
 </table>
 <hr/><h2>Function Documentation</h2>
 <a class="anchor" id="gae17317142d8393f735230f1b2bed19e4"></a>
@@ -126,10 +134,134 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="ga3804de5b3501fc8f1395f10a455a39cc"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">clearTextures </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ga86b448010b539140a0b95dddf74f6fe9"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">removeTexture </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>assetName</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="params"><dt>Parameters:</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">assetName</td><td>The texture file asset name </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="ga94969610ca6a769ca84a09375c130f23"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">setDefaultTextureParams </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>paramName1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">notype&#160;</td>
+          <td class="paramname"><em>paramValue1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Parameters are: filter - "nearest", "linear", "bilinear", "trilinear" repeat - boolean true or false</p>
+<dl class="params"><dt>Parameters:</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">paramName1</td><td>The first parameter name </td></tr>
+    <tr><td class="paramname">paramValue1</td><td>The first parameter value </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="ga1c4a39bdbf73272e9537ad97b25b07fe"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">setTextureParams </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>assetName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>paramName1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">notype&#160;</td>
+          <td class="paramname"><em>paramValue1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Parameters are: filter - "nearest", "linear", "bilinear", "trilinear" minfilter - "nearest", "linear" magfilter - "nearest", "linear" repeat - boolean true or false repeatX - boolean true or false repeatY - boolean true or false</p>
+<dl class="params"><dt>Parameters:</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">assetName</td><td>The texture's file asset name </td></tr>
+    <tr><td class="paramname">paramName1</td><td>The first parameter name </td></tr>
+    <tr><td class="paramname">paramValue1</td><td>The first parameter value </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Nov 2 2012 15:25:46 for BatteryTech Lua Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Nov 4 2012 23:40:52 for BatteryTech Lua Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.1
 </small></address>
