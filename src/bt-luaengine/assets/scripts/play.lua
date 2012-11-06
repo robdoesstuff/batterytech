@@ -26,26 +26,65 @@ Box = {
 }
 
 Battery = table.copy(GameObject)
+
+Battery.animations = {
+	run = {startTime = 0/30, stopTime = 20/30, loop = true},
+	jog = {startTime = 25/30, stopTime = 45/30, loop = true},
+	wave = {startTime = 55/30, stopTime = 85/30, loop = false},
+	idle1 = {startTime = 85/30, stopTime = 85/30, loop = true},
+	idle2 = {startTime = 85/30, stopTime = 110/30, loop = true},
+	jump = {startTime = 110/30, stopTime = 135/30, loop = false},
+}
+
 function Battery.new()
     self = allocMeta(Battery.createInstance(), Battery)
     self:cInit()
     self:anim_allocAnimations(1)
     self:anim_initDynamic(0, "models/Battery.bai", nil)
-    self.animPos = 0
+    self.animation = Battery.animations.idle1
+    self.animTime = self.animation.startTime
+    self.animPlaybackRate = 1.0
+    self.x = 0
+    self.y = 0
+    self.rot = 0
     return self
 end
 
+function Battery:run()
+    self.animation = Battery.animations.run
+end
+
+function Battery:jog()
+    self.animation = Battery.animations.jog
+end
+
+function Battery:idle()
+    self.animation = Battery.animations.idle1
+end
+
 function Battery:update(tickDelta)
-    self.animPos = self.animPos + tickDelta
-    self:anim_interpolate(0, self.animPos)
+	-- now advance and interpolate the animation
+	self.animTime = self.animTime + (tickDelta * self.animPlaybackRate)
+	if self.animTime < self.animation.startTime then
+		self.animTime = self.animation.startTime
+		self.animationComplete = false
+	end
+	if self.animTime >= self.animation.stopTime then
+		if self.animation.loop then
+			self.animTime = self.animation.startTime
+			self.animationComplete = false
+		else
+			self.animTime = self.animation.stopTime
+			self.animationComplete = true
+		end
+	end
+    self:anim_interpolate(0, self.animTime)
 end
 
 function Battery:render()
-    local x = 0
-    local y = -20
     local z = 1
-    local scale = 0.3
-    local idx = game:renderAssimp(self, 0, "models/Battery.bai", nil, nil, true, x,y,z, scale,scale,scale, 0,0,0)
+    local scale = 0.1
+    local idx = game:renderAssimp(self, 0, "models/Battery.bai", nil, nil, true, self.x,self.y,z, scale,scale,scale, 0,0,self.rot)
     -- local idx = game:renderAssimpM(self, 0, "models/Battery.bai", nil, nil, true, 1,0,0,0,0,1,0,0,0,0,1,0,x,y,z,1, scale,scale,scale, 180)
 end
 
@@ -244,6 +283,13 @@ function Play:updatePlayState(tickDelta)
 	self.dir = self.dir + tickDelta * self.controlTurn * PLAY_TURN_SPEED
 	self.dir = self.dir % TAU
 	local moveDist = tickDelta * self.controlFwd * PLAY_MOVE_SPEED
+	if moveDist ~= 0 then
+		self.battery:run()
+	elseif self.controlTurn ~= 0 then
+		self.battery:jog()
+	else
+		self.battery:idle()
+	end
 	self.y = self.y + math.cos(-self.dir) * moveDist
 	self.x = self.x + math.sin(-self.dir) * moveDist
 	-- keep the player in bounds
@@ -290,7 +336,12 @@ function Play:updatePlayState(tickDelta)
 		self.nextRandomNoiseTime = math.random(12,18)
 		playSound("sounds/space_noises.ogg", 0, 0.25, math.random(0.9,1.1))
 	end
-	if self.battery then self.battery:update(tickDelta) end
+	if self.battery then 
+		self.battery.x = self.x
+		self.battery.y = self.y
+		self.battery.rot = -math.deg(self.dir)+180
+		self.battery:update(tickDelta) 
+	end
 end
 
 function Play:startGame()
@@ -321,7 +372,12 @@ end
 function Play:render()
 	-- CAMERA PARAM
 	-- setCameraParams(0,0,100, 0,0)
-	setCameraParams(self.x, self.y, 2, 90, TO_DEGREES * self.dir)
+	-- determine camera position, behind player
+	local rotSin = math.sin(self.dir)
+	local rotCos = math.cos(self.dir)
+	local followX, followY = 0, -5
+	local camOffsetX, camOffsetY = (followX*rotCos - followY*rotSin), (followX*rotSin + followY*rotCos)
+	setCameraParams(self.x + camOffsetX, self.y + camOffsetY, 3, 70, TO_DEGREES * self.dir)
 	setCameraNearFarFOV(1, 500, 60)
 	game:setShadowType(0)
 	game:setGlobalLightEnabled(false)
