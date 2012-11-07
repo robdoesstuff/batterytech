@@ -880,65 +880,64 @@ namespace BatteryTech {
 	 void lookAt(float eyex, float eyey, float eyez,
 	 		float centerx, float centery, float centerz,
 	 		float upx, float upy, float upz) {
-	     float x[3], y[3], z[3];
-	     float mag;
+	     float forward[3], side[3], up[3];
+	     float r;
 
-	     /* Make rotation matrix */
+	     forward[0] = centerx - eyex;
+         forward[1] = centery - eyey;
+         forward[2] = centerz - eyez;
+         
+         up[0] = upx;
+         up[1] = upy;
+         up[2] = upz;
+         
+         // Normalize Forward
+         r = sqrt( forward[0]*forward[0] + forward[1]*forward[1] + forward[2]*forward[2] );
+         if (r)
+         {
+             forward[0] /= r;
+             forward[1] /= r;
+             forward[2] /= r;
+         }
+         
+         /* Side = forward x up */
+         
+         side[0] = forward[1]*up[2] - forward[2]*up[1];
+         side[1] = forward[2]*up[0] - forward[0]*up[2];
+         side[2] = forward[0]*up[1] - forward[1]*up[0];
+         
+         
+         // Normalize Side
+         r = sqrt( side[0]*side[0] + side[1]*side[1] + side[2]*side[2] );
+         if (r)
+         {
+             side[0] /= r;
+             side[1] /= r;
+             side[2] /= r;
+         }
+         
+         
+         /* Recompute up as: up = side x forward */
+         up[0] = side[1]*forward[2] - side[2]*forward[1];
+         up[1] = side[2]*forward[0] - side[0]*forward[2];
+         up[2] = side[0]*forward[1] - side[1]*forward[0];
+         
+         data[0] = side[0];
+         data[1] = side[1];
+         data[2] = side[2];
+         
+         data[4] = up[0];
+         data[5] = up[1];
+         data[6] = up[2];
+         
+         data[8] = -forward[0];
+         data[9] = -forward[1];
+         data[10] = -forward[2];
 
-	     /* Z vector */
-	     z[0] = eyex - centerx;
-	     z[1] = eyey - centery;
-	     z[2] = eyez - centerz;
-	     mag = sqrt(z[0] * z[0] + z[1] * z[1] + z[2] * z[2]);
-	     if (mag) {
-	         z[0] /= mag;
-	         z[1] /= mag;
-	         z[2] /= mag;
-	     }
+         data[12] = -eyex;
+         data[13] = -eyey;
+         data[14] = -eyez;
 
-	     /* Y vector */
-	     y[0] = upx;
-	     y[1] = upy;
-	     y[2] = upz;
-
-	     /* X vector = Y cross Z */
-	     x[0] = y[1] * z[2] - y[2] * z[1];
-	     x[1] = -y[0] * z[2] + y[2] * z[0];
-	     x[2] = y[0] * z[1] - y[1] * z[0];
-
-	     /* Recompute Y = Z cross X */
-	     y[0] = z[1] * x[2] - z[2] * x[1];
-	     y[1] = -z[0] * x[2] + z[2] * x[0];
-	     y[2] = z[0] * x[1] - z[1] * x[0];
-
-	     mag = sqrt(x[0] * x[0] + x[1] * x[1] + x[2] * x[2]);
-	     if (mag) {
-	         x[0] /= mag;
-	         x[1] /= mag;
-	         x[2] /= mag;
-	     }
-	     mag = sqrt(y[0] * y[0] + y[1] * y[1] + y[2] * y[2]);
-	     if (mag) {
-	         y[0] /= mag;
-	         y[1] /= mag;
-	         y[2] /= mag;
-	     }
-	     data[0] = x[0];
-	     data[1] = y[0];
-	     data[2] = z[0];
-	     data[3] = 0.0;
-	     data[4] = x[1];
-	     data[5] = y[1];
-	     data[6] = z[1];
-	     data[7] = 0.0;
-	     data[8] = x[2];
-	     data[9] = y[2];
-	     data[10] = z[2];
-	     data[11] = 0.0;
-	     data[12] = -eyex;
-	     data[13] = -eyey;
-	     data[14] = -eyez;
-	     data[15] = 1.0;
 	 }
 
 	 /**

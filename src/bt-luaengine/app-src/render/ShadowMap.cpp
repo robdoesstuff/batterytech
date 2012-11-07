@@ -168,7 +168,8 @@ void ShadowMap::bindForMapCreation() {
     if (context->world->globalLight->direction.y > 0) {
         up = Vector3f(0,0,-1);
     }
-	if (up.dot(lightOrigin - lookAt) == 1.0f) {
+    F32 zDir = context->world->globalLight->direction.z;
+	if (zDir == 1.0f || zDir == -1.0f) {
 		up = Vector3f(0,1,0);
 	}
 	// recalc up to be orthogonal
@@ -176,6 +177,9 @@ void ShadowMap::bindForMapCreation() {
 	up = right.cross(lookDir);
 	up.normalize();
 	mv.lookAt(lightOrigin.x, lightOrigin.y, lightOrigin.z ,lookAt.x, lookAt.y, lookAt.z, up.x, up.y, up.z);
+    //char buf[1024];
+    //sprintf(buf, "%f %f %f, %f %f %f, %f %f %f, %f %f %f", mv.data[0], mv.data[1], mv.data[2], mv.data[4], mv.data[5], mv.data[6], mv.data[8], mv.data[9], mv.data[10], mv.data[12], mv.data[13], mv.data[14]);
+    //logmsg(buf);
 	// char buf[255];
 	// sprintf(buf, "oxyz=%f %f %f ... lxyz=%f %f %f ... upxyz=%f %f %f", lightOrigin.x, lightOrigin.y, lightOrigin.z, lookAt.x, lookAt.y, lookAt.z, up.x, up.y, up.z);
 	// sprintf(buf, "deltaY=%f, deltaZ=%f", lightOrigin.y-lookAt.y, lightOrigin.z-lookAt.z);

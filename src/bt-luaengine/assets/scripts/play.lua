@@ -380,8 +380,8 @@ function Play:render()
 	setCameraParams(self.x + camOffsetX, self.y + camOffsetY, 3, 70, TO_DEGREES * self.dir)
 	setCameraNearFarFOV(1, 500, 60)
 	if self.battery then
-		game:setShadowLightOrigin(self.battery.x, self.battery.y, 5)
-		game:setGlobalLightDir(0, -0.3, .7)
+		game:setShadowLightOrigin(self.battery.x, self.battery.y, 10)
+		game:setGlobalLightDir(-0.5, 0, 0.5)
 	end
  	game:setShadowColorAndEpsilon(0.8, 0.8, 0.8, 0.01)
 	game:setShadowLightFrustumNearFar(1, 20)
