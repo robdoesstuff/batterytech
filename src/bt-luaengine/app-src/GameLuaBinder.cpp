@@ -56,6 +56,7 @@ static int lua_Game_createPhysicsWorld(lua_State *L);
 static int lua_Game_clearPhysicsWorld(lua_State *L);
 static int lua_Game_destroyPhysicsWorld(lua_State *L);
 static int lua_Game_updatePhysics(lua_State *L);
+static int lua_Game_clearPhysicsForces(lua_State *l);
 static int lua_Game_setPhysicsGravity(lua_State *L);
 static int lua_Game_setPhysicsDrawDebug(lua_State *L);
 static int lua_Game_queryPhysicsAABB(lua_State *L);
@@ -149,6 +150,7 @@ static const luaL_reg lua_methods[] = {
 	{ "clearPhysicsWorld", lua_Game_clearPhysicsWorld },
 	{ "destroyPhysicsWorld", lua_Game_destroyPhysicsWorld },
 	{ "updatePhysics", lua_Game_updatePhysics },
+	{ "clearPhysicsForces", lua_Game_clearPhysicsForces },
 	{ "setPhysicsGravity", lua_Game_setPhysicsGravity },
 	{ "setPhysicsDrawDebug", lua_Game_setPhysicsDrawDebug },
 	{ "queryPhysicsAABB", lua_Game_queryPhysicsAABB },
@@ -547,6 +549,12 @@ static int lua_Game_updatePhysics(lua_State *L) {
     }
     game->updatePhysics(delta, substeps1, substeps2);
     return 0;
+}
+
+static int lua_Game_clearPhysicsForces(lua_State *L) {
+#ifdef BATTERYTECH_INCLUDE_BOX2D
+    static_context->world->boxWorld->ClearForces();
+#endif
 }
 
 static int lua_Game_setPhysicsGravity(lua_State *L) {
@@ -1855,15 +1863,21 @@ static int lua_Game_physics_setRevoluteJointLimits(lua_State *L) {
 	S32 jointID = lua_tointeger(L, 2);
 	if (static_context->world->boxJoints) {
 		b2Joint *joint = static_context->world->boxJoints->get(jointID);
-        if (joint->GetType() == e_revoluteJoint) {
-            b2RevoluteJoint *rJoint = (b2RevoluteJoint*) joint;
-            rJoint->EnableLimit(lua_toboolean(L, 3));
-            if (lua_isnumber(L, 4) && lua_isnumber(L, 5)) {
-                rJoint->SetLimits(lua_tonumber(L, 4), lua_tonumber(L, 5));
-            }
-        } else {
-            logmsg("physics_setRevoluteJointLimits called on non-revolute joint");
-        }
+		if (!joint) {
+			char buf[255];
+			sprintf(buf, "No revolute joint found for ID %d", jointID);
+			logmsg(buf);
+		} else {
+			if (joint->GetType() == e_revoluteJoint) {
+				b2RevoluteJoint *rJoint = (b2RevoluteJoint*) joint;
+				rJoint->EnableLimit(lua_toboolean(L, 3));
+				if (lua_isnumber(L, 4) && lua_isnumber(L, 5)) {
+					rJoint->SetLimits(lua_tonumber(L, 4), lua_tonumber(L, 5));
+				}
+			} else {
+				logmsg("physics_setRevoluteJointLimits called on non-revolute joint");
+			}
+		}
 	}
 	return 0;
 }
@@ -1877,18 +1891,24 @@ static int lua_Game_physics_setRevoluteJointMotor(lua_State *L) {
 	S32 jointID = lua_tointeger(L, 2);
 	if (static_context->world->boxJoints) {
 		b2Joint *joint = static_context->world->boxJoints->get(jointID);
-        if (joint->GetType() == e_revoluteJoint) {
-            b2RevoluteJoint *rJoint = (b2RevoluteJoint*) joint;
-            rJoint->EnableMotor(lua_toboolean(L, 3));
-            if (lua_isnumber(L, 4)) {
-                rJoint->SetMotorSpeed(lua_tonumber(L, 4));
-            }
-            if (lua_isnumber(L, 5)) {
-                rJoint->SetMaxMotorTorque(lua_tonumber(L, 5));
-            }
-        } else {
-            logmsg("physics_setRevoluteJointMotor called on non-revolute joint");
-        }
+		if (!joint) {
+			char buf[255];
+			sprintf(buf, "No revolute joint found for ID %d", jointID);
+			logmsg(buf);
+		} else {
+			if (joint->GetType() == e_revoluteJoint) {
+				b2RevoluteJoint *rJoint = (b2RevoluteJoint*) joint;
+				rJoint->EnableMotor(lua_toboolean(L, 3));
+				if (lua_isnumber(L, 4)) {
+					rJoint->SetMotorSpeed(lua_tonumber(L, 4));
+				}
+				if (lua_isnumber(L, 5)) {
+					rJoint->SetMaxMotorTorque(lua_tonumber(L, 5));
+				}
+			} else {
+				logmsg("physics_setRevoluteJointMotor called on non-revolute joint");
+			}
+		}
 	}
 	return 0;
 }
@@ -1899,14 +1919,20 @@ static int lua_Game_physics_getRevoluteJointValues(lua_State *L) {
 	// returns angle, speed and torque
 	S32 jointID = lua_tointeger(L, 2);
 	b2Joint *joint = static_context->world->boxJoints->get(jointID);
-	if (joint->GetType() == e_revoluteJoint) {
-		b2RevoluteJoint *rJoint = (b2RevoluteJoint*) joint;
-		lua_pushnumber(L, rJoint->GetJointAngle());
-		lua_pushnumber(L, rJoint->GetJointSpeed());
-		lua_pushnumber(L, rJoint->GetMotorTorque(1.0f));
-		return 3;
+	if (!joint) {
+		char buf[255];
+		sprintf(buf, "No revolute joint found for ID %d", jointID);
+		logmsg(buf);
 	} else {
-		logmsg("physics_getRevoluteJointValues called on non-revolute joint");
+		if (joint->GetType() == e_revoluteJoint) {
+			b2RevoluteJoint *rJoint = (b2RevoluteJoint*) joint;
+			lua_pushnumber(L, rJoint->GetJointAngle());
+			lua_pushnumber(L, rJoint->GetJointSpeed());
+			lua_pushnumber(L, rJoint->GetMotorTorque(1.0f));
+			return 3;
+		} else {
+			logmsg("physics_getRevoluteJointValues called on non-revolute joint");
+		}
 	}
 	return 0;
 }
@@ -1956,12 +1982,18 @@ static int lua_Game_physics_setMouseJointPosition(lua_State *L) {
 	S32 jointID = lua_tointeger(L, 2);
 	if (static_context->world->boxJoints) {
 		b2Joint *joint = static_context->world->boxJoints->get(jointID);
-        if (joint->GetType() == e_mouseJoint) {
-            b2MouseJoint *mJoint = (b2MouseJoint*) joint;
-            mJoint->SetTarget(b2Vec2(lua_tonumber(L, 3), lua_tonumber(L, 4)));
-        } else {
-            logmsg("physics_setMouseJointPosition called on non-mouse joint");
-        }
+		if (!joint) {
+			char buf[255];
+			sprintf(buf, "No mouse joint found for ID %d", jointID);
+			logmsg(buf);
+		} else {
+			if (joint->GetType() == e_mouseJoint) {
+				b2MouseJoint *mJoint = (b2MouseJoint*) joint;
+				mJoint->SetTarget(b2Vec2(lua_tonumber(L, 3), lua_tonumber(L, 4)));
+			} else {
+				logmsg("physics_setMouseJointPosition called on non-mouse joint");
+			}
+		}
 	}
 	return 0;
 }
@@ -2003,15 +2035,21 @@ static int lua_Game_physics_setPrismaticJointLimits(lua_State *L) {
 	S32 jointID = lua_tointeger(L, 2);
 	if (static_context->world->boxJoints) {
 		b2Joint *joint = static_context->world->boxJoints->get(jointID);
-        if (joint->GetType() == e_prismaticJoint) {
-            b2PrismaticJoint *rJoint = (b2PrismaticJoint*) joint;
-            rJoint->EnableLimit(lua_toboolean(L, 3));
-            if (lua_isnumber(L, 4) && lua_isnumber(L, 5)) {
-                rJoint->SetLimits(lua_tonumber(L, 4), lua_tonumber(L, 5));
-            }
-        } else {
-            logmsg("physics_setPrismaticJointLimits called on non-prismatic joint");
-        }
+		if (!joint) {
+			char buf[255];
+			sprintf(buf, "No prismatic joint found for ID %d", jointID);
+			logmsg(buf);
+		} else {
+		   if (joint->GetType() == e_prismaticJoint) {
+				b2PrismaticJoint *rJoint = (b2PrismaticJoint*) joint;
+				rJoint->EnableLimit(lua_toboolean(L, 3));
+				if (lua_isnumber(L, 4) && lua_isnumber(L, 5)) {
+					rJoint->SetLimits(lua_tonumber(L, 4), lua_tonumber(L, 5));
+				}
+			} else {
+				logmsg("physics_setPrismaticJointLimits called on non-prismatic joint");
+			}
+		}
 	}
 	return 0;
 }
@@ -2025,18 +2063,24 @@ static int lua_Game_physics_setPrismaticJointMotor(lua_State *L) {
 	S32 jointID = lua_tointeger(L, 2);
 	if (static_context->world->boxJoints) {
 		b2Joint *joint = static_context->world->boxJoints->get(jointID);
-        if (joint->GetType() == e_prismaticJoint) {
-        	b2PrismaticJoint *rJoint = (b2PrismaticJoint*) joint;
-            rJoint->EnableMotor(lua_toboolean(L, 3));
-            if (lua_isnumber(L, 4)) {
-                rJoint->SetMotorSpeed(lua_tonumber(L, 4));
-            }
-            if (lua_isnumber(L, 5)) {
-                rJoint->SetMaxMotorForce(lua_tonumber(L, 5));
-            }
-        } else {
-            logmsg("physics_setPrismaticJointMotor called on non-prismatic joint");
-        }
+		if (!joint) {
+			char buf[255];
+			sprintf(buf, "No prismatic joint found for ID %d", jointID);
+			logmsg(buf);
+		} else {
+			if (joint->GetType() == e_prismaticJoint) {
+				b2PrismaticJoint *rJoint = (b2PrismaticJoint*) joint;
+				rJoint->EnableMotor(lua_toboolean(L, 3));
+				if (lua_isnumber(L, 4)) {
+					rJoint->SetMotorSpeed(lua_tonumber(L, 4));
+				}
+				if (lua_isnumber(L, 5)) {
+					rJoint->SetMaxMotorForce(lua_tonumber(L, 5));
+				}
+			} else {
+				logmsg("physics_setPrismaticJointMotor called on non-prismatic joint");
+			}
+		}
 	}
 	return 0;
 }
@@ -2047,14 +2091,20 @@ static int lua_Game_physics_getPrismaticJointValues(lua_State *L) {
 	// returns translation, speed and force
 	S32 jointID = lua_tointeger(L, 2);
 	b2Joint *joint = static_context->world->boxJoints->get(jointID);
-	if (joint->GetType() == e_prismaticJoint) {
-		b2PrismaticJoint *rJoint = (b2PrismaticJoint*) joint;
-		lua_pushnumber(L, rJoint->GetJointTranslation());
-		lua_pushnumber(L, rJoint->GetJointSpeed());
-		lua_pushnumber(L, rJoint->GetMotorForce(1.0f));
-		return 3;
+	if (!joint) {
+		char buf[255];
+		sprintf(buf, "No prismatic joint found for ID %d", jointID);
+		logmsg(buf);
 	} else {
-		logmsg("physics_getPrismaticJointValues called on non-prismatic joint");
+		if (joint->GetType() == e_prismaticJoint) {
+			b2PrismaticJoint *rJoint = (b2PrismaticJoint*) joint;
+			lua_pushnumber(L, rJoint->GetJointTranslation());
+			lua_pushnumber(L, rJoint->GetJointSpeed());
+			lua_pushnumber(L, rJoint->GetMotorForce(1.0f));
+			return 3;
+		} else {
+			logmsg("physics_getPrismaticJointValues called on non-prismatic joint");
+		}
 	}
 	return 0;
 }
@@ -2127,13 +2177,19 @@ static int lua_Game_physics_getPulleyJointValues(lua_State *L) {
 	// returns lengthA, lengthB
 	S32 jointID = lua_tointeger(L, 2);
 	b2Joint *joint = static_context->world->boxJoints->get(jointID);
-	if (joint->GetType() == e_pulleyJoint) {
-		b2PulleyJoint *rJoint = (b2PulleyJoint*) joint;
-		lua_pushnumber(L, rJoint->GetLengthA());
-		lua_pushnumber(L, rJoint->GetLengthB());
-		return 3;
+	if (!joint) {
+		char buf[255];
+		sprintf(buf, "No pulley joint found for ID %d", jointID);
+		logmsg(buf);
 	} else {
-		logmsg("physics_getPulleyJointValues called on non-pulley joint");
+		if (joint->GetType() == e_pulleyJoint) {
+			b2PulleyJoint *rJoint = (b2PulleyJoint*) joint;
+			lua_pushnumber(L, rJoint->GetLengthA());
+			lua_pushnumber(L, rJoint->GetLengthB());
+			return 3;
+		} else {
+			logmsg("physics_getPulleyJointValues called on non-pulley joint");
+		}
 	}
 	return 0;
 }
@@ -2217,18 +2273,24 @@ static int lua_Game_physics_setWheelJointMotor(lua_State *L) {
 	S32 jointID = lua_tointeger(L, 2);
 	if (static_context->world->boxJoints) {
 		b2Joint *joint = static_context->world->boxJoints->get(jointID);
-        if (joint->GetType() == e_wheelJoint) {
-            b2WheelJoint *rJoint = (b2WheelJoint*) joint;
-            rJoint->EnableMotor(lua_toboolean(L, 3));
-            if (lua_isnumber(L, 4)) {
-                rJoint->SetMotorSpeed(lua_tonumber(L, 4));
-            }
-            if (lua_isnumber(L, 5)) {
-                rJoint->SetMaxMotorTorque(lua_tonumber(L, 5));
-            }
-        } else {
-            logmsg("physics_setWheelJointMotor called on non-wheel joint");
-        }
+		if (!joint) {
+			char buf[255];
+			sprintf(buf, "No wheel joint found for ID %d", jointID);
+			logmsg(buf);
+		} else {
+			if (joint->GetType() == e_wheelJoint) {
+				b2WheelJoint *rJoint = (b2WheelJoint*) joint;
+				rJoint->EnableMotor(lua_toboolean(L, 3));
+				if (lua_isnumber(L, 4)) {
+					rJoint->SetMotorSpeed(lua_tonumber(L, 4));
+				}
+				if (lua_isnumber(L, 5)) {
+					rJoint->SetMaxMotorTorque(lua_tonumber(L, 5));
+				}
+			} else {
+				logmsg("physics_setWheelJointMotor called on non-wheel joint");
+			}
+		}
 	}
 	return 0;
 }
@@ -2239,14 +2301,20 @@ static int lua_Game_physics_getWheelJointValues(lua_State *L) {
 	// returns translation, speed and torque
 	S32 jointID = lua_tointeger(L, 2);
 	b2Joint *joint = static_context->world->boxJoints->get(jointID);
-	if (joint->GetType() == e_wheelJoint) {
-		b2WheelJoint *rJoint = (b2WheelJoint*) joint;
-		lua_pushnumber(L, rJoint->GetJointTranslation());
-		lua_pushnumber(L, rJoint->GetJointSpeed());
-		lua_pushnumber(L, rJoint->GetMotorTorque(1.0f));
-		return 3;
+	if (!joint) {
+		char buf[255];
+		sprintf(buf, "No wheel joint found for ID %d", jointID);
+		logmsg(buf);
 	} else {
-		logmsg("physics_getWheelJointValues called on non-wheel joint");
+		if (joint->GetType() == e_wheelJoint) {
+			b2WheelJoint *rJoint = (b2WheelJoint*) joint;
+			lua_pushnumber(L, rJoint->GetJointTranslation());
+			lua_pushnumber(L, rJoint->GetJointSpeed());
+			lua_pushnumber(L, rJoint->GetMotorTorque(1.0f));
+			return 3;
+		} else {
+			logmsg("physics_getWheelJointValues called on non-wheel joint");
+		}
 	}
 	return 0;
 }

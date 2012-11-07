@@ -379,11 +379,19 @@ function Play:render()
 	local camOffsetX, camOffsetY = (followX*rotCos - followY*rotSin), (followX*rotSin + followY*rotCos)
 	setCameraParams(self.x + camOffsetX, self.y + camOffsetY, 3, 70, TO_DEGREES * self.dir)
 	setCameraNearFarFOV(1, 500, 60)
-	game:setShadowType(0)
+	if self.battery then
+		game:setShadowLightOrigin(self.battery.x, self.battery.y, 5)
+		game:setGlobalLightDir(0, -0.3, .7)
+	end
+ 	game:setShadowColorAndEpsilon(0.8, 0.8, 0.8, 0.01)
+	game:setShadowLightFrustumNearFar(1, 20)
+    game:setShadowPerspective(45)
+	game:setShadowType(2)
 	game:setGlobalLightEnabled(false)
     game:setFogEnabled(false)
     -- draw BG
     local vpWidth, vpHeight = getViewportSize()
+    game:render2D("shadowmap",vpWidth - vpWidth/4,vpHeight - vpHeight/4,vpWidth/2,vpHeight/2,0)
     local idx = game:render2DBG("textures/space.jpg", vpWidth/2, vpHeight/2, vpWidth, vpHeight, 0)
 	-- draw boxes
 	for i = 1, #self.boxes do

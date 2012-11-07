@@ -16,6 +16,9 @@ local CALLBACK_DETAIL_NONE = 0
 local CALLBACK_DETAIL_BROAD = 1
 local CALLBACK_DETAIL_NARROW = 2
 
+-- run physics at fixed timestep 120fps
+local PHYSICS_UPDATE_TIME = 1.0/120.0
+
 function unprojectScreenToWorld(x,y)
 	vpw, vph = getViewportSize()
 	return x * (PHYS_WORLD_WIDTH / vpw), y * (PHYS_WORLD_HEIGHT / vph)
@@ -273,6 +276,7 @@ function PhysicsTests.new()
 	self.objects = {}
 	self.localObjects = {}
 	self.mouseJointId = nil
+	self.physicsUpdateTimeRemaining = 0
 	return self
 end
 
@@ -405,7 +409,12 @@ end
 -------------- Main Update Function -----------------
 
 function PhysicsTests:update(tickDelta)
-    game:updatePhysics(tickDelta, 10, 20)
+	self.physicsUpdateTimeRemaining = self.physicsUpdateTimeRemaining + tickDelta
+	while self.physicsUpdateTimeRemaining > PHYSICS_UPDATE_TIME do
+    	game:updatePhysics(PHYSICS_UPDATE_TIME, 5, 2)
+    	self.physicsUpdateTimeRemaining = self.physicsUpdateTimeRemaining - PHYSICS_UPDATE_TIME
+	end
+    game:clearPhysicsForces()
     for i,v in ipairs(self.buttons) do
         v:update(tickDelta)
     end

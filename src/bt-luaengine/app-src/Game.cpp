@@ -268,8 +268,7 @@ void Game::updatePhysics(F32 updateDelta, S32 substeps1, S32 substeps2) {
 		b2World *boxWorld = getWorld()->boxWorld;
         if (boxWorld) {
             boxWorld->Step(updateDelta, substeps1, substeps2);
-            boxWorld->ClearForces();
-        }
+         }
 #endif
 #ifdef BATTERYTECH_INCLUDE_BULLET
 		world->btProfiler->reset();

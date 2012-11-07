@@ -15,6 +15,7 @@
 #include "GlobalLight.h"
 #include <batterytech/render/Renderer.h>
 #include <batterytech/render/Texture.h>
+#include <stdio.h>
 
 #define SHADOWMAP_WIDTH    512
 #define SHADOWMAP_HEIGHT   512
@@ -154,6 +155,7 @@ void ShadowMap::bindForMapCreation() {
 	Matrix4f mv;
 	Vector3f lightOrigin = context->world->globalLight->origin;
 	Vector2f nearFar = context->world->globalLight->shadowFrustumNearFar;
+	Vector3f lookDir = context->world->globalLight->direction * -1.0f;
 	// app specifies near and far Z
     if (context->world->globalLight->shadowUsePerspective) {
         proj.perspective(context->world->globalLight->shadowPerspectiveFOV,(float)shadowWidth/(float)shadowHeight, nearFar.x, nearFar.y);
@@ -161,7 +163,7 @@ void ShadowMap::bindForMapCreation() {
         Vector4f orthoSize = context->world->globalLight->shadowOrthoSize;
         proj.ortho(orthoSize.x, orthoSize.y, orthoSize.z, orthoSize.w, nearFar.x, nearFar.y);
     }
-	Vector3f lookAt = (lightOrigin + (context->world->globalLight->direction*-1.0f)*10.0f);
+	Vector3f lookAt = (lightOrigin + lookDir*30);
 	Vector3f up(0,0,1);
     if (context->world->globalLight->direction.y > 0) {
         up = Vector3f(0,0,-1);
@@ -169,8 +171,16 @@ void ShadowMap::bindForMapCreation() {
 	if (up.dot(lightOrigin - lookAt) == 1.0f) {
 		up = Vector3f(0,1,0);
 	}
+	// recalc up to be orthogonal
+	Vector3f right = lookDir.cross(up);
+	up = right.cross(lookDir);
+	up.normalize();
 	mv.lookAt(lightOrigin.x, lightOrigin.y, lightOrigin.z ,lookAt.x, lookAt.y, lookAt.z, up.x, up.y, up.z);
-	//mv.lookAt(0,10,50, 0,0,0, 0,0,1);
+	// char buf[255];
+	// sprintf(buf, "oxyz=%f %f %f ... lxyz=%f %f %f ... upxyz=%f %f %f", lightOrigin.x, lightOrigin.y, lightOrigin.z, lookAt.x, lookAt.y, lookAt.z, up.x, up.y, up.z);
+	// sprintf(buf, "deltaY=%f, deltaZ=%f", lightOrigin.y-lookAt.y, lightOrigin.z-lookAt.z);
+	// sprintf(buf, "mv xyz=%f %f %f", mv.data[13], mv.data[14], mv.data[15]);
+	// logmsg(buf);
 	// we'll be using the ec position of the vert to lookup the shadowmap uv,
 	// so we'll want the inverse camera on there to remove the view from it
 	// so that we only get world position of the vertex
