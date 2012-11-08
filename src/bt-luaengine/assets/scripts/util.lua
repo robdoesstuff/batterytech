@@ -73,6 +73,11 @@ function vec3_length(x,y,z)
 	return math.sqrt(x*x + y*y + z*z)
 end
 
+function vec3_normalize(x,y,z)
+	local length = math.sqrt(x*x + y*y + z*z)
+	return x/length, y/length, z/length
+end
+
 function vec2_add(x1,y1,x2,y2)
 	return x1+x2, y1+y2
 end

@@ -82,9 +82,10 @@ function Battery:update(tickDelta)
 end
 
 function Battery:render()
-    local z = 1
+    local z = 1.0
     local scale = 0.1
     local idx = game:renderAssimp(self, 0, "models/Battery.bai", nil, nil, true, self.x,self.y,z, scale,scale,scale, 0,0,self.rot)
+    game:setRenderItemParam(idx, "noshadowrecv", true)
     -- local idx = game:renderAssimpM(self, 0, "models/Battery.bai", nil, nil, true, 1,0,0,0,0,1,0,0,0,0,1,0,x,y,z,1, scale,scale,scale, 180)
 end
 
@@ -379,30 +380,49 @@ function Play:render()
 	local camOffsetX, camOffsetY = (followX*rotCos - followY*rotSin), (followX*rotSin + followY*rotCos)
 	setCameraParams(self.x + camOffsetX, self.y + camOffsetY, 3, 70, TO_DEGREES * self.dir)
 	setCameraNearFarFOV(1, 500, 60)
+	if not self.rotAnim then self.rotAnim = 0.25 end
 	if self.battery then
-		game:setShadowLightOrigin(self.battery.x, self.battery.y, 10)
-		game:setGlobalLightDir(-0.5, 0, 0.5)
+		self.rotAnim = self.rotAnim + 0.001
+		self.rotAnim = self.rotAnim % TAU
+		local ox,oy,oz = math.sin(self.rotAnim), math.cos(self.rotAnim),1
+		ox,oy,oz = vec3_normalize(ox,oy,oz)
+		game:setGlobalLightDir(ox,oy,oz)
+		local dist = 10
+		-- why do I need to flip +- for y when it is +-??
+		game:setShadowLightOrigin(self.battery.x + ox*dist, self.battery.y + oy*dist, 1.5 + oz*dist)
+		-- game:setShadowLightOrigin(self.battery.x, self.battery.y, 20)
+		-- logmsg("lightDir = " .. ox .. " " .. oy .. " " .. oz .. " origin " .. self.battery.x + ox*dist .. " " .. self.battery.y + oy*dist .. " " .. oz*dist)
 	end
- 	game:setShadowColorAndEpsilon(0.8, 0.8, 0.8, 0.01)
-	game:setShadowLightFrustumNearFar(1, 20)
-    game:setShadowPerspective(45)
-	game:setShadowType(2)
-	game:setGlobalLightEnabled(false)
+	game:setShadowLightFrustumNearFar(2, 25)
+ 	game:setShadowColorAndEpsilon(0.6, 0.6, 0.6, 0.002)
+	game:setGlobalLightAmbient(.2, .2, .2, 1)
+	game:setGlobalLightDiffuse(.8, .8, .8, 1)
+	game:setGlobalLightSpecular(2.0, 2.0, 2.0, 1)
+ 	local orthoAmt = 1.5
+    game:setShadowOrtho(orthoAmt, -orthoAmt, orthoAmt, -orthoAmt)
+    -- game:setShadowPerspective(45)
+	game:setShadowType(1)
+	game:setGlobalLightEnabled(true)
     game:setFogEnabled(false)
     -- draw BG
     local vpWidth, vpHeight = getViewportSize()
-    game:render2D("shadowmap",vpWidth - vpWidth/4,vpHeight - vpHeight/4,vpWidth/2,vpHeight/2,0)
+    -- local idx = game:render2D("shadowmap",vpWidth - vpWidth/4,vpHeight - vpHeight/4,vpWidth/2,vpHeight/2,0)
+    -- game:setRenderItemParam(idx, "uvs", 1, 1, 0, 0)
     local idx = game:render2DBG("textures/space.jpg", vpWidth/2, vpHeight/2, vpWidth, vpHeight, 0)
 	-- draw boxes
 	for i = 1, #self.boxes do
 		local box = self.boxes[i]
 		local idx = game:renderAssimpM(nil, 0, "models/star.bai", nil, nil, true, 1,0,0,0,0,1,0,0,0,0,1,0,box.x,box.y,PLAY_BOX_SIZE/2,1, PLAY_BOX_SIZE,PLAY_BOX_SIZE,PLAY_BOX_SIZE, self.boxrot)
 		game:setRenderItemParam(idx, "alpha", 0.5)
+		game:setRenderItemParam(idx, "nodirlight", true)
+   		game:setRenderItemParam(idx, "noshadowgen", true)
 	end
 	if self.battery then self.battery:render() end
 	-- draw playing surface - preserve order to optimize
 	local idx = game:renderAssimpM(nil, 0, "models/box.bai", nil, "textures/box_surface.jpg", true, 1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1, 100.0,100.0,1.0, 0)
-    game:setRenderItemParam(idx, "drawfirst", "true")
+    game:setRenderItemParam(idx, "drawfirst", true)
+    game:setRenderItemParam(idx, "noshadowgen", true)
+	game:setRenderItemParam(idx, "nodirlight", true)
 	local timeString = string.format("Time: %2d", self.timeLeft)
 	local renderIdx = game:renderText2D("ui", timeString, scaleX(640), scaleY(50))
 	game:setRenderItemParam(renderIdx, "align", "center")

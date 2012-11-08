@@ -788,7 +788,6 @@ static int lua_Game_renderAssimp(lua_State* L) {
 	if (lua_isnumber(L, 8) && lua_isnumber(L, 9) && lua_isnumber(L, 10)) {
         translation = lua_toVector3f(L, 8);
     }
-    item->mat.setTranslation(translation);
 
 	if (lua_isnumber(L, 11) && lua_isnumber(L, 12) && lua_isnumber(L, 13)) {
 		Vector3f scale = lua_toVector3f(L,11);
@@ -800,6 +799,7 @@ static int lua_Game_renderAssimp(lua_State* L) {
 		item->mat.rotate(lua_tonumber(L, 15), 0, 1, 0);
 		item->mat.rotate(lua_tonumber(L, 16), 0, 0, 1);
 	}
+	item->mat.setTranslation(translation);
 	lua_pushinteger(L, static_context->world->renderItemsUsed-1);
 	return 1;
 }

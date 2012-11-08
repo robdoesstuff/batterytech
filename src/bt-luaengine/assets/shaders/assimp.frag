@@ -55,10 +55,14 @@ void main() {
 #endif
 #ifdef SHADOWMAP
 	vec4 shadowColor = vec4(shadowColorEpsilon.rgb, c_one);
-	float sc = getShadowFactor(shadowCoord);
-	// if the projected shadow is further away than the surface the shadow was created from, it must be in the shadow
-	shadowColor = (vec4(c_one, c_one, c_one, c_one) - shadowColor) * sc + shadowColor;
-	fragColor = fragColor * shadowColor;
+	if (shadowCoord.x < 0.0 || shadowCoord.x > 1.0 || shadowCoord.y < 0.0 || shadowCoord.y > 1.0) {
+		// noop
+	} else {
+		float sc = getShadowFactor(shadowCoord);
+		// if the projected shadow is further away than the surface the shadow was created from, it must be in the shadow
+		shadowColor = (vec4(c_one, c_one, c_one, c_one) - shadowColor) * sc + shadowColor;
+		fragColor = fragColor * shadowColor;
+	}
 #endif
 	gl_FragColor = fragColor;
 }

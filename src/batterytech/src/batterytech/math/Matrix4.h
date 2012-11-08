@@ -753,6 +753,9 @@ namespace BatteryTech {
 
 	 /**
 	  * Scales the matrix by x, y and z
+	  *
+	  * Does not scale the translational component
+	  *
 	  * Modifies matrix in-place
 	  */
 	 void scale(T sx, T sy, T sz) {
@@ -783,6 +786,9 @@ namespace BatteryTech {
 
 	 /**
 	  * Rotates the matrix by angle (in degrees) about the axis specified as x, y and z
+	  *
+	  * Does not rotate the translational component
+	  *
 	  * Modifies matrix in-place
 	  */
 	 void rotate(T angle, T x, T y, T z) {
@@ -877,67 +883,28 @@ namespace BatteryTech {
 	     *this = *this * ortho;
 	 }
 
-	 void lookAt(float eyex, float eyey, float eyez,
-	 		float centerx, float centery, float centerz,
-	 		float upx, float upy, float upz) {
-	     float forward[3], side[3], up[3];
-	     float r;
+	 void lookAt(Vector3<T> eye,
+	 		Vector3<T> center,
+	 		Vector3<T> origUp) {
+		 Vector3<T> forward, side, up;
+	     forward = center - eye;
 
-	     forward[0] = centerx - eyex;
-         forward[1] = centery - eyey;
-         forward[2] = centerz - eyez;
-         
-         up[0] = upx;
-         up[1] = upy;
-         up[2] = upz;
-         
-         // Normalize Forward
-         r = sqrt( forward[0]*forward[0] + forward[1]*forward[1] + forward[2]*forward[2] );
-         if (r)
-         {
-             forward[0] /= r;
-             forward[1] /= r;
-             forward[2] /= r;
-         }
-         
-         /* Side = forward x up */
-         
-         side[0] = forward[1]*up[2] - forward[2]*up[1];
-         side[1] = forward[2]*up[0] - forward[0]*up[2];
-         side[2] = forward[0]*up[1] - forward[1]*up[0];
-         
-         
-         // Normalize Side
-         r = sqrt( side[0]*side[0] + side[1]*side[1] + side[2]*side[2] );
-         if (r)
-         {
-             side[0] /= r;
-             side[1] /= r;
-             side[2] /= r;
-         }
-         
-         
-         /* Recompute up as: up = side x forward */
-         up[0] = side[1]*forward[2] - side[2]*forward[1];
-         up[1] = side[2]*forward[0] - side[0]*forward[2];
-         up[2] = side[0]*forward[1] - side[1]*forward[0];
-         
+	     up = origUp;
+	     forward.normalize();
+	     side = forward.cross(up);
+	     side.normalize();
+	     up = side.cross(forward);
+
          data[0] = side[0];
-         data[1] = side[1];
-         data[2] = side[2];
-         
-         data[4] = up[0];
+         data[1] = up[0];
+         data[2] = -forward[0];
+         data[4] = side[1];
          data[5] = up[1];
-         data[6] = up[2];
-         
-         data[8] = -forward[0];
-         data[9] = -forward[1];
+         data[6] = -forward[1];
+         data[8] = side[2];
+         data[9] = up[2];
          data[10] = -forward[2];
-
-         data[12] = -eyex;
-         data[13] = -eyey;
-         data[14] = -eyez;
-
+         translate(-eye.x, -eye.y, -eye.z);
 	 }
 
 	 /**

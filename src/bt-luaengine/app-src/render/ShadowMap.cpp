@@ -158,33 +158,24 @@ void ShadowMap::bindForMapCreation() {
 	Vector3f lookDir = context->world->globalLight->direction * -1.0f;
 	// app specifies near and far Z
     if (context->world->globalLight->shadowUsePerspective) {
+    	// TODO - perspective is upside down? currently not working right.  Ortho works fine.
         proj.perspective(context->world->globalLight->shadowPerspectiveFOV,(float)shadowWidth/(float)shadowHeight, nearFar.x, nearFar.y);
     } else {
         Vector4f orthoSize = context->world->globalLight->shadowOrthoSize;
         proj.ortho(orthoSize.x, orthoSize.y, orthoSize.z, orthoSize.w, nearFar.x, nearFar.y);
     }
-	Vector3f lookAt = (lightOrigin + lookDir*30);
-	Vector3f up(0,0,1);
-    if (context->world->globalLight->direction.y > 0) {
-        up = Vector3f(0,0,-1);
-    }
-    F32 zDir = context->world->globalLight->direction.z;
-	if (zDir == 1.0f || zDir == -1.0f) {
+    lookDir.normalize();
+    // lookAt is a point extended from lightOrigin that is the scene center
+	Vector3f lookAt = (lightOrigin + lookDir);
+	// default up
+    Vector3f up = Vector3f(0,0,1);
+	if (lookDir.z == 1.0f || lookDir.z == -1.0f) {
+	   	// if light is directly up or down, set up to right/left
 		up = Vector3f(0,1,0);
 	}
-	// recalc up to be orthogonal
-	Vector3f right = lookDir.cross(up);
-	up = right.cross(lookDir);
-	up.normalize();
-	mv.lookAt(lightOrigin.x, lightOrigin.y, lightOrigin.z ,lookAt.x, lookAt.y, lookAt.z, up.x, up.y, up.z);
-    //char buf[1024];
-    //sprintf(buf, "%f %f %f, %f %f %f, %f %f %f, %f %f %f", mv.data[0], mv.data[1], mv.data[2], mv.data[4], mv.data[5], mv.data[6], mv.data[8], mv.data[9], mv.data[10], mv.data[12], mv.data[13], mv.data[14]);
-    //logmsg(buf);
-	// char buf[255];
-	// sprintf(buf, "oxyz=%f %f %f ... lxyz=%f %f %f ... upxyz=%f %f %f", lightOrigin.x, lightOrigin.y, lightOrigin.z, lookAt.x, lookAt.y, lookAt.z, up.x, up.y, up.z);
-	// sprintf(buf, "deltaY=%f, deltaZ=%f", lightOrigin.y-lookAt.y, lightOrigin.z-lookAt.z);
-	// sprintf(buf, "mv xyz=%f %f %f", mv.data[13], mv.data[14], mv.data[15]);
-	// logmsg(buf);
+	// The matrix will apply rotation making Z the direct line of site distance from world origin to light origin
+	mv.lookAt(lightOrigin, lookAt, up);
+
 	// we'll be using the ec position of the vert to lookup the shadowmap uv,
 	// so we'll want the inverse camera on there to remove the view from it
 	// so that we only get world position of the vertex
