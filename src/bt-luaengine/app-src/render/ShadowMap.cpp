@@ -30,6 +30,12 @@ const Matrix4f biasMatrix(
 	        0.0, 0.0, 0.5, 0.0,
 			0.5, 0.5, 0.5, 1.0);
 
+const Matrix4f biasMatrix2(
+	        0.5, 0.0, 0.0, 0.5,
+	        0.0, 0.5, 0.0, 0.5,
+	        0.0, 0.0, 0.5, 0.5,
+			0.0, 0.0, 0.0, 1.0);
+
 ShadowMap::ShadowMap(GameContext *context) {
 	this->context = context;
     shadowFrameBuffer = 0;
@@ -158,7 +164,7 @@ void ShadowMap::bindForMapCreation() {
 	Vector3f lookDir = context->world->globalLight->direction * -1.0f;
 	// app specifies near and far Z
     if (context->world->globalLight->shadowUsePerspective) {
-    	// TODO - perspective is upside down? currently not working right.  Ortho works fine.
+    	// TODO - currently not working right.  Ortho works fine.
         proj.perspective(context->world->globalLight->shadowPerspectiveFOV,(float)shadowWidth/(float)shadowHeight, nearFar.x, nearFar.y);
     } else {
         Vector4f orthoSize = context->world->globalLight->shadowOrthoSize;
@@ -181,8 +187,16 @@ void ShadowMap::bindForMapCreation() {
 	// so that we only get world position of the vertex
 	Matrix4f invCam = context->world->camera->matrix.inverse();
 	Matrix4f shadowMvp = proj * mv;
+	Matrix4f shadowLookup = biasMatrix * shadowMvp * invCam;
+	/*
+	Vector4f testPt = shadowLookup * Vector4f(0,0,0,1);
+	char buf[1024];
+	sprintf(buf, "test point = %f %f %f %f", testPt.x, testPt.y, testPt.z, testPt.w );
+	logmsg(buf);
+	*/
+
 	*(Matrix4f*)context->renderContext->userValues->get("shadowMVP") = shadowMvp;
-	*(Matrix4f*)context->renderContext->userValues->get("shadowLookupMatrix") = biasMatrix * shadowMvp * invCam;
+	*(Matrix4f*)context->renderContext->userValues->get("shadowLookupMatrix") = shadowLookup;
 	// Culling switching, rendering only backface, this is done to avoid self-shadowing
 	glCullFace(GL_FRONT);
 	glEnable(GL_CULL_FACE);

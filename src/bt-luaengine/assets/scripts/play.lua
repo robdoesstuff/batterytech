@@ -387,7 +387,7 @@ function Play:render()
 		local ox,oy,oz = math.sin(self.rotAnim), math.cos(self.rotAnim),1
 		ox,oy,oz = vec3_normalize(ox,oy,oz)
 		game:setGlobalLightDir(ox,oy,oz)
-		local dist = 10
+		local dist = 5
 		-- why do I need to flip +- for y when it is +-??
 		game:setShadowLightOrigin(self.battery.x + ox*dist, self.battery.y + oy*dist, 1.5 + oz*dist)
 		-- game:setShadowLightOrigin(self.battery.x, self.battery.y, 20)
@@ -399,14 +399,14 @@ function Play:render()
 	game:setGlobalLightDiffuse(.8, .8, .8, 1)
 	game:setGlobalLightSpecular(2.0, 2.0, 2.0, 1)
  	local orthoAmt = 1.5
-    game:setShadowOrtho(orthoAmt, -orthoAmt, orthoAmt, -orthoAmt)
+    game:setShadowOrtho(orthoAmt, -orthoAmt, -orthoAmt, orthoAmt)
     -- game:setShadowPerspective(45)
 	game:setShadowType(1)
 	game:setGlobalLightEnabled(true)
     game:setFogEnabled(false)
     -- draw BG
     local vpWidth, vpHeight = getViewportSize()
-    -- local idx = game:render2D("shadowmap",vpWidth - vpWidth/4,vpHeight - vpHeight/4,vpWidth/2,vpHeight/2,0)
+    local idx = game:render2D("shadowmap",vpWidth - vpWidth/4,vpHeight - vpHeight/4,vpWidth/2,vpHeight/2,0)
     -- game:setRenderItemParam(idx, "uvs", 1, 1, 0, 0)
     local idx = game:render2DBG("textures/space.jpg", vpWidth/2, vpHeight/2, vpWidth, vpHeight, 0)
 	-- draw boxes
