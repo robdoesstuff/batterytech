@@ -70,8 +70,8 @@ void ShadowMap::generateShadowFBO() {
 	} else if (context->gConfig->shadowType == GraphicsConfiguration::SHADOWTYPE_SHADOWMAP_CUSTOM) {
 		Vector2f *size = (Vector2f*)context->renderContext->userValues->get("shadowmap_size");
 		if (size) {
-			shadowWidth = size->x;
-			shadowHeight = size->y;
+			shadowWidth = (GLuint)size->x;
+			shadowHeight = (GLuint)size->y;
 		} else {
 			shadowWidth = SHADOWMAP_WIDTH;
 			shadowHeight = SHADOWMAP_HEIGHT;
@@ -155,7 +155,7 @@ void ShadowMap::bindForMapCreation() {
 				size = new Vector2f(SHADOWMAP_WIDTH, SHADOWMAP_HEIGHT);
 				context->renderContext->userValues->put("shadowmap_size", size);
 			}
-			if (shadowWidth != size->x || shadowHeight != size->y) {
+			if (shadowWidth != (GLuint)size->x || shadowHeight != (GLuint)size->y) {
 				generateShadowFBO();
 			}
 		} else {

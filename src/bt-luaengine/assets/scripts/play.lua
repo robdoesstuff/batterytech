@@ -105,10 +105,10 @@ function Play.new()
 	table.insert(self.buttons, button)
 	-- arrow controls
 	local arrowButtonW, arrowButtonH = scaleForUI(100,100)
-	local rightPad = scaleX(5)
+	local leftPad = scaleX(5)
 	local bottomPad = scaleY(5)
 	-- up
-	local sX = vpWidth - rightPad - arrowButtonW - arrowButtonW/2
+	local sX = leftPad + arrowButtonW + arrowButtonW/2
 	local sY = vpHeight - bottomPad - arrowButtonH*2 - arrowButtonH/2
 	button = TouchControl.new(sX-arrowButtonW/2, sY-arrowButtonH/2, arrowButtonW, arrowButtonH)
 	button.normalAsset = "textures/arrow.png"
@@ -116,7 +116,7 @@ function Play.new()
 	self.upButton = button
 	table.insert(self.buttons, button)
 	-- right
-	sX = vpWidth - rightPad - arrowButtonW/2
+	sX = leftPad + arrowButtonW*2 + arrowButtonW/2
 	sY = vpHeight - bottomPad - arrowButtonH - arrowButtonH/2
 	button = TouchControl.new(sX-arrowButtonW/2, sY-arrowButtonH/2, arrowButtonW, arrowButtonH)
 	button.normalAsset = "textures/arrow.png"
@@ -124,8 +124,14 @@ function Play.new()
 	button.rotation = 90
 	self.rightButton = button
 	table.insert(self.buttons, button)
+	-- top right
+	sX = leftPad + arrowButtonW*2 + arrowButtonW/2
+	sY = vpHeight - bottomPad - arrowButtonH*2 - arrowButtonH/2
+	button = TouchControl.new(sX-arrowButtonW/2, sY-arrowButtonH/2, arrowButtonW, arrowButtonH)
+	self.topRightButton = button
+	table.insert(self.buttons, button)
 	-- down
-	local sX = vpWidth - rightPad - arrowButtonW - arrowButtonW/2
+	local sX = leftPad + arrowButtonW + arrowButtonW/2
 	local sY = vpHeight - bottomPad - arrowButtonH/2
 	button = TouchControl.new(sX-arrowButtonW/2, sY-arrowButtonH/2, arrowButtonW, arrowButtonH)
 	button.normalAsset = "textures/arrow.png"
@@ -133,14 +139,32 @@ function Play.new()
 	button.rotation = 180
 	self.downButton = button
 	table.insert(self.buttons, button)
+	-- bottom right
+	sX = leftPad + arrowButtonW*2 + arrowButtonW/2
+	sY = vpHeight - bottomPad - arrowButtonH/2
+	button = TouchControl.new(sX-arrowButtonW/2, sY-arrowButtonH/2, arrowButtonW, arrowButtonH)
+	self.bottomRightButton = button
+	table.insert(self.buttons, button)
 	-- left
-	sX = vpWidth - rightPad - arrowButtonW*2 - arrowButtonW/2
+	sX = leftPad + arrowButtonW/2
 	sY = vpHeight - bottomPad - arrowButtonH - arrowButtonH/2
 	button = TouchControl.new(sX-arrowButtonW/2, sY-arrowButtonH/2, arrowButtonW, arrowButtonH)
 	button.normalAsset = "textures/arrow.png"
 	button.pressedAsset = "textures/arrow_pressed.png"
 	button.rotation = 270
 	self.leftButton = button
+	table.insert(self.buttons, button)
+	-- bottom left
+	sX = leftPad + arrowButtonW/2
+	sY = vpHeight - bottomPad - arrowButtonH/2
+	button = TouchControl.new(sX-arrowButtonW/2, sY-arrowButtonH/2, arrowButtonW, arrowButtonH)
+	self.bottomLeftButton = button
+	table.insert(self.buttons, button)
+	-- top left
+	sX = leftPad + arrowButtonW/2
+	local sY = vpHeight - bottomPad - arrowButtonH*2 - arrowButtonH/2
+	button = TouchControl.new(sX-arrowButtonW/2, sY-arrowButtonH/2, arrowButtonW, arrowButtonH)
+	self.topLeftButton = button
 	table.insert(self.buttons, button)
 	self.wasInput = false
 	self.success = false
@@ -269,14 +293,30 @@ function Play:updatePlayState(tickDelta)
 		end
 	end
 	-- process touch input
+	if self.topRightButton.isPressed then
+		self.upButton.isPressed = true
+		self.rightButton.isPressed = true
+	end
+	if self.bottomRightButton.isPressed then
+		self.downButton.isPressed = true
+		self.rightButton.isPressed = true
+	end
+	if self.bottomLeftButton.isPressed then
+		self.downButton.isPressed = true
+		self.leftButton.isPressed = true
+	end
+	if self.topLeftButton.isPressed then
+		self.upButton.isPressed = true
+		self.leftButton.isPressed = true
+	end
 	if self.upButton.isPressed then
 		self.controlFwd = 1
 	end
-	if self.downButton.isPressed then
-		self.controlFwd = -1
-	end
 	if self.rightButton.isPressed then
 		self.controlTurn = -1
+	end
+	if self.downButton.isPressed then
+		self.controlFwd = -1
 	end
 	if self.leftButton.isPressed then
 		self.controlTurn = 1
@@ -389,10 +429,7 @@ function Play:render()
 		ox,oy,oz = vec3_normalize(ox,oy,oz)
 		game:setGlobalLightDir(ox,oy,oz)
 		local dist = 5
-		-- why do I need to flip +- for y when it is +-??
 		game:setShadowLightOrigin(self.battery.x + ox*dist, self.battery.y + oy*dist, 1.5 + oz*dist)
-		-- game:setShadowLightOrigin(self.battery.x, self.battery.y, 20)
-		-- logmsg("lightDir = " .. ox .. " " .. oy .. " " .. oz .. " origin " .. self.battery.x + ox*dist .. " " .. self.battery.y + oy*dist .. " " .. oz*dist)
 	end
 	game:setShadowLightFrustumNearFar(2, 25)
  	game:setShadowColorAndEpsilon(0.6, 0.6, 0.6, 0.002)
@@ -403,8 +440,8 @@ function Play:render()
     game:setShadowOrtho(orthoAmt, -orthoAmt, -orthoAmt, orthoAmt)
     -- game:setShadowPerspective(45)
    	local vpWidth, vpHeight = getViewportSize()
-   	-- custom shadowmap size, 256x256
-	game:setShadowType(3, 256, 256)
+   	-- custom shadowmap size, 1/3 of viewport height
+	game:setShadowType(3, vpHeight/3, vpHeight/3)
 	game:setGlobalLightEnabled(true)
     game:setFogEnabled(false)
     -- draw BG
@@ -416,18 +453,22 @@ function Play:render()
 	game:setRenderItemParam(idx, "nodirlight", true)
     game:setRenderItemParam(idx, "noshadowrecv", true)
    	game:setRenderItemParam(idx, "noshadowgen", true)
-	-- draw boxes
+	-- draw stars
 	for i = 1, #self.boxes do
 		local box = self.boxes[i]
 		local idx = game:renderAssimpM(nil, 0, "models/star.bai", nil, nil, true, 1,0,0,0,0,1,0,0,0,0,1,0,box.x,box.y,PLAY_BOX_SIZE/2,1, PLAY_BOX_SIZE,PLAY_BOX_SIZE,PLAY_BOX_SIZE, self.boxrot)
-		game:setRenderItemParam(idx, "alpha", 0.5)
+		game:setRenderItemParam(idx, "alpha", 0.7)
 		game:setRenderItemParam(idx, "nodirlight", true)
    		game:setRenderItemParam(idx, "noshadowgen", true)
+   		local scale = 5
+    	local idx = game:renderAssimp(nil, 0, "models/quad.obj", nil, "textures/particle.png", true, box.x,box.y, 1.2, scale,scale,scale, 0,0, self.boxrot)
+    	game:setRenderItemParam(idx, "colorFilter", 0, 1, 1, 0.7)
+		game:setRenderItemParam(idx, "nodirlight", true)
+		game:setRenderItemParam(idx, "noshadowrecv", true)
+		game:setRenderItemParam(idx, "noshadowgen", true)
 	end
 	if self.battery then self.battery:render() end
-	-- draw playing surface - preserve order to optimize
 	local idx = game:renderAssimpM(nil, 0, "models/box.bai", nil, "textures/box_surface.jpg", true, 1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1, 100.0,100.0,1.0, 0)
-    game:setRenderItemParam(idx, "drawfirst", true)
     game:setRenderItemParam(idx, "noshadowgen", true)
 	game:setRenderItemParam(idx, "nodirlight", true)
 	local timeString = string.format("Time: %2d", self.timeLeft)
@@ -437,7 +478,7 @@ function Play:render()
 	game:setRenderItemParam(renderIdx, "align", "right")
 	if self.state == PLAY_STATE_PLAY then
 		-- minimap
-		local mmx,mmy = scaleXY(105, 200)
+		local mmx,mmy = scaleXY(1280-105, 200)
 		local w,h = scaleXY(PLAY_MINIMAP_SIZE, PLAY_MINIMAP_SIZE)
 		renderIdx = game:render2D("textures/minimap_atlas.png", mmx,mmy, w,h)
 		game:setRenderItemParam(renderIdx, "uvs", 0.0, 0.5, 0.5, 1.0)
