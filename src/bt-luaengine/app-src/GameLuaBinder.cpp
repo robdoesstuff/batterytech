@@ -1154,6 +1154,17 @@ static int lua_Game_setShadowType(lua_State *L) {
 		static_context->gConfig->shadowType = GraphicsConfiguration::SHADOWTYPE_SHADOWMAP;
 	} else if (sType == 2) {
 		static_context->gConfig->shadowType = GraphicsConfiguration::SHADOWTYPE_SHADOWMAP_HQ;
+	} else if (sType == 3) {
+		// params 3 & 4 are custom height and width
+		static_context->gConfig->shadowType = GraphicsConfiguration::SHADOWTYPE_SHADOWMAP_CUSTOM;
+		Vector2f *size = (Vector2f*)static_context->renderContext->userValues->get("shadowmap_size");
+		if (!size) {
+			size = new Vector2f(lua_tonumber(L, 3), lua_tonumber(L, 4));
+			static_context->renderContext->userValues->put("shadowmap_size", size);
+		} else {
+			size->x = lua_tonumber(L, 3);
+			size->y = lua_tonumber(L, 4);
+		}
 	}
 	return 0;
 }

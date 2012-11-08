@@ -34,6 +34,8 @@ addTexture("textures/smokepuff.png")
 addTexture("textures/pinwheel.png")
 addTexture("textures/pusher.png")
 addTexture("textures/space.jpg")
+addAssimp("models/skybox.obj")
+addTexture("models/skybox.jpg")
 
 -- tag, assetname, size, innerstroke, outerstroke, color
 addFont("title", "ui/digital.ttf", 100, 1, 1, 255,255,255,255)

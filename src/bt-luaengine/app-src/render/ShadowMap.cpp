@@ -67,6 +67,15 @@ void ShadowMap::generateShadowFBO() {
 	} else if (context->gConfig->shadowType == GraphicsConfiguration::SHADOWTYPE_SHADOWMAP_HQ) {
 		shadowWidth = SHADOWMAP_HQ_WIDTH;
 		shadowHeight = SHADOWMAP_HQ_HEIGHT;
+	} else if (context->gConfig->shadowType == GraphicsConfiguration::SHADOWTYPE_SHADOWMAP_CUSTOM) {
+		Vector2f *size = (Vector2f*)context->renderContext->userValues->get("shadowmap_size");
+		if (size) {
+			shadowWidth = size->x;
+			shadowHeight = size->y;
+		} else {
+			shadowWidth = SHADOWMAP_WIDTH;
+			shadowHeight = SHADOWMAP_HEIGHT;
+		}
 	} else {
 		// no shadowmap
 		shadowWidth = 0;
@@ -139,8 +148,19 @@ void ShadowMap::generateShadowFBO() {
 }
 
 void ShadowMap::bindForMapCreation() {
-	if (currentShadowType != context->gConfig->shadowType) {
-		generateShadowFBO();
+	if (currentShadowType != context->gConfig->shadowType || context->gConfig->shadowType == GraphicsConfiguration::SHADOWTYPE_SHADOWMAP_CUSTOM) {
+		if (context->gConfig->shadowType == GraphicsConfiguration::SHADOWTYPE_SHADOWMAP_CUSTOM) {
+			Vector2f *size = (Vector2f*)context->renderContext->userValues->get("shadowmap_size");
+			if (!size) {
+				size = new Vector2f(SHADOWMAP_WIDTH, SHADOWMAP_HEIGHT);
+				context->renderContext->userValues->put("shadowmap_size", size);
+			}
+			if (shadowWidth != size->x || shadowHeight != size->y) {
+				generateShadowFBO();
+			}
+		} else {
+			generateShadowFBO();
+		}
 	}
 	if (context->gConfig->shadowType == GraphicsConfiguration::SHADOWTYPE_NONE) {
 		return;

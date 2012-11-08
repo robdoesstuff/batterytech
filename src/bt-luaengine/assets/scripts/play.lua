@@ -378,7 +378,8 @@ function Play:render()
 	local rotCos = math.cos(self.dir)
 	local followX, followY = 0, -5
 	local camOffsetX, camOffsetY = (followX*rotCos - followY*rotSin), (followX*rotSin + followY*rotCos)
-	setCameraParams(self.x + camOffsetX, self.y + camOffsetY, 3, 70, TO_DEGREES * self.dir)
+	local camX, camY, camZ = self.x + camOffsetX, self.y + camOffsetY, 3
+	setCameraParams(camX, camY, camZ, 70, TO_DEGREES * self.dir)
 	setCameraNearFarFOV(1, 500, 60)
 	if not self.rotAnim then self.rotAnim = 0.25 end
 	if self.battery then
@@ -401,14 +402,20 @@ function Play:render()
  	local orthoAmt = 1.5
     game:setShadowOrtho(orthoAmt, -orthoAmt, -orthoAmt, orthoAmt)
     -- game:setShadowPerspective(45)
-	game:setShadowType(1)
+   	local vpWidth, vpHeight = getViewportSize()
+   	-- custom shadowmap size, 256x256
+	game:setShadowType(3, 256, 256)
 	game:setGlobalLightEnabled(true)
     game:setFogEnabled(false)
     -- draw BG
-    local vpWidth, vpHeight = getViewportSize()
-    local idx = game:render2D("shadowmap",vpWidth - vpWidth/4,vpHeight - vpHeight/4,vpWidth/2,vpHeight/2,0)
+     -- local idx = game:render2D("shadowmap",vpWidth - vpWidth/4,vpHeight - vpHeight/4,vpWidth/2,vpHeight/2,0)
     -- game:setRenderItemParam(idx, "uvs", 1, 1, 0, 0)
-    local idx = game:render2DBG("textures/space.jpg", vpWidth/2, vpHeight/2, vpWidth, vpHeight, 0)
+    --local idx = game:render2DBG("textures/space.jpg", vpWidth/2, vpHeight/2, vpWidth, vpHeight, 0)
+    local scale = .2
+    local idx = game:renderAssimp(nil, 0, "models/skybox.obj", nil, nil, true, camX, camY, camZ, scale,scale,scale, 0,0, TO_DEGREES * self.rotAnim)
+	game:setRenderItemParam(idx, "nodirlight", true)
+    game:setRenderItemParam(idx, "noshadowrecv", true)
+   	game:setRenderItemParam(idx, "noshadowgen", true)
 	-- draw boxes
 	for i = 1, #self.boxes do
 		local box = self.boxes[i]
