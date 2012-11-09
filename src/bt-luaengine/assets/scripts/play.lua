@@ -465,6 +465,7 @@ function Play:render()
    	end
 	game:setGlobalLightEnabled(true)
     game:setFogEnabled(false)
+    game:setFogParams(1, 45, .2, .2, .2, 1.0)
     -- draw BG
      -- local idx = game:render2D("shadowmap",vpWidth - vpWidth/4,vpHeight - vpHeight/4,vpWidth/2,vpHeight/2,0)
     -- game:setRenderItemParam(idx, "uvs", 1, 1, 0, 0)
@@ -474,6 +475,7 @@ function Play:render()
 	game:setRenderItemParam(idx, "nodirlight", true)
     game:setRenderItemParam(idx, "noshadowrecv", true)
    	game:setRenderItemParam(idx, "noshadowgen", true)
+   	game:setRenderItemParam(idx, "nofog", true)
 	-- draw stars
 	for i = 1, #self.boxes do
 		local box = self.boxes[i]
