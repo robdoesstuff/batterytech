@@ -186,6 +186,7 @@ function Play:show()
 	self.x = 0
 	self.y = 0
 	self.dir = math.pi
+	self.rotAnim = 2.5
 	self.state = PLAY_STATE_START
 	self:setupLevel()
 	self.controlFwd = 0
@@ -438,7 +439,6 @@ function Play:render()
 	local camX, camY, camZ = self.x + camOffsetX, self.y + camOffsetY, 3
 	setCameraParams(camX, camY, camZ, 70, TO_DEGREES * self.dir)
 	setCameraNearFarFOV(1, 500, 60)
-	if not self.rotAnim then self.rotAnim = 0.25 end
 	if self.battery then
 		self.rotAnim = self.rotAnim + 0.001
 		self.rotAnim = self.rotAnim % TAU
