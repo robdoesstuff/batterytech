@@ -20,6 +20,8 @@ TO_RADS = math.pi / 180
 local ENABLE_POINT_LIGHT = false
 local ENABLE_PARTICLES = false
 
+local FPS_CHECK_TIME = 3.0
+
 Box = {
 	x = 0,
 	y = 0
@@ -86,7 +88,6 @@ function Battery:render()
     local scale = 0.1
     local idx = game:renderAssimp(self, 0, "models/Battery.bai", nil, nil, true, self.x,self.y,z, scale,scale,scale, 0,0,self.rot)
     game:setRenderItemParam(idx, "noshadowrecv", true)
-    -- local idx = game:renderAssimpM(self, 0, "models/Battery.bai", nil, nil, true, 1,0,0,0,0,1,0,0,0,0,1,0,x,y,z,1, scale,scale,scale, 180)
 end
 
 Play = {}
@@ -170,6 +171,9 @@ function Play.new()
 	self.success = false
 	self.level = 1
 	self.nextRandomNoiseTime = math.random(1,3)
+	self.fpsTestTimeLeft = FPS_CHECK_TIME
+	self.fpsTotal = 0
+	self.lowFPS = false
 	return self
 end
 
@@ -207,6 +211,7 @@ function Play:show()
 		game:setParticleAlphaSpeedRange(emitterId, -0.5, -0.5)
 		game:startParticleEmitter(emitterId)
 	end
+	game.fpsCounter:reset()
 end
 
 function Play:setupLevel()
@@ -227,6 +232,19 @@ function Play:setupLevel()
 end
 
 function Play:update(tickDelta)
+	-- check for low FPS, shut off shadow if it doesn't come up
+	if self.fpsTestTimeLeft > 0 then
+		self.fpsTestTimeLeft = self.fpsTestTimeLeft - tickDelta
+		self.fpsTotal = self.fpsTotal + game.fpsCounter.fps * tickDelta
+		if self.fpsTestTimeLeft <= 0 then
+			local avgFps = self.fpsTotal / FPS_CHECK_TIME
+			logmsg("avgFps = " .. avgFps)
+			if avgFps < 15 then
+				self.lowFPS = true
+				logmsg("Low FPS detected (average " .. avgFps .. ") - disabling shadows to improve")
+			end
+		end
+	end
 	for i,v in ipairs(self.buttons) do
 		v:update(tickDelta)
 	end
@@ -412,8 +430,7 @@ end
 
 function Play:render()
 	-- CAMERA PARAM
-	-- setCameraParams(0,0,100, 0,0)
-	-- determine camera position, behind player
+	
 	local rotSin = math.sin(self.dir)
 	local rotCos = math.cos(self.dir)
 	local followX, followY = 0, -5
@@ -441,7 +458,11 @@ function Play:render()
     -- game:setShadowPerspective(45)
    	local vpWidth, vpHeight = getViewportSize()
    	-- custom shadowmap size, 1/3 of viewport height
-	game:setShadowType(3, vpHeight/3, vpHeight/3)
+   	if self.lowFPS then
+   		game:setShadowType(0)
+   	else
+		game:setShadowType(3, vpHeight/3, vpHeight/3)
+   	end
 	game:setGlobalLightEnabled(true)
     game:setFogEnabled(false)
     -- draw BG
@@ -468,7 +489,8 @@ function Play:render()
 		game:setRenderItemParam(idx, "noshadowgen", true)
 	end
 	if self.battery then self.battery:render() end
-	local idx = game:renderAssimpM(nil, 0, "models/box.bai", nil, "textures/box_surface.jpg", true, 1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1, 100.0,100.0,1.0, 0)
+	local scale = 7.0
+	local idx = game:renderAssimp(nil, 0, "models/crater.obj", nil, nil, true, 0,0, 1.0, scale,scale,0.4, 0,0, 0)
     game:setRenderItemParam(idx, "noshadowgen", true)
 	game:setRenderItemParam(idx, "nodirlight", true)
 	local timeString = string.format("Time: %2d", self.timeLeft)
@@ -549,3 +571,4 @@ function Play:render()
 	end
 	
 end
+

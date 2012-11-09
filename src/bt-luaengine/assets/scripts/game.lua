@@ -30,6 +30,7 @@ function Game:init()
 	self.currentModule = self.mainMenuModule
     self.waves = {Wave.new(0.1, 0.1),Wave.new(0.2, 0.2),Wave.new(0.3, 0.3),Wave.new(0.4, 0.4),Wave.new(0.5, 0.5),
     Wave.new(0.6, 0.6),Wave.new(0.15, 0.7),Wave.new(0.25, 0.8),Wave.new(0.35, 0.9),Wave.new(0.45, 1.0)}
+    self.fpsCounter = FPSCounter.new()
 end
 
 function Game:reset(force)
@@ -57,6 +58,7 @@ function Game:update(tickDelta)
 	-- logmsg("updating")
 	self.currentModule:update(tickDelta)
     self:updateWaves(tickDelta)
+    self.fpsCounter:update(tickDelta)
 end
 
 -- called from engine to render the game
@@ -114,4 +116,30 @@ function saveGame()
 	io.output(savepath)
 	io.write(save)
 	io.close()
+end
+
+
+FPSCounter = {}
+function FPSCounter.new()
+	local self = table.copy(FPSCounter)
+	self.sampleCount = 0
+	self.timeTotal = 0
+	self.fps = 0
+	return self
+end
+
+function FPSCounter:update(delta)
+	self.sampleCount = self.sampleCount + 1
+	self.timeTotal = self.timeTotal + delta
+	if self.sampleCount == 10 then
+		self.sampleCount = 0
+		self.fps = math.ceil(10.0/self.timeTotal)
+		self.timeTotal = 0
+	end
+end
+
+function FPSCounter:reset()
+	self.sampleCount = 0
+	self.fps = 0
+	self.timeTotal = 0
 end

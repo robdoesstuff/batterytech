@@ -7,6 +7,7 @@
 const float c_zero = 0.0;
 const float c_one  = 1.0;
 
+uniform vec4 colorFilter;
 uniform mat4 projection_matrix;
 uniform mat4 modelview_matrix;
 uniform vec4 fog_and_uv_offset;
@@ -122,7 +123,7 @@ vec4 compute_point_light(int lightIdx, vec3 eye, vec3 ecPosition3, vec3 normal) 
 #endif
 
 #ifdef FOG
-varying float fogAmount;
+uniform vec4 fogColor;
 
 float compute_fog_amount(vec4 ecVert) {
 	// fog near is fog_and_uv_offset.x, fog far is fog_and_uv_offset.y
@@ -172,9 +173,9 @@ void main() {
 #endif
 	
 #ifdef DIR_LIGHT
-	vColor = compute_directional_light(ecNormal);
+	vColor = compute_directional_light(ecNormal) * colorFilter;
 #else
-	vColor = vec4(1.0, 1.0, 1.0, 1.0);
+	vColor = colorFilter;
 #endif
 
 #if POINT_LIGHT_COUNT > 0
@@ -195,7 +196,11 @@ void main() {
 	vColor += compute_point_light(4, ecCamera, ecPos3, ecNormal);
 #endif
 #ifdef FOG
-	fogAmount = compute_fog_amount(ecPosition);
-	fogAmount *= fogAmount;
+	float fog_coord = abs(gl_Position.z);
+	float fog_far = fog_and_uv_offset.y;
+    fog_coord = clamp(fog_coord, 0.0, fog_far);
+    float fog = (fog_far - fog_coord)/fog_far;
+    fog = clamp(fog, 0.0, 1.0);
+    vColor = mix(fogColor, vColor, fog);
 #endif
 }              

@@ -38,6 +38,8 @@ addTexture("textures/space.jpg")
 addAssimp("models/skybox.obj")
 addTexture("models/skybox.jpg")
 addAssimp("models/quad.obj")
+addAssimp("models/crater.obj")
+addTexture("models/craterTexture.jpg")
 
 -- tag, assetname, size, innerstroke, outerstroke, color
 addFont("title", "ui/digital.ttf", 100, 1, 1, 255,255,255,255)

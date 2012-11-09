@@ -422,7 +422,7 @@ function Tests:render()
 	game:setGlobalLightEnabled(self.globalLightEnabled)
     game:setFogEnabled(self.fogEnabled)
     if self.fogEnabled then
-        game:setFogParams(1, 30, .3,.3,.3,1)
+        game:setFogParams(1, 25, .3,.3,.3,1)
     end
     if self.bgEnabled then
         local idx = game:render2DBG("textures/box_surface.jpg", vpWidth/2, vpHeight/2, vpWidth, vpHeight, 0)
