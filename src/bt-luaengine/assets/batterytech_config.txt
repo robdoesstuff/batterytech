@@ -9,7 +9,7 @@ reference_height=800
 
 # In Windows, this is the width and height of the window
 window_width=1280
-window_height=800
+window_height=720
 # Open up a console window if possible
 console_log_enabled_when_available=true
 # The title of the window

@@ -90,11 +90,44 @@ function Battery:render()
     game:setRenderItemParam(idx, "noshadowrecv", true)
 end
 
+--- Star Spinner
+local STARSPINNER_TIME = 1.5
+local STARSPINNER_TARGET_Z = 5
+StarSpinner = {}
+function StarSpinner.new(x,y,rot)
+	local self = table.copy(StarSpinner)
+	self.x = x
+	self.y = y
+	self.t = 0
+	self.rot = rot
+	self.finished = false
+	return self
+end
+
+function StarSpinner:update(delta)
+	self.t = self.t + delta
+	self.rot = self.rot + delta * 540
+	if self.t > STARSPINNER_TIME then
+		self.finished = true
+		self.t = STARSPINNER_TIME
+	end
+end
+
+function StarSpinner:render()
+	local zOffset = lerp1(STARSPINNER_TARGET_Z, 0, self.t / STARSPINNER_TIME)
+	local alpha = (1 - lerp1(1, 0, self.t / STARSPINNER_TIME)) * 0.7
+	local idx = game:renderAssimpM(nil, 0, "models/star.bai", nil, nil, true, 1,0,0,0,0,1,0,0,0,0,1,0,self.x,self.y,PLAY_BOX_SIZE/2 + zOffset,1, PLAY_BOX_SIZE,PLAY_BOX_SIZE,PLAY_BOX_SIZE, self.rot)
+	game:setRenderItemParam(idx, "alpha", alpha)
+	game:setRenderItemParam(idx, "nodirlight", true)
+	game:setRenderItemParam(idx, "noshadowgen", true)
+end
+
 Play = {}
 
 function Play.new()
 	local vpWidth, vpHeight = getViewportSize()
 	local self = table.copy(Play)
+	self.localObjects = {}
 	self.boxrot = 0
 	self.buttons = {}
 	-- quit button
@@ -249,6 +282,18 @@ function Play:update(tickDelta)
 	for i,v in ipairs(self.buttons) do
 		v:update(tickDelta)
 	end
+	for i = 1,#self.localObjects do
+		if i > 0 then
+			local obj = self.localObjects[i]
+			if obj then
+				obj:update(tickDelta)
+				if obj.finished then
+					table.remove(self.localObjects, i)
+					i = i - 1
+				end
+			end
+		end
+	end
 	self.boxrot = self.boxrot + tickDelta * 45
 	if self.state == PLAY_STATE_PLAY then
 		self:updatePlayState(tickDelta)
@@ -377,6 +422,7 @@ function Play:updatePlayState(tickDelta)
 		if self.x < boxLeft or self.x > boxRight or self.y > boxTop or self.y < boxBottom then
 			-- not intersecting
 		else
+			self.localObjects[#self.localObjects+1] = StarSpinner.new(box.x, box.y, self.boxrot)
 			table.remove(self.boxes, i)
 			self:collectBox()
 		end
@@ -437,7 +483,7 @@ function Play:render()
 	local followX, followY = 0, -5
 	local camOffsetX, camOffsetY = (followX*rotCos - followY*rotSin), (followX*rotSin + followY*rotCos)
 	local camX, camY, camZ = self.x + camOffsetX, self.y + camOffsetY, 3
-	setCameraParams(camX, camY, camZ, 70, TO_DEGREES * self.dir)
+	setCameraParams(camX, camY, camZ, 80, TO_DEGREES * self.dir)
 	setCameraNearFarFOV(1, 500, 60)
 	if self.battery then
 		self.rotAnim = self.rotAnim + 0.001
@@ -490,6 +536,12 @@ function Play:render()
 		game:setRenderItemParam(idx, "noshadowrecv", true)
 		game:setRenderItemParam(idx, "noshadowgen", true)
 	end
+	-- draw local objects
+	for i = 1,#self.localObjects do
+		local obj = self.localObjects[i]
+		obj:render()
+	end
+			
 	if self.battery then self.battery:render() end
 	local scale = 7.0
 	local idx = game:renderAssimp(nil, 0, "models/crater.obj", nil, nil, true, 0,0, 1.0, scale,scale,0.4, 0,0, 0)
