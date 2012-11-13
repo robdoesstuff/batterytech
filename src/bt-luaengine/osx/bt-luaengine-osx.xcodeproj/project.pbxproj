@@ -235,7 +235,6 @@
 		CD19389A15A3538000A22B4A /* VibrationManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CD19384515A3538000A22B4A /* VibrationManager.cpp */; };
 		CD19389B15A3538000A22B4A /* btFFMpegPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CD19384815A3538000A22B4A /* btFFMpegPlayer.cpp */; };
 		CD19389C15A3538000A22B4A /* VideoManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CD19384A15A3538000A22B4A /* VideoManager.cpp */; };
-		CD460E37163E362C00454CAD /* wave.lua in Resources */ = {isa = PBXBuildFile; fileRef = CD460E36163E362C00454CAD /* wave.lua */; };
 		CDC904B115B0C52A004F6B19 /* B2DebugRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CDC904AF15B0C52A004F6B19 /* B2DebugRenderer.cpp */; };
 		CDF7D91815E9D49100C148AC /* assets in Resources */ = {isa = PBXBuildFile; fileRef = CDF7D91715E9D49100C148AC /* assets */; };
 /* End PBXBuildFile section */
@@ -769,7 +768,6 @@
 		CD19384915A3538000A22B4A /* btFFMpegPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = btFFMpegPlayer.h; sourceTree = "<group>"; };
 		CD19384A15A3538000A22B4A /* VideoManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VideoManager.cpp; sourceTree = "<group>"; };
 		CD19384B15A3538000A22B4A /* VideoManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoManager.h; sourceTree = "<group>"; };
-		CD460E36163E362C00454CAD /* wave.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = wave.lua; path = ../assets/scripts/wave.lua; sourceTree = "<group>"; };
 		CDC904AF15B0C52A004F6B19 /* B2DebugRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = B2DebugRenderer.cpp; sourceTree = "<group>"; };
 		CDC904B015B0C52A004F6B19 /* B2DebugRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = B2DebugRenderer.h; sourceTree = "<group>"; };
 		CDF7D91715E9D49100C148AC /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = ../assets; sourceTree = "<group>"; };
@@ -825,7 +823,6 @@
 		29B97314FDCFA39411CA2CEA /* bt-luaengine-osx */ = {
 			isa = PBXGroup;
 			children = (
-				CD460E36163E362C00454CAD /* wave.lua */,
 				3D56C33E131DF9AC00BF7F17 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -1815,7 +1812,6 @@
 				3DF3D874155E00A800B78035 /* aiVector3D.inl in Resources */,
 				CD19385115A3538000A22B4A /* batterytech.dox in Resources */,
 				CDF7D91815E9D49100C148AC /* assets in Resources */,
-				CD460E37163E362C00454CAD /* wave.lua in Resources */,
 				3D50ADEB164200E2005F8294 /* Box2DConfig.cmake in Resources */,
 				3D50ADEC164200E2005F8294 /* CMakeLists.txt in Resources */,
 				3D50AE19164200E2005F8294 /* license.txt in Resources */,

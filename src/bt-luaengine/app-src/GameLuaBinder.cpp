@@ -44,6 +44,43 @@
 
 static GameContext *static_context;
 
+// c functions available to lua (LuaBinder should have all global functions)
+#ifdef DOXYGEN
+class Game {
+public:
+    /**
+     * \brief Adds a ScreenControl
+     * \ingroup UI
+     *
+     */
+    Game::addScreenControl();
+    /**
+     * \brief Updates a ScreenControl
+     * \ingroup UI
+     *
+     */
+    Game::updateScreenControl();
+    /**
+     * \brief Updates a ScreenControl
+     * \ingroup UI
+     *
+     */
+    Game::updateScreenControlTexture();
+    /**
+     * \brief Updates a ScreenControl
+     * \ingroup UI
+     *
+     */
+    Game::removeScreenControl();
+    /**
+     * \brief Updates a ScreenControl
+     * \ingroup UI
+     *
+     */
+    Game::clearScreenControls();
+}
+#endif
+
 // c metafunctions available to lua
 static int lua_Game_gc (lua_State *L);
 static int lua_Game_tostring (lua_State *L);
