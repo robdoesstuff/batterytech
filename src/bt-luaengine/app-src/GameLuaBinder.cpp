@@ -88,6 +88,588 @@ public:
      *
      */
     Game::clearScreenControls();
+    
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::createPhysicsWorld();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::clearPhysicsWorld();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::destroyPhysicsWorld();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::updatePhysics();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::clearPhysicsForces(lua_State *l);
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::setPhysicsGravity();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::setPhysicsDrawDebug();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::queryPhysicsAABB();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::quit();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::renderStaticObjM();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::renderText2D();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::render2D();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::render2DBG();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::renderAssimp();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::renderAssimpM();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::renderBB();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::start2DProjection();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::end2DProjection();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::setShadowLightOrigin();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::setShadowColorAndEpsilon();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::setShadowLightFrustumNearFar();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::setShadowOrtho();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::setShadowPerspective();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::getShadowType();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::setShadowType();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::setGlobalLightEnabled();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::setGlobalLightDir();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::setGlobalLightAmbient();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::setGlobalLightDiffuse();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::setGlobalLightSpecular();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::setFogEnabled();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::setFogParams();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::setRenderItemParam();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::loadNewResources();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::addLocalLight();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::setLocalLightParam();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::clearLocalLights();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::addLocalLightsFromAssimp();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::getMeshInfoFromAssimp();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::measureText();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::engineReset();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::addParticleEmitter();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::add2DParticleEmitter();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::setParticleEmitterTimeRange();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::setParticleEmitterPosition();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::setParticleEmitterPositionRange();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::setParticleEmitterDirection();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::setParticleEmitterTextureAsset();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::removeParticleEmitter();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::stopParticleEmitter();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::clearParticleEmitters();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::startParticleEmitter();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::setParticleEmitterConeRange();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::setParticleScaleSpeedRange();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::setParticleAlphaSpeedRange();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::setParticleMaxSpeedRange();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::setParticleEmissionRate();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::setParticleInitialScale();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::setParticleRotationSpeedRange();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::setParticleGravity();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::setParticleAutoStopMax();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::physics_addDistanceJoint();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::physics_addRevoluteJoint();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::physics_setRevoluteJointLimits();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::physics_setRevoluteJointMotor();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::physics_getRevoluteJointValues();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::physics_addMouseJoint();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::physics_setMouseJointPosition();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::physics_addPrismaticJoint();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::physics_setPrismaticJointLimits();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::physics_setPrismaticJointMotor();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::physics_getPrismaticJointValues();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::physics_addRopeJoint();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::physics_addPulleyJoint();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::physics_getPulleyJointValues();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::physics_addGearJoint();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::physics_addWheelJoint();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::physics_setWheelJointMotor();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::physics_getWheelJointValues();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::physics_addWeldJoint();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::physics_addFrictionJoint();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::physics_removeJoint();
+    /**
+     * \brief Function
+     *
+     * \ingroup Other
+     *
+     */
+    Game::physics_getJointAnchorPoints();
 }
 #endif
 
