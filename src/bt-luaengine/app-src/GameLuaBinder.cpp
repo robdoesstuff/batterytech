@@ -90,61 +90,89 @@ public:
     Game::clearScreenControls();
     
     /**
-     * \brief Function
+     * \brief Creates a new instance of the physics simulation
      *
-     * \ingroup Other
+     * An existing physics world must be destroyed by calling Game::destroyPhysicsWorld before calling again
+     *
+     * \ingroup Physics2D
      *
      */
     Game::createPhysicsWorld();
     /**
-     * \brief Function
+     * \brief Clears the current physics world
      *
-     * \ingroup Other
+     * Removes all bodies and joints - make sure to deactivate all GameObjects with bodies or joints or the engine may crash
+     *
+     * \ingroup Physics2D
      *
      */
     Game::clearPhysicsWorld();
     /**
-     * \brief Function
+     * \brief Destroys the current physics world, deallocating
      *
-     * \ingroup Other
+     * Use this function to completely tear down the current physics world and recover memory.  make sure to deactivate all GameObjects with bodies or joints or the engine may crash
+     *
+     * \ingroup Physics2D
      *
      */
     Game::destroyPhysicsWorld();
     /**
-     * \brief Function
+     * \brief Updates (ticks / timesteps) the current physics simulation
      *
-     * \ingroup Other
+     * \param delta (optional) The update delta to use
+     * \param velocityIterations (optional) The number of velocity iterations to apply
+     * \param positionIterations (optional) The number of position iterations to apply
+     * \ingroup Physics2D
      *
      */
-    Game::updatePhysics();
+    Game::updatePhysics(float delta, int velocityIterations, int positionIterations);
     /**
-     * \brief Function
+     * \brief Clears the current forces being applied to physics bodies
      *
-     * \ingroup Other
+     * \ingroup Physics2D
      *
      */
     Game::clearPhysicsForces(lua_State *l);
     /**
-     * \brief Function
+     * \brief Sets the gravity vector for physics
      *
-     * \ingroup Other
+     * \param x The x component
+     * \param y The y component
+     * \ingroup Physics2D
      *
      */
-    Game::setPhysicsGravity();
+    Game::setPhysicsGravity(float x, float y);
     /**
-     * \brief Function
+     * \brief Enables/Disables debug drawing of the physics world
      *
-     * \ingroup Other
+     * Allows for an optional projection to be set for drawing so the lines can match the current rendering
+     *
+     * \param enabled true to enable, false to disable
+     * \param left (optional) Left Orthographic Boundary
+     * \param right (optional) Right Orthographic Boundary
+     * \param bottom (optional) Bottom Orthographic Boundary
+     * \param top (optional) Top Orthographic Boundary
+     * \param near (optional) Near Orthographic Boundary
+     * \param far (optional) Far Orthographic Boundary
+     * \ingroup Physics2D
      *
      */
-    Game::setPhysicsDrawDebug();
+    Game::setPhysicsDrawDebug(boolean enabled, float left, float right, float bottom, float top, float near, float far);
     /**
-     * \brief Function
+     * \brief Queries for intersecting bodies using an Axis-Aligned Bounding Box
      *
-     * \ingroup Other
+     * Returns a variable number of results.  The count specifies how many results there will be and results will come paired as GameObject, fixtureID for each of the result count.
+     * \param x1 boundary 1 x
+     * \param y1 boundary 1 y
+     * \param x2 boundary 2 x
+     * \param y2 boundary 2 y
+     * \return count: The number of intersection results
+     * \return GameObject1: The first gameobject
+     * \return FixtureID1: The first gameobject's fixture ID
+     * \ingroup Physics2D
      *
      */
-    Game::queryPhysicsAABB();
+    count___GameObject1___FixtureID1 Game::queryPhysicsAABB(float x1, float y1, float x2, float y2);
     /**
      * \brief Function
      *
@@ -1118,11 +1146,14 @@ static int lua_Game_getInstance(lua_State *L) {
 static int lua_Game_createPhysicsWorld(lua_State *L) {
     Game *game = *(Game**)lua_touserdata(L, 1);
 #ifdef BATTERYTECH_INCLUDE_BOX2D
-    b2Vec2 gravity(0.0f, DEFAULT_GRAVITY);
-	static_context->world->boxWorld = new b2World(gravity);
-	static_context->world->boxWorld->SetContinuousPhysics(game);
-	static_context->world->boxWorld->SetContactListener(game);
-	static_context->world->boxWorld->SetDestructionListener(game);
+    if (static_context->world->boxWorld) {
+        logmsg("Error - 2D Physics already exists");
+    } else {
+        b2Vec2 gravity(0.0f, DEFAULT_GRAVITY);
+        static_context->world->boxWorld = new b2World(gravity);
+        static_context->world->boxWorld->SetContactListener(game);
+        static_context->world->boxWorld->SetDestructionListener(game);
+    }
 #endif
 #ifdef BATTERYTECH_INCLUDE_BULLET
     // TODO - declare these in game and also clean them up when done
