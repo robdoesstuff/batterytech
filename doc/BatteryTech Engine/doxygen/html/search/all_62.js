@@ -7,6 +7,7 @@ var searchData=
   ['batchspriterenderer_2eh',['BatchSpriteRenderer.h',['../_batch_sprite_renderer_8h.html',1,'']]],
   ['batterytech',['BatteryTech',['../namespace_battery_tech.html',1,'']]],
   ['biasmatrix',['biasMatrix',['../_shadow_map_8cpp.html#a3f2be75a699612f551416d66e58435e8',1,'ShadowMap.cpp']]],
+  ['biasmatrix2',['biasMatrix2',['../_shadow_map_8cpp.html#aeb04e059b3923169c200bc7dcf8731b2',1,'ShadowMap.cpp']]],
   ['bindastexture',['bindAsTexture',['../class_shadow_map.html#a920e5928029c296285a266dc146a8af4',1,'ShadowMap']]],
   ['bindformapcreation',['bindForMapCreation',['../class_shadow_map.html#ac8e882cff89b2cd769970f5281fb1dbc',1,'ShadowMap']]],
   ['bindforscenerender',['bindForSceneRender',['../class_shadow_map.html#ac4317596ac830aa5d86b512f3e28b6da',1,'ShadowMap']]],

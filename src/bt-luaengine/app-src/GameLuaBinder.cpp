@@ -49,31 +49,41 @@ static GameContext *static_context;
 class Game {
 public:
     /**
-     * \brief Adds a ScreenControl
+     * \brief Deprecated - Adds a ScreenControl
+     *
+     * ScreenControls are components that display on screen for the user to touch.  Because of issues with sorting and setup and callback complexity, we have deprecated them in favor of pure Lua controls.
      * \ingroup UI
      *
      */
-    Game::addScreenControl();
+    Game::addScreenControl(string name, string label, string textureAssetName, float u1,float v1,float u2,float v2, float x1,float y1,float x2,float y2, float x3,float y3,float x4,float y4, boolean isInteractive);
     /**
-     * \brief Updates a ScreenControl
+     * \brief Deprecated - Updates a ScreenControl
+     *
+     * ScreenControls are components that display on screen for the user to touch.  Because of issues with sorting and setup and callback complexity, we have deprecated them in favor of pure Lua controls.
      * \ingroup UI
      *
      */
-    Game::updateScreenControl();
+    Game::updateScreenControl(string name, string label, string textureAssetName, float u1,float v1,float u2,float v2, float x1,float y1,float x2,float y2, float x3,float y3,float x4,float y4, boolean isInteractive);
     /**
-     * \brief Updates a ScreenControl
+     * \brief Deprecated - Updates just the texture info for a screen control
+    *
+     * ScreenControls are components that display on screen for the user to touch.  Because of issues with sorting and setup and callback complexity, we have deprecated them in favor of pure Lua controls.
      * \ingroup UI
      *
      */
-    Game::updateScreenControlTexture();
+    Game::updateScreenControlTexture(string name, string textureAssetName, float u1,float v1,float u2,float v2);
     /**
-     * \brief Updates a ScreenControl
+     * \brief Deprecated - Removes a ScreenControl
+    *
+     * ScreenControls are components that display on screen for the user to touch.  Because of issues with sorting and setup and callback complexity, we have deprecated them in favor of pure Lua controls.
      * \ingroup UI
      *
      */
-    Game::removeScreenControl();
+    Game::removeScreenControl(string name);
     /**
-     * \brief Updates a ScreenControl
+     * \brief Deprecated - Clears the list of all screen controls for this game
+     *
+     * ScreenControls are components that display on screen for the user to touch.  Because of issues with sorting and setup and callback complexity, we have deprecated them in favor of pure Lua controls.
      * \ingroup UI
      *
      */

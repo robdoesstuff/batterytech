@@ -11,6 +11,7 @@ var searchData=
   ['locallights',['localLights',['../class_world.html#a3cede457f0a69292c6536292a4a7b26b',1,'World']]],
   ['locallightsused',['localLightsUsed',['../class_world.html#a2ba0062ad484206a7aa611ba552cea50',1,'World']]],
   ['look',['look',['../class_camera.html#aba68001e04673499bc110d940379ccd0',1,'Camera']]],
+  ['lua_5fgame_5fgc',['lua_Game_gc',['../_game_lua_binder_8h.html#a4cb3859e8132ca98b2d1cf6f8da08f82',1,'GameLuaBinder.cpp']]],
   ['luabinder',['luaBinder',['../class_game.html#a1e27c5d8472516a3163bbe49b201855d',1,'Game::luaBinder()'],['../class_game_object.html#adfabecef363b778064f9a13702cee4cc',1,'GameObject::luaBinder()']]],
   ['luaref',['luaRef',['../class_game_object_lua_binder.html#a40f850dab559314d9ac4f998c4d2cec4',1,'GameObjectLuaBinder']]],
   ['luastate',['luaState',['../class_world.html#a3bb55259ec027aa04ca9b5b50f2ac689',1,'World']]]
