@@ -12,6 +12,7 @@ var searchData=
   ['max_5fscreencontrols',['MAX_SCREENCONTROLS',['../_game_constants_8h.html#a792359e988eb97e8e175a153e31c63fc',1,'GameConstants.h']]],
   ['max_5fsound_5fload_5fpending',['MAX_SOUND_LOAD_PENDING',['../_game_constants_8h.html#a47f901b324bd56217ecc21145493ac9e',1,'GameConstants.h']]],
   ['maxpointlights',['maxPointLights',['../class_render_item.html#ac35f5e83be3529ba0862725eb657dcd8',1,'RenderItem']]],
+  ['measuretext',['measureText',['../group___rendering.html#ga8a00998b897621e28f41c2f70070bbe3',1,'Game']]],
   ['message',['message',['../struct_error_message.html#a9cc8d6b0d903398de7bae3048cb176f5',1,'ErrorMessage']]],
   ['modelscale',['modelScale',['../class_game_object.html#ab48889e1943ad47c4e8e2aace8088eca',1,'GameObject']]]
 ];

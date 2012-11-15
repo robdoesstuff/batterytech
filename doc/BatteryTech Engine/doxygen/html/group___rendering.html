@@ -64,7 +64,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -75,13 +75,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div class="header">
   <div class="summary">
-<a href="#groups">Modules</a>  </div>
+<a href="#groups">Modules</a> &#124;
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">Rendering</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>How The BatteryTech Engine composites 2D, 3D and Font-based graphics.  
+<p>How The <a class="el" href="namespace_battery_tech.html">BatteryTech</a> Engine composites 2D, 3D and Font-based graphics.  
 <a href="#details">More...</a></p>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
 <table class="memberdecls">
@@ -90,16 +91,155 @@ Modules</h2></td></tr>
 <tr class="memitem:group___rendering2_d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___rendering2_d.html">2D</a></td></tr>
 <tr class="memdesc:group___rendering2_d"><td class="mdescLeft">&#160;</td><td class="mdescRight">How to render 2D Graphics. <br/></td></tr>
 <tr class="memitem:group___rendering3_d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___rendering3_d.html">3D</a></td></tr>
-<tr class="memdesc:group___rendering3_d"><td class="mdescLeft">&#160;</td><td class="mdescRight">How to render 3D GraphicsCamera, Lighting, Shadows, Matrices. <br/></td></tr>
+<tr class="memdesc:group___rendering3_d"><td class="mdescLeft">&#160;</td><td class="mdescRight">How to render 3D Graphics<a class="el" href="class_camera.html">Camera</a>, Lighting, Shadows, Matrices. <br/></td></tr>
 <tr class="memitem:group___text_rendering"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___text_rendering.html">Text</a></td></tr>
 <tr class="memdesc:group___text_rendering"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rendering 2D Fonts. <br/></td></tr>
 <tr class="memitem:group___render_options"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___render_options.html">Render Options</a></td></tr>
 <tr class="memdesc:group___render_options"><td class="mdescLeft">&#160;</td><td class="mdescRight">Setting options for render items. <br/></td></tr>
+<tr class="memitem:group___particles"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___particles.html">Particle Systems</a></td></tr>
+<tr class="memdesc:group___particles"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configuring 2D and 3D particle systems. <br/></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:gaf1f0c01ff6bcb3b9793aec2bf66e84c9"><td class="memItemLeft" align="right" valign="top">renderItemId&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___rendering.html#gaf1f0c01ff6bcb3b9793aec2bf66e84c9">Game::renderText2D</a> (string tag, string text, float x, float y, float scale)</td></tr>
+<tr class="memdesc:gaf1f0c01ff6bcb3b9793aec2bf66e84c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Renders Text.  <a href="#gaf1f0c01ff6bcb3b9793aec2bf66e84c9"></a><br/></td></tr>
+<tr class="memitem:gabe50bea95f91261a992fe4fb3e583937"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___rendering.html#gabe50bea95f91261a992fe4fb3e583937">Game::setRenderItemParam</a> (int idx, string name, multiple value)</td></tr>
+<tr class="memdesc:gabe50bea95f91261a992fe4fb3e583937"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="#gabe50bea95f91261a992fe4fb3e583937"></a><br/></td></tr>
+<tr class="memitem:ga8a00998b897621e28f41c2f70070bbe3"><td class="memItemLeft" align="right" valign="top">width__height&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___rendering.html#ga8a00998b897621e28f41c2f70070bbe3">Game::measureText</a> (string tag, string text, float scale)</td></tr>
+<tr class="memdesc:ga8a00998b897621e28f41c2f70070bbe3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="#ga8a00998b897621e28f41c2f70070bbe3"></a><br/></td></tr>
 </table>
+<hr/><h2>Function Documentation</h2>
+<a class="anchor" id="ga8a00998b897621e28f41c2f70070bbe3"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">width__height Game::measureText </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>tag</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>text</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>scale</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="gaf1f0c01ff6bcb3b9793aec2bf66e84c9"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">renderItemId Game::renderText2D </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>tag</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>text</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>scale</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Fonts must be preloaded using <a class="el" href="group___loading_fonts.html#ga0fc93b7ab159d9f98de05da0a258eb1a" title="Adds a font file to the resource manager.">addFont()</a>, where the tag is specified for the font loaded. Both TTF and BMFonts are supported.</p>
+<p>Fonts are rendered from the bottom left point which allows for baseline placement. Fonts may be aligned left, center or right using <a class="el" href="group___rendering.html#gabe50bea95f91261a992fe4fb3e583937" title="Function.">setRenderItemParam()</a>.<br/>
+ The default font tag is "ui" and is what is specified in the batterytech_config.txt</p>
+<p>Example: </p>
+<div class="fragment"><div class="line"> -- Render some text centered at 200,200 in reference coordinates with a 2x size scale</div>
+<div class="line"> local item = game:<a class="code" href="group___rendering.html#gaf1f0c01ff6bcb3b9793aec2bf66e84c9" title="Renders Text.">renderText2D</a>(<span class="stringliteral">&quot;ui&quot;</span>, <span class="stringliteral">&quot;This is some text&quot;</span>, 200, 200, 2.0)</div>
+<div class="line"> game:<a class="code" href="group___rendering.html#gabe50bea95f91261a992fe4fb3e583937" title="Function.">setRenderItemParam</a>(item, &quot;align&quot;, &quot;center&quot;)</div>
+</div><!-- fragment --><p>Supported values for "align" are "left" "center" and "right"<br/>
+ Currently only the specified color at load is supported, other render item parameters to set color or alpha will have no effect.</p>
+<dl class="params"><dt>Parameters:</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">tag</td><td>The font tag to use </td></tr>
+    <tr><td class="paramname">text</td><td>The string to render </td></tr>
+    <tr><td class="paramname">x</td><td>The x coordinate to render to </td></tr>
+    <tr><td class="paramname">y</td><td>The y coordinate to render to </td></tr>
+    <tr><td class="paramname">scale</td><td>(optional) The font scale size (1.0 is unscaled) </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="gabe50bea95f91261a992fe4fb3e583937"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Game::setRenderItemParam </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>idx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">multiple&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Nov 13 2012 17:42:36 for BatteryTech Lua Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Nov 14 2012 15:36:40 for BatteryTech Lua Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1
 </small></address>

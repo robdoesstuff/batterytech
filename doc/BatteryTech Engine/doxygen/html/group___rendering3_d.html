@@ -64,7 +64,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -82,17 +82,65 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ingroups"><a class="el" href="group___rendering.html">Rendering</a></div></div><!--header-->
 <div class="contents">
 
-<p>How to render 3D GraphicsCamera, Lighting, Shadows, Matrices.  
+<p>How to render 3D Graphics<a class="el" href="class_camera.html">Camera</a>, Lighting, Shadows, Matrices.  
 <a href="#details">More...</a></p>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2><a name="groups"></a>
 Modules</h2></td></tr>
 <tr class="memitem:group___animation3_d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___animation3_d.html">3D Animation</a></td></tr>
-<tr class="memdesc:group___animation3_d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Using Hardware-accelereted 3D Animation. <br/></td></tr>
+<tr class="memdesc:group___animation3_d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Using Hardware-accelerated 3D Animation. <br/></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:ga93bc89e5d7ea2582d8bb4e94aa8950db"><td class="memItemLeft" align="right" valign="top">renderItemId&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___rendering3_d.html#ga93bc89e5d7ea2582d8bb4e94aa8950db">Game::renderStaticObjM</a> (string assetName, string groupName, string textureName, boolean isOpaque, floatArray16 matrix, float scaleX, float scaleY, float scaleZ)</td></tr>
+<tr class="memdesc:ga93bc89e5d7ea2582d8bb4e94aa8950db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Renders a an OBJ file (deprecated)  <a href="#ga93bc89e5d7ea2582d8bb4e94aa8950db"></a><br/></td></tr>
+<tr class="memitem:gae4890775885936836598a2d7f2d73682"><td class="memItemLeft" align="right" valign="top">renderItemId&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___rendering3_d.html#gae4890775885936836598a2d7f2d73682">Game::render2DBG</a> (string assetName, float x, float y, float width, float height, float rotation, float alpha)</td></tr>
+<tr class="memdesc:gae4890775885936836598a2d7f2d73682"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="#gae4890775885936836598a2d7f2d73682"></a><br/></td></tr>
+<tr class="memitem:gac5a6acdef7976833d9d9bb8ad3f6da5a"><td class="memItemLeft" align="right" valign="top">renderItemId&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___rendering3_d.html#gac5a6acdef7976833d9d9bb8ad3f6da5a">Game::renderAssimp</a> (<a class="el" href="class_game_object.html">GameObject</a> animator, int animatorIdx, string assetName, string groupName, string textureAssetName, boolean isOpaque, float x, float, y, float z, float sx, float sy, float sz, float rx, float ry, float rz)</td></tr>
+<tr class="memdesc:gac5a6acdef7976833d9d9bb8ad3f6da5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="#gac5a6acdef7976833d9d9bb8ad3f6da5a"></a><br/></td></tr>
+<tr class="memitem:ga7b03f88b6fb214a6bd8e3d45b6f4ee7f"><td class="memItemLeft" align="right" valign="top">renderItemId&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___rendering3_d.html#ga7b03f88b6fb214a6bd8e3d45b6f4ee7f">Game::renderAssimpM</a> (<a class="el" href="class_game_object.html">GameObject</a> animator, int animatorIdx, string assetName, string groupName, string textureAssetName, boolean isOpaque, floatArray16 matrix, float sx, float sy, float sz, float rz)</td></tr>
+<tr class="memdesc:ga7b03f88b6fb214a6bd8e3d45b6f4ee7f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="#ga7b03f88b6fb214a6bd8e3d45b6f4ee7f"></a><br/></td></tr>
+<tr class="memitem:gaf429e3375285e40e5efad3d2be0f909d"><td class="memItemLeft" align="right" valign="top">renderItemId&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___rendering3_d.html#gaf429e3375285e40e5efad3d2be0f909d">Game::renderBB</a> (string assetName, float x, float y, float z, float width, float height, float zRotation, float alpha, float u1, float v1, float u2, float v2)</td></tr>
+<tr class="memdesc:gaf429e3375285e40e5efad3d2be0f909d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="#gaf429e3375285e40e5efad3d2be0f909d"></a><br/></td></tr>
+<tr class="memitem:gad4db1295f7feb618f3b9696e8f8b2caf"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___rendering3_d.html#gad4db1295f7feb618f3b9696e8f8b2caf">Game::setShadowLightOrigin</a> (float x, float y, float z)</td></tr>
+<tr class="memdesc:gad4db1295f7feb618f3b9696e8f8b2caf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="#gad4db1295f7feb618f3b9696e8f8b2caf"></a><br/></td></tr>
+<tr class="memitem:ga37c915fabed992935ba0bf365a370e39"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___rendering3_d.html#ga37c915fabed992935ba0bf365a370e39">Game::setShadowColorAndEpsilon</a> (float r, float g, float b, float a, float epsilon)</td></tr>
+<tr class="memdesc:ga37c915fabed992935ba0bf365a370e39"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="#ga37c915fabed992935ba0bf365a370e39"></a><br/></td></tr>
+<tr class="memitem:gae2ed81e139ac6ec6a50ab5ee0e978282"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___rendering3_d.html#gae2ed81e139ac6ec6a50ab5ee0e978282">Game::setShadowLightFrustumNearFar</a> (float near, float far)</td></tr>
+<tr class="memdesc:gae2ed81e139ac6ec6a50ab5ee0e978282"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="#gae2ed81e139ac6ec6a50ab5ee0e978282"></a><br/></td></tr>
+<tr class="memitem:ga92f3043aa4ee22944062737facb4fa96"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___rendering3_d.html#ga92f3043aa4ee22944062737facb4fa96">Game::setShadowOrtho</a> (float right, float left, float bottom, float top)</td></tr>
+<tr class="memdesc:ga92f3043aa4ee22944062737facb4fa96"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="#ga92f3043aa4ee22944062737facb4fa96"></a><br/></td></tr>
+<tr class="memitem:gadd4aec26219ff47ba060844938697fc2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___rendering3_d.html#gadd4aec26219ff47ba060844938697fc2">Game::setShadowPerspective</a> (float fov)</td></tr>
+<tr class="memdesc:gadd4aec26219ff47ba060844938697fc2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="#gadd4aec26219ff47ba060844938697fc2"></a><br/></td></tr>
+<tr class="memitem:ga092aa08430fa5bd8ecf86e9163ae11e8"><td class="memItemLeft" align="right" valign="top">type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___rendering3_d.html#ga092aa08430fa5bd8ecf86e9163ae11e8">Game::getShadowType</a> ()</td></tr>
+<tr class="memdesc:ga092aa08430fa5bd8ecf86e9163ae11e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="#ga092aa08430fa5bd8ecf86e9163ae11e8"></a><br/></td></tr>
+<tr class="memitem:ga839c7d13d6e87c1e9e707ebe8458acb1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___rendering3_d.html#ga839c7d13d6e87c1e9e707ebe8458acb1">Game::setShadowType</a> (int type)</td></tr>
+<tr class="memdesc:ga839c7d13d6e87c1e9e707ebe8458acb1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="#ga839c7d13d6e87c1e9e707ebe8458acb1"></a><br/></td></tr>
+<tr class="memitem:gadcb23dc901078edf797ce6af05530653"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___rendering3_d.html#gadcb23dc901078edf797ce6af05530653">Game::setGlobalLightEnabled</a> (boolean enabled)</td></tr>
+<tr class="memdesc:gadcb23dc901078edf797ce6af05530653"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="#gadcb23dc901078edf797ce6af05530653"></a><br/></td></tr>
+<tr class="memitem:gaa6a019986eca87f85ecde34265753ffa"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___rendering3_d.html#gaa6a019986eca87f85ecde34265753ffa">Game::setGlobalLightDir</a> (float x, float y, float z)</td></tr>
+<tr class="memdesc:gaa6a019986eca87f85ecde34265753ffa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="#gaa6a019986eca87f85ecde34265753ffa"></a><br/></td></tr>
+<tr class="memitem:gacd510ef519bd3ab537f314d0f7e2c0cc"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___rendering3_d.html#gacd510ef519bd3ab537f314d0f7e2c0cc">Game::setGlobalLightAmbient</a> (float r, float g, float b, float a)</td></tr>
+<tr class="memdesc:gacd510ef519bd3ab537f314d0f7e2c0cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="#gacd510ef519bd3ab537f314d0f7e2c0cc"></a><br/></td></tr>
+<tr class="memitem:gac5226d0d4bcd9a09ceb7d59ed82d1c38"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___rendering3_d.html#gac5226d0d4bcd9a09ceb7d59ed82d1c38">Game::setGlobalLightDiffuse</a> (float r, float g, float b, float a)</td></tr>
+<tr class="memdesc:gac5226d0d4bcd9a09ceb7d59ed82d1c38"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="#gac5226d0d4bcd9a09ceb7d59ed82d1c38"></a><br/></td></tr>
+<tr class="memitem:ga791e0efc4a4dc45032dbc75a01cce13a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___rendering3_d.html#ga791e0efc4a4dc45032dbc75a01cce13a">Game::setGlobalLightSpecular</a> (float r, float g, float b, float a)</td></tr>
+<tr class="memdesc:ga791e0efc4a4dc45032dbc75a01cce13a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="#ga791e0efc4a4dc45032dbc75a01cce13a"></a><br/></td></tr>
+<tr class="memitem:ga38f87382ec1de3a80127a0111b5d21d1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___rendering3_d.html#ga38f87382ec1de3a80127a0111b5d21d1">Game::setFogEnabled</a> (boolean enabled)</td></tr>
+<tr class="memdesc:ga38f87382ec1de3a80127a0111b5d21d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="#ga38f87382ec1de3a80127a0111b5d21d1"></a><br/></td></tr>
+<tr class="memitem:gaf8fcad48280177554e3c0d840ad5ec7b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___rendering3_d.html#gaf8fcad48280177554e3c0d840ad5ec7b">Game::setFogParams</a> (float near, float far, float r, float g, float b, float a)</td></tr>
+<tr class="memdesc:gaf8fcad48280177554e3c0d840ad5ec7b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="#gaf8fcad48280177554e3c0d840ad5ec7b"></a><br/></td></tr>
+<tr class="memitem:ga093d1dd4a9f3dde8d9cdc8b5cb6b17b2"><td class="memItemLeft" align="right" valign="top">lightIdx&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___rendering3_d.html#ga093d1dd4a9f3dde8d9cdc8b5cb6b17b2">Game::addLocalLight</a> (float x, float y, float z)</td></tr>
+<tr class="memdesc:ga093d1dd4a9f3dde8d9cdc8b5cb6b17b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="#ga093d1dd4a9f3dde8d9cdc8b5cb6b17b2"></a><br/></td></tr>
+<tr class="memitem:ga1fc89e4971a52650bb17421dac6f1e97"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___rendering3_d.html#ga1fc89e4971a52650bb17421dac6f1e97">Game::setLocalLightParam</a> (string paramName, float values,...)</td></tr>
+<tr class="memdesc:ga1fc89e4971a52650bb17421dac6f1e97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="#ga1fc89e4971a52650bb17421dac6f1e97"></a><br/></td></tr>
+<tr class="memitem:gaa5dd02573dd44e82671c79603dc379fa"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___rendering3_d.html#gaa5dd02573dd44e82671c79603dc379fa">Game::clearLocalLights</a> ()</td></tr>
+<tr class="memdesc:gaa5dd02573dd44e82671c79603dc379fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="#gaa5dd02573dd44e82671c79603dc379fa"></a><br/></td></tr>
+<tr class="memitem:ga102135257ab09d85c7c3dfd2f1da5659"><td class="memItemLeft" align="right" valign="top">firstIdx__lastIdx&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___rendering3_d.html#ga102135257ab09d85c7c3dfd2f1da5659">Game::addLocalLightsFromAssimp</a> (string assetName, string meshPrefix)</td></tr>
+<tr class="memdesc:ga102135257ab09d85c7c3dfd2f1da5659"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="#ga102135257ab09d85c7c3dfd2f1da5659"></a><br/></td></tr>
+<tr class="memitem:gaefacb44b89f1e8beb7ba134a08fdcc9f"><td class="memItemLeft" align="right" valign="top">table&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___rendering3_d.html#gaefacb44b89f1e8beb7ba134a08fdcc9f">Game::getMeshInfoFromAssimp</a> (string assetName, string meshPrefix)</td></tr>
+<tr class="memdesc:gaefacb44b89f1e8beb7ba134a08fdcc9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="#gaefacb44b89f1e8beb7ba134a08fdcc9f"></a><br/></td></tr>
 <tr class="memitem:ga83b820b42db0af38004308cd24dc256a"><td class="memItemLeft" align="right" valign="top">x__y__z&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___rendering3_d.html#ga83b820b42db0af38004308cd24dc256a">getScreenCoord</a> ()</td></tr>
 <tr class="memdesc:ga83b820b42db0af38004308cd24dc256a"><td class="mdescLeft">&#160;</td><td class="mdescRight">returns the screen-space coordinates for a point in world-space  <a href="#ga83b820b42db0af38004308cd24dc256a"></a><br/></td></tr>
 <tr class="memitem:gaba8c334a607ef2c6bf9071eeb682802f"><td class="memItemLeft" align="right" valign="top">x__y__z__tilt__rotation&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___rendering3_d.html#gaba8c334a607ef2c6bf9071eeb682802f">getCameraParams</a> ()</td></tr>
@@ -111,6 +159,79 @@ Functions</h2></td></tr>
 <tr class="memdesc:ga061c24351611d1722fcb073792fff549"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the shadow type.  <a href="#ga061c24351611d1722fcb073792fff549"></a><br/></td></tr>
 </table>
 <hr/><h2>Function Documentation</h2>
+<a class="anchor" id="ga093d1dd4a9f3dde8d9cdc8b5cb6b17b2"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">lightIdx Game::addLocalLight </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>z</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ga102135257ab09d85c7c3dfd2f1da5659"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">firstIdx__lastIdx Game::addLocalLightsFromAssimp </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>assetName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>meshPrefix</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="gaa5dd02573dd44e82671c79603dc379fa"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Game::clearLocalLights </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="gae91b45c312f6cd02ad3875381c98a25f"></a>
 <div class="memitem">
 <div class="memproto">
@@ -155,6 +276,32 @@ rotation: Rotation about the Z-Axis </dd></dl>
 
 </div>
 </div>
+<a class="anchor" id="gaefacb44b89f1e8beb7ba134a08fdcc9f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">table Game::getMeshInfoFromAssimp </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>assetName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>meshPrefix</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="ga83b820b42db0af38004308cd24dc256a"></a>
 <div class="memitem">
 <div class="memproto">
@@ -173,6 +320,21 @@ rotation: Rotation about the Z-Axis </dd></dl>
 y: The screen-space Y coordinate </dd>
 <dd>
 z: The screen-space Z coordinate </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ga092aa08430fa5bd8ecf86e9163ae11e8"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">type Game::getShadowType </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -206,6 +368,401 @@ z: The screen-space Z coordinate </dd></dl>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a class="anchor" id="gae4890775885936836598a2d7f2d73682"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">renderItemId Game::render2DBG </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>assetName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>height</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>rotation</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>alpha</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="gac5a6acdef7976833d9d9bb8ad3f6da5a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">renderItemId Game::renderAssimp </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_game_object.html">GameObject</a>&#160;</td>
+          <td class="paramname"><em>animator</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>animatorIdx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>assetName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>groupName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>textureAssetName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">boolean&#160;</td>
+          <td class="paramname"><em>isOpaque</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">y&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>z</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>sx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>sy</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>sz</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>rx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>ry</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>rz</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ga7b03f88b6fb214a6bd8e3d45b6f4ee7f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">renderItemId Game::renderAssimpM </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_game_object.html">GameObject</a>&#160;</td>
+          <td class="paramname"><em>animator</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>animatorIdx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>assetName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>groupName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>textureAssetName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">boolean&#160;</td>
+          <td class="paramname"><em>isOpaque</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">floatArray16&#160;</td>
+          <td class="paramname"><em>matrix</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>sx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>sy</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>sz</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>rz</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="gaf429e3375285e40e5efad3d2be0f909d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">renderItemId Game::renderBB </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>assetName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>z</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>height</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>zRotation</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>alpha</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>u1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>v1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>u2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>v2</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ga93bc89e5d7ea2582d8bb4e94aa8950db"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">renderItemId Game::renderStaticObjM </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>assetName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>groupName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>textureName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">boolean&#160;</td>
+          <td class="paramname"><em>isOpaque</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">floatArray16&#160;</td>
+          <td class="paramname"><em>matrix</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>scaleX</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>scaleY</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>scaleZ</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Deprecated - use <a class="el" href="group___rendering3_d.html#gac5a6acdef7976833d9d9bb8ad3f6da5a" title="Function.">renderAssimp()</a> instead </p>
 
 </div>
 </div>
@@ -303,6 +860,438 @@ z: The screen-space Z coordinate </dd></dl>
 
 </div>
 </div>
+<a class="anchor" id="ga38f87382ec1de3a80127a0111b5d21d1"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Game::setFogEnabled </td>
+          <td>(</td>
+          <td class="paramtype">boolean&#160;</td>
+          <td class="paramname"><em>enabled</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="gaf8fcad48280177554e3c0d840ad5ec7b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Game::setFogParams </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>near</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>far</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>r</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>g</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>a</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="gacd510ef519bd3ab537f314d0f7e2c0cc"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Game::setGlobalLightAmbient </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>r</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>g</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>a</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="gac5226d0d4bcd9a09ceb7d59ed82d1c38"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Game::setGlobalLightDiffuse </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>r</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>g</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>a</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="gaa6a019986eca87f85ecde34265753ffa"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Game::setGlobalLightDir </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>z</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="gadcb23dc901078edf797ce6af05530653"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Game::setGlobalLightEnabled </td>
+          <td>(</td>
+          <td class="paramtype">boolean&#160;</td>
+          <td class="paramname"><em>enabled</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ga791e0efc4a4dc45032dbc75a01cce13a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Game::setGlobalLightSpecular </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>r</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>g</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>a</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ga1fc89e4971a52650bb17421dac6f1e97"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Game::setLocalLightParam </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>paramName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>values</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ga37c915fabed992935ba0bf365a370e39"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Game::setShadowColorAndEpsilon </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>r</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>g</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>a</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>epsilon</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="gae2ed81e139ac6ec6a50ab5ee0e978282"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Game::setShadowLightFrustumNearFar </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>near</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>far</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="gad4db1295f7feb618f3b9696e8f8b2caf"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Game::setShadowLightOrigin </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>z</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ga92f3043aa4ee22944062737facb4fa96"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Game::setShadowOrtho </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>right</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>left</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>bottom</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>top</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="gadd4aec26219ff47ba060844938697fc2"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Game::setShadowPerspective </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>fov</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ga839c7d13d6e87c1e9e707ebe8458acb1"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Game::setShadowType </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>type</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="ga061c24351611d1722fcb073792fff549"></a>
 <div class="memitem">
 <div class="memproto">
@@ -319,7 +1308,7 @@ z: The screen-space Z coordinate </dd></dl>
 <p>Shadows require detailed configuration to obtain reasonable results. Just enabling without setting the options won't do anything useful. </p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
-    <tr><td class="paramname">shadowType</td><td>0 = None, 1 = ShadowMap Low, 2 = ShadowMap High </td></tr>
+    <tr><td class="paramname">shadowType</td><td>0 = None, 1 = <a class="el" href="class_shadow_map.html">ShadowMap</a> Low, 2 = <a class="el" href="class_shadow_map.html">ShadowMap</a> High </td></tr>
   </table>
   </dd>
 </dl>
@@ -351,7 +1340,7 @@ z: The screen-space Z coordinate </dd></dl>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Nov 13 2012 17:42:36 for BatteryTech Lua Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Nov 14 2012 15:36:40 for BatteryTech Lua Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1
 </small></address>

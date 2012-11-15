@@ -64,7 +64,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -74,6 +74,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 
 <div class="header">
+  <div class="summary">
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">2D Collisions and Physics</div>  </div>
 </div><!--header-->
@@ -81,10 +83,1076 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <p>Using the integrated Box2D physics engine.  
 <a href="#details">More...</a></p>
+<hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:ga0a3736c1c21b944566002d264416b558"><td class="memItemLeft" align="right" valign="top">jointId&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#ga0a3736c1c21b944566002d264416b558">Game::physics_addDistanceJoint</a> (<a class="el" href="class_game_object.html">GameObject</a> o1, int idx1, <a class="el" href="class_game_object.html">GameObject</a> o2, int idx2, float anchorAX, float anchorAY, float anchorBX, float anchorBY, boolean collideConnected, float frequencyHz, float dampingRatio)</td></tr>
+<tr class="memdesc:ga0a3736c1c21b944566002d264416b558"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="#ga0a3736c1c21b944566002d264416b558"></a><br/></td></tr>
+<tr class="memitem:ga9efb3746354b80e1b9c41ab8b2983751"><td class="memItemLeft" align="right" valign="top">jointId&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#ga9efb3746354b80e1b9c41ab8b2983751">Game::physics_addRevoluteJoint</a> (<a class="el" href="class_game_object.html">GameObject</a> o1, int idx1, <a class="el" href="class_game_object.html">GameObject</a> o2, int idx2, float anchorAX, float anchorAY)</td></tr>
+<tr class="memdesc:ga9efb3746354b80e1b9c41ab8b2983751"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="#ga9efb3746354b80e1b9c41ab8b2983751"></a><br/></td></tr>
+<tr class="memitem:gaa271082aa3ed414d18ae5abaf1faf922"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#gaa271082aa3ed414d18ae5abaf1faf922">Game::physics_setRevoluteJointLimits</a> (int jointId, boolean enabled, float low, float high)</td></tr>
+<tr class="memdesc:gaa271082aa3ed414d18ae5abaf1faf922"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="#gaa271082aa3ed414d18ae5abaf1faf922"></a><br/></td></tr>
+<tr class="memitem:gac15afb7451857990bf873c14b4ee734c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#gac15afb7451857990bf873c14b4ee734c">Game::physics_setRevoluteJointMotor</a> (int jointId, boolean eanbled, float speed, float maxTorque)</td></tr>
+<tr class="memdesc:gac15afb7451857990bf873c14b4ee734c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="#gac15afb7451857990bf873c14b4ee734c"></a><br/></td></tr>
+<tr class="memitem:ga35f551f7492ac3cf78a8db7c75118e3a"><td class="memItemLeft" align="right" valign="top">angle__speed__torque&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#ga35f551f7492ac3cf78a8db7c75118e3a">Game::physics_getRevoluteJointValues</a> (int jointId)</td></tr>
+<tr class="memdesc:ga35f551f7492ac3cf78a8db7c75118e3a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="#ga35f551f7492ac3cf78a8db7c75118e3a"></a><br/></td></tr>
+<tr class="memitem:ga7b2b12f04d06b0444485a78be0c56cc3"><td class="memItemLeft" align="right" valign="top">jointId&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#ga7b2b12f04d06b0444485a78be0c56cc3">Game::physics_addMouseJoint</a> (<a class="el" href="class_game_object.html">GameObject</a> o1, int idx1, <a class="el" href="class_game_object.html">GameObject</a> o2, int idx2, float anchorAX, float anchorAY, float maxForce, float frequencyHz, float dampingRatio)</td></tr>
+<tr class="memdesc:ga7b2b12f04d06b0444485a78be0c56cc3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="#ga7b2b12f04d06b0444485a78be0c56cc3"></a><br/></td></tr>
+<tr class="memitem:ga05c009540601c52644bdc5976b05cf8e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#ga05c009540601c52644bdc5976b05cf8e">Game::physics_setMouseJointPosition</a> (int jointId, float x, float y)</td></tr>
+<tr class="memdesc:ga05c009540601c52644bdc5976b05cf8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="#ga05c009540601c52644bdc5976b05cf8e"></a><br/></td></tr>
+<tr class="memitem:gaef5bdd86e974d442a63729d15a51b809"><td class="memItemLeft" align="right" valign="top">jointId&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#gaef5bdd86e974d442a63729d15a51b809">Game::physics_addPrismaticJoint</a> (<a class="el" href="class_game_object.html">GameObject</a> o1, int idx1, <a class="el" href="class_game_object.html">GameObject</a> o2, int idx2, float anchorX, float anchorY, float axisX, float axisY, boolean collideConnected)</td></tr>
+<tr class="memdesc:gaef5bdd86e974d442a63729d15a51b809"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="#gaef5bdd86e974d442a63729d15a51b809"></a><br/></td></tr>
+<tr class="memitem:ga3423ca8b579597caca270250550848b7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#ga3423ca8b579597caca270250550848b7">Game::physics_setPrismaticJointLimits</a> (int jointId, boolean enabled, float low, float high)</td></tr>
+<tr class="memdesc:ga3423ca8b579597caca270250550848b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="#ga3423ca8b579597caca270250550848b7"></a><br/></td></tr>
+<tr class="memitem:gacc3881e4a7d01803efdadc3445eccd1a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#gacc3881e4a7d01803efdadc3445eccd1a">Game::physics_setPrismaticJointMotor</a> (int jointId, boolean enabled, float speed, float maxForce)</td></tr>
+<tr class="memdesc:gacc3881e4a7d01803efdadc3445eccd1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="#gacc3881e4a7d01803efdadc3445eccd1a"></a><br/></td></tr>
+<tr class="memitem:ga50acc0eebaea8296b98d10d7bcd4a72f"><td class="memItemLeft" align="right" valign="top">translation__speed__force&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#ga50acc0eebaea8296b98d10d7bcd4a72f">Game::physics_getPrismaticJointValues</a> (int jointId)</td></tr>
+<tr class="memdesc:ga50acc0eebaea8296b98d10d7bcd4a72f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="#ga50acc0eebaea8296b98d10d7bcd4a72f"></a><br/></td></tr>
+<tr class="memitem:ga1856ebaca6862cfa1ae6b66154b75370"><td class="memItemLeft" align="right" valign="top">jointId&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#ga1856ebaca6862cfa1ae6b66154b75370">Game::physics_addRopeJoint</a> (<a class="el" href="class_game_object.html">GameObject</a> o1, int idx1, <a class="el" href="class_game_object.html">GameObject</a> o2, int idx2, float anchorAX, float anchorAY, float anchorBX, float anchorBY, float maxLength, boolean collideConnected)</td></tr>
+<tr class="memdesc:ga1856ebaca6862cfa1ae6b66154b75370"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="#ga1856ebaca6862cfa1ae6b66154b75370"></a><br/></td></tr>
+<tr class="memitem:ga4a770620d6066a5be010884a690fa3c1"><td class="memItemLeft" align="right" valign="top">jointId&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#ga4a770620d6066a5be010884a690fa3c1">Game::physics_addPulleyJoint</a> (<a class="el" href="class_game_object.html">GameObject</a> o1, int idx1, <a class="el" href="class_game_object.html">GameObject</a> o2, int idx2, float groundAnchorAX, float groundAnchorAY, float groundAnchorBX, float groundAnchorBY, float anchorAX, float anchorAY, float anchorBX, float anchorBY, float ratio)</td></tr>
+<tr class="memdesc:ga4a770620d6066a5be010884a690fa3c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="#ga4a770620d6066a5be010884a690fa3c1"></a><br/></td></tr>
+<tr class="memitem:gaaea0602566fb9ced546340c5e57c636c"><td class="memItemLeft" align="right" valign="top">lengthA__lengthB&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#gaaea0602566fb9ced546340c5e57c636c">Game::physics_getPulleyJointValues</a> (int jointId)</td></tr>
+<tr class="memdesc:gaaea0602566fb9ced546340c5e57c636c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="#gaaea0602566fb9ced546340c5e57c636c"></a><br/></td></tr>
+<tr class="memitem:gac81ea9190165e7401fbc1a318b423167"><td class="memItemLeft" align="right" valign="top">jointId&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#gac81ea9190165e7401fbc1a318b423167">Game::physics_addGearJoint</a> (<a class="el" href="class_game_object.html">GameObject</a> o1, int idx1, <a class="el" href="class_game_object.html">GameObject</a> o2, int idx2, int jointIdA, int jointIdB, float ratio)</td></tr>
+<tr class="memdesc:gac81ea9190165e7401fbc1a318b423167"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="#gac81ea9190165e7401fbc1a318b423167"></a><br/></td></tr>
+<tr class="memitem:ga35a9ad37afa942f77a4d41f1314d0149"><td class="memItemLeft" align="right" valign="top">jointId&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#ga35a9ad37afa942f77a4d41f1314d0149">Game::physics_addWheelJoint</a> (<a class="el" href="class_game_object.html">GameObject</a> o1, int idx1, <a class="el" href="class_game_object.html">GameObject</a> o2, int idx2, float anchorAX, float anchorAY, float axisX, float axisY, boolean collideConnected, float frequencyHz, float dampingRatio)</td></tr>
+<tr class="memdesc:ga35a9ad37afa942f77a4d41f1314d0149"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="#ga35a9ad37afa942f77a4d41f1314d0149"></a><br/></td></tr>
+<tr class="memitem:gaed10acd93f4e4a3cd77f049fbfcf9746"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#gaed10acd93f4e4a3cd77f049fbfcf9746">Game::physics_setWheelJointMotor</a> (int jointId, boolean enabled, float speed, float maxTorque)</td></tr>
+<tr class="memdesc:gaed10acd93f4e4a3cd77f049fbfcf9746"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="#gaed10acd93f4e4a3cd77f049fbfcf9746"></a><br/></td></tr>
+<tr class="memitem:ga676d637535a88b21cdee577f86c98eff"><td class="memItemLeft" align="right" valign="top">translation__speed__torque&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#ga676d637535a88b21cdee577f86c98eff">Game::physics_getWheelJointValues</a> (int jointId)</td></tr>
+<tr class="memdesc:ga676d637535a88b21cdee577f86c98eff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="#ga676d637535a88b21cdee577f86c98eff"></a><br/></td></tr>
+<tr class="memitem:ga83d1e165b06fba9fa17248e0ce649f20"><td class="memItemLeft" align="right" valign="top">jointId&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#ga83d1e165b06fba9fa17248e0ce649f20">Game::physics_addWeldJoint</a> (<a class="el" href="class_game_object.html">GameObject</a> o1, int idx1, <a class="el" href="class_game_object.html">GameObject</a> o2, int idx2, float anchorAX, float anchorAY, boolean collideConnected, float frequencyHz, float dampingRatio)</td></tr>
+<tr class="memdesc:ga83d1e165b06fba9fa17248e0ce649f20"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="#ga83d1e165b06fba9fa17248e0ce649f20"></a><br/></td></tr>
+<tr class="memitem:ga7f9f6d816c9d6d1e1cce4f083d694a15"><td class="memItemLeft" align="right" valign="top">jointId&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#ga7f9f6d816c9d6d1e1cce4f083d694a15">Game::physics_addFrictionJoint</a> (<a class="el" href="class_game_object.html">GameObject</a> o1, int idx1, <a class="el" href="class_game_object.html">GameObject</a> o2, int idx2, float anchorAX, float anchorAY, float maxForce, float maxTorque)</td></tr>
+<tr class="memdesc:ga7f9f6d816c9d6d1e1cce4f083d694a15"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="#ga7f9f6d816c9d6d1e1cce4f083d694a15"></a><br/></td></tr>
+<tr class="memitem:ga3edbbd4a9540112466037572d0297f59"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#ga3edbbd4a9540112466037572d0297f59">Game::physics_removeJoint</a> (int jointId)</td></tr>
+<tr class="memdesc:ga3edbbd4a9540112466037572d0297f59"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="#ga3edbbd4a9540112466037572d0297f59"></a><br/></td></tr>
+<tr class="memitem:gaebd9ebd976c9437ebbde14a7d6a1fb0f"><td class="memItemLeft" align="right" valign="top">x1__y1__x2__y2&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#gaebd9ebd976c9437ebbde14a7d6a1fb0f">Game::physics_getJointAnchorPoints</a> (int jointId)</td></tr>
+<tr class="memdesc:gaebd9ebd976c9437ebbde14a7d6a1fb0f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="#gaebd9ebd976c9437ebbde14a7d6a1fb0f"></a><br/></td></tr>
+</table>
+<hr/><h2>Function Documentation</h2>
+<a class="anchor" id="ga0a3736c1c21b944566002d264416b558"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">jointId Game::physics_addDistanceJoint </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_game_object.html">GameObject</a>&#160;</td>
+          <td class="paramname"><em>o1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>idx1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_game_object.html">GameObject</a>&#160;</td>
+          <td class="paramname"><em>o2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>idx2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>anchorAX</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>anchorAY</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>anchorBX</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>anchorBY</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">boolean&#160;</td>
+          <td class="paramname"><em>collideConnected</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>frequencyHz</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>dampingRatio</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ga7f9f6d816c9d6d1e1cce4f083d694a15"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">jointId Game::physics_addFrictionJoint </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_game_object.html">GameObject</a>&#160;</td>
+          <td class="paramname"><em>o1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>idx1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_game_object.html">GameObject</a>&#160;</td>
+          <td class="paramname"><em>o2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>idx2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>anchorAX</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>anchorAY</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>maxForce</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>maxTorque</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="gac81ea9190165e7401fbc1a318b423167"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">jointId Game::physics_addGearJoint </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_game_object.html">GameObject</a>&#160;</td>
+          <td class="paramname"><em>o1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>idx1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_game_object.html">GameObject</a>&#160;</td>
+          <td class="paramname"><em>o2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>idx2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>jointIdA</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>jointIdB</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>ratio</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ga7b2b12f04d06b0444485a78be0c56cc3"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">jointId Game::physics_addMouseJoint </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_game_object.html">GameObject</a>&#160;</td>
+          <td class="paramname"><em>o1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>idx1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_game_object.html">GameObject</a>&#160;</td>
+          <td class="paramname"><em>o2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>idx2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>anchorAX</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>anchorAY</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>maxForce</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>frequencyHz</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>dampingRatio</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="gaef5bdd86e974d442a63729d15a51b809"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">jointId Game::physics_addPrismaticJoint </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_game_object.html">GameObject</a>&#160;</td>
+          <td class="paramname"><em>o1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>idx1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_game_object.html">GameObject</a>&#160;</td>
+          <td class="paramname"><em>o2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>idx2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>anchorX</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>anchorY</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>axisX</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>axisY</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">boolean&#160;</td>
+          <td class="paramname"><em>collideConnected</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ga4a770620d6066a5be010884a690fa3c1"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">jointId Game::physics_addPulleyJoint </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_game_object.html">GameObject</a>&#160;</td>
+          <td class="paramname"><em>o1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>idx1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_game_object.html">GameObject</a>&#160;</td>
+          <td class="paramname"><em>o2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>idx2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>groundAnchorAX</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>groundAnchorAY</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>groundAnchorBX</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>groundAnchorBY</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>anchorAX</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>anchorAY</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>anchorBX</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>anchorBY</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>ratio</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ga9efb3746354b80e1b9c41ab8b2983751"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">jointId Game::physics_addRevoluteJoint </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_game_object.html">GameObject</a>&#160;</td>
+          <td class="paramname"><em>o1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>idx1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_game_object.html">GameObject</a>&#160;</td>
+          <td class="paramname"><em>o2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>idx2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>anchorAX</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>anchorAY</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ga1856ebaca6862cfa1ae6b66154b75370"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">jointId Game::physics_addRopeJoint </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_game_object.html">GameObject</a>&#160;</td>
+          <td class="paramname"><em>o1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>idx1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_game_object.html">GameObject</a>&#160;</td>
+          <td class="paramname"><em>o2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>idx2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>anchorAX</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>anchorAY</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>anchorBX</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>anchorBY</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>maxLength</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">boolean&#160;</td>
+          <td class="paramname"><em>collideConnected</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ga83d1e165b06fba9fa17248e0ce649f20"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">jointId Game::physics_addWeldJoint </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_game_object.html">GameObject</a>&#160;</td>
+          <td class="paramname"><em>o1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>idx1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_game_object.html">GameObject</a>&#160;</td>
+          <td class="paramname"><em>o2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>idx2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>anchorAX</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>anchorAY</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">boolean&#160;</td>
+          <td class="paramname"><em>collideConnected</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>frequencyHz</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>dampingRatio</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ga35a9ad37afa942f77a4d41f1314d0149"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">jointId Game::physics_addWheelJoint </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_game_object.html">GameObject</a>&#160;</td>
+          <td class="paramname"><em>o1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>idx1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_game_object.html">GameObject</a>&#160;</td>
+          <td class="paramname"><em>o2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>idx2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>anchorAX</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>anchorAY</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>axisX</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>axisY</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">boolean&#160;</td>
+          <td class="paramname"><em>collideConnected</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>frequencyHz</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>dampingRatio</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="gaebd9ebd976c9437ebbde14a7d6a1fb0f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">x1__y1__x2__y2 Game::physics_getJointAnchorPoints </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>jointId</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ga50acc0eebaea8296b98d10d7bcd4a72f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">translation__speed__force Game::physics_getPrismaticJointValues </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>jointId</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="gaaea0602566fb9ced546340c5e57c636c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">lengthA__lengthB Game::physics_getPulleyJointValues </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>jointId</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ga35f551f7492ac3cf78a8db7c75118e3a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">angle__speed__torque Game::physics_getRevoluteJointValues </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>jointId</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ga676d637535a88b21cdee577f86c98eff"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">translation__speed__torque Game::physics_getWheelJointValues </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>jointId</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ga3edbbd4a9540112466037572d0297f59"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Game::physics_removeJoint </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>jointId</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ga05c009540601c52644bdc5976b05cf8e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Game::physics_setMouseJointPosition </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>jointId</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>y</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ga3423ca8b579597caca270250550848b7"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Game::physics_setPrismaticJointLimits </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>jointId</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">boolean&#160;</td>
+          <td class="paramname"><em>enabled</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>low</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>high</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="gacc3881e4a7d01803efdadc3445eccd1a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Game::physics_setPrismaticJointMotor </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>jointId</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">boolean&#160;</td>
+          <td class="paramname"><em>enabled</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>speed</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>maxForce</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="gaa271082aa3ed414d18ae5abaf1faf922"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Game::physics_setRevoluteJointLimits </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>jointId</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">boolean&#160;</td>
+          <td class="paramname"><em>enabled</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>low</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>high</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="gac15afb7451857990bf873c14b4ee734c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Game::physics_setRevoluteJointMotor </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>jointId</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">boolean&#160;</td>
+          <td class="paramname"><em>eanbled</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>speed</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>maxTorque</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="gaed10acd93f4e4a3cd77f049fbfcf9746"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Game::physics_setWheelJointMotor </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>jointId</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">boolean&#160;</td>
+          <td class="paramname"><em>enabled</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>speed</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>maxTorque</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Nov 13 2012 17:42:36 for BatteryTech Lua Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Nov 14 2012 15:36:40 for BatteryTech Lua Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1
 </small></address>

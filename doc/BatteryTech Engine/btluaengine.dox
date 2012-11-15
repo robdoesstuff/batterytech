@@ -83,7 +83,7 @@ namespace BTLuaEngine {
  * Camera, Lighting, Shadows, Matrices
  *
  * \defgroup Animation3D 3D Animation
- * \brief Using Hardware-accelereted 3D Animation
+ * \brief Using Hardware-accelerated 3D Animation
  * \ingroup Rendering3D
  *
  * \defgroup TextRendering Text
@@ -94,6 +94,9 @@ namespace BTLuaEngine {
  * \brief Setting options for render items
  * \ingroup Rendering
  *
+ * \defgroup Particles Particle Systems
+ * \brief Configuring 2D and 3D particle systems
+ * \ingroup Rendering
  */
 
 /**

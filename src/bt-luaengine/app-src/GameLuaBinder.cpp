@@ -174,530 +174,571 @@ public:
      */
     count___GameObject1___FixtureID1 Game::queryPhysicsAABB(float x1, float y1, float x2, float y2);
     /**
-     * \brief Function
+     * \brief Resets the engine to a "ready" state, clearing the native menu stack
      *
-     * \ingroup Other
+     * \ingroup OtherFunctions
      *
      */
     Game::quit();
     /**
-     * \brief Function
+     * \brief Renders a an OBJ file (deprecated)
      *
-     * \ingroup Other
+     * Deprecated - use renderAssimp() instead
+     *
+     * \ingroup Rendering3D
      *
      */
-    Game::renderStaticObjM();
+    renderItemId Game::renderStaticObjM(string assetName, string groupName, string textureName, boolean isOpaque, floatArray16 matrix, float scaleX,float scaleY,float scaleZ);
+    /**
+     * \brief Renders Text
+     *
+     * Fonts must be preloaded using addFont(), where the tag is specified for the font loaded.  Both TTF and BMFonts are supported.
+     *
+     * Fonts are rendered from the bottom left point which allows for baseline placement.  Fonts may be aligned left, center or right using setRenderItemParam().\n
+     * The default font tag is "ui" and is what is specified in the batterytech_config.txt
+     *
+     * Example:
+     * \code
+     * -- Render some text centered at 200,200 in reference coordinates with a 2x size scale
+     * local item = game:renderText2D("ui", "This is some text", 200, 200, 2.0)
+     * game:setRenderItemParam(item, "align", "center")
+     * \endcode
+     *
+     * Supported values for "align" are "left" "center" and "right"\n
+     * Currently only the specified color at load is supported, other render item parameters to set color or alpha will have no effect.
+     *
+     * \param tag The font tag to use
+     * \param text The string to render
+     * \param x The x coordinate to render to
+     * \param y The y coordinate to render to
+     * \param scale (optional) The font scale size (1.0 is unscaled)
+     * \ingroup Rendering
+     *
+     */
+    renderItemId Game::renderText2D(string tag, string text, float x, float y, float scale);
+    /**
+     * \brief Renders a 2D image
+     *
+     * \param assetName The asset filename to use as the texture
+     * \param x The center x coordinate
+     * \param y The center y coordinate
+     * \param width The render width
+     * \param height The render height
+     * \param rotation The rotation in radians
+     * \param alpha The alpha value in range 0-1
+     * \ingroup Rendering2D
+     *
+     */
+    renderItemId Game::render2D(string assetName, float x, float y, float width, float height, float rotation, float alpha);
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Rendering3D
      *
      */
-    Game::renderText2D();
+    renderItemId  Game::render2DBG(string assetName, float x, float y, float width, float height, float rotation, float alpha);
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Rendering3D
      *
      */
-    Game::render2D();
+    renderItemId Game::renderAssimp(GameObject animator, int animatorIdx, string assetName, string groupName, string textureAssetName, boolean isOpaque, float x, float, y, float z, float sx, float sy, float sz, float rx, float ry, float rz);
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Rendering3D
      *
      */
-    Game::render2DBG();
+    renderItemId  Game::renderAssimpM(GameObject animator, int animatorIdx, string assetName, string groupName, string textureAssetName, boolean isOpaque, floatArray16 matrix, float sx, float sy, float sz, float rz);
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Rendering3D
      *
      */
-    Game::renderAssimp();
+    renderItemId Game::renderBB(string assetName, float x, float y, float z, float width, float height, float zRotation, float alpha, float u1, float v1, float u2, float v2);
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Rendering2D
      *
      */
-    Game::renderAssimpM();
+    renderItemId Game::start2DProjection(float left, float right, float bottom, float top, float near, float far);
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Rendering2D
      *
      */
-    Game::renderBB();
+    renderItemId Game::end2DProjection();
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Rendering3D
      *
      */
-    Game::start2DProjection();
+    Game::setShadowLightOrigin(float x, float y, float z);
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Rendering3D
      *
      */
-    Game::end2DProjection();
+    Game::setShadowColorAndEpsilon(float r, float g, float b, float a, float epsilon);
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Rendering3D
      *
      */
-    Game::setShadowLightOrigin();
+    Game::setShadowLightFrustumNearFar(float near, float far);
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Rendering3D
      *
      */
-    Game::setShadowColorAndEpsilon();
+    Game::setShadowOrtho(float right, float left, float bottom, float top);
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Rendering3D
      *
      */
-    Game::setShadowLightFrustumNearFar();
+    Game::setShadowPerspective(float fov);
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Rendering3D
      *
      */
-    Game::setShadowOrtho();
+    type Game::getShadowType();
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Rendering3D
      *
      */
-    Game::setShadowPerspective();
+    Game::setShadowType(int type);
+    /**
+     * \brief Sets the shadow face-culling mode
+     *
+     * Cull Mode 0 = None\n
+     * Cull Mode 1 = Front (default)\n
+     * Cull Mode 2 = Back\n
+     *
+     * \param mode The face culling mode when generating the shadow
+     * \ingroup Rendering3D
+     *
+     */
+    Game::setShadowCullMode(int mode);
+	/**
+	 * \brief Function
+	 *
+	 * \ingroup Rendering3D
+	 *
+	 */
+    Game::setGlobalLightEnabled(boolean enabled);
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Rendering3D
      *
      */
-    Game::getShadowType();
+    Game::setGlobalLightDir(float x, float y, float z);
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Rendering3D
      *
      */
-    Game::setShadowType();
+    Game::setGlobalLightAmbient(float r, float g, float b, float a);
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Rendering3D
      *
      */
-    Game::setGlobalLightEnabled();
+    Game::setGlobalLightDiffuse(float r, float g, float b, float a);
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Rendering3D
      *
      */
-    Game::setGlobalLightDir();
+    Game::setGlobalLightSpecular(float r, float g, float b, float a);
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Rendering3D
      *
      */
-    Game::setGlobalLightAmbient();
+    Game::setFogEnabled(boolean enabled);
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Rendering3D
      *
      */
-    Game::setGlobalLightDiffuse();
+    Game::setFogParams(float near, float far, float r, float g, float b, float a);
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Rendering
      *
      */
-    Game::setGlobalLightSpecular();
+    Game::setRenderItemParam(int idx, string name, multiple value);
     /**
      * \brief Function
      *
-     * \ingroup Other
-     *
-     */
-    Game::setFogEnabled();
-    /**
-     * \brief Function
-     *
-     * \ingroup Other
-     *
-     */
-    Game::setFogParams();
-    /**
-     * \brief Function
-     *
-     * \ingroup Other
-     *
-     */
-    Game::setRenderItemParam();
-    /**
-     * \brief Function
-     *
-     * \ingroup Other
+     * \ingroup LoadingResources
      *
      */
     Game::loadNewResources();
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Rendering3D
      *
      */
-    Game::addLocalLight();
+    lightIdx Game::addLocalLight(float x, float y, float z);
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Rendering3D
      *
      */
-    Game::setLocalLightParam();
+    Game::setLocalLightParam(string paramName, float values, ...);
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Rendering3D
      *
      */
     Game::clearLocalLights();
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Rendering3D
      *
      */
-    Game::addLocalLightsFromAssimp();
+    firstIdx__lastIdx Game::addLocalLightsFromAssimp(string assetName, string meshPrefix);
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Rendering3D
      *
      */
-    Game::getMeshInfoFromAssimp();
+    table Game::getMeshInfoFromAssimp(string assetName, string meshPrefix);
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Rendering
      *
      */
-    Game::measureText();
+    width__height Game::measureText(string tag, string text, float scale);
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup OtherFunctions
      *
      */
     Game::engineReset();
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Particles
      *
      */
-    Game::addParticleEmitter();
+    emitterId Game::addParticleEmitter();
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Particles
      *
      */
-    Game::add2DParticleEmitter();
+    emitterId Game::add2DParticleEmitter();
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Particles
      *
      */
-    Game::setParticleEmitterTimeRange();
+    Game::setParticleEmitterTimeRange(int emitterId, float min, float max);
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Particles
      *
      */
-    Game::setParticleEmitterPosition();
+    Game::setParticleEmitterPosition(int emitterId, float x, float y, float z);
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Particles
      *
      */
-    Game::setParticleEmitterPositionRange();
+    Game::setParticleEmitterPositionRange(int emitterId, float x, float y, float z);
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Particles
      *
      */
-    Game::setParticleEmitterDirection();
+    Game::setParticleEmitterDirection(int emitterId, float x, float y, float z);
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Particles
      *
      */
-    Game::setParticleEmitterTextureAsset();
+    Game::setParticleEmitterTextureAsset(int emitterId, string assetName);
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Particles
      *
      */
-    Game::removeParticleEmitter();
+    Game::removeParticleEmitter(int emitterId);
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Particles
      *
      */
-    Game::stopParticleEmitter();
+    Game::stopParticleEmitter(int emitterId);
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Particles
      *
      */
     Game::clearParticleEmitters();
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Particles
      *
      */
-    Game::startParticleEmitter();
+    Game::startParticleEmitter(int emitterId);
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Particles
      *
      */
-    Game::setParticleEmitterConeRange();
+    Game::setParticleEmitterConeRange(int emitterId, float range);
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Particles
      *
      */
-    Game::setParticleScaleSpeedRange();
+    Game::setParticleScaleSpeedRange(int emitterId, float min, float max);
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Particles
      *
      */
-    Game::setParticleAlphaSpeedRange();
+    Game::setParticleAlphaSpeedRange(int emitterId, float min, float max);
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Particles
      *
      */
-    Game::setParticleMaxSpeedRange();
+    Game::setParticleMaxSpeedRange(int emitterId, float min, float max);
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Particles
      *
      */
-    Game::setParticleEmissionRate();
+    Game::setParticleEmissionRate(int emitterId, float rate);
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Particles
      *
      */
-    Game::setParticleInitialScale();
+    Game::setParticleInitialScale(int emitterId, float scale);
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Particles
      *
      */
-    Game::setParticleRotationSpeedRange();
+    Game::setParticleRotationSpeedRange(int emitterId, float min, float max);
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Particles
      *
      */
-    Game::setParticleGravity();
+    Game::setParticleGravity(int emitterId, float x, float y, float z);
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Particles
      *
      */
-    Game::setParticleAutoStopMax();
+    Game::setParticleAutoStopMax(int emitterId, int max);
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Physics
      *
      */
-    Game::physics_addDistanceJoint();
+    jointId Game::physics_addDistanceJoint(GameObject o1, int idx1, GameObject o2, int idx2, float anchorAX, float anchorAY, float anchorBX, float anchorBY, boolean collideConnected, float frequencyHz, float dampingRatio);
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Physics
      *
      */
-    Game::physics_addRevoluteJoint();
+    jointId Game::physics_addRevoluteJoint(GameObject o1, int idx1, GameObject o2, int idx2, float anchorAX, float anchorAY);
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Physics
      *
      */
-    Game::physics_setRevoluteJointLimits();
+    Game::physics_setRevoluteJointLimits(int jointId, boolean enabled, float low, float high);
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Physics
      *
      */
-    Game::physics_setRevoluteJointMotor();
+    Game::physics_setRevoluteJointMotor(int jointId, boolean eanbled, float speed, float maxTorque);
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Physics
      *
      */
-    Game::physics_getRevoluteJointValues();
+    angle__speed__torque Game::physics_getRevoluteJointValues(int jointId);
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Physics
      *
      */
-    Game::physics_addMouseJoint();
+    jointId Game::physics_addMouseJoint(GameObject o1, int idx1, GameObject o2, int idx2, float anchorAX, float anchorAY, float maxForce, float frequencyHz, float dampingRatio);
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Physics
      *
      */
-    Game::physics_setMouseJointPosition();
+    Game::physics_setMouseJointPosition(int jointId, float x, float y);
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Physics
      *
      */
-    Game::physics_addPrismaticJoint();
+    jointId Game::physics_addPrismaticJoint(GameObject o1, int idx1, GameObject o2, int idx2, float anchorX, float anchorY, float axisX, float axisY, boolean collideConnected);
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Physics
      *
      */
-    Game::physics_setPrismaticJointLimits();
+    Game::physics_setPrismaticJointLimits(int jointId, boolean enabled, float low, float high);
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Physics
      *
      */
-    Game::physics_setPrismaticJointMotor();
+    Game::physics_setPrismaticJointMotor(int jointId, boolean enabled, float speed, float maxForce);
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Physics
      *
      */
-    Game::physics_getPrismaticJointValues();
+    translation__speed__force Game::physics_getPrismaticJointValues(int jointId);
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Physics
      *
      */
-    Game::physics_addRopeJoint();
+    jointId Game::physics_addRopeJoint(GameObject o1, int idx1, GameObject o2, int idx2, float anchorAX, float anchorAY, float anchorBX, float anchorBY, float maxLength, boolean collideConnected);
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Physics
      *
      */
-    Game::physics_addPulleyJoint();
+    jointId Game::physics_addPulleyJoint(GameObject o1, int idx1, GameObject o2, int idx2, float groundAnchorAX, float groundAnchorAY, float groundAnchorBX, float groundAnchorBY, float anchorAX, float anchorAY, float anchorBX, float anchorBY, float ratio);
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Physics
      *
      */
-    Game::physics_getPulleyJointValues();
+    lengthA__lengthB Game::physics_getPulleyJointValues(int jointId);
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Physics
      *
      */
-    Game::physics_addGearJoint();
+    jointId Game::physics_addGearJoint(GameObject o1, int idx1, GameObject o2, int idx2, int jointIdA, int jointIdB, float ratio);
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Physics
      *
      */
-    Game::physics_addWheelJoint();
+    jointId Game::physics_addWheelJoint(GameObject o1, int idx1, GameObject o2, int idx2, float anchorAX, float anchorAY, float axisX, float axisY, boolean collideConnected, float frequencyHz, float dampingRatio);
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Physics
      *
      */
-    Game::physics_setWheelJointMotor();
+    Game::physics_setWheelJointMotor(int jointId, boolean enabled, float speed, float maxTorque);
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Physics
      *
      */
-    Game::physics_getWheelJointValues();
+    translation__speed__torque Game::physics_getWheelJointValues(int jointId);
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Physics
      *
      */
-    Game::physics_addWeldJoint();
+    jointId Game::physics_addWeldJoint(GameObject o1, int idx1, GameObject o2, int idx2, float anchorAX, float anchorAY, boolean collideConnected, float frequencyHz, float dampingRatio);
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Physics
      *
      */
-    Game::physics_addFrictionJoint();
+    jointId Game::physics_addFrictionJoint(GameObject o1, int idx1, GameObject o2, int idx2, float anchorAX, float anchorAY, float maxForce, float maxTorque);
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Physics
      *
      */
-    Game::physics_removeJoint();
+    Game::physics_removeJoint(int jointId);
     /**
      * \brief Function
      *
-     * \ingroup Other
+     * \ingroup Physics
      *
      */
-    Game::physics_getJointAnchorPoints();
+    x1__y1__x2__y2 Game::physics_getJointAnchorPoints(int jointId);
 }
 #endif
 

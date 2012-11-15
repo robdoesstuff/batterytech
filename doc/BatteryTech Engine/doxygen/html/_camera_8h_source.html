@@ -63,7 +63,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -82,7 +82,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">Camera.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
+<a href="_camera_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * Camera.h</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> *</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> *  Created on: Apr 20, 2011</span></div>
@@ -99,29 +99,29 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">using namespace </span>BatteryTech;</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">class </span>Camera {</div>
+<div class="line"><a name="l00018"></a><span class="lineno"><a class="code" href="class_camera.html">   18</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_camera.html">Camera</a> {</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        Camera(Context *context, Vector3f pos, F32 tilt, F32 rotation);</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <span class="keyword">virtual</span> ~Camera();</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <a class="code" href="class_camera.html">Camera</a>(Context *context, Vector3f pos, F32 tilt, F32 rotation);</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <span class="keyword">virtual</span> ~<a class="code" href="class_camera.html">Camera</a>();</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="keywordtype">void</span> update();</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        <span class="keywordtype">void</span> zoom(F32 amount);</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <span class="keywordtype">void</span> pan(F32 xAmount, F32 yAmount);</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <span class="keywordtype">void</span> setNearFarFOV(F32 near, F32 far, F32 fov);</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        Vector3f castRayFromViewport(F32 viewX, F32 viewY);</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        BOOL32 isInView(Vector3f aabbMin, Vector3f aabbMax);</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        Context *context;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        Vector3f pos;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        Vector3f look;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        Vector3f up;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        Vector3f right;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        F32 tilt;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        F32 rotation;</div>
+<div class="line"><a name="l00028"></a><span class="lineno"><a class="code" href="class_camera.html#ae7f3e626c5d8bb4cd0e3b43b6a757627">   28</a></span>&#160;        Context *<a class="code" href="class_camera.html#ae7f3e626c5d8bb4cd0e3b43b6a757627">context</a>;</div>
+<div class="line"><a name="l00029"></a><span class="lineno"><a class="code" href="class_camera.html#a3954097f4ef2abff632752d01c8e0427">   29</a></span>&#160;        Vector3f <a class="code" href="class_camera.html#a3954097f4ef2abff632752d01c8e0427">pos</a>;</div>
+<div class="line"><a name="l00030"></a><span class="lineno"><a class="code" href="class_camera.html#aba68001e04673499bc110d940379ccd0">   30</a></span>&#160;        Vector3f <a class="code" href="class_camera.html#aba68001e04673499bc110d940379ccd0">look</a>;</div>
+<div class="line"><a name="l00031"></a><span class="lineno"><a class="code" href="class_camera.html#aa9e43673a0a12fe7f2a79c964fda302b">   31</a></span>&#160;        Vector3f <a class="code" href="class_camera.html#aa9e43673a0a12fe7f2a79c964fda302b">up</a>;</div>
+<div class="line"><a name="l00032"></a><span class="lineno"><a class="code" href="class_camera.html#a6bee9213c281ed26d49dd15941c85341">   32</a></span>&#160;        Vector3f <a class="code" href="class_camera.html#a6bee9213c281ed26d49dd15941c85341">right</a>;</div>
+<div class="line"><a name="l00033"></a><span class="lineno"><a class="code" href="class_camera.html#abc9472947d24c2e9bd2af2579cf3411e">   33</a></span>&#160;        F32 <a class="code" href="class_camera.html#abc9472947d24c2e9bd2af2579cf3411e">tilt</a>;</div>
+<div class="line"><a name="l00034"></a><span class="lineno"><a class="code" href="class_camera.html#aee02b48c0be080dd7e2f8e3aa8cbcc97">   34</a></span>&#160;        F32 <a class="code" href="class_camera.html#aee02b48c0be080dd7e2f8e3aa8cbcc97">rotation</a>;</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="comment">// matrix to use for MV</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        Matrix4f matrix;</div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="code" href="class_camera.html#a506232ec7127f19307d8fb3f0bd2dbc3">   36</a></span>&#160;        Matrix4f <a class="code" href="class_camera.html#a506232ec7127f19307d8fb3f0bd2dbc3">matrix</a>;</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="comment">// matrix to use for the projection</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        Matrix4f proj;</div>
+<div class="line"><a name="l00038"></a><span class="lineno"><a class="code" href="class_camera.html#ad30914086158a0f7012016fb415eb850">   38</a></span>&#160;        Matrix4f <a class="code" href="class_camera.html#ad30914086158a0f7012016fb415eb850">proj</a>;</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="comment">// inverse rotation matrix to use to project points from camera, calculate look, up, right, etc</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        Matrix3f invRotMatrix;</div>
+<div class="line"><a name="l00040"></a><span class="lineno"><a class="code" href="class_camera.html#a750abfbca773640cbab35d6999c68f44">   40</a></span>&#160;        Matrix3f <a class="code" href="class_camera.html#a750abfbca773640cbab35d6999c68f44">invRotMatrix</a>;</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keyword">private</span>:</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        Vector3f frustumAABBMin, frustumAABBMax;</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        F32 nearClip, farClip, fov;</div>
@@ -132,7 +132,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Nov 13 2012 17:42:36 for BatteryTech Lua Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Nov 14 2012 15:36:40 for BatteryTech Lua Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1
 </small></address>
