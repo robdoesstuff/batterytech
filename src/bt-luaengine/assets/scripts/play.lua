@@ -30,19 +30,19 @@ Box = {
 Battery = table.copy(GameObject)
 
 Battery.animations = {
-	run = {startTime = 0/30, stopTime = 20/30, loop = true},
-	jog = {startTime = 25/30, stopTime = 45/30, loop = true},
-	wave = {startTime = 55/30, stopTime = 85/30, loop = false},
-	idle1 = {startTime = 85/30, stopTime = 85/30, loop = true},
-	idle2 = {startTime = 85/30, stopTime = 110/30, loop = true},
-	jump = {startTime = 110/30, stopTime = 135/30, loop = false},
+	run = {startTime = 49/24, stopTime = 72/24, loop = true, rate = 1.5},
+	turnR = {startTime = 94/24, stopTime = 104/24, loop = true, rate = 1.0},
+	turnL = {startTime = 105/24, stopTime = 115/24, loop = true, rate = 1.0},
+	idle1 = {startTime = 1/24, stopTime = 24/24, loop = true, rate = 1.0},
+	idle2 = {startTime = 25/24, stopTime = 48/24, loop = true, rate = 1.0},
+	jump = {startTime = 73/24, stopTime = 93/24, loop = false, rate = 1.0},
 }
 
 function Battery.new()
     self = allocMeta(Battery.createInstance(), Battery)
     self:cInit()
     self:anim_allocAnimations(1)
-    self:anim_initDynamic(0, "models/Battery.bai", nil)
+    self:anim_initDynamic(0, "models/Bleep.bai", nil)
     self.animation = Battery.animations.idle1
     self.animTime = self.animation.startTime
     self.animPlaybackRate = 1.0
@@ -56,8 +56,12 @@ function Battery:run()
     self.animation = Battery.animations.run
 end
 
-function Battery:jog()
-    self.animation = Battery.animations.jog
+function Battery:turn(dir)
+	if dir < 0 then
+    	self.animation = Battery.animations.turnR
+    else
+    	self.animation = Battery.animations.turnL
+    end
 end
 
 function Battery:idle()
@@ -66,7 +70,7 @@ end
 
 function Battery:update(tickDelta)
 	-- now advance and interpolate the animation
-	self.animTime = self.animTime + (tickDelta * self.animPlaybackRate)
+	self.animTime = self.animTime + (tickDelta * self.animPlaybackRate * self.animation.rate)
 	if self.animTime < self.animation.startTime then
 		self.animTime = self.animation.startTime
 		self.animationComplete = false
@@ -84,9 +88,10 @@ function Battery:update(tickDelta)
 end
 
 function Battery:render()
-    local z = 1.0
-    local scale = 0.1
-    local idx = game:renderAssimp(self, 0, "models/Battery.bai", nil, nil, true, self.x,self.y,z, scale,scale,scale, 0,0,self.rot)
+    local z = 1.67
+    local scale = 6
+    local idx = game:renderAssimp(self, 0, "models/Bleep.bai", nil, nil, true, self.x,self.y,z, scale,scale,scale, 0,0,self.rot)
+    -- It's so hard to get self-shadowing to look just right, we'll just disable it because it looks ok without
     game:setRenderItemParam(idx, "noshadowrecv", true)
 end
 
@@ -391,7 +396,7 @@ function Play:updatePlayState(tickDelta)
 	if moveDist ~= 0 then
 		self.battery:run()
 	elseif self.controlTurn ~= 0 then
-		self.battery:jog()
+		self.battery:turn(self.controlTurn)
 	else
 		self.battery:idle()
 	end
@@ -494,10 +499,12 @@ function Play:render()
 		local dist = 5
 		game:setShadowLightOrigin(self.battery.x + ox*dist, self.battery.y + oy*dist, 1.5 + oz*dist)
 	end
-	game:setShadowLightFrustumNearFar(2, 25)
- 	game:setShadowColorAndEpsilon(0.6, 0.6, 0.6, 0.002)
-	game:setGlobalLightAmbient(.2, .2, .2, 1)
-	game:setGlobalLightDiffuse(.8, .8, .8, 1)
+	game:setShadowLightFrustumNearFar(2, 20)
+ 	game:setShadowColorAndEpsilon(0.6, 0.6, 0.6, 0.000001)
+ 	-- cull back face, not self-shadowing so lines up better with ground
+ 	game:setShadowCullMode(2)
+	game:setGlobalLightAmbient(.3, .3, .3, 1)
+	game:setGlobalLightDiffuse(1.0, 1.0, 1.0, 1)
 	game:setGlobalLightSpecular(2.0, 2.0, 2.0, 1)
  	local orthoAmt = 1.5
     game:setShadowOrtho(orthoAmt, -orthoAmt, -orthoAmt, orthoAmt)

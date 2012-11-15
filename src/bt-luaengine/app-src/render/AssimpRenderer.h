@@ -65,7 +65,7 @@ public:
 private:
 	ShaderProgram* createShadowShaderProgram(BOOL32 newContext, BOOL32 hwSkinned);
 	void bindShader(ShaderProgram *shaderProgram, const Vector3f &ecLightDir, const AssimpShaderConfig &config);
-	void setupPointLights(ShaderProgram *shaderProgram, RenderItem *item, Matrix4f mv);
+	void setupPointLights(ShaderProgram *shaderProgram, RenderItem *item, Matrix4f mv, GLAssimpMeshBinding *meshBinding);
 	void renderNode(RenderNode *node, GLAssimpBinding *binding, Matrix4f mv, RenderItem *item, const Vector3f &ecLightDir, const Vector3f &halfplane, BOOL32 transparent);
     
     void renderNodeShadow(RenderNode *node, GLAssimpBinding *binding, RenderItem *item, Matrix4f mv);

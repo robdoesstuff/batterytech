@@ -61,12 +61,7 @@ void AssimpRenderer::bindShader(ShaderProgram *shaderProgram, const Vector3f &ec
 	glUniformMatrix4fv(shaderProgram->getUniformLoc("projection_matrix"), 1, GL_FALSE, (GLfloat*) context->renderContext->projMatrix.data);
 	if (config.withDirectionalLight) {
 		glUniform3f(shaderProgram->getUniformLoc("dirLight.direction"), ecLightDir.x, ecLightDir.y, ecLightDir.z);
-		const Vector4f &gAmbient = context->world->globalLight->ambient;
-		const Vector4f &gDiffuse = context->world->globalLight->diffuse;
-		const Vector4f &gSpecular = context->world->globalLight->specular;
-		glUniform4f(shaderProgram->getUniformLoc("dirLight.ambient_color"), gAmbient.x, gAmbient.y, gAmbient.z, gAmbient.w);
-		glUniform4f(shaderProgram->getUniformLoc("dirLight.diffuse_color"), gDiffuse.x, gDiffuse.y, gDiffuse.z, gDiffuse.w);
-		glUniform4f(shaderProgram->getUniformLoc("dirLight.specular_color"), gSpecular.x, gSpecular.y, gSpecular.z, gSpecular.w);
+		// dir light's colors will be calculated with the material in bindMaterial()
 	}
 	if (config.withRGBAShadowmap) {
 	    glUniform1i(shaderProgram->getUniformLoc("shadowTexture"), 2);
@@ -80,6 +75,45 @@ void AssimpRenderer::bindShader(ShaderProgram *shaderProgram, const Vector3f &ec
 		glUniform3f(shaderProgram->getUniformLoc("cameraPos"), camPos.x, camPos.y, camPos.z);
 	}
 }
+
+void AssimpRenderer::bindMaterial(RenderItem *item, GLAssimpMeshBinding *meshBinding, GLAssimpBinding *binding, const AssimpShaderConfig &config) {
+	// only override the texture if the texture attribute is null
+	if (item->textureName[0] == '\0') {
+		// bind the diffuse texture specified in the material using the relative path to the imported asset
+		char texturePath[1024];
+		strcpy(texturePath, binding->importedAssetBasename);
+		strcat(texturePath, "/");
+		strcat(texturePath, meshBinding->matDiffuseTexture);
+		Texture *tex = context->glResourceManager->getTexture(texturePath);
+		if (tex) {
+			tex->bind();
+		}
+	}
+	ShaderProgram *shaderProgram = ShaderProgram::currentProgram;
+	if (config.withDirectionalLight || config.pointLightCount) {
+		glUniform1f(shaderProgram->getUniformLoc("material.specular_exponent"), meshBinding->matShininess);
+	}
+	// we precalculate the global light's ambient with the current material to save on shader cost
+	if (config.withDirectionalLight) {
+		Vector4f gAmbient = context->world->globalLight->ambient * meshBinding->matAmbient;
+		Vector4f gDiffuse = context->world->globalLight->diffuse * meshBinding->matDiffuse;
+		Vector4f gSpecular = context->world->globalLight->specular * meshBinding->matSpecular;
+		glUniform4f(shaderProgram->getUniformLoc("dirLight.ambient_color"), gAmbient.x, gAmbient.y, gAmbient.z, gAmbient.w);
+		glUniform4f(shaderProgram->getUniformLoc("dirLight.diffuse_color"), gDiffuse.x, gDiffuse.y, gDiffuse.z, gDiffuse.w);
+		glUniform4f(shaderProgram->getUniformLoc("dirLight.specular_color"), gSpecular.x, gSpecular.y, gSpecular.z, gSpecular.w);
+	}
+	Vector4f colorFilter = context->renderContext->colorFilter;
+	glUniform4f(shaderProgram->getUniformLoc("colorFilter"), colorFilter.x,colorFilter.y,colorFilter.z,colorFilter.a);
+    RenderDefaults *defaults = ((RenderDefaults*)context->renderContext->userValues->get("renderDefaults"));
+	F32 fogNear = defaults->fogNear;
+	F32 fogFar = defaults->fogFar;
+	glUniform4f(shaderProgram->getUniformLoc("fog_and_uv_offset"), fogNear, fogFar, item->uvs.x, item->uvs.y);
+	if (config.withFog) {
+        Vector4f fogColor = defaults->fogColor;
+		glUniform4f(shaderProgram->getUniformLoc("fogColor"), fogColor.x, fogColor.y, fogColor.z, fogColor.w);
+	}
+}
+
 
 void AssimpRenderer::render(RenderItem *item, BOOL32 transparent) {
 	// we have not bound the lights for this item yet.
@@ -137,7 +171,7 @@ void AssimpRenderer::render(RenderItem *item, BOOL32 transparent) {
 	}
 }
 
-void AssimpRenderer::setupPointLights(ShaderProgram *shaderProgram, RenderItem *item, Matrix4f mv) {
+void AssimpRenderer::setupPointLights(ShaderProgram *shaderProgram, RenderItem *item, Matrix4f mv, GLAssimpMeshBinding *meshBinding) {
 	if (!item->maxPointLights) {
 		return;
 	}
@@ -209,9 +243,9 @@ void AssimpRenderer::setupPointLights(ShaderProgram *shaderProgram, RenderItem *
 		glUniform3f(shaderProgram->getUniformLoc(buf), pECPosition.x, pECPosition.y, pECPosition.z);
 		getUniformStructName(buf, "pointLight", i, "attenuations");
 		glUniform3f(shaderProgram->getUniformLoc(buf), light->constantAttenuation, light->linearAttenuation, light->quadraticAttenuation);
-		const Vector4f &pAmbient = light->ambient;
-		const Vector4f &pDiffuse = light->diffuse;
-		const Vector4f &pSpecular = light->specular;
+		Vector4f pAmbient = light->ambient * meshBinding->matAmbient;
+		Vector4f pDiffuse = light->diffuse * meshBinding->matDiffuse;
+		Vector4f pSpecular = light->specular * meshBinding->matSpecular;
 		getUniformStructName(buf, "pointLight", i, "ambient_color");
 		glUniform4f(shaderProgram->getUniformLoc(buf), pAmbient.x, pAmbient.y, pAmbient.z, pAmbient.w);
 		getUniformStructName(buf, "pointLight", i, "diffuse_color");
@@ -277,11 +311,9 @@ void AssimpRenderer::renderNode(RenderNode *node, GLAssimpBinding *binding, Matr
                     lightsBound = FALSE;
                     shaderChanged = true;
                 }
-				if (!lightsBound) {
-					if (config.pointLightCount) {
-						setupPointLights(shaderProgram, item, myMv);
-					}
-					lightsBound = TRUE;
+				// we used to cache the point lights but that we can't because we're premultiplying the material now to optimize the shader's work
+				if (config.pointLightCount) {
+					setupPointLights(shaderProgram, item, myMv, meshBinding);
 				}
 				bindMaterial(item, meshBinding, binding, config);
 				if (config.withDirectionalLight) {
@@ -343,41 +375,6 @@ void AssimpRenderer::renderNode(RenderNode *node, GLAssimpBinding *binding, Matr
 	}
 	for (S32 i = 0; i < node->childNodes->getSize(); i++) {
 		renderNode(node->childNodes->array[i], binding, mv, item, ecLightDir, halfplane, transparent);
-	}
-}
-
-void AssimpRenderer::bindMaterial(RenderItem *item, GLAssimpMeshBinding *meshBinding, GLAssimpBinding *binding, const AssimpShaderConfig &config) {
-	// only override the texture if the texture attribute is null
-	if (item->textureName[0] == '\0') {
-		// bind the diffuse texture specified in the material using the relative path to the imported asset
-		char texturePath[1024];
-		strcpy(texturePath, binding->importedAssetBasename);
-		strcat(texturePath, "/");
-		strcat(texturePath, meshBinding->matDiffuseTexture);
-		Texture *tex = context->glResourceManager->getTexture(texturePath);
-		if (tex) {
-			tex->bind();
-		}
-	}
-	ShaderProgram *shaderProgram = ShaderProgram::currentProgram;
-	if (config.withDirectionalLight || config.pointLightCount) {
-		Vector4f amb = meshBinding->matAmbient;
-		Vector4f dif = meshBinding->matDiffuse;
-		Vector4f spec = meshBinding->matSpecular;
-		glUniform4f(shaderProgram->getUniformLoc("material.ambient_color"), amb.x, amb.y, amb.z, amb.w);
-		glUniform4f(shaderProgram->getUniformLoc("material.diffuse_color"), dif.x, dif.y, dif.z, dif.w);
-		glUniform4f(shaderProgram->getUniformLoc("material.specular_color"), spec.x, spec.y, spec.z, spec.w);
-		glUniform1f(shaderProgram->getUniformLoc("material.specular_exponent"), meshBinding->matShininess);
-	}
-	Vector4f colorFilter = context->renderContext->colorFilter;
-	glUniform4f(shaderProgram->getUniformLoc("colorFilter"), colorFilter.x,colorFilter.y,colorFilter.z,colorFilter.a);
-    RenderDefaults *defaults = ((RenderDefaults*)context->renderContext->userValues->get("renderDefaults"));
-	F32 fogNear = defaults->fogNear;
-	F32 fogFar = defaults->fogFar;
-	glUniform4f(shaderProgram->getUniformLoc("fog_and_uv_offset"), fogNear, fogFar, item->uvs.x, item->uvs.y);
-	if (config.withFog) {
-        Vector4f fogColor = defaults->fogColor;
-		glUniform4f(shaderProgram->getUniformLoc("fogColor"), fogColor.x, fogColor.y, fogColor.z, fogColor.w);
 	}
 }
 

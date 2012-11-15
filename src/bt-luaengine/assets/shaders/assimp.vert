@@ -21,9 +21,6 @@ attribute vec3 vNormal;
 uniform mat3 inv_matrix;
 
 struct material_properties {
-	vec4 ambient_color;
-	vec4 diffuse_color;
-	vec4 specular_color;
 	float specular_exponent;
 };
 
@@ -51,6 +48,7 @@ varying vec4 shadowCoord;
 #endif
 
 #ifdef DIR_LIGHT
+// The colors in directional_light are premultiplied with the material
 struct directional_light {
 	vec3 direction;
 	vec3 halfplane;
@@ -62,16 +60,15 @@ struct directional_light {
 uniform directional_light dirLight;
 
 vec4 compute_directional_light(vec3 normal) {
-	vec4 computed_color = vec4(c_zero, c_zero, c_zero, c_zero);
+	vec4 computed_color = dirLight.ambient_color;
 	float ndotl;
 	float ndoth;
 	ndotl = max(c_zero, dot(normal, dirLight.direction));
 	ndoth = max(c_zero, dot(normal, dirLight.halfplane));
-	computed_color += (dirLight.ambient_color * material.ambient_color);
-	computed_color += (ndotl * dirLight.diffuse_color * material.diffuse_color);
+	computed_color += (ndotl * dirLight.diffuse_color);
 	// no need to check ndoth - it should never be 0 if ndotl isn't 0
 	if (ndotl != c_zero) {
-		computed_color += (pow(ndoth, material.specular_exponent) * material.specular_color * dirLight.specular_color);
+		computed_color += (pow(ndoth, material.specular_exponent) * dirLight.specular_color);
 	}
 	return computed_color;
 }
@@ -79,6 +76,7 @@ vec4 compute_directional_light(vec3 normal) {
 #endif
 
 #if POINT_LIGHT_COUNT > 0
+// The colors in point_light are premultiplied with the material
 struct point_light {
  	vec3 position;
  	vec3 attenuations;
@@ -90,7 +88,6 @@ struct point_light {
 uniform point_light pointLight[POINT_LIGHT_COUNT];
 
 vec4 compute_point_light(int lightIdx, vec3 eye, vec3 ecPosition3, vec3 normal) {
-	vec4 computed_color = vec4(c_zero, c_zero, c_zero, c_zero);
 	float nDotVP; 	// normal . light direction
 	float nDotHV; 	// normal . light half vec
 	float pf;		// power factor
@@ -109,14 +106,14 @@ vec4 compute_point_light(int lightIdx, vec3 eye, vec3 ecPosition3, vec3 normal) 
 	attenuation = 1.0 / (pointLight[lightIdx].attenuations.x +
 						pointLight[lightIdx].attenuations.y * d +
 						pointLight[lightIdx].attenuations.z * d * d);
-	halfVector = normalize(VP + eye);
 	nDotVP = max(0.0, dot(normal, VP));
-	nDotHV = max(0.0, dot(normal, halfVector));
-	computed_color += pointLight[lightIdx].ambient_color * material.ambient_color * attenuation;
-	computed_color += pointLight[lightIdx].diffuse_color * material.diffuse_color * nDotVP * attenuation;
+	vec4 computed_color = pointLight[lightIdx].ambient_color * attenuation;
 	if (nDotVP != 0.0) {
+		computed_color += pointLight[lightIdx].diffuse_color * nDotVP * attenuation;
+		halfVector = normalize(VP + eye);
+		nDotHV = max(0.0, dot(normal, halfVector));
 		pf = pow(nDotHV, material.specular_exponent);
-		computed_color += pointLight[lightIdx].specular_color * material.specular_color * pf * attenuation;
+		computed_color += pointLight[lightIdx].specular_color * pf * attenuation;
 	}
 	return computed_color;
 }

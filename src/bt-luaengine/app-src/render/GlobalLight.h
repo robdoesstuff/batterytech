@@ -30,6 +30,7 @@ public:
 	Vector2f shadowFrustumNearFar;
     BOOL32 shadowUsePerspective;
     F32 shadowPerspectiveFOV;
+    S32 shadowCullMode;
     Vector4f shadowOrthoSize;
 };
 

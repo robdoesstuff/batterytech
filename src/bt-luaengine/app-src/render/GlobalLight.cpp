@@ -19,6 +19,7 @@ GlobalLight::GlobalLight() {
     shadowUsePerspective = FALSE;
     shadowPerspectiveFOV = 45;
     shadowOrthoSize = Vector4f(100,100,100,100);
+    shadowCullMode = 1;
 }
 
 GlobalLight::~GlobalLight() {

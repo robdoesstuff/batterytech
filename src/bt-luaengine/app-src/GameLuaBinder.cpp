@@ -778,6 +778,7 @@ static int lua_Game_setShadowColorAndEpsilon(lua_State *L);
 static int lua_Game_setShadowLightFrustumNearFar(lua_State *L);
 static int lua_Game_setShadowOrtho(lua_State *L);
 static int lua_Game_setShadowPerspective(lua_State *L);
+static int lua_Game_setShadowCullMode(lua_State *L);
 static int lua_Game_getShadowType(lua_State *L);
 static int lua_Game_setShadowType(lua_State *L);
 static int lua_Game_setGlobalLightEnabled(lua_State *L);
@@ -879,6 +880,7 @@ static const luaL_reg lua_methods[] = {
 	{ "setShadowLightFrustumNearFar", lua_Game_setShadowLightFrustumNearFar },
 	{ "setShadowOrtho", lua_Game_setShadowOrtho },
 	{ "setShadowPerspective", lua_Game_setShadowPerspective },
+	{ "setShadowCullMode", lua_Game_setShadowCullMode },
 	{ "setGlobalLightEnabled", lua_Game_setGlobalLightEnabled },
 	{ "setGlobalLightDir", lua_Game_setGlobalLightDir },
 	{ "setGlobalLightAmbient", lua_Game_setGlobalLightAmbient },
@@ -1839,6 +1841,13 @@ static int lua_Game_setShadowPerspective(lua_State *L) {
     static_context->world->globalLight->shadowPerspectiveFOV = lua_tonumber(L, 2);
 	return 0;
 }
+
+static int lua_Game_setShadowCullMode(lua_State *L) {
+	//Game *game = *(Game**)lua_touserdata(L, 1);
+    static_context->world->globalLight->shadowCullMode = lua_tonumber(L, 2);
+	return 0;
+}
+
 
 static int lua_Game_getShadowType(lua_State *L) {
 	//Game *game = *(Game**)lua_touserdata(L, 1);

@@ -218,8 +218,19 @@ void ShadowMap::bindForMapCreation() {
 	*(Matrix4f*)context->renderContext->userValues->get("shadowMVP") = shadowMvp;
 	*(Matrix4f*)context->renderContext->userValues->get("shadowLookupMatrix") = shadowLookup;
 	// Culling switching, rendering only backface, this is done to avoid self-shadowing
-	glCullFace(GL_FRONT);
-	glEnable(GL_CULL_FACE);
+	S32 cullMode = context->world->globalLight->shadowCullMode;
+	if (cullMode == 1) {
+		// cull front
+		glCullFace(GL_FRONT);
+		glEnable(GL_CULL_FACE);
+	} else if (cullMode == 2) {
+		// cull back
+		glCullFace(GL_BACK);
+		glEnable(GL_CULL_FACE);
+	} else {
+		// cull none
+		glDisable(GL_CULL_FACE);
+	}
 	glEnable(GL_DEPTH_TEST);
 	Renderer::checkGLError("ShadowMap end bindForMapCreation()");
 }
