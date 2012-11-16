@@ -219,108 +219,208 @@ public:
     /**
      * \brief Renders a 2D image
      *
+     * 2D images are rendered as "textured quads."  Because BatteryTech is fully ES compatible, this means 2 triangles per quad.
+     *
+     * - Render Order: 2D images are rendered in the order of draw calls from back to front, so it is your responsibility as the developer to call in the order which will correctly render your scene.\n
+     * - Texture Atlasing: Multiple images can be combined onto a single texture either manually or by using the 3rd party tool "Texture Packer."  Texture Packer specifically supports BatteryTech and exports a .btx file alongside a packed .png which holds all of the texture data.  Packed textures keep the same filenames as the original and will be rendered as if they are the original size, meaning even though alpha pixels may be trimmed during packing, they will be accounted for during the render.  For example, if you put Sprite1.png and Sprite2.png into an atlas and the output was MySprites.png/MySprites.btx, you would simply call addTexture("MySprites.btx") then game:render2D("Sprite1.png", ...) as if you directly loaded that file.  Removing works the same way - removing the packed texture removes all virtualized textures.\n
+     * - Optimizing: 2D sprites will be rendered in the most optimized way that still can render the scene correctly blindly back to front.  The one major bottleneck is texture switching.  Any time a texture switch is required, the current sprite buffer will be drawn.  To optimize, specify a render order that groups draws by texture and pack multiple images into an atlas when they will be rendered all together on screen.  BatteryTech does not analyze the scene to see if quads overlap so it is up to the developer to provide a draw order that can best utilize low texture switching, resulting in larger batches of quads to be drawn.\n
+     * - Coordinate System: Alternate coordinate systems can be specified by using Game::start2DProjection() / Game::end2DProjection() which makes it easier to  manage scaling across different screen sizes.  If no projection is specified, screen coordinates are used with 0,0 in the top left.\n
+     *
+     * Example:
+     * \code
+     * -- Render an image centered at 200,200 drawn to be 400x400 in size and rotated 90 degrees
+     * local item = game:render2D("Textures/MyImage.png", 200, 200, 400, 400, math.rad(90))
+     * -- Now specify that we want to draw this at only 70% opacity - we could have also specified this in the render call
+     * game:setRenderItemParam(item, "alpha", .7)
+     * \endcode
+     *
      * \param assetName The asset filename to use as the texture
      * \param x The center x coordinate
      * \param y The center y coordinate
      * \param width The render width
      * \param height The render height
-     * \param rotation The rotation in radians
-     * \param alpha The alpha value in range 0-1
+     * \param rotation (optional) The rotation in radians
+     * \param alpha (optional) The alpha value in range 0-1
      * \ingroup Rendering2D
      *
      */
     renderItemId Game::render2D(string assetName, float x, float y, float width, float height, float rotation, float alpha);
     /**
-     * \brief Function
+     * \brief Renders a 2D Image as a background (behind any 3D)
      *
+     * This function works identically to Game::render2D() except it goes behind any 3D rendering
+     * \sa Game::render2D()
+     *
+     * \param assetName The asset filename to use as the texture
+     * \param x The center x coordinate
+     * \param y The center y coordinate
+     * \param width The render width
+     * \param height The render height
+     * \param rotation (optional) The rotation in radians
+     * \param alpha (optional) The alpha value in range 0-1
      * \ingroup Rendering3D
      *
      */
     renderItemId  Game::render2DBG(string assetName, float x, float y, float width, float height, float rotation, float alpha);
     /**
-     * \brief Function
+     * \brief Renders a 3D model using the Open Asset Importer Library (Assimp) - specifying basic transform
      *
+     * BatteryTech Engine supports Collada (.dae) and Wavefront (.obj) file formats via the 3rd party library, Assimp.  While more file formats can be added, only those two formats are supported because they are fairly well supported and provide all of the essential functionality to most games.
+     *
+     * Please refer to the section on 3D Animation for more information on how to use an animator.
+     *
+     * \param animator The GameObject hosting the animator
+     * \param animatorIdx The index of the animator in the GameObject
+     * \param assetName The name of the Assimp-compatible asset file
+     * \param groupName The name of the Mesh/Group to render (nil renders the whole scene)
+     * \param textureAssetName The name of the texture asset file to use (overrides all materials) (nil uses file-specified materials)
+     * \param isOpaque Specifies if this rendering has any alpha or should be rendered entirely opaque
+     * \param x The x coordinate position
+     * \param y The y coordinate position
+     * \param z The z coordinate position
+     * \param sx The x-axis scale
+     * \param sy The y-axis scale
+     * \param sz The z-axis scale
+     * \param rx The x-axis rotation
+     * \param ry The y-axis rotation
+     * \param rz The z-axis rotation
      * \ingroup Rendering3D
      *
      */
     renderItemId Game::renderAssimp(GameObject animator, int animatorIdx, string assetName, string groupName, string textureAssetName, boolean isOpaque, float x, float, y, float z, float sx, float sy, float sz, float rx, float ry, float rz);
     /**
-     * \brief Function
+     * \brief Renders a 3D model using the Open Asset Importer Library (Assimp) - specifying matrix
      *
+     * BatteryTech Engine supports Collada (.dae) and Wavefront (.obj) file formats via the 3rd party library, Assimp.  While more file formats can be added, only those two formats are supported because they are fairly well supported and provide all of the essential functionality to most games.
+     *
+     * Please refer to the section on 3D Animation for more information on how to use an animator.
+     *
+     * \param animator The GameObject hosting the animator
+     * \param animatorIdx The index of the animator in the GameObject
+     * \param assetName The name of the Assimp-compatible asset file
+     * \param groupName The name of the Mesh/Group to render (nil renders the whole scene)
+     * \param textureAssetName The name of the texture asset file to use (overrides all materials) (nil uses file-specified materials)
+     * \param isOpaque Specifies if this rendering has any alpha or should be rendered entirely opaque
+     * \param matrix 16 values column-major (where x,y,z,1 translation are the last 4 values) all comma-separated
+     * \param sx (optional) The x-axis scale multiplier
+     * \param sy (optional) The y-axis scale multiplier
+     * \param sz (optional) The z-axis scale multiplier
+     * \param rz (optional) The z-axis rotation in degrees
      * \ingroup Rendering3D
      *
      */
     renderItemId  Game::renderAssimpM(GameObject animator, int animatorIdx, string assetName, string groupName, string textureAssetName, boolean isOpaque, floatArray16 matrix, float sx, float sy, float sz, float rz);
     /**
-     * \brief Function
+     * \brief Renders a billboarded 2D image in 3D space
      *
+     * \param assetName The file asset name of the texture
+     * \param x The x coordinate position
+     * \param y The y coordinate position
+     * \param z The z coordinate position
+     * \param width The width in world coordinates
+     * \param height The height in world coordinates
+     * \param zRotation The Z-axis rotation relative to the image being laid X/Y - effectively the spin or angle in radians
+     * \param alpha (optional) The alpha opacity value in range 0-1
+     * \param u1 (optional) The left texture coordinate in range 0-1
+     * \param v1 (optional) The top texture coordinate in range 0-1
+     * \param u2 (optional) The right texture coordinate in range 0-1
+     * \param v2 (optional) The bottom texture coordinate in range 0-1
      * \ingroup Rendering3D
      *
      */
     renderItemId Game::renderBB(string assetName, float x, float y, float z, float width, float height, float zRotation, float alpha, float u1, float v1, float u2, float v2);
     /**
-     * \brief Function
+     * \brief Starts an alternate 2D Projection (Orthographic)
      *
+     * From when this projection is specified until end2DProjection or a different projection is specified, all 2D render calls will use this projection.
+     *
+     * \param left The left side coordinate
+     * \param right The right side coordinate
+     * \param bottom The bottom screen coordinate
+     * \param top The top screen coordinate
+     * \param near The near-plane
+     * \param far The far-plane
      * \ingroup Rendering2D
      *
      */
     renderItemId Game::start2DProjection(float left, float right, float bottom, float top, float near, float far);
     /**
-     * \brief Function
+     * \brief Ends any alternate 2D Projection, restores default
+     *
+     * Does not pop like a stack but instead restores actual screen-pixel projection
      *
      * \ingroup Rendering2D
      *
      */
     renderItemId Game::end2DProjection();
     /**
-     * \brief Function
+     * \brief Defines the location of the origin (source) of the "light" which casts a shadow
      *
+     * \param x The x coordinate in world space
+     * \param y The y coordinate in world space
+     * \param z The z coordiante in world space
      * \ingroup Rendering3D
      *
      */
     Game::setShadowLightOrigin(float x, float y, float z);
     /**
-     * \brief Function
+     * \brief Defines the shadow's color and epsilon value
      *
+     * \param r The red component in range 0-1
+     * \param g The green component in range 0-1
+     * \param b The blue component in range 0-1
+     * \param a The alpha component in range 0-1
+     * \param epsilon The shadow depth comparison epsilon value
      * \ingroup Rendering3D
      *
      */
     Game::setShadowColorAndEpsilon(float r, float g, float b, float a, float epsilon);
     /**
-     * \brief Function
+     * \brief Defines the shadow's frustum near and far planes
      *
+     * \param near The near plane
+     * \param far The far plane
      * \ingroup Rendering3D
      *
      */
     Game::setShadowLightFrustumNearFar(float near, float far);
     /**
-     * \brief Function
+     * \brief Specifies to use an orthographic projection for the shadow
      *
+     * \param right The right plane
+     * \param left The left plane
+     * \param bottom The bottom plane
+     * \param top The top plane
      * \ingroup Rendering3D
      *
      */
     Game::setShadowOrtho(float right, float left, float bottom, float top);
     /**
-     * \brief Function
+     * \brief Specifies to use a perspective projection for the shadow (currently very buggy - ortho is recommended)
      *
+     * \param fov The field-of-view
      * \ingroup Rendering3D
      *
      */
     Game::setShadowPerspective(float fov);
     /**
-     * \brief Function
+     * \brief Gets the current shadow type
      *
+     * \return type: 0 = None, 1 = low quality, 2 = high quality, 3 = custom size
      * \ingroup Rendering3D
      *
      */
     type Game::getShadowType();
     /**
-     * \brief Function
+     * \brief Sets the current shadow type
      *
+     * \param type 0 = None, 1 = low quality, 2 = high quality, 3 = custom size
+     * \param width (required for custom size, n/a for other)
+     * \param height (required for custom size, n/a for other)
      * \ingroup Rendering3D
      *
      */
-    Game::setShadowType(int type);
+    Game::setShadowType(int type, int width, int height);
     /**
      * \brief Sets the shadow face-culling mode
      *
@@ -334,63 +434,89 @@ public:
      */
     Game::setShadowCullMode(int mode);
 	/**
-	 * \brief Function
+	 * \brief Enables/Disables global (directional) light
 	 *
+     * \param enabled true to enable, false to disable
 	 * \ingroup Rendering3D
 	 *
 	 */
     Game::setGlobalLightEnabled(boolean enabled);
     /**
-     * \brief Function
+     * \brief Specifies the global light direction as a vector towards the light source from 0,0,0
      *
+     * \param x The x vector component
+     * \param y The y vector component
+     * \param z The z vector component
      * \ingroup Rendering3D
      *
      */
     Game::setGlobalLightDir(float x, float y, float z);
     /**
-     * \brief Function
+     * \brief Sets the ambient material values for global light
      *
+     * \param r The red color component in range 0-1
+     * \param g The green color component in range 0-1
+     * \param b The blue color component in range 0-1
+     * \param a The alpha color component in range 0-1
      * \ingroup Rendering3D
      *
      */
     Game::setGlobalLightAmbient(float r, float g, float b, float a);
     /**
-     * \brief Function
+     * \brief Sets the diffuse material values for global light
      *
+     * \param r The red color component in range 0-1
+     * \param g The green color component in range 0-1
+     * \param b The blue color component in range 0-1
+     * \param a The alpha color component in range 0-1
      * \ingroup Rendering3D
      *
      */
     Game::setGlobalLightDiffuse(float r, float g, float b, float a);
     /**
-     * \brief Function
+     * \brief Sets the specular material values for global light
      *
+     * \param r The red color component in range 0-1
+     * \param g The green color component in range 0-1
+     * \param b The blue color component in range 0-1
+     * \param a The alpha color component in range 0-1
      * \ingroup Rendering3D
      *
      */
     Game::setGlobalLightSpecular(float r, float g, float b, float a);
     /**
-     * \brief Function
+     * \brief Enables/Disables Linear Fog
      *
+     * \param enabled true if enabled, false if not
      * \ingroup Rendering3D
      *
      */
     Game::setFogEnabled(boolean enabled);
     /**
-     * \brief Function
+     * \brief Specifies linear fog parameters
      *
+     * \param near The distance from camera fog is to start
+     * \param far The distance from camera fog is to end
+     * \param r The ending red color component in range 0-1
+     * \param g The ending green color component in range 0-1
+     * \param b The ending blue color component in range 0-1
+     * \param a The ending alpha color component in range 0-1
      * \ingroup Rendering3D
      *
      */
     Game::setFogParams(float near, float far, float r, float g, float b, float a);
     /**
-     * \brief Function
+     * \brief Sets a render item parameter
      *
+     * \param idx The render item index
+     * \param name The name of the parameter
+     * \param value The value for the paremeter
      * \ingroup Rendering
      *
      */
     Game::setRenderItemParam(int idx, string name, multiple value);
     /**
-     * \brief Function
+     * \brief Flips the engine into a loading phase to load any new resources
      *
      * \ingroup LoadingResources
      *
