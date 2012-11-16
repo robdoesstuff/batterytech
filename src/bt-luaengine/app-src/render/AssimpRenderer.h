@@ -31,6 +31,7 @@ struct AssimpShaderConfig {
 		this->withDirectionalLight = FALSE;
 		this->withFog = FALSE;
 		this->pointLightCount = 0;
+		this->vertexLighting = TRUE;
 	}
 	AssimpShaderConfig(BOOL32 hwAccel, BOOL32 withRGBAShadowmap, BOOL32 withDirectionalLight, BOOL32 withFog, S32 pointLightCount) {
 		this->hwAccel = hwAccel;
@@ -44,13 +45,15 @@ struct AssimpShaderConfig {
 				withRGBAShadowmap == other.withRGBAShadowmap &&
 				withDirectionalLight == other.withDirectionalLight &&
 				withFog == other.withFog &&
-				pointLightCount == other.pointLightCount);
+				pointLightCount == other.pointLightCount &&
+				vertexLighting == other.vertexLighting);
 	}
 	BOOL32 hwAccel;
 	BOOL32 withRGBAShadowmap;
 	BOOL32 withDirectionalLight;
 	BOOL32 withFog;
 	S32 pointLightCount;
+	BOOL32 vertexLighting;
 };
 
 class AssimpRenderer: public Renderer {

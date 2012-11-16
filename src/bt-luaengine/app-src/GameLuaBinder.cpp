@@ -2206,6 +2206,15 @@ static int setRenderItemParam_isOpaque(lua_State *L, RenderItem *item) {
     return 0;
 }
 
+static int setRenderItemParam_lightperpixel(lua_State *L, RenderItem *item) {
+    if (!lua_toboolean(L, 4)) {
+        item->flags = item->flags & ~RENDERITEM_FLAG_LIGHT_PER_PIXEL;
+    } else {
+        item->flags = item->flags | RENDERITEM_FLAG_LIGHT_PER_PIXEL;
+    }
+    return 0;
+}
+
 #define RENDERITEMFUNC int(*)(lua_State*, RenderItem*)
 
 static StrHashTable<RENDERITEMFUNC> *renderItemFuncs = new StrHashTable<RENDERITEMFUNC>();
@@ -2231,6 +2240,7 @@ void initRenderItemFunctions() {
     renderItemFuncs->put("twosided", setRenderItemParam_twosided);
     renderItemFuncs->put("multiline", setRenderItemParam_multiline);
     renderItemFuncs->put("isOpaque", setRenderItemParam_isOpaque);
+    renderItemFuncs->put("lightperpixel", setRenderItemParam_lightperpixel);
 }
 
 // game, renderItemIdx, paramName, values...

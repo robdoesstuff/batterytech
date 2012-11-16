@@ -15,20 +15,30 @@ uniform vec4 fog_and_uv_offset;
 attribute vec3 vPosition;
 attribute vec2 vUV;
 
+#define HAS_LIGHTS (defined(DIR_LIGHT) || POINT_LIGHT_COUNT > 0)
+#define FRAGMENT_LIGHTING !defined(VERTEX_LIGHTING)
 
-#if (POINT_LIGHT_COUNT || defined(DIR_LIGHT))
-attribute vec3 vNormal;
-uniform mat3 inv_matrix;
-
-struct material_properties {
-	float specular_exponent;
-};
-
-uniform material_properties material;
+#if HAS_LIGHTS
+	attribute vec3 vNormal;
+	uniform mat3 inv_matrix;
+	#if FRAGMENT_LIGHTING
+		// set up varyings for fragment lighting
+		varying vec3 ecNormal;
+		#if POINT_LIGHT_COUNT > 0
+			varying vec3 ecPos3;
+		#endif
+	#else
+		// vertex lighting
+		struct material_properties {
+			float specular_exponent;
+		};
+		uniform material_properties material;
+	#endif
 #endif
 
-#if POINT_LIGHT_COUNT > 0
-uniform vec3 cameraPos;
+#if POINT_LIGHT_COUNT > 0 && defined(VERTEX_LIGHTING)
+// eye-coordinate camera position is modelview * worldcamerapos
+uniform vec3 ecCamera;
 #endif
 
 #ifdef SHADOWMAP
@@ -47,7 +57,7 @@ varying vec4 vColor;
 varying vec4 shadowCoord;
 #endif
 
-#ifdef DIR_LIGHT
+#if defined(DIR_LIGHT) && defined(VERTEX_LIGHTING)
 // The colors in directional_light are premultiplied with the material
 struct directional_light {
 	vec3 direction;
@@ -75,7 +85,7 @@ vec4 compute_directional_light(vec3 normal) {
 
 #endif
 
-#if POINT_LIGHT_COUNT > 0
+#if POINT_LIGHT_COUNT > 0 && defined(VERTEX_LIGHTING)
 // The colors in point_light are premultiplied with the material
 struct point_light {
  	vec3 position;
@@ -139,7 +149,9 @@ void main() {
 	// flip V, as is custom
 	uvCoord = vec2(vUV.x + uv_offset.x, (1.0-(vUV.y+uv_offset.y)));
 	vec4 vpos = vec4(vPosition.xyz, 1.0);
-	
+	#if defined(VERTEX_LIGHTING)
+	vec3 ecNormal;
+	#endif
 #ifdef HW_SKIN
 	vec4 skinnedPos = (bone_matrices[int(vBones.x)] * vpos * vWeights.x) +
 					  (bone_matrices[int(vBones.y)] * vpos * vWeights.y) +
@@ -152,11 +164,11 @@ void main() {
 					   (bone_matrices[int(vBones.y)] * vnorm * vWeights.y) +
 					   (bone_matrices[int(vBones.z)] * vnorm * vWeights.z) +
 					   (bone_matrices[int(vBones.w)] * vnorm * vWeights.w);
-	vec3 ecNormal = normalize(inv_matrix * skinnedNorm.xyz);
+	ecNormal = normalize(inv_matrix * skinnedNorm.xyz);
 #endif
 #else
 #if (POINT_LIGHT_COUNT || defined(DIR_LIGHT))
-	vec3 ecNormal = normalize(inv_matrix * vNormal.xyz);
+	ecNormal = normalize(inv_matrix * vNormal.xyz);
 #endif
 	vec4 ecPosition = modelview_matrix * vpos;
 #endif
@@ -169,28 +181,34 @@ void main() {
 	shadowCoord = shadowCoord / shadowCoord.w;
 #endif
 	
-#ifdef DIR_LIGHT
+#if defined(DIR_LIGHT) && defined(VERTEX_LIGHTING)
 	vColor = compute_directional_light(ecNormal) * colorFilter;
 #else
 	vColor = colorFilter;
 #endif
 
-#if POINT_LIGHT_COUNT > 0
-	vec3 ecPos3 = (vec3(ecPosition)) / ecPosition.w;
-	vec3 ecCamera = (modelview_matrix * vec4(cameraPos, 1.0)).xyz;
-	vColor += compute_point_light(0, ecCamera, ecPos3, ecNormal);
-#endif
-#if POINT_LIGHT_COUNT > 1
-	vColor += compute_point_light(1, ecCamera, ecPos3, ecNormal);
-#endif
-#if POINT_LIGHT_COUNT > 2
-	vColor += compute_point_light(2, ecCamera, ecPos3, ecNormal);
-#endif
-#if POINT_LIGHT_COUNT > 3
-	vColor += compute_point_light(3, ecCamera, ecPos3, ecNormal);
-#endif
-#if POINT_LIGHT_COUNT > 4
-	vColor += compute_point_light(4, ecCamera, ecPos3, ecNormal);
+#if defined(VERTEX_LIGHTING)
+	#if POINT_LIGHT_COUNT > 0
+		vec3 ecPos3 = (vec3(ecPosition)) / ecPosition.w;
+		vColor += compute_point_light(0, ecCamera, ecPos3, ecNormal);
+	#endif
+	#if POINT_LIGHT_COUNT > 1
+		vColor += compute_point_light(1, ecCamera, ecPos3, ecNormal);
+	#endif
+	#if POINT_LIGHT_COUNT > 2
+		vColor += compute_point_light(2, ecCamera, ecPos3, ecNormal);
+	#endif
+	#if POINT_LIGHT_COUNT > 3
+		vColor += compute_point_light(3, ecCamera, ecPos3, ecNormal);
+	#endif
+	#if POINT_LIGHT_COUNT > 4
+		vColor += compute_point_light(4, ecCamera, ecPos3, ecNormal);
+	#endif
+#else
+	#if POINT_LIGHT_COUNT > 0
+	// set up the varying ecPos3 for the frag shader
+	ecPos3 = (vec3(ecPosition)) / ecPosition.w;
+	#endif
 #endif
 #ifdef FOG
 	float fog_coord = abs(gl_Position.z);

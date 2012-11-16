@@ -70,10 +70,6 @@ void AssimpRenderer::bindShader(ShaderProgram *shaderProgram, const Vector3f &ec
 		F32 shadEpsilon = context->world->globalLight->shadowEpsilon;
 		glUniform4f(shaderProgram->getUniformLoc("shadowColorEpsilon"), shadColor.x, shadColor.y, shadColor.z, shadEpsilon);
 	}
-	if (config.pointLightCount) {
-		const Vector3f &camPos = context->world->camera->pos;
-		glUniform3f(shaderProgram->getUniformLoc("cameraPos"), camPos.x, camPos.y, camPos.z);
-	}
 }
 
 void AssimpRenderer::bindMaterial(RenderItem *item, GLAssimpMeshBinding *meshBinding, GLAssimpBinding *binding, const AssimpShaderConfig &config) {
@@ -253,6 +249,10 @@ void AssimpRenderer::setupPointLights(ShaderProgram *shaderProgram, RenderItem *
 		getUniformStructName(buf, "pointLight", i, "specular_color");
 		glUniform4f(shaderProgram->getUniformLoc(buf), pSpecular.x, pSpecular.y, pSpecular.z, pSpecular.w);
 	}
+	const Vector3f &camPos = context->world->camera->pos;
+	Vector4f camPos4(camPos.x, camPos.y, camPos.z, 1.0);
+	Vector4f ecCamera = mv * camPos4;
+	glUniform3f(shaderProgram->getUniformLoc("ecCamera"), ecCamera.x, ecCamera.y, ecCamera.z);
 }
 
 void AssimpRenderer::unbind() {
@@ -298,6 +298,7 @@ void AssimpRenderer::renderNode(RenderNode *node, GLAssimpBinding *binding, Matr
 				config.withDirectionalLight = dflts->dirLightEnabled && !(item->flags & RENDERITEM_FLAG_NO_DIR_LIGHT);
 				config.withFog = dflts->fogEnabled && !(item->flags & RENDERITEM_FLAG_NO_FOG);
 				config.withRGBAShadowmap = context->gConfig->shadowType != GraphicsConfiguration::SHADOWTYPE_NONE && !(item->flags & RENDERITEM_FLAG_NO_SHADOW_RECV);
+				config.vertexLighting = !(item->flags & RENDERITEM_FLAG_LIGHT_PER_PIXEL);
 				char tagBuf[255];
 				getShaderTag(tagBuf, config);
 				ShaderProgram *shaderProgram = context->glResourceManager->getShaderProgram(tagBuf);
@@ -558,6 +559,9 @@ void AssimpRenderer::getShaderTag(char *buf, AssimpShaderConfig config) {
 		sprintf(count, "%d", config.pointLightCount);
 		strcat(buf, count);
 	}
+	if (!config.vertexLighting) {
+		strcat(buf, "-frlt");
+	}
 }
 
 ShaderProgram* AssimpRenderer::addShaderProgram(const char *tag, AssimpShaderConfig config) {
@@ -578,6 +582,9 @@ ShaderProgram* AssimpRenderer::addShaderProgram(const char *tag, AssimpShaderCon
 	}
 	if (config.withRGBAShadowmap) {
 		shader->addDefine("SHADOWMAP", "1");
+	}
+	if (config.vertexLighting) {
+		shader->addDefine("VERTEX_LIGHTING", "1");
 	}
 	shader->load(TRUE);
 	context->glResourceManager->addShaderProgram(tag, shader);

@@ -27,48 +27,61 @@ Box = {
 	y = 0
 }
 
-Battery = table.copy(GameObject)
+local CHAR_JUMP_HEIGHT = 4
 
-Battery.animations = {
-	run = {startTime = 49/24, stopTime = 72/24, loop = true, rate = 1.5},
+Character = table.copy(GameObject)
+
+Character.animations = {
+	run = {startTime = 49/24, stopTime = 72/24, loop = true, rate = 1.6},
 	turnR = {startTime = 94/24, stopTime = 104/24, loop = true, rate = 1.0},
 	turnL = {startTime = 105/24, stopTime = 115/24, loop = true, rate = 1.0},
 	idle1 = {startTime = 1/24, stopTime = 24/24, loop = true, rate = 1.0},
 	idle2 = {startTime = 25/24, stopTime = 48/24, loop = true, rate = 1.0},
-	jump = {startTime = 73/24, stopTime = 93/24, loop = false, rate = 1.0},
+	jump = {startTime = 73/24, stopTime = 93/24, loop = false, rate = 0.7},
 }
 
-function Battery.new()
-    self = allocMeta(Battery.createInstance(), Battery)
+function Character.new()
+    self = allocMeta(Character.createInstance(), Character)
     self:cInit()
     self:anim_allocAnimations(1)
     self:anim_initDynamic(0, "models/Bleep.bai", nil)
-    self.animation = Battery.animations.idle1
+    self.animation = Character.animations.idle1
     self.animTime = self.animation.startTime
     self.animPlaybackRate = 1.0
     self.x = 0
     self.y = 0
+    self.z = 0
     self.rot = 0
     return self
 end
 
-function Battery:run()
-    self.animation = Battery.animations.run
-end
-
-function Battery:turn(dir)
-	if dir < 0 then
-    	self.animation = Battery.animations.turnR
-    else
-    	self.animation = Battery.animations.turnL
+function Character:run()
+	if self.animation ~= Character.animations.jump then
+    	self.animation = Character.animations.run
     end
 end
 
-function Battery:idle()
-    self.animation = Battery.animations.idle1
+function Character:turn(dir)
+	if self.animation ~= Character.animations.jump then
+		if dir < 0 then
+	    	self.animation = Character.animations.turnR
+	    else
+	    	self.animation = Character.animations.turnL
+	    end
+    end
 end
 
-function Battery:update(tickDelta)
+function Character:idle()
+	if self.animation ~= Character.animations.jump then
+    	self.animation = Character.animations.idle1
+    end
+end
+
+function Character:jump()
+    self.animation = Character.animations.jump
+end
+
+function Character:update(tickDelta)
 	-- now advance and interpolate the animation
 	self.animTime = self.animTime + (tickDelta * self.animPlaybackRate * self.animation.rate)
 	if self.animTime < self.animation.startTime then
@@ -84,15 +97,31 @@ function Battery:update(tickDelta)
 			self.animationComplete = true
 		end
 	end
+	if self.animation == Character.animations.jump then
+		local jumpStart = self.animation.startTime + .2
+		local jumpEnd = self.animation.stopTime - .2
+		local t = (self.animTime - jumpStart) / (jumpEnd - jumpStart)
+		if t > 0 and t < 1 then
+			local z = CHAR_JUMP_HEIGHT - math.pow(t-.5, 2)*CHAR_JUMP_HEIGHT*4
+			self.z = z
+		else
+			self.z = 0
+		end
+	end
+	if self.animationComplete then
+		self.animation = Character.animations.idle1
+		self.animTime = self.animation.startTime
+	end
     self:anim_interpolate(0, self.animTime)
 end
 
-function Battery:render()
-    local z = 1.67
+function Character:render()
+    local z = 1.68 + self.z
     local scale = 6
     local idx = game:renderAssimp(self, 0, "models/Bleep.bai", nil, nil, true, self.x,self.y,z, scale,scale,scale, 0,0,self.rot)
     -- It's so hard to get self-shadowing to look just right, we'll just disable it because it looks ok without
     game:setRenderItemParam(idx, "noshadowrecv", true)
+    game:setRenderItemParam(idx, "lightperpixel", true)
 end
 
 --- Star Spinner
@@ -205,6 +234,15 @@ function Play.new()
 	button = TouchControl.new(sX-arrowButtonW/2, sY-arrowButtonH/2, arrowButtonW, arrowButtonH)
 	self.topLeftButton = button
 	table.insert(self.buttons, button)
+	-- jump
+	local sX = vpWidth - leftPad - arrowButtonW - arrowButtonW/2
+	local sY = vpHeight - bottomPad - arrowButtonH*2 - arrowButtonH/2
+	button = TouchControl.new(sX-arrowButtonW/2, sY-arrowButtonH/2, arrowButtonW, arrowButtonH)
+	button.normalAsset = "textures/arrow.png"
+	button.pressedAsset = "textures/arrow_pressed.png"
+	self.jumpButton = button
+	table.insert(self.buttons, button)
+	
 	self.wasInput = false
 	self.success = false
 	self.level = 1
@@ -229,6 +267,7 @@ function Play:show()
 	self:setupLevel()
 	self.controlFwd = 0
 	self.controlTurn = 0
+	self.controlJump = false
 	self.panelAnim = 0
 	playSound("sounds/whoosh.ogg")
 	if ENABLE_POINT_LIGHT then
@@ -267,7 +306,7 @@ function Play:setupLevel()
 		box.y = math.random() * PLAY_WORLD_LENGTH*2 - PLAY_WORLD_LENGTH
 		table.insert(self.boxes, box)
 	end
-	self.battery = Battery.new()
+	self.character = Character.new()
 end
 
 function Play:update(tickDelta)
@@ -341,6 +380,7 @@ end
 function Play:updatePlayState(tickDelta)
 	self.controlFwd = 0
 	self.controlTurn = 0
+	self.controlJump = false
 	-- process key input
 	for i = 0, 3 do
 		local isDown, keyCode = getKeyState(i)
@@ -358,6 +398,9 @@ function Play:updatePlayState(tickDelta)
 			elseif keyCode == 40 or keyCode == 1 then
 				--back
 				self.controlFwd = -1
+			elseif keyCode == 32 then
+				--back
+				self.controlJump = true
 			end
 		end
 	end
@@ -390,15 +433,22 @@ function Play:updatePlayState(tickDelta)
 	if self.leftButton.isPressed then
 		self.controlTurn = 1
 	end
+	if self.jumpButton.isPressed then
+		self.controlJump = true
+	end
 	self.dir = self.dir + tickDelta * self.controlTurn * PLAY_TURN_SPEED
 	self.dir = self.dir % TAU
 	local moveDist = tickDelta * self.controlFwd * PLAY_MOVE_SPEED
-	if moveDist ~= 0 then
-		self.battery:run()
-	elseif self.controlTurn ~= 0 then
-		self.battery:turn(self.controlTurn)
+	if self.controlJump then
+		self.character:jump()
 	else
-		self.battery:idle()
+		if moveDist ~= 0 then
+			self.character:run()
+		elseif self.controlTurn ~= 0 then
+			self.character:turn(self.controlTurn)
+		else
+			self.character:idle()
+		end
 	end
 	self.y = self.y + math.cos(-self.dir) * moveDist
 	self.x = self.x + math.sin(-self.dir) * moveDist
@@ -447,11 +497,11 @@ function Play:updatePlayState(tickDelta)
 		self.nextRandomNoiseTime = math.random(12,18)
 		playSound("sounds/space_noises.ogg", 0, 0.25, math.random(0.9,1.1))
 	end
-	if self.battery then 
-		self.battery.x = self.x
-		self.battery.y = self.y
-		self.battery.rot = -math.deg(self.dir)+180
-		self.battery:update(tickDelta) 
+	if self.character then 
+		self.character.x = self.x
+		self.character.y = self.y
+		self.character.rot = -math.deg(self.dir)+180
+		self.character:update(tickDelta) 
 	end
 end
 
@@ -488,16 +538,19 @@ function Play:render()
 	local followX, followY = 0, -5
 	local camOffsetX, camOffsetY = (followX*rotCos - followY*rotSin), (followX*rotSin + followY*rotCos)
 	local camX, camY, camZ = self.x + camOffsetX, self.y + camOffsetY, 3
+	if self.character then
+		camZ = camZ + self.character.z
+	end
 	setCameraParams(camX, camY, camZ, 80, TO_DEGREES * self.dir)
 	setCameraNearFarFOV(1, 500, 60)
-	if self.battery then
+	if self.character then
 		self.rotAnim = self.rotAnim + 0.001
 		self.rotAnim = self.rotAnim % TAU
 		local ox,oy,oz = math.sin(self.rotAnim), math.cos(self.rotAnim),1
 		ox,oy,oz = vec3_normalize(ox,oy,oz)
 		game:setGlobalLightDir(ox,oy,oz)
 		local dist = 5
-		game:setShadowLightOrigin(self.battery.x + ox*dist, self.battery.y + oy*dist, 1.5 + oz*dist)
+		game:setShadowLightOrigin(self.character.x + ox*dist, self.character.y + oy*dist, 2.5 + oz*dist + self.character.z)
 	end
 	game:setShadowLightFrustumNearFar(2, 20)
  	game:setShadowColorAndEpsilon(0.6, 0.6, 0.6, 0.000001)
@@ -520,11 +573,11 @@ function Play:render()
     game:setFogEnabled(false)
     game:setFogParams(1, 45, .2, .2, .2, 1.0)
     -- draw BG
-     -- local idx = game:render2D("shadowmap",vpWidth - vpWidth/4,vpHeight - vpHeight/4,vpWidth/2,vpHeight/2,0)
+    -- local idx = game:render2D("shadowmap",vpWidth - vpWidth/4,vpHeight - vpHeight/4,vpWidth/2,vpHeight/2,0)
     -- game:setRenderItemParam(idx, "uvs", 1, 1, 0, 0)
     --local idx = game:render2DBG("textures/space.jpg", vpWidth/2, vpHeight/2, vpWidth, vpHeight, 0)
     local scale = .2
-    local idx = game:renderAssimp(nil, 0, "models/skybox.obj", nil, nil, true, camX, camY, camZ, scale,scale,scale, 0,0, TO_DEGREES * self.rotAnim)
+    local idx = game:renderAssimp(nil, 0, "models/skybox.obj", nil, nil, true, camX, camY, camZ, scale,scale,scale, 0,0, TO_DEGREES * self.rotAnim - 105)
 	game:setRenderItemParam(idx, "nodirlight", true)
     game:setRenderItemParam(idx, "noshadowrecv", true)
    	game:setRenderItemParam(idx, "noshadowgen", true)
@@ -549,7 +602,7 @@ function Play:render()
 		obj:render()
 	end
 			
-	if self.battery then self.battery:render() end
+	if self.character then self.character:render() end
 	local scale = 7.0
 	local idx = game:renderAssimp(nil, 0, "models/crater.obj", nil, nil, true, 0,0, 1.0, scale,scale,0.4, 0,0, 0)
     game:setRenderItemParam(idx, "noshadowgen", true)
