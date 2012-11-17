@@ -838,7 +838,7 @@ public:
      * \param frequencyHz (optional) The damping frequency
      * \param dampingRatio (optional) The damping ratio
      * \return jointId: The new joint's ID
-     * \ingroup Physics
+     * \ingroup Physics2D
      *
      */
     jointId Game::physics_addDistanceJoint(GameObject o1, int idx1, GameObject o2, int idx2, float anchorAX, float anchorAY, float anchorBX, float anchorBY, boolean collideConnected, float frequencyHz, float dampingRatio);
@@ -852,7 +852,7 @@ public:
      * \param anchorAX The world anchor point x on o1-idx1
      * \param anchorAY The world anchor point y on o1-idx1
      * \return jointId: The new joint's ID
-     * \ingroup Physics
+     * \ingroup Physics2D
      *
      */
     jointId Game::physics_addRevoluteJoint(GameObject o1, int idx1, GameObject o2, int idx2, float anchorAX, float anchorAY);
@@ -863,7 +863,7 @@ public:
      * \param enabled If the limits are to be enabled
      * \param low The low limit
      * \param high The high limit
-     * \ingroup Physics
+     * \ingroup Physics2D
      *
      */
     Game::physics_setRevoluteJointLimits(int jointId, boolean enabled, float low, float high);
@@ -874,7 +874,7 @@ public:
      * \param enabled If the motor is to be enabled
      * \param speed The speed of the motor
      * \param maxTorque The max torque of the motor
-     * \ingroup Physics
+     * \ingroup Physics2D
      *
      */
     Game::physics_setRevoluteJointMotor(int jointId, boolean eanbled, float speed, float maxTorque);
@@ -885,7 +885,7 @@ public:
      * \return angle: The angle of the revolute joint
      * \return speed: The speed of the revolute joint
      * \return torque: The torque of the revolute joint
-     * \ingroup Physics
+     * \ingroup Physics2D
      *
      */
     angle__speed__torque Game::physics_getRevoluteJointValues(int jointId);
@@ -902,7 +902,7 @@ public:
      * \param frequencyHz (optional) The damping frequency
      * \param dampingRatio (optional) The damping ratio
      * \return jointId: The new joint's ID
-     * \ingroup Physics
+     * \ingroup Physics2D
      *
      */
     jointId Game::physics_addMouseJoint(GameObject o1, int idx1, GameObject o2, int idx2, float anchorAX, float anchorAY, float maxForce, float frequencyHz, float dampingRatio);
@@ -912,7 +912,7 @@ public:
      * \param jointId The joint ID
      * \param x The new x position
      * \param y The new y position
-     * \ingroup Physics
+     * \ingroup Physics2D
      *
      */
     Game::physics_setMouseJointPosition(int jointId, float x, float y);
@@ -929,7 +929,7 @@ public:
      * \param axisY The movement vector Y component
      * \param collideConnected (optional) If the connected bodies should collide
      * \return jointId: The new joint's ID
-     * \ingroup Physics
+     * \ingroup Physics2D
      *
      */
     jointId Game::physics_addPrismaticJoint(GameObject o1, int idx1, GameObject o2, int idx2, float anchorX, float anchorY, float axisX, float axisY, boolean collideConnected);
@@ -940,7 +940,7 @@ public:
      * \param enabled If the limits are enabled
      * \param low The low limit
      * \param high The high limit
-     * \ingroup Physics
+     * \ingroup Physics2D
      *
      */
     Game::physics_setPrismaticJointLimits(int jointId, boolean enabled, float low, float high);
@@ -951,7 +951,7 @@ public:
      * \param enabled If the motor is enabled
      * \param speed The motor speed
      * \param maxForce The motor max force
-     * \ingroup Physics
+     * \ingroup Physics2D
      *
      */
     Game::physics_setPrismaticJointMotor(int jointId, boolean enabled, float speed, float maxForce);
@@ -962,7 +962,7 @@ public:
      * \return translation: The joint's translation
      * \return speed: The joint's speed
      * \return force: The joint's force
-     * \ingroup Physics
+     * \ingroup ingroup Physics2D
      *
      */
     translation__speed__force Game::physics_getPrismaticJointValues(int jointId);
@@ -980,7 +980,7 @@ public:
      * \param maxLength The maximum rope length
      * \param collideConnected (optional) If the connected bodies should collide
      * \return jointId: The joint ID
-     * \ingroup Physics
+     * \ingroup Physics2D
      *
      */
     jointId Game::physics_addRopeJoint(GameObject o1, int idx1, GameObject o2, int idx2, float anchorAX, float anchorAY, float anchorBX, float anchorBY, float maxLength, boolean collideConnected);
@@ -1001,7 +1001,7 @@ public:
      * \param anchorBY The world anchor point y on o2-idx2
      * \param ratio The pulley ratio
      * \return jointId: The joint ID
-     * \ingroup Physics
+     * \ingroup Physics2D
      *
      */
     jointId Game::physics_addPulleyJoint(GameObject o1, int idx1, GameObject o2, int idx2, float groundAnchorAX, float groundAnchorAY, float groundAnchorBX, float groundAnchorBY, float anchorAX, float anchorAY, float anchorBX, float anchorBY, float ratio);
@@ -1011,7 +1011,7 @@ public:
      * \param jointId The joint ID
      * \return lengthA: The length of side A
      * \return lengthB: The length of side B
-     * \ingroup Physics
+     * \ingroup Physics2D
      *
      */
     lengthA__lengthB Game::physics_getPulleyJointValues(int jointId);
@@ -1026,7 +1026,7 @@ public:
      * \param jointIdB The ID of the second joint
      * \param ratio The revolution ratio between joints
      * \return jointId The joint ID
-     * \ingroup Physics
+     * \ingroup Physics2D
      *
      */
     jointId Game::physics_addGearJoint(GameObject o1, int idx1, GameObject o2, int idx2, int jointIdA, int jointIdB, float ratio);
@@ -1045,7 +1045,7 @@ public:
      * \param frequencyHz (optional) The damping frequency
      * \param dampingRatio (optional) The damping ratio
      * \return jointId: The new joint's ID
-     * \ingroup Physics
+     * \ingroup Physics2D
      *
      */
     jointId Game::physics_addWheelJoint(GameObject o1, int idx1, GameObject o2, int idx2, float anchorAX, float anchorAY, float axisX, float axisY, boolean collideConnected, float frequencyHz, float dampingRatio);
@@ -1056,7 +1056,7 @@ public:
      * \param enabled If the motor is enabled
      * \param speed The motor speed
      * \param maxTorque The motor max torque
-     * \ingroup Physics
+     * \ingroup Physics2D
      *
      */
     Game::physics_setWheelJointMotor(int jointId, boolean enabled, float speed, float maxTorque);
@@ -1067,7 +1067,7 @@ public:
      * \return translation: The wheel's translation
      * \return speed: The wheel's speed
      * \return torque: The wheel's torque
-     * \ingroup Physics
+     * \ingroup Physics2D
      *
      */
     translation__speed__torque Game::physics_getWheelJointValues(int jointId);
@@ -1084,7 +1084,7 @@ public:
      * \param frequencyHz (optional) The damping frequency
      * \param dampingRatio (optional) The damping ratio
      * \return jointId: The new joint's ID
-     * \ingroup Physics
+     * \ingroup Physics2D
      *
      */
     jointId Game::physics_addWeldJoint(GameObject o1, int idx1, GameObject o2, int idx2, float anchorAX, float anchorAY, boolean collideConnected, float frequencyHz, float dampingRatio);
@@ -1100,7 +1100,7 @@ public:
      * \param maxForce The maximum force
      * \param maxTorque The maximum torque
      * \return jointId: The new joint's ID
-     * \ingroup Physics
+     * \ingroup Physics2D
      *
      */
     jointId Game::physics_addFrictionJoint(GameObject o1, int idx1, GameObject o2, int idx2, float anchorAX, float anchorAY, float maxForce, float maxTorque);
@@ -1108,7 +1108,7 @@ public:
      * \brief Removes a joint
      *
      * \param jointId The joint ID
-     * \ingroup Physics
+     * \ingroup Physics2D
      *
      */
     Game::physics_removeJoint(int jointId);
@@ -1120,7 +1120,7 @@ public:
      * \return y1: The first anchor y
      * \return x2: The second anchor x
      * \return y2: The second anchor y
-     * \ingroup Physics
+     * \ingroup Physics2D
      *
      */
     x1__y1__x2__y2 Game::physics_getJointAnchorPoints(int jointId);
