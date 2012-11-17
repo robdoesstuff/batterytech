@@ -523,344 +523,603 @@ public:
      */
     Game::loadNewResources();
     /**
-     * \brief Function
+     * \brief Adds a local (point) light to the scene
      *
+     * A few notes about local lights:
+     * - Local lights persist until cleared.
+     * - Only the closest lights will be rendered for an object, based on the object's transform position
+     * - Local lights can be disabled for objects using render parameters
+     * - The number of local lights to use for an object can be adjusted with render parameters
+     * - Local lights are much more computationally expensive than global light, especially when per-pixel lighting is enabled
+     *
+     * \param x The x origin world coordinate for the light
+     * \param y The y origin world coordinate for the light
+     * \param z The z origin world coordinate for the light
+     * \return lightIdx: The light's index in the array
      * \ingroup Rendering3D
      *
      */
     lightIdx Game::addLocalLight(float x, float y, float z);
     /**
-     * \brief Function
+     * \brief Sets parameters for a local light
      *
+     * Supported parameters are:
+     * - position, values x,y,z in world coordinates
+     * - ambient, values r,g,b,a all in range 0-1
+     * - diffuse, values r,g,b,a all in range 0-1
+     * - specular, values r,g,b,a all in range 0-1
+     * - attenuation, values constant,linear,quadratic
+     *
+     * \param lightIdx The index of the light
+     * \param paramName The parameter name
+     * \param values The parameter's value(s)
      * \ingroup Rendering3D
      *
      */
-    Game::setLocalLightParam(string paramName, float values, ...);
+    Game::setLocalLightParam(int lightIdx, string paramName, float values, ...);
     /**
-     * \brief Function
+     * \brief Clears the local lights
      *
      * \ingroup Rendering3D
      *
      */
     Game::clearLocalLights();
     /**
-     * \brief Function
+     * \brief Adds a number of local lights using points found in an Assimp-supported file
      *
+     * Sometimes you want to load a scene that has many point lights and want the closest 2 or 3 to influence a character.  All you need to do to support that is to create triangles or other small objects in your scene placed where the lights are to be centered at, then you name them something consistent like "light_01", "light_02" and call this function with "light" or "light_" as the prefix, and all the lights will be added to the internal light array.  This function returns the start and end index of the lights found so you can run through and parameterize the lights by using Game::setLocalLightParam on each of the new lights to get the materials and attenuations set correctly.
+     *
+     * \param assetName The name of the assimp-supported file
+     * \param meshPrefix The string prefix of the light points
+     * \return firstIdx: The first light's index
+     * \return lastIdx: The last light's index
      * \ingroup Rendering3D
      *
      */
     firstIdx__lastIdx Game::addLocalLightsFromAssimp(string assetName, string meshPrefix);
     /**
-     * \brief Function
+     * \brief Retrives mesh information from an assimp-supported file
      *
+     * This function will return information on more than one mesh if multiple meshes match the prefix.  The return data is a table of tables.  This is not a lightweight get but actually calculates information, so calling this every frame is not recommended.  Cache data locally if you need to.
+     *
+     * Return data explained:
+     * - Outer table is an indexed array of tables
+     * - - Inner table is:
+     * - - 1. Center Point X
+     * - - 2. Center Point Y
+     * - - 3. Center Point Z
+     * - - 4. Mesh Name
+     * - - 5. Vertex Count
+     * - - 6. AABB Min X
+     * - - 7. AABB Min Y
+     * - - 8. AABB Min Z
+     * - - 9. AABB Max X
+     * - - 10. AABB Max Y
+     * - - 11. AABB Max Z
+     * 
+     * \param assetName The asset's file name
+     * \param meshPrefix The prefix or name of the mesh to get information about
+     * \return table: A table of tables for mesh info
      * \ingroup Rendering3D
      *
      */
     table Game::getMeshInfoFromAssimp(string assetName, string meshPrefix);
     /**
-     * \brief Function
+     * \brief Measures the size of text before rendering
      *
+     * \param tag The font tag
+     * \param text The text to measure
+     * \param scale The scale factor to use
+     * \return width: The width
+     * \return height: The height
      * \ingroup Rendering
      *
      */
     width__height Game::measureText(string tag, string text, float scale);
     /**
-     * \brief Function
+     * \brief Resets the game engine
+     *
+     * Causes a complete reload of Lua making this function effective for testing with new code without leaving the engine
      *
      * \ingroup OtherFunctions
      *
      */
     Game::engineReset();
     /**
-     * \brief Function
+     * \brief Adds a 3D Particle Emitter
+     *
+     * \return emitterId: The particle emitter's ID
      *
      * \ingroup Particles
      *
      */
     emitterId Game::addParticleEmitter();
     /**
-     * \brief Function
+     * \brief Adds a 2D Particle Emitter
+     *
+     * \return emitterId: The particle emitter's ID
      *
      * \ingroup Particles
      *
      */
     emitterId Game::add2DParticleEmitter();
     /**
-     * \brief Function
+     * \brief Sets the particle's lifetime as a range
      *
+     * \param emitterId The ID of the particle emitter
+     * \param min The minimum amount of time in seconds the particle will live
+     * \param max The maxmimum amount of time in seconds the particle will live
      * \ingroup Particles
      *
      */
     Game::setParticleEmitterTimeRange(int emitterId, float min, float max);
     /**
-     * \brief Function
+     * \brief Sets the position of the particle emitter
      *
+     * \param emitterId The ID of the particle emitter
+     * \param x The x position in world coordinates
+     * \param y The y position in world coordinates
+     * \param z The z position in world coordinates (no effect for 2D)
      * \ingroup Particles
      *
      */
     Game::setParticleEmitterPosition(int emitterId, float x, float y, float z);
     /**
-     * \brief Function
+     * \brief Sets the position range of emission
      *
+     * Particles will be emitted in a box +x to -x, +y to -y and +z to -z (for 3D) for these values centered on the position
+     *
+     * \param emitterId The ID of the particle emitter
+     * \param x The x range in world coordinates
+     * \param y The y range in world coordinates
+     * \param z The z range in world coordinates (no effect for 2D)
      * \ingroup Particles
      *
      */
     Game::setParticleEmitterPositionRange(int emitterId, float x, float y, float z);
     /**
-     * \brief Function
+     * \brief Specifies the direction of emission as a vector.
      *
-     * \ingroup Particles
+     * \param emitterId The ID of the particle emitter
+     * \param x The x vector value in world coordinates
+     * \param y The y vector value in world coordinates
+     * \param z The z vector value in world coordinates (no effect for 2D)
+    * \ingroup Particles
      *
      */
     Game::setParticleEmitterDirection(int emitterId, float x, float y, float z);
     /**
-     * \brief Function
+     * \brief Sets the texture for this particle
      *
+     * \param emitterId The ID of the particle emitter
+     * \param assetName The asset file name
      * \ingroup Particles
      *
      */
     Game::setParticleEmitterTextureAsset(int emitterId, string assetName);
     /**
-     * \brief Function
+     * \brief Removes a particle emitter
      *
+     * \param emitterId The ID of the particle emitter
      * \ingroup Particles
      *
      */
     Game::removeParticleEmitter(int emitterId);
     /**
-     * \brief Function
+     * \brief Stops a particle emitter
      *
+     * \param emitterId The ID of the particle emitter
      * \ingroup Particles
      *
      */
     Game::stopParticleEmitter(int emitterId);
     /**
-     * \brief Function
+     * \brief Removes all particle emitters from the world
      *
      * \ingroup Particles
      *
      */
     Game::clearParticleEmitters();
     /**
-     * \brief Function
+     * \brief Starts a particle emitter
      *
+     * \param emitterId The ID of the particle emitter
      * \ingroup Particles
      *
      */
     Game::startParticleEmitter(int emitterId);
     /**
-     * \brief Function
+     * \brief Sets the "cone" range of a particle emitter
      *
+     * The cone range is the variation in direction expressed as a value in range 0 to 1.
+     * - For 2D, 1 is 360 degrees, .5 is 180 degrees, etc.
+     * - For 3D, 1 is a full 360 sphere, .5 is a 180 degree hemisphere, etc
+     *
+     * The cone is centered on the emission direction set in Game::setParticleEmitterDirection()
+     *
+     * \param emitterId The ID of the particle emitter
+     * \param range The range 0-1
      * \ingroup Particles
      *
      */
     Game::setParticleEmitterConeRange(int emitterId, float range);
     /**
-     * \brief Function
+     * \brief Sets the range of speeds for the newly emitted particles
      *
+     * \param emitterId The ID of the particle emitter
+     * \param min The minimum speed
+     * \param max The maximum speed
      * \ingroup Particles
      *
      */
     Game::setParticleScaleSpeedRange(int emitterId, float min, float max);
     /**
-     * \brief Function
+     * \brief Sets the speed at which particles fade in or out
      *
+     * \param emitterId The ID of the particle emitter
+     * \param min The minumum alpha speed
+     * \param max The maximum alpha speed
      * \ingroup Particles
      *
      */
     Game::setParticleAlphaSpeedRange(int emitterId, float min, float max);
     /**
-     * \brief Function
+     * \brief Sets the speed range at which new particles move
      *
+     * \param emitterId The ID of the particle emitter
+     * \param min The minimum speed
+     * \param max The maximum speed
      * \ingroup Particles
      *
      */
     Game::setParticleMaxSpeedRange(int emitterId, float min, float max);
     /**
-     * \brief Function
+     * \brief Sets the rate at which new particles are emitted
      *
+     * \param emitterId The ID of the particle emitter
+     * \param rate The rate in particles per second
      * \ingroup Particles
      *
      */
     Game::setParticleEmissionRate(int emitterId, float rate);
     /**
-     * \brief Function
+     * \brief Sets the initial scale of new particles
      *
+     * \param emitterId The ID of the particle emitter
+     * \param scale The scale
      * \ingroup Particles
      *
      */
     Game::setParticleInitialScale(int emitterId, float scale);
     /**
-     * \brief Function
+     * \brief Sets the rotational speed range of new particles
      *
+     * \param emitterId The ID of the particle emitter
+     * \param min The minimum rotational speed
+     * \param max The maximum rotational speed
      * \ingroup Particles
      *
      */
     Game::setParticleRotationSpeedRange(int emitterId, float min, float max);
     /**
-     * \brief Function
+     * \brief Sets gravity for all particles
      *
+     * \param emitterId The ID of the particle emitter
+     * \param x The x vector component
+     * \param y The y vector component
+     * \param z The z vector component
      * \ingroup Particles
      *
      */
     Game::setParticleGravity(int emitterId, float x, float y, float z);
     /**
-     * \brief Function
+     * \brief Sets an automatic stop for this emitter
      *
+     * Once the emitter has emitted the maximum number of particles specified here, it will stop emitting new particles until reset.
+     *
+     * \param emitterId The ID of the particle emitter
+     * \param max The maximum number of particles to emit before stopping
      * \ingroup Particles
      *
      */
     Game::setParticleAutoStopMax(int emitterId, int max);
     /**
-     * \brief Function
+     * \brief Adds a distance joint
      *
+     * \param o1 The first GameObject to connect
+     * \param idx1 The index of the body in o1 to connect
+     * \param o2 The second GameObject to connect
+     * \param idx2 The index of the body in o2 to connect
+     * \param anchorAX The world anchor point x on o1-idx1
+     * \param anchorAY The world anchor point y on o1-idx1
+     * \param anchorBX The world anchor point x on o2-idx2
+     * \param anchorBY The world anchor point y on o2-idx2
+     * \param collideConnected (optional) If the connected bodies should collide
+     * \param frequencyHz (optional) The damping frequency
+     * \param dampingRatio (optional) The damping ratio
+     * \return jointId: The new joint's ID
      * \ingroup Physics
      *
      */
     jointId Game::physics_addDistanceJoint(GameObject o1, int idx1, GameObject o2, int idx2, float anchorAX, float anchorAY, float anchorBX, float anchorBY, boolean collideConnected, float frequencyHz, float dampingRatio);
     /**
-     * \brief Function
+     * \brief Adds a revolute joint
      *
+     * \param o1 The first GameObject to connect
+     * \param idx1 The index of the body in o1 to connect
+     * \param o2 The second GameObject to connect
+     * \param idx2 The index of the body in o2 to connect
+     * \param anchorAX The world anchor point x on o1-idx1
+     * \param anchorAY The world anchor point y on o1-idx1
+     * \return jointId: The new joint's ID
      * \ingroup Physics
      *
      */
     jointId Game::physics_addRevoluteJoint(GameObject o1, int idx1, GameObject o2, int idx2, float anchorAX, float anchorAY);
     /**
-     * \brief Function
+     * \brief Sets the limits on a revolute joint
      *
+     * \param jointId The joint ID
+     * \param enabled If the limits are to be enabled
+     * \param low The low limit
+     * \param high The high limit
      * \ingroup Physics
      *
      */
     Game::physics_setRevoluteJointLimits(int jointId, boolean enabled, float low, float high);
     /**
-     * \brief Function
+     * \brief Sets the motor parameters of a revolute joint
      *
+     * \param jointId The joint ID
+     * \param enabled If the motor is to be enabled
+     * \param speed The speed of the motor
+     * \param maxTorque The max torque of the motor
      * \ingroup Physics
      *
      */
     Game::physics_setRevoluteJointMotor(int jointId, boolean eanbled, float speed, float maxTorque);
     /**
-     * \brief Function
+     * \brief Gets the primary values of the revolute joint
      *
+     * \param jointId The joint ID
+     * \return angle: The angle of the revolute joint
+     * \return speed: The speed of the revolute joint
+     * \return torque: The torque of the revolute joint
      * \ingroup Physics
      *
      */
     angle__speed__torque Game::physics_getRevoluteJointValues(int jointId);
     /**
-     * \brief Function
+     * \brief Adds a mouse joint
      *
+     * \param o1 The first GameObject to connect (can be anything that isn't the affected body - ground or other static is good)
+     * \param idx1 The index of the body in o1 to connect
+     * \param o2 The second GameObject to connect (the body to move)
+     * \param idx2 The index of the body in o2 to connect
+     * \param anchorAX The world anchor point x on o2-idx2
+     * \param anchorAY The world anchor point y on o2-idx2
+     * \param maxForce (optional) The maximum force to apply to the body
+     * \param frequencyHz (optional) The damping frequency
+     * \param dampingRatio (optional) The damping ratio
+     * \return jointId: The new joint's ID
      * \ingroup Physics
      *
      */
     jointId Game::physics_addMouseJoint(GameObject o1, int idx1, GameObject o2, int idx2, float anchorAX, float anchorAY, float maxForce, float frequencyHz, float dampingRatio);
     /**
-     * \brief Function
+     * \brief Sets the position of a mouse joint
      *
+     * \param jointId The joint ID
+     * \param x The new x position
+     * \param y The new y position
      * \ingroup Physics
      *
      */
     Game::physics_setMouseJointPosition(int jointId, float x, float y);
     /**
-     * \brief Function
+     * \brief Adds a prismatic joint
      *
+     * \param o1 The first GameObject to connect
+     * \param idx1 The index of the body in o1 to connect
+     * \param o2 The second GameObject to connect
+     * \param idx2 The index of the body in o2 to connect
+     * \param anchorAX The world anchor point x on o1-idx1
+     * \param anchorAY The world anchor point y on o1-idx1
+     * \param axisX The movement vector X component
+     * \param axisY The movement vector Y component
+     * \param collideConnected (optional) If the connected bodies should collide
+     * \return jointId: The new joint's ID
      * \ingroup Physics
      *
      */
     jointId Game::physics_addPrismaticJoint(GameObject o1, int idx1, GameObject o2, int idx2, float anchorX, float anchorY, float axisX, float axisY, boolean collideConnected);
     /**
-     * \brief Function
+     * \brief Sets limits for a prismatic joint
      *
+     * \param jointId The joint ID
+     * \param enabled If the limits are enabled
+     * \param low The low limit
+     * \param high The high limit
      * \ingroup Physics
      *
      */
     Game::physics_setPrismaticJointLimits(int jointId, boolean enabled, float low, float high);
     /**
-     * \brief Function
+     * \brief Sets motor parameters for a prismatic joint
      *
+     * \param jointId The joint ID
+     * \param enabled If the motor is enabled
+     * \param speed The motor speed
+     * \param maxForce The motor max force
      * \ingroup Physics
      *
      */
     Game::physics_setPrismaticJointMotor(int jointId, boolean enabled, float speed, float maxForce);
     /**
-     * \brief Function
+     * \brief Gets primary prismatic joint values
      *
+     * \param jointId The joint ID
+     * \return translation: The joint's translation
+     * \return speed: The joint's speed
+     * \return force: The joint's force
      * \ingroup Physics
      *
      */
     translation__speed__force Game::physics_getPrismaticJointValues(int jointId);
     /**
-     * \brief Function
+     * \brief Adds a rope joint
      *
+     * \param o1 The first GameObject to connect
+     * \param idx1 The index of the body in o1 to connect
+     * \param o2 The second GameObject to connect
+     * \param idx2 The index of the body in o2 to connect
+     * \param anchorAX The world anchor point x on o1-idx1
+     * \param anchorAY The world anchor point y on o1-idx1
+     * \param anchorBX The world anchor point x on o2-idx2
+     * \param anchorBY The world anchor point y on o2-idx2
+     * \param maxLength The maximum rope length
+     * \param collideConnected (optional) If the connected bodies should collide
+     * \return jointId: The joint ID
      * \ingroup Physics
      *
      */
     jointId Game::physics_addRopeJoint(GameObject o1, int idx1, GameObject o2, int idx2, float anchorAX, float anchorAY, float anchorBX, float anchorBY, float maxLength, boolean collideConnected);
     /**
-     * \brief Function
+     * \brief Adds a pulley joint
      *
+     * \param o1 The first GameObject to connect
+     * \param idx1 The index of the body in o1 to connect
+     * \param o2 The second GameObject to connect
+     * \param idx2 The index of the body in o2 to connect
+     * \param groundAnchorAX The ground anchor point x for o1-idx1
+     * \param groundAnchorAY The ground anchor point y for o1-idx1
+     * \param groundAnchorBX The ground anchor point x for o2-idx2
+     * \param groundAnchorBY The ground anchor point y for o2-idx2
+     * \param anchorAX The world anchor point x on o1-idx1
+     * \param anchorAY The world anchor point y on o1-idx1
+     * \param anchorBX The world anchor point x on o2-idx2
+     * \param anchorBY The world anchor point y on o2-idx2
+     * \param ratio The pulley ratio
+     * \return jointId: The joint ID
      * \ingroup Physics
      *
      */
     jointId Game::physics_addPulleyJoint(GameObject o1, int idx1, GameObject o2, int idx2, float groundAnchorAX, float groundAnchorAY, float groundAnchorBX, float groundAnchorBY, float anchorAX, float anchorAY, float anchorBX, float anchorBY, float ratio);
     /**
-     * \brief Function
+     * \brief Gets primary values for a pulley joint
      *
+     * \param jointId The joint ID
+     * \return lengthA: The length of side A
+     * \return lengthB: The length of side B
      * \ingroup Physics
      *
      */
     lengthA__lengthB Game::physics_getPulleyJointValues(int jointId);
     /**
-     * \brief Function
+     * \brief Adds a gear joint
      *
+     * \param o1 The first GameObject to connect
+     * \param idx1 The index of the body in o1 to connect
+     * \param o2 The second GameObject to connect
+     * \param idx2 The index of the body in o2 to connect
+     * \param jointIdA The ID of the first joint
+     * \param jointIdB The ID of the second joint
+     * \param ratio The revolution ratio between joints
+     * \return jointId The joint ID
      * \ingroup Physics
      *
      */
     jointId Game::physics_addGearJoint(GameObject o1, int idx1, GameObject o2, int idx2, int jointIdA, int jointIdB, float ratio);
     /**
-     * \brief Function
+     * \brief Adds a wheel joint
      *
+     * \param o1 The first GameObject to connect
+     * \param idx1 The index of the body in o1 to connect
+     * \param o2 The second GameObject to connect
+     * \param idx2 The index of the body in o2 to connect
+     * \param anchorAX The world anchor point x on o1-idx1
+     * \param anchorAY The world anchor point y on o1-idx1
+     * \param axisX The movement vector X component
+     * \param axisY The movement vector Y component
+     * \param collideConnected (optional) If the connected bodies should collide
+     * \param frequencyHz (optional) The damping frequency
+     * \param dampingRatio (optional) The damping ratio
+     * \return jointId: The new joint's ID
      * \ingroup Physics
      *
      */
     jointId Game::physics_addWheelJoint(GameObject o1, int idx1, GameObject o2, int idx2, float anchorAX, float anchorAY, float axisX, float axisY, boolean collideConnected, float frequencyHz, float dampingRatio);
     /**
-     * \brief Function
+     * \brief Sets motor parameters for a wheel joint
      *
+     * \param jointId The joint ID
+     * \param enabled If the motor is enabled
+     * \param speed The motor speed
+     * \param maxTorque The motor max torque
      * \ingroup Physics
      *
      */
     Game::physics_setWheelJointMotor(int jointId, boolean enabled, float speed, float maxTorque);
     /**
-     * \brief Function
+     * \brief Gets primary values for a wheel joint
      *
+     * \param jointId The joint ID
+     * \return translation: The wheel's translation
+     * \return speed: The wheel's speed
+     * \return torque: The wheel's torque
      * \ingroup Physics
      *
      */
     translation__speed__torque Game::physics_getWheelJointValues(int jointId);
     /**
-     * \brief Function
+     * \brief Adds a weld joint
      *
+     * \param o1 The first GameObject to connect
+     * \param idx1 The index of the body in o1 to connect
+     * \param o2 The second GameObject to connect
+     * \param idx2 The index of the body in o2 to connect
+     * \param anchorAX The world anchor point x on o1-idx1
+     * \param anchorAY The world anchor point y on o1-idx1
+     * \param collideConnected (optional) If the connected bodies should collide
+     * \param frequencyHz (optional) The damping frequency
+     * \param dampingRatio (optional) The damping ratio
+     * \return jointId: The new joint's ID
      * \ingroup Physics
      *
      */
     jointId Game::physics_addWeldJoint(GameObject o1, int idx1, GameObject o2, int idx2, float anchorAX, float anchorAY, boolean collideConnected, float frequencyHz, float dampingRatio);
     /**
-     * \brief Function
+     * \brief Adds a friction joint
      *
+     * \param o1 The first GameObject to connect
+     * \param idx1 The index of the body in o1 to connect
+     * \param o2 The second GameObject to connect
+     * \param idx2 The index of the body in o2 to connect
+     * \param anchorAX The world anchor point x on o1-idx1
+     * \param anchorAY The world anchor point y on o1-idx1
+     * \param maxForce The maximum force
+     * \param maxTorque The maximum torque
+     * \return jointId: The new joint's ID
      * \ingroup Physics
      *
      */
     jointId Game::physics_addFrictionJoint(GameObject o1, int idx1, GameObject o2, int idx2, float anchorAX, float anchorAY, float maxForce, float maxTorque);
     /**
-     * \brief Function
+     * \brief Removes a joint
      *
+     * \param jointId The joint ID
      * \ingroup Physics
      *
      */
     Game::physics_removeJoint(int jointId);
     /**
-     * \brief Function
+     * \brief Gets joint anchor points
      *
+     * \param jointId The joint ID
+     * \return x1: The first anchor x
+     * \return y1: The first anchor y
+     * \return x2: The second anchor x
+     * \return y2: The second anchor y
      * \ingroup Physics
      *
      */
