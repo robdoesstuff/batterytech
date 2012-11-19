@@ -29,6 +29,63 @@
 static GameContext *static_context;
 
 // c metafunctions available to lua
+#ifdef DOXYGEN
+class GameObject {
+GameObject::init();
+GameObject::deactivate(); // once an object is deactivated, no further calls may be made on it or its luabinder or crashes will occur
+
+// 3D Animation functions
+GameObject::anim_allocAnimations(); // allocates n animations
+GameObject::anim_initDynamic(); // initializes animation n for dynamic model x
+GameObject::anim_interpolate(); // interpolates animation n at time x
+    
+// b2Body
+GameObject::physics_createBody();
+GameObject::physics_removeBody();
+GameObject::physics_setBodyTransform();
+GameObject::physics_setBodyAngularVelocity();
+GameObject::physics_setBodyLinearVelocity();
+GameObject::physics_setBodyAngularDamping();
+GameObject::physics_setBodyLinearDamping();
+GameObject::physics_setBodyAllowSleep();
+GameObject::physics_setBodyAwake();
+GameObject::physics_setBodyFixedRotation();
+GameObject::physics_setBodyBullet();
+GameObject::physics_setBodyActive();
+GameObject::physics_setBodyType();
+GameObject::physics_setBodyGravityScale();
+GameObject::physics_getBodyTransform();
+GameObject::physics_getBodyAngularVelocity();
+GameObject::physics_getBodyLinearVelocity();
+GameObject::physics_getBodyWorldPoint();
+GameObject::physics_getBodyWorldPoints();
+GameObject::physics_getBodyLocalPoint();
+GameObject::physics_getBodyLocalCenter();
+GameObject::physics_applyForce();
+GameObject::physics_applyTorque();
+GameObject::physics_applyLinearImpulse();
+GameObject::physics_applyAngularImpulse();
+// b2Shape and b2Fixture
+GameObject::physics_createPolygonFixture();
+GameObject::physics_createCircleFixture();
+GameObject::physics_createChainFixture();
+GameObject::physics_removeFixture();
+GameObject::physics_setFixtureDensity();
+GameObject::physics_setFixtureFriction();
+GameObject::physics_setFixtureRestitution();
+GameObject::physics_setFixtureIsSensor();
+GameObject::physics_setFixtureFilter();
+GameObject::physics_fixtureTestPoint();
+GameObject::physics_getFixtureBodyId();
+// collision query
+GameObject::queryPhysicsContacts();
+// collision callbacks
+GameObject::setPhysicsCallbackDetail();
+GameObject::countPhysicsContacts();
+GameObject::getPhysicsContact();
+}
+#endif
+
 static int lua_GameObject_gc (lua_State *L);
 static int lua_GameObject_tostring (lua_State *L);
 
