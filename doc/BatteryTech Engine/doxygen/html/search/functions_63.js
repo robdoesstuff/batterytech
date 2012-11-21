@@ -5,7 +5,9 @@ var searchData=
   ['callglobalva',['callGlobalVA',['../class_lua_binder.html#a1dc05d7f86d5768f8766fa40d5adfd1f',1,'LuaBinder']]],
   ['camera',['Camera',['../class_camera.html#a574972e98f0e23a4a195275f6edcb7bc',1,'Camera']]],
   ['castrayfromviewport',['castRayFromViewport',['../class_camera.html#a07ebfec4a3e7e394cd8652cd045eb354',1,'Camera']]],
+  ['cdeactivate',['cDeactivate',['../group___game_object.html#gab3a5c1145d984bfffc6542a1c5326623',1,'GameObject']]],
   ['checkdatadir',['checkDataDir',['../class_level_i_o.html#af022e6cc3dcd11e3733e9ad2d61e31f8',1,'LevelIO']]],
+  ['cinit',['cInit',['../group___game_object.html#gab6ed5a737f27fa166a782a2b8141df7d',1,'GameObject']]],
   ['clear',['clear',['../class_world.html#a24f6906f2e4f0c761653a8f9e42588a6',1,'World']]],
   ['clearassimps',['clearAssimps',['../_lua_binder_8cpp.html#ae54b1056949421de790925afdd89b3e7',1,'LuaBinder.cpp']]],
   ['clearerror',['clearError',['../class_game.html#aa15aa220f24c92e27f976b75fb7b6269',1,'Game']]],
@@ -17,6 +19,7 @@ var searchData=
   ['clearscreencontrols',['clearScreenControls',['../group___u_i.html#ga312e3399948789dfda978086d7caddba',1,'Game']]],
   ['cleartextures',['clearTextures',['../group___loading2_d_graphics.html#ga3804de5b3501fc8f1395f10a455a39cc',1,'LuaBinder.cpp']]],
   ['closestate',['closeState',['../class_lua_binder.html#a838055c07eb4220327f33246e62c3759',1,'LuaBinder']]],
+  ['countphysicscontacts',['countPhysicsContacts',['../group___other_functions.html#ga9f8373e0b1ee2d0dbae57d62b0ead3c8',1,'GameObject']]],
   ['createfilerecursive',['createFileRecursive',['../class_level_i_o.html#a5b362d906df8abe2609c2ecfd12c6d63',1,'LevelIO']]],
   ['createphysicsworld',['createPhysicsWorld',['../class_game.html#a8a3a51a00836a0be79df7799a4dcc4ac',1,'Game']]]
 ];

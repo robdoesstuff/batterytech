@@ -31,57 +31,283 @@ static GameContext *static_context;
 // c metafunctions available to lua
 #ifdef DOXYGEN
 class GameObject {
-GameObject::init();
-GameObject::deactivate(); // once an object is deactivated, no further calls may be made on it or its luabinder or crashes will occur
+public:
+/**
+ * \brief Function
+ *
+ * \ingroup GameObject
+ */
+GameObject::cInit();
+/**
+ * \brief Function
+ *
+ * \ingroup GameObject
+ */
+GameObject::cDeactivate(); // once an object is deactivated, no further calls may be made on it or its luabinder or crashes will occur
 
 // 3D Animation functions
+/**
+ * \brief Function
+ *
+ * \ingroup Animation3D
+ */
 GameObject::anim_allocAnimations(); // allocates n animations
+/**
+ * \brief Function
+ *
+ * \ingroup Animation3D
+ */
 GameObject::anim_initDynamic(); // initializes animation n for dynamic model x
+/**
+ * \brief Function
+ *
+ * \ingroup Animation3D
+ */
 GameObject::anim_interpolate(); // interpolates animation n at time x
     
 // b2Body
+/**
+ * \brief Function
+ *
+ * \ingroup OtherFunctions
+ */
 GameObject::physics_createBody();
+/**
+ * \brief Function
+ *
+ * \ingroup OtherFunctions
+ */
 GameObject::physics_removeBody();
+/**
+ * \brief Function
+ *
+ * \ingroup OtherFunctions
+ */
 GameObject::physics_setBodyTransform();
+/**
+ * \brief Function
+ *
+ * \ingroup OtherFunctions
+ */
 GameObject::physics_setBodyAngularVelocity();
+/**
+ * \brief Function
+ *
+ * \ingroup OtherFunctions
+ */
 GameObject::physics_setBodyLinearVelocity();
+/**
+ * \brief Function
+ *
+ * \ingroup OtherFunctions
+ */
 GameObject::physics_setBodyAngularDamping();
+/**
+ * \brief Function
+ *
+ * \ingroup OtherFunctions
+ */
 GameObject::physics_setBodyLinearDamping();
+/**
+ * \brief Function
+ *
+ * \ingroup OtherFunctions
+ */
 GameObject::physics_setBodyAllowSleep();
+/**
+ * \brief Function
+ *
+ * \ingroup OtherFunctions
+ */
 GameObject::physics_setBodyAwake();
+/**
+ * \brief Function
+ *
+ * \ingroup OtherFunctions
+ */
 GameObject::physics_setBodyFixedRotation();
+/**
+ * \brief Function
+ *
+ * \ingroup OtherFunctions
+ */
 GameObject::physics_setBodyBullet();
+/**
+ * \brief Function
+ *
+ * \ingroup OtherFunctions
+ */
 GameObject::physics_setBodyActive();
+/**
+ * \brief Function
+ *
+ * \ingroup OtherFunctions
+ */
 GameObject::physics_setBodyType();
+/**
+ * \brief Function
+ *
+ * \ingroup OtherFunctions
+ */
 GameObject::physics_setBodyGravityScale();
+/**
+ * \brief Function
+ *
+ * \ingroup OtherFunctions
+ */
 GameObject::physics_getBodyTransform();
+/**
+ * \brief Function
+ *
+ * \ingroup OtherFunctions
+ */
 GameObject::physics_getBodyAngularVelocity();
+/**
+ * \brief Function
+ *
+ * \ingroup OtherFunctions
+ */
 GameObject::physics_getBodyLinearVelocity();
+/**
+ * \brief Function
+ *
+ * \ingroup OtherFunctions
+ */
 GameObject::physics_getBodyWorldPoint();
+/**
+ * \brief Function
+ *
+ * \ingroup OtherFunctions
+ */
 GameObject::physics_getBodyWorldPoints();
+/**
+ * \brief Function
+ *
+ * \ingroup OtherFunctions
+ */
 GameObject::physics_getBodyLocalPoint();
+/**
+ * \brief Function
+ *
+ * \ingroup OtherFunctions
+ */
 GameObject::physics_getBodyLocalCenter();
+/**
+ * \brief Function
+ *
+ * \ingroup OtherFunctions
+ */
 GameObject::physics_applyForce();
+/**
+ * \brief Function
+ *
+ * \ingroup OtherFunctions
+ */
 GameObject::physics_applyTorque();
+/**
+ * \brief Function
+ *
+ * \ingroup OtherFunctions
+ */
 GameObject::physics_applyLinearImpulse();
+/**
+ * \brief Function
+ *
+ * \ingroup OtherFunctions
+ */
 GameObject::physics_applyAngularImpulse();
 // b2Shape and b2Fixture
+/**
+ * \brief Function
+ *
+ * \ingroup OtherFunctions
+ */
 GameObject::physics_createPolygonFixture();
+/**
+ * \brief Function
+ *
+ * \ingroup OtherFunctions
+ */
 GameObject::physics_createCircleFixture();
+/**
+ * \brief Function
+ *
+ * \ingroup OtherFunctions
+ */
 GameObject::physics_createChainFixture();
+/**
+ * \brief Function
+ *
+ * \ingroup OtherFunctions
+ */
 GameObject::physics_removeFixture();
+/**
+ * \brief Function
+ *
+ * \ingroup OtherFunctions
+ */
 GameObject::physics_setFixtureDensity();
+/**
+ * \brief Function
+ *
+ * \ingroup OtherFunctions
+ */
 GameObject::physics_setFixtureFriction();
+/**
+ * \brief Function
+ *
+ * \ingroup OtherFunctions
+ */
 GameObject::physics_setFixtureRestitution();
+/**
+ * \brief Function
+ *
+ * \ingroup OtherFunctions
+ */
 GameObject::physics_setFixtureIsSensor();
+/**
+ * \brief Function
+ *
+ * \ingroup OtherFunctions
+ */
 GameObject::physics_setFixtureFilter();
+/**
+ * \brief Function
+ *
+ * \ingroup OtherFunctions
+ */
 GameObject::physics_fixtureTestPoint();
+/**
+ * \brief Function
+ *
+ * \ingroup OtherFunctions
+ */
 GameObject::physics_getFixtureBodyId();
 // collision query
+/**
+ * \brief Function
+ *
+ * \ingroup OtherFunctions
+ */
 GameObject::queryPhysicsContacts();
 // collision callbacks
+/**
+ * \brief Function
+ *
+ * \ingroup OtherFunctions
+ */
 GameObject::setPhysicsCallbackDetail();
+/**
+ * \brief Function
+ *
+ * \ingroup OtherFunctions
+ */
 GameObject::countPhysicsContacts();
+/**
+ * \brief Function
+ *
+ * \ingroup OtherFunctions
+ */
 GameObject::getPhysicsContact();
 }
 #endif

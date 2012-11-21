@@ -4,6 +4,7 @@ var searchData=
   ['renderitem_5fflag_5fdraw_5ffirst',['RENDERITEM_FLAG_DRAW_FIRST',['../_render_item_8h.html#af287e1b5866b0b25d1e04abb64705b7a',1,'RenderItem.h']]],
   ['renderitem_5fflag_5fhas_5fmatrix',['RENDERITEM_FLAG_HAS_MATRIX',['../_render_item_8h.html#a1c299b0e90c4e6becce968d41511e72b',1,'RenderItem.h']]],
   ['renderitem_5fflag_5fis_5fopaque',['RENDERITEM_FLAG_IS_OPAQUE',['../_render_item_8h.html#abcb8ba583986969d59ff12d9c15a4cea',1,'RenderItem.h']]],
+  ['renderitem_5fflag_5flight_5fper_5fpixel',['RENDERITEM_FLAG_LIGHT_PER_PIXEL',['../_render_item_8h.html#a2f4cfacad2f7fedc809ef84d97c96497',1,'RenderItem.h']]],
   ['renderitem_5fflag_5fmultiline_5ftext',['RENDERITEM_FLAG_MULTILINE_TEXT',['../_render_item_8h.html#a7c8ece56d52a0ef44371c27e2b8a466c',1,'RenderItem.h']]],
   ['renderitem_5fflag_5fno_5fdir_5flight',['RENDERITEM_FLAG_NO_DIR_LIGHT',['../_render_item_8h.html#acba361481008852a18822efa21a58909',1,'RenderItem.h']]],
   ['renderitem_5fflag_5fno_5ffog',['RENDERITEM_FLAG_NO_FOG',['../_render_item_8h.html#a85b2378c2721531d5f850349af41482f',1,'RenderItem.h']]],

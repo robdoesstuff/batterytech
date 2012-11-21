@@ -10,7 +10,9 @@ var searchData=
   ['camera_2ecpp',['Camera.cpp',['../_camera_8cpp.html',1,'']]],
   ['camera_2eh',['Camera.h',['../_camera_8h.html',1,'']]],
   ['castrayfromviewport',['castRayFromViewport',['../class_camera.html#a07ebfec4a3e7e394cd8652cd045eb354',1,'Camera']]],
+  ['cdeactivate',['cDeactivate',['../group___game_object.html#gab3a5c1145d984bfffc6542a1c5326623',1,'GameObject']]],
   ['checkdatadir',['checkDataDir',['../class_level_i_o.html#af022e6cc3dcd11e3733e9ad2d61e31f8',1,'LevelIO']]],
+  ['cinit',['cInit',['../group___game_object.html#gab6ed5a737f27fa166a782a2b8141df7d',1,'GameObject']]],
   ['classname',['className',['../struct_game_editor_object.html#a94c26b46ed49dc76c015103ba99666d8',1,'GameEditorObject']]],
   ['clear',['clear',['../class_world.html#a24f6906f2e4f0c761653a8f9e42588a6',1,'World']]],
   ['clearassimps',['clearAssimps',['../_lua_binder_8cpp.html#ae54b1056949421de790925afdd89b3e7',1,'LuaBinder.cpp']]],
@@ -27,6 +29,7 @@ var searchData=
   ['configuring_20the_20engine',['Configuring the Engine',['../group___configuring.html',1,'']]],
   ['constantattenuation',['constantAttenuation',['../class_local_light.html#a9ba1b1db92366b2578d3c05d67d674f3',1,'LocalLight']]],
   ['context',['context',['../class_game_object.html#a97a354c96c540d72a86c87c611bb0243',1,'GameObject::context()'],['../class_camera.html#ae7f3e626c5d8bb4cd0e3b43b6a757627',1,'Camera::context()']]],
+  ['countphysicscontacts',['countPhysicsContacts',['../group___other_functions.html#ga9f8373e0b1ee2d0dbae57d62b0ead3c8',1,'GameObject']]],
   ['createfilerecursive',['createFileRecursive',['../class_level_i_o.html#a5b362d906df8abe2609c2ecfd12c6d63',1,'LevelIO']]],
   ['createphysicsworld',['createPhysicsWorld',['../class_game.html#a8a3a51a00836a0be79df7799a4dcc4ac',1,'Game']]]
 ];

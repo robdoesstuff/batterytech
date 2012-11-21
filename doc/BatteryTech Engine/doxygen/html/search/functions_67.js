@@ -29,6 +29,7 @@ var searchData=
   ['getmodelscale',['getModelScale',['../class_game_object.html#ae4a3935f5df7218441d929d7d760e1bb',1,'GameObject']]],
   ['getname',['getName',['../class_screen_control.html#a2e02a1f7421e66dacc1baa7ce6d9496a',1,'ScreenControl']]],
   ['getpathseparator',['getPathSeparator',['../group___file_i_o.html#ga8078910800c04a3c9f556b52611a78a8',1,'LuaBinder.cpp']]],
+  ['getphysicscontact',['getPhysicsContact',['../group___other_functions.html#gae6c880fbe0c553cda46c88a1fef231df',1,'GameObject']]],
   ['getpointerstate',['getPointerState',['../group___input.html#ga5bbd539381734d2a54edecc09f6809b4',1,'LuaBinder.cpp']]],
   ['getposition',['getPosition',['../class_game_object.html#acd5401d914d70e366fc50b4c2f19827f',1,'GameObject']]],
   ['getproperties',['getProperties',['../class_game_object_lua_binder.html#ab94bc0884a1af4c634704390d60379e7',1,'GameObjectLuaBinder']]],

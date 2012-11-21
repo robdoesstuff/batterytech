@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<title>BatteryTech Lua Engine: C:/Users/rgreen/btworkspace/batterytech-trunk/src/bt-luaengine/app-src/gameobject/GameObjectLuaBinder.h File Reference</title>
+<title>BatteryTech Lua Engine: GameObjects</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -58,6 +58,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </li>
     </ul>
   </div>
+</div><!-- top -->
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -72,41 +73,50 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="dir_094cc6976445457352680f144c0777e6.html">bt-luaengine</a></li><li class="navelem"><a class="el" href="dir_adabfe87475e2b9a431d6425c2286b02.html">app-src</a></li><li class="navelem"><a class="el" href="dir_43cb66bbb2adeb655fed4697208d8076.html">gameobject</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
-<a href="#var-members">Variables</a>  </div>
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">GameObjectLuaBinder.h File Reference</div>  </div>
+<div class="title">GameObjects</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="_lua_binder_8h_source.html">../script/LuaBinder.h</a>&quot;</code><br/>
-<code>#include &lt;batterytech/primitives.h&gt;</code><br/>
-<code>#include &lt;batterytech/util/ManagedArray.h&gt;</code><br/>
-</div>
-<p><a href="_game_object_lua_binder_8h_source.html">Go to the source code of this file.</a></p>
+
+<p>GameObjects provide integration between per-entity C functionality and Lua functionality.  
+<a href="#details">More...</a></p>
+<hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2><a name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_game_object_property.html">GameObjectProperty</a></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_object_lua_binder.html">GameObjectLuaBinder</a></td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2><a name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:acb3d957cf475777d89bfb870a3f2dfa4"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="struct_game_object_property.html">GameObjectProperty</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_game_object_lua_binder_8h.html#acb3d957cf475777d89bfb870a3f2dfa4">lua_GameObject_gc</a></td></tr>
+<tr class="heading"><td colspan="2"><h2><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:gab6ed5a737f27fa166a782a2b8141df7d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___game_object.html#gab6ed5a737f27fa166a782a2b8141df7d">GameObject::cInit</a> ()</td></tr>
+<tr class="memdesc:gab6ed5a737f27fa166a782a2b8141df7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="#gab6ed5a737f27fa166a782a2b8141df7d"></a><br/></td></tr>
+<tr class="memitem:gab3a5c1145d984bfffc6542a1c5326623"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___game_object.html#gab3a5c1145d984bfffc6542a1c5326623">GameObject::cDeactivate</a> ()</td></tr>
+<tr class="memdesc:gab3a5c1145d984bfffc6542a1c5326623"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="#gab3a5c1145d984bfffc6542a1c5326623"></a><br/></td></tr>
 </table>
-<hr/><h2>Variable Documentation</h2>
-<a class="anchor" id="acb3d957cf475777d89bfb870a3f2dfa4"></a>
+<hr/><h2>Function Documentation</h2>
+<a class="anchor" id="gab3a5c1145d984bfffc6542a1c5326623"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">static int lua_GameObject_gc</td>
+          <td class="memname">GameObject::cDeactivate </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="gab6ed5a737f27fa166a782a2b8141df7d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GameObject::cInit </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
         </tr>
       </table>
 </div><div class="memdoc">

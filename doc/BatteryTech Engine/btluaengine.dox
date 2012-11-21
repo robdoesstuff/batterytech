@@ -97,6 +97,8 @@ namespace BTLuaEngine {
  * \defgroup Particles Particle Systems
  * \brief Configuring 2D and 3D particle systems
  * \ingroup Rendering
+ * \defgroup GameObject GameObjects
+ * \brief GameObjects provide integration between per-entity C functionality and Lua functionality
  */
 
 /**

@@ -287,7 +287,7 @@ public:
      * \ingroup Rendering3D
      *
      */
-    renderItemId Game::renderAssimp(GameObject animator, int animatorIdx, string assetName, string groupName, string textureAssetName, boolean isOpaque, float x, float, y, float z, float sx, float sy, float sz, float rx, float ry, float rz);
+    renderItemId Game::renderAssimp(GameObject animator, int animatorIdx, string assetName, string groupName, string textureAssetName, boolean isOpaque, float x, float y, float z, float sx, float sy, float sz, float rx, float ry, float rz);
     /**
      * \brief Renders a 3D model using the Open Asset Importer Library (Assimp) - specifying matrix
      *
@@ -877,7 +877,7 @@ public:
      * \ingroup Physics2D
      *
      */
-    Game::physics_setRevoluteJointMotor(int jointId, boolean eanbled, float speed, float maxTorque);
+    Game::physics_setRevoluteJointMotor(int jointId, boolean enabled, float speed, float maxTorque);
     /**
      * \brief Gets the primary values of the revolute joint
      *
@@ -923,8 +923,8 @@ public:
      * \param idx1 The index of the body in o1 to connect
      * \param o2 The second GameObject to connect
      * \param idx2 The index of the body in o2 to connect
-     * \param anchorAX The world anchor point x on o1-idx1
-     * \param anchorAY The world anchor point y on o1-idx1
+     * \param anchorX The world anchor point x on o1-idx1
+     * \param anchorY The world anchor point y on o1-idx1
      * \param axisX The movement vector X component
      * \param axisY The movement vector Y component
      * \param collideConnected (optional) If the connected bodies should collide
