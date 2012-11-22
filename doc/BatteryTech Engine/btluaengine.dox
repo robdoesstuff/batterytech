@@ -105,7 +105,7 @@
  */
 
 /**
- * \defgroup Physics 2D Collisions and Physics
+ * \defgroup Physics2D 2D Collisions and Physics
  * \brief Using the integrated Box2D physics engine
  *
  */

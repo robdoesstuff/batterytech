@@ -143,7 +143,7 @@ float compute_fog_amount(vec4 ecVert) {
 #endif
 
 
-// ---------------------------------- main --------------------------------
+// ---------------------------------- main -------------------------------- 
 void main() {
 	vec2 uv_offset = fog_and_uv_offset.zw;
 	// flip V, as is custom
