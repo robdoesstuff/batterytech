@@ -39,7 +39,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="modules.html"><span>Modules</span></a></li>
+      <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -58,12 +60,19 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </li>
     </ul>
   </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
+      <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
+      <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
+    </ul>
+  </div>
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -75,45 +84,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
-<a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-attribs">Public Attributes</a> &#124;
-<a href="#pro-methods">Protected Member Functions</a> &#124;
-<a href="#pro-attribs">Protected Attributes</a>  </div>
+<a href="#pub-methods">Public Member Functions</a>  </div>
   <div class="headertitle">
 <div class="title">GameObject Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p><code>#include &lt;<a class="el" href="_game_object_8h_source.html">C:/Users/rgreen/btworkspace/batterytech-trunk/src/bt-luaengine/app-src/gameobject/GameObject.h</a>&gt;</code></p>
-<div class="dynheader">
-Inheritance diagram for GameObject:</div>
-<div class="dyncontent">
- <div class="center">
-  <img src="class_game_object.png" usemap="#GameObject_map" alt=""/>
-  <map id="GameObject_map" name="GameObject_map">
-<area href="class_physics_body_object.html" alt="PhysicsBodyObject" shape="rect" coords="0,0,122,24"/>
-</map>
- </div></div>
-
 <p><a href="class_game_object-members.html">List of all members.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2><a name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_game_object_1_1_path_node.html">PathNode</a></td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a4656034602ff2205dbca153bb60825c4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_object.html#a4656034602ff2205dbca153bb60825c4">GameObject</a> (<a class="el" href="class_game_context.html">GameContext</a> *<a class="el" href="class_game_object.html#a97a354c96c540d72a86c87c611bb0243">context</a>)</td></tr>
-<tr class="memitem:ab82dfdb656f9051c0587e6593b2dda97"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_object.html#ab82dfdb656f9051c0587e6593b2dda97">~GameObject</a> ()</td></tr>
-<tr class="memitem:a9b565e5ec63bef28e5c860f724d2de7c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_object.html#a9b565e5ec63bef28e5c860f724d2de7c">init</a> ()</td></tr>
-<tr class="memitem:a4a83fdaf81ae3129348927c6b646ccac"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_object.html#a4a83fdaf81ae3129348927c6b646ccac">setPosition</a> (Vector3f <a class="el" href="class_game_object.html#a95072f9399a934d86d3bc68d7b03bf4d">pos</a>)</td></tr>
-<tr class="memitem:acd5401d914d70e366fc50b4c2f19827f"><td class="memItemLeft" align="right" valign="top">Vector3f&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_object.html#acd5401d914d70e366fc50b4c2f19827f">getPosition</a> ()</td></tr>
-<tr class="memitem:af3f3152df1ef1171381b73c6df1bdc44"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_object.html#af3f3152df1ef1171381b73c6df1bdc44">setModelScale</a> (Vector3f <a class="el" href="class_game_object.html#ab48889e1943ad47c4e8e2aace8088eca">modelScale</a>)</td></tr>
-<tr class="memitem:ae4a3935f5df7218441d929d7d760e1bb"><td class="memItemLeft" align="right" valign="top">Vector3f&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_object.html#ae4a3935f5df7218441d929d7d760e1bb">getModelScale</a> ()</td></tr>
-<tr class="memitem:adad7d284b670db722a2fda8e6a7997e3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_object.html#adad7d284b670db722a2fda8e6a7997e3">update</a> ()</td></tr>
-<tr class="memitem:ad5baa7f1328df24e46f30587aa890ab6"><td class="memItemLeft" align="right" valign="top">BOOL32&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_object.html#ad5baa7f1328df24e46f30587aa890ab6">isValidGameObject</a> (<a class="el" href="class_game_object.html">GameObject</a> *other)</td></tr>
-<tr class="memitem:a05559d8b200835d3e66b943d93f0236e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_object.html#a05559d8b200835d3e66b943d93f0236e">destroyBody</a> ()</td></tr>
 <tr class="memitem:gab6ed5a737f27fa166a782a2b8141df7d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___game_object.html#gab6ed5a737f27fa166a782a2b8141df7d">cInit</a> ()</td></tr>
 <tr class="memdesc:gab6ed5a737f27fa166a782a2b8141df7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___game_object.html#gab6ed5a737f27fa166a782a2b8141df7d"></a><br/></td></tr>
 <tr class="memitem:gab3a5c1145d984bfffc6542a1c5326623"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___game_object.html#gab3a5c1145d984bfffc6542a1c5326623">cDeactivate</a> ()</td></tr>
@@ -124,415 +104,94 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:ga2a88953489d11ea9c3da76dfdb143886"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___animation3_d.html#ga2a88953489d11ea9c3da76dfdb143886"></a><br/></td></tr>
 <tr class="memitem:ga51c18a90183360300937203dac349238"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___animation3_d.html#ga51c18a90183360300937203dac349238">anim_interpolate</a> ()</td></tr>
 <tr class="memdesc:ga51c18a90183360300937203dac349238"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___animation3_d.html#ga51c18a90183360300937203dac349238"></a><br/></td></tr>
-<tr class="memitem:ga69f6293194f00bc9ae4db7ae8e2a8e78"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___other_functions.html#ga69f6293194f00bc9ae4db7ae8e2a8e78">physics_createBody</a> ()</td></tr>
-<tr class="memdesc:ga69f6293194f00bc9ae4db7ae8e2a8e78"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___other_functions.html#ga69f6293194f00bc9ae4db7ae8e2a8e78"></a><br/></td></tr>
-<tr class="memitem:ga3456650161a6c455f9bebb05d4cedcb0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___other_functions.html#ga3456650161a6c455f9bebb05d4cedcb0">physics_removeBody</a> ()</td></tr>
-<tr class="memdesc:ga3456650161a6c455f9bebb05d4cedcb0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___other_functions.html#ga3456650161a6c455f9bebb05d4cedcb0"></a><br/></td></tr>
-<tr class="memitem:ga03423bec89b40dd8c21c2bcf7a7cc1c0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___other_functions.html#ga03423bec89b40dd8c21c2bcf7a7cc1c0">physics_setBodyTransform</a> ()</td></tr>
-<tr class="memdesc:ga03423bec89b40dd8c21c2bcf7a7cc1c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___other_functions.html#ga03423bec89b40dd8c21c2bcf7a7cc1c0"></a><br/></td></tr>
-<tr class="memitem:ga4d2513d25e083816a1b6091b608818e7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___other_functions.html#ga4d2513d25e083816a1b6091b608818e7">physics_setBodyAngularVelocity</a> ()</td></tr>
-<tr class="memdesc:ga4d2513d25e083816a1b6091b608818e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___other_functions.html#ga4d2513d25e083816a1b6091b608818e7"></a><br/></td></tr>
-<tr class="memitem:ga62d929df13c8c49711f109f312316e18"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___other_functions.html#ga62d929df13c8c49711f109f312316e18">physics_setBodyLinearVelocity</a> ()</td></tr>
-<tr class="memdesc:ga62d929df13c8c49711f109f312316e18"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___other_functions.html#ga62d929df13c8c49711f109f312316e18"></a><br/></td></tr>
-<tr class="memitem:ga5a894febaf43844983e02879b0a9d69b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___other_functions.html#ga5a894febaf43844983e02879b0a9d69b">physics_setBodyAngularDamping</a> ()</td></tr>
-<tr class="memdesc:ga5a894febaf43844983e02879b0a9d69b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___other_functions.html#ga5a894febaf43844983e02879b0a9d69b"></a><br/></td></tr>
-<tr class="memitem:ga491b09f23ce9bc163d21d28a09fe8fa8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___other_functions.html#ga491b09f23ce9bc163d21d28a09fe8fa8">physics_setBodyLinearDamping</a> ()</td></tr>
-<tr class="memdesc:ga491b09f23ce9bc163d21d28a09fe8fa8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___other_functions.html#ga491b09f23ce9bc163d21d28a09fe8fa8"></a><br/></td></tr>
-<tr class="memitem:ga04b0eb243630dd4225083085c1888c65"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___other_functions.html#ga04b0eb243630dd4225083085c1888c65">physics_setBodyAllowSleep</a> ()</td></tr>
-<tr class="memdesc:ga04b0eb243630dd4225083085c1888c65"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___other_functions.html#ga04b0eb243630dd4225083085c1888c65"></a><br/></td></tr>
-<tr class="memitem:gad7fa95eacc92708d8616083f5edb386e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___other_functions.html#gad7fa95eacc92708d8616083f5edb386e">physics_setBodyAwake</a> ()</td></tr>
-<tr class="memdesc:gad7fa95eacc92708d8616083f5edb386e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___other_functions.html#gad7fa95eacc92708d8616083f5edb386e"></a><br/></td></tr>
-<tr class="memitem:gac591a2c458f7f1bc04786428099d4ce7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___other_functions.html#gac591a2c458f7f1bc04786428099d4ce7">physics_setBodyFixedRotation</a> ()</td></tr>
-<tr class="memdesc:gac591a2c458f7f1bc04786428099d4ce7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___other_functions.html#gac591a2c458f7f1bc04786428099d4ce7"></a><br/></td></tr>
-<tr class="memitem:gaf296debd5e98fcf153639fd9c8fb4dea"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___other_functions.html#gaf296debd5e98fcf153639fd9c8fb4dea">physics_setBodyBullet</a> ()</td></tr>
-<tr class="memdesc:gaf296debd5e98fcf153639fd9c8fb4dea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___other_functions.html#gaf296debd5e98fcf153639fd9c8fb4dea"></a><br/></td></tr>
-<tr class="memitem:ga2baae8c2e8d608d9554566a0cd8ba942"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___other_functions.html#ga2baae8c2e8d608d9554566a0cd8ba942">physics_setBodyActive</a> ()</td></tr>
-<tr class="memdesc:ga2baae8c2e8d608d9554566a0cd8ba942"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___other_functions.html#ga2baae8c2e8d608d9554566a0cd8ba942"></a><br/></td></tr>
-<tr class="memitem:gaaefbe178663c78165e0b3e77a1c11d62"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___other_functions.html#gaaefbe178663c78165e0b3e77a1c11d62">physics_setBodyType</a> ()</td></tr>
-<tr class="memdesc:gaaefbe178663c78165e0b3e77a1c11d62"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___other_functions.html#gaaefbe178663c78165e0b3e77a1c11d62"></a><br/></td></tr>
-<tr class="memitem:ga08eabd556c8f3719c8fd8a8fd3f1f6fe"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___other_functions.html#ga08eabd556c8f3719c8fd8a8fd3f1f6fe">physics_setBodyGravityScale</a> ()</td></tr>
-<tr class="memdesc:ga08eabd556c8f3719c8fd8a8fd3f1f6fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___other_functions.html#ga08eabd556c8f3719c8fd8a8fd3f1f6fe"></a><br/></td></tr>
-<tr class="memitem:gaa4d089eb5bf37033e1a9e2e08d44e926"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___other_functions.html#gaa4d089eb5bf37033e1a9e2e08d44e926">physics_getBodyTransform</a> ()</td></tr>
-<tr class="memdesc:gaa4d089eb5bf37033e1a9e2e08d44e926"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___other_functions.html#gaa4d089eb5bf37033e1a9e2e08d44e926"></a><br/></td></tr>
-<tr class="memitem:ga99bd741bd059bd03b377b953062825ae"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___other_functions.html#ga99bd741bd059bd03b377b953062825ae">physics_getBodyAngularVelocity</a> ()</td></tr>
-<tr class="memdesc:ga99bd741bd059bd03b377b953062825ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___other_functions.html#ga99bd741bd059bd03b377b953062825ae"></a><br/></td></tr>
-<tr class="memitem:ga84bcb1cac2c19ecc87f3b6f937f272b1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___other_functions.html#ga84bcb1cac2c19ecc87f3b6f937f272b1">physics_getBodyLinearVelocity</a> ()</td></tr>
-<tr class="memdesc:ga84bcb1cac2c19ecc87f3b6f937f272b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___other_functions.html#ga84bcb1cac2c19ecc87f3b6f937f272b1"></a><br/></td></tr>
-<tr class="memitem:ga55c911bbe474a434f5799a482848e05a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___other_functions.html#ga55c911bbe474a434f5799a482848e05a">physics_getBodyWorldPoint</a> ()</td></tr>
-<tr class="memdesc:ga55c911bbe474a434f5799a482848e05a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___other_functions.html#ga55c911bbe474a434f5799a482848e05a"></a><br/></td></tr>
-<tr class="memitem:ga735fd5375eeddb98ef14c22695a94ea1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___other_functions.html#ga735fd5375eeddb98ef14c22695a94ea1">physics_getBodyWorldPoints</a> ()</td></tr>
-<tr class="memdesc:ga735fd5375eeddb98ef14c22695a94ea1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___other_functions.html#ga735fd5375eeddb98ef14c22695a94ea1"></a><br/></td></tr>
-<tr class="memitem:ga37df15f0b285ba204eb4fcfc68166db3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___other_functions.html#ga37df15f0b285ba204eb4fcfc68166db3">physics_getBodyLocalPoint</a> ()</td></tr>
-<tr class="memdesc:ga37df15f0b285ba204eb4fcfc68166db3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___other_functions.html#ga37df15f0b285ba204eb4fcfc68166db3"></a><br/></td></tr>
-<tr class="memitem:ga73638e0946b411f20e1e5575ddba0c3a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___other_functions.html#ga73638e0946b411f20e1e5575ddba0c3a">physics_getBodyLocalCenter</a> ()</td></tr>
-<tr class="memdesc:ga73638e0946b411f20e1e5575ddba0c3a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___other_functions.html#ga73638e0946b411f20e1e5575ddba0c3a"></a><br/></td></tr>
-<tr class="memitem:gad2a379231fc012b0ae3daca56142e0e9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___other_functions.html#gad2a379231fc012b0ae3daca56142e0e9">physics_applyForce</a> ()</td></tr>
-<tr class="memdesc:gad2a379231fc012b0ae3daca56142e0e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___other_functions.html#gad2a379231fc012b0ae3daca56142e0e9"></a><br/></td></tr>
-<tr class="memitem:gab1f7ec0c7cd01f32ce90a2a290a81d71"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___other_functions.html#gab1f7ec0c7cd01f32ce90a2a290a81d71">physics_applyTorque</a> ()</td></tr>
-<tr class="memdesc:gab1f7ec0c7cd01f32ce90a2a290a81d71"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___other_functions.html#gab1f7ec0c7cd01f32ce90a2a290a81d71"></a><br/></td></tr>
-<tr class="memitem:ga4ea4de80fbc2855a6a0647f2d6db012a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___other_functions.html#ga4ea4de80fbc2855a6a0647f2d6db012a">physics_applyLinearImpulse</a> ()</td></tr>
-<tr class="memdesc:ga4ea4de80fbc2855a6a0647f2d6db012a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___other_functions.html#ga4ea4de80fbc2855a6a0647f2d6db012a"></a><br/></td></tr>
-<tr class="memitem:ga1812ee15d1a8290b137bcf14567699aa"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___other_functions.html#ga1812ee15d1a8290b137bcf14567699aa">physics_applyAngularImpulse</a> ()</td></tr>
-<tr class="memdesc:ga1812ee15d1a8290b137bcf14567699aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___other_functions.html#ga1812ee15d1a8290b137bcf14567699aa"></a><br/></td></tr>
-<tr class="memitem:gab57c61b56d418b7995d92b459ad2596b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___other_functions.html#gab57c61b56d418b7995d92b459ad2596b">physics_createPolygonFixture</a> ()</td></tr>
-<tr class="memdesc:gab57c61b56d418b7995d92b459ad2596b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___other_functions.html#gab57c61b56d418b7995d92b459ad2596b"></a><br/></td></tr>
-<tr class="memitem:gac6547f050eeaaaf937b99df0d8cb2ce3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___other_functions.html#gac6547f050eeaaaf937b99df0d8cb2ce3">physics_createCircleFixture</a> ()</td></tr>
-<tr class="memdesc:gac6547f050eeaaaf937b99df0d8cb2ce3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___other_functions.html#gac6547f050eeaaaf937b99df0d8cb2ce3"></a><br/></td></tr>
-<tr class="memitem:gac9237bfd2c2cfcbb09b0ce38297e8770"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___other_functions.html#gac9237bfd2c2cfcbb09b0ce38297e8770">physics_createChainFixture</a> ()</td></tr>
-<tr class="memdesc:gac9237bfd2c2cfcbb09b0ce38297e8770"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___other_functions.html#gac9237bfd2c2cfcbb09b0ce38297e8770"></a><br/></td></tr>
-<tr class="memitem:ga0e8ae12c3999fa430e7ccd1b4dc71d70"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___other_functions.html#ga0e8ae12c3999fa430e7ccd1b4dc71d70">physics_removeFixture</a> ()</td></tr>
-<tr class="memdesc:ga0e8ae12c3999fa430e7ccd1b4dc71d70"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___other_functions.html#ga0e8ae12c3999fa430e7ccd1b4dc71d70"></a><br/></td></tr>
-<tr class="memitem:ga9d057369bf7279aff572ada05da4baae"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___other_functions.html#ga9d057369bf7279aff572ada05da4baae">physics_setFixtureDensity</a> ()</td></tr>
-<tr class="memdesc:ga9d057369bf7279aff572ada05da4baae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___other_functions.html#ga9d057369bf7279aff572ada05da4baae"></a><br/></td></tr>
-<tr class="memitem:ga278675fb1352313b21a8bad7fbcb3b75"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___other_functions.html#ga278675fb1352313b21a8bad7fbcb3b75">physics_setFixtureFriction</a> ()</td></tr>
-<tr class="memdesc:ga278675fb1352313b21a8bad7fbcb3b75"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___other_functions.html#ga278675fb1352313b21a8bad7fbcb3b75"></a><br/></td></tr>
-<tr class="memitem:ga6a67e24488bd9b3df63b6cad404b1832"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___other_functions.html#ga6a67e24488bd9b3df63b6cad404b1832">physics_setFixtureRestitution</a> ()</td></tr>
-<tr class="memdesc:ga6a67e24488bd9b3df63b6cad404b1832"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___other_functions.html#ga6a67e24488bd9b3df63b6cad404b1832"></a><br/></td></tr>
-<tr class="memitem:ga290a4287cadc6cb8423cebf664f2dee3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___other_functions.html#ga290a4287cadc6cb8423cebf664f2dee3">physics_setFixtureIsSensor</a> ()</td></tr>
-<tr class="memdesc:ga290a4287cadc6cb8423cebf664f2dee3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___other_functions.html#ga290a4287cadc6cb8423cebf664f2dee3"></a><br/></td></tr>
-<tr class="memitem:gaffb2c42e5087326c6d8fb58c9d3c1a78"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___other_functions.html#gaffb2c42e5087326c6d8fb58c9d3c1a78">physics_setFixtureFilter</a> ()</td></tr>
-<tr class="memdesc:gaffb2c42e5087326c6d8fb58c9d3c1a78"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___other_functions.html#gaffb2c42e5087326c6d8fb58c9d3c1a78"></a><br/></td></tr>
-<tr class="memitem:ga1e545748ab85a0b32e1c2706bdad75e2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___other_functions.html#ga1e545748ab85a0b32e1c2706bdad75e2">physics_fixtureTestPoint</a> ()</td></tr>
-<tr class="memdesc:ga1e545748ab85a0b32e1c2706bdad75e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___other_functions.html#ga1e545748ab85a0b32e1c2706bdad75e2"></a><br/></td></tr>
-<tr class="memitem:gae2b6303e56380f79161c59466e33bfab"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___other_functions.html#gae2b6303e56380f79161c59466e33bfab">physics_getFixtureBodyId</a> ()</td></tr>
-<tr class="memdesc:gae2b6303e56380f79161c59466e33bfab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___other_functions.html#gae2b6303e56380f79161c59466e33bfab"></a><br/></td></tr>
-<tr class="memitem:gab80e7c08717f2583848e4b99bca9bf7e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___other_functions.html#gab80e7c08717f2583848e4b99bca9bf7e">queryPhysicsContacts</a> ()</td></tr>
-<tr class="memdesc:gab80e7c08717f2583848e4b99bca9bf7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___other_functions.html#gab80e7c08717f2583848e4b99bca9bf7e"></a><br/></td></tr>
-<tr class="memitem:ga5451c1b88f9bff5f763a14151c573ebc"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___other_functions.html#ga5451c1b88f9bff5f763a14151c573ebc">setPhysicsCallbackDetail</a> ()</td></tr>
-<tr class="memdesc:ga5451c1b88f9bff5f763a14151c573ebc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___other_functions.html#ga5451c1b88f9bff5f763a14151c573ebc"></a><br/></td></tr>
-<tr class="memitem:ga9f8373e0b1ee2d0dbae57d62b0ead3c8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___other_functions.html#ga9f8373e0b1ee2d0dbae57d62b0ead3c8">countPhysicsContacts</a> ()</td></tr>
-<tr class="memdesc:ga9f8373e0b1ee2d0dbae57d62b0ead3c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___other_functions.html#ga9f8373e0b1ee2d0dbae57d62b0ead3c8"></a><br/></td></tr>
-<tr class="memitem:gae6c880fbe0c553cda46c88a1fef231df"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___other_functions.html#gae6c880fbe0c553cda46c88a1fef231df">getPhysicsContact</a> ()</td></tr>
-<tr class="memdesc:gae6c880fbe0c553cda46c88a1fef231df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___other_functions.html#gae6c880fbe0c553cda46c88a1fef231df"></a><br/></td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2><a name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
-<tr class="memitem:a51bc2b30bc1ba5c92bf5e96b4921a276"><td class="memItemLeft" align="right" valign="top">BOOL32&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_object.html#a51bc2b30bc1ba5c92bf5e96b4921a276">isActive</a></td></tr>
-<tr class="memitem:a95072f9399a934d86d3bc68d7b03bf4d"><td class="memItemLeft" align="right" valign="top">Vector3f&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_object.html#a95072f9399a934d86d3bc68d7b03bf4d">pos</a></td></tr>
-<tr class="memitem:a46e8070586de5fbbf1889dd183263b82"><td class="memItemLeft" align="right" valign="top">Vector3f&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_object.html#a46e8070586de5fbbf1889dd183263b82">lastPos</a></td></tr>
-<tr class="memitem:adfabecef363b778064f9a13702cee4cc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_game_object_lua_binder.html">GameObjectLuaBinder</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_object.html#adfabecef363b778064f9a13702cee4cc">luaBinder</a></td></tr>
-<tr class="memitem:a2210c16d38697b061559c942c81950ab"><td class="memItemLeft" align="right" valign="top">ManagedArray&lt; AssimpAnimator &gt; *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_object.html#a2210c16d38697b061559c942c81950ab">animators</a></td></tr>
-<tr class="memitem:ab48889e1943ad47c4e8e2aace8088eca"><td class="memItemLeft" align="right" valign="top">Vector3f&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_object.html#ab48889e1943ad47c4e8e2aace8088eca">modelScale</a></td></tr>
-<tr class="memitem:afdc872ddf0c0682687633f87fa7c2721"><td class="memItemLeft" align="right" valign="top">BOOL32&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_object.html#afdc872ddf0c0682687633f87fa7c2721">isInitialized</a></td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2><a name="pro-methods"></a>
-Protected Member Functions</h2></td></tr>
-<tr class="memitem:a2d0243ef7a9fea81036bc96d28176145"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_world.html">World</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_object.html#a2d0243ef7a9fea81036bc96d28176145">getWorld</a> ()</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2><a name="pro-attribs"></a>
-Protected Attributes</h2></td></tr>
-<tr class="memitem:a97a354c96c540d72a86c87c611bb0243"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_game_context.html">GameContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_object.html#a97a354c96c540d72a86c87c611bb0243">context</a></td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2><a name="inherited"></a>
-Additional Inherited Members</h2></td></tr>
-<tr class="inherit_header pub_methods_class_physics_body_object"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_physics_body_object')"><img src="closed.png" alt="-"/>&nbsp;Private Member Functions inherited from <a class="el" href="class_physics_body_object.html">PhysicsBodyObject</a></td></tr>
-<tr class="memitem:a7a253b77e3faaa0833a542c987f36dc5 inherit pub_methods_class_physics_body_object"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_physics_body_object.html#a7a253b77e3faaa0833a542c987f36dc5">PhysicsBodyObject</a> (S32 <a class="el" href="class_physics_body_object.html#a57571caba35b7e6df3a04fb064896ee0">bodyType</a>)</td></tr>
-<tr class="memitem:aee26ff1501c2c506a79b2bf828bed1af inherit pub_methods_class_physics_body_object"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_physics_body_object.html#aee26ff1501c2c506a79b2bf828bed1af">~PhysicsBodyObject</a> ()</td></tr>
-<tr class="inherit_header pub_attribs_class_physics_body_object"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_class_physics_body_object')"><img src="closed.png" alt="-"/>&nbsp;Private Attributes inherited from <a class="el" href="class_physics_body_object.html">PhysicsBodyObject</a></td></tr>
-<tr class="memitem:a57571caba35b7e6df3a04fb064896ee0 inherit pub_attribs_class_physics_body_object"><td class="memItemLeft" align="right" valign="top">S32&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_physics_body_object.html#a57571caba35b7e6df3a04fb064896ee0">bodyType</a></td></tr>
+<tr class="memitem:ga69f6293194f00bc9ae4db7ae8e2a8e78"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#ga69f6293194f00bc9ae4db7ae8e2a8e78">physics_createBody</a> ()</td></tr>
+<tr class="memdesc:ga69f6293194f00bc9ae4db7ae8e2a8e78"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___physics.html#ga69f6293194f00bc9ae4db7ae8e2a8e78"></a><br/></td></tr>
+<tr class="memitem:ga3456650161a6c455f9bebb05d4cedcb0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#ga3456650161a6c455f9bebb05d4cedcb0">physics_removeBody</a> ()</td></tr>
+<tr class="memdesc:ga3456650161a6c455f9bebb05d4cedcb0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___physics.html#ga3456650161a6c455f9bebb05d4cedcb0"></a><br/></td></tr>
+<tr class="memitem:ga03423bec89b40dd8c21c2bcf7a7cc1c0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#ga03423bec89b40dd8c21c2bcf7a7cc1c0">physics_setBodyTransform</a> ()</td></tr>
+<tr class="memdesc:ga03423bec89b40dd8c21c2bcf7a7cc1c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___physics.html#ga03423bec89b40dd8c21c2bcf7a7cc1c0"></a><br/></td></tr>
+<tr class="memitem:ga4d2513d25e083816a1b6091b608818e7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#ga4d2513d25e083816a1b6091b608818e7">physics_setBodyAngularVelocity</a> ()</td></tr>
+<tr class="memdesc:ga4d2513d25e083816a1b6091b608818e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___physics.html#ga4d2513d25e083816a1b6091b608818e7"></a><br/></td></tr>
+<tr class="memitem:ga62d929df13c8c49711f109f312316e18"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#ga62d929df13c8c49711f109f312316e18">physics_setBodyLinearVelocity</a> ()</td></tr>
+<tr class="memdesc:ga62d929df13c8c49711f109f312316e18"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___physics.html#ga62d929df13c8c49711f109f312316e18"></a><br/></td></tr>
+<tr class="memitem:ga5a894febaf43844983e02879b0a9d69b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#ga5a894febaf43844983e02879b0a9d69b">physics_setBodyAngularDamping</a> ()</td></tr>
+<tr class="memdesc:ga5a894febaf43844983e02879b0a9d69b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___physics.html#ga5a894febaf43844983e02879b0a9d69b"></a><br/></td></tr>
+<tr class="memitem:ga491b09f23ce9bc163d21d28a09fe8fa8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#ga491b09f23ce9bc163d21d28a09fe8fa8">physics_setBodyLinearDamping</a> ()</td></tr>
+<tr class="memdesc:ga491b09f23ce9bc163d21d28a09fe8fa8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___physics.html#ga491b09f23ce9bc163d21d28a09fe8fa8"></a><br/></td></tr>
+<tr class="memitem:ga04b0eb243630dd4225083085c1888c65"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#ga04b0eb243630dd4225083085c1888c65">physics_setBodyAllowSleep</a> ()</td></tr>
+<tr class="memdesc:ga04b0eb243630dd4225083085c1888c65"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___physics.html#ga04b0eb243630dd4225083085c1888c65"></a><br/></td></tr>
+<tr class="memitem:gad7fa95eacc92708d8616083f5edb386e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#gad7fa95eacc92708d8616083f5edb386e">physics_setBodyAwake</a> ()</td></tr>
+<tr class="memdesc:gad7fa95eacc92708d8616083f5edb386e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___physics.html#gad7fa95eacc92708d8616083f5edb386e"></a><br/></td></tr>
+<tr class="memitem:gac591a2c458f7f1bc04786428099d4ce7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#gac591a2c458f7f1bc04786428099d4ce7">physics_setBodyFixedRotation</a> ()</td></tr>
+<tr class="memdesc:gac591a2c458f7f1bc04786428099d4ce7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___physics.html#gac591a2c458f7f1bc04786428099d4ce7"></a><br/></td></tr>
+<tr class="memitem:gaf296debd5e98fcf153639fd9c8fb4dea"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#gaf296debd5e98fcf153639fd9c8fb4dea">physics_setBodyBullet</a> ()</td></tr>
+<tr class="memdesc:gaf296debd5e98fcf153639fd9c8fb4dea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___physics.html#gaf296debd5e98fcf153639fd9c8fb4dea"></a><br/></td></tr>
+<tr class="memitem:ga2baae8c2e8d608d9554566a0cd8ba942"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#ga2baae8c2e8d608d9554566a0cd8ba942">physics_setBodyActive</a> ()</td></tr>
+<tr class="memdesc:ga2baae8c2e8d608d9554566a0cd8ba942"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___physics.html#ga2baae8c2e8d608d9554566a0cd8ba942"></a><br/></td></tr>
+<tr class="memitem:gaaefbe178663c78165e0b3e77a1c11d62"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#gaaefbe178663c78165e0b3e77a1c11d62">physics_setBodyType</a> ()</td></tr>
+<tr class="memdesc:gaaefbe178663c78165e0b3e77a1c11d62"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___physics.html#gaaefbe178663c78165e0b3e77a1c11d62"></a><br/></td></tr>
+<tr class="memitem:ga08eabd556c8f3719c8fd8a8fd3f1f6fe"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#ga08eabd556c8f3719c8fd8a8fd3f1f6fe">physics_setBodyGravityScale</a> ()</td></tr>
+<tr class="memdesc:ga08eabd556c8f3719c8fd8a8fd3f1f6fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___physics.html#ga08eabd556c8f3719c8fd8a8fd3f1f6fe"></a><br/></td></tr>
+<tr class="memitem:gaa4d089eb5bf37033e1a9e2e08d44e926"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#gaa4d089eb5bf37033e1a9e2e08d44e926">physics_getBodyTransform</a> ()</td></tr>
+<tr class="memdesc:gaa4d089eb5bf37033e1a9e2e08d44e926"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___physics.html#gaa4d089eb5bf37033e1a9e2e08d44e926"></a><br/></td></tr>
+<tr class="memitem:ga99bd741bd059bd03b377b953062825ae"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#ga99bd741bd059bd03b377b953062825ae">physics_getBodyAngularVelocity</a> ()</td></tr>
+<tr class="memdesc:ga99bd741bd059bd03b377b953062825ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___physics.html#ga99bd741bd059bd03b377b953062825ae"></a><br/></td></tr>
+<tr class="memitem:ga84bcb1cac2c19ecc87f3b6f937f272b1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#ga84bcb1cac2c19ecc87f3b6f937f272b1">physics_getBodyLinearVelocity</a> ()</td></tr>
+<tr class="memdesc:ga84bcb1cac2c19ecc87f3b6f937f272b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___physics.html#ga84bcb1cac2c19ecc87f3b6f937f272b1"></a><br/></td></tr>
+<tr class="memitem:ga55c911bbe474a434f5799a482848e05a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#ga55c911bbe474a434f5799a482848e05a">physics_getBodyWorldPoint</a> ()</td></tr>
+<tr class="memdesc:ga55c911bbe474a434f5799a482848e05a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___physics.html#ga55c911bbe474a434f5799a482848e05a"></a><br/></td></tr>
+<tr class="memitem:ga735fd5375eeddb98ef14c22695a94ea1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#ga735fd5375eeddb98ef14c22695a94ea1">physics_getBodyWorldPoints</a> ()</td></tr>
+<tr class="memdesc:ga735fd5375eeddb98ef14c22695a94ea1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___physics.html#ga735fd5375eeddb98ef14c22695a94ea1"></a><br/></td></tr>
+<tr class="memitem:ga37df15f0b285ba204eb4fcfc68166db3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#ga37df15f0b285ba204eb4fcfc68166db3">physics_getBodyLocalPoint</a> ()</td></tr>
+<tr class="memdesc:ga37df15f0b285ba204eb4fcfc68166db3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___physics.html#ga37df15f0b285ba204eb4fcfc68166db3"></a><br/></td></tr>
+<tr class="memitem:ga73638e0946b411f20e1e5575ddba0c3a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#ga73638e0946b411f20e1e5575ddba0c3a">physics_getBodyLocalCenter</a> ()</td></tr>
+<tr class="memdesc:ga73638e0946b411f20e1e5575ddba0c3a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___physics.html#ga73638e0946b411f20e1e5575ddba0c3a"></a><br/></td></tr>
+<tr class="memitem:gad2a379231fc012b0ae3daca56142e0e9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#gad2a379231fc012b0ae3daca56142e0e9">physics_applyForce</a> ()</td></tr>
+<tr class="memdesc:gad2a379231fc012b0ae3daca56142e0e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___physics.html#gad2a379231fc012b0ae3daca56142e0e9"></a><br/></td></tr>
+<tr class="memitem:gab1f7ec0c7cd01f32ce90a2a290a81d71"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#gab1f7ec0c7cd01f32ce90a2a290a81d71">physics_applyTorque</a> ()</td></tr>
+<tr class="memdesc:gab1f7ec0c7cd01f32ce90a2a290a81d71"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___physics.html#gab1f7ec0c7cd01f32ce90a2a290a81d71"></a><br/></td></tr>
+<tr class="memitem:ga4ea4de80fbc2855a6a0647f2d6db012a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#ga4ea4de80fbc2855a6a0647f2d6db012a">physics_applyLinearImpulse</a> ()</td></tr>
+<tr class="memdesc:ga4ea4de80fbc2855a6a0647f2d6db012a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___physics.html#ga4ea4de80fbc2855a6a0647f2d6db012a"></a><br/></td></tr>
+<tr class="memitem:ga1812ee15d1a8290b137bcf14567699aa"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#ga1812ee15d1a8290b137bcf14567699aa">physics_applyAngularImpulse</a> ()</td></tr>
+<tr class="memdesc:ga1812ee15d1a8290b137bcf14567699aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___physics.html#ga1812ee15d1a8290b137bcf14567699aa"></a><br/></td></tr>
+<tr class="memitem:gab57c61b56d418b7995d92b459ad2596b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#gab57c61b56d418b7995d92b459ad2596b">physics_createPolygonFixture</a> ()</td></tr>
+<tr class="memdesc:gab57c61b56d418b7995d92b459ad2596b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___physics.html#gab57c61b56d418b7995d92b459ad2596b"></a><br/></td></tr>
+<tr class="memitem:gac6547f050eeaaaf937b99df0d8cb2ce3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#gac6547f050eeaaaf937b99df0d8cb2ce3">physics_createCircleFixture</a> ()</td></tr>
+<tr class="memdesc:gac6547f050eeaaaf937b99df0d8cb2ce3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___physics.html#gac6547f050eeaaaf937b99df0d8cb2ce3"></a><br/></td></tr>
+<tr class="memitem:gac9237bfd2c2cfcbb09b0ce38297e8770"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#gac9237bfd2c2cfcbb09b0ce38297e8770">physics_createChainFixture</a> ()</td></tr>
+<tr class="memdesc:gac9237bfd2c2cfcbb09b0ce38297e8770"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___physics.html#gac9237bfd2c2cfcbb09b0ce38297e8770"></a><br/></td></tr>
+<tr class="memitem:ga0e8ae12c3999fa430e7ccd1b4dc71d70"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#ga0e8ae12c3999fa430e7ccd1b4dc71d70">physics_removeFixture</a> ()</td></tr>
+<tr class="memdesc:ga0e8ae12c3999fa430e7ccd1b4dc71d70"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___physics.html#ga0e8ae12c3999fa430e7ccd1b4dc71d70"></a><br/></td></tr>
+<tr class="memitem:ga9d057369bf7279aff572ada05da4baae"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#ga9d057369bf7279aff572ada05da4baae">physics_setFixtureDensity</a> ()</td></tr>
+<tr class="memdesc:ga9d057369bf7279aff572ada05da4baae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___physics.html#ga9d057369bf7279aff572ada05da4baae"></a><br/></td></tr>
+<tr class="memitem:ga278675fb1352313b21a8bad7fbcb3b75"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#ga278675fb1352313b21a8bad7fbcb3b75">physics_setFixtureFriction</a> ()</td></tr>
+<tr class="memdesc:ga278675fb1352313b21a8bad7fbcb3b75"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___physics.html#ga278675fb1352313b21a8bad7fbcb3b75"></a><br/></td></tr>
+<tr class="memitem:ga6a67e24488bd9b3df63b6cad404b1832"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#ga6a67e24488bd9b3df63b6cad404b1832">physics_setFixtureRestitution</a> ()</td></tr>
+<tr class="memdesc:ga6a67e24488bd9b3df63b6cad404b1832"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___physics.html#ga6a67e24488bd9b3df63b6cad404b1832"></a><br/></td></tr>
+<tr class="memitem:ga290a4287cadc6cb8423cebf664f2dee3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#ga290a4287cadc6cb8423cebf664f2dee3">physics_setFixtureIsSensor</a> ()</td></tr>
+<tr class="memdesc:ga290a4287cadc6cb8423cebf664f2dee3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___physics.html#ga290a4287cadc6cb8423cebf664f2dee3"></a><br/></td></tr>
+<tr class="memitem:gaffb2c42e5087326c6d8fb58c9d3c1a78"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#gaffb2c42e5087326c6d8fb58c9d3c1a78">physics_setFixtureFilter</a> ()</td></tr>
+<tr class="memdesc:gaffb2c42e5087326c6d8fb58c9d3c1a78"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___physics.html#gaffb2c42e5087326c6d8fb58c9d3c1a78"></a><br/></td></tr>
+<tr class="memitem:ga1e545748ab85a0b32e1c2706bdad75e2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#ga1e545748ab85a0b32e1c2706bdad75e2">physics_fixtureTestPoint</a> ()</td></tr>
+<tr class="memdesc:ga1e545748ab85a0b32e1c2706bdad75e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___physics.html#ga1e545748ab85a0b32e1c2706bdad75e2"></a><br/></td></tr>
+<tr class="memitem:gae2b6303e56380f79161c59466e33bfab"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#gae2b6303e56380f79161c59466e33bfab">physics_getFixtureBodyId</a> ()</td></tr>
+<tr class="memdesc:gae2b6303e56380f79161c59466e33bfab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___physics.html#gae2b6303e56380f79161c59466e33bfab"></a><br/></td></tr>
+<tr class="memitem:gab80e7c08717f2583848e4b99bca9bf7e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#gab80e7c08717f2583848e4b99bca9bf7e">queryPhysicsContacts</a> ()</td></tr>
+<tr class="memdesc:gab80e7c08717f2583848e4b99bca9bf7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___physics.html#gab80e7c08717f2583848e4b99bca9bf7e"></a><br/></td></tr>
+<tr class="memitem:ga5451c1b88f9bff5f763a14151c573ebc"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#ga5451c1b88f9bff5f763a14151c573ebc">setPhysicsCallbackDetail</a> ()</td></tr>
+<tr class="memdesc:ga5451c1b88f9bff5f763a14151c573ebc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___physics.html#ga5451c1b88f9bff5f763a14151c573ebc"></a><br/></td></tr>
+<tr class="memitem:ga9f8373e0b1ee2d0dbae57d62b0ead3c8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#ga9f8373e0b1ee2d0dbae57d62b0ead3c8">countPhysicsContacts</a> ()</td></tr>
+<tr class="memdesc:ga9f8373e0b1ee2d0dbae57d62b0ead3c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___physics.html#ga9f8373e0b1ee2d0dbae57d62b0ead3c8"></a><br/></td></tr>
+<tr class="memitem:gae6c880fbe0c553cda46c88a1fef231df"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#gae6c880fbe0c553cda46c88a1fef231df">getPhysicsContact</a> ()</td></tr>
+<tr class="memdesc:gae6c880fbe0c553cda46c88a1fef231df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="group___physics.html#gae6c880fbe0c553cda46c88a1fef231df"></a><br/></td></tr>
 </table>
-<hr/><h2>Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a4656034602ff2205dbca153bb60825c4"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">GameObject::GameObject </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_game_context.html">GameContext</a> *&#160;</td>
-          <td class="paramname"><em>context</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p><a class="el" href="class_game_object.html">GameObject</a> has a primary rigid body, an array of other bodies and an array of constraints. The lua binder can address any body or constraint using the array indices. Rendering needs to know which body to use for worldtransform. </p>
-
-</div>
-</div>
-<a class="anchor" id="ab82dfdb656f9051c0587e6593b2dda97"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">GameObject::~GameObject </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<hr/><h2>Member Function Documentation</h2>
-<a class="anchor" id="a05559d8b200835d3e66b943d93f0236e"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void GameObject::destroyBody </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="ae4a3935f5df7218441d929d7d760e1bb"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">Vector3f GameObject::getModelScale </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="acd5401d914d70e366fc50b4c2f19827f"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">Vector3f GameObject::getPosition </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a2d0243ef7a9fea81036bc96d28176145"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_world.html">World</a> * GameObject::getWorld </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a9b565e5ec63bef28e5c860f724d2de7c"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void GameObject::init </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="ad5baa7f1328df24e46f30587aa890ab6"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">BOOL32 GameObject::isValidGameObject </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_game_object.html">GameObject</a> *&#160;</td>
-          <td class="paramname"><em>other</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="af3f3152df1ef1171381b73c6df1bdc44"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void GameObject::setModelScale </td>
-          <td>(</td>
-          <td class="paramtype">Vector3f&#160;</td>
-          <td class="paramname"><em>modelScale</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a4a83fdaf81ae3129348927c6b646ccac"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void GameObject::setPosition </td>
-          <td>(</td>
-          <td class="paramtype">Vector3f&#160;</td>
-          <td class="paramname"><em>pos</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="adad7d284b670db722a2fda8e6a7997e3"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void GameObject::update </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<hr/><h2>Member Data Documentation</h2>
-<a class="anchor" id="a2210c16d38697b061559c942c81950ab"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">ManagedArray&lt;AssimpAnimator&gt;* GameObject::animators</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a97a354c96c540d72a86c87c611bb0243"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_game_context.html">GameContext</a>* GameObject::context</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a51bc2b30bc1ba5c92bf5e96b4921a276"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">BOOL32 GameObject::isActive</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="afdc872ddf0c0682687633f87fa7c2721"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">BOOL32 GameObject::isInitialized</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a46e8070586de5fbbf1889dd183263b82"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">Vector3f GameObject::lastPos</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="adfabecef363b778064f9a13702cee4cc"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_game_object_lua_binder.html">GameObjectLuaBinder</a>* GameObject::luaBinder</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="ab48889e1943ad47c4e8e2aace8088eca"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">Vector3f GameObject::modelScale</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a95072f9399a934d86d3bc68d7b03bf4d"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">Vector3f GameObject::pos</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<hr/>The documentation for this class was generated from the following files:<ul>
-<li>C:/Users/rgreen/btworkspace/batterytech-trunk/src/bt-luaengine/app-src/gameobject/<a class="el" href="_game_object_8h_source.html">GameObject.h</a></li>
-<li>C:/Users/rgreen/btworkspace/batterytech-trunk/src/bt-luaengine/app-src/gameobject/<a class="el" href="_game_object_lua_binder_8cpp.html">GameObjectLuaBinder.cpp</a></li>
-<li>C:/Users/rgreen/btworkspace/batterytech-trunk/src/bt-luaengine/app-src/gameobject/<a class="el" href="_game_object_8cpp.html">GameObject.cpp</a></li>
+<hr/>The documentation for this class was generated from the following file:<ul>
+<li>C:/Users/rgreen/btworkspace/batterytech-trunk/doc/BatteryTech Engine/<a class="el" href="_game_object_lua_binder_8dox.html">GameObjectLuaBinder.dox</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Nov 20 2012 18:06:50 for BatteryTech Lua Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Nov 21 2012 16:26:29 for BatteryTech Lua Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1
 </small></address>

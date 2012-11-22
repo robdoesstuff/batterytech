@@ -1,7 +1,6 @@
 var searchData=
 [
   ['tau',['TAU',['../_game_constants_8h.html#a3d8c9c145887af5174ba4cc6789862ad',1,'GameConstants.h']]],
-  ['text',['Text',['../group___text_rendering.html',1,'']]],
   ['textureassetname',['textureAssetName',['../class_screen_control.html#a8adeda8184e189397771b6a8a6dd6937',1,'ScreenControl']]],
   ['texturename',['textureName',['../class_render_item.html#aca3313ddc9726ce8ab89b681ac613a22',1,'RenderItem']]],
   ['textureuvs',['textureUVs',['../class_screen_control.html#a4c17e2499133598dc7d747a53e2bf312',1,'ScreenControl']]],

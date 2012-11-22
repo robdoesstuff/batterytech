@@ -39,6 +39,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="modules.html"><span>Modules</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -63,7 +64,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -79,28 +80,23 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
 <a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">GameObjectLuaBinder.cpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="_game_object_lua_binder_8h_source.html">GameObjectLuaBinder.h</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="_game_object_8h_source.html">GameObject.h</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="_game_context_8h_source.html">../GameContext.h</a>&quot;</code><br/>
+<div class="textblock"><code>#include &quot;GameObjectLuaBinder.h&quot;</code><br/>
+<code>#include &quot;GameObject.h&quot;</code><br/>
+<code>#include &quot;../GameContext.h&quot;</code><br/>
 <code>#include &lt;batterytech/Logger.h&gt;</code><br/>
-<code>#include &quot;<a class="el" href="_world_8h_source.html">../World.h</a>&quot;</code><br/>
+<code>#include &quot;../World.h&quot;</code><br/>
 <code>#include &lt;batterytech/util/strx.h&gt;</code><br/>
 <code>#include &lt;math.h&gt;</code><br/>
 <code>#include &lt;batterytech/render/AssimpAnimator.h&gt;</code><br/>
 <code>#include &lt;batterytech/render/GLResourceManager.h&gt;</code><br/>
 <code>#include &lt;batterytech/render/GLAssimpBinding.h&gt;</code><br/>
 </div><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2><a name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_object.html">GameObject</a></td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2><a name="define-members"></a>
 Macros</h2></td></tr>
 <tr class="memitem:a8e202cb7e801cd7147484168d1272dcd"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_game_object_lua_binder_8cpp.html#a8e202cb7e801cd7147484168d1272dcd">LUA_GAME_OBJECT</a>&#160;&#160;&#160;&quot;GameObject&quot;</td></tr>
@@ -108,7 +104,7 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ad4cf89834f72e715240cda65ecae1acc"><td class="memItemLeft" align="right" valign="top">class <a class="el" href="class_game_object.html">GameObject</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_game_object_lua_binder_8cpp.html#ad4cf89834f72e715240cda65ecae1acc">lua_GameObject_gc</a> (lua_State *L)</td></tr>
+<tr class="memitem:a2e433bda3d22c08b1453045e31bc4ae7"><td class="memItemLeft" align="right" valign="top">class GameObject&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_game_object_lua_binder_8cpp.html#a2e433bda3d22c08b1453045e31bc4ae7">lua_GameObject_gc</a> (lua_State *L)</td></tr>
 </table>
 <hr/><h2>Macro Definition Documentation</h2>
 <a class="anchor" id="a8e202cb7e801cd7147484168d1272dcd"></a>
@@ -136,12 +132,12 @@ Functions</h2></td></tr>
 </div>
 </div>
 <hr/><h2>Function Documentation</h2>
-<a class="anchor" id="ad4cf89834f72e715240cda65ecae1acc"></a>
+<a class="anchor" id="a2e433bda3d22c08b1453045e31bc4ae7"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">class <a class="el" href="class_game_object.html">GameObject</a> lua_GameObject_gc </td>
+          <td class="memname">static int lua_GameObject_gc </td>
           <td>(</td>
           <td class="paramtype">lua_State *&#160;</td>
           <td class="paramname"><em>L</em></td><td>)</td>
@@ -155,7 +151,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Nov 20 2012 18:06:50 for BatteryTech Lua Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Nov 21 2012 16:15:25 for BatteryTech Lua Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1
 </small></address>

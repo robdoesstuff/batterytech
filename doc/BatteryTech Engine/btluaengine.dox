@@ -1,7 +1,5 @@
 // this file is only for doxygen
 
-namespace BTLuaEngine {
-
 /** \mainpage Welcome to %BatteryTech Engine
  *
  * \section gettingstarted_sec Getting Started
@@ -46,57 +44,36 @@ namespace BTLuaEngine {
  * \defgroup AssetLocations Asset Locations
  * \brief Where assets (graphics, sounds, resource files) can be located and system features involving them
  * \ingroup LoadingResources
- *
- * \defgroup Loading2DGraphics 2D Graphics
- * \brief How to load 2D images (textures) and configure OpenGL settings for them
- * \ingroup LoadingResources
- *
- * \defgroup LoadingSounds Sounds
- * \brief How to load sounds
- * \ingroup LoadingResources
- *
- * \defgroup Loading3DModels 3D Models
- * \brief How to load 3D Models (OBJ, Collada) and details on file formats
- * \ingroup LoadingResources
- *
- * \defgroup LoadingFonts Fonts
- * \brief How to load TrueType and BMFonts
- * \ingroup LoadingResources
- *
- *
- * \addtogroup LoadingResources
- *
- * Talk about the loading phase...
- * addNewResources()
  */
 
 /**
- * \defgroup Rendering Rendering
+ * \defgroup Graphics Graphics and Rendering
  * \brief How The BatteryTech Engine composites 2D, 3D and Font-based graphics
- * \defgroup Rendering2D 2D
- * \brief How to render 2D Graphics
- * \ingroup Rendering
+ * \defgroup Graphics2D 2D Graphics and Textures
+ * \brief How to render 2D Graphics and work with Textures
+ * \ingroup Graphics
  *
- * \defgroup Rendering3D 3D
+ * \defgroup Graphics3D 3D Graphics and Models
  * \brief How to render 3D Graphics
- * \ingroup Rendering
+ * \ingroup Graphics
+ *
  * Camera, Lighting, Shadows, Matrices
  *
- * \defgroup Animation3D 3D Animation
+ * \defgroup Animation3D 3D Model Animation
  * \brief Using Hardware-accelerated 3D Animation
- * \ingroup Rendering3D
+ * \ingroup Graphics3D
  *
- * \defgroup TextRendering Text
+ * \defgroup Fonts Fonts and Text Rendering
  * \brief Rendering 2D Fonts
- * \ingroup Rendering
+ * \ingroup Graphics
  * 
  * \defgroup RenderOptions Render Options
  * \brief Setting options for render items
- * \ingroup Rendering
+ * \ingroup Graphics
  *
  * \defgroup Particles Particle Systems
  * \brief Configuring 2D and 3D particle systems
- * \ingroup Rendering
+ * \ingroup Graphics
  * \defgroup GameObject GameObjects
  * \brief GameObjects provide integration between per-entity C functionality and Lua functionality
  */
@@ -139,5 +116,5 @@ namespace BTLuaEngine {
  * \defgroup OtherFunctions Other Functions
  * \brief Functions not documented in other modules
  */
-}
+
 
