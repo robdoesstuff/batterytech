@@ -49,6 +49,9 @@
 /**
  * \defgroup Graphics Graphics and Rendering
  * \brief How The BatteryTech Engine composites 2D, 3D and Font-based graphics
+ *
+ * \image html RenderSystem.png
+ *
  * \defgroup Graphics2D 2D Graphics and Textures
  * \brief How to render 2D Graphics and work with Textures
  * \ingroup Graphics
