@@ -2,17 +2,25 @@
 class GameObject {
 public:
 /**
- * \brief Function
+ * \brief Initializes the GameObject's native components
+ *
+ * This is a required call for a GameObject's lifecycle.
  *
  * \ingroup GameObject
  */
 GameObject::cInit();
 /**
- * \brief Function
+ * \brief Marks this GameObject to be released from native memory and removed from all references
+ *
+ * This function is the other essential GameObject lifecycle function.
+ * Important Notes:
+ * - Neglecting to call this function will result in problems such as memory leaks, running out of GameObjects natively and other errors.\n
+ * - Do not attempt to use any part of a GameObject after this function has been called - it is the last function you may call on it.\n
+ * - Further calls to this GameObject may result in an engine crash.
  *
  * \ingroup GameObject
  */
-GameObject::cDeactivate(); // once an object is deactivated, no further calls may be made on it or its luabinder or crashes will occur
+GameObject::cDeactivate();
 
 // 3D Animation functions
 /**
