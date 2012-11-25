@@ -89,63 +89,117 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ga337cf6135fc95c44dc7f474ca487acbc"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___animation3_d.html#ga337cf6135fc95c44dc7f474ca487acbc">GameObject::anim_allocAnimations</a> ()</td></tr>
-<tr class="memdesc:ga337cf6135fc95c44dc7f474ca487acbc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="#ga337cf6135fc95c44dc7f474ca487acbc"></a><br/></td></tr>
-<tr class="memitem:ga2a88953489d11ea9c3da76dfdb143886"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___animation3_d.html#ga2a88953489d11ea9c3da76dfdb143886">GameObject::anim_initDynamic</a> ()</td></tr>
-<tr class="memdesc:ga2a88953489d11ea9c3da76dfdb143886"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="#ga2a88953489d11ea9c3da76dfdb143886"></a><br/></td></tr>
-<tr class="memitem:ga51c18a90183360300937203dac349238"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___animation3_d.html#ga51c18a90183360300937203dac349238">GameObject::anim_interpolate</a> ()</td></tr>
-<tr class="memdesc:ga51c18a90183360300937203dac349238"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="#ga51c18a90183360300937203dac349238"></a><br/></td></tr>
+<tr class="memitem:ga1c034c6457ee2577f81f77adc7b1c099"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___animation3_d.html#ga1c034c6457ee2577f81f77adc7b1c099">GameObject::anim_allocAnimations</a> (int count)</td></tr>
+<tr class="memdesc:ga1c034c6457ee2577f81f77adc7b1c099"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocates space to load 3D bone-based animations.  <a href="#ga1c034c6457ee2577f81f77adc7b1c099"></a><br/></td></tr>
+<tr class="memitem:gaf3351e328541f536d82cd4f07e7aab2f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___animation3_d.html#gaf3351e328541f536d82cd4f07e7aab2f">GameObject::anim_initDynamic</a> (int idx, string assetName, string meshName)</td></tr>
+<tr class="memdesc:gaf3351e328541f536d82cd4f07e7aab2f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes an animation for a bone-animated model.  <a href="#gaf3351e328541f536d82cd4f07e7aab2f"></a><br/></td></tr>
+<tr class="memitem:gad807e5a5e820f6c80c5995d988658fab"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___animation3_d.html#gad807e5a5e820f6c80c5995d988658fab">GameObject::anim_interpolate</a> (int idx, float time)</td></tr>
+<tr class="memdesc:gad807e5a5e820f6c80c5995d988658fab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interpolates the animation skeleton's bones.  <a href="#gad807e5a5e820f6c80c5995d988658fab"></a><br/></td></tr>
 </table>
 <hr/><h2>Function Documentation</h2>
-<a class="anchor" id="ga337cf6135fc95c44dc7f474ca487acbc"></a>
+<a class="anchor" id="ga1c034c6457ee2577f81f77adc7b1c099"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">GameObject::anim_allocAnimations </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>count</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>All animation allocations will be automatically cleaned up when <a class="el" href="group___game_object.html#gab3a5c1145d984bfffc6542a1c5326623" title="Marks this GameObject to be released from native memory and removed from all references.">GameObject::cDeactivate()</a> is called</p>
+<dl class="params"><dt>Parameters:</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">count</td><td>The number of animation files to allocate for </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
-<a class="anchor" id="ga2a88953489d11ea9c3da76dfdb143886"></a>
+<a class="anchor" id="gaf3351e328541f536d82cd4f07e7aab2f"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">GameObject::anim_initDynamic </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>idx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>assetName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>meshName</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>This function loads the bone data from a file and prepares to animate and render.</p>
+<dl class="params"><dt>Parameters:</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">idx</td><td>The animation index (0 is first) </td></tr>
+    <tr><td class="paramname">assetName</td><td>The animation asset's file name </td></tr>
+    <tr><td class="paramname">meshName</td><td>(optional) The mesh name of the animation </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
-<a class="anchor" id="ga51c18a90183360300937203dac349238"></a>
+<a class="anchor" id="gad807e5a5e820f6c80c5995d988658fab"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">GameObject::anim_interpolate </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>idx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>time</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>This will interpolate the bone transforms between frames to provide a smooth transform for the given time. The time given will need to take the animation's framerate into account. For example, if an animation is done at 24FPS, and and frame 12 is desired, the time would be 0.5</p>
+<p>Animations must be allocated with <a class="el" href="group___animation3_d.html#ga1c034c6457ee2577f81f77adc7b1c099" title="Allocates space to load 3D bone-based animations.">GameObject::anim_allocAnimations()</a> and then initialized with <a class="el" href="group___animation3_d.html#gaf3351e328541f536d82cd4f07e7aab2f" title="Initializes an animation for a bone-animated model.">GameObject::anim_initDynamic()</a> before this function can be called. </p>
+<dl class="params"><dt>Parameters:</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">idx</td><td>The animation index (0 is first) </td></tr>
+    <tr><td class="paramname">time</td><td>The time to interpolate to in seconds </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Nov 22 2012 01:15:55 for BatteryTech Lua Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Nov 24 2012 22:20:20 for BatteryTech Lua Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.1
 </small></address>

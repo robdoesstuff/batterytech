@@ -1298,7 +1298,7 @@ static int lua_GameObject_physics_setBodyLinearVelocity(lua_State *L) {
     return 0;
 }
 
-// idx, velocity
+// idx, damping
 static int lua_GameObject_physics_setBodyAngularDamping(lua_State *L) {
 	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
 	S32 bodyIdx = lua_tointeger(L, 2);
@@ -1310,7 +1310,7 @@ static int lua_GameObject_physics_setBodyAngularDamping(lua_State *L) {
     return 0;
 }
 
-// idx, linearX, linearY
+// idx, damping
 static int lua_GameObject_physics_setBodyLinearDamping(lua_State *L) {
 	GameObject *o = *(GameObject**)lua_touserdata(L, 1);
 	S32 bodyIdx = lua_tointeger(L, 2);
@@ -1838,6 +1838,7 @@ static int lua_GameObject_countPhysicsContacts(lua_State *L) {
     return 1;
 }
 
+// returns GameObject__count__lx0__ly0__lx1__ly1__isTouching__isActive__fixtureId
 static int lua_GameObject_getPhysicsContact(lua_State *L) {
     GameObject *o = *(GameObject**)lua_touserdata(L, 1);
     S32 idx = lua_tointeger(L, 2);

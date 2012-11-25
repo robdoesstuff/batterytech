@@ -90,9 +90,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <tr class="heading"><td colspan="2"><h2><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:gab6ed5a737f27fa166a782a2b8141df7d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___game_object.html#gab6ed5a737f27fa166a782a2b8141df7d">GameObject::cInit</a> ()</td></tr>
-<tr class="memdesc:gab6ed5a737f27fa166a782a2b8141df7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="#gab6ed5a737f27fa166a782a2b8141df7d"></a><br/></td></tr>
+<tr class="memdesc:gab6ed5a737f27fa166a782a2b8141df7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the <a class="el" href="class_game_object.html">GameObject</a>'s native components.  <a href="#gab6ed5a737f27fa166a782a2b8141df7d"></a><br/></td></tr>
 <tr class="memitem:gab3a5c1145d984bfffc6542a1c5326623"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___game_object.html#gab3a5c1145d984bfffc6542a1c5326623">GameObject::cDeactivate</a> ()</td></tr>
-<tr class="memdesc:gab3a5c1145d984bfffc6542a1c5326623"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function.  <a href="#gab3a5c1145d984bfffc6542a1c5326623"></a><br/></td></tr>
+<tr class="memdesc:gab3a5c1145d984bfffc6542a1c5326623"><td class="mdescLeft">&#160;</td><td class="mdescRight">Marks this <a class="el" href="class_game_object.html">GameObject</a> to be released from native memory and removed from all references.  <a href="#gab3a5c1145d984bfffc6542a1c5326623"></a><br/></td></tr>
 </table>
 <hr/><h2>Function Documentation</h2>
 <a class="anchor" id="gab3a5c1145d984bfffc6542a1c5326623"></a>
@@ -107,6 +107,14 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>This function is the other essential <a class="el" href="class_game_object.html">GameObject</a> lifecycle function. Important Notes:</p>
+<ul>
+<li>Neglecting to call this function will result in problems such as memory leaks, running out of GameObjects natively and other errors.<br/>
+</li>
+<li>Do not attempt to use any part of a <a class="el" href="class_game_object.html">GameObject</a> after this function has been called - it is the last function you may call on it.<br/>
+</li>
+<li>Further calls to this <a class="el" href="class_game_object.html">GameObject</a> may result in an engine crash. </li>
+</ul>
 
 </div>
 </div>
@@ -122,13 +130,14 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>This is a required call for a <a class="el" href="class_game_object.html">GameObject</a>'s lifecycle. </p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Nov 22 2012 01:15:55 for BatteryTech Lua Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Nov 24 2012 22:20:20 for BatteryTech Lua Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.1
 </small></address>

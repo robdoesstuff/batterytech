@@ -105,7 +105,7 @@
  */
 
 /**
- * \defgroup Physics2D 2D Collisions and Physics
+ * \defgroup Physics 2D Collisions and Physics
  * \brief Using the integrated Box2D physics engine
  *
  */
@@ -118,6 +118,11 @@
 /**
  * \defgroup OtherFunctions Other Functions
  * \brief Functions not documented in other modules
+ */
+
+/**
+ * \defgroup Callbacks Callback and lifecycle Functions
+ * \brief Functions that are user-defined which the engine calls into
  */
 
 

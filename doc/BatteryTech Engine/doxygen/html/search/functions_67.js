@@ -9,7 +9,7 @@ var searchData=
   ['getlastcharactertyped',['getLastCharacterTyped',['../group___input.html#ga09c688b3672c968d33808aac191614bf',1,'LuaBinder.dox']]],
   ['getmeshinfofromassimp',['getMeshInfoFromAssimp',['../group___graphics3_d.html#gaefacb44b89f1e8beb7ba134a08fdcc9f',1,'Game']]],
   ['getpathseparator',['getPathSeparator',['../group___file_i_o.html#ga8078910800c04a3c9f556b52611a78a8',1,'LuaBinder.dox']]],
-  ['getphysicscontact',['getPhysicsContact',['../class_game_object.html#ae6c880fbe0c553cda46c88a1fef231df',1,'GameObject']]],
+  ['getphysicscontact',['getPhysicsContact',['../group___physics.html#ga2728eb5a62222d8cee974802ee57ae42',1,'GameObject']]],
   ['getpointerstate',['getPointerState',['../group___input.html#ga5bbd539381734d2a54edecc09f6809b4',1,'LuaBinder.dox']]],
   ['getscale2d',['getScale2d',['../group___graphics2_d.html#ga683a2764f3f1af5f06930b23fb851b9e',1,'LuaBinder.dox']]],
   ['getscreencoord',['getScreenCoord',['../group___graphics3_d.html#ga83b820b42db0af38004308cd24dc256a',1,'LuaBinder.dox']]],

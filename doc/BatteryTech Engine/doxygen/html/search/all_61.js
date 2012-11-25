@@ -10,8 +10,8 @@ var searchData=
   ['addscreencontrol',['addScreenControl',['../group___u_i.html#ga91690df52f33b659e409ef0f919f481f',1,'Game']]],
   ['addsound',['addSound',['../group___audio.html#ga7c886153c705bd79e76c9ad899870396',1,'LuaBinder.dox']]],
   ['addtexture',['addTexture',['../group___graphics2_d.html#gae17317142d8393f735230f1b2bed19e4',1,'LuaBinder.dox']]],
-  ['anim_5fallocanimations',['anim_allocAnimations',['../group___animation3_d.html#ga337cf6135fc95c44dc7f474ca487acbc',1,'GameObject']]],
-  ['anim_5finitdynamic',['anim_initDynamic',['../group___animation3_d.html#ga2a88953489d11ea9c3da76dfdb143886',1,'GameObject']]],
-  ['anim_5finterpolate',['anim_interpolate',['../group___animation3_d.html#ga51c18a90183360300937203dac349238',1,'GameObject']]],
+  ['anim_5fallocanimations',['anim_allocAnimations',['../group___animation3_d.html#ga1c034c6457ee2577f81f77adc7b1c099',1,'GameObject']]],
+  ['anim_5finitdynamic',['anim_initDynamic',['../group___animation3_d.html#gaf3351e328541f536d82cd4f07e7aab2f',1,'GameObject']]],
+  ['anim_5finterpolate',['anim_interpolate',['../group___animation3_d.html#gad807e5a5e820f6c80c5995d988658fab',1,'GameObject']]],
   ['asset_20locations',['Asset Locations',['../group___asset_locations.html',1,'']]]
 ];
