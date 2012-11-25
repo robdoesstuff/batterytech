@@ -272,6 +272,7 @@ void GameObjectLuaBinder::luaRegister(lua_State *L, GameContext *context) {
 	lua_settop(L, -3);					// put the stack back to where we started
 }
 
+// unused - clean up
 void GameObjectLuaBinder::init() {
 	if (pushInstanceFunction("init")) {
 		callFunction("GameObject:init", TRUE);

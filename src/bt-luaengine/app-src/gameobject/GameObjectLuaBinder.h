@@ -38,7 +38,7 @@ public:
 	// registration
 	static void luaRegister(lua_State *L, GameContext *context);
 	// lua functions
-	void init();
+	void init(); //unused
 	void update();
 	void onCollisionStarted(GameObject *other, F32 force, F32 approachVelocity);
 	void onCollisionUpdated(GameObject *other, F32 force, F32 approachVelocity);

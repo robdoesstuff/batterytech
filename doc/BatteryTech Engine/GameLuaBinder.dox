@@ -47,6 +47,10 @@ public:
      */
     Game::clearScreenControls();
 
+/** \name The Physics World
+ * Functions related to managing the physics world
+ */
+// @{
     /**
      * \brief Creates a new instance of the physics simulation
      *
@@ -116,6 +120,11 @@ public:
      *
      */
     Game::setPhysicsDrawDebug(boolean enabled, float left, float right, float bottom, float top, float near, float far);
+    // @}
+    /** \name AABB Query
+     * Functions related to b2Contacts and collision queries
+     */
+    // @{
     /**
      * \brief Queries for intersecting bodies using an Axis-Aligned Bounding Box
      *
@@ -131,6 +140,7 @@ public:
      *
      */
     count___GameObject1___FixtureID1 Game::queryPhysicsAABB(float x1, float y1, float x2, float y2);
+    // @}
     /**
      * \brief Resets the engine to a "ready" state, clearing the native menu stack
      *
@@ -781,6 +791,10 @@ public:
      *
      */
     Game::setParticleAutoStopMax(int emitterId, int max);
+    /** \name Box2D Joints
+     * Functions related to b2Joints and subclasses
+     */
+    // @{
     /**
      * \brief Adds a distance joint
      *
@@ -1082,5 +1096,6 @@ public:
      *
      */
     x1__y1__x2__y2 Game::physics_getJointAnchorPoints(int jointId);
+     // @}
 }
 #endif

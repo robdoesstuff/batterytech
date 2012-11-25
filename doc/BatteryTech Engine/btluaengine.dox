@@ -28,18 +28,24 @@
  * \defgroup ScriptEntry Script Entry Points
  * \brief How the engine starts running the Lua script files
  *
+ * TODO elaborate
  * Required file: main.lua
  * Create instance of Game
+ * Reference essential lifecycle functions
  */
 
 /**
  * \defgroup Configuring Configuring the Engine
  * \brief Setting various options for your game
+ *
+ * TODO copy docs from sdk
  */
 
 /**
  * \defgroup LoadingResources Loading Resources
  * \brief How to get your assets into the engine
+ *
+ * TODO Discuss the various loading phase stuff, blocking, on demand, asset locations, filesize limitations on older devices
  *
  * \defgroup AssetLocations Asset Locations
  * \brief Where assets (graphics, sounds, resource files) can be located and system features involving them
@@ -49,6 +55,8 @@
 /**
  * \defgroup Graphics Graphics and Rendering
  * \brief How The BatteryTech Engine composites 2D, 3D and Font-based graphics
+ *
+ * TODO all about the rendering system
  *
  * \image html RenderSystem.png
  *
@@ -108,6 +116,7 @@
  * \defgroup Physics 2D Collisions and Physics
  * \brief Using the integrated Box2D physics engine
  *
+ * TODO - overview, cite the manual
  */
 
 /**
@@ -122,6 +131,28 @@
 
 /**
  * \defgroup Callbacks Callback and lifecycle Functions
+ *
+ * There are a number of Lua functions that the application can implement to receive various lifecycle and callback invocations. Function declarations are made like any normal function for the given scope.
+ *
+ * Global Functions:
+ * - onSuspend() - Called before the OS suspends or pauses the app, giving a chance to save any data or enter a pause state
+ * - callback(string data) - Called from the platform hook system, entirely developer-dependent - See \ref PlatformHooks for more info
+ *
+ * Game Functions:
+ * - Game::init() - Called once when the engine first initializes
+ * - Game::update(float delta) - Called once per frame tick
+ * - - Parameter delta - The amount of time since the previous frame tick (in seconds)
+ * - Game::render() - Called once per frame render
+ * - Game::reset() - Called after init when the engine is ready.  Indicates that the game should reset and begin on the next Game::update()
+ * - Game::screenControlPointerDown(string name, float x, float y) - Deprecated - event callbacks for ScreenControls
+ * - Game::screenControlPointerMove(string name, float x, float y) - Deprecated - event callbacks for ScreenControls
+ * - Game::screenControlPointerUp(string name, float x, float y) - Deprecated - event callbacks for ScreenControls
+ *
+ * GameObject Functions:
+ * - GameObject::update(float delta) - Called once per frame tick
+ * - - Parameter delta - The amount of time since the previous frame tick (in seconds)
+ * - GameObject collision callbacks / query callbacks - Please see \ref Physics section for more info
+ *
  * \brief Functions that are user-defined which the engine calls into
  */
 

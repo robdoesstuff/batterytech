@@ -86,6 +86,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <p>Using Hardware-accelerated 3D Animation.  
 <a href="#details">More...</a></p>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
+<p>Using Hardware-accelerated 3D Animation. </p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -110,6 +111,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Allocates space to load 3D bone-based animations. </p>
 <p>All animation allocations will be automatically cleaned up when <a class="el" href="group___game_object.html#gab3a5c1145d984bfffc6542a1c5326623" title="Marks this GameObject to be released from native memory and removed from all references.">GameObject::cDeactivate()</a> is called</p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
@@ -149,6 +152,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Initializes an animation for a bone-animated model. </p>
 <p>This function loads the bone data from a file and prepares to animate and render.</p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
@@ -184,6 +189,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Interpolates the animation skeleton's bones. </p>
 <p>This will interpolate the bone transforms between frames to provide a smooth transform for the given time. The time given will need to take the animation's framerate into account. For example, if an animation is done at 24FPS, and and frame 12 is desired, the time would be 0.5</p>
 <p>Animations must be allocated with <a class="el" href="group___animation3_d.html#ga1c034c6457ee2577f81f77adc7b1c099" title="Allocates space to load 3D bone-based animations.">GameObject::anim_allocAnimations()</a> and then initialized with <a class="el" href="group___animation3_d.html#gaf3351e328541f536d82cd4f07e7aab2f" title="Initializes an animation for a bone-animated model.">GameObject::anim_initDynamic()</a> before this function can be called. </p>
 <dl class="params"><dt>Parameters:</dt><dd>
@@ -199,7 +206,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Nov 24 2012 22:20:20 for BatteryTech Lua Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Nov 25 2012 02:09:47 for BatteryTech Lua Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.1
 </small></address>

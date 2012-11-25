@@ -86,6 +86,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <p>Retrieving keyboard, touch, mouse and accelerometer input.  
 <a href="#details">More...</a></p>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
+<p>Retrieving keyboard, touch, mouse and accelerometer input. </p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -119,6 +120,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Returns the current accelerometer values. </p>
 <p>The relative axis will be constant no matter the "default" orientation or app orientation. so if you are making a portrait orientation game, your x axis may be what was the y axis in landscape, but it will be the same across all devices so whatever you get working will always work. </p>
 <dl class="section return"><dt>Returns:</dt><dd>x The x axis value </dd>
 <dd>
@@ -141,6 +144,8 @@ z The z axis value </dd></dl>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Returns the current state of the keyboard for a given index. </p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
     <tr><td class="paramname">index</td><td>Which key input slot to check (0-9) </td></tr>
@@ -165,6 +170,8 @@ keyCode The code number of the key (platform-dependent) </dd></dl>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Returns the last ASCII character typed by the user. </p>
 <dl class="section return"><dt>Returns:</dt><dd>char The character </dd></dl>
 
 </div>
@@ -182,6 +189,8 @@ keyCode The code number of the key (platform-dependent) </dd></dl>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Retrieves the current state of a touch/click/pointer. </p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
     <tr><td class="paramname">pointerNumber</td><td>The number of the pointer (0-9) </td></tr>
@@ -209,6 +218,8 @@ y: The window's y coordinate </dd></dl>
       </table>
 </div><div class="memdoc">
 
+<p>Hides the soft keyboard on applicable platforms. </p>
+
 </div>
 </div>
 <a class="anchor" id="gadc01c777f3f903de3c708af64b888cfc"></a>
@@ -223,6 +234,8 @@ y: The window's y coordinate </dd></dl>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Determines if a native BatteryTech menu is currently consuming key input. </p>
 <dl class="section return"><dt>Returns:</dt><dd>true if the UI is consuming keys, false if not </dd></dl>
 
 </div>
@@ -239,6 +252,8 @@ y: The window's y coordinate </dd></dl>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Determines if a native BatteryTech menu is currently consuming a pointer. </p>
 <dl class="section return"><dt>Returns:</dt><dd>isConsuming: If it is consuming a pointer </dd></dl>
 
 </div>
@@ -256,12 +271,14 @@ y: The window's y coordinate </dd></dl>
       </table>
 </div><div class="memdoc">
 
+<p>Shows the soft keyboard on applicable platforms. </p>
+
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Nov 24 2012 22:20:20 for BatteryTech Lua Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Nov 25 2012 02:09:47 for BatteryTech Lua Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.1
 </small></address>

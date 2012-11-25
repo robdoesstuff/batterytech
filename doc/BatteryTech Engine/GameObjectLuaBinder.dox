@@ -56,6 +56,10 @@ GameObject::anim_initDynamic(int idx, string assetName, string meshName);
 GameObject::anim_interpolate(int idx, float time); // interpolates animation n at time x
 
 // b2Body
+/** \name Box2D Bodies 
+ * Functions related to creating, removing or modifying b2Body objects
+ */
+// @{
 /**
  * \brief Creates a Box2D Body for this GameObject
  *
@@ -284,7 +288,12 @@ GameObject::physics_applyLinearImpulse(int bodyIdx, float impulseX, float impuls
  * \ingroup Physics
  */
 GameObject::physics_applyAngularImpulse(int bodyIdx, float impulse);
+// @}
 // b2Shape and b2Fixture
+/** \name Box2D Shapes and Fixtures
+ * Functions related to creating, removing or modifying b2Shape and b2Fixture objects - which are combined into single function calls to create
+ */
+// @{
 /**
  * \brief Creates a polygon-shaped fixture and attaches to a body
  *
@@ -392,6 +401,11 @@ isInFixture GameObject::physics_fixtureTestPoint(int fixtureId, float x, float y
  * \ingroup Physics
  */
 bodyIdx GameObject::physics_getFixtureBodyId(int fixtureId);
+// @}
+/** \name Contacts and Collisions
+ * Functions related to b2Contacts and collision queries
+ */
+// @{
 // collision query
 /**
  * \brief Queries the current contacts for a body
@@ -452,4 +466,6 @@ count GameObject::countPhysicsContacts();
  */
 GameObject__count__lx0__ly0__lx1__ly1__isTouching__isActive__fixtureId GameObject::getPhysicsContact(int contactIdx);
 }
+// @}
+
 #endif

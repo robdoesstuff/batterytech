@@ -104,6 +104,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:gaf3351e328541f536d82cd4f07e7aab2f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes an animation for a bone-animated model.  <a href="group___animation3_d.html#gaf3351e328541f536d82cd4f07e7aab2f"></a><br/></td></tr>
 <tr class="memitem:gad807e5a5e820f6c80c5995d988658fab"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___animation3_d.html#gad807e5a5e820f6c80c5995d988658fab">anim_interpolate</a> (int idx, float time)</td></tr>
 <tr class="memdesc:gad807e5a5e820f6c80c5995d988658fab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interpolates the animation skeleton's bones.  <a href="group___animation3_d.html#gad807e5a5e820f6c80c5995d988658fab"></a><br/></td></tr>
+<tr><td colspan="2"><div class="groupHeader">Box2D Bodies</div></td></tr>
+<tr><td colspan="2"><div class="groupText"><p>Functions related to creating, removing or modifying b2Body objects </p>
+</div></td></tr>
 <tr class="memitem:ga417691a0ac086883e6e127d94063c373"><td class="memItemLeft" align="right" valign="top">bodyIdx&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#ga417691a0ac086883e6e127d94063c373">physics_createBody</a> (int bodyType, float x, float y)</td></tr>
 <tr class="memdesc:ga417691a0ac086883e6e127d94063c373"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a Box2D Body for this <a class="el" href="class_game_object.html">GameObject</a>.  <a href="group___physics.html#ga417691a0ac086883e6e127d94063c373"></a><br/></td></tr>
 <tr class="memitem:ga2a77bb9794002e1533bd2c5435907f15"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#ga2a77bb9794002e1533bd2c5435907f15">physics_removeBody</a> (int bodyIdx)</td></tr>
@@ -154,6 +157,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:gafd74cc51325a85e72cbfa0ac70f9143d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Applies a linear impulse to a body.  <a href="group___physics.html#gafd74cc51325a85e72cbfa0ac70f9143d"></a><br/></td></tr>
 <tr class="memitem:gab298cea29ea0639f9fc2ff4183c34b0d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#gab298cea29ea0639f9fc2ff4183c34b0d">physics_applyAngularImpulse</a> (int bodyIdx, float impulse)</td></tr>
 <tr class="memdesc:gab298cea29ea0639f9fc2ff4183c34b0d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Applies an angular impulse to a body.  <a href="group___physics.html#gab298cea29ea0639f9fc2ff4183c34b0d"></a><br/></td></tr>
+<tr><td colspan="2"><div class="groupHeader">Box2D Shapes and Fixtures</div></td></tr>
+<tr><td colspan="2"><div class="groupText"><p>Functions related to creating, removing or modifying b2Shape and b2Fixture objects - which are combined into single function calls to create </p>
+</div></td></tr>
 <tr class="memitem:ga427de2e9ed52670d9fc582a74ef03d14"><td class="memItemLeft" align="right" valign="top">fixtureId&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#ga427de2e9ed52670d9fc582a74ef03d14">physics_createPolygonFixture</a> (int bodyIdx, float x0, float y0, float x1, float y1,...)</td></tr>
 <tr class="memdesc:ga427de2e9ed52670d9fc582a74ef03d14"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a polygon-shaped fixture and attaches to a body.  <a href="group___physics.html#ga427de2e9ed52670d9fc582a74ef03d14"></a><br/></td></tr>
 <tr class="memitem:ga71fd9182917fbbd8847e74210e4d3c05"><td class="memItemLeft" align="right" valign="top">fixtureId&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#ga71fd9182917fbbd8847e74210e4d3c05">physics_createCircleFixture</a> (int bodyIdx, float radius, float offsetX, float offsetY)</td></tr>
@@ -176,6 +182,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:ga40b93488ab6432b5e3f6d535479322f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tests a point to determine fixture collision.  <a href="group___physics.html#ga40b93488ab6432b5e3f6d535479322f9"></a><br/></td></tr>
 <tr class="memitem:ga68439e56b98ee3afdcf7b03bc75c8e1d"><td class="memItemLeft" align="right" valign="top">bodyIdx&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#ga68439e56b98ee3afdcf7b03bc75c8e1d">physics_getFixtureBodyId</a> (int fixtureId)</td></tr>
 <tr class="memdesc:ga68439e56b98ee3afdcf7b03bc75c8e1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the body ID for a fixture ID.  <a href="group___physics.html#ga68439e56b98ee3afdcf7b03bc75c8e1d"></a><br/></td></tr>
+<tr><td colspan="2"><div class="groupHeader">Contacts and Collisions</div></td></tr>
+<tr><td colspan="2"><div class="groupText"><p>Functions related to b2Contacts and collision queries </p>
+</div></td></tr>
 <tr class="memitem:ga0a87b85867d1e891afdf76e95fea5e57"><td class="memItemLeft" align="right" valign="top">count&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#ga0a87b85867d1e891afdf76e95fea5e57">queryPhysicsContacts</a> (int bodyIdx, string functionName)</td></tr>
 <tr class="memdesc:ga0a87b85867d1e891afdf76e95fea5e57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Queries the current contacts for a body.  <a href="group___physics.html#ga0a87b85867d1e891afdf76e95fea5e57"></a><br/></td></tr>
 <tr class="memitem:gaaa20318444dd9004935e69ff00d44ae4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___physics.html#gaaa20318444dd9004935e69ff00d44ae4">setPhysicsCallbackDetail</a> (int detail)</td></tr>
@@ -191,7 +200,7 @@ Public Member Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Nov 24 2012 22:20:20 for BatteryTech Lua Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Nov 25 2012 02:09:48 for BatteryTech Lua Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.1
 </small></address>

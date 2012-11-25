@@ -87,6 +87,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <p>How to render 3D GraphicsCamera, Lighting, Shadows, Matrices.  
 <a href="#details">More...</a></p>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
+<p>How to render 3D Graphics</p>
+<p>Camera, Lighting, Shadows, Matrices. </p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2><a name="groups"></a>
 Modules</h2></td></tr>
@@ -194,6 +196,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Adds a local (point) light to the scene. </p>
 <p>A few notes about local lights:</p>
 <ul>
 <li>Local lights persist until cleared.</li>
@@ -237,6 +241,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Adds a number of local lights using points found in an Assimp-supported file. </p>
 <p>Sometimes you want to load a scene that has many point lights and want the closest 2 or 3 to influence a character. All you need to do to support that is to create triangles or other small objects in your scene placed where the lights are to be centered at, then you name them something consistent like "light_01", "light_02" and call this function with "light" or "light_" as the prefix, and all the lights will be added to the internal light array. This function returns the start and end index of the lights found so you can run through and parameterize the lights by using <a class="el" href="group___graphics3_d.html#ga931955cf75187914dbc7bd39ab36a177" title="Sets parameters for a local light.">Game::setLocalLightParam</a> on each of the new lights to get the materials and attenuations set correctly.</p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
@@ -264,6 +270,8 @@ lastIdx: The last light's index </dd></dl>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>(Deprecated) Adds an obj file to the resource manager </p>
 <p>Deprecated - use addAssimp/removeAssimp/renderAssimp instead. </p>
 
 </div>
@@ -281,6 +289,8 @@ lastIdx: The last light's index </dd></dl>
       </table>
 </div><div class="memdoc">
 
+<p>Clears the local lights. </p>
+
 </div>
 </div>
 <a class="anchor" id="gae91b45c312f6cd02ad3875381c98a25f"></a>
@@ -295,6 +305,8 @@ lastIdx: The last light's index </dd></dl>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Returns the look-at vector of the current camera. </p>
 <dl class="section return"><dt>Returns:</dt><dd>x: The x component </dd>
 <dd>
 y: The y component </dd>
@@ -315,6 +327,8 @@ z: The z component </dd></dl>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>returns the current camera's parameters </p>
 <dl class="section return"><dt>Returns:</dt><dd>x: Position X </dd>
 <dd>
 y: Position Y </dd>
@@ -350,6 +364,8 @@ rotation: Rotation about the Z-Axis </dd></dl>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Retrives mesh information from an assimp-supported file. </p>
 <p>This function will return information on more than one mesh if multiple meshes match the prefix. The return data is a table of tables. This is not a lightweight get but actually calculates information, so calling this every frame is not recommended. Cache data locally if you need to.</p>
 <p>Return data explained:</p>
 <ul>
@@ -390,6 +406,8 @@ rotation: Rotation about the Z-Axis </dd></dl>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>returns the screen-space coordinates for a point in world-space </p>
 <p>Uses the current camera settings to project the point from 2D to 3D </p>
 <dl class="section return"><dt>Returns:</dt><dd>x: The screen-space X coordinate </dd>
 <dd>
@@ -411,6 +429,8 @@ z: The screen-space Z coordinate </dd></dl>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Gets the current shadow type. </p>
 <dl class="section return"><dt>Returns:</dt><dd>type: 0 = None, 1 = low quality, 2 = high quality, 3 = custom size </dd></dl>
 
 </div>
@@ -438,6 +458,8 @@ z: The screen-space Z coordinate </dd></dl>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Pans the current camera. </p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
     <tr><td class="paramname">x</td><td>The x amount to pan </td></tr>
@@ -501,6 +523,8 @@ z: The screen-space Z coordinate </dd></dl>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Renders a 2D Image as a background (behind any 3D) </p>
 <p>This function works identically to <a class="el" href="group___graphics2_d.html#ga161f6e5d4d9c4d6376ea793473da00f0" title="Renders a 2D image.">Game::render2D()</a> except it goes behind any 3D rendering </p>
 <dl class="section see"><dt>See also:</dt><dd><a class="el" href="group___graphics2_d.html#ga161f6e5d4d9c4d6376ea793473da00f0" title="Renders a 2D image.">Game::render2D()</a></dd></dl>
 <dl class="params"><dt>Parameters:</dt><dd>
@@ -619,6 +643,8 @@ z: The screen-space Z coordinate </dd></dl>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Renders a 3D model using the Open Asset Importer Library (Assimp) - specifying basic transform. </p>
 <p>BatteryTech Engine supports Collada (.dae) and Wavefront (.obj) file formats via the 3rd party library, Assimp. While more file formats can be added, only those two formats are supported because they are fairly well supported and provide all of the essential functionality to most games.</p>
 <p>Please refer to the section on 3D Animation for more information on how to use an animator.</p>
 <dl class="params"><dt>Parameters:</dt><dd>
@@ -721,6 +747,8 @@ z: The screen-space Z coordinate </dd></dl>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Renders a 3D model using the Open Asset Importer Library (Assimp) - specifying matrix. </p>
 <p>BatteryTech Engine supports Collada (.dae) and Wavefront (.obj) file formats via the 3rd party library, Assimp. While more file formats can be added, only those two formats are supported because they are fairly well supported and provide all of the essential functionality to most games.</p>
 <p>Please refer to the section on 3D Animation for more information on how to use an animator.</p>
 <dl class="params"><dt>Parameters:</dt><dd>
@@ -825,6 +853,8 @@ z: The screen-space Z coordinate </dd></dl>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Renders a billboarded 2D image in 3D space. </p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
     <tr><td class="paramname">assetName</td><td>The file asset name of the texture </td></tr>
@@ -904,6 +934,8 @@ z: The screen-space Z coordinate </dd></dl>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Renders a an OBJ file (deprecated) </p>
 <p>Deprecated - use <a class="el" href="group___graphics3_d.html#ga1b2a6f7d53f89359f70fc1660f24f5a0" title="Renders a 3D model using the Open Asset Importer Library (Assimp) - specifying basic transform...">renderAssimp()</a> instead </p>
 
 </div>
@@ -937,6 +969,8 @@ z: The screen-space Z coordinate </dd></dl>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Sets the current camera's Near, Far and Field-Of-View. </p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
     <tr><td class="paramname">near</td><td>The near-plane distance </td></tr>
@@ -989,6 +1023,8 @@ z: The screen-space Z coordinate </dd></dl>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Sets the current camera's parameters. </p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
     <tr><td class="paramname">x,:</td><td>Position X </td></tr>
@@ -1015,6 +1051,8 @@ z: The screen-space Z coordinate </dd></dl>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Enables/Disables Linear Fog. </p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
     <tr><td class="paramname">enabled</td><td>true if enabled, false if not </td></tr>
@@ -1071,6 +1109,8 @@ z: The screen-space Z coordinate </dd></dl>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Specifies linear fog parameters. </p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
     <tr><td class="paramname">near</td><td>The distance from camera fog is to start </td></tr>
@@ -1120,6 +1160,8 @@ z: The screen-space Z coordinate </dd></dl>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Sets the ambient material values for global light. </p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
     <tr><td class="paramname">r</td><td>The red color component in range 0-1 </td></tr>
@@ -1167,6 +1209,8 @@ z: The screen-space Z coordinate </dd></dl>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Sets the diffuse material values for global light. </p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
     <tr><td class="paramname">r</td><td>The red color component in range 0-1 </td></tr>
@@ -1208,6 +1252,8 @@ z: The screen-space Z coordinate </dd></dl>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Specifies the global light direction as a vector towards the light source from 0,0,0. </p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
     <tr><td class="paramname">x</td><td>The x vector component </td></tr>
@@ -1232,6 +1278,8 @@ z: The screen-space Z coordinate </dd></dl>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Enables/Disables global (directional) light. </p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
     <tr><td class="paramname">enabled</td><td>true to enable, false to disable </td></tr>
@@ -1276,6 +1324,8 @@ z: The screen-space Z coordinate </dd></dl>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Sets the specular material values for global light. </p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
     <tr><td class="paramname">r</td><td>The red color component in range 0-1 </td></tr>
@@ -1323,6 +1373,8 @@ z: The screen-space Z coordinate </dd></dl>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Sets parameters for a local light. </p>
 <p>Supported parameters are:</p>
 <ul>
 <li>position, values x,y,z in world coordinates</li>
@@ -1383,6 +1435,8 @@ z: The screen-space Z coordinate </dd></dl>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Defines the shadow's color and epsilon value. </p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
     <tr><td class="paramname">r</td><td>The red component in range 0-1 </td></tr>
@@ -1409,6 +1463,8 @@ z: The screen-space Z coordinate </dd></dl>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Sets the shadow face-culling mode. </p>
 <p>Cull Mode 0 = None<br/>
  Cull Mode 1 = Front (default)<br/>
  Cull Mode 2 = Back<br/>
@@ -1445,6 +1501,8 @@ z: The screen-space Z coordinate </dd></dl>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Defines the shadow's frustum near and far planes. </p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
     <tr><td class="paramname">near</td><td>The near plane </td></tr>
@@ -1484,6 +1542,8 @@ z: The screen-space Z coordinate </dd></dl>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Defines the location of the origin (source) of the "light" which casts a shadow. </p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
     <tr><td class="paramname">x</td><td>The x coordinate in world space </td></tr>
@@ -1530,6 +1590,8 @@ z: The screen-space Z coordinate </dd></dl>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Specifies to use an orthographic projection for the shadow. </p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
     <tr><td class="paramname">right</td><td>The right plane </td></tr>
@@ -1555,6 +1617,8 @@ z: The screen-space Z coordinate </dd></dl>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Specifies to use a perspective projection for the shadow (currently very buggy - ortho is recommended) </p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
     <tr><td class="paramname">fov</td><td>The field-of-view </td></tr>
@@ -1593,6 +1657,8 @@ z: The screen-space Z coordinate </dd></dl>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Sets the current shadow type. </p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
     <tr><td class="paramname">type</td><td>0 = None, 1 = low quality, 2 = high quality, 3 = custom size </td></tr>
@@ -1617,6 +1683,8 @@ z: The screen-space Z coordinate </dd></dl>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Sets the shadow type. </p>
 <p>Shadows require detailed configuration to obtain reasonable results. Just enabling without setting the options won't do anything useful. </p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
@@ -1640,6 +1708,8 @@ z: The screen-space Z coordinate </dd></dl>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Zooms the current camera. </p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
     <tr><td class="paramname">amount</td><td>The zoom amount </td></tr>
@@ -1652,7 +1722,7 @@ z: The screen-space Z coordinate </dd></dl>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Nov 24 2012 22:20:20 for BatteryTech Lua Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Nov 25 2012 02:09:47 for BatteryTech Lua Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.1
 </small></address>

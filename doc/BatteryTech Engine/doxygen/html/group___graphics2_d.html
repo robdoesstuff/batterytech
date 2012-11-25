@@ -86,6 +86,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <p>How to render 2D Graphics and work with Textures.  
 <a href="#details">More...</a></p>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
+<p>How to render 2D Graphics and work with Textures. </p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -138,6 +139,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Adds a texture file to the resource manager. </p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
     <tr><td class="paramname">assetName</td><td>The texture file asset name </td></tr>
@@ -161,6 +164,8 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Removes all textures from the resource manager. </p>
+
 </div>
 </div>
 <a class="anchor" id="gaad591f8345b3995f8200f067f4c41cce"></a>
@@ -175,6 +180,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Ends any alternate 2D Projection, restores default. </p>
 <p>Does not pop like a stack but instead restores actual screen-pixel projection </p>
 
 </div>
@@ -191,6 +198,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Returns the scale for both dimensions of the screen. </p>
 <dl class="section return"><dt>Returns:</dt><dd>scaleX: The X-axis scale </dd>
 <dd>
 scaleY: The Y-axis scale </dd></dl>
@@ -210,6 +219,8 @@ scaleY: The Y-axis scale </dd></dl>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Gets the texture dimensions for a texture. </p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
     <tr><td class="paramname">assetName</td><td>The texture asset's name </td></tr>
@@ -242,6 +253,8 @@ offsetY: The Y offset </dd></dl>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Returns the singular scale value for scaling UI components. </p>
 <p>This calculation uses the non-variable dimension of the current orientation to obtain a scale value that is appropriate for the current screen. Scaling both width and height by this value will result in correctly scaled, proportionate UI components. </p>
 <dl class="section return"><dt>Returns:</dt><dd>scale: The scale </dd></dl>
 
@@ -259,6 +272,8 @@ offsetY: The Y offset </dd></dl>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Returns the size of the current screen. </p>
 <dl class="section return"><dt>Returns:</dt><dd>width: The screen's width </dd>
 <dd>
 height: The screen's height </dd></dl>
@@ -278,6 +293,8 @@ height: The screen's height </dd></dl>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Removes a texture file from the resource manager. </p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
     <tr><td class="paramname">assetName</td><td>The texture file asset name </td></tr>
@@ -340,6 +357,8 @@ height: The screen's height </dd></dl>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Renders a 2D image. </p>
 <p>2D images are rendered as "textured quads." Because BatteryTech is fully ES compatible, this means 2 triangles per quad.</p>
 <ul>
 <li>Render Order: 2D images are rendered in the order of draw calls from back to front, so it is your responsibility as the developer to call in the order which will correctly render your scene.<br/>
@@ -400,6 +419,8 @@ height: The screen's height </dd></dl>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Sets default texture parameters. </p>
 <p>Parameters are: filter - "nearest", "linear", "bilinear", "trilinear" repeat - boolean true or false</p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
@@ -446,6 +467,8 @@ height: The screen's height </dd></dl>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Sets texture parameters. </p>
 <p>Parameters are: filter - "nearest", "linear", "bilinear", "trilinear" minfilter - "nearest", "linear" magfilter - "nearest", "linear" repeat - boolean true or false repeatX - boolean true or false repeatY - boolean true or false</p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
@@ -505,6 +528,8 @@ height: The screen's height </dd></dl>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Starts an alternate 2D Projection (Orthographic) </p>
 <p>From when this projection is specified until end2DProjection or a different projection is specified, all 2D render calls will use this projection.</p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
@@ -523,7 +548,7 @@ height: The screen's height </dd></dl>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Nov 24 2012 22:20:20 for BatteryTech Lua Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Nov 25 2012 02:09:47 for BatteryTech Lua Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.1
 </small></address>
