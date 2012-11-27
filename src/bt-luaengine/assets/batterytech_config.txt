@@ -3,7 +3,7 @@
 # Use Shaders or Fixed Function (true/false)
 use_shaders=true
 
-# Reference Width and Height are what we scale coordinates to (this is the virtual screen size for the UI library)
+# Reference Width and Height are what we scale coordinates to (this is the virtual screen size for the UI library and font sizes)
 reference_width=1280
 reference_height=800
 
