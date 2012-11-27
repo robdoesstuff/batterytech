@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<title>BatteryTech Engine: Related Pages</title>
+<title>BatteryTech Engine: Callback and lifecycle Functions</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -40,7 +40,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="modules.html"><span>API&#160;Reference</span></a></li>
-      <li class="current"><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -77,14 +77,38 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div class="header">
   <div class="headertitle">
-<div class="title">Related Pages</div>  </div>
+<div class="title">Callback and lifecycle Functions</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock">Here is a list of all related documentation pages:</div><div class="directory">
-<table class="directory">
-<tr id="row_0_" class="even"><td class="entry"><img src="ftv2lastnode.png" alt="\" width="16" height="22" /><a class="el" href="deprecated.html" target="_self">Deprecated List</a></td><td class="desc"></td></tr>
-</table>
-</div><!-- directory -->
+
+<p>Functions that are user-defined which the engine calls into.  
+<a href="#details">More...</a></p>
+<p>Functions that are user-defined which the engine calls into. </p>
+<p>There are a number of Lua functions that the application can implement to receive various lifecycle and callback invocations. Function declarations are made like any normal function for the given scope.</p>
+<p>Global Functions:</p>
+<ul>
+<li>onSuspend() - Called before the OS suspends or pauses the app, giving a chance to save any data or enter a pause state</li>
+<li>callback(string data) - Called from the platform hook system, entirely developer-dependent - See <a class="el" href="group___platform_hooks.html">Platform Hooks And Callbacks</a> for more info</li>
+</ul>
+<p><a class="el" href="class_game.html">Game</a> Functions:</p>
+<ul>
+<li>Game::init() - Called once when the engine first initializes</li>
+<li>Game::update(float delta) - Called once per frame tick</li>
+<li>- Parameter delta - The amount of time since the previous frame tick (in seconds)</li>
+<li>Game::render() - Called once per frame render</li>
+<li>Game::reset() - Called after init when the engine is ready. Indicates that the game should reset and begin on the next Game::update()</li>
+<li>Game::screenControlPointerDown(string name, float x, float y) - Deprecated - event callbacks for ScreenControls</li>
+<li>Game::screenControlPointerMove(string name, float x, float y) - Deprecated - event callbacks for ScreenControls</li>
+<li>Game::screenControlPointerUp(string name, float x, float y) - Deprecated - event callbacks for ScreenControls</li>
+</ul>
+<p><a class="el" href="class_game_object.html">GameObject</a> Functions:</p>
+<ul>
+<li>GameObject::update(float delta) - Called once per frame tick</li>
+<li>- Parameter delta - The amount of time since the previous frame tick (in seconds)</li>
+<li><a class="el" href="class_game_object.html">GameObject</a> collision callbacks / query callbacks - Please see <a class="el" href="group___physics.html">2D Collisions and Physics</a> section for more info</li>
+</ul>
+<p>please see </p>
+<dl class="section see"><dt>See also:</dt><dd><a class="el" href="group___script_entry.html" title="How the engine starts running the Lua script files.">Script Entry Points</a> for more information on application entry points </dd></dl>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

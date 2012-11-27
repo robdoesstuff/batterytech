@@ -28,27 +28,196 @@
  * \defgroup ScriptEntry Script Entry Points
  * \brief How the engine starts running the Lua script files
  *
- * TODO elaborate
- * Required file: main.lua
- * Create instance of Game
- * Reference essential lifecycle functions
+ * The BatteryTech Engine starts by looking for a single file in your assets/scripts directory: main.lua
+ *
+ * The job of main.lua is to run any scripts needed to immediately start the game as well as create the Lua game instance.  Only a single instance of Game is currently supported and all example and demo code uses the global variable name "game" for it.
+ *
+ * Example main.lua:
+ * \code
+ * execScript("scripts/game.lua")
+ * execScript("scripts/util.lua")
+ * execScript("scripts/resources.lua")
+ * game = allocMeta(Game.getInstance())
+ * \endcode
+ *
+ * Technically, you could put just the Game instance code in and then add the necessary lifecycle functions and run the game in a single script file.
+ *
+ * Here's an example of using a single main script could work:
+ * \code
+ * function Game:init()
+ * end
+ *
+ * function Game:update(tickDelta)
+ * end
+ *
+ * function Game:render(state)
+ * end
+ *
+ * game = allocMeta(Game.getInstance())
+ * end
+ * \endcode
+ *
+ * The last example showed the Game lifecycle functions which normally are defined in their own lua file to keep things clean.
+ *
+ * Things to keep in mind:
+ * - Everything that is run from the main.lua should be considered "loading" of the code.  None of the code in any of the functions is executed unless you call that function.
+ * - Anything global code will be executed in order of execScript() calls.
+ * - Each lua file has its own scope so the keyword local can be used to keep constants and other local definitions local to that file's code
+ *
+ * For more information on lifecycle functions and other entry points - please see \sa Callbacks
  */
 
 /**
  * \defgroup Configuring Configuring the Engine
- * \brief Setting various options for your game
+ * \brief Setting various system-level options for your game
  *
- * TODO copy docs from sdk
+ * In the assets folder there is a required engine configuration file named "batterytech_config.txt".  This file controls many low level functions, behaviors and default values for both the BatteryTech SDK.
+ *
+ * Please view the notes on the file for each option as the example batterytech_config.txt has every current option set and documented.
+ *
+ * Most functions involve things like window size, default UI fonts, logging, loading screen configuration and other basics.  More options will be added over time so please check the latest example file if you are upgrading.
+ * Here is an example batterytech_config.txt:
+ * \code
+# BatteryTech Config File
+
+# Use Shaders or Fixed Function (true/false)
+use_shaders=true
+
+# Reference Width and Height are what we scale coordinates to (this is the virtual screen size for the UI library and font sizes)
+reference_width=1280
+reference_height=800
+
+# In Windows, this is the width and height of the window
+window_width=1280
+window_height=800
+# Open up a console window if possible
+console_log_enabled_when_available=true
+# The title of the window
+windowed_app_name=BatteryTech 2.0 Lua Engine
+
+# The directory name (public) that files will be written to
+storage_dir=BatteryTech Lua Engine
+
+# When rasterizing a font, this is the texture size to start searching from
+initial_font_texture_width=256
+initial_font_texture_height=256
+
+
+# For multiline UI text, how much vertical space to add
+text_vertical_spacing_multiplier=1.2
+
+# The UI font, size, stroke and color
+menu_font=ui/btdemo.fnt
+ui_font_size=50.0
+ui_menu_inner_stroke=1
+ui_menu_outer_stroke=1
+ui_menu_font_color=1.0 1.0 1.0 1.0
+
+# If we should manage audio or use platform facilities (where available) - usually you want false
+prefer_platform_audio_management=false
+
+# The loading image (multiple are supported by naming them loading_texture1, loading_texture2 and will be chosen at random)
+loading_texture=textures/loading.png
+# The loading texture can be scaled in one of 3 ways, scaleAspectX, scaleAspectY and scaleXY
+loading_scale_mode=scaleAspectY
+# Loading Height and Width are scaled based on the reference width and height and scaling mode
+loading_width=512
+loading_height=128
+
+# to support larger screen textures but keep performance good on smaller screen devices, we support "halving" textures.
+# these numbers are the thresholds where a screen with either dimension this size or smaller will have its textures resized smaller for efficiency.
+# set these to 0 if you never want the textures scaled down
+texture_half_width_threshold=640
+texture_half_height_threshold=640
+
+# background clear color
+clear_color=0.0 0.0 0.0 1.0
+
+# asset_default_find_func controls where to look for assets.
+# "internal" is default, "external" only looks in external storage and "auto" looks in external first, internal second
+asset_default_find_func=internal
+
+# enable this setting to see details about textures that are being loaded
+debug_textures=false
+# enable this setting to see details about models that are being loaded
+debug_assimp=false
+# enable this setting to see details about shaders as they are loaded
+debug_shaders=false
+# enable this setting to see details about fonts as they are loaded
+debug_fonts=false
+# enable this setting to see details about sounds as they are loaded
+debug_sounds=false
+\endcode
  */
 
 /**
  * \defgroup LoadingResources Loading Resources
  * \brief How to get your assets into the engine
  *
- * TODO Discuss the various loading phase stuff, blocking, on demand, asset locations, filesize limitations on older devices
+ * The BatteryTech Engine has a specific loading state during which it will do the following:
+ * - Block Drawing (no screen refreshing will occur)
+ * - Display the loading screen as configured in batterytech_config.txt (see \ref Configuring)
+ * - Load any resources that have been added but not yet loaded
+ *
+ * There are 2 ways to get the engine into the loading state:
+ * - During engine initialization (automatic when engine starts)
+ * - A call to Game::loadNewResources()
+ *
+ * This means that any resources you add in Lua during the initial script execution from main.lua (see \ref ScriptEntry) will automatically be loaded at that point in time.
+ *
+ * After that initial phase, you must use Game::loadNewResources() to get into a new loading state.  It is often useful to partition resource loading into levels, worlds or before or after cut-scenes.  Currently progress bars or animations during loading are not supported.
+ *
+ * Some resources, like Textures, can be loaded on-demand.  On-demand loading marks the texture to be loaded as soon as the first draw is attempted.  While it may be tempting to want to mark all textures as on-demand, there is a significant CPU and IO cost to loading an individual texture so it should be kept to a minimum or used only in instances where only that one texture will be loading during that specific frame to avoid lag.  See addTexture() for more info on deferred loading.
+ *
+ * Sounds can be loaded instantly or with everything else in the loading phase.  See \ref addSound() for API reference on that.
+ *
+ * Models and Fonts can only be loaded during loading phase.
  *
  * \defgroup AssetLocations Asset Locations
  * \brief Where assets (graphics, sounds, resource files) can be located and system features involving them
+ *
+ * The default location for file assets to exist is the assets folder in your project.  For most platforms, these assets will be packed into an internal, read-only filesystem where you as the developer will not normally have direct file read access but have to go through a platform-specific access mechanism.  BatteryTech deals with this for each platform, providing a seamless way to access your resources.
+ *
+ * Beyond internal assets, BatteryTech also provides several mechanisms for reading assets from external locations as well as overriding assets without changing code.
+ *
+ * In the batterytech_config.txt file (see \ref Configuring), you can specify a system-wide access option for files.  This is the first option assessed when an asset read function is called.
+ *
+ * \code
+ * # asset_default_find_func controls where to look for assets.
+ * # "internal" is default, "external" only looks in external storage and "auto" looks in external first, internal second
+ * asset_default_find_func=internal
+ * \endcode
+ *
+ * So where is external storage?  In the same batterytech_config.txt file, there is a definition:
+ * \code
+ * # The directory name (public) that files will be written to
+ * storage_dir=BatteryTech Lua Engine
+ * \endcode
+ *
+ * This translates to different locations for different platforms.
+ * - Windows = \<User Home\>\\Documents\\\<storage_dir\>
+ * - OSX = \<User Home\>/Documents/\<storage_dir\>
+ * - iOS = \<App Sandbox\>/Documents
+ * - Android = \<SDCard\>/\<storage_dir\>
+ *
+ * So for example, if you were to set asset_default_find_func to "external" in batterytech_config.txt, and you were running in Windows, the following would be true:\n
+ * addTexture("myTexture.png") = \<User Home\>\\Documents\\\<storage_dir\>\\assets\\myTexture.png\n
+ * But if you set asset_default_find_func to "auto" then that path would be examined first.  If no file is found there, then an attempt to load the internal asset is made.  This allows for selective overriding of files, either via download mechanism, user data, or other.
+ *
+ * Beyond the global setting, asset search locations can be specified on a per-asset bases by prepending the following strings to an asset:
+ * - file: Absolute file location (not necessarily in external storage)
+ * - auto: Automatic selection (first checking external storage then checking internal)
+ *
+ * Example:
+ * \code
+ * -- default internal read
+ * addTexture("myTexture.png")
+ * -- automatic override file read
+ * addTexture("auto:overrideableTexture.png")
+ * local extStorage = getExternalStorageDirectoryName()
+ * -- absolute path read
+ * addTexture("file:"..extStorage.."/externalTexture.png")
+ * \endcode
  * \ingroup LoadingResources
  */
 
@@ -131,6 +300,7 @@
 
 /**
  * \defgroup Callbacks Callback and lifecycle Functions
+ * \brief Functions that are user-defined which the engine calls into
  *
  * There are a number of Lua functions that the application can implement to receive various lifecycle and callback invocations. Function declarations are made like any normal function for the given scope.
  *
@@ -153,7 +323,8 @@
  * - - Parameter delta - The amount of time since the previous frame tick (in seconds)
  * - GameObject collision callbacks / query callbacks - Please see \ref Physics section for more info
  *
- * \brief Functions that are user-defined which the engine calls into
+ *
+ * please see \sa ScriptEntry for more information on application entry points
  */
 
 
