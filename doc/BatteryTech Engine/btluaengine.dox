@@ -225,8 +225,28 @@ debug_sounds=false
  * \defgroup Graphics Graphics and Rendering
  * \brief How The BatteryTech Engine composites 2D, 3D and Font-based graphics
  *
- * TODO all about the rendering system
+ * The BatteryTech Engine's rendering system utilizes a "deferred render item" list to maintain the scene.  The design involves a list of universally reusable items which may be things like the following examples:
+ * - Render "Texture1.png" at 300,300 of size 55x55 rotated 10 degrees
+ * - Render Text "This is a test" at 250,400 using font tag "neu20" 
+ * - Render 3D Model "MyModel.dae" at 12,5,0 scale 20x20x20 with rotation matrix
+ * - etc...
  *
+ * Every drawable frame, the rendering system will call the Game::render() function which is the entry point to set up the entire list of render items.  The list does not persist from one frame to the next, it must be entirely reset.
+ * This has several implications.  First, it means that switching what is drawn when is a very lightweight operation with virtually no cost.  It also means that all transforms and other information about where to render must be managed on the Lua side by the developer.
+ *
+ * Performance implications:  This system has be proven to be efficient for most purposes, however it does make very heavy use of string hashes to resolve the resource keys, so there is some (but not ultimate) benefit to keeping paths and filenames short.
+ *
+ * Each render call returns a render item index.  This index can be used to further configure the render item beyond what is available by the initial render call.  Example:
+ *
+ * \code
+ * -- Renders just a quarter of the minimap atlas texture to mmx, mmy
+ * renderIdx = game:render2D("textures/minimap_atlas.png", mmx,mmy, w,h)
+ * game:setRenderItemParam(renderIdx, "uvs", 0.0, 0.5, 0.5, 1.0)
+ * \endcode
+ *
+ * There are a number of global render settings to control lights, shadows, fog and camera in the \ref Graphics3D section
+ *
+ * Here is a basic illustration of the flow of render item calls to the processing and rendering of the items:
  * \image html RenderSystem.png
  *
  * \defgroup Graphics2D 2D Graphics and Textures
@@ -256,6 +276,8 @@ debug_sounds=false
  * \ingroup Graphics
  * \defgroup GameObject GameObjects
  * \brief GameObjects provide integration between per-entity C functionality and Lua functionality
+ *
+ * There are many GameObject functions beyond the few documented here.  They are grouped by functionality in the other API reference pages.  Please visit the class reference page for GameObject for a comprehensive list of all available functions.
  */
 
 /**

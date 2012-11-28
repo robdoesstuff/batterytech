@@ -309,6 +309,10 @@ isConsuming isUIConsumingKeys();
  */
 x__y__z getScreenCoord();
 
+/** \name Camera
+ * Functions for settings and retrieving camera parameters
+ */
+// @{
 /**
  * \brief returns the current camera's parameters
  *
@@ -366,6 +370,7 @@ panCamera(float x, float y);
  * \ingroup Graphics3D
  */
 x__y__z getCameraLookVec();
+// @}
 
 /**
  * \brief Returns the singular scale value for scaling UI components

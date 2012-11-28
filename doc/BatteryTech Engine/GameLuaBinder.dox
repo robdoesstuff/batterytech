@@ -148,6 +148,10 @@ public:
      *
      */
     Game::quit();
+/** \name Render Functions
+ * Functions that produce render items
+ */
+// @{
     /**
      * \brief Renders a an OBJ file (deprecated)
      *
@@ -321,6 +325,11 @@ public:
      *
      */
     renderItemId Game::end2DProjection();
+// @}
+/** \name Shadows
+ * Configuring Shadows
+ */
+// @{
     /**
      * \brief Defines the location of the origin (source) of the "light" which casts a shadow
      *
@@ -401,6 +410,11 @@ public:
      *
      */
     Game::setShadowCullMode(int mode);
+// @}
+/** \name Global Light
+ * Functions for configuring the global (directional) light
+ */
+// @{
 	/**
 	 * \brief Enables/Disables global (directional) light
 	 *
@@ -452,6 +466,7 @@ public:
      *
      */
     Game::setGlobalLightSpecular(float r, float g, float b, float a);
+// @}
     /**
      * \brief Enables/Disables Linear Fog
      *
@@ -479,7 +494,7 @@ public:
      * \param idx The render item index
      * \param name The name of the parameter
      * \param value The value for the paremeter
-     * \ingroup Graphics
+     * \ingroup RenderOptions
      *
      */
     Game::setRenderItemParam(int idx, string name, multiple value);
@@ -490,6 +505,11 @@ public:
      *
      */
     Game::loadNewResources();
+// @}
+/** \name Point Lights
+ * Functions for adding, removing and configuring point lights
+ */
+// @{
     /**
      * \brief Adds a local (point) light to the scene
      *
@@ -545,6 +565,7 @@ public:
      *
      */
     firstIdx__lastIdx Game::addLocalLightsFromAssimp(string assetName, string meshPrefix);
+// @}
     /**
      * \brief Retrives mesh information from an assimp-supported file
      *
