@@ -37,6 +37,10 @@ string loadAsset(string assetName);
  * \ingroup Fonts
  */
 addFont(string tag, string assetName, int size, int innerStroke, int outerStroke, int R, int G, int B, int A);
+/** \name Texture Functions
+ * Texture Management
+ */
+// @{
 /**
  * \brief Adds a texture file to the resource manager
  * \param assetName The texture file asset name
@@ -53,10 +57,17 @@ removeTexture(string assetName);
 /**
  * \brief Sets default texture parameters
  *
- * Parameters are:
- * filter - "nearest", "linear", "bilinear", "trilinear"
- * repeat - boolean true or false
+ * Parameters are set as key/value pairs and multiple may be specified.  These defaults will be used for all newly loaded textures until changed or unless the texture overrides with setTextureParams().
+ *
+ * Supported Parameters keys and values are:
+ * - "filter" - "nearest", "linear", "bilinear", "trilinear"
+ * - "repeat" - boolean true or false
  * 
+ * Example:
+ * \code
+ * setDefaultTextureParams("filter", "linear", "repeat", false)
+ * \endcode
+ *
  * \param paramName1 The first parameter name
  * \param paramValue1 The first parameter value
  * \ingroup Graphics2D
@@ -66,13 +77,22 @@ setDefaultTextureParams(string paramName1, notype paramValue1, ...);
 /**
  * \brief Sets texture parameters
  *
- * Parameters are:
- * filter - "nearest", "linear", "bilinear", "trilinear"
- * minfilter - "nearest", "linear"
- * magfilter - "nearest", "linear"
- * repeat - boolean true or false
- * repeatX - boolean true or false
- * repeatY - boolean true or false
+ * Note - may only be called AFTER addTexture() for that particular assetName
+ *
+ * Parameters are set as key/value pairs and multiple may be specified.
+ *
+ * Supported Parameters keys and values are:
+ * - "filter" - "nearest", "linear", "bilinear", "trilinear"
+ * - "minfilter" - "nearest", "linear"
+ * - "magfilter" - "nearest", "linear"
+ * - "repeat" - boolean true or false
+ * - "repeatX" - boolean true or false
+ * - "repeatY" - boolean true or false
+ *
+ * Example:
+ * \code
+ * setTextureParams("tex/MyTex.png", "minfilter", "nearest", "repeat", false)
+ * \endcode
  *
  * \param assetName The texture's file asset name
  * \param paramName1 The first parameter name
@@ -99,6 +119,7 @@ origWidth__origHeight__trimmedWidth__trimmedHeight__offsetX__offsetY getTextureD
  * \ingroup Graphics2D
  */
 clearTextures();
+// @}
 
 /**
  * \brief (Deprecated) Adds an obj file to the resource manager
@@ -423,10 +444,11 @@ separator getPathSeparator();
 
 /**
  * \brief Determines if a path exists
+ * \param path The path to check
  * \return exists: If the path exists
  * \ingroup FileIO
  */
-exists pathExists();
+exists pathExists(string path);
 
 /**
  * \brief Shows the soft keyboard on applicable platforms

@@ -148,7 +148,7 @@ public:
      *
      */
     Game::quit();
-/** \name Render Functions
+/** \name 3D Render Functions
  * Functions that produce render items
  */
 // @{
@@ -161,62 +161,6 @@ public:
      *
      */
     renderItemId Game::renderStaticObjM(string assetName, string groupName, string textureName, boolean isOpaque, floatArray16 matrix, float scaleX,float scaleY,float scaleZ);
-    /**
-     * \brief Renders Text
-     *
-     * Fonts must be preloaded using addFont(), where the tag is specified for the font loaded.  Both TTF and BMFonts are supported.
-     *
-     * Fonts are rendered from the bottom left point which allows for baseline placement.  Fonts may be aligned left, center or right using setRenderItemParam().\n
-     * The default font tag is "ui" and is what is specified in the batterytech_config.txt
-     *
-     * Example:
-     * \code
-     * -- Render some text centered at 200,200 in reference coordinates with a 2x size scale
-     * local item = game:renderText2D("ui", "This is some text", 200, 200, 2.0)
-     * game:setRenderItemParam(item, "align", "center")
-     * \endcode
-     *
-     * Supported values for "align" are "left" "center" and "right"\n
-     * Currently only the specified color at load is supported, other render item parameters to set color or alpha will have no effect.
-     *
-     * \param tag The font tag to use
-     * \param text The string to render
-     * \param x The x coordinate to render to
-     * \param y The y coordinate to render to
-     * \param scale (optional) The font scale size (1.0 is unscaled)
-     * \ingroup Fonts
-     *
-     */
-    renderItemId Game::renderText2D(string tag, string text, float x, float y, float scale);
-    /**
-     * \brief Renders a 2D image
-     *
-     * 2D images are rendered as "textured quads."  Because BatteryTech is fully ES compatible, this means 2 triangles per quad.
-     *
-     * - Render Order: 2D images are rendered in the order of draw calls from back to front, so it is your responsibility as the developer to call in the order which will correctly render your scene.\n
-     * - Texture Atlasing: Multiple images can be combined onto a single texture either manually or by using the 3rd party tool "Texture Packer."  Texture Packer specifically supports BatteryTech and exports a .btx file alongside a packed .png which holds all of the texture data.  Packed textures keep the same filenames as the original and will be rendered as if they are the original size, meaning even though alpha pixels may be trimmed during packing, they will be accounted for during the render.  For example, if you put Sprite1.png and Sprite2.png into an atlas and the output was MySprites.png/MySprites.btx, you would simply call addTexture("MySprites.btx") then game:render2D("Sprite1.png", ...) as if you directly loaded that file.  Removing works the same way - removing the packed texture removes all virtualized textures.\n
-     * - Optimizing: 2D sprites will be rendered in the most optimized way that still can render the scene correctly blindly back to front.  The one major bottleneck is texture switching.  Any time a texture switch is required, the current sprite buffer will be drawn.  To optimize, specify a render order that groups draws by texture and pack multiple images into an atlas when they will be rendered all together on screen.  BatteryTech does not analyze the scene to see if quads overlap so it is up to the developer to provide a draw order that can best utilize low texture switching, resulting in larger batches of quads to be drawn.\n
-     * - Coordinate System: Alternate coordinate systems can be specified by using Game::start2DProjection() / Game::end2DProjection() which makes it easier to  manage scaling across different screen sizes.  If no projection is specified, screen coordinates are used with 0,0 in the top left.\n
-     *
-     * Example:
-     * \code
-     * -- Render an image centered at 200,200 drawn to be 400x400 in size and rotated 90 degrees
-     * local item = game:render2D("Textures/MyImage.png", 200, 200, 400, 400, math.rad(90))
-     * -- Now specify that we want to draw this at only 70% opacity - we could have also specified this in the render call
-     * game:setRenderItemParam(item, "alpha", .7)
-     * \endcode
-     *
-     * \param assetName The asset filename to use as the texture
-     * \param x The center x coordinate
-     * \param y The center y coordinate
-     * \param width The render width
-     * \param height The render height
-     * \param rotation (optional) The rotation in radians
-     * \param alpha (optional) The alpha value in range 0-1
-     * \ingroup Graphics2D
-     *
-     */
-    renderItemId Game::render2D(string assetName, float x, float y, float width, float height, float rotation, float alpha);
     /**
      * \brief Renders a 2D Image as a background (behind any 3D)
      *
@@ -301,6 +245,68 @@ public:
      *
      */
     renderItemId Game::renderBB(string assetName, float x, float y, float z, float width, float height, float zRotation, float alpha, float u1, float v1, float u2, float v2);
+// @}
+    /**
+     * \brief Renders Text
+     *
+     * Fonts must be preloaded using addFont(), where the tag is specified for the font loaded.  Both TTF and BMFonts are supported.
+     *
+     * Fonts are rendered from the bottom left point which allows for baseline placement.  Fonts may be aligned left, center or right using setRenderItemParam().\n
+     * The default font tag is "ui" and is what is specified in the batterytech_config.txt
+     *
+     * Example:
+     * \code
+     * -- Render some text centered at 200,200 in reference coordinates with a 2x size scale
+     * local item = game:renderText2D("ui", "This is some text", 200, 200, 2.0)
+     * game:setRenderItemParam(item, "align", "center")
+     * \endcode
+     *
+     * Supported values for "align" are "left" "center" and "right"\n
+     * Currently only the specified color at load is supported, other render item parameters to set color or alpha will have no effect.
+     *
+     * \param tag The font tag to use
+     * \param text The string to render
+     * \param x The x coordinate to render to
+     * \param y The y coordinate to render to
+     * \param scale (optional) The font scale size (1.0 is unscaled)
+     * \ingroup Fonts
+     *
+     */
+    renderItemId Game::renderText2D(string tag, string text, float x, float y, float scale);
+/** \name 2D Render Functions
+ * Functions that produce render items
+ */
+// @{
+   /**
+     * \brief Renders a 2D image
+     *
+     * 2D images are rendered as "textured quads."  Because BatteryTech is fully ES compatible, this means 2 triangles per quad.
+     *
+     * - Render Order: 2D images are rendered in the order of draw calls from back to front, so it is your responsibility as the developer to call in the order which will correctly render your scene.\n
+     * - Texture Atlasing: Multiple images can be combined onto a single texture either manually or by using the 3rd party tool "Texture Packer."  Texture Packer specifically supports BatteryTech and exports a .btx file alongside a packed .png which holds all of the texture data.  Packed textures keep the same filenames as the original and will be rendered as if they are the original size, meaning even though alpha pixels may be trimmed during packing, they will be accounted for during the render.  For example, if you put Sprite1.png and Sprite2.png into an atlas and the output was MySprites.png/MySprites.btx, you would simply call addTexture("MySprites.btx") then game:render2D("Sprite1.png", ...) as if you directly loaded that file.  Removing works the same way - removing the packed texture removes all virtualized textures.\n
+     * - Optimizing: 2D sprites will be rendered in the most optimized way that still can render the scene correctly blindly back to front.  The one major bottleneck is texture switching.  Any time a texture switch is required, the current sprite buffer will be drawn.  To optimize, specify a render order that groups draws by texture and pack multiple images into an atlas when they will be rendered all together on screen.  BatteryTech does not analyze the scene to see if quads overlap so it is up to the developer to provide a draw order that can best utilize low texture switching, resulting in larger batches of quads to be drawn.\n
+     * - Coordinate System: Alternate coordinate systems can be specified by using Game::start2DProjection() / Game::end2DProjection() which makes it easier to  manage scaling across different screen sizes.  If no projection is specified, screen coordinates are used with 0,0 in the top left.\n
+     *
+     * Example:
+     * \code
+     * -- Render an image centered at 200,200 drawn to be 400x400 in size and rotated 90 degrees
+     * local item = game:render2D("Textures/MyImage.png", 200, 200, 400, 400, math.rad(90))
+     * -- Now specify that we want to draw this at only 70% opacity - we could have also specified this in the render call
+     * game:setRenderItemParam(item, "alpha", .7)
+     * \endcode
+     *
+     * \param assetName The asset filename to use as the texture
+     * \param x The center x coordinate
+     * \param y The center y coordinate
+     * \param width The render width
+     * \param height The render height
+     * \param rotation (optional) The rotation in radians
+     * \param alpha (optional) The alpha value in range 0-1
+     * \ingroup Graphics2D
+     *
+     */
+    renderItemId Game::render2D(string assetName, float x, float y, float width, float height, float rotation, float alpha);
+
     /**
      * \brief Starts an alternate 2D Projection (Orthographic)
      *

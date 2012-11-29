@@ -46,7 +46,7 @@ var searchData=
   ['showfps',['showFPS',['../group___other_functions.html#gafba092fe23cb4395797e8b84aa7b1f41',1,'LuaBinder.dox']]],
   ['showkeyboard',['showKeyboard',['../group___input.html#ga16113791b4e3858d55e22172c16645e5',1,'LuaBinder.dox']]],
   ['showmessagedialog',['showMessageDialog',['../group___u_i.html#ga679a5b43129187fa5f3d191f175caedc',1,'LuaBinder.dox']]],
-  ['start2dprojection',['start2DProjection',['../group___graphics3_d.html#ga6b2d55ac78f84007e16f9867e802bf49',1,'Game']]],
+  ['start2dprojection',['start2DProjection',['../group___graphics2_d.html#ga6b2d55ac78f84007e16f9867e802bf49',1,'Game']]],
   ['startparticleemitter',['startParticleEmitter',['../group___particles.html#ga3bfd75a27de8c2d38d0903d9e2535525',1,'Game']]],
   ['startvibrationeffect',['startVibrationEffect',['../group___vibration.html#gacf589684b9a3bfdd0b5b8ad0067fc85c',1,'LuaBinder.dox']]],
   ['stopallvibrationeffects',['stopAllVibrationEffects',['../group___vibration.html#ga04e322404389de92c5ef44e6cf8e046b',1,'LuaBinder.dox']]],
