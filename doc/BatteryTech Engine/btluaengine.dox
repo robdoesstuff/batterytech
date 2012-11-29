@@ -59,7 +59,18 @@
  *
  * There are many free and commercial tools for producing OBJ and DAE (Collada) files which are supported by BatteryTech.  AssimpView (Windows-only) will allow you to view your models before importing them into the engine.  You may directly use DAE/OBJ or convert to BAI for optimized loading and rendering.
  *
+ * \section license_sec License and Source Code
  *
+ * BatteryTech Engine is free to develop with, but a one-time BatteryTech license must be purchased from http://www.batterytechsdk.com in order to customize or deploy a game or application for free or commercial use.  We offer price breaks for indie developers and most proceeds go to furthering BatteryTech development and providing new features.
+ *
+ * Source code for both BatteryTech SDK and BatteryTech Engine are available to BatteryTech licensees.  Distribution of any Java, Objective-C or C/C++ source code is prohibited by license, however the Lua code may be freely and openly traded and discussed.
+ *
+ * We highly encourage users to customize the engine to suit their projects needs so if you haven't looked at BatteryTech SDK/Engine licensing for customizing further than with what is offered via Lua, please do so.
+ *
+ * TODO - links to any references libraries, terms or products
+ * TODO - list and link to 3rd party licenses
+ * TODO - link to BT license
+ * TODO - add license to all engine file headers!
  */
 
 
