@@ -3,7 +3,7 @@
 /** \mainpage Welcome to %BatteryTech Engine
  *
  * \section howtoread_sec How to read this document
- * This documentation is divided into functional sections on the <a href="modules.html">API Reference</a> page.  While the primary language is Lua 5.1, the individual function documentation uses C++ Syntax which is different in just a few ways
+ * This documentation is divided into functional sections on the <a href="modules.html">API Reference</a> page.  While the primary language is <a href="http://www.lua.org/manual/5.1/">Lua 5.1</a>, the individual function documentation uses C++ Syntax which is different in just a few ways
  * 1. Lua uses : instead of :: to refer to a member function - so anywhere you see :: in the docs, such as Game::reset(), assume the implementation is game:reset() to reset the object names "game"
  * 2. Lua supports multiple return values which we mark clearly with __ between names.  So if a function is documented as x__y__z getVector(), in Lua you would simply write it as x,y,z = getVector()
  * 3. Lua uses dynamic types, so some parameters will be marked as "multiple" meaning they may be string, number or boolean, depending.
@@ -27,37 +27,37 @@
  * - sounds
  * - shaders
  *
- * This Engine utilizes Lua very heavily.  If you are not yet familiar with Lua, it is an easy-to-learn, lightweight language that is quick for game development and fast enough for most applications.  Please visit www.lua.org for documentation beyond what is provided in this manual.
+ * This Engine utilizes <a href="http://www.lua.org/manual/5.1/">Lua</a> very heavily.  If you are not yet familiar with <a href="http://www.lua.org/manual/5.1/">Lua</a>, it is an easy-to-learn, lightweight language that is quick for game development and fast enough for most applications.  Please visit <a href="http://www.lua.org/manual/5.1/">the official Lua 5.1 documentation</a> for info beyond what is provided in this manual.
  *
  * \section overview_sec Platform Overview
- * BatteryTech Engine is a high-performance, OpenGL|ES based engine specifically engineered to run well on most mobile devices, including Android, iOS and BlackBerry 10, while facilitating desktop OS (Windows and OSX) development and testing.
+ * BatteryTech Engine is a high-performance, <a href="http://www.khronos.org/opengles/">OpenGL|ES</a> based engine specifically engineered to run well on most mobile devices, including <a href="http://www.android.com/">Android</a>, <a href="http://www.apple.com/ios/">iOS</a> and <a href="http://en.wikipedia.org/wiki/BlackBerry_10">BlackBerry 10</a>, while facilitating desktop OS (Windows and OSX) development and testing.
  *
  * BatteryTech Engine has the following features:
  * - Optimized 2D Rendering
- * - Integrated 2D Physics using Box2D
- * - Optimized 3D Rendering utilizing Open Asset Importer
- * - Fast and easy script integration using Lua
- * - A mature and robust shader-based rendering system using GLSL
+ * - Integrated 2D Physics using <a href="http://box2d.org/">Box2D</a>
+ * - Optimized 3D Rendering utilizing <a href="http://assimp.sourceforge.net/">Open Asset Importer</a>
+ * - Fast and easy script integration using <a href="http://www.lua.org/manual/5.1/">Lua</a>
+ * - A mature and robust shader-based rendering system using <a href="http://en.wikipedia.org/wiki/GLSL">GLSL</a>
  * - Mature mobile platform support for Android and iOS
- * - Animation Support with Collada
- * - Texture Atlas Support with TexturePacker
- * - Bitmap and Truetype Font Support
- * - Platform Customization Support
+ * - Animation Support with <a href="http://en.wikipedia.org/wiki/COLLADA">Collada</a>
+ * - Texture Atlas Support with <a href="http://www.codeandweb.com/texturepacker">TexturePacker</a>
+ * - Bitmap and Truetype Font Support (<a href="http://www.angelcode.com/products/bmfont/">BMFont</a> and <a href="http://en.wikipedia.org/wiki/TrueType">TTF</a>)
+ * - Per-Platform Customization Support
  * - Many More
  *
- * We recommend using a Lua-aware text editor such as Sublime Text 2 to do most of your scripting.  Please also be aware of the log file generated (batterytech.log) as most warnings and errors will be placed there.
+ * We recommend using a Lua-aware text editor such as <a href="http://www.sublimetext.com/2">Sublime Text 2</a> to do most of your scripting.  Please also be aware of the log file generated (batterytech.log) as most warnings and errors will be placed there.
  *
  * \section tools_sec Tools support
  *
  * %BatteryTech adds support for a file format we call .BAI which stands for "Binary Asset Importer" and is effectively a light serialized format of the aiScene
- * structure that the Open Asset Importer provides.  We provide a tool called BAIConvert which can take OBJ and DAE (or other formats if you link in the source
+ * structure that the <a href="http://assimp.sourceforge.net/">Open Asset Importer</a> provides.  We provide a tool called BAIConvert which can take OBJ and DAE (or other formats if you link in the source
  * from Assimp) and output a BAI which will usually be smaller, be optimized and load faster than the original file.  It is a format suitable for production use.
  *
- * BatteryTech natively support BMFont-formatted font files (.FNT).  There are many tools for creating these fonts and a variety of rich and customized fonts can be made using them.
+ * BatteryTech natively support <a href="http://www.angelcode.com/products/bmfont/">BMFont</a>-formatted font files (.FNT).  There are many tools for creating these fonts and a variety of rich and customized fonts can be made using them.
  *
- * TexturePacker 3.0 and newer support BatteryTech with a format called .BTX.  Use this format to pack graphics together into atlases and sprite sheets.
+ * <a href="http://www.codeandweb.com/texturepacker">TexturePacker</a> 3.0 and newer support BatteryTech with a format called .BTX.  Use this format to pack graphics together into atlases and sprite sheets.
  *
- * There are many free and commercial tools for producing OBJ and DAE (Collada) files which are supported by BatteryTech.  AssimpView (Windows-only) will allow you to view your models before importing them into the engine.  You may directly use DAE/OBJ or convert to BAI for optimized loading and rendering.
+ * There are many free and commercial tools for producing OBJ and DAE (Collada) files which are supported by BatteryTech.  <a href="http://assimp.sourceforge.net/main_viewer.html">AssimpView</a> (Windows-only) will allow you to view your models before importing them into the engine.  You may directly use DAE/OBJ or convert to BAI for optimized loading and rendering.
  *
  * \section license_sec License and Source Code
  *
@@ -67,9 +67,12 @@
  *
  * We highly encourage users to customize the engine to suit their projects needs so if you haven't looked at BatteryTech SDK/Engine licensing for customizing further than with what is offered via Lua, please do so.
  *
- * TODO - links to any references libraries, terms or products
- * TODO - list and link to 3rd party licenses
- * TODO - link to BT license
+ * Here is a list of 3rd party product licenses that are utilized with BatteryTech Engine:
+ * - <a href="http://assimp.sourceforge.net/main_license.html">Open Asset Importer License</a>
+ * - <a href="http://box2d.org/about/">Box2D License Info</a>
+ * - <a href="http://www.lua.org/copyright.html">Lua License</a>
+ * - <a href="http://www.batterypoweredgames.com/batterytech/eula">BatteryTech SDK License</a>
+ *
  * TODO - add license to all engine file headers!
  */
 
