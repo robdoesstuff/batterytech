@@ -1,6 +1,6 @@
 /*
  * BatteryTech
- * Copyright (c) 2010 Battery Powered Games, LLC.
+ * Copyright (c) 2010 Battery Powered Games LLC.
  *
  * This code is a component of BatteryTech and is subject to the 'BatteryTech
  * End User License Agreement'.  Among other important provisions, this
