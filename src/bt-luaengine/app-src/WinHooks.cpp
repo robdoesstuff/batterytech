@@ -1,3 +1,15 @@
+/*
+ * BatteryTech
+ * Copyright (c) 2010 Battery Powered Games LLC.
+ *
+ * This code is a component of BatteryTech and is subject to the 'BatteryTech
+ * End User License Agreement'.  Among other important provisions, this
+ * license prohibits the distribution of source code to anyone other than
+ * authorized parties.  If you have any questions or would like an additional
+ * copy of the license, please contact: support@batterypoweredgames.com
+ */
+
+
 #ifdef _WIN32
 
 #include <batterytech/primitives.h>
@@ -46,9 +58,9 @@ void winHook(const char *hook, char *result, S32 resultLen) {
 		}
 	} else if (strStartsWith(hook, "restorePurchases")) {
 		DWORD dwThreadId;
-		CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)&CallbackThreadStart, (LPVOID)"com.touchscreenpromotion.diesel.batmotriple", 0, &dwThreadId);
-		CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)&CallbackThreadStart, (LPVOID)"com.touchscreenpromotion.diesel.rockwellrearend", 0, &dwThreadId);
-		CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)&CallbackThreadStart, (LPVOID)"com.touchscreenpromotion.diesel.pipekittriple", 0, &dwThreadId);
+		CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)&CallbackThreadStart, (LPVOID)"testproduct1", 0, &dwThreadId);
+		CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)&CallbackThreadStart, (LPVOID)"testproduct2", 0, &dwThreadId);
+		CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)&CallbackThreadStart, (LPVOID)"testproduct3", 0, &dwThreadId);
 	} else if (strStartsWith(hook, "openURL")) {
 		char hookData[512];
 		strcpy(hookData, hook);
