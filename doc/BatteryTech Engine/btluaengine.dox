@@ -72,8 +72,6 @@
  * - <a href="http://box2d.org/about/">Box2D License Info</a>
  * - <a href="http://www.lua.org/copyright.html">Lua License</a>
  * - <a href="http://www.batterypoweredgames.com/batterytech/eula">BatteryTech SDK License</a>
- *
- * TODO - add license to all engine file headers!
  */
 
 
