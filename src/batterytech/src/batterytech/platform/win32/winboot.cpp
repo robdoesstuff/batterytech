@@ -322,7 +322,8 @@ DWORD WINAPI StartThread(LPVOID iValue) {
 	// enable OpenGL for the window
 	cout << "Enabling OpenGL" << endl;
 	EnableOpenGL(hWnd, &hDC, &hRC);
-	if (glCreateShader) {
+	BOOL shadersSupported = (glCreateShader != NULL);
+	if (shadersSupported) {
 		logmsg("Shaders supported");
 		btGetContext()->gConfig->supportsShaders = true;
 	} else {
@@ -330,22 +331,28 @@ DWORD WINAPI StartThread(LPVOID iValue) {
 		btGetContext()->gConfig->supportsShaders = false;
 		btGetContext()->gConfig->useShaders = FALSE;
 	}
-	DWORD time = timeGetTime();
-	DWORD oldTime = time;
-	DWORD timeDeltaMs;
-	while (!quit) {
-		oldTime = time;
-		time = timeGetTime();
-		timeDeltaMs = time - oldTime;
-		btUpdate(timeDeltaMs / 1000.0f);
-		//cout << "Updating " << (time - oldTime) / 1000.0f << endl;
-		btDraw();
-		SwapBuffers(hDC);
-		::Sleep(16); // limit to 60fps on PC.
-		// A better thing to do would be to use a high res timer and actually calc out the amount of time to wait.
-		// However the target is mobile and will always have less CPU so this could give a better indication of FPS drop.
+	BOOL32 useShaders = btGetContext()->appProperties->get("use_shaders")->getBoolValue();
+	if (useShaders && !shadersSupported) {
+		MessageBox(NULL, "This BatteryTech application requires a minimum of OpenGL 2.0", NULL, 0);
+		quit = true;
+	} else {
+		DWORD time = timeGetTime();
+		DWORD oldTime = time;
+		DWORD timeDeltaMs;
+		while (!quit) {
+			oldTime = time;
+			time = timeGetTime();
+			timeDeltaMs = time - oldTime;
+			btUpdate(timeDeltaMs / 1000.0f);
+			//cout << "Updating " << (time - oldTime) / 1000.0f << endl;
+			btDraw();
+			SwapBuffers(hDC);
+			::Sleep(16); // limit to 60fps on PC.
+			// A better thing to do would be to use a high res timer and actually calc out the amount of time to wait.
+			// However the target is mobile and will always have less CPU so this could give a better indication of FPS drop.
+		}
+		// stop sound process before releasing app
 	}
-	// stop sound process before releasing app
 	btRelease();
 	// shutdown OpenGL
 	DisableOpenGL(hWnd, hDC, hRC);

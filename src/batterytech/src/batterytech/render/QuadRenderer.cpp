@@ -175,6 +175,7 @@ void QuadRenderer::render(Texture *texture, F32 top, F32 right, F32 bottom, F32 
 	} else {
 		glVertexPointer(3, GL_FLOAT, 0, &verts);
 		glTexCoordPointer(2, GL_FLOAT, 0, &uvs);
+		glColorPointer(4, GL_FLOAT, 0, &colors);
 		glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 	}
 }
@@ -263,6 +264,7 @@ void QuadRenderer::render(Texture *texture, Vector3f pos, F32 angleRads, Vector4
 		glRotatef(angleRads * (180 / PI), 0, 0, 1.0f);
 		glVertexPointer(3, GL_FLOAT, 0, &verts);
 		glTexCoordPointer(2, GL_FLOAT, 0, &uvs);
+		glColorPointer(4, GL_FLOAT, 0, &colors);
 		glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 		glPopMatrix();
 	}
@@ -354,10 +356,12 @@ void QuadRenderer::render(Texture *texture, Vector3f pos, F32 angleRads, Vector4
             if (useVBOs) {
                 glVertexPointer(3, GL_FLOAT, sizeof(GLQuadVertex), BUFFER_OFFSET(0));
                 glTexCoordPointer(2, GL_FLOAT, sizeof(GLQuadVertex), BUFFER_OFFSET(sizeof(Vector3f)));
-            } else {
+        		glColorPointer(4, GL_FLOAT, sizeof(GLQuadVertex), BUFFER_OFFSET(sizeof(Vector3f)+sizeof(Vector2f)));
+           } else {
                 glVertexPointer(3, GL_FLOAT, sizeof(GLQuadVertex), &vertBuffer[0].position);
                 glTexCoordPointer(2, GL_FLOAT, sizeof(GLQuadVertex), &vertBuffer[0].uv);
-           }
+        		glColorPointer(4, GL_FLOAT, sizeof(GLQuadVertex), &vertBuffer[0].color);
+          }
         }
         if (useVBOs) {
             glDrawElements(GL_TRIANGLES, quadsBatched*6, GL_UNSIGNED_SHORT, 0);

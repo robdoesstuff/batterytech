@@ -1061,12 +1061,14 @@ namespace BatteryTech {
 		} else {
 			Vector4f colorFilter = context->renderContext->colorFilter;
 			glColor4f(colorFilter.x,colorFilter.y,colorFilter.z,colorFilter.a);
-            if (context->gConfig->supportsVBOs) {
+            if (useVBO) {
                 glVertexPointer(3, GL_FLOAT, sizeof(GLQuadVertex), BUFFER_OFFSET(0));
                 glTexCoordPointer(2, GL_FLOAT, sizeof(GLQuadVertex), BUFFER_OFFSET(sizeof(Vector3f)));
-            } else {
+                glColorPointer(4, GL_FLOAT, sizeof(GLQuadVertex), BUFFER_OFFSET(sizeof(Vector3f)+sizeof(Vector2f)));
+           } else {
                 glVertexPointer(3, GL_FLOAT, sizeof(GLQuadVertex), &vertBuffer[0].position);
                 glTexCoordPointer(2, GL_FLOAT, sizeof(GLQuadVertex), &vertBuffer[0].uv);
+                glColorPointer(4, GL_FLOAT, sizeof(GLQuadVertex), &vertBuffer[0].color);
             }
 		}
         if (useVBO) {

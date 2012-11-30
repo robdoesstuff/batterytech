@@ -144,7 +144,7 @@ void WorldRenderer::setupGL() {
 	if (context->gConfig->useShaders) {
 	} else {
 		glEnableClientState(GL_VERTEX_ARRAY);
-		glDisableClientState(GL_COLOR_ARRAY);
+		glEnableClientState(GL_COLOR_ARRAY);
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 		glDisableClientState(GL_NORMAL_ARRAY);
 		glShadeModel(GL_SMOOTH);
