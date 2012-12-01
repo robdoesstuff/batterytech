@@ -241,7 +241,7 @@ void Game::loadLevel() {
 	logmsg("Done cleaning up.");
 	// done cleaning up
 	b2Vec2 gravity(0.0f, WORLD_GRAVITY);
-	world->boxWorld = new b2World(gravity, true);
+	world->boxWorld = new b2World(gravity);
 	world->boxWorld->SetContinuousPhysics(true);
 	world->boxWorld->SetContactListener(this);
 	world->boxWorld->SetDestructionListener(this);
@@ -254,18 +254,26 @@ void Game::loadLevel() {
 	//triDef.type = b2_dynamicBody;
 	b2Body* triBody = world->boxWorld->CreateBody(&triDef);
 	b2PolygonShape triShape;
-	triShape.SetAsEdge(b2Vec2(WORLD_LEFT, WORLD_TOP), b2Vec2(WORLD_LEFT, WORLD_BOTTOM));
+	// left wall
+	triShape.SetAsBox(0, WORLD_TOP-WORLD_BOTTOM, b2Vec2(WORLD_LEFT, 0), 0);
+	//triShape.SetAsEdge(b2Vec2(WORLD_LEFT, WORLD_TOP), b2Vec2(WORLD_LEFT, WORLD_BOTTOM));
 	b2FixtureDef triFixtureDef;
 	triFixtureDef.shape = &triShape;
 	triFixtureDef.friction = 1.0f;
 	triFixtureDef.filter.categoryBits = COLLISION_BITS_STATIC;
 	//triFixtureDef.density = 0.1f;
 	triBody->CreateFixture(&triFixtureDef);
-	triShape.SetAsEdge(b2Vec2(WORLD_LEFT, WORLD_BOTTOM), b2Vec2(WORLD_RIGHT, WORLD_BOTTOM));
+	// bottom wall
+	triShape.SetAsBox(WORLD_RIGHT-WORLD_LEFT, 0, b2Vec2(0, WORLD_BOTTOM), 0);
+	// triShape.SetAsEdge(b2Vec2(WORLD_LEFT, WORLD_BOTTOM), b2Vec2(WORLD_RIGHT, WORLD_BOTTOM));
 	triBody->CreateFixture(&triFixtureDef);
-	triShape.SetAsEdge(b2Vec2(WORLD_RIGHT, WORLD_BOTTOM), b2Vec2(WORLD_RIGHT, WORLD_TOP));
+	// right wall
+	triShape.SetAsBox(0, WORLD_TOP-WORLD_BOTTOM, b2Vec2(WORLD_RIGHT, 0), 0);
+	// triShape.SetAsEdge(b2Vec2(WORLD_RIGHT, WORLD_BOTTOM), b2Vec2(WORLD_RIGHT, WORLD_TOP));
 	triBody->CreateFixture(&triFixtureDef);
-	triShape.SetAsEdge(b2Vec2(WORLD_RIGHT, WORLD_TOP), b2Vec2(WORLD_LEFT, WORLD_TOP));
+	// top wall
+	triShape.SetAsBox(WORLD_RIGHT-WORLD_LEFT, 0, b2Vec2(0, WORLD_TOP), 0);
+	// triShape.SetAsEdge(b2Vec2(WORLD_RIGHT, WORLD_TOP), b2Vec2(WORLD_LEFT, WORLD_TOP));
 	triBody->CreateFixture(&triFixtureDef);
 	world->levelLoaded = TRUE;
 }

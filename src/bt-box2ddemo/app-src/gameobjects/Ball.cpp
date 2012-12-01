@@ -85,9 +85,9 @@ F32 Ball::getLinearVelocity() {
 void Ball::onTouchMove(F32 x, F32 y) {
 	b2Transform transform = boxBody->GetTransform();
 	// flick (20 is eyeballed multiplier)
-	boxBody->SetLinearVelocity(b2Vec2((x - transform.position.x) * 20, (y - transform.position.y) * 20) );
-	transform.position.x = x;
-	transform.position.y = y;
-	boxBody->SetTransform(transform.position, transform.GetAngle());
+	boxBody->SetLinearVelocity(b2Vec2((x - transform.p.x) * 20, (y - transform.p.y) * 20) );
+	transform.p.x = x;
+	transform.p.y = y;
+	boxBody->SetTransform(transform.p, transform.q.GetAngle());
 	boxBody->SetAwake(true);
 }
