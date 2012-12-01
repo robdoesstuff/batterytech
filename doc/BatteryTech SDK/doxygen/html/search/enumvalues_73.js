@@ -2,6 +2,7 @@ var searchData=
 [
   ['shadowtype_5fnone',['SHADOWTYPE_NONE',['../class_battery_tech_1_1_graphics_configuration.html#ac2b24906af35a44f92e913d9245d8f18a113e1814e7745d94dfee3c1f342b6ae8',1,'BatteryTech::GraphicsConfiguration']]],
   ['shadowtype_5fshadowmap',['SHADOWTYPE_SHADOWMAP',['../class_battery_tech_1_1_graphics_configuration.html#ac2b24906af35a44f92e913d9245d8f18a279b439ca0309f1674769c6ed8af3100',1,'BatteryTech::GraphicsConfiguration']]],
+  ['shadowtype_5fshadowmap_5fcustom',['SHADOWTYPE_SHADOWMAP_CUSTOM',['../class_battery_tech_1_1_graphics_configuration.html#ac2b24906af35a44f92e913d9245d8f18a525d2784347ab0aeb198dd86bac28530',1,'BatteryTech::GraphicsConfiguration']]],
   ['shadowtype_5fshadowmap_5fhq',['SHADOWTYPE_SHADOWMAP_HQ',['../class_battery_tech_1_1_graphics_configuration.html#ac2b24906af35a44f92e913d9245d8f18a72e61b327828983a499dd89272086194',1,'BatteryTech::GraphicsConfiguration']]],
   ['skey_5fback',['SKEY_BACK',['../namespace_battery_tech.html#a8730f82a438dfdcafa4c0e5afeac14f3ae8b3a0dd56ac2f09be630e1792b97d12',1,'BatteryTech']]],
   ['skey_5fcamera',['SKEY_CAMERA',['../namespace_battery_tech.html#a8730f82a438dfdcafa4c0e5afeac14f3af572e74b071290a6deb6013830d7cffe',1,'BatteryTech']]],

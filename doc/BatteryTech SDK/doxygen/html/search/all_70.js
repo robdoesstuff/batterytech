@@ -26,7 +26,7 @@ var searchData=
   ['pcmaudioplugin',['PCMAudioPlugin',['../class_battery_tech_1_1_p_c_m_audio_plugin.html',1,'BatteryTech']]],
   ['pcmaudioplugin_2eh',['PCMAudioPlugin.h',['../_p_c_m_audio_plugin_8h.html',1,'']]],
   ['pcmdata',['pcmData',['../class_battery_tech_1_1_p_c_m_sound.html#aa8327858cc59ac3b9c1fb5b9d8acb284',1,'BatteryTech::PCMSound']]],
-  ['pcmsound',['pcmSound',['../class_battery_tech_1_1_p_c_m_stream.html#a8e064593be64c7a24db3575b81e51218',1,'BatteryTech::PCMStream::pcmSound()'],['../class_battery_tech_1_1_p_c_m_sound.html#aa3cda1fc52623658e9ddb6bbd8f629fc',1,'BatteryTech::PCMSound::PCMSound()']]],
+  ['pcmsound',['PCMSound',['../class_battery_tech_1_1_p_c_m_sound.html#aa3cda1fc52623658e9ddb6bbd8f629fc',1,'BatteryTech::PCMSound::PCMSound()'],['../class_battery_tech_1_1_p_c_m_stream.html#a8e064593be64c7a24db3575b81e51218',1,'BatteryTech::PCMStream::pcmSound()']]],
   ['pcmsound',['PCMSound',['../class_battery_tech_1_1_p_c_m_sound.html',1,'BatteryTech']]],
   ['pcmsound_2ecpp',['PCMSound.cpp',['../_p_c_m_sound_8cpp.html',1,'']]],
   ['pcmsound_2eh',['PCMSound.h',['../_p_c_m_sound_8h.html',1,'']]],

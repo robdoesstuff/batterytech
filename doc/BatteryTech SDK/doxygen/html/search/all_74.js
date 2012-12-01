@@ -45,7 +45,7 @@ var searchData=
   ['textureid',['textureId',['../class_battery_tech_1_1_asset_texture.html#af0b82e0996e8df5ef8cb15290c98f932',1,'BatteryTech::AssetTexture']]],
   ['texturenames',['textureNames',['../glext_8h.html#a4e312aec31b3aa216e75f449038205c5',1,'glext.h']]],
   ['texturerepeat',['textureRepeat',['../class_battery_tech_1_1_graphics_configuration.html#a7f88050088c016b219a3fa5068f789a0',1,'BatteryTech::GraphicsConfiguration']]],
-  ['textureres',['textureRes',['../class_battery_tech_1_1_graphics_configuration.html#acd33efb52f0661f518bfd87587c8f216',1,'BatteryTech::GraphicsConfiguration::textureRes()'],['../class_battery_tech_1_1_graphics_configuration.html#a0d52da79351992c47b1e685affdbbce9',1,'BatteryTech::GraphicsConfiguration::TextureRes()']]],
+  ['textureres',['TextureRes',['../class_battery_tech_1_1_graphics_configuration.html#a0d52da79351992c47b1e685affdbbce9',1,'BatteryTech::GraphicsConfiguration::TextureRes()'],['../class_battery_tech_1_1_graphics_configuration.html#acd33efb52f0661f518bfd87587c8f216',1,'BatteryTech::GraphicsConfiguration::textureRes()']]],
   ['textures',['textures',['../glext_8h.html#a450062c0770127a605331b58382bfa3b',1,'glext.h']]],
   ['textureswitches',['textureSwitches',['../class_battery_tech_1_1_texture.html#a1abe79dd0eecf23577145dab02b27383',1,'BatteryTech::Texture']]],
   ['textverticalalignment',['textVerticalAlignment',['../class_battery_tech_1_1_u_i_component.html#a492680eb559d5d5d4d2dee438eb49d25',1,'BatteryTech::UIComponent']]],

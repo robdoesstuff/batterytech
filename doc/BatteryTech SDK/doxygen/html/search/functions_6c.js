@@ -22,5 +22,5 @@ var searchData=
   ['logmsg',['logMsg',['../class_logger.html#ac8e4c475aa3d60cbbd08f07f9428c39e',1,'Logger']]],
   ['logprograminfo',['logProgramInfo',['../class_battery_tech_1_1_renderer.html#aeff4fa82cfe288454e4a13972cc5775d',1,'BatteryTech::Renderer::logProgramInfo()'],['../class_battery_tech_1_1_shader_program.html#ad54fd3178b0af1567263077414c27c8f',1,'BatteryTech::ShaderProgram::logProgramInfo()']]],
   ['logshaderinfo',['logShaderInfo',['../class_battery_tech_1_1_renderer.html#a506a363e0513eda2603bb11662b78d03',1,'BatteryTech::Renderer::logShaderInfo()'],['../class_battery_tech_1_1_shader_program.html#a455a88e8779e6ac96a5e80aed4852a91',1,'BatteryTech::ShaderProgram::logShaderInfo()']]],
-  ['lookat',['lookAt',['../struct_battery_tech_1_1_matrix4.html#a48958da621380811febc56e3e2661965',1,'BatteryTech::Matrix4']]]
+  ['lookat',['lookAt',['../struct_battery_tech_1_1_matrix4.html#a5b28989c5817ee3d732c82e5e98094fd',1,'BatteryTech::Matrix4']]]
 ];
