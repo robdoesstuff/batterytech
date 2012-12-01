@@ -227,8 +227,7 @@ BOX2D_SOURCES=\
 	bt-box2d\Dynamics\Joints\b2RevoluteJoint.cpp \
 	bt-box2d\Dynamics\Joints\b2RopeJoint.cpp \
 	bt-box2d\Dynamics\Joints\b2WeldJoint.cpp \
-	bt-box2d\Dynamics\Joints\b2WheelJoint.cpp \
-	bt-box2d\Rope\b2Rope.cpp
+	bt-box2d\Dynamics\Joints\b2WheelJoint.cpp
 	
 BOX2D_OBJECTS=$(addprefix $(BUILD_DIR)\, $(addsuffix .o,$(BOX2D_SOURCES)))
 BOX2D_DEPS=$(BOX2D_OBJECTS:.o=.d)
