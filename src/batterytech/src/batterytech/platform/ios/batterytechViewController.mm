@@ -120,8 +120,9 @@ double getCurrentTime() {
 	sprintf(buf, "OpenGL Version [%s]", version);
 	logmsg(buf);
 	
-    [self.view setTransform:CGAffineTransformMakeRotation(M_PI / 2)];
-    
+    if ([self forceLandscape]) {
+        [self.view setTransform:CGAffineTransformMakeRotation(M_PI / 2)];
+    }
 	gConfig->supportsHWmipmapgen = TRUE;
 	gConfig->supportsVBOs = TRUE;
 	gConfig->supportsUVTransform = TRUE;
@@ -290,13 +291,20 @@ double getCurrentTime() {
     return YES;
 }
 -(NSUInteger)supportedInterfaceOrientations {
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad && [self forceLandscape])
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad && [self forceLandscape]) {
         return UIInterfaceOrientationLandscapeRight;
-    return UIInterfaceOrientationMaskAll;
+    }
+    if ([self forceLandscape]) {
+        return UIInterfaceOrientationMaskLandscapeRight;
+    } else {
+        return UIInterfaceOrientationMaskPortrait;
+    }
 }
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
 {
     if (toInterfaceOrientation == UIInterfaceOrientationLandscapeRight && [self forceLandscape]) {
+        return TRUE;
+    } else if (toInterfaceOrientation == UIInterfaceOrientationPortrait && ![self forceLandscape]) {
         return TRUE;
     } else {
         return FALSE;
