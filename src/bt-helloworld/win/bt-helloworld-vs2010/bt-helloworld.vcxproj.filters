@@ -210,6 +210,18 @@
     <ClCompile Include="..\..\..\bt-helloworld\app-src\WinHooks.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\video\VideoManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\render\QuadRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\render\AssetTexture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\render\AtlasMappedTexture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\batterytech\src\batterytech\audio\AudioManager.h">

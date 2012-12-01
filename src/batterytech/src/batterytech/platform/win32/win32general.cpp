@@ -176,7 +176,7 @@ void _platform_get_external_storage_dir_name(char* buf, S32 buflen) {
 	                             0,
 	                             szPath))) {
 		strncpy(buf, szPath, buflen);
-		buf[buflen] = '\0';
+		buf[strlen(szPath)] = '\0';
 		strcat(buf, "\\");
 		strcat(buf, btGetContext()->appProperties->get("storage_dir")->getValue());
 	} else {
@@ -193,7 +193,7 @@ void _platform_get_application_storage_dir_name(char* buf, S32 buflen) {
 	                             0,
 	                             szPath))) {
 		strncpy(buf, szPath, buflen);
-		buf[buflen] = '\0';
+		buf[strlen(szPath)] = '\0';
 		strcat(buf, "\\");
 		strcat(buf, btGetContext()->appProperties->get("storage_dir")->getValue());
 	} else {

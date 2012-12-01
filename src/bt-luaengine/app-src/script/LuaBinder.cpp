@@ -1029,14 +1029,14 @@ static int lua_panic(lua_State *L) {
 
 static int lua_getExternalStorageDirectoryName(lua_State *L) {
 	char buf[1024];
-	_platform_get_external_storage_dir_name(buf, sizeof(buf));
+	_platform_get_external_storage_dir_name(buf, 1024);
 	lua_pushstring(L, buf);
 	return 1;
 }
 
 static int lua_getApplicationStorageDirectoryName(lua_State *L) {
 	char buf[1024];
-	_platform_get_application_storage_dir_name(buf, sizeof(buf));
+	_platform_get_application_storage_dir_name(buf, 1024);
 	lua_pushstring(L, buf);
 	return 1;
 }

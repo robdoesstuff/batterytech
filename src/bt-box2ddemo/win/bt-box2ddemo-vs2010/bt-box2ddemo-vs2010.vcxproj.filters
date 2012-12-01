@@ -749,9 +749,6 @@
     <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Contacts\b2PolygonContact.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Contacts\b2TOISolver.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Joints\b2DistanceJoint.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -762,9 +759,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Joints\b2Joint.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Joints\b2LineJoint.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Joints\b2MouseJoint.cpp">
@@ -836,12 +830,6 @@
     <ClCompile Include="..\..\..\bt-box2ddemo\app-src\render\BallRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\bt-box2ddemo\app-src\render\BatchSpriteRenderer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\bt-box2ddemo\app-src\render\SimpleSpriteRenderer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\bt-box2ddemo\app-src\render\WorldRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -849,6 +837,51 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\bt-box2ddemo\app-src\World.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\render\QuadRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\render\AssetTexture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\render\AtlasMappedTexture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\video\VideoManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Contacts\b2ChainAndCircleContact.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Contacts\b2EdgeAndPolygonContact.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Joints\b2RopeJoint.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Joints\b2WheelJoint.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Collision\Shapes\b2ChainShape.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Collision\Shapes\b2EdgeShape.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Collision\b2CollideEdge.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Contacts\b2ChainAndPolygonContact.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Contacts\b2EdgeAndCircleContact.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Common\b2Timer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Common\b2Draw.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

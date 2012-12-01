@@ -76,6 +76,6 @@
 #define FORCE_16_BIT_RGB_TEXTURES FALSE
 
 /// ------------- version ---------------
-#define BATTERYTECH_VERSION "2.0 alpha"
+#define BATTERYTECH_VERSION "2.0.0"
 
 #endif /* BATTERYTECH_GLOBALS_H_ */

@@ -57,6 +57,9 @@
 #include "Vector4.h"
 
 #ifndef DEG2RAD
+#ifndef M_PI
+#define M_PI		3.14159265358979323846
+#endif
 #define DEG2RAD(x) ((x * M_PI) / 180.0)
    //#define EPSILON (4.37114e-07)
 

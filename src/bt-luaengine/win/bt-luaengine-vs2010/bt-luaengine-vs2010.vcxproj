@@ -40,7 +40,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PreprocessorDefinitions>BATTERYTECH_INCLUDE_ASSIMP;WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>BATTERYTECH_INCLUDE_ASSIMP;BATTERYTECH_INCLUDE_BOX2D;WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -56,7 +56,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <PreprocessorDefinitions>BATTERYTECH_INCLUDE_ASSIMP;WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>BATTERYTECH_INCLUDE_ASSIMP;BATTERYTECH_INCLUDE_BOX2D;WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -100,7 +100,9 @@
     <ClCompile Include="..\..\..\batterytech\src\batterytech\platform\win32\win32general.cpp" />
     <ClCompile Include="..\..\..\batterytech\src\batterytech\platform\win32\winboot.cpp" />
     <ClCompile Include="..\..\..\batterytech\src\batterytech\platform\win32\WinSound.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\render\AssetTexture.cpp" />
     <ClCompile Include="..\..\..\batterytech\src\batterytech\render\AssimpAnimator.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\render\AtlasMappedTexture.cpp" />
     <ClCompile Include="..\..\..\batterytech\src\batterytech\render\GLAssimpBinding.cpp" />
     <ClCompile Include="..\..\..\batterytech\src\batterytech\render\GLAssimpMeshBinding.cpp" />
     <ClCompile Include="..\..\..\batterytech\src\batterytech\render\GLModelBinding.cpp" />
@@ -108,6 +110,7 @@
     <ClCompile Include="..\..\..\batterytech\src\batterytech\render\GLResourceManager.cpp" />
     <ClCompile Include="..\..\..\batterytech\src\batterytech\render\GraphicsConfiguration.cpp" />
     <ClCompile Include="..\..\..\batterytech\src\batterytech\render\MenuRenderer.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\render\QuadRenderer.cpp" />
     <ClCompile Include="..\..\..\batterytech\src\batterytech\render\RenderContext.cpp" />
     <ClCompile Include="..\..\..\batterytech\src\batterytech\render\Renderer.cpp" />
     <ClCompile Include="..\..\..\batterytech\src\batterytech\render\RenderNode.cpp" />
@@ -134,6 +137,7 @@
     <ClCompile Include="..\..\..\batterytech\src\batterytech\util\strx.cpp" />
     <ClCompile Include="..\..\..\batterytech\src\batterytech\util\TextFileUtil.cpp" />
     <ClCompile Include="..\..\..\batterytech\src\batterytech\VibrationManager.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\video\VideoManager.cpp" />
     <ClCompile Include="..\..\..\batterytech\src\bt-assimp\code\Assimp.cpp" />
     <ClCompile Include="..\..\..\batterytech\src\bt-assimp\code\AssimpPCH.cpp" />
     <ClCompile Include="..\..\..\batterytech\src\bt-assimp\code\BAIFileImporter.cpp" />
@@ -155,6 +159,51 @@
     <ClCompile Include="..\..\..\batterytech\src\bt-assimp\code\SpatialSort.cpp" />
     <ClCompile Include="..\..\..\batterytech\src\bt-assimp\contrib\convertutf\ConvertUTF.c" />
     <ClCompile Include="..\..\..\batterytech\src\bt-assimp\contrib\irrxml\irrXML.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Collision\b2BroadPhase.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Collision\b2CollideCircle.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Collision\b2CollideEdge.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Collision\b2CollidePolygon.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Collision\b2Collision.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Collision\b2Distance.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Collision\b2DynamicTree.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Collision\b2TimeOfImpact.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Collision\Shapes\b2ChainShape.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Collision\Shapes\b2CircleShape.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Collision\Shapes\b2EdgeShape.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Collision\Shapes\b2PolygonShape.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Common\b2BlockAllocator.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Common\b2Draw.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Common\b2Math.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Common\b2Settings.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Common\b2StackAllocator.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Common\b2Timer.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\b2Body.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\b2ContactManager.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\b2Fixture.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\b2Island.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\b2World.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\b2WorldCallbacks.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Contacts\b2ChainAndCircleContact.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Contacts\b2ChainAndPolygonContact.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Contacts\b2CircleContact.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Contacts\b2Contact.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Contacts\b2ContactSolver.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Contacts\b2EdgeAndCircleContact.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Contacts\b2EdgeAndPolygonContact.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Contacts\b2PolygonAndCircleContact.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Contacts\b2PolygonContact.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Joints\b2DistanceJoint.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Joints\b2FrictionJoint.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Joints\b2GearJoint.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Joints\b2Joint.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Joints\b2MouseJoint.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Joints\b2PrismaticJoint.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Joints\b2PulleyJoint.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Joints\b2RevoluteJoint.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Joints\b2RopeJoint.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Joints\b2WeldJoint.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Joints\b2WheelJoint.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Rope\b2Rope.cpp" />
     <ClCompile Include="..\..\..\batterytech\src\bt-lua\lapi.c" />
     <ClCompile Include="..\..\..\batterytech\src\bt-lua\lauxlib.c" />
     <ClCompile Include="..\..\..\batterytech\src\bt-lua\lbaselib.c" />
@@ -215,6 +264,9 @@
     <ClCompile Include="..\..\..\bt-luaengine\app-src\script\LuaBinder.cpp" />
     <ClCompile Include="..\..\..\bt-luaengine\app-src\WinHooks.cpp" />
     <ClCompile Include="..\..\..\bt-luaengine\app-src\World.cpp" />
+    <ClCompile Include="..\..\app-src\gameobject\ParticleEmitter.cpp" />
+    <ClCompile Include="..\..\app-src\render\B2DebugRenderer.cpp" />
+    <ClCompile Include="..\..\app-src\render\ParticleEmitterRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\batterytech\src\batterytech\audio\AudioManager.h" />
@@ -401,6 +453,51 @@
     <ClInclude Include="..\..\..\batterytech\src\bt-assimp\include\NullLogger.h" />
     <ClInclude Include="..\..\..\batterytech\src\bt-assimp\include\ProgressHandler.h" />
     <ClInclude Include="..\..\..\batterytech\src\bt-assimp\revision.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Collision\b2BroadPhase.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Collision\b2Collision.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Collision\b2Distance.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Collision\b2DynamicTree.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Collision\b2TimeOfImpact.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Collision\Shapes\b2ChainShape.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Collision\Shapes\b2CircleShape.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Collision\Shapes\b2EdgeShape.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Collision\Shapes\b2PolygonShape.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Collision\Shapes\b2Shape.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Common\b2BlockAllocator.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Common\b2Draw.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Common\b2GrowableStack.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Common\b2Math.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Common\b2Settings.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Common\b2StackAllocator.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Common\b2Timer.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Dynamics\b2Body.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Dynamics\b2ContactManager.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Dynamics\b2Fixture.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Dynamics\b2Island.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Dynamics\b2TimeStep.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Dynamics\b2World.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Dynamics\b2WorldCallbacks.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Contacts\b2ChainAndCircleContact.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Contacts\b2ChainAndPolygonContact.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Contacts\b2CircleContact.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Contacts\b2Contact.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Contacts\b2ContactSolver.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Contacts\b2EdgeAndCircleContact.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Contacts\b2EdgeAndPolygonContact.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Contacts\b2PolygonAndCircleContact.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Contacts\b2PolygonContact.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Joints\b2DistanceJoint.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Joints\b2FrictionJoint.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Joints\b2GearJoint.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Joints\b2Joint.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Joints\b2MouseJoint.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Joints\b2PrismaticJoint.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Joints\b2PulleyJoint.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Joints\b2RevoluteJoint.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Joints\b2RopeJoint.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Joints\b2WeldJoint.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Joints\b2WheelJoint.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Rope\b2Rope.h" />
     <ClInclude Include="..\..\..\batterytech\src\bt-lua\lapi.h" />
     <ClInclude Include="..\..\..\batterytech\src\bt-lua\lauxlib.h" />
     <ClInclude Include="..\..\..\batterytech\src\bt-lua\lcode.h" />

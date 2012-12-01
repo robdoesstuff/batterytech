@@ -99,7 +99,9 @@
     <ClCompile Include="..\..\..\batterytech\src\batterytech\platform\win32\win32general.cpp" />
     <ClCompile Include="..\..\..\batterytech\src\batterytech\platform\win32\winboot.cpp" />
     <ClCompile Include="..\..\..\batterytech\src\batterytech\platform\win32\WinSound.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\render\AssetTexture.cpp" />
     <ClCompile Include="..\..\..\batterytech\src\batterytech\render\AssimpAnimator.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\render\AtlasMappedTexture.cpp" />
     <ClCompile Include="..\..\..\batterytech\src\batterytech\render\GLAssimpBinding.cpp" />
     <ClCompile Include="..\..\..\batterytech\src\batterytech\render\GLAssimpMeshBinding.cpp" />
     <ClCompile Include="..\..\..\batterytech\src\batterytech\render\GLModelBinding.cpp" />
@@ -107,6 +109,7 @@
     <ClCompile Include="..\..\..\batterytech\src\batterytech\render\GLResourceManager.cpp" />
     <ClCompile Include="..\..\..\batterytech\src\batterytech\render\GraphicsConfiguration.cpp" />
     <ClCompile Include="..\..\..\batterytech\src\batterytech\render\MenuRenderer.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\render\QuadRenderer.cpp" />
     <ClCompile Include="..\..\..\batterytech\src\batterytech\render\RenderContext.cpp" />
     <ClCompile Include="..\..\..\batterytech\src\batterytech\render\Renderer.cpp" />
     <ClCompile Include="..\..\..\batterytech\src\batterytech\render\RenderNode.cpp" />
@@ -133,6 +136,7 @@
     <ClCompile Include="..\..\..\batterytech\src\batterytech\util\strx.cpp" />
     <ClCompile Include="..\..\..\batterytech\src\batterytech\util\TextFileUtil.cpp" />
     <ClCompile Include="..\..\..\batterytech\src\batterytech\VibrationManager.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\video\VideoManager.cpp" />
     <ClCompile Include="..\..\..\bt-helloworld\app-src\AppContext.cpp" />
     <ClCompile Include="..\..\..\bt-helloworld\app-src\HelloWorldApp.cpp" />
     <ClCompile Include="..\..\..\bt-helloworld\app-src\RenderUtil.cpp" />

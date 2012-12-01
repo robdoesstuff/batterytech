@@ -564,6 +564,7 @@ static int lua_Game_clearPhysicsForces(lua_State *L) {
 #ifdef BATTERYTECH_INCLUDE_BOX2D
     static_context->world->boxWorld->ClearForces();
 #endif
+	return 0;
 }
 
 static int lua_Game_setPhysicsGravity(lua_State *L) {
@@ -1337,23 +1338,23 @@ static void pushMeshInfoForNode(lua_State *L, int tableIdx, int *vecNum, const a
 			aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
 			// find centerpoint of mesh
 			aiVector3D centerPoint;
-			aiVector3D min(999999.0, 999999.0, 999999.0);
-			aiVector3D max(-999999.0, -999999.0, -999999.0);
+			aiVector3D avmin(999999.0, 999999.0, 999999.0);
+			aiVector3D avmax(-999999.0, -999999.0, -999999.0);
 			for (U32 j = 0; j < mesh->mNumVertices; j++) {
 				aiVector3D vert = mesh->mVertices[j];
 				centerPoint += vert;
-				if (vert.x < min.x) { min.x = vert.x; }
-				if (vert.y < min.y) { min.y = vert.y; }
-				if (vert.x < min.z) { min.z = vert.z; }
-				if (vert.x > max.x) { max.x = vert.x; }
-				if (vert.y > max.y) { max.y = vert.y; }
-				if (vert.x > max.z) { max.z = vert.z; }
+				if (vert.x < avmin.x) { avmin.x = vert.x; }
+				if (vert.y < avmin.y) { avmin.y = vert.y; }
+				if (vert.x < avmin.z) { avmin.z = vert.z; }
+				if (vert.x > avmax.x) { avmax.x = vert.x; }
+				if (vert.y > avmax.y) { avmax.y = vert.y; }
+				if (vert.x > avmax.z) { avmax.z = vert.z; }
 			}
 			centerPoint /= mesh->mNumVertices;
 			centerPoint *= transform;
 			Vector3f pos(centerPoint.x, centerPoint.y, centerPoint.z);
-			Vector3f vMin(min.x, min.y, min.z);
-			Vector3f vMax(max.x, max.y, max.z);
+			Vector3f vMin(avmin.x, avmin.y, avmin.z);
+			Vector3f vMax(avmax.x, avmax.y, avmax.z);
 			(*vecNum)++;
 			pushMeshTableOntoTable(L, tableIdx, *vecNum, pos, node->mName.data, mesh->mNumVertices, vMin, vMax);
 		}

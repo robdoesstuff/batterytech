@@ -71,7 +71,7 @@ void btInit(GraphicsConfiguration *graphicsConfig, S32 width, S32 height) {
 		logmsg("Using Fixed-Function Rendering");
 	}
 	// check/create save paths
-	char path[512];
+	char path[1024];
 	_platform_get_application_storage_dir_name(path, 512);
 	if (!_platform_path_exists(path)) {
 		char logbuf[1024];
