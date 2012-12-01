@@ -14,6 +14,10 @@
 using namespace std;
 using namespace Assimp;
 
+#define AIVECTORKEYSIZE 24
+#define AIQUATKEYSIZE 24
+#define AIMESHKEYSIZE 16
+
 void exportBAI(const aiScene *scene, const char *filename);
 aiScene* importBAI(const char *filename);
 
@@ -58,16 +62,16 @@ static bai_u32 getDataLength(aiNode *node) {
 static bai_u32 getDataLength(aiNodeAnim *channel) {
 	bai_u32 totalLength = sizeof(bai_animationchannelheader);
 	totalLength += channel->mNodeName.length;
-	totalLength += channel->mNumPositionKeys * sizeof(aiVectorKey);
-	totalLength += channel->mNumRotationKeys * sizeof(aiQuatKey);
-	totalLength += channel->mNumScalingKeys * sizeof(aiVectorKey);
+	totalLength += channel->mNumPositionKeys * AIVECTORKEYSIZE;
+	totalLength += channel->mNumRotationKeys * AIQUATKEYSIZE;
+	totalLength += channel->mNumScalingKeys * AIVECTORKEYSIZE;
 	return totalLength;
 }
 
 static bai_u32 getDataLength(aiMeshAnim *meshAnim) {
 	bai_u32 totalLength = sizeof(bai_animationmeshchannelheader);
 	totalLength += meshAnim->mName.length;
-	totalLength += meshAnim->mNumKeys * sizeof(aiMeshKey);
+	totalLength += meshAnim->mNumKeys * AIMESHKEYSIZE;
 	return totalLength;
 }
 
@@ -289,15 +293,15 @@ void exportBAI(const aiScene *scene, const char *filename) {
 			offset=writeToData(data, offset, &chanHeader, sizeof(chanHeader));
 			for (bai_u32 k = 0; k < channel->mNumPositionKeys; k++) {
 				aiVectorKey vKey = channel->mPositionKeys[k];
-				offset=writeToData(data, offset, &vKey, sizeof(aiVectorKey));
+				offset=writeToData(data, offset, &vKey, AIVECTORKEYSIZE);
 			}
 			for (bai_u32 k = 0; k < channel->mNumRotationKeys; k++) {
 				aiQuatKey qKey = channel->mRotationKeys[k];
-				offset=writeToData(data, offset, &qKey, sizeof(aiQuatKey));
+				offset=writeToData(data, offset, &qKey, AIQUATKEYSIZE);
 			}
 			for (bai_u32 k = 0; k < channel->mNumScalingKeys; k++) {
 				aiVectorKey vKey = channel->mScalingKeys[k];
-				offset=writeToData(data, offset, &vKey, sizeof(aiVectorKey));
+				offset=writeToData(data, offset, &vKey, AIVECTORKEYSIZE);
 			}
 			offset=writeToData(data, offset, channel->mNodeName.data, channel->mNodeName.length);
 		}
@@ -309,7 +313,7 @@ void exportBAI(const aiScene *scene, const char *filename) {
 			offset=writeToData(data, offset, meshAnim->mName.data, meshAnim->mName.length);
 			for (bai_u32 k = 0; k < meshAnim->mNumKeys; k++) {
 				aiMeshKey meshKey = meshAnim->mKeys[k];
-				offset=writeToData(data, offset, &meshKey, sizeof(aiMeshKey));
+				offset=writeToData(data, offset, &meshKey, AIMESHKEYSIZE);
 			}
 		}
 	}
@@ -462,15 +466,13 @@ aiScene* importBAI(const char *filename) {
 			channel->mRotationKeys = new aiQuatKey[chanHeader.numRotationKeys];
 			channel->mScalingKeys = new aiVectorKey[chanHeader.numScalingKeys];
 			for (bai_u32 k = 0; k < channel->mNumPositionKeys; k++) {
-				offset=readFromData(&channel->mPositionKeys[k], offset, data, sizeof(aiVectorKey));
+				offset=readFromData(&channel->mPositionKeys[k], offset, data, AIVECTORKEYSIZE);
 			}
 			for (bai_u32 k = 0; k < channel->mNumRotationKeys; k++) {
-				aiQuatKey vKey;
-				offset=readFromData(&channel->mRotationKeys[k], offset, data, sizeof(aiQuatKey));
+				offset=readFromData(&channel->mRotationKeys[k], offset, data, AIQUATKEYSIZE);
 			}
 			for (bai_u32 k = 0; k < channel->mNumScalingKeys; k++) {
-				aiVectorKey vKey;
-				offset=readFromData(&channel->mScalingKeys[k], offset, data, sizeof(aiVectorKey));
+				offset=readFromData(&channel->mScalingKeys[k], offset, data, AIVECTORKEYSIZE);
 			}
 			offset=readFromData(channel->mNodeName.data, offset, data, chanHeader.nodeNameLength);
 			channel->mNodeName.length = chanHeader.nodeNameLength;
@@ -487,7 +489,7 @@ aiScene* importBAI(const char *filename) {
 			meshAnim->mName.data[meshChanHeader.nameLength] = '\0';
 			meshAnim->mKeys = new aiMeshKey[meshAnim->mNumKeys];
 			for (bai_u32 k = 0; k < meshAnim->mNumKeys; k++) {
-				offset=readFromData(&meshAnim->mKeys[k], offset, data, sizeof(aiMeshKey));
+				offset=readFromData(&meshAnim->mKeys[k], offset, data, AIMESHKEYSIZE);
 			}
 		}
 	}
@@ -498,7 +500,7 @@ aiScene* importBAI(const char *filename) {
 
 int main(int argc, char *argv[]) {
 	if (argc < 2) {
-		cout << "BatteryTech BAI Converter" << endl << "Usage: BAIConvert.exe <input.dae> <output.bai>" << endl;
+		cout << "BatteryTech BAI Converter" << endl << "Usage: " << argv[0] << " <input.dae> <output.bai>" << endl;
 		return 1;
 	}
 	cout << "Converting " << endl; // prints !!!Hello World!!!
