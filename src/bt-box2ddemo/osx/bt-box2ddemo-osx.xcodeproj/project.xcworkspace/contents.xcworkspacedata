@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:bt-box2ddemo-osx.xcodeproj">
+      location = "self:bt-luaengine-osx.xcodeproj">
    </FileRef>
 </Workspace>
