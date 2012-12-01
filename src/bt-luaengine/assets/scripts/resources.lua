@@ -2,7 +2,7 @@
 --------------------------
 -- addTexture(assetName)
 -- addSound(assetName)
--- addDynamic(assetName)
+-- addAssimp(assetName)
 -- addFont(tag, assetName, size, inner stroke, outer stroke, r,g,b,a)
 
 setDefaultTextureParams("filter", "bilinear")
@@ -15,6 +15,8 @@ addTexture("textures/minimap_atlas.png")
 setTextureParams("textures/minimap_atlas.png", "repeat", false)
 addTexture("textures/arrow.png")
 addTexture("textures/arrow_pressed.png")
+addTexture("textures/jump.png")
+addTexture("textures/jump_pressed.png")
 addTexture("textures/play_panel_bg.png")
 addTexture("textures/particle.png")
 addTexture("ui/button1_tex.png")
@@ -45,7 +47,7 @@ addAssimp("models/crater.obj")
 addTexture("models/craterTexture.jpg")
 
 -- tag, assetname, size, innerstroke, outerstroke, color
-addFont("title", "ui/digital.ttf", 100, 1, 1, 255,255,255,255)
+-- addFont("title", "ui/digital.ttf", 100, 1, 1, 255,255,255,255)
 -- addFont("test", "ui/bm-alt.fnt", 32, 0, 0, 255,255,255,255)
 -- addFont("test2", "ui/bm46.fnt", 46, 0, 0, 255,255,255,255)
 
@@ -57,4 +59,6 @@ addSound("sounds/whoosh.ogg")
 function addTestResources()
     addAssimp("models/Seymour.bai")
     addTexture("models/Seymour.jpg")
+    addTexture("textures/ground.jpg")
+    setTextureParams("textures/ground.jpg", "mipmap", true)
 end

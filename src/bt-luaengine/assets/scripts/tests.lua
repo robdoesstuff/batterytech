@@ -430,9 +430,7 @@ function Tests:render()
         local uvOffset = (sigmoid(self.bgPos) - 0.5) * .2
         game:setRenderItemParam(idx, "uvs", 0.2+uvOffset, 0.2, 0.8+uvOffset, 0.8)
     end
-	-- draw playing surface - preserve order to optimize
-	local idx = game:renderAssimpM(nil, 0, "models/box.bai", nil, "textures/box_star.jpg", true, 1,0,0,0,0,1,0,0,0,0,1,0,0,-20,0,1, 50.0,50.0,1.0, 0)
-    game:setRenderItemParam(idx, "drawfirst", "true")
+	local idx = game:renderAssimpM(nil, 0, "models/box.bai", nil, "textures/ground.jpg", true, 1,0,0,0,0,1,0,0,0,0,1,0,0,-20,0,1, 50.0,50.0,1.0, 0)
     game:setRenderItemParam(idx, "maxPointLights", self.pointLightCount)
     game:setRenderItemParam(idx, "noshadowgen", "true")
 	-- draw boxes

@@ -172,7 +172,7 @@ function Play.new()
 	end
 	table.insert(self.buttons, button)
 	-- arrow controls
-	local arrowButtonW, arrowButtonH = scaleForUI(100,100)
+	local arrowButtonW, arrowButtonH = scaleForUI(120,120)
 	local leftPad = scaleX(5)
 	local bottomPad = scaleY(5)
 	-- up
@@ -235,11 +235,12 @@ function Play.new()
 	self.topLeftButton = button
 	table.insert(self.buttons, button)
 	-- jump
-	local sX = vpWidth - leftPad - arrowButtonW - arrowButtonW/2
-	local sY = vpHeight - bottomPad - arrowButtonH*2 - arrowButtonH/2
-	button = TouchControl.new(sX-arrowButtonW/2, sY-arrowButtonH/2, arrowButtonW, arrowButtonH)
-	button.normalAsset = "textures/arrow.png"
-	button.pressedAsset = "textures/arrow_pressed.png"
+	local jumpSize = scaleForUI(200, 0)
+	local sX = vpWidth - jumpSize*1.2
+	local sY = vpHeight - jumpSize*1.2
+	button = TouchControl.new(sX, sY, jumpSize, jumpSize)
+	button.normalAsset = "textures/jump.png"
+	button.pressedAsset = "textures/jump_pressed.png"
 	self.jumpButton = button
 	table.insert(self.buttons, button)
 	
@@ -633,14 +634,14 @@ function Play:render()
 		game:setRenderItemParam(renderIdx, "uvs", 0.5, 0.0, 1.0, 0.5)
 	elseif self.state == PLAY_STATE_START then
 		-- 5 px offset on bg to make up for shadow
-		local x,y = scaleXY(650, 400)
-		local w,h = scaleForUI(self.panelAnim * 500, self.panelAnim * 500)
+		local x,y = scaleXY(640, 400)
+		local w,h = scaleForUI(self.panelAnim * 500, self.panelAnim * 550)
 		game:render2D("textures/play_panel_bg.png", x,y,w,h, 0)
 		if self.panelAnim == 1 then
-			x,y = scaleXY(640, 220)
+			x,y = scaleXY(640, 240)
 			local renderIdx = game:renderText2D("ui", "Level " .. self.level, x,y)
 			game:setRenderItemParam(renderIdx, "align", "center")
-			x,y = scaleXY(640, 320)
+			x,y = scaleXY(640, 330)
 			local renderIdx = game:renderText2D("ui", "Boxes: " .. self.boxesTotal, x,y)
 			game:setRenderItemParam(renderIdx, "align", "center")
 			x,y = scaleXY(640, 420)

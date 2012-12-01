@@ -62,7 +62,7 @@ end
 
 function Options:render()
 	local vpWidth, vpHeight = getViewportSize()
-	local itemIdx = game:renderText2D("title", "Options", vpWidth/2, scaleY(100))
+	local itemIdx = game:renderText2D("ui", "Options", vpWidth/2, scaleY(100), 1.5)
 	game:setRenderItemParam(itemIdx, "align", "center")
 	for i,v in ipairs(self.buttons) do
 		v:render()
