@@ -57,7 +57,7 @@
 }
 
 - (bool) useGLES2 {
-    return TRUE;
+    return FALSE;
 }
 
 - (bool) forceLandscape {
