@@ -21,5 +21,6 @@ APP_PROJECT_PATH := $(NDK_PROJECT_PATH)
 # We expect the build script to be located here
 APP_BUILD_SCRIPT := $(APP_PROJECT_PATH)/jni/Android.mk
 
-APP_ABI := armeabi x86
+APP_ABI := armeabi armeabi-v7a x86
+APP_STL := stlport_static
 

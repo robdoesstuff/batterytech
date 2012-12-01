@@ -213,8 +213,7 @@ my_src_files :=\
 	bt-box2d/Dynamics/Joints/b2RevoluteJoint.cpp \
 	bt-box2d/Dynamics/Joints/b2RopeJoint.cpp \
 	bt-box2d/Dynamics/Joints/b2WeldJoint.cpp \
-	bt-box2d/Dynamics/Joints/b2WheelJoint.cpp \
-	bt-box2d/Rope/b2Rope.cpp
+	bt-box2d/Dynamics/Joints/b2WheelJoint.cpp
 
 LOCAL_CFLAGS := -DANDROID_NDK
 LOCAL_MODULE    := box2d

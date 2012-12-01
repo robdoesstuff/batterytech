@@ -37,6 +37,7 @@ my_src_files :=\
 	batterytech/render/GLObjSceneBinding.cpp \
 	batterytech/render/GLAssimpBinding.cpp \
 	batterytech/render/GLAssimpMeshBinding.cpp \
+	batterytech/render/QuadRenderer.cpp \
 	batterytech/render/Texture.cpp \
 	batterytech/render/AssetTexture.cpp \
 	batterytech/render/AtlasMappedTexture.cpp \
@@ -64,7 +65,8 @@ my_src_files :=\
 	batterytech/util/TextFileUtil.cpp \
 	batterytech/util/Property.cpp \
 	batterytech/util/PropertiesIO.cpp \
-	batterytech/util/strx.cpp
+	batterytech/util/strx.cpp \
+	batterytech/video/VideoManager.cpp
 
 LOCAL_CFLAGS := -DANDROID_NDK
 LOCAL_MODULE    := batterytech
