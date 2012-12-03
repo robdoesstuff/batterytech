@@ -146,28 +146,28 @@ void Game::update() {
 		// Don't do anything with lua but keep the stack clear
 		return;
 	}
-	if (context->callbackDataReady) {
-		//context->callbackData;
-		luaBinder->callGlobalVA("callback", "s>", context->callbackData);
-		if (strStartsWith(context->callbackData, "purchaseSucceeded")) {
-			// deprecated!
-			char *tok = strtok(context->callbackData, " ");
-			tok = strtok(NULL, " ");
-			if (tok) {
-				luaBinder->callGlobalVA("purchaseResult", "bs>", TRUE, tok);
-			}
-		} else if (strStartsWith(context->callbackData, "purchaseFailed")) {
-			// deprecated!
-			char *tok = strtok(context->callbackData, " ");
-			tok = strtok(NULL, " ");
-			if (tok) {
-				luaBinder->callGlobalVA("purchaseResult", "bs>", FALSE, tok);
-			}
-		}
-		context->callbackDataReady = FALSE;
-		context->callbackData[0] = '\0';
-	}
 	if (luaBinder && context->world->gameState == GAMESTATE_RUNNING) {
+        if (context->callbackDataReady) {
+            //context->callbackData;
+            luaBinder->callGlobalVA("callback", "s>", context->callbackData);
+            if (strStartsWith(context->callbackData, "purchaseSucceeded")) {
+                // deprecated!
+                char *tok = strtok(context->callbackData, " ");
+                tok = strtok(NULL, " ");
+                if (tok) {
+                    luaBinder->callGlobalVA("purchaseResult", "bs>", TRUE, tok);
+                }
+            } else if (strStartsWith(context->callbackData, "purchaseFailed")) {
+                // deprecated!
+                char *tok = strtok(context->callbackData, " ");
+                tok = strtok(NULL, " ");
+                if (tok) {
+                    luaBinder->callGlobalVA("purchaseResult", "bs>", FALSE, tok);
+                }
+            }
+            context->callbackDataReady = FALSE;
+            context->callbackData[0] = '\0';
+        }
 		luaBinder->update();
         // safety sweep
         removeInactiveGameObjects();
