@@ -61,7 +61,7 @@ double getCurrentTime() {
 @synthesize player;
 @synthesize animating;
 
-- (void)awakeFromNib
+- (void)viewDidLoad
 {
     btViewController = self;
 	batterytechRootView = self.view;
