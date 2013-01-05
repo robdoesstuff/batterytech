@@ -192,6 +192,7 @@ void GameObject::contactEnded(b2Contact* contact) {
     if (pc) {
         pc->isActive = FALSE;
         pc->isTouching = FALSE;
+        pc->callbackProcessed = FALSE;
     }
 }
 
