@@ -133,6 +133,7 @@ public:
 	Vector3f getModelScale();
 	void update();
 	BOOL32 isValidGameObject(GameObject *other);
+    void onOtherGameObjectRemoved(GameObject *other);
 	// if the gameobject is still active - will be removed from world if not
 	BOOL32 isActive;
 	// location of game object in game world coordinates

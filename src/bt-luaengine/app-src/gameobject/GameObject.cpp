@@ -497,7 +497,7 @@ void GameObject::update() {
 	if (callbackDetail != CALLBACK_DETAIL_NONE) {
 		for (S32 i = 0; i < contactsUsed; i++) {
 			PhysicsContact2D *pc = contacts->array[i];
-			if (!pc->callbackProcessed) {
+			if (!pc->callbackProcessed && pc->other) {
 				BOOL32 isNew = (contactObjects->get(pc->other) == NULL);
 				if (!pc->wasTouching && pc->isTouching) {
 					if (isNew) {
@@ -767,4 +767,19 @@ BOOL32 GameObject::isValidGameObject(GameObject *other) {
 		}
 	}
 	return FALSE;
+}
+
+void GameObject::onOtherGameObjectRemoved(GameObject *other) {
+#ifdef BATTERYTECH_INCLUDE_BOX2D
+    if (callbackDetail != CALLBACK_DETAIL_NONE) {
+        contactObjects->remove(other);
+		for (S32 i = 0; i < contactsUsed; i++) {
+			PhysicsContact2D *pc = contacts->array[i];
+            if (pc->other == other) {
+                pc->other = NULL;
+                pc->isActive = FALSE;
+            }
+        }
+    }
+#endif
 }

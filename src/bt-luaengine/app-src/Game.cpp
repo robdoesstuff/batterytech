@@ -348,6 +348,11 @@ void Game::removeInactiveGameObjects() {
 	for (S32 i = 0; i < objects->getSize(); i++) {
 		if (!objects->array[i]->isActive) {
 			GameObject *obj = objects->remove(i);
+            for (S32 j = 0; j < objects->getSize(); j++) {
+                if (objects->array[j]->isActive) {
+                    objects->array[j]->onOtherGameObjectRemoved(obj);
+                }
+            }
 			delete obj;
 			--i; // move i back one to recheck this slot now that a new element may be in it
 		}
