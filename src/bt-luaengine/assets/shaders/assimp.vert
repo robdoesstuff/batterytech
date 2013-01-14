@@ -122,8 +122,10 @@ vec4 compute_point_light(int lightIdx, vec3 eye, vec3 ecPosition3, vec3 normal) 
 		computed_color += pointLight[lightIdx].diffuse_color * nDotVP * attenuation;
 		halfVector = normalize(VP + eye);
 		nDotHV = max(0.0, dot(normal, halfVector));
-		pf = pow(nDotHV, material.specular_exponent);
-		computed_color += pointLight[lightIdx].specular_color * pf * attenuation;
+		if (nDotHV != 0.0) {
+			pf = pow(nDotHV, material.specular_exponent);
+			computed_color += pointLight[lightIdx].specular_color * pf * attenuation;
+		}
 	}
 	return computed_color;
 }

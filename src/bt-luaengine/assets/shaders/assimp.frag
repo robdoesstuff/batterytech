@@ -97,8 +97,10 @@ varying vec4 vColor;
 				computed_color += pointLight[lightIdx].diffuse_color * nDotVP * attenuation;
 				halfVector = normalize(VP + ecCamera);
 				nDotHV = max(0.0, dot(ecNormal, halfVector));
-				pf = pow(nDotHV, material.specular_exponent);
-				computed_color += pointLight[lightIdx].specular_color * pf * attenuation;
+				if (nDotHV != 0.0) {
+					pf = pow(nDotHV, material.specular_exponent);
+					computed_color += pointLight[lightIdx].specular_color * pf * attenuation;
+				}
 			}
 			return computed_color;
 		}
