@@ -43,7 +43,9 @@ extern void winStopAllVibrationEffects();
 void _convert_filename(char *filename);
 
 void _platform_log(const char* message) {
-	cout << message << endl;
+	// we should be using cout but there's a bug where the output isn't properly redirected to console when run outside of dev env
+	printf(message);
+	printf("\n");
 }
 
 unsigned char* _platform_load_internal_asset(const char *filename, S32 *size) {
