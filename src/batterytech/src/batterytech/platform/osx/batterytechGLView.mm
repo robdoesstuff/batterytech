@@ -113,12 +113,12 @@ double getCurrentTime() {
             int width = wwProp->getIntValue();
             int height = whProp->getIntValue();
             NSRect wFrame = [self.window frame];
-            wFrame.size = CGSizeMake(width, height+20);
+            wFrame.size = NSMakeSize(width, height+20);
             [self.window setFrame:wFrame display:YES];
             [self.window setMinSize:wFrame.size];
             [self.window setMaxSize:wFrame.size];
-            [self.superview setFrame:CGRectMake(0,0,width,height)];
-            [self setFrame:CGRectMake(0, 0, width, height)];
+            [self.superview setFrame:NSMakeRect(0,0, width, height)];
+            [self setFrame:NSMakeRect(0, 0, width, height)];
             frameWidth = width;
             frameHeight = height;
             btSetScreenSize(width,height);
