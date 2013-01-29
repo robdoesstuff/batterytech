@@ -12,6 +12,11 @@ MODE_PHYSICS_TESTS = 4
 
 MUSIC = 0
 
+NEXT_KEYS = {[39]=39, [40]=40, [119]=119, [121]=121}
+PREV_KEYS = {[37]=37, [38]=38, [118]=118, [120]=120}
+SELECTION_KEYS = {[13]=13, [96]=96}
+
+
 gameSettings = nil
 
 -- called from engine when the Game is initializing
@@ -55,7 +60,6 @@ end
 
 -- called from engine to update the game
 function Game:update(tickDelta)
-	-- logmsg("updating")
 	self.currentModule:update(tickDelta)
     self:updateWaves(tickDelta)
     self.fpsCounter:update(tickDelta)

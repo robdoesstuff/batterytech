@@ -19,6 +19,8 @@ local CALLBACK_DETAIL_NARROW = 2
 -- run physics at fixed timestep 120fps
 local PHYSICS_UPDATE_TIME = 1.0/120.0
 
+local EXIT_KEYS = {[97]=97, [27]=27}
+
 function unprojectScreenToWorld(x,y)
 	vpw, vph = getViewportSize()
 	return x * (PHYS_WORLD_WIDTH / vpw), y * (PHYS_WORLD_HEIGHT / vph)
@@ -280,6 +282,11 @@ function PhysicsTests.new()
 	return self
 end
 
+function PhysicsTests:quit()
+	self:cleanUp()
+	game:setMode(MODE_MAINMENU)
+end
+
 function PhysicsTests:cleanUp()
 	-- Deactivate/deallocate objects
 	for i = 1,#self.objects do
@@ -303,8 +310,7 @@ function PhysicsTests:setupUI()
 	-- quit button
 	local button = makeButtonCentered(85, 50, 150, 100, "Quit")
 	button.onClickUp = function()
-		self:cleanUp()
-		game:setMode(MODE_MAINMENU)
+		self:quit()
 	end
 	table.insert(self.buttons, button)
     local settingButtonWidth = 350
@@ -487,6 +493,15 @@ end
 
 function PhysicsTests:updateInput(tickDelta)
     self.wasInput = (getPointerState(0) or getKeyState(0))
+    local isDown, keyCode = getKeyState(0)
+	if isDown then
+		-- logmsg("keyCode " .. keyCode)
+		if EXIT_KEYS[keyCode] then
+			--quit
+			self:quit()
+		end
+	end
+    
     -- Query for anything under cursor
     local isDown, x,y = getPointerState(0)
     if isDown then

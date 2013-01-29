@@ -10,6 +10,12 @@ PLAY_WORLD_WIDTH = 50
 PLAY_WORLD_LENGTH = 50
 PLAY_BOX_SIZE = 2
 
+local FWD_KEYS = {[38]=38, [0]=0, [118]=118}
+local RIGHT_KEYS = {[39]=39, [3]=3, [121]=121}
+local BACK_KEYS = {[40]=40, [1]=1, [119]=119}
+local LEFT_KEYS = {[37]=37, [2]=2, [120]=120}
+local EXIT_KEYS = {[97]=97, [27]=27}
+
 AnimatedModel = table.copy(GameObject)
 function AnimatedModel.new()
     self = allocMeta(AnimatedModel.createInstance(), AnimatedModel)
@@ -71,6 +77,11 @@ function Tests.new()
 	local self = table.copy(Tests)
 	self.wasInput = false
 	return self
+end
+
+function Tests:quit()
+	self:cleanUp()
+	game:setMode(MODE_MAINMENU)
 end
 
 function Tests:cleanUp()
@@ -148,8 +159,7 @@ function Tests:setupUI()
 	-- quit button
 	local button = makeButtonCentered(85, 50, 150, 100, "Quit")
 	button.onClickUp = function()
-		self:cleanUp()
-		game:setMode(MODE_MAINMENU)
+		self:quit()
 	end
 	table.insert(self.buttons, button)
     local settingButtonWidth = 350
@@ -356,18 +366,21 @@ function Tests:updateTestsState(tickDelta)
 		local isDown, keyCode = getKeyState(i)
 		if isDown then
 			-- logmsg("keyCode " .. keyCode)
-			if keyCode == 38 or keyCode == 0 then
+			if FWD_KEYS[keyCode] then
 				--fwd
 				self.controlFwd = 1
-			elseif keyCode == 37 or keyCode == 2 then
+			elseif LEFT_KEYS[keyCode] then
 				--left
 				self.controlTurn = 1
-			elseif keyCode == 39 or keyCode == 3 then
+			elseif RIGHT_KEYS[keyCode] then
 				--right
 				self.controlTurn = -1
-			elseif keyCode == 40 or keyCode == 1 then
+			elseif BACK_KEYS[keyCode] then
 				--back
 				self.controlFwd = -1
+			elseif EXIT_KEYS[keyCode] then
+				--quit
+				self:quit()
 			end
 		end
 	end

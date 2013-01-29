@@ -4,6 +4,7 @@ Options = {}
 
 function Options.new()
 	local self = table.copy(Options)
+	self.focusMgr = TouchControlFocusManager.new(PREV_KEYS, NEXT_KEYS, SELECTION_KEYS)
 	self.buttons = {}
 	local label = "Sound: On"
 	if not saveState.soundEnabled then
@@ -21,6 +22,8 @@ function Options.new()
 		saveGame()
 	end
 	table.insert(self.buttons, button)
+	self.focusMgr:addControl(button)
+
 	local label = "ShowFPS: On"
 	if not saveState.showFPS then
 		label = "ShowFPS: Off"
@@ -37,11 +40,15 @@ function Options.new()
 		saveGame()
 	end
 	table.insert(self.buttons, button)
+	self.focusMgr:addControl(button)
+
 	button = makeButtonCentered(640, 620, 380, 100, "Back")
 	button.onClickUp = function()
 		game:setMode(MODE_MAINMENU)
 	end
 	table.insert(self.buttons, button)
+	self.focusMgr:addControl(button)
+
 	return self
 end
 
@@ -49,6 +56,7 @@ function Options:show()
 end
 
 function Options:update(tickDelta)
+	self.focusMgr:update(tickDelta)
 	for i,v in ipairs(self.buttons) do
 		v:update(tickDelta)
 	end

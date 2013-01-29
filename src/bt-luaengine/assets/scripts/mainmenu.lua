@@ -4,6 +4,8 @@ MainMenu = {}
 
 function MainMenu.new()
 	local self = table.copy(MainMenu)
+
+	self.focusMgr = TouchControlFocusManager.new(PREV_KEYS, NEXT_KEYS, SELECTION_KEYS)
 	self.buttons = {}
     local x = 640
     local y = 400
@@ -15,29 +17,39 @@ function MainMenu.new()
 		game:setMode(MODE_PLAY)
 	end
 	table.insert(self.buttons, button)
+	self.focusMgr:addControl(button)
+	
     y = y + yNext
 	local button = makeButtonCentered(x, y, width, height, "Physics Demo")
 	button.onClickUp = function()
 		game:setMode(MODE_PHYSICS_TESTS)
 	end
 	table.insert(self.buttons, button)
+	self.focusMgr:addControl(button)
+
     y = y + yNext
 	local button = makeButtonCentered(x, y, width, height, "Basic 3D Tests")
 	button.onClickUp = function()
 		game:setMode(MODE_3D_TESTS)
 	end
 	table.insert(self.buttons, button)
+	self.focusMgr:addControl(button)
+
 	button = makeButtonCentered(180, 620, 280, 100, "Options")
 	button.onClickUp = function()
 		game:setMode(MODE_OPTIONS)
 	end
 	table.insert(self.buttons, button)
+	self.focusMgr:addControl(button)
+
 	button = makeButtonCentered(1100, 620, 280, 100, "Reload")
 	button.onClickUp = function()
 		logmsg("Reload")
 		game:engineReset()
 	end
 	table.insert(self.buttons, button)
+	self.focusMgr:addControl(button)
+
 	self.showAnim = 0
 	return self
 end
@@ -47,6 +59,7 @@ function MainMenu:show()
 end
 
 function MainMenu:update(tickDelta)
+	self.focusMgr:update(tickDelta)
 	for i,v in ipairs(self.buttons) do
 		v:update(tickDelta)
 	end

@@ -22,6 +22,14 @@ local ENABLE_PARTICLES = false
 
 local FPS_CHECK_TIME = 3.0
 
+local FWD_KEYS = {[38]=38, [0]=0, [118]=118}
+local RIGHT_KEYS = {[39]=39, [3]=3, [121]=121}
+local BACK_KEYS = {[40]=40, [1]=1, [119]=119}
+local LEFT_KEYS = {[37]=37, [2]=2, [120]=120}
+local JUMP_KEYS = {[32]=32, [13]=13, [96]=96, [99]=99}
+local EXIT_KEYS = {[97]=97, [27]=27}
+
+
 Box = {
 	x = 0,
 	y = 0
@@ -167,8 +175,7 @@ function Play.new()
 	-- quit button
 	local button = makeButtonCentered(85, 50, 150, 100, "Quit")
 	button.onClickUp = function()
-		self:cleanUp()
-		game:setMode(MODE_MAINMENU)
+		self:quit()
 	end
 	table.insert(self.buttons, button)
 	-- arrow controls
@@ -252,6 +259,11 @@ function Play.new()
 	self.fpsTotal = 0
 	self.lowFPS = false
 	return self
+end
+
+function Play:quit()
+	self:cleanUp()
+	game:setMode(MODE_MAINMENU)
 end
 
 function Play:cleanUp()
@@ -387,21 +399,24 @@ function Play:updatePlayState(tickDelta)
 		local isDown, keyCode = getKeyState(i)
 		if isDown then
 			-- logmsg("keyCode " .. keyCode)
-			if keyCode == 38 or keyCode == 0 then
+			if FWD_KEYS[keyCode] then
 				--fwd
 				self.controlFwd = 1
-			elseif keyCode == 37 or keyCode == 2 then
+			elseif LEFT_KEYS[keyCode] then
 				--left
 				self.controlTurn = 1
-			elseif keyCode == 39 or keyCode == 3 then
+			elseif RIGHT_KEYS[keyCode] then
 				--right
 				self.controlTurn = -1
-			elseif keyCode == 40 or keyCode == 1 then
+			elseif BACK_KEYS[keyCode] then
 				--back
 				self.controlFwd = -1
-			elseif keyCode == 32 then
-				--back
+			elseif JUMP_KEYS[keyCode] then
+				--jump
 				self.controlJump = true
+			elseif EXIT_KEYS[keyCode] then
+				--quit
+				self:quit()
 			end
 		end
 	end

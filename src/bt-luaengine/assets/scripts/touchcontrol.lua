@@ -6,8 +6,10 @@ TouchControl = {
 	height = 0,
 	normalAsset = nil,
 	pressedAsset = nil,
+	selectedAsset = nil,
 	label = nil,
 	isPressed = false,
+	isSelected = false,
 	uvs = nil,
 	fontTag = nil,
 	rotation = 0
@@ -38,7 +40,13 @@ end
 
 function TouchControl:render()
 	local asset = self.normalAsset
-	if self.isPressed then asset = self.pressedAsset end
+	if self.isPressed then 
+		asset = self.pressedAsset 
+	else
+		if self.isSelected then
+			asset = self.selectedAsset
+		end
+	end
 	if asset then
 		local itemIdx = game:render2D(asset, self.left + self.width/2, self.top + self.height/2, self.width, self.height, self.rotation * (math.pi/180))
 		if self.uvs then
@@ -52,6 +60,12 @@ function TouchControl:render()
 		local tWidth, tHeight = game:measureText(fontTag, self.label, 1.0)
 		game:renderText2D(fontTag, self.label, self.left + self.width/2 - tWidth/2, self.top + self.height/2 + tHeight/2)		
 	end
+end
+
+-- Sets if this control is currently in a selected (not necessarily pressed) state
+-- selection is used for keyboard highlight/control
+function TouchControl:setSelected(selected)
+	self.isSelected = selected
 end
 
 -------------- UI Button specifics ---------------
@@ -107,4 +121,85 @@ function UIButton:update(delta)
 	self.pointerWasDown = isDown
 	self.lastX = x
 	self.lastY = y
+end
+
+
+------ TouchControlFocusManager is a class that will control keyboard-based focus of TouchControls -------
+
+TouchControlFocusManager = {}
+-- nextKeys and prevKeys need to be hashed lists, so use {30=30, 35=35}, etc
+function TouchControlFocusManager.new(prevKeys, nextKeys, selectionKeys)
+	local self = table.copy(TouchControlFocusManager)
+	self.controls = {}
+	self.focusedControlIdx = 0
+	self.nextKeys = nextKeys
+	self.prevKeys = prevKeys
+	self.selectionKeys = selectionKeys
+	self.wasDown = false
+	return self
+end
+
+function TouchControlFocusManager:update(delta)
+	-- check for key selection change
+	local isDown, keyCode = getKeyState(0)
+	if isDown and not self.wasDown then
+		if self.nextKeys[keyCode] then
+			self:focusNext()
+		elseif self.prevKeys[keyCode] then
+			self:focusPrev()
+		elseif self.selectionKeys[keyCode] then
+			if self.controls[self.focusedControlIdx] then
+				if self.controls[self.focusedControlIdx].onClickDown then
+					self.controls[self.focusedControlIdx]:onClickDown()
+				end
+				if self.controls[self.focusedControlIdx].onClickUp then
+					self.controls[self.focusedControlIdx]:onClickUp()
+				end
+			end
+		end
+	end
+	self.wasDown = isDown
+end
+
+function TouchControlFocusManager:addControl(touchControl)
+	self.controls[#self.controls+1] = touchControl
+end
+
+function TouchControlFocusManager:clear()
+	self.controls = {}
+	self.focusedControlIdx = 0
+end
+
+function TouchControlFocusManager:focusNext()
+	if self.focusedControlIdx ~= 0 then
+		self.controls[self.focusedControlIdx]:setSelected(false)
+	end
+	if #self.controls == 0 then
+		self.focusedControlIdx = 0
+	else
+		self.focusedControlIdx = self.focusedControlIdx + 1
+		if self.focusedControlIdx > #self.controls then
+			self.focusedControlIdx = 1
+		end
+		if self.focusedControlIdx ~= 0 then
+			self.controls[self.focusedControlIdx]:setSelected(true)
+		end
+	end
+end
+
+function TouchControlFocusManager:focusPrev()
+	if self.focusedControlIdx ~= 0 then
+		self.controls[self.focusedControlIdx]:setSelected(false)
+	end
+	if #self.controls == 0 then
+		self.focusedControlIdx = 0
+	else
+		self.focusedControlIdx = self.focusedControlIdx - 1
+		if self.focusedControlIdx <= 0 then
+			self.focusedControlIdx = #self.controls
+		end
+		if self.focusedControlIdx ~= 0 then
+			self.controls[self.focusedControlIdx]:setSelected(true)
+		end
+	end
 end
