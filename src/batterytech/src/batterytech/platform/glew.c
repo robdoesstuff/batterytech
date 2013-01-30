@@ -29,6 +29,8 @@
 ** THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+// BPG - we added the GLEW_STATIC define here to save on yet another external define
+#define GLEW_STATIC
 #include "glew.h"
 
 #if defined(_WIN32)
