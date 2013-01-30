@@ -116,6 +116,8 @@
     <ClInclude Include="..\..\..\batterytech\src\batterytech\platform\linux\linuxgeneral.h" />
     <ClInclude Include="..\..\..\batterytech\src\batterytech\platform\linux\linuxtypes.h" />
     <ClInclude Include="..\..\..\batterytech\src\batterytech\platform\opengles.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\platform\glew.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\platform\wglew.h" />
     <ClInclude Include="..\..\..\batterytech\src\batterytech\platform\osx\batterytechGLView.h" />
     <ClInclude Include="..\..\..\batterytech\src\batterytech\platform\osx\batterytech_osxAppDelegate.h" />
     <ClInclude Include="..\..\..\batterytech\src\batterytech\platform\osx\osxgeneral.h" />
@@ -256,6 +258,7 @@
     <ClCompile Include="..\..\..\batterytech\src\batterytech\platform\linux\linuxboot.cpp" />
     <ClCompile Include="..\..\..\batterytech\src\batterytech\platform\linux\linuxgeneral.cpp" />
     <ClCompile Include="..\..\..\batterytech\src\batterytech\platform\opengles.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\platform\glew.c" />
     <ClCompile Include="..\..\..\batterytech\src\batterytech\platform\platformgeneral.cpp" />
     <ClCompile Include="..\..\..\batterytech\src\batterytech\platform\win32\win32general.cpp" />
     <ClCompile Include="..\..\..\batterytech\src\batterytech\platform\win32\winboot.cpp" />
