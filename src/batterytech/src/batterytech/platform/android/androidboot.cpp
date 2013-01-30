@@ -182,6 +182,7 @@ void determineGPUCapabilities() {
 		__android_log_print(ANDROID_LOG_DEBUG, "BatteryTech", "OpenGL ES Version 2.0 found");
 		ver = 2;
 		gConfig->supportsShaders = TRUE;
+		gConfig->supportsFBOs = TRUE;
 	} else if (strstr(version, "1.1")) {
 		__android_log_print(ANDROID_LOG_DEBUG, "BatteryTech", "OpenGL ES Version 1.1 found");
 		ver = 1;

@@ -58,7 +58,6 @@ void ShadowMap::init(BOOL32 newContext) {
 		shadowTexture = 0;
 		renderBuffer = 0;
 		shadowFrameBuffer = 0;
-		logmsg("Initializing ShadowMap");
 		generateShadowFBO();    
 	}
 }
@@ -88,6 +87,12 @@ void ShadowMap::generateShadowFBO() {
 		((Matrix4f*)context->renderContext->userValues->get("shadowLookupMatrix"))->identity();
 	}
 	currentShadowType = context->gConfig->shadowType;
+	if (!context->gConfig->supportsFBOs) {
+		if (shadowWidth || shadowHeight) {
+			logmsg("ShadowMap requires FBOs which are not supported on this GPU/Driver.");
+		}
+		return;
+	}
 	if (shadowTexture) {
 		glDeleteTextures(1, &shadowTexture);
 		shadowTexture = 0;
@@ -103,6 +108,7 @@ void ShadowMap::generateShadowFBO() {
 	if (!shadowWidth || !shadowHeight) {
 		return;
 	}
+
     // get the current framebuffer and set as default
     GLint fboID;
     glGetIntegerv(GL_FRAMEBUFFER_BINDING, &fboID);
@@ -167,6 +173,9 @@ void ShadowMap::bindForMapCreation() {
 		}
 	}
 	if (context->gConfig->shadowType == GraphicsConfiguration::SHADOWTYPE_NONE) {
+		return;
+	}
+	if (!context->gConfig->supportsFBOs) {
 		return;
 	}
 	Renderer::checkGLError("ShadowMap start bindForMapCreation()");
@@ -240,6 +249,9 @@ void ShadowMap::bindForMapCreation() {
 }
 
 void ShadowMap::unbindAfterMapCreation() {
+	if (!context->gConfig->supportsFBOs) {
+		return;
+	}
 	if (context->gConfig->shadowType == GraphicsConfiguration::SHADOWTYPE_NONE) {
 		return;
 	}
@@ -255,6 +267,9 @@ void ShadowMap::unbindAfterMapCreation() {
 }
 
 void ShadowMap::bindForSceneRender() {
+	if (!context->gConfig->supportsFBOs) {
+		return;
+	}
 	if (context->gConfig->shadowType == GraphicsConfiguration::SHADOWTYPE_NONE) {
 		return;
 	}
@@ -268,6 +283,9 @@ void ShadowMap::bindForSceneRender() {
 }
 
 void ShadowMap::unbindAfterSceneRender() {
+	if (!context->gConfig->supportsFBOs) {
+		return;
+	}
 	if (context->gConfig->shadowType == GraphicsConfiguration::SHADOWTYPE_NONE) {
 		return;
 	}
@@ -278,6 +296,9 @@ void ShadowMap::unbindAfterSceneRender() {
 }
 
 void ShadowMap::bindAsTexture() {
+	if (!context->gConfig->supportsFBOs) {
+		return;
+	}
 	if (context->gConfig->shadowType == GraphicsConfiguration::SHADOWTYPE_NONE) {
 		return;
 	}

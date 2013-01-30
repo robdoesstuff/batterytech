@@ -122,6 +122,10 @@ namespace BatteryTech {
 		 * Does GPU support shaders?
 		 */
 		BOOL32 supportsShaders;
+		/**
+		 * Does GPU support framebuffer objects?
+		 */
+		BOOL32 supportsFBOs;
 	};
 
 }

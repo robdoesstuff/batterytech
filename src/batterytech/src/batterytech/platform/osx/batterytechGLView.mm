@@ -102,6 +102,7 @@ double getCurrentTime() {
 	gConfig->supportsUVTransform = TRUE;
 	if (USE_SHADERS) {
 		gConfig->supportsShaders = TRUE;
+		gConfig->supportsFBOs = TRUE;
 	}
 	btInit(gConfig, frameWidth, frameHeight);
     BatteryTech::Context *btContext = btGetContext();

@@ -104,6 +104,7 @@ int main(int argc, char *argv[]) {
 	GraphicsConfiguration *gConfig = new GraphicsConfiguration();
 	gConfig->supportsHWmipmapgen = TRUE;
 	gConfig->supportsShaders = TRUE;
+	gConfig->supportsFBOs = TRUE;
 	gConfig->supportsUVTransform = TRUE;
 	gConfig->supportsVBOs = TRUE;
 	btInit(gConfig, 0, 0);

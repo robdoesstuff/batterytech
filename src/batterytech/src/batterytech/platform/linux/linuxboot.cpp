@@ -91,11 +91,12 @@ int main(int argc, char *argv[]) {
 	glXMakeCurrent(dpy, win, glc);
 
 	GraphicsConfiguration *gConfig = new GraphicsConfiguration();
-	gConfig->supportsHWmipmapgen = true;
-	gConfig->supportsUVTransform = true;
-	gConfig->supportsVBOs = true;
+	gConfig->supportsHWmipmapgen = TRUE;
+	gConfig->supportsUVTransform = TRUE;
+	gConfig->supportsVBOs = TRUE;
 	// TODO - check for GL 2.0+
-	gConfig->supportsShaders = true;
+	gConfig->supportsShaders = TRUE;
+	gConfig->supportsFBOs = TRUE;
 	BOOL32 initialized = FALSE;
 	timespec ts;
 	clock_gettime(CLOCK_MONOTONIC, &ts);

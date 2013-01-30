@@ -35,6 +35,7 @@ namespace BatteryTech {
 		supportsHWmipmapgen = FALSE;
 		supportsUVTransform = FALSE;
 		supportsShaders = FALSE;
+		supportsFBOs = FALSE;
 		shadowType = SHADOWTYPE_NONE;
 	}
 

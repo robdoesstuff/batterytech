@@ -40,131 +40,6 @@ using namespace BatteryTech;
 #define _LPCSTR LPCWSTR
 #endif
 
-// OpenGL 1.3 extension function pointers
-PFNGLACTIVETEXTUREPROC glActiveTexture = NULL;
-PFNGLSAMPLECOVERAGEPROC glSampleCoverage = NULL;
-PFNGLCOMPRESSEDTEXIMAGE2DPROC glCompressedTexImage2D = NULL;
-PFNGLCOMPRESSEDTEXSUBIMAGE2DPROC glCompressedTexSubImage2D = NULL;
-
-// OpenGL 1.5 extension function pointers
-PFNGLGENBUFFERSPROC glGenBuffers = NULL;
-PFNGLBINDBUFFERPROC glBindBuffer = NULL;
-PFNGLBUFFERDATAPROC glBufferData = NULL;
-PFNGLBUFFERSUBDATAPROC glBufferSubData = NULL;
-PFNGLISBUFFERPROC glIsBuffer = NULL;
-PFNGLDELETEBUFFERSPROC glDeleteBuffers = NULL;
-
-// OpenGL 2.0 extension function pointers (almost all but the VertexAttrib "s" and "d" functions are ES 2.0 compatible)
-PFNGLBLENDEQUATIONSEPARATEPROC glBlendEquationSeparate = NULL;
-PFNGLDRAWBUFFERSPROC glDrawBuffers = NULL;
-PFNGLSTENCILOPSEPARATEPROC glStencilOpSeparate = NULL;
-PFNGLSTENCILFUNCSEPARATEPROC glStencilFuncSeparate = NULL;
-PFNGLSTENCILMASKSEPARATEPROC glStencilMaskSeparate = NULL;
-PFNGLATTACHSHADERPROC glAttachShader = NULL;
-PFNGLBINDATTRIBLOCATIONPROC glBindAttribLocation = NULL;
-PFNGLCOMPILESHADERPROC glCompileShader = NULL;
-PFNGLCREATEPROGRAMPROC glCreateProgram = NULL;
-PFNGLCREATESHADERPROC glCreateShader = NULL;
-PFNGLDELETEPROGRAMPROC glDeleteProgram = NULL;
-PFNGLDELETESHADERPROC glDeleteShader = NULL;
-PFNGLDETACHSHADERPROC glDetachShader = NULL;
-PFNGLDISABLEVERTEXATTRIBARRAYPROC glDisableVertexAttribArray = NULL;
-PFNGLENABLEVERTEXATTRIBARRAYPROC glEnableVertexAttribArray = NULL;
-PFNGLGETACTIVEATTRIBPROC glGetActiveAttrib = NULL;
-PFNGLGETACTIVEUNIFORMPROC glGetActiveUniform = NULL;
-PFNGLGETATTACHEDSHADERSPROC glGetAttachedShaders = NULL;
-PFNGLGETATTRIBLOCATIONPROC glGetAttribLocation = NULL;
-PFNGLGETPROGRAMIVPROC glGetProgramiv = NULL;
-PFNGLGETPROGRAMINFOLOGPROC glGetProgramInfoLog = NULL;
-PFNGLGETSHADERIVPROC glGetShaderiv = NULL;
-PFNGLGETSHADERINFOLOGPROC glGetShaderInfoLog = NULL;
-PFNGLGETSHADERSOURCEPROC glGetShaderSource = NULL;
-PFNGLGETUNIFORMLOCATIONPROC glGetUniformLocation = NULL;
-PFNGLGETUNIFORMFVPROC glGetUniformfv = NULL;
-PFNGLGETUNIFORMIVPROC glGetUniformiv = NULL;
-PFNGLGETVERTEXATTRIBDVPROC glGetVertexAttribdv = NULL;
-PFNGLGETVERTEXATTRIBFVPROC glGetVertexAttribfv = NULL;
-PFNGLGETVERTEXATTRIBIVPROC glGetVertexAttribiv = NULL;
-PFNGLGETVERTEXATTRIBPOINTERVPROC glGetVertexAttribPointerv = NULL;
-PFNGLISPROGRAMPROC glIsProgram = NULL;
-PFNGLISSHADERPROC glIsShader = NULL;
-PFNGLLINKPROGRAMPROC glLinkProgram = NULL;
-PFNGLSHADERSOURCEPROC glShaderSource = NULL;
-PFNGLUSEPROGRAMPROC glUseProgram = NULL;
-PFNGLUNIFORM1FPROC glUniform1f = NULL;
-PFNGLUNIFORM2FPROC glUniform2f = NULL;
-PFNGLUNIFORM3FPROC glUniform3f = NULL;
-PFNGLUNIFORM4FPROC glUniform4f = NULL;
-PFNGLUNIFORM1IPROC glUniform1i = NULL;
-PFNGLUNIFORM2IPROC glUniform2i = NULL;
-PFNGLUNIFORM3IPROC glUniform3i = NULL;
-PFNGLUNIFORM4IPROC glUniform4i = NULL;
-PFNGLUNIFORM1FVPROC glUniform1fv = NULL;
-PFNGLUNIFORM2FVPROC glUniform2fv = NULL;
-PFNGLUNIFORM3FVPROC glUniform3fv = NULL;
-PFNGLUNIFORM4FVPROC glUniform4fv = NULL;
-PFNGLUNIFORM1IVPROC glUniform1iv = NULL;
-PFNGLUNIFORM2IVPROC glUniform2iv = NULL;
-PFNGLUNIFORM3IVPROC glUniform3iv = NULL;
-PFNGLUNIFORM4IVPROC glUniform4iv = NULL;
-PFNGLUNIFORMMATRIX2FVPROC glUniformMatrix2fv = NULL;
-PFNGLUNIFORMMATRIX3FVPROC glUniformMatrix3fv = NULL;
-PFNGLUNIFORMMATRIX4FVPROC glUniformMatrix4fv = NULL;
-PFNGLVALIDATEPROGRAMPROC glValidateProgram = NULL;
-PFNGLVERTEXATTRIB1DPROC glVertexAttrib1d = NULL;
-PFNGLVERTEXATTRIB1DVPROC glVertexAttrib1dv = NULL;
-PFNGLVERTEXATTRIB1FPROC glVertexAttrib1f = NULL;
-PFNGLVERTEXATTRIB1FVPROC glVertexAttrib1fv = NULL;
-PFNGLVERTEXATTRIB1SPROC glVertexAttrib1s = NULL;
-PFNGLVERTEXATTRIB1SVPROC glVertexAttrib1sv = NULL;
-PFNGLVERTEXATTRIB2DPROC glVertexAttrib2d = NULL;
-PFNGLVERTEXATTRIB2DVPROC glVertexAttrib2dv = NULL;
-PFNGLVERTEXATTRIB2FPROC glVertexAttrib2f = NULL;
-PFNGLVERTEXATTRIB2FVPROC glVertexAttrib2fv = NULL;
-PFNGLVERTEXATTRIB2SPROC glVertexAttrib2s = NULL;
-PFNGLVERTEXATTRIB2SVPROC glVertexAttrib2sv = NULL;
-PFNGLVERTEXATTRIB3DPROC glVertexAttrib3d = NULL;
-PFNGLVERTEXATTRIB3DVPROC glVertexAttrib3dv = NULL;
-PFNGLVERTEXATTRIB3FPROC glVertexAttrib3f = NULL;
-PFNGLVERTEXATTRIB3FVPROC glVertexAttrib3fv = NULL;
-PFNGLVERTEXATTRIB3SPROC glVertexAttrib3s = NULL;
-PFNGLVERTEXATTRIB3SVPROC glVertexAttrib3sv = NULL;
-PFNGLVERTEXATTRIB4NBVPROC glVertexAttrib4Nbv = NULL;
-PFNGLVERTEXATTRIB4NIVPROC glVertexAttrib4Niv = NULL;
-PFNGLVERTEXATTRIB4NSVPROC glVertexAttrib4Nsv = NULL;
-PFNGLVERTEXATTRIB4NUBPROC glVertexAttrib4Nub = NULL;
-PFNGLVERTEXATTRIB4NUBVPROC glVertexAttrib4Nubv = NULL;
-PFNGLVERTEXATTRIB4NUIVPROC glVertexAttrib4Nuiv = NULL;
-PFNGLVERTEXATTRIB4NUSVPROC glVertexAttrib4Nusv = NULL;
-PFNGLVERTEXATTRIB4BVPROC glVertexAttrib4bv = NULL;
-PFNGLVERTEXATTRIB4DPROC glVertexAttrib4d = NULL;
-PFNGLVERTEXATTRIB4DVPROC glVertexAttrib4dv = NULL;
-PFNGLVERTEXATTRIB4FPROC glVertexAttrib4f = NULL;
-PFNGLVERTEXATTRIB4FVPROC glVertexAttrib4fv = NULL;
-PFNGLVERTEXATTRIB4IVPROC glVertexAttrib4iv = NULL;
-PFNGLVERTEXATTRIB4SPROC glVertexAttrib4s = NULL;
-PFNGLVERTEXATTRIB4SVPROC glVertexAttrib4sv = NULL;
-PFNGLVERTEXATTRIB4UBVPROC glVertexAttrib4ubv = NULL;
-PFNGLVERTEXATTRIB4UIVPROC glVertexAttrib4uiv = NULL;
-PFNGLVERTEXATTRIB4USVPROC glVertexAttrib4usv = NULL;
-PFNGLVERTEXATTRIBPOINTERPROC glVertexAttribPointer = NULL;
-
-// 3.0 framebuffer/renderbuffer extensions
-PFNGLISRENDERBUFFERPROC glIsRenderbuffer = NULL;
-PFNGLBINDRENDERBUFFERPROC glBindRenderbuffer = NULL;
-PFNGLDELETERENDERBUFFERSPROC glDeleteRenderbuffers = NULL;
-PFNGLGENRENDERBUFFERSPROC glGenRenderbuffers = NULL;
-PFNGLRENDERBUFFERSTORAGEPROC glRenderbufferStorage = NULL;
-PFNGLGETRENDERBUFFERPARAMETERIVPROC glGetRenderbufferParameteriv = NULL;
-PFNGLISFRAMEBUFFERPROC glIsFramebuffer = NULL;
-PFNGLBINDFRAMEBUFFERPROC glBindFramebuffer = NULL;
-PFNGLDELETEFRAMEBUFFERSPROC glDeleteFramebuffers = NULL;
-PFNGLGENFRAMEBUFFERSPROC glGenFramebuffers = NULL;
-PFNGLCHECKFRAMEBUFFERSTATUSPROC glCheckFramebufferStatus = NULL;
-PFNGLFRAMEBUFFERTEXTURE2DPROC glFramebufferTexture2D = NULL;
-PFNGLFRAMEBUFFERRENDERBUFFERPROC glFramebufferRenderbuffer = NULL;
-PFNGLGETFRAMEBUFFERATTACHMENTPARAMETERIVPROC glGetFramebufferAttachmentParameteriv = NULL;
-PFNGLGENERATEMIPMAPPROC glGenerateMipmap = NULL;
 
 // WinMain
 DWORD WINAPI StartThread(LPVOID iValue);
@@ -325,11 +200,19 @@ DWORD WINAPI StartThread(LPVOID iValue) {
 	BOOL shadersSupported = (glCreateShader != NULL);
 	if (shadersSupported) {
 		logmsg("Shaders supported");
-		btGetContext()->gConfig->supportsShaders = true;
+		btGetContext()->gConfig->supportsShaders = TRUE;
 	} else {
 		logmsg("Shaders not supported");
-		btGetContext()->gConfig->supportsShaders = false;
+		btGetContext()->gConfig->supportsShaders = FALSE;
 		btGetContext()->gConfig->useShaders = FALSE;
+	}
+	BOOL fbosSupported = (glGenFramebuffers != NULL);
+	if (fbosSupported) {
+		logmsg("FBOs supported");
+		btGetContext()->gConfig->supportsFBOs = TRUE;
+	} else {
+		logmsg("FBOs not supported");
+		btGetContext()->gConfig->supportsFBOs = FALSE;
 	}
 	BOOL32 useShaders = btGetContext()->appProperties->get("use_shaders")->getBoolValue();
 	if (useShaders && !shadersSupported) {
@@ -490,132 +373,8 @@ void EnableOpenGL(HWND hWnd, HDC * hDC, HGLRC * hRC) {
 	logmsg(buf);
 	sprintf(buf, "OpenGL Version [%s]", version);
 	logmsg(buf);
-	logmsg("Loading OpenGL 1.3/1.5/2.0/3.0 extensions");
-	// load 1.3 extensions
-	glActiveTexture = (PFNGLACTIVETEXTUREPROC) wglLoadExtension("glActiveTexture");
-	glSampleCoverage = (PFNGLSAMPLECOVERAGEPROC) wglLoadExtension("glSampleCoverage");
-	glCompressedTexImage2D = (PFNGLCOMPRESSEDTEXIMAGE2DPROC) wglLoadExtension("glCompressedTexImage2D");
-	glCompressedTexSubImage2D = (PFNGLCOMPRESSEDTEXSUBIMAGE2DPROC) wglLoadExtension("glCompressedTexSubImage2D");
-	// load 1.5 extensions
-	glGenBuffers = (PFNGLGENBUFFERSPROC) wglLoadExtension("glGenBuffers");
-	glBindBuffer = (PFNGLBINDBUFFERPROC) wglLoadExtension("glBindBuffer");
-	glBufferData = (PFNGLBUFFERDATAPROC) wglLoadExtension("glBufferData");
-	glBufferSubData = (PFNGLBUFFERSUBDATAPROC) wglLoadExtension("glBufferSubData");
-	glIsBuffer = (PFNGLISBUFFERPROC) wglLoadExtension("glIsBuffer");
-	glDeleteBuffers = (PFNGLDELETEBUFFERSPROC) wglLoadExtension("glDeleteBuffers");
-	// load extensions we need for opengl 2.0
-    glBlendEquationSeparate = (PFNGLBLENDEQUATIONSEPARATEPROC) wglLoadExtension("glBlendEquationSeparate");
-	glDrawBuffers = (PFNGLDRAWBUFFERSPROC) wglLoadExtension("glDrawBuffers");
-	glStencilOpSeparate = (PFNGLSTENCILOPSEPARATEPROC) wglLoadExtension("glStencilOpSeparate");
-	glStencilFuncSeparate = (PFNGLSTENCILFUNCSEPARATEPROC) wglLoadExtension("glStencilFuncSeparate");
-	glStencilMaskSeparate = (PFNGLSTENCILMASKSEPARATEPROC) wglLoadExtension("glStencilMaskSeparate");
-	glAttachShader = (PFNGLATTACHSHADERPROC) wglLoadExtension("glAttachShader");
-	glBindAttribLocation = (PFNGLBINDATTRIBLOCATIONPROC) wglLoadExtension("glBindAttribLocation");
-	glCompileShader = (PFNGLCOMPILESHADERPROC) wglLoadExtension("glCompileShader");
-	glCreateProgram = (PFNGLCREATEPROGRAMPROC) wglLoadExtension("glCreateProgram");
-	glCreateShader = (PFNGLCREATESHADERPROC) wglLoadExtension("glCreateShader");
-	glDeleteProgram = (PFNGLDELETEPROGRAMPROC) wglLoadExtension("glDeleteProgram");
-	glDeleteShader = (PFNGLDELETESHADERPROC) wglLoadExtension("glDeleteShader");
-	glDetachShader = (PFNGLDETACHSHADERPROC) wglLoadExtension("glDetachShader");
-	glDisableVertexAttribArray = (PFNGLDISABLEVERTEXATTRIBARRAYPROC) wglLoadExtension("glDisableVertexAttribArray");
-	glEnableVertexAttribArray = (PFNGLENABLEVERTEXATTRIBARRAYPROC) wglLoadExtension("glEnableVertexAttribArray");
-	glGetActiveAttrib = (PFNGLGETACTIVEATTRIBPROC) wglLoadExtension("glGetActiveAttrib");
-	glGetActiveUniform = (PFNGLGETACTIVEUNIFORMPROC) wglLoadExtension("glGetActiveUniform");
-	glGetAttachedShaders = (PFNGLGETATTACHEDSHADERSPROC) wglLoadExtension("glGetAttachedShaders");
-	glGetAttribLocation = (PFNGLGETATTRIBLOCATIONPROC) wglLoadExtension("glGetAttribLocation");
-	glGetProgramiv = (PFNGLGETPROGRAMIVPROC) wglLoadExtension("glGetProgramiv");
-	glGetProgramInfoLog = (PFNGLGETPROGRAMINFOLOGPROC) wglLoadExtension("glGetProgramInfoLog");
-	glGetShaderiv = (PFNGLGETSHADERIVPROC) wglLoadExtension("glGetShaderiv");
-	glGetShaderInfoLog = (PFNGLGETSHADERINFOLOGPROC) wglLoadExtension("glGetShaderInfoLog");
-	glGetShaderSource = (PFNGLGETSHADERSOURCEPROC) wglLoadExtension("glGetShaderSource");
-	glGetUniformLocation = (PFNGLGETUNIFORMLOCATIONPROC) wglLoadExtension("glGetUniformLocation");
-	glGetUniformfv = (PFNGLGETUNIFORMFVPROC) wglLoadExtension("glGetUniformfv");
-	glGetUniformiv = (PFNGLGETUNIFORMIVPROC) wglLoadExtension("glGetUniformiv");
-	glGetVertexAttribdv = (PFNGLGETVERTEXATTRIBDVPROC) wglLoadExtension("glGetVertexAttribdv");
-	glGetVertexAttribfv = (PFNGLGETVERTEXATTRIBFVPROC) wglLoadExtension("glGetVertexAttribfv");
-	glGetVertexAttribiv = (PFNGLGETVERTEXATTRIBIVPROC) wglLoadExtension("glGetVertexAttribiv");
-	glGetVertexAttribPointerv = (PFNGLGETVERTEXATTRIBPOINTERVPROC) wglLoadExtension("glGetVertexAttribPointerv");
-	glIsProgram = (PFNGLISPROGRAMPROC) wglLoadExtension("glIsProgram");
-	glIsShader = (PFNGLISSHADERPROC) wglLoadExtension("glIsShader");
-	glLinkProgram = (PFNGLLINKPROGRAMPROC) wglLoadExtension("glLinkProgram");
-	glShaderSource = (PFNGLSHADERSOURCEPROC) wglLoadExtension("glShaderSource");
-	glUseProgram = (PFNGLUSEPROGRAMPROC) wglLoadExtension("glUseProgram");
-	glUniform1f = (PFNGLUNIFORM1FPROC) wglLoadExtension("glUniform1f");
-	glUniform2f = (PFNGLUNIFORM2FPROC) wglLoadExtension("glUniform2f");
-	glUniform3f = (PFNGLUNIFORM3FPROC) wglLoadExtension("glUniform3f");
-	glUniform4f = (PFNGLUNIFORM4FPROC) wglLoadExtension("glUniform4f");
-	glUniform1i = (PFNGLUNIFORM1IPROC) wglLoadExtension("glUniform1i");
-	glUniform2i = (PFNGLUNIFORM2IPROC) wglLoadExtension("glUniform2i");
-	glUniform3i = (PFNGLUNIFORM3IPROC) wglLoadExtension("glUniform3i");
-	glUniform4i = (PFNGLUNIFORM4IPROC) wglLoadExtension("glUniform4i");
-	glUniform1fv = (PFNGLUNIFORM1FVPROC) wglLoadExtension("glUniform1fv");
-	glUniform2fv = (PFNGLUNIFORM2FVPROC) wglLoadExtension("glUniform2fv");
-	glUniform3fv = (PFNGLUNIFORM3FVPROC) wglLoadExtension("glUniform3fv");
-	glUniform4fv = (PFNGLUNIFORM4FVPROC) wglLoadExtension("glUniform4fv");
-	glUniform1iv = (PFNGLUNIFORM1IVPROC) wglLoadExtension("glUniform1iv");
-	glUniform2iv = (PFNGLUNIFORM2IVPROC) wglLoadExtension("glUniform2iv");
-	glUniform3iv = (PFNGLUNIFORM3IVPROC) wglLoadExtension("glUniform3iv");
-	glUniform4iv = (PFNGLUNIFORM4IVPROC) wglLoadExtension("glUniform4iv");
-	glUniformMatrix2fv = (PFNGLUNIFORMMATRIX2FVPROC) wglLoadExtension("glUniformMatrix2fv");
-	glUniformMatrix3fv = (PFNGLUNIFORMMATRIX3FVPROC) wglLoadExtension("glUniformMatrix3fv");
-	glUniformMatrix4fv = (PFNGLUNIFORMMATRIX4FVPROC) wglLoadExtension("glUniformMatrix4fv");
-	glValidateProgram = (PFNGLVALIDATEPROGRAMPROC) wglLoadExtension("glValidateProgram");
-	glVertexAttrib1d = (PFNGLVERTEXATTRIB1DPROC) wglLoadExtension("glVertexAttrib1d");
-	glVertexAttrib1dv = (PFNGLVERTEXATTRIB1DVPROC) wglLoadExtension("glVertexAttrib1dv");
-	glVertexAttrib1f = (PFNGLVERTEXATTRIB1FPROC) wglLoadExtension("glVertexAttrib1f");
-	glVertexAttrib1fv = (PFNGLVERTEXATTRIB1FVPROC) wglLoadExtension("glVertexAttrib1fv");
-	glVertexAttrib1s = (PFNGLVERTEXATTRIB1SPROC) wglLoadExtension("glVertexAttrib1s");
-	glVertexAttrib1sv = (PFNGLVERTEXATTRIB1SVPROC) wglLoadExtension("glVertexAttrib1sv");
-	glVertexAttrib2d = (PFNGLVERTEXATTRIB2DPROC) wglLoadExtension("glVertexAttrib2d");
-	glVertexAttrib2dv = (PFNGLVERTEXATTRIB2DVPROC) wglLoadExtension("glVertexAttrib2dv");
-	glVertexAttrib2f = (PFNGLVERTEXATTRIB2FPROC) wglLoadExtension("glVertexAttrib2f");
-	glVertexAttrib2fv = (PFNGLVERTEXATTRIB2FVPROC) wglLoadExtension("glVertexAttrib2fv");
-	glVertexAttrib2s = (PFNGLVERTEXATTRIB2SPROC) wglLoadExtension("glVertexAttrib2s");
-	glVertexAttrib2sv = (PFNGLVERTEXATTRIB2SVPROC) wglLoadExtension("glVertexAttrib2sv");
-	glVertexAttrib3d = (PFNGLVERTEXATTRIB3DPROC) wglLoadExtension("glVertexAttrib3d");
-	glVertexAttrib3dv = (PFNGLVERTEXATTRIB3DVPROC) wglLoadExtension("glVertexAttrib3dv");
-	glVertexAttrib3f = (PFNGLVERTEXATTRIB3FPROC) wglLoadExtension("glVertexAttrib3f");
-	glVertexAttrib3fv = (PFNGLVERTEXATTRIB3FVPROC) wglLoadExtension("glVertexAttrib3fv");
-	glVertexAttrib3s = (PFNGLVERTEXATTRIB3SPROC) wglLoadExtension("glVertexAttrib3s");
-	glVertexAttrib3sv = (PFNGLVERTEXATTRIB3SVPROC) wglLoadExtension("glVertexAttrib3sv");
-	glVertexAttrib4Nbv = (PFNGLVERTEXATTRIB4NBVPROC) wglLoadExtension("glVertexAttrib4Nbv");
-	glVertexAttrib4Niv = (PFNGLVERTEXATTRIB4NIVPROC) wglLoadExtension("glVertexAttrib4Niv");
-	glVertexAttrib4Nsv = (PFNGLVERTEXATTRIB4NSVPROC) wglLoadExtension("glVertexAttrib4Nsv");
-	glVertexAttrib4Nub = (PFNGLVERTEXATTRIB4NUBPROC) wglLoadExtension("glVertexAttrib4Nub");
-	glVertexAttrib4Nubv = (PFNGLVERTEXATTRIB4NUBVPROC) wglLoadExtension("glVertexAttrib4Nubv");
-	glVertexAttrib4Nuiv = (PFNGLVERTEXATTRIB4NUIVPROC) wglLoadExtension("glVertexAttrib4Nuiv");
-	glVertexAttrib4Nusv = (PFNGLVERTEXATTRIB4NUSVPROC) wglLoadExtension("glVertexAttrib4Nusv");
-	glVertexAttrib4bv = (PFNGLVERTEXATTRIB4BVPROC) wglLoadExtension("glVertexAttrib4bv");
-	glVertexAttrib4d = (PFNGLVERTEXATTRIB4DPROC) wglLoadExtension("glVertexAttrib4d");
-	glVertexAttrib4dv = (PFNGLVERTEXATTRIB4DVPROC) wglLoadExtension("glVertexAttrib4dv");
-	glVertexAttrib4f = (PFNGLVERTEXATTRIB4FPROC) wglLoadExtension("glVertexAttrib4f");
-	glVertexAttrib4fv = (PFNGLVERTEXATTRIB4FVPROC) wglLoadExtension("glVertexAttrib4fv");
-	glVertexAttrib4iv = (PFNGLVERTEXATTRIB4IVPROC) wglLoadExtension("glVertexAttrib4iv");
-	glVertexAttrib4s = (PFNGLVERTEXATTRIB4SPROC) wglLoadExtension("glVertexAttrib4s");
-	glVertexAttrib4sv = (PFNGLVERTEXATTRIB4SVPROC) wglLoadExtension("glVertexAttrib4sv");
-	glVertexAttrib4ubv = (PFNGLVERTEXATTRIB4UBVPROC) wglLoadExtension("glVertexAttrib4ubv");
-	glVertexAttrib4uiv = (PFNGLVERTEXATTRIB4UIVPROC) wglLoadExtension("glVertexAttrib4uiv");
-	glVertexAttrib4usv = (PFNGLVERTEXATTRIB4USVPROC) wglLoadExtension("glVertexAttrib4usv");
-	glVertexAttribPointer = (PFNGLVERTEXATTRIBPOINTERPROC) wglLoadExtension("glVertexAttribPointer");
-
-	// now OpenGL 3.0 renderbuffer/framebuffer extensions
-	glIsRenderbuffer = (PFNGLISRENDERBUFFERPROC) wglLoadExtension("glIsRenderbuffer");
-	glBindRenderbuffer = (PFNGLBINDRENDERBUFFERPROC) wglLoadExtension("glBindRenderbuffer");
-	glDeleteRenderbuffers = (PFNGLDELETERENDERBUFFERSPROC) wglLoadExtension("glDeleteRenderbuffers");
-	glGenRenderbuffers = (PFNGLGENRENDERBUFFERSPROC) wglLoadExtension("glGenRenderbuffers");
-	glRenderbufferStorage = (PFNGLRENDERBUFFERSTORAGEPROC) wglLoadExtension("glRenderbufferStorage");
-	glGetRenderbufferParameteriv = (PFNGLGETRENDERBUFFERPARAMETERIVPROC) wglLoadExtension("glGetRenderbufferParameteriv");
-	glIsFramebuffer = (PFNGLISFRAMEBUFFERPROC) wglLoadExtension("glIsFramebuffer");
-	glBindFramebuffer = (PFNGLBINDFRAMEBUFFERPROC) wglLoadExtension("glBindFramebuffer");
-	glDeleteFramebuffers = (PFNGLDELETEFRAMEBUFFERSPROC) wglLoadExtension("glDeleteFramebuffers");
-	glGenFramebuffers = (PFNGLGENFRAMEBUFFERSPROC) wglLoadExtension("glGenFramebuffers");
-	glCheckFramebufferStatus = (PFNGLCHECKFRAMEBUFFERSTATUSPROC) wglLoadExtension("glCheckFramebufferStatus");
-	glFramebufferTexture2D = (PFNGLFRAMEBUFFERTEXTURE2DPROC) wglLoadExtension("glFramebufferTexture2D");
-	glFramebufferRenderbuffer = (PFNGLFRAMEBUFFERRENDERBUFFERPROC) wglLoadExtension("glFramebufferRenderbuffer");
-	glGetFramebufferAttachmentParameteriv = (PFNGLGETFRAMEBUFFERATTACHMENTPARAMETERIVPROC) wglLoadExtension
-
-("glGetFramebufferAttachmentParameteriv");
-	glGenerateMipmap = (PFNGLGENERATEMIPMAPPROC) wglLoadExtension("glGenerateMipmap");
+	logmsg("Loading OpenGL extensions");
+	glewInit();
 }
 
 // Disable OpenGL

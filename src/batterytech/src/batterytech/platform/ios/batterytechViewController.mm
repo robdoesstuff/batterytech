@@ -83,6 +83,7 @@ double getCurrentTime() {
 	} else {
 		NSLog(@"Initialized GLES 2.0 Context");
 		gConfig->supportsShaders = TRUE;
+		gConfig->supportsFBOs = TRUE;
 	}
     
     if (!aContext) {
