@@ -149,7 +149,7 @@ PFNGLVERTEXATTRIB4UIVPROC glVertexAttrib4uiv = NULL;
 PFNGLVERTEXATTRIB4USVPROC glVertexAttrib4usv = NULL;
 PFNGLVERTEXATTRIBPOINTERPROC glVertexAttribPointer = NULL;
 
-// 2.0 framebuffer/renderbuffer extensions
+// 3.0 framebuffer/renderbuffer extensions
 PFNGLISRENDERBUFFERPROC glIsRenderbuffer = NULL;
 PFNGLBINDRENDERBUFFERPROC glBindRenderbuffer = NULL;
 PFNGLDELETERENDERBUFFERSPROC glDeleteRenderbuffers = NULL;
@@ -421,10 +421,12 @@ PFNGLXSWAPINTERVALFARPROC glxSwapIntervalSGI = 0;
 PROC wglLoadExtension(const char* name) {
 	//void* result = NULL;
 	PROC result = wglGetProcAddress(name);
-   if(!result) {
-      printf("Extension %s could not be loaded.\n", name);
-   }
-   return result;
+	if(!result) {
+		char buf[512];
+		sprintf(buf, "Extension %s could not be loaded.\n", name);
+		logmsg(buf);
+	}
+	return result;
 }
 
 void EnableOpenGL(HWND hWnd, HDC * hDC, HGLRC * hRC) {
@@ -488,7 +490,7 @@ void EnableOpenGL(HWND hWnd, HDC * hDC, HGLRC * hRC) {
 	logmsg(buf);
 	sprintf(buf, "OpenGL Version [%s]", version);
 	logmsg(buf);
-	logmsg("Loading OpenGL 1.3/1.5/2.0 extensions");
+	logmsg("Loading OpenGL 1.3/1.5/2.0/3.0 extensions");
 	// load 1.3 extensions
 	glActiveTexture = (PFNGLACTIVETEXTUREPROC) wglLoadExtension("glActiveTexture");
 	glSampleCoverage = (PFNGLSAMPLECOVERAGEPROC) wglLoadExtension("glSampleCoverage");
@@ -596,7 +598,7 @@ void EnableOpenGL(HWND hWnd, HDC * hDC, HGLRC * hRC) {
 	glVertexAttrib4usv = (PFNGLVERTEXATTRIB4USVPROC) wglLoadExtension("glVertexAttrib4usv");
 	glVertexAttribPointer = (PFNGLVERTEXATTRIBPOINTERPROC) wglLoadExtension("glVertexAttribPointer");
 
-	// now renderbuffer/framebuffer extensions
+	// now OpenGL 3.0 renderbuffer/framebuffer extensions
 	glIsRenderbuffer = (PFNGLISRENDERBUFFERPROC) wglLoadExtension("glIsRenderbuffer");
 	glBindRenderbuffer = (PFNGLBINDRENDERBUFFERPROC) wglLoadExtension("glBindRenderbuffer");
 	glDeleteRenderbuffers = (PFNGLDELETERENDERBUFFERSPROC) wglLoadExtension("glDeleteRenderbuffers");
