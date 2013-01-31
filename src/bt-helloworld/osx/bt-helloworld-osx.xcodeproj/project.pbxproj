@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD58140DA1D0A300B32029 /* MainMenu.xib */; };
+		3D12850F16BA1FF600160084 /* glew.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D12850D16BA1FF600160084 /* glew.c */; };
 		3D56C305131DF1CD00BF7F17 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D56C304131DF1CD00BF7F17 /* AudioToolbox.framework */; };
 		3D56C307131DF1CD00BF7F17 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D56C306131DF1CD00BF7F17 /* Foundation.framework */; };
 		3D56C309131DF1CD00BF7F17 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D56C308131DF1CD00BF7F17 /* OpenGL.framework */; };
@@ -112,6 +113,8 @@
 		1DDD58150DA1D0A300B32029 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		256AC3F00F4B6AF500CF3369 /* batterytech_osx_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = batterytech_osx_Prefix.pch; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		3D12850D16BA1FF600160084 /* glew.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = glew.c; sourceTree = "<group>"; };
+		3D12850E16BA1FF600160084 /* glew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glew.h; sourceTree = "<group>"; };
 		3D56C304131DF1CD00BF7F17 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		3D56C306131DF1CD00BF7F17 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		3D56C308131DF1CD00BF7F17 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
@@ -556,6 +559,8 @@
 		CDF9298C15A610E4006FA7A5 /* platform */ = {
 			isa = PBXGroup;
 			children = (
+				3D12850D16BA1FF600160084 /* glew.c */,
+				3D12850E16BA1FF600160084 /* glew.h */,
 				CDF9298D15A610E4006FA7A5 /* android */,
 				CDF9299415A610E4006FA7A5 /* blackberry */,
 				CDF9299B15A610E4006FA7A5 /* ios */,
@@ -921,6 +926,7 @@
 				CDF92A6C15A610E4006FA7A5 /* VibrationManager.cpp in Sources */,
 				CDF92A6D15A610E4006FA7A5 /* btFFMpegPlayer.cpp in Sources */,
 				CDF92A6E15A610E4006FA7A5 /* VideoManager.cpp in Sources */,
+				3D12850F16BA1FF600160084 /* glew.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
