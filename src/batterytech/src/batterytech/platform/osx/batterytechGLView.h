@@ -19,11 +19,8 @@
 #endif
 #if TARGET_OS_MAC && !TARGET_OS_IPHONE
 
-#import <OpenGL/gl.h>
-#import <OpenGL/glext.h>
-#import <OpenGL/glu.h>
-
 #import "RemoteIOPlayer.h"
+#import <Cocoa/Cocoa.h>
 
 @interface BatterytechGLView : NSOpenGLView {
 NSTimer* timer;

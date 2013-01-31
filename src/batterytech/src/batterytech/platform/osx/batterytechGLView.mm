@@ -19,13 +19,11 @@
 #endif
 #if TARGET_OS_MAC && !TARGET_OS_IPHONE
 
+#import <batterytech/platform/platformgl.h>
 #import "batterytechGLView.h"
 #import  <QuartzCore/QuartzCore.h>
 #include <mach/mach.h>
 #include <mach/mach_time.h>
-#import  <OpenGL/gl.h>
-#import  <OpenGL/glext.h>
-#import  <OpenGL/glu.h>
 #include <batterytech/batterytech.h>
 #include <batterytech/render/GraphicsConfiguration.h>
 #include <batterytech/Context.h>
@@ -88,6 +86,12 @@ double getCurrentTime() {
 // Method awakeFromNib
 // GL init has already happened since initWithFrame is called first.  This sets up the main loop, audio and GL capabilities.
 - (void) awakeFromNib {
+    // The first thing we need to do is initialize glew, but we have to set the gl context for it to start.
+	[[self openGLContext] makeCurrentContext];
+    GLenum err = glewInit();
+    if (GLEW_OK != err) {
+        NSLog(@"GLEW Init Error: [%s]", glewGetErrorString(err));
+    }
     GLint swapInt = 1;
     [[self openGLContext] setValues:&swapInt forParameter:NSOpenGLCPSwapInterval]; // set to vbl sync
 	const char *vendor = (const char*)glGetString(GL_VENDOR);
@@ -100,10 +104,12 @@ double getCurrentTime() {
 	gConfig->supportsHWmipmapgen = TRUE;
 	gConfig->supportsVBOs = TRUE;
 	gConfig->supportsUVTransform = TRUE;
-	if (USE_SHADERS) {
+	if (USE_SHADERS && glCreateShader) {
 		gConfig->supportsShaders = TRUE;
-		gConfig->supportsFBOs = TRUE;
 	}
+    if (glGenFramebuffers) {
+        gConfig->supportsFBOs = TRUE;
+    }
 	btInit(gConfig, frameWidth, frameHeight);
     BatteryTech::Context *btContext = btGetContext();
     StrHashTable<Property*> *props = btContext->appProperties;
