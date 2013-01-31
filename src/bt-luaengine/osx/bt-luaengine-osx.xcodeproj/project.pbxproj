@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD58140DA1D0A300B32029 /* MainMenu.xib */; };
+		3D12850716B9F10900160084 /* glew.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D12850516B9F10900160084 /* glew.c */; };
+		3D12850816BA168E00160084 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D56C308131DF1CD00BF7F17 /* OpenGL.framework */; };
 		3D50ADEB164200E2005F8294 /* Box2DConfig.cmake in Resources */ = {isa = PBXBuildFile; fileRef = 3D50AD87164200E2005F8294 /* Box2DConfig.cmake */; };
 		3D50ADEC164200E2005F8294 /* CMakeLists.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3D50AD88164200E2005F8294 /* CMakeLists.txt */; };
 		3D50ADED164200E2005F8294 /* b2BroadPhase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D50AD8A164200E2005F8294 /* b2BroadPhase.cpp */; };
@@ -58,7 +60,6 @@
 		3D50AE1A164200E2005F8294 /* b2Rope.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D50ADE9164200E2005F8294 /* b2Rope.cpp */; };
 		3D56C305131DF1CD00BF7F17 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D56C304131DF1CD00BF7F17 /* AudioToolbox.framework */; };
 		3D56C307131DF1CD00BF7F17 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D56C306131DF1CD00BF7F17 /* Foundation.framework */; };
-		3D56C309131DF1CD00BF7F17 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D56C308131DF1CD00BF7F17 /* OpenGL.framework */; };
 		3D56C30B131DF1CD00BF7F17 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D56C30A131DF1CD00BF7F17 /* QuartzCore.framework */; };
 		3D56C83E131E444C00BF7F17 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D56C83D131E444C00BF7F17 /* AudioUnit.framework */; };
 		3DF3D85A155E00A800B78035 /* Assimp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DF3D75A155E00A800B78035 /* Assimp.cpp */; };
@@ -246,6 +247,8 @@
 		1DDD58150DA1D0A300B32029 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		256AC3F00F4B6AF500CF3369 /* batterytech_osx_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = batterytech_osx_Prefix.pch; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		3D12850516B9F10900160084 /* glew.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = glew.c; sourceTree = "<group>"; };
+		3D12850616B9F10900160084 /* glew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glew.h; sourceTree = "<group>"; };
 		3D50AD86164200E2005F8294 /* Box2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Box2D.h; sourceTree = "<group>"; };
 		3D50AD87164200E2005F8294 /* Box2DConfig.cmake */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Box2DConfig.cmake; sourceTree = "<group>"; };
 		3D50AD88164200E2005F8294 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
@@ -778,10 +781,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3D12850816BA168E00160084 /* OpenGL.framework in Frameworks */,
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
 				3D56C305131DF1CD00BF7F17 /* AudioToolbox.framework in Frameworks */,
 				3D56C307131DF1CD00BF7F17 /* Foundation.framework in Frameworks */,
-				3D56C309131DF1CD00BF7F17 /* OpenGL.framework in Frameworks */,
 				3D56C30B131DF1CD00BF7F17 /* QuartzCore.framework in Frameworks */,
 				3D56C83E131E444C00BF7F17 /* AudioUnit.framework in Frameworks */,
 			);
@@ -1537,6 +1540,8 @@
 		CD1937BA15A3538000A22B4A /* platform */ = {
 			isa = PBXGroup;
 			children = (
+				3D12850516B9F10900160084 /* glew.c */,
+				3D12850616B9F10900160084 /* glew.h */,
 				CD1937BB15A3538000A22B4A /* android */,
 				CD1937C215A3538000A22B4A /* blackberry */,
 				CD1937C915A3538000A22B4A /* ios */,
@@ -2036,6 +2041,7 @@
 				3D50AE17164200E2005F8294 /* b2WeldJoint.cpp in Sources */,
 				3D50AE18164200E2005F8294 /* b2WheelJoint.cpp in Sources */,
 				3D50AE1A164200E2005F8294 /* b2Rope.cpp in Sources */,
+				3D12850716B9F10900160084 /* glew.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
