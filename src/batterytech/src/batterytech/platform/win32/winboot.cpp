@@ -375,6 +375,72 @@ void EnableOpenGL(HWND hWnd, HDC * hDC, HGLRC * hRC) {
 	logmsg(buf);
 	logmsg("Loading OpenGL extensions");
 	glewInit();
+	if (!glCreateShader) {
+		if (GLEW_ARB_shader_objects && GLEW_ARB_vertex_shader && GLEW_ARB_fragment_shader && GLEW_ARB_shading_language_100) {
+			logmsg("Using ARB Shader Objects");
+			glCreateShader = glCreateShaderObjectARB;
+			glShaderSource = glShaderSourceARB;
+			glCompileShader = glCompileShaderARB;
+			glGetShaderiv = glGetObjectParameterivARB;
+			glGetProgramiv = glGetObjectParameterivARB;
+			glGetShaderInfoLog = glGetInfoLogARB;
+			glGetProgramInfoLog = glGetInfoLogARB;
+			glDeleteProgram = glDeleteObjectARB;
+			glDeleteShader = glDeleteObjectARB;
+			glUseProgram = glUseProgramObjectARB;
+			glAttachShader = glAttachObjectARB;
+			glCreateProgram = glCreateProgramObjectARB;
+			glValidateProgram = glValidateProgramARB;
+			glLinkProgram = glLinkProgramARB;
+			glBindAttribLocation = glBindAttribLocationARB;
+			glDetachShader = glDetachObjectARB;
+			glDisableVertexAttribArray = glDisableVertexAttribArrayARB;
+			glEnableVertexAttribArray = glEnableVertexAttribArrayARB;
+			glGetActiveAttrib = glGetActiveAttribARB;
+			glGetActiveUniform = glGetActiveUniformARB;
+			glGetAttachedShaders = glGetAttachedObjectsARB;
+			glUniform1f = glUniform1fARB;
+			glUniform1fv = glUniform1fvARB;
+			glUniform1i = glUniform1iARB;
+			glUniform1iv = glUniform1ivARB;
+			glUniform2f = glUniform2fARB;
+			glUniform2fv = glUniform2fvARB;
+			glUniform2i = glUniform2iARB;
+			glUniform2iv = glUniform2ivARB;
+			glUniform3f = glUniform3fARB;
+			glUniform3fv = glUniform3fvARB;
+			glUniform3i = glUniform3iARB;
+			glUniform3iv = glUniform3ivARB;
+			glUniform4f = glUniform4fARB;
+			glUniform4fv = glUniform4fvARB;
+			glUniform4i = glUniform4iARB;
+			glUniform4iv = glUniform4ivARB;
+			glUniformMatrix2fv = glUniformMatrix2fvARB;
+			glUniformMatrix3fv = glUniformMatrix3fvARB;
+			glUniformMatrix4fv = glUniformMatrix4fvARB;
+		}
+	}
+	if (!glGenFramebuffers) {
+		if (GLEW_EXT_framebuffer_object) {
+			logmsg("Using EXT Framebuffer");
+			glGenFramebuffers = glGenFramebuffersEXT;
+			glGenRenderbuffers = glGenRenderbuffersEXT;
+			glBindRenderbuffer = glBindRenderbufferEXT;
+			glRenderbufferStorage = glRenderbufferStorageEXT;
+			glFramebufferRenderbuffer = glFramebufferRenderbufferEXT;
+			glFramebufferTexture2D = glFramebufferTexture2DEXT;
+			glCheckFramebufferStatus = glCheckFramebufferStatusEXT;
+			glBindFramebuffer = glBindFramebufferEXT;
+			glGetRenderbufferParameteriv = glGetRenderbufferParameterivEXT;
+			glIsRenderbuffer = glIsRenderbufferEXT;
+			glDeleteRenderbuffers = glDeleteRenderbuffersEXT;
+			glIsFramebuffer = glIsFramebufferEXT;
+			glDeleteFramebuffers = glDeleteFramebuffersEXT;
+			glGetFramebufferAttachmentParameteriv = glGetFramebufferAttachmentParameterivEXT;
+			glGetFramebufferParameteriv = glGetFramebufferParameterivEXT;
+			glGenerateMipmap = glGenerateMipmapEXT;
+		}
+	}
 }
 
 // Disable OpenGL
