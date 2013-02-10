@@ -60,6 +60,10 @@
 #include <GLES2/gl2.h>
 #endif
 
+#if CHROME
+#include <GLES2/gl2.h>
+#endif
+
 #include "opengles.h"
 
 #endif /* PLATFORMGENERAL_H_ */

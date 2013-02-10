@@ -48,6 +48,11 @@
 #if defined(__QNXNTO__)
 	#include "blackberry/blackberrygeneral.h"
 #endif
+
+#if CHROME
+	#include "chrome/chromegeneral.h"
+#endif
+
 //-------------- Files, IO, Paths -------------
 
 /**
