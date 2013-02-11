@@ -37,9 +37,9 @@ hello_world.cc \
 matrix.cc
 
 # TODO - 32 and 64 bit versions of each .o
-BT_REL_OBJECTS=$(addprefix newlib/Release\, $(addsuffix .o,$(BT_SOURCES)))
+BT_REL_OBJECTS=$(addprefix Release\, $(addsuffix .o,$(BT_SOURCES)))
 BT_REL_DEPS=$(BT_REL_OBJECTS:.o=.d)
-BT_DBG_OBJECTS=$(addprefix newlib/Debug\, $(addsuffix .o,$(BT_SOURCES)))
+BT_DBG_OBJECTS=$(addprefix Debug\, $(addsuffix .o,$(BT_SOURCES)))
 BT_DBG_DEPS=$(BT_DBG_OBJECTS:.o=.d)
 
 #
@@ -86,13 +86,13 @@ export CYGWIN
 # Defaults for TOOLS
 #
 
-NEWLIB_CC?=$(TC_PATH)/$(OSNAME)_x86_newlib/bin/i686-nacl-gcc -c
-NEWLIB_CXX?=$(TC_PATH)/$(OSNAME)_x86_newlib/bin/i686-nacl-g++ -c -std=gnu++98
-NEWLIB_LINK?=$(TC_PATH)/$(OSNAME)_x86_newlib/bin/i686-nacl-g++ -Wl,-as-needed
-NEWLIB_LIB?=$(TC_PATH)/$(OSNAME)_x86_newlib/bin/i686-nacl-ar r
-NEWLIB_DUMP?=$(TC_PATH)/$(OSNAME)_x86_newlib/x86_64-nacl/bin/objdump
-NEWLIB_CCFLAGS?=-MMD -pthread $(NACL_WARNINGS) -idirafter $(NACL_SDK_ROOT)/include
-NEWLIB_LDFLAGS?=-pthread
+CC?=$(TC_PATH)/$(OSNAME)_x86_bin/i686-nacl-gcc -c
+CXX?=$(TC_PATH)/$(OSNAME)_x86_bin/i686-nacl-g++ -c -std=gnu++98
+LINK?=$(TC_PATH)/$(OSNAME)_x86_bin/i686-nacl-g++ -Wl,-as-needed
+LIB?=$(TC_PATH)/$(OSNAME)_x86_bin/i686-nacl-ar r
+DUMP?=$(TC_PATH)/$(OSNAME)_x86_x86_64-nacl/bin/objdump
+CCFLAGS?=-MMD -pthread $(NACL_WARNINGS) -idirafter $(NACL_SDK_ROOT)/include
+LDFLAGS?=-pthread
 
 
 #
@@ -120,81 +120,90 @@ endif
 #
 # Per target object lists
 #
-HELLO_WORLD_GLES_OBJS:=hello_world matrix
+BATTERYTECH_OBJS:=hello_world matrix
 
 #
 # Rules for newlib toolchain
 #
 newlib:
 	$(MKDIR) newlib
-newlib/$(OUTPUT_DIR): | newlib
-	$(MKDIR) newlib/Debug
-newlib/Release: | newlib
-	$(MKDIR) newlib/Release
+$(OUTPUT_DIR): | newlib
+	$(MKDIR) Debug
+Release: | newlib
+	$(MKDIR) Release
 
 # Include header dependency files.
--include newlib/Debug/*.d
--include newlib/Release/*.d
+-include Debug/*.d
+-include Release/*.d
 
 #TODO - get 32 and 64 bit .o dependencies in from object list
-#TODO - get rid of newlib dir
 #TODO - add subdirs and static modules in - full project build
 
-PPAPI_DEBUG:=$(abspath newlib/Debug/hello_world_gles_<ARCH>.nexe);application/x-ppapi-debug
-newlib/Debug/hello_world_x86_32.o : hello_world.cc $(THIS_MAKE) | newlib/Debug
-	$(NEWLIB_CC) -o $@ $< $(DEBUG_FLAGS) -m32 $(NEWLIB_CCFLAGS) $(MY_CXXFLAGS)  
+PPAPI_DEBUG:=$(abspath Debug/hello_world_gles_<ARCH>.nexe);application/x-ppapi-debug
+BATTERYTECH_DEBUG_x86_32_O:=$(patsubst %,Debug/%_x86_32.o,$(BATTERYTECH_OBJS))
+BATTERYTECH_DEBUG_x86_64_O:=$(patsubst %,Debug/%_x86_64.o,$(BATTERYTECH_OBJS))
+BATTERYTECH_RELEASE_x86_32_O:=$(patsubst %,Release/%_x86_32.o,$(BATTERYTECH_OBJS))
+BATTERYTECH_RELEASE_x86_64_O:=$(patsubst %,Release/%_x86_64.o,$(BATTERYTECH_OBJS))
 
-newlib/Debug/matrix_x86_32.o : matrix.cc $(THIS_MAKE) | newlib/Debug
-	$(NEWLIB_CC) -o $@ $< $(DEBUG_FLAGS) -m32 $(NEWLIB_CCFLAGS) $(MY_CXXFLAGS)  
+# build 32 bit debug objects
 
+Debug/hello_world_x86_32.o : hello_world.cc $(THIS_MAKE) | Debug
+	$(CC) -o $@ $< $(DEBUG_FLAGS) -m32 $(CCFLAGS) $(MY_CXXFLAGS)  
 
-HELLO_WORLD_GLES_NEWLIB_DEBUG_x86_32_O:=$(patsubst %,newlib/Debug/%_x86_32.o,$(HELLO_WORLD_GLES_OBJS))
-newlib/Debug/hello_world_gles_x86_32.nexe : $(HELLO_WORLD_GLES_NEWLIB_DEBUG_x86_32_O)
-	$(NEWLIB_LINK) -o $@ $^ -g -m32 $(NEWLIB_LDFLAGS) $(HELLO_WORLD_GLES_LDFLAGS) -L$(NACL_SDK_ROOT)/lib/$(OSNAME)_x86_32_newlib/Debug $(LINKED_LIBS)
+Debug/matrix_x86_32.o : matrix.cc $(THIS_MAKE) | Debug
+	$(CC) -o $@ $< $(DEBUG_FLAGS) -m32 $(CCFLAGS) $(MY_CXXFLAGS)  
 
-newlib/Debug/hello_world_x86_64.o : hello_world.cc $(THIS_MAKE) | newlib/Debug
-	$(NEWLIB_CC) -o $@ $< $(DEBUG_FLAGS) -m64 $(NEWLIB_CCFLAGS) $(MY_CXXFLAGS)  
+# link 32 bit debug exe
 
-newlib/Debug/matrix_x86_64.o : matrix.cc $(THIS_MAKE) | newlib/Debug
-	$(NEWLIB_CC) -o $@ $< $(DEBUG_FLAGS) -m64 $(NEWLIB_CCFLAGS) $(MY_CXXFLAGS)  
+Debug/hello_world_gles_x86_32.nexe : $(HELLO_WORLD_GLES_DEBUG_x86_32_O)
+	$(LINK) -o $@ $^ -g -m32 $(LDFLAGS) $(HELLO_WORLD_GLES_LDFLAGS) -L$(NACL_SDK_ROOT)/lib/$(OSNAME)_x86_32_Debug $(LINKED_LIBS)
 
+# build 64 bit debug objects
 
-HELLO_WORLD_GLES_NEWLIB_DEBUG_x86_64_O:=$(patsubst %,newlib/Debug/%_x86_64.o,$(HELLO_WORLD_GLES_OBJS))
-newlib/Debug/hello_world_gles_x86_64.nexe : $(HELLO_WORLD_GLES_NEWLIB_DEBUG_x86_64_O)
-	$(NEWLIB_LINK) -o $@ $^ -g -m64 $(NEWLIB_LDFLAGS) $(HELLO_WORLD_GLES_LDFLAGS) -L$(NACL_SDK_ROOT)/lib/$(OSNAME)_x86_64_newlib/Debug $(LINKED_LIBS)
+Debug/hello_world_x86_64.o : hello_world.cc $(THIS_MAKE) | Debug
+	$(CC) -o $@ $< $(DEBUG_FLAGS) -m64 $(CCFLAGS) $(MY_CXXFLAGS)  
 
+Debug/matrix_x86_64.o : matrix.cc $(THIS_MAKE) | Debug
+	$(CC) -o $@ $< $(DEBUG_FLAGS) -m64 $(CCFLAGS) $(MY_CXXFLAGS)  
 
-ALL_TARGETS+=newlib/Debug/hello_world_gles.nmf
-newlib/Debug/hello_world_gles.nmf : newlib/Debug/hello_world_gles_x86_32.nexe newlib/Debug/hello_world_gles_x86_64.nexe
-	$(NMF) -D $(NEWLIB_DUMP) -o $@ $^ -t newlib -s newlib/Debug
+#link 64 bit debug exe
 
-PPAPI_RELEASE:=$(abspath newlib/Release/hello_world_gles_x86_64.nexe);application/x-ppapi-release
-newlib/Release/hello_world_x86_32.o : hello_world.cc $(THIS_MAKE) | newlib/Release
-	$(NEWLIB_CC) -o $@ $< $(RELEASE_FLAGS) -m32 $(NEWLIB_CCFLAGS) $(MY_CXXFLAGS)  
+Debug/hello_world_gles_x86_64.nexe : $(HELLO_WORLD_GLES_DEBUG_x86_64_O)
+	$(LINK) -o $@ $^ -g -m64 $(LDFLAGS) $(HELLO_WORLD_GLES_LDFLAGS) -L$(NACL_SDK_ROOT)/lib/$(OSNAME)_x86_64_Debug $(LINKED_LIBS)
 
-newlib/Release/matrix_x86_32.o : matrix.cc $(THIS_MAKE) | newlib/Release
-	$(NEWLIB_CC) -o $@ $< $(RELEASE_FLAGS) -m32 $(NEWLIB_CCFLAGS) $(MY_CXXFLAGS)  
+# build debug manifest
 
+ALL_TARGETS+=Debug/hello_world_gles.nmf
+Debug/hello_world_gles.nmf : Debug/hello_world_gles_x86_32.nexe Debug/hello_world_gles_x86_64.nexe
+	$(NMF) -D $(DUMP) -o $@ $^ -t newlib -s Debug
 
-HELLO_WORLD_GLES_NEWLIB_RELEASE_x86_32_O:=$(patsubst %,newlib/Release/%_x86_32.o,$(HELLO_WORLD_GLES_OBJS))
-newlib/Release/hello_world_gles_x86_32.nexe : $(HELLO_WORLD_GLES_NEWLIB_RELEASE_x86_32_O)
-	$(NEWLIB_LINK) -o $@ $^ -m32 $(NEWLIB_LDFLAGS) $(HELLO_WORLD_GLES_LDFLAGS) -L$(NACL_SDK_ROOT)/lib/$(OSNAME)_x86_32_newlib/Release $(LINKED_LIBS)
+# now release build
 
-newlib/Release/hello_world_x86_64.o : hello_world.cc $(THIS_MAKE) | newlib/Release
-	$(NEWLIB_CC) -o $@ $< $(RELEASE_FLAGS) -m64 $(NEWLIB_CCFLAGS) $(MY_CXXFLAGS)  
+PPAPI_RELEASE:=$(abspath Release/hello_world_gles_x86_64.nexe);application/x-ppapi-release
+Release/hello_world_x86_32.o : hello_world.cc $(THIS_MAKE) | Release
+	$(CC) -o $@ $< $(RELEASE_FLAGS) -m32 $(CCFLAGS) $(MY_CXXFLAGS)  
 
-newlib/Release/matrix_x86_64.o : matrix.cc $(THIS_MAKE) | newlib/Release
-	$(NEWLIB_CC) -o $@ $< $(RELEASE_FLAGS) -m64 $(NEWLIB_CCFLAGS) $(MY_CXXFLAGS)  
-
-
-HELLO_WORLD_GLES_NEWLIB_RELEASE_x86_64_O:=$(patsubst %,newlib/Release/%_x86_64.o,$(HELLO_WORLD_GLES_OBJS))
-newlib/Release/hello_world_gles_x86_64.nexe : $(HELLO_WORLD_GLES_NEWLIB_RELEASE_x86_64_O)
-	$(NEWLIB_LINK) -o $@ $^ -m64 $(NEWLIB_LDFLAGS) $(HELLO_WORLD_GLES_LDFLAGS) -L$(NACL_SDK_ROOT)/lib/$(OSNAME)_x86_64_newlib/Release $(LINKED_LIBS)
+Release/matrix_x86_32.o : matrix.cc $(THIS_MAKE) | Release
+	$(CC) -o $@ $< $(RELEASE_FLAGS) -m32 $(CCFLAGS) $(MY_CXXFLAGS)  
 
 
-ALL_TARGETS+=newlib/Release/hello_world_gles.nmf
-newlib/Release/hello_world_gles.nmf : newlib/Release/hello_world_gles_x86_32.nexe newlib/Release/hello_world_gles_x86_64.nexe
-	$(NMF) -D $(NEWLIB_DUMP) -o $@ $^ -t newlib -s newlib/Release
+Release/hello_world_gles_x86_32.nexe : $(HELLO_WORLD_GLES_RELEASE_x86_32_O)
+	$(LINK) -o $@ $^ -m32 $(LDFLAGS) $(HELLO_WORLD_GLES_LDFLAGS) -L$(NACL_SDK_ROOT)/lib/$(OSNAME)_x86_32_Release $(LINKED_LIBS)
+
+Release/hello_world_x86_64.o : hello_world.cc $(THIS_MAKE) | Release
+	$(CC) -o $@ $< $(RELEASE_FLAGS) -m64 $(CCFLAGS) $(MY_CXXFLAGS)  
+
+Release/matrix_x86_64.o : matrix.cc $(THIS_MAKE) | Release
+	$(CC) -o $@ $< $(RELEASE_FLAGS) -m64 $(CCFLAGS) $(MY_CXXFLAGS)  
+
+
+Release/hello_world_gles_x86_64.nexe : $(HELLO_WORLD_GLES_RELEASE_x86_64_O)
+	$(LINK) -o $@ $^ -m64 $(LDFLAGS) $(HELLO_WORLD_GLES_LDFLAGS) -L$(NACL_SDK_ROOT)/lib/$(OSNAME)_x86_64_Release $(LINKED_LIBS)
+
+
+ALL_TARGETS+=Release/hello_world_gles.nmf
+Release/hello_world_gles.nmf : Release/hello_world_gles_x86_32.nexe Release/hello_world_gles_x86_64.nexe
+	$(NMF) -D $(DUMP) -o $@ $^ -t newlib -s Release
 
 
 #
@@ -202,8 +211,8 @@ newlib/Release/hello_world_gles.nmf : newlib/Release/hello_world_gles_x86_32.nex
 #
 .PHONY: clean
 clean:
-	$(RM) -fr newlib/Debug
-	$(RM) -fr newlib/Release
+	$(RM) -fr Debug
+	$(RM) -fr Release
 
 all: $(ALL_TARGETS)
 
