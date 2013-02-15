@@ -9,7 +9,7 @@
 # If NACL_SDK_ROOT is not set, look in home/nacl_sdk
 #
 THIS_MAKEFILE:=$(abspath $(lastword $(MAKEFILE_LIST)))
-NACL_SDK_ROOT?=/Users/rgreen/nacl_sdk/pepper_23
+NACL_SDK_ROOT?=/nacl_sdk/pepper_23
 CHROME_PATH?=Undefined
 
 #
@@ -24,6 +24,15 @@ RELEASE_FLAGS=-O2 -DCHROME -DBATTERYTECH_INCLUDE_ASSIMP -DBATTERYTECH_INCLUDE_BO
 DEBUG_FLAGS=-g -O0 -DCHROME -DBATTERYTECH_INCLUDE_ASSIMP -DBATTERYTECH_INCLUDE_BOX2D
 LINKED_LIBS=-lppapi_gles2 -lppapi -lpthread
 
+ifeq (${DEBUG},true)
+	BUILD_FLAGS=$(DEBUG_FLAGS)
+	OUTPUT_DIR=$(DEBUG_DIR)
+	BUILD_DIR=$(DEBUG_DIR)
+else
+	BUILD_FLAGS=$(RELEASE_FLAGS)
+	OUTPUT_DIR=$(RELEASE_DIR)
+	BUILD_DIR=$(RELEASE_DIR)
+endif
 #
 # Project Settings
 #
@@ -32,20 +41,16 @@ TOOLCHAIN=newlib
 MY_CXXFLAGS:=$(NACL_CXXFLAGS) -I../../src
 MY_CXXFLAGS+=-I../../src/ppapi/lib/gl
 
+APP_SOURCE_DIR=../app-src
+SOURCE_DIR=./
+
 BT_SOURCES=\
 hello_world.cc \
 matrix.cc
 
-# TODO - 32 and 64 bit versions of each .o
-BT_REL_OBJECTS=$(addprefix Release\, $(addsuffix .o,$(BT_SOURCES)))
-BT_REL_DEPS=$(BT_REL_OBJECTS:.o=.d)
-BT_DBG_OBJECTS=$(addprefix Debug\, $(addsuffix .o,$(BT_SOURCES)))
-BT_DBG_DEPS=$(BT_DBG_OBJECTS:.o=.d)
-
-#
-# Default target
-#
-all:
+BT_OBJECTS_32=$(addprefix $(BUILD_DIR)\, $(addsuffix _x86_32.o,$(BT_SOURCES)))
+BT_OBJECTS_64=$(addprefix $(BUILD_DIR)\, $(addsuffix _x86_64.o,$(BT_SOURCES)))
+BT_DEPS=$(BT_OBJECTS:.o=.d)
 
 #
 # Alias for standard commands
@@ -86,13 +91,13 @@ export CYGWIN
 # Defaults for TOOLS
 #
 
-CC?=$(TC_PATH)/$(OSNAME)_x86_bin/i686-nacl-gcc -c
-CXX?=$(TC_PATH)/$(OSNAME)_x86_bin/i686-nacl-g++ -c -std=gnu++98
-LINK?=$(TC_PATH)/$(OSNAME)_x86_bin/i686-nacl-g++ -Wl,-as-needed
-LIB?=$(TC_PATH)/$(OSNAME)_x86_bin/i686-nacl-ar r
-DUMP?=$(TC_PATH)/$(OSNAME)_x86_x86_64-nacl/bin/objdump
-CCFLAGS?=-MMD -pthread $(NACL_WARNINGS) -idirafter $(NACL_SDK_ROOT)/include
-LDFLAGS?=-pthread
+CC=$(TC_PATH)/$(OSNAME)_x86_newlib/bin/i686-nacl-gcc -c
+CXX=$(TC_PATH)/$(OSNAME)_x86_newlib/bin/i686-nacl-g++ -c -std=gnu++98
+LINK=$(TC_PATH)/$(OSNAME)_x86_newlib/bin/i686-nacl-g++ -Wl,-as-needed
+LIB=$(TC_PATH)/$(OSNAME)_x86_newlib/bin/i686-nacl-ar r
+DUMP=$(TC_PATH)/$(OSNAME)_x86_x86_64-nacl/bin/objdump
+CCFLAGS=-MMD -pthread $(NACL_WARNINGS) -idirafter $(NACL_SDK_ROOT)/include
+LDFLAGS=-pthread
 
 
 #
@@ -120,90 +125,51 @@ endif
 #
 # Per target object lists
 #
-BATTERYTECH_OBJS:=hello_world matrix
+BATTERYTECH_OBJS:=hello_world.cc matrix.cc
 
-#
-# Rules for newlib toolchain
-#
-newlib:
-	$(MKDIR) newlib
-$(OUTPUT_DIR): | newlib
-	$(MKDIR) Debug
-Release: | newlib
-	$(MKDIR) Release
 
 # Include header dependency files.
--include Debug/*.d
--include Release/*.d
+-include $(BUILD_DIR)/*.d
 
-#TODO - get 32 and 64 bit .o dependencies in from object list
 #TODO - add subdirs and static modules in - full project build
 
-PPAPI_DEBUG:=$(abspath Debug/hello_world_gles_<ARCH>.nexe);application/x-ppapi-debug
-BATTERYTECH_DEBUG_x86_32_O:=$(patsubst %,Debug/%_x86_32.o,$(BATTERYTECH_OBJS))
-BATTERYTECH_DEBUG_x86_64_O:=$(patsubst %,Debug/%_x86_64.o,$(BATTERYTECH_OBJS))
-BATTERYTECH_RELEASE_x86_32_O:=$(patsubst %,Release/%_x86_32.o,$(BATTERYTECH_OBJS))
-BATTERYTECH_RELEASE_x86_64_O:=$(patsubst %,Release/%_x86_64.o,$(BATTERYTECH_OBJS))
+PPAPI:=$(abspath $(OUTPUT_DIR)/hello_world_gles_<ARCH>.nexe);application/x-ppapi-debug
+BATTERYTECH_x86_32_O:=$(patsubst %,$(BUILD_DIR)/%.x86_32_o,$(BATTERYTECH_OBJS))
+BATTERYTECH_x86_64_O:=$(patsubst %,$(BUILD_DIR)/%.x86_64_o,$(BATTERYTECH_OBJS))
 
-# build 32 bit debug objects
+#
+# Default target
+#
+all:| $(OUTPUT_DIR)
+	
+$(OUTPUT_DIR):
+	$(MKDIR) $(OUTPUT_DIR)
+	
+# build 32 bit objects
 
-Debug/hello_world_x86_32.o : hello_world.cc $(THIS_MAKE) | Debug
-	$(CC) -o $@ $< $(DEBUG_FLAGS) -m32 $(CCFLAGS) $(MY_CXXFLAGS)  
+$(BATTERYTECH_x86_32_O): $(BUILD_DIR)/%.x86_32_o : %
+	$(CC) -o $@ $< $(BUILD_FLAGS) -m32 $(CCFLAGS) $(MY_CXXFLAGS)
 
-Debug/matrix_x86_32.o : matrix.cc $(THIS_MAKE) | Debug
-	$(CC) -o $@ $< $(DEBUG_FLAGS) -m32 $(CCFLAGS) $(MY_CXXFLAGS)  
+# link 32 bit exe
 
-# link 32 bit debug exe
-
-Debug/hello_world_gles_x86_32.nexe : $(HELLO_WORLD_GLES_DEBUG_x86_32_O)
-	$(LINK) -o $@ $^ -g -m32 $(LDFLAGS) $(HELLO_WORLD_GLES_LDFLAGS) -L$(NACL_SDK_ROOT)/lib/$(OSNAME)_x86_32_Debug $(LINKED_LIBS)
+$(OUTPUT_DIR)/hello_world_gles_x86_32.nexe : $(BATTERYTECH_x86_32_O)
+	$(LINK) -o $@ $^ -g -m32 $(LDFLAGS) $(HELLO_WORLD_GLES_LDFLAGS) -L$(NACL_SDK_ROOT)/lib/$(OSNAME)_x86_32_$(BUILD_DIR) $(LINKED_LIBS)
 
 # build 64 bit debug objects
 
-Debug/hello_world_x86_64.o : hello_world.cc $(THIS_MAKE) | Debug
-	$(CC) -o $@ $< $(DEBUG_FLAGS) -m64 $(CCFLAGS) $(MY_CXXFLAGS)  
+$(BATTERYTECH_x86_64_O): $(BUILD_DIR)/%.x86_64_o : %
+	$(CC) -o $@ $< $(BUILD_FLAGS) -m64 $(CCFLAGS) $(MY_CXXFLAGS)
 
-Debug/matrix_x86_64.o : matrix.cc $(THIS_MAKE) | Debug
-	$(CC) -o $@ $< $(DEBUG_FLAGS) -m64 $(CCFLAGS) $(MY_CXXFLAGS)  
+# link 64 bit exe
 
-#link 64 bit debug exe
-
-Debug/hello_world_gles_x86_64.nexe : $(HELLO_WORLD_GLES_DEBUG_x86_64_O)
-	$(LINK) -o $@ $^ -g -m64 $(LDFLAGS) $(HELLO_WORLD_GLES_LDFLAGS) -L$(NACL_SDK_ROOT)/lib/$(OSNAME)_x86_64_Debug $(LINKED_LIBS)
+$(OUTPUT_DIR)/hello_world_gles_x86_64.nexe : $(BATTERYTECH_x86_64_O)
+	$(LINK) -o $@ $^ -g -m64 $(LDFLAGS) $(HELLO_WORLD_GLES_LDFLAGS) -L$(NACL_SDK_ROOT)/lib/$(OSNAME)_x86_64_$(BUILD_DIR) $(LINKED_LIBS)
 
 # build debug manifest
 
-ALL_TARGETS+=Debug/hello_world_gles.nmf
-Debug/hello_world_gles.nmf : Debug/hello_world_gles_x86_32.nexe Debug/hello_world_gles_x86_64.nexe
-	$(NMF) -D $(DUMP) -o $@ $^ -t newlib -s Debug
-
-# now release build
-
-PPAPI_RELEASE:=$(abspath Release/hello_world_gles_x86_64.nexe);application/x-ppapi-release
-Release/hello_world_x86_32.o : hello_world.cc $(THIS_MAKE) | Release
-	$(CC) -o $@ $< $(RELEASE_FLAGS) -m32 $(CCFLAGS) $(MY_CXXFLAGS)  
-
-Release/matrix_x86_32.o : matrix.cc $(THIS_MAKE) | Release
-	$(CC) -o $@ $< $(RELEASE_FLAGS) -m32 $(CCFLAGS) $(MY_CXXFLAGS)  
-
-
-Release/hello_world_gles_x86_32.nexe : $(HELLO_WORLD_GLES_RELEASE_x86_32_O)
-	$(LINK) -o $@ $^ -m32 $(LDFLAGS) $(HELLO_WORLD_GLES_LDFLAGS) -L$(NACL_SDK_ROOT)/lib/$(OSNAME)_x86_32_Release $(LINKED_LIBS)
-
-Release/hello_world_x86_64.o : hello_world.cc $(THIS_MAKE) | Release
-	$(CC) -o $@ $< $(RELEASE_FLAGS) -m64 $(CCFLAGS) $(MY_CXXFLAGS)  
-
-Release/matrix_x86_64.o : matrix.cc $(THIS_MAKE) | Release
-	$(CC) -o $@ $< $(RELEASE_FLAGS) -m64 $(CCFLAGS) $(MY_CXXFLAGS)  
-
-
-Release/hello_world_gles_x86_64.nexe : $(HELLO_WORLD_GLES_RELEASE_x86_64_O)
-	$(LINK) -o $@ $^ -m64 $(LDFLAGS) $(HELLO_WORLD_GLES_LDFLAGS) -L$(NACL_SDK_ROOT)/lib/$(OSNAME)_x86_64_Release $(LINKED_LIBS)
-
-
-ALL_TARGETS+=Release/hello_world_gles.nmf
-Release/hello_world_gles.nmf : Release/hello_world_gles_x86_32.nexe Release/hello_world_gles_x86_64.nexe
-	$(NMF) -D $(DUMP) -o $@ $^ -t newlib -s Release
+ALL_TARGETS+=$(OUTPUT_DIR)/hello_world_gles.nmf
+$(OUTPUT_DIR)/hello_world_gles.nmf : $(OUTPUT_DIR)/hello_world_gles_x86_32.nexe $(OUTPUT_DIR)/hello_world_gles_x86_64.nexe
+	$(NMF) -D $(DUMP) -o $@ $^ -t newlib -s $(OUTPUT_DIR)
 
 
 #
