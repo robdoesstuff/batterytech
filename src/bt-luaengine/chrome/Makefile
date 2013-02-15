@@ -127,12 +127,144 @@ BT_x86_32_O:=$(patsubst %,$(BUILD_DIR)/%.x86_32_o,$(BT_SOURCES))
 BT_x86_64_O:=$(patsubst %,$(BUILD_DIR)/%.x86_64_o,$(BT_SOURCES))
 BT_DEPS=$(BT_x86_32_O:.x86_32_o=.d)
 
+LUA_SOURCES=\
+	bt-lua/lapi.c \
+	bt-lua/lauxlib.c \
+	bt-lua/lbaselib.c \
+	bt-lua/lcode.c \
+	bt-lua/ldblib.c \
+	bt-lua/ldebug.c \
+	bt-lua/ldo.c \
+	bt-lua/ldump.c \
+	bt-lua/lfunc.c \
+	bt-lua/lgc.c \
+	bt-lua/linit.c \
+	bt-lua/liolib.c \
+	bt-lua/llex.c \
+	bt-lua/lmathlib.c \
+	bt-lua/lmem.c \
+	bt-lua/loadlib.c \
+	bt-lua/lobject.c \
+	bt-lua/lopcodes.c \
+	bt-lua/loslib.c \
+	bt-lua/lparser.c \
+	bt-lua/lstate.c \
+	bt-lua/lstring.c \
+	bt-lua/lstrlib.c \
+	bt-lua/ltable.c \
+	bt-lua/ltablib.c \
+	bt-lua/ltm.c \
+	bt-lua/lua.c \
+	bt-lua/luac.c \
+	bt-lua/lundump.c \
+	bt-lua/lvm.c \
+	bt-lua/lzio.c \
+	bt-lua/print.c
+
+LUA_x32_0=$(patsubst %,$(BUILD_DIR)/%.x86_32_o,$(LUA_SOURCES))
+LUA_x64_0=$(patsubst %,$(BUILD_DIR)/%.x86_64_o,$(LUA_SOURCES))
+LUA_DEPS=$(LUA_x32_0:.x86_32_o=.d)
+LUA_OBJDIRS=$(BUILD_DIR)/bt-lua
+LUA_LIB=$(BUILD_DIR)/liblua.a
+
+
+ASSIMP_SOURCES=\
+	bt-assimp/code/Assimp.cpp \
+	bt-assimp/code/AssimpPCH.cpp \
+	bt-assimp/code/BAIFileImporter.cpp \
+	bt-assimp/code/BaseImporter.cpp \
+	bt-assimp/code/BaseProcess.cpp \
+	bt-assimp/code/ColladaLoader.cpp \
+	bt-assimp/code/ColladaParser.cpp \
+	bt-assimp/code/DefaultIOStream.cpp \
+	bt-assimp/code/DefaultIOSystem.cpp \
+	bt-assimp/code/DefaultLogger.cpp \
+	bt-assimp/code/Importer.cpp \
+	bt-assimp/code/MaterialSystem.cpp \
+	bt-assimp/code/ObjFileImporter.cpp \
+	bt-assimp/code/ObjFileMtlImporter.cpp \
+	bt-assimp/code/ObjFileParser.cpp \
+	bt-assimp/code/ScenePreprocessor.cpp \
+	bt-assimp/code/SkeletonMeshBuilder.cpp \
+	bt-assimp/code/SpatialSort.cpp \
+	bt-assimp/code/LimitBoneWeightsProcess.cpp \
+	bt-assimp/contrib/irrXML/irrXML.cpp \
+	bt-assimp/contrib/ConvertUTF/ConvertUTF.c
+
+ASSIMP_x32_0=$(patsubst %,$(BUILD_DIR)/%.x86_32_o,$(ASSIMP_SOURCES))
+ASSIMP_x64_0=$(patsubst %,$(BUILD_DIR)/%.x86_64_o,$(ASSIMP_SOURCES))
+ASSIMP_DEPS=$(ASSIMP_x32_0:.x86_32_o=.d)
+ASSIMP_OBJDIRS=$(BUILD_DIR)/bt-assimp/code \
+	$(BUILD_DIR)/bt-assimp/contrib/irrXML \
+	$(BUILD_DIR)/bt-assimp/contrib/ConvertUTF
+ASSIMP_LIB=$(BUILD_DIR)/libassimp.a
+
+BOX2D_SOURCES=\
+	bt-box2d/Collision/b2BroadPhase.cpp \
+	bt-box2d/Collision/b2CollideCircle.cpp \
+	bt-box2d/Collision/b2CollideEdge.cpp \
+	bt-box2d/Collision/b2CollidePolygon.cpp \
+	bt-box2d/Collision/b2Collision.cpp \
+	bt-box2d/Collision/b2Distance.cpp \
+	bt-box2d/Collision/b2DynamicTree.cpp \
+	bt-box2d/Collision/b2TimeOfImpact.cpp \
+	bt-box2d/Collision/Shapes/b2ChainShape.cpp \
+	bt-box2d/Collision/Shapes/b2CircleShape.cpp \
+	bt-box2d/Collision/Shapes/b2EdgeShape.cpp \
+	bt-box2d/Collision/Shapes/b2PolygonShape.cpp \
+	bt-box2d/Common/b2BlockAllocator.cpp \
+	bt-box2d/Common/b2Draw.cpp \
+	bt-box2d/Common/b2Math.cpp \
+	bt-box2d/Common/b2Settings.cpp \
+	bt-box2d/Common/b2StackAllocator.cpp \
+	bt-box2d/Common/b2Timer.cpp \
+	bt-box2d/Dynamics/b2Body.cpp \
+	bt-box2d/Dynamics/b2ContactManager.cpp \
+	bt-box2d/Dynamics/b2Fixture.cpp \
+	bt-box2d/Dynamics/b2Island.cpp \
+	bt-box2d/Dynamics/b2World.cpp \
+	bt-box2d/Dynamics/b2WorldCallbacks.cpp \
+	bt-box2d/Dynamics/Contact/b2ChainAndCircleContact.cpp \
+	bt-box2d/Dynamics/Contact/b2ChainAndPolygonContact.cpp \
+	bt-box2d/Dynamics/Contact/b2CircleContact.cpp \
+	bt-box2d/Dynamics/Contact/b2Contact.cpp \
+	bt-box2d/Dynamics/Contact/b2ContactSolver.cpp \
+	bt-box2d/Dynamics/Contact/b2EdgeAndCircleContact.cpp \
+	bt-box2d/Dynamics/Contact/b2EdgeAndPolygonContact.cpp \
+	bt-box2d/Dynamics/Contact/b2PolygonAndCircleContact.cpp \
+	bt-box2d/Dynamics/Contact/b2PolygonContact.cpp \
+	bt-box2d/Dynamics/Joints/b2DistanceJoint.cpp \
+	bt-box2d/Dynamics/Joints/b2FrictionJoint.cpp \
+	bt-box2d/Dynamics/Joints/b2GearJoint.cpp \
+	bt-box2d/Dynamics/Joints/b2Joint.cpp \
+	bt-box2d/Dynamics/Joints/b2MouseJoint.cpp \
+	bt-box2d/Dynamics/Joints/b2PrismaticJoint.cpp \
+	bt-box2d/Dynamics/Joints/b2PulleyJoint.cpp \
+	bt-box2d/Dynamics/Joints/b2RevoluteJoint.cpp \
+	bt-box2d/Dynamics/Joints/b2RopeJoint.cpp \
+	bt-box2d/Dynamics/Joints/b2WeldJoint.cpp \
+	bt-box2d/Dynamics/Joints/b2WheelJoint.cpp
+	
+BOX2D_x32_0=$(patsubst %,$(BUILD_DIR)/%.x86_32_o,$(BOX2D_SOURCES))
+BOX2D_x64_0=$(patsubst %,$(BUILD_DIR)/%.x86_64_o,$(BOX2D_SOURCES))
+BOX2D_DEPS=$(BOX2D_x32_0:.x86_32_o=.d)
+BOX2D_OBJDIRS=$(BUILD_DIR)/bt-box2d/Collision \
+	$(BUILD_DIR)/bt-box2d/Collision/Shapes \
+	$(BUILD_DIR)/bt-box2d/Common \
+	$(BUILD_DIR)/bt-box2d/Dynamics \
+	$(BUILD_DIR)/bt-box2d/Dynamics/Contacts \
+	$(BUILD_DIR)/bt-box2d/Dynamics/Joints \
+	$(BUILD_DIR)/bt-box2d/Rope
+BOX2D_LIB=$(BUILD_DIR)/libbox2d.a
+
+
 
 # Include header dependency files.
 -include $(BT_DEPS)
+-include $(LUA_DEPS)
+-include $(ASSIMP_DEPS)
+-include $(BOX2D_DEPS)
 
-
-#TODO - only debug if debug build
 
 #
 # Default target
@@ -141,6 +273,57 @@ all: | $(OUTPUT_DIR)
 	
 $(OUTPUT_DIR):
 	$(MKDIR) $(OUTPUT_DIR)
+	
+	
+# TODO - fix all these libraries to use the new build stuff.
+# TODO - now bring BT lib and App src in and get all building/linking together
+
+# Box2D
+
+box2d: $(BOX2D_LIB)
+
+$(BOX2D_LIB): $(BOX2D_OBJECTS)
+	$(STATIC_LINKER) $(ARFLAGS) $@ $(BOX2D_OBJECTS)
+
+$(BOX2D_OBJECTS): $(BUILD_DIR)\\%.o: $(SOURCE_DIR)\\%
+	$(CXX) $(BUILD_FLAGS) $(CPPFLAGS) $< -o $@
+	$(CXX) $(BUILD_FLAGS) $(CPPFLAGS) -MM -MF$(@:.o=.d) -MT$@ $<
+	
+$(BOX2D_OBJECTS): | $(BOX2D_OBJDIRS)
+
+$(BOX2D_OBJDIRS):
+	-md $(BOX2D_OBJDIRS)
+
+# Lua
+lua: $(LUA_LIB)
+
+$(LUA_LIB): $(LUA_OBJECTS)
+	$(STATIC_LINKER) $(ARFLAGS) $@ $(LUA_OBJECTS)
+
+$(LUA_OBJECTS): $(BUILD_DIR)\\%.o: $(SOURCE_DIR)\\%
+	$(CC) $(BUILD_FLAGS) $(CFLAGS) $< -o $@
+	$(CC) $(BUILD_FLAGS) $(CFLAGS) -MM -MF$(@:.o=.d) -MT$@ $<
+
+$(LUA_OBJECTS): | $(LUA_OBJDIRS)
+
+$(LUA_OBJDIRS):
+	-md $(LUA_OBJDIRS)
+	
+# Open Asset Importer Library
+assimp: $(ASSIMP_LIB)
+
+$(ASSIMP_LIB): $(ASSIMP_OBJECTS)
+	$(STATIC_LINKER) $(ARFLAGS) $@ $(ASSIMP_OBJECTS)
+
+$(ASSIMP_OBJECTS): $(BUILD_DIR)\\%.o: $(SOURCE_DIR)\\%
+	$(CXX) $(BUILD_FLAGS) $(CPPFLAGS) $< -o $@
+	$(CXX) $(BUILD_FLAGS) $(CPPFLAGS) -MM -MF$(@:.o=.d) -MT$@ $<
+	
+$(ASSIMP_OBJECTS): | $(ASSIMP_OBJDIRS)
+
+$(ASSIMP_OBJDIRS):
+	-md $(ASSIMP_OBJDIRS)
+	
 	
 # build 32 bit objects
 
