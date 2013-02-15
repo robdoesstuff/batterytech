@@ -28,10 +28,12 @@ ifeq (${DEBUG},true)
 	BUILD_FLAGS=$(DEBUG_FLAGS)
 	OUTPUT_DIR=$(DEBUG_DIR)
 	BUILD_DIR=$(DEBUG_DIR)
+	PPAPI:=$(abspath $(OUTPUT_DIR)/batterytech_app_<ARCH>.nexe);application/x-ppapi-debug
 else
 	BUILD_FLAGS=$(RELEASE_FLAGS)
 	OUTPUT_DIR=$(RELEASE_DIR)
 	BUILD_DIR=$(RELEASE_DIR)
+	PPAPI:=$(abspath $(OUTPUT_DIR)/batterytech_app_<ARCH>.nexe);application/x-ppapi
 endif
 #
 # Project Settings
@@ -40,17 +42,6 @@ TOOLCHAIN=newlib
 
 MY_CXXFLAGS:=$(NACL_CXXFLAGS) -I../../src
 MY_CXXFLAGS+=-I../../src/ppapi/lib/gl
-
-APP_SOURCE_DIR=../app-src
-SOURCE_DIR=./
-
-BT_SOURCES=\
-hello_world.cc \
-matrix.cc
-
-BT_OBJECTS_32=$(addprefix $(BUILD_DIR)\, $(addsuffix _x86_32.o,$(BT_SOURCES)))
-BT_OBJECTS_64=$(addprefix $(BUILD_DIR)\, $(addsuffix _x86_64.o,$(BT_SOURCES)))
-BT_DEPS=$(BT_OBJECTS:.o=.d)
 
 #
 # Alias for standard commands
@@ -122,53 +113,59 @@ else
 	$(warning Using chrome at: $(CHROME_PATH))
 endif
 
-#
-# Per target object lists
-#
-BATTERYTECH_OBJS:=hello_world.cc matrix.cc
-
-
-# Include header dependency files.
--include $(BUILD_DIR)/*.d
 
 #TODO - add subdirs and static modules in - full project build
 
-PPAPI:=$(abspath $(OUTPUT_DIR)/hello_world_gles_<ARCH>.nexe);application/x-ppapi-debug
-BATTERYTECH_x86_32_O:=$(patsubst %,$(BUILD_DIR)/%.x86_32_o,$(BATTERYTECH_OBJS))
-BATTERYTECH_x86_64_O:=$(patsubst %,$(BUILD_DIR)/%.x86_64_o,$(BATTERYTECH_OBJS))
+APP_SOURCE_DIR=../app-src
+SOURCE_DIR=./
+
+BT_SOURCES=\
+hello_world.cc \
+matrix.cc
+
+BT_x86_32_O:=$(patsubst %,$(BUILD_DIR)/%.x86_32_o,$(BT_SOURCES))
+BT_x86_64_O:=$(patsubst %,$(BUILD_DIR)/%.x86_64_o,$(BT_SOURCES))
+BT_DEPS=$(BT_x86_32_O:.x86_32_o=.d)
+
+
+# Include header dependency files.
+-include $(BT_DEPS)
+
+
+#TODO - only debug if debug build
 
 #
 # Default target
 #
-all:| $(OUTPUT_DIR)
+all: | $(OUTPUT_DIR)
 	
 $(OUTPUT_DIR):
 	$(MKDIR) $(OUTPUT_DIR)
 	
 # build 32 bit objects
 
-$(BATTERYTECH_x86_32_O): $(BUILD_DIR)/%.x86_32_o : %
+$(BT_x86_32_O): $(BUILD_DIR)/%.x86_32_o : %
 	$(CC) -o $@ $< $(BUILD_FLAGS) -m32 $(CCFLAGS) $(MY_CXXFLAGS)
 
 # link 32 bit exe
 
-$(OUTPUT_DIR)/hello_world_gles_x86_32.nexe : $(BATTERYTECH_x86_32_O)
+$(OUTPUT_DIR)/batterytech_app_x86_32.nexe : $(BT_x86_32_O)
 	$(LINK) -o $@ $^ -g -m32 $(LDFLAGS) $(HELLO_WORLD_GLES_LDFLAGS) -L$(NACL_SDK_ROOT)/lib/$(OSNAME)_x86_32_$(BUILD_DIR) $(LINKED_LIBS)
 
 # build 64 bit debug objects
 
-$(BATTERYTECH_x86_64_O): $(BUILD_DIR)/%.x86_64_o : %
+$(BT_x86_64_O): $(BUILD_DIR)/%.x86_64_o : %
 	$(CC) -o $@ $< $(BUILD_FLAGS) -m64 $(CCFLAGS) $(MY_CXXFLAGS)
 
 # link 64 bit exe
 
-$(OUTPUT_DIR)/hello_world_gles_x86_64.nexe : $(BATTERYTECH_x86_64_O)
+$(OUTPUT_DIR)/batterytech_app_x86_64.nexe : $(BT_x86_64_O)
 	$(LINK) -o $@ $^ -g -m64 $(LDFLAGS) $(HELLO_WORLD_GLES_LDFLAGS) -L$(NACL_SDK_ROOT)/lib/$(OSNAME)_x86_64_$(BUILD_DIR) $(LINKED_LIBS)
 
 # build debug manifest
 
-ALL_TARGETS+=$(OUTPUT_DIR)/hello_world_gles.nmf
-$(OUTPUT_DIR)/hello_world_gles.nmf : $(OUTPUT_DIR)/hello_world_gles_x86_32.nexe $(OUTPUT_DIR)/hello_world_gles_x86_64.nexe
+ALL_TARGETS+=$(OUTPUT_DIR)/batterytech_app.nmf
+$(OUTPUT_DIR)/batterytech_app.nmf : $(OUTPUT_DIR)/batterytech_app_x86_32.nexe $(OUTPUT_DIR)/batterytech_app_x86_64.nexe
 	$(NMF) -D $(DUMP) -o $@ $^ -t newlib -s $(OUTPUT_DIR)
 
 
