@@ -364,12 +364,12 @@ APP_SOURCES=\
 APP_x32_0=$(patsubst %,$(BUILD_DIR)/%.x86_32_o,$(APP_SOURCES))
 APP_x64_0=$(patsubst %,$(BUILD_DIR)/%.x86_64_o,$(APP_SOURCES))
 APP_DEPS=$(APP_x64_0:.x86_32_o=.d)
-APP_OBJDIRS=$(BUILD_DIR)\gameobject \
-	$(BUILD_DIR)\level \
-	$(BUILD_DIR)\input \
-	$(BUILD_DIR)\render \
-	$(BUILD_DIR)\script \
-	$(BUILD_DIR)\menus
+APP_OBJDIRS=$(BUILD_DIR)/gameobject \
+	$(BUILD_DIR)/level \
+	$(BUILD_DIR)/input \
+	$(BUILD_DIR)/render \
+	$(BUILD_DIR)/script \
+	$(BUILD_DIR)/menus
 #
 # Default target
 #
@@ -460,6 +460,12 @@ $(BT_OBJDIRS):
 # Engine
 
 # build 32 bit objects
+
+$(APP_x32_0): | $(APP_OBJDIRS)
+$(APP_x64_0): | $(APP_OBJDIRS)
+
+$(APP_OBJDIRS):
+	$(MKDIR) $(APP_OBJDIRS)
 
 $(APP_x32_0): $(BUILD_DIR)/%.x86_32_o : $(APP_SOURCE_DIR)/%
 	$(CC) -o $@ $< $(BUILD_FLAGS) -m32 $(CCFLAGS) $(MY_CXXFLAGS)
