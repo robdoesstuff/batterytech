@@ -167,6 +167,10 @@ typedef U32 BOOL32;
 #include "platform/blackberry/blackberrytypes.h"
 #endif
 
+#if CHROME
+	#include "platform/chrome/chrometypes.h"
+#endif
+
 // special key definitions (not really primitives but this is a convenient header to store them in)
 namespace BatteryTech {
 	/** \brief Special Key Definitions

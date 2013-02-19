@@ -135,8 +135,13 @@ inline void MakeAbsolutePath (const char* in, char* _out)
 #ifdef _WIN32
 	ret = ::_fullpath(_out, in,PATHLIMIT);
 #else
-    	// use realpath
-    	ret = realpath(in, _out);
+#ifdef CHROME
+	// chrome doesn't give direct FS access
+	ret = 0;
+#else
+	// use realpath
+	ret = realpath(in, _out);
+#endif
 #endif  
 	if(!ret) {
 		// preserve the input path, maybe someone else is able to fix
