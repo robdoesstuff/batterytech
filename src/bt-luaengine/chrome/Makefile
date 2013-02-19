@@ -15,7 +15,7 @@ CHROME_PATH?=Undefined
 #
 # Defaults
 #
-NACL_WARNINGS:=-Wno-long-long -Wall -Wswitch-enum -Werror -pedantic
+NACL_WARNINGS:=-Wno-long-long -Wall -Wswitch-enum -pedantic
 
 RELEASE_DIR=Release
 DEBUG_DIR=Debug
@@ -85,7 +85,7 @@ export CYGWIN
 CC=$(TC_PATH)/$(OSNAME)_x86_newlib/bin/i686-nacl-gcc -c
 CXX=$(TC_PATH)/$(OSNAME)_x86_newlib/bin/i686-nacl-g++ -c -std=gnu++98
 LINK=$(TC_PATH)/$(OSNAME)_x86_newlib/bin/i686-nacl-g++ -Wl,-as-needed
-LIB=$(TC_PATH)/$(OSNAME)_x86_newlib/bin/i686-nacl-ar r
+LIB=$(TC_PATH)/$(OSNAME)_x86_newlib/bin/i686-nacl-ar -r -c -s
 DUMP=$(TC_PATH)/$(OSNAME)_x86_x86_64-nacl/bin/objdump
 CCFLAGS=-MMD -pthread $(NACL_WARNINGS) -idirafter $(NACL_SDK_ROOT)/include
 LDFLAGS=-pthread
@@ -101,23 +101,10 @@ LDFLAGS=-pthread
 NMF:=python $(NACL_SDK_ROOT)/tools/create_nmf.py
 
 
-#
-# Verify we can find the Chrome executable if we need to launch it.
-#
-.PHONY: CHECK_FOR_CHROME
-CHECK_FOR_CHROME:
-ifeq (,$(wildcard $(CHROME_PATH)))
-	$(warning No valid Chrome found at CHROME_PATH=$(CHROME_PATH))
-	$(error Set CHROME_PATH via an environment variable, or command-line.)
-else
-	$(warning Using chrome at: $(CHROME_PATH))
-endif
-
-
 #TODO - add subdirs and static modules in - full project build
 
 APP_SOURCE_DIR=../app-src
-SOURCE_DIR=./
+SOURCE_DIR=../../batterytech/src
 
 BT_SOURCES=\
 hello_world.cc \
@@ -165,7 +152,8 @@ LUA_x32_0=$(patsubst %,$(BUILD_DIR)/%.x86_32_o,$(LUA_SOURCES))
 LUA_x64_0=$(patsubst %,$(BUILD_DIR)/%.x86_64_o,$(LUA_SOURCES))
 LUA_DEPS=$(LUA_x32_0:.x86_32_o=.d)
 LUA_OBJDIRS=$(BUILD_DIR)/bt-lua
-LUA_LIB=$(BUILD_DIR)/liblua.a
+LUA_LIB_x32=$(BUILD_DIR)/liblua_x86_32.a
+LUA_LIB_x64=$(BUILD_DIR)/liblua_x86_64.a
 
 
 ASSIMP_SOURCES=\
@@ -197,7 +185,8 @@ ASSIMP_DEPS=$(ASSIMP_x32_0:.x86_32_o=.d)
 ASSIMP_OBJDIRS=$(BUILD_DIR)/bt-assimp/code \
 	$(BUILD_DIR)/bt-assimp/contrib/irrXML \
 	$(BUILD_DIR)/bt-assimp/contrib/ConvertUTF
-ASSIMP_LIB=$(BUILD_DIR)/libassimp.a
+ASSIMP_LIB_x32=$(BUILD_DIR)/libassimp_x86_32.a
+ASSIMP_LIB_x64=$(BUILD_DIR)/libassimp_x86_64.a
 
 BOX2D_SOURCES=\
 	bt-box2d/Collision/b2BroadPhase.cpp \
@@ -224,15 +213,15 @@ BOX2D_SOURCES=\
 	bt-box2d/Dynamics/b2Island.cpp \
 	bt-box2d/Dynamics/b2World.cpp \
 	bt-box2d/Dynamics/b2WorldCallbacks.cpp \
-	bt-box2d/Dynamics/Contact/b2ChainAndCircleContact.cpp \
-	bt-box2d/Dynamics/Contact/b2ChainAndPolygonContact.cpp \
-	bt-box2d/Dynamics/Contact/b2CircleContact.cpp \
-	bt-box2d/Dynamics/Contact/b2Contact.cpp \
-	bt-box2d/Dynamics/Contact/b2ContactSolver.cpp \
-	bt-box2d/Dynamics/Contact/b2EdgeAndCircleContact.cpp \
-	bt-box2d/Dynamics/Contact/b2EdgeAndPolygonContact.cpp \
-	bt-box2d/Dynamics/Contact/b2PolygonAndCircleContact.cpp \
-	bt-box2d/Dynamics/Contact/b2PolygonContact.cpp \
+	bt-box2d/Dynamics/Contacts/b2ChainAndCircleContact.cpp \
+	bt-box2d/Dynamics/Contacts/b2ChainAndPolygonContact.cpp \
+	bt-box2d/Dynamics/Contacts/b2CircleContact.cpp \
+	bt-box2d/Dynamics/Contacts/b2Contact.cpp \
+	bt-box2d/Dynamics/Contacts/b2ContactSolver.cpp \
+	bt-box2d/Dynamics/Contacts/b2EdgeAndCircleContact.cpp \
+	bt-box2d/Dynamics/Contacts/b2EdgeAndPolygonContact.cpp \
+	bt-box2d/Dynamics/Contacts/b2PolygonAndCircleContact.cpp \
+	bt-box2d/Dynamics/Contacts/b2PolygonContact.cpp \
 	bt-box2d/Dynamics/Joints/b2DistanceJoint.cpp \
 	bt-box2d/Dynamics/Joints/b2FrictionJoint.cpp \
 	bt-box2d/Dynamics/Joints/b2GearJoint.cpp \
@@ -255,7 +244,8 @@ BOX2D_OBJDIRS=$(BUILD_DIR)/bt-box2d/Collision \
 	$(BUILD_DIR)/bt-box2d/Dynamics/Contacts \
 	$(BUILD_DIR)/bt-box2d/Dynamics/Joints \
 	$(BUILD_DIR)/bt-box2d/Rope
-BOX2D_LIB=$(BUILD_DIR)/libbox2d.a
+BOX2D_LIB_x32=$(BUILD_DIR)/libbox2d_x86_32.a
+BOX2D_LIB_x64=$(BUILD_DIR)/libbox2d_x86_64.a
 
 
 
@@ -280,25 +270,29 @@ $(OUTPUT_DIR):
 
 # Box2D
 
-box2d: $(BOX2D_LIB)
+box2d: $(BOX2D_LIB_x32) $(BOX2D_LIB_x64)
 
-$(BOX2D_LIB): $(BOX2D_OBJECTS)
-	$(STATIC_LINKER) $(ARFLAGS) $@ $(BOX2D_OBJECTS)
+$(BOX2D_LIB_x32): $(BOX2D_x32_0)
+	$(LIB) $(LIBFLAGS) $@ $(BOX2D_x32_0)
+$(BOX2D_LIB_x64): $(BOX2D_x64_0)
+	$(LIB) $(LIBFLAGS) $@ $(BOX2D_x64_0)
 
-$(BOX2D_OBJECTS): $(BUILD_DIR)\\%.o: $(SOURCE_DIR)\\%
-	$(CXX) $(BUILD_FLAGS) $(CPPFLAGS) $< -o $@
-	$(CXX) $(BUILD_FLAGS) $(CPPFLAGS) -MM -MF$(@:.o=.d) -MT$@ $<
+$(BOX2D_x32_0): $(BUILD_DIR)/%.x86_32_o: $(SOURCE_DIR)/%
+	$(CC) -o $@ $< $(BUILD_FLAGS) -m32 $(CCFLAGS) $(MY_CXXFLAGS)
+$(BOX2D_x64_0): $(BUILD_DIR)/%.x86_64_o: $(SOURCE_DIR)/%
+	$(CC) -o $@ $< $(BUILD_FLAGS) -m64 $(CCFLAGS) $(MY_CXXFLAGS)
 	
-$(BOX2D_OBJECTS): | $(BOX2D_OBJDIRS)
+$(BOX2D_x32_0): | $(BOX2D_OBJDIRS)
+$(BOX2D_x64_0): | $(BOX2D_OBJDIRS)
 
 $(BOX2D_OBJDIRS):
-	-md $(BOX2D_OBJDIRS)
+	$(MKDIR) $(BOX2D_OBJDIRS)
 
 # Lua
 lua: $(LUA_LIB)
 
 $(LUA_LIB): $(LUA_OBJECTS)
-	$(STATIC_LINKER) $(ARFLAGS) $@ $(LUA_OBJECTS)
+	$(LIB) $(ARFLAGS) $@ $(LUA_OBJECTS)
 
 $(LUA_OBJECTS): $(BUILD_DIR)\\%.o: $(SOURCE_DIR)\\%
 	$(CC) $(BUILD_FLAGS) $(CFLAGS) $< -o $@
@@ -307,13 +301,13 @@ $(LUA_OBJECTS): $(BUILD_DIR)\\%.o: $(SOURCE_DIR)\\%
 $(LUA_OBJECTS): | $(LUA_OBJDIRS)
 
 $(LUA_OBJDIRS):
-	-md $(LUA_OBJDIRS)
+	$(MKDIR) $(LUA_OBJDIRS)
 	
 # Open Asset Importer Library
 assimp: $(ASSIMP_LIB)
 
 $(ASSIMP_LIB): $(ASSIMP_OBJECTS)
-	$(STATIC_LINKER) $(ARFLAGS) $@ $(ASSIMP_OBJECTS)
+	$(LIB) $(ARFLAGS) $@ $(ASSIMP_OBJECTS)
 
 $(ASSIMP_OBJECTS): $(BUILD_DIR)\\%.o: $(SOURCE_DIR)\\%
 	$(CXX) $(BUILD_FLAGS) $(CPPFLAGS) $< -o $@
@@ -322,7 +316,7 @@ $(ASSIMP_OBJECTS): $(BUILD_DIR)\\%.o: $(SOURCE_DIR)\\%
 $(ASSIMP_OBJECTS): | $(ASSIMP_OBJDIRS)
 
 $(ASSIMP_OBJDIRS):
-	-md $(ASSIMP_OBJDIRS)
+	$(MKDIR) $(ASSIMP_OBJDIRS)
 	
 	
 # build 32 bit objects
