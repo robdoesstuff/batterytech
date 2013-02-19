@@ -62,6 +62,12 @@
 
 #if CHROME
 #include <GLES2/gl2.h>
+#define GL_API extern
+#ifdef GL_APIENTRY
+#undef GL_APIENTRY
+#endif
+#define GL_APIENTRY
+#include "chrome/gles1.h"
 #endif
 
 #include "opengles.h"

@@ -15,7 +15,7 @@
 // Usage       : See platformgeneral.h for usage
 //============================================================================
 
-#if CHROME
+#ifdef CHROME
 
 
 #endif /* CHROME */

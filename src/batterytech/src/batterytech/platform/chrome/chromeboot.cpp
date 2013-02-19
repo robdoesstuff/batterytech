@@ -13,7 +13,7 @@
 // Name        : chromeboot.cpp
 // Description : Chrome bootstrap
 //============================================================================
-#if CHROME
+#ifdef CHROME
 
 
 #endif /* chrome */

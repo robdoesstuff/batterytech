@@ -18,7 +18,10 @@
 #ifndef CHROMEGENERAL_H_
 #define CHROMEGENERAL_H_
 
-#if CHROME
+#ifdef CHROME
+
+typedef int SOCKET;
+#define closesocket(socket) close(socket)
 
 // chrome specific functions here
 

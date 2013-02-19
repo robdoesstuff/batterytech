@@ -17,7 +17,7 @@
 
 #ifndef CHROMETYPES_H_
 #define CHROMETYPES_H_
-#if CHROME
+#ifdef CHROME
 
 // integers
 typedef signed char S8;

@@ -49,7 +49,7 @@
 	#include "blackberry/blackberrygeneral.h"
 #endif
 
-#if CHROME
+#ifdef CHROME
 	#include "chrome/chromegeneral.h"
 #endif
 
