@@ -22,7 +22,7 @@ DEBUG_DIR=Debug
 
 RELEASE_FLAGS=-O2 -DCHROME -DBATTERYTECH_INCLUDE_ASSIMP -DBATTERYTECH_INCLUDE_BOX2D -I$(SOURCE_DIR) -I$(APP_SOURCE_DIR) -I$(SOURCE_DIR)/bt-assimp/contrib
 DEBUG_FLAGS=-g -O0 -DCHROME -DBATTERYTECH_INCLUDE_ASSIMP -DBATTERYTECH_INCLUDE_BOX2D -I$(SOURCE_DIR) -I$(APP_SOURCE_DIR) -I$(SOURCE_DIR)/bt-assimp/contrib
-LINKED_LIBS=-lppapi_gles2 -lppapi -lpthread
+LINKED_LIBS=-lppapi_gles2 -lppapi -lpthread -lbatterytech -lassimp -lbox2d -llua 
 
 ifeq (${DEBUG},true)
 	BUILD_FLAGS=$(DEBUG_FLAGS)
@@ -101,18 +101,92 @@ LDFLAGS=-pthread
 NMF:=python $(NACL_SDK_ROOT)/tools/create_nmf.py
 
 
-#TODO - add subdirs and static modules in - full project build
-
 APP_SOURCE_DIR=../app-src
 SOURCE_DIR=../../batterytech/src
 
 BT_SOURCES=\
-hello_world.cc \
-matrix.cc
-
+	batterytech/batterytech.cpp \
+	batterytech/Logger.cpp \
+	batterytech/Context.cpp \
+	batterytech/VibrationManager.cpp \
+	batterytech/decoders/stb_image.c \
+	batterytech/decoders/stb_vorbis.c \
+	batterytech/audio/PCMSound.cpp \
+	batterytech/audio/PCMStream.cpp \
+	batterytech/audio/PCMAudioManager.cpp \
+	batterytech/audio/AudioManager.cpp \
+	batterytech/importers/obj/ObjImporter.cpp \
+	batterytech/importers/obj/ObjScene.cpp \
+	batterytech/importers/assimp/BTAssimpImporter.cpp \
+	batterytech/importers/assimp/BTIOSystem.cpp \
+	batterytech/importers/assimp/BTMemoryIOStream.cpp \
+	batterytech/network/NetworkManager.cpp \
+	batterytech/network/GameConnection.cpp \
+	batterytech/network/NetworkMessage.cpp \
+	batterytech/render/AssimpAnimator.cpp \
+	batterytech/render/RenderNode.cpp \
+	batterytech/render/Renderer.cpp \
+	batterytech/render/RenderContext.cpp \
+	batterytech/render/TextRasterRenderer.cpp \
+	batterytech/render/GraphicsConfiguration.cpp \
+	batterytech/render/MenuRenderer.cpp \
+	batterytech/render/GLModelBinding.cpp \
+	batterytech/render/ShaderProgram.cpp \
+	batterytech/render/GLResourceManager.cpp \
+	batterytech/render/GLObjSceneBinding.cpp \
+	batterytech/render/GLAssimpBinding.cpp \
+	batterytech/render/GLAssimpMeshBinding.cpp \
+	batterytech/render/QuadRenderer.cpp \
+	batterytech/render/Texture.cpp \
+	batterytech/render/AssetTexture.cpp \
+	batterytech/render/AtlasMappedTexture.cpp \
+	batterytech/platform/win32\win32general.cpp \
+	batterytech/platform/win32\winboot.cpp \
+	batterytech/platform/win32\WinSound.cpp \
+	batterytech/platform/glew.c \
+	batterytech/platform/opengles.cpp \
+	batterytech/platform/platformgeneral.cpp \
+	batterytech/ui/Button.cpp \
+	batterytech/ui/Checkbox.cpp \
+	batterytech/ui/Label.cpp \
+	batterytech/ui/Layout.cpp \
+	batterytech/ui/LinearLayout.cpp \
+	batterytech/ui/Menu.cpp \
+	batterytech/ui/UIComponent.cpp \
+	batterytech/ui/UIManager.cpp \
+	batterytech/ui/UIAnimator.cpp \
+	batterytech/ui/ScrollableContainer.cpp \
+	batterytech/ui/SlideAnimator.cpp \
+	batterytech/ui/TextField.cpp \
+	batterytech/math/Triangulator.cpp \
+	batterytech/util/esTransform.cpp \
+	batterytech/util/BitmapUtil.cpp \
+	batterytech/util/ByteUtil.cpp \
+	batterytech/util/TextFileUtil.cpp \
+	batterytech/util/Property.cpp \
+	batterytech/util/PropertiesIO.cpp \
+	batterytech/util/strx.cpp \
+	batterytech/video/VideoManager.cpp
+	
 BT_x86_32_O:=$(patsubst %,$(BUILD_DIR)/%.x86_32_o,$(BT_SOURCES))
 BT_x86_64_O:=$(patsubst %,$(BUILD_DIR)/%.x86_64_o,$(BT_SOURCES))
 BT_DEPS=$(BT_x86_32_O:.x86_32_o=.d)
+
+BT_OBJDIRS=$(BUILD_DIR)/batterytech/audio \
+	$(BUILD_DIR)/batterytech/decoders \
+	$(BUILD_DIR)/batterytech/importers/obj \
+	$(BUILD_DIR)/batterytech/importers/assimp \
+	$(BUILD_DIR)/batterytech/network \
+	$(BUILD_DIR)/batterytech/platform/win32 \
+	$(BUILD_DIR)/batterytech/math \
+	$(BUILD_DIR)/batterytech/render \
+	$(BUILD_DIR)/batterytech/ui \
+	$(BUILD_DIR)/batterytech/util \
+	$(BUILD_DIR)/batterytech/video
+	
+BT_LIB_x32=$(BUILD_DIR)\libbatterytech_x86_32.a
+BT_LIB_x64=$(BUILD_DIR)\libbatterytech_x86_64.a
+
 
 LUA_SOURCES=\
 	bt-lua/lapi.c \
@@ -256,6 +330,46 @@ BOX2D_LIB_x64=$(BUILD_DIR)/libbox2d_x86_64.a
 -include $(BOX2D_DEPS)
 
 
+APP_SOURCES=\
+	GameContext.cpp \
+	Game.cpp \
+	GameLuaBinder.cpp \
+	GameUtil.cpp \
+	World.cpp \
+	ScreenControl.cpp \
+	WinHooks.cpp \
+	gameobject/GameObject.cpp \
+	gameobject/GameObjectLuaBinder.cpp \
+	gameobject/ParticleEmitter.cpp \
+	level/LevelIO.cpp \
+	level/Level.cpp \
+	input/TouchInputProcessor.cpp \
+	render/WorldRenderer.cpp \
+	render/ShadowMap.cpp \
+	render/B2DebugRenderer.cpp \
+	render/BtDebugRenderer.cpp \
+	render/SimpleSpriteRenderer.cpp \
+	render/ScreenControlRenderer.cpp \
+	render/BatchSpriteRenderer.cpp \
+	render/ObjRenderer.cpp \
+	render/Camera.cpp \
+	render/RenderItem.cpp \
+	render/AssimpRenderer.cpp \
+	render/GlobalLight.cpp \
+	render/LocalLight.cpp \
+	render/ParticleEmitterRenderer.cpp \
+	script/LuaBinder.cpp \
+	menus/ErrorMenu.cpp
+	
+APP_x32_0=$(patsubst %,$(BUILD_DIR)/%.x86_32_o,$(APP_SOURCES))
+APP_x64_0=$(patsubst %,$(BUILD_DIR)/%.x86_64_o,$(APP_SOURCES))
+APP_DEPS=$(APP_x64_0:.x86_32_o=.d)
+APP_OBJDIRS=$(BUILD_DIR)\gameobject \
+	$(BUILD_DIR)\level \
+	$(BUILD_DIR)\input \
+	$(BUILD_DIR)\render \
+	$(BUILD_DIR)\script \
+	$(BUILD_DIR)\menus
 #
 # Default target
 #
@@ -264,9 +378,6 @@ all: | $(OUTPUT_DIR)
 $(OUTPUT_DIR):
 	$(MKDIR) $(OUTPUT_DIR)
 	
-	
-# TODO - fix all these libraries to use the new build stuff.
-# TODO - now bring BT lib and App src in and get all building/linking together
 
 # Box2D
 
@@ -325,26 +436,47 @@ $(ASSIMP_x64_0): | $(ASSIMP_OBJDIRS)
 
 $(ASSIMP_OBJDIRS):
 	$(MKDIR) $(ASSIMP_OBJDIRS)
+
+# BatteryTech SDK
+bt: $(BT_LIB_x32) $(BT_LIB_x64)
+
+$(BT_LIB_x32): $(BT_x32_0)
+	$(LIB) $(LIBFLAGS) $@ $(BT_x32_0)
+$(BT_LIB_x64): $(BT_x64_0)
+	$(LIB) $(LIBFLAGS) $@ $(BT_x64_0)
+
+$(BT_x32_0): $(BUILD_DIR)/%.x86_32_o: $(SOURCE_DIR)/%
+	$(CC) -o $@ $< $(BUILD_FLAGS) -m32 $(CCFLAGS) $(MY_CXXFLAGS)
+$(BT_x64_0): $(BUILD_DIR)/%.x86_64_o: $(SOURCE_DIR)/%
+	$(CC) -o $@ $< $(BUILD_FLAGS) -m64 $(CCFLAGS) $(MY_CXXFLAGS)
+	
+$(BT_x32_0): | $(BT_OBJDIRS)
+$(BT_x64_0): | $(BT_OBJDIRS)
+
+$(BT_OBJDIRS):
+	$(MKDIR) $(BT_OBJDIRS)
 	
 	
+# Engine
+
 # build 32 bit objects
 
-$(BT_x86_32_O): $(BUILD_DIR)/%.x86_32_o : %
+$(APP_x32_0): $(BUILD_DIR)/%.x86_32_o : $(APP_SOURCE_DIR)/%
 	$(CC) -o $@ $< $(BUILD_FLAGS) -m32 $(CCFLAGS) $(MY_CXXFLAGS)
 
 # link 32 bit exe
 
-$(OUTPUT_DIR)/batterytech_app_x86_32.nexe : $(BT_x86_32_O)
+$(OUTPUT_DIR)/batterytech_app_x86_32.nexe : $(ASSIMP_LIB_x32) $(LUA_LIB_x32) $(BOX2D_LIB_x32) $(BT_LIB_x32) $(APP_x32_0)
 	$(LINK) -o $@ $^ -g -m32 $(LDFLAGS) $(HELLO_WORLD_GLES_LDFLAGS) -L$(NACL_SDK_ROOT)/lib/$(OSNAME)_x86_32_$(BUILD_DIR) $(LINKED_LIBS)
 
 # build 64 bit debug objects
 
-$(BT_x86_64_O): $(BUILD_DIR)/%.x86_64_o : %
+$(APP_x64_0): $(BUILD_DIR)/%.x86_64_o : $(APP_SOURCE_DIR)/%
 	$(CC) -o $@ $< $(BUILD_FLAGS) -m64 $(CCFLAGS) $(MY_CXXFLAGS)
 
 # link 64 bit exe
 
-$(OUTPUT_DIR)/batterytech_app_x86_64.nexe : $(BT_x86_64_O)
+$(OUTPUT_DIR)/batterytech_app_x86_64.nexe : $(ASSIMP_LIB_x32) $(LUA_LIB_x32) $(BOX2D_LIB_x32) $(BT_LIB_x32) $(APP_x32_0)
 	$(LINK) -o $@ $^ -g -m64 $(LDFLAGS) $(HELLO_WORLD_GLES_LDFLAGS) -L$(NACL_SDK_ROOT)/lib/$(OSNAME)_x86_64_$(BUILD_DIR) $(LINKED_LIBS)
 
 # build debug manifest
