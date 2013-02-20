@@ -170,9 +170,9 @@ BT_SOURCES=\
 	batterytech/util/strx.cpp \
 	batterytech/video/VideoManager.cpp
 	
-BT_x86_32_O:=$(patsubst %,$(BUILD_DIR)/%.x86_32_o,$(BT_SOURCES))
-BT_x86_64_O:=$(patsubst %,$(BUILD_DIR)/%.x86_64_o,$(BT_SOURCES))
-BT_DEPS=$(BT_x86_32_O:.x86_32_o=.d)
+BT_x32_0:=$(patsubst %,$(BUILD_DIR)/%.x86_32_o,$(BT_SOURCES))
+BT_x64_0:=$(patsubst %,$(BUILD_DIR)/%.x86_64_o,$(BT_SOURCES))
+BT_DEPS=$(BT_x32_0:.x86_32_o=.d)
 
 BT_OBJDIRS=$(BUILD_DIR)/batterytech/audio \
 	$(BUILD_DIR)/batterytech/decoders \
@@ -486,7 +486,7 @@ $(APP_x64_0): $(BUILD_DIR)/%.x86_64_o : $(APP_SOURCE_DIR)/%
 
 # link 64 bit exe
 
-$(OUTPUT_DIR)/batterytech_app_x86_64.nexe : $(ASSIMP_LIB_x32) $(LUA_LIB_x32) $(BOX2D_LIB_x32) $(BT_LIB_x32) $(APP_x32_0)
+$(OUTPUT_DIR)/batterytech_app_x86_64.nexe : $(ASSIMP_LIB_x64) $(LUA_LIB_x64) $(BOX2D_LIB_x64) $(BT_LIB_x64) $(APP_x64_0)
 	$(LINK) -o $@ $^ -g -m64 $(LDFLAGS) $(HELLO_WORLD_GLES_LDFLAGS) -L$(NACL_SDK_ROOT)/lib/$(OSNAME)_x86_64_$(BUILD_DIR) -L$(BUILD_DIR)/$(X64_LIB_DIR) $(LINKED_LIBS)
 
 # build debug manifest
