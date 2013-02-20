@@ -19,6 +19,8 @@ NACL_WARNINGS:=-Wno-long-long -Wall -Wswitch-enum -pedantic
 
 RELEASE_DIR=Release
 DEBUG_DIR=Debug
+X32_LIB_DIR=x86_32
+X64_LIB_DIR=x86_64
 
 RELEASE_FLAGS=-O2 -DCHROME -DBATTERYTECH_INCLUDE_ASSIMP -DBATTERYTECH_INCLUDE_BOX2D -I$(SOURCE_DIR) -I$(APP_SOURCE_DIR) -I$(SOURCE_DIR)/bt-assimp/contrib
 DEBUG_FLAGS=-g -O0 -DCHROME -DBATTERYTECH_INCLUDE_ASSIMP -DBATTERYTECH_INCLUDE_BOX2D -I$(SOURCE_DIR) -I$(APP_SOURCE_DIR) -I$(SOURCE_DIR)/bt-assimp/contrib
@@ -184,8 +186,8 @@ BT_OBJDIRS=$(BUILD_DIR)/batterytech/audio \
 	$(BUILD_DIR)/batterytech/util \
 	$(BUILD_DIR)/batterytech/video
 	
-BT_LIB_x32=$(BUILD_DIR)\libbatterytech_x86_32.a
-BT_LIB_x64=$(BUILD_DIR)\libbatterytech_x86_64.a
+BT_LIB_x32=$(BUILD_DIR)/$(X32_LIB_DIR)/libbatterytech.a
+BT_LIB_x64=$(BUILD_DIR)/$(X64_LIB_DIR)/libbatterytech.a
 
 
 LUA_SOURCES=\
@@ -226,8 +228,8 @@ LUA_x32_0=$(patsubst %,$(BUILD_DIR)/%.x86_32_o,$(LUA_SOURCES))
 LUA_x64_0=$(patsubst %,$(BUILD_DIR)/%.x86_64_o,$(LUA_SOURCES))
 LUA_DEPS=$(LUA_x32_0:.x86_32_o=.d)
 LUA_OBJDIRS=$(BUILD_DIR)/bt-lua
-LUA_LIB_x32=$(BUILD_DIR)/liblua_x86_32.a
-LUA_LIB_x64=$(BUILD_DIR)/liblua_x86_64.a
+LUA_LIB_x32=$(BUILD_DIR)/$(X32_LIB_DIR)/liblua.a
+LUA_LIB_x64=$(BUILD_DIR)/$(X64_LIB_DIR)/liblua.a
 
 
 ASSIMP_SOURCES=\
@@ -259,8 +261,8 @@ ASSIMP_DEPS=$(ASSIMP_x32_0:.x86_32_o=.d)
 ASSIMP_OBJDIRS=$(BUILD_DIR)/bt-assimp/code \
 	$(BUILD_DIR)/bt-assimp/contrib/irrXML \
 	$(BUILD_DIR)/bt-assimp/contrib/ConvertUTF
-ASSIMP_LIB_x32=$(BUILD_DIR)/libassimp_x86_32.a
-ASSIMP_LIB_x64=$(BUILD_DIR)/libassimp_x86_64.a
+ASSIMP_LIB_x32=$(BUILD_DIR)/$(X32_LIB_DIR)/libassimp.a
+ASSIMP_LIB_x64=$(BUILD_DIR)/$(X64_LIB_DIR)/libassimp.a
 
 BOX2D_SOURCES=\
 	bt-box2d/Collision/b2BroadPhase.cpp \
@@ -318,8 +320,8 @@ BOX2D_OBJDIRS=$(BUILD_DIR)/bt-box2d/Collision \
 	$(BUILD_DIR)/bt-box2d/Dynamics/Contacts \
 	$(BUILD_DIR)/bt-box2d/Dynamics/Joints \
 	$(BUILD_DIR)/bt-box2d/Rope
-BOX2D_LIB_x32=$(BUILD_DIR)/libbox2d_x86_32.a
-BOX2D_LIB_x64=$(BUILD_DIR)/libbox2d_x86_64.a
+BOX2D_LIB_x32=$(BUILD_DIR)/$(X32_LIB_DIR)/libbox2d.a
+BOX2D_LIB_x64=$(BUILD_DIR)/$(X64_LIB_DIR)/libbox2d.a
 
 
 
@@ -377,6 +379,8 @@ all: | $(OUTPUT_DIR)
 	
 $(OUTPUT_DIR):
 	$(MKDIR) $(OUTPUT_DIR)
+	$(MKDIR) $(BUILD_DIR)/$(X32_LIB_DIR)
+	$(MKDIR) $(BUILD_DIR)/$(X64_LIB_DIR)
 	
 
 # Box2D
@@ -473,7 +477,7 @@ $(APP_x32_0): $(BUILD_DIR)/%.x86_32_o : $(APP_SOURCE_DIR)/%
 # link 32 bit exe
 
 $(OUTPUT_DIR)/batterytech_app_x86_32.nexe : $(ASSIMP_LIB_x32) $(LUA_LIB_x32) $(BOX2D_LIB_x32) $(BT_LIB_x32) $(APP_x32_0)
-	$(LINK) -o $@ $^ -g -m32 $(LDFLAGS) $(HELLO_WORLD_GLES_LDFLAGS) -L$(NACL_SDK_ROOT)/lib/$(OSNAME)_x86_32_$(BUILD_DIR) $(LINKED_LIBS)
+	$(LINK) -o $@ $^ -g -m32 $(LDFLAGS) $(HELLO_WORLD_GLES_LDFLAGS) -L$(NACL_SDK_ROOT)/lib/$(OSNAME)_x86_32_$(BUILD_DIR) -L$(BUILD_DIR)/$(X32_LIB_DIR) $(LINKED_LIBS)
 
 # build 64 bit debug objects
 
@@ -483,7 +487,7 @@ $(APP_x64_0): $(BUILD_DIR)/%.x86_64_o : $(APP_SOURCE_DIR)/%
 # link 64 bit exe
 
 $(OUTPUT_DIR)/batterytech_app_x86_64.nexe : $(ASSIMP_LIB_x32) $(LUA_LIB_x32) $(BOX2D_LIB_x32) $(BT_LIB_x32) $(APP_x32_0)
-	$(LINK) -o $@ $^ -g -m64 $(LDFLAGS) $(HELLO_WORLD_GLES_LDFLAGS) -L$(NACL_SDK_ROOT)/lib/$(OSNAME)_x86_64_$(BUILD_DIR) $(LINKED_LIBS)
+	$(LINK) -o $@ $^ -g -m64 $(LDFLAGS) $(HELLO_WORLD_GLES_LDFLAGS) -L$(NACL_SDK_ROOT)/lib/$(OSNAME)_x86_64_$(BUILD_DIR) -L$(BUILD_DIR)/$(X64_LIB_DIR) $(LINKED_LIBS)
 
 # build debug manifest
 
