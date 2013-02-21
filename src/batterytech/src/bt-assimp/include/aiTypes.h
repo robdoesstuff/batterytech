@@ -45,6 +45,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef AI_TYPES_H_INC
 #define AI_TYPES_H_INC
 
+
 // Some runtime headers
 #include <sys/types.h>
 #include <memory.h>
@@ -65,6 +66,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifdef __cplusplus
 #include <new>		// for std::nothrow_t
 #include <string>	// for aiString::Set(const std::string&)
+#ifdef CHROME
+	#include <string.h>	// for memset and stuff.
+#endif
 
 namespace Assimp	{
 	//! @cond never

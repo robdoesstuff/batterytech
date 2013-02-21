@@ -24,7 +24,7 @@ X64_LIB_DIR=x86_64
 
 RELEASE_FLAGS=-O2 -DCHROME -DBATTERYTECH_INCLUDE_ASSIMP -DBATTERYTECH_INCLUDE_BOX2D -I$(SOURCE_DIR) -I$(APP_SOURCE_DIR) -I$(SOURCE_DIR)/bt-assimp/contrib
 DEBUG_FLAGS=-g -O0 -DCHROME -DBATTERYTECH_INCLUDE_ASSIMP -DBATTERYTECH_INCLUDE_BOX2D -I$(SOURCE_DIR) -I$(APP_SOURCE_DIR) -I$(SOURCE_DIR)/bt-assimp/contrib
-LINKED_LIBS=-lppapi_gles2 -lppapi -lpthread -lbatterytech -lassimp -lbox2d -llua 
+LINKED_LIBS=-lppapi_gles2 -lppapi -lpthread -lbatterytech -lassimp -lbox2d -llua -lnosys 
 
 ifeq (${DEBUG},true)
 	BUILD_FLAGS=$(DEBUG_FLAGS)
@@ -142,10 +142,8 @@ BT_SOURCES=\
 	batterytech/render/Texture.cpp \
 	batterytech/render/AssetTexture.cpp \
 	batterytech/render/AtlasMappedTexture.cpp \
-	batterytech/platform/win32\win32general.cpp \
-	batterytech/platform/win32\winboot.cpp \
-	batterytech/platform/win32\WinSound.cpp \
-	batterytech/platform/glew.c \
+	batterytech/platform/chrome/chromegeneral.cpp \
+	batterytech/platform/chrome/chromeboot.cpp \
 	batterytech/platform/opengles.cpp \
 	batterytech/platform/platformgeneral.cpp \
 	batterytech/ui/Button.cpp \
@@ -179,7 +177,7 @@ BT_OBJDIRS=$(BUILD_DIR)/batterytech/audio \
 	$(BUILD_DIR)/batterytech/importers/obj \
 	$(BUILD_DIR)/batterytech/importers/assimp \
 	$(BUILD_DIR)/batterytech/network \
-	$(BUILD_DIR)/batterytech/platform/win32 \
+	$(BUILD_DIR)/batterytech/platform/chrome \
 	$(BUILD_DIR)/batterytech/math \
 	$(BUILD_DIR)/batterytech/render \
 	$(BUILD_DIR)/batterytech/ui \
