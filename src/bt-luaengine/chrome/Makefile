@@ -9,7 +9,7 @@
 # If NACL_SDK_ROOT is not set, look in home/nacl_sdk
 #
 THIS_MAKEFILE:=$(abspath $(lastword $(MAKEFILE_LIST)))
-NACL_SDK_ROOT?=/nacl_sdk/pepper_23
+NACL_SDK_ROOT=/nacl_sdk/pepper_23
 CHROME_PATH?=Undefined
 
 #
