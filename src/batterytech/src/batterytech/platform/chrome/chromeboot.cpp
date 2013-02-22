@@ -16,6 +16,7 @@
 #ifdef CHROME
 #include "../platformgl.h"
 #include "../platformgeneral.h"
+#include "../../batterytech.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -42,22 +43,24 @@
 #include "ppapi/c/ppp_graphics_3d.h"
 #include "ppapi/lib/gl/gles2/gl2ext_ppapi.h"
 
-static PPB_Messaging* ppb_messaging_interface = NULL;
-static PPB_Var* ppb_var_interface = NULL;
-static PPB_Core* ppb_core_interface = NULL;
+PPB_Messaging* ppb_messaging_interface = NULL;
+PPB_Var* ppb_var_interface = NULL;
+PPB_Instance* ppb_instance_interface = NULL;
+PPB_URLRequestInfo* ppb_urlrequestinfo_interface = NULL;
+PPB_URLLoader* ppb_urlloader_interface = NULL;
+PPB_Core* ppb_core_interface = NULL;
 static PPB_Graphics3D* ppb_g3d_interface = NULL;
-static PPB_Instance* ppb_instance_interface = NULL;
-static PPB_URLRequestInfo* ppb_urlrequestinfo_interface = NULL;
-static PPB_URLLoader* ppb_urlloader_interface = NULL;
 
-static PP_Instance g_instance;
-static PP_Resource g_context;
+PP_Instance g_instance;
+PP_Resource g_context;
 
 void InitGL(void);
 
 
 void MainLoop(void* foo, int bar) {
-    // TODO - btUpdate/Render
+    // TODO - timer
+	btUpdate(0.016f);
+	btDraw();
     PP_CompletionCallback cc = PP_MakeCompletionCallback(MainLoop, 0);
     ppb_g3d_interface->SwapBuffers(g_context, cc);
 }
@@ -87,6 +90,14 @@ void InitGL(void)
 
   glViewport(0,0, 640,480);
   glClearColor( 0.0f, 0.0f, 0.0f, 1.0f );
+  GraphicsConfiguration *g = new GraphicsConfiguration();
+  g->supportsFBOs = TRUE;
+  g->supportsHWmipmapgen = TRUE;
+  g->supportsShaders = TRUE;
+  g->supportsUVTransform = TRUE;
+  g->supportsVBOs = TRUE;
+  g->useShaders = TRUE;
+  btInit(g, 640, 480);
 }
 
 
@@ -131,6 +142,7 @@ static PP_Bool Instance_DidCreate(PP_Instance instance,
  */
 static void Instance_DidDestroy(PP_Instance instance) {
 	// TODO - shut down BT
+	btRelease();
 }
 
 /**
@@ -199,6 +211,7 @@ static PP_Bool Instance_HandleDocumentLoad(PP_Instance instance,
  */
 PP_EXPORT int32_t PPP_InitializeModule(PP_Module a_module_id,
                                        PPB_GetInterface get_browser) {
+printf("BT - Chromeboot starting...");
   ppb_core_interface = (PPB_Core*)(get_browser(PPB_CORE_INTERFACE));
   ppb_instance_interface = (PPB_Instance*)get_browser(PPB_INSTANCE_INTERFACE);
   ppb_messaging_interface =
