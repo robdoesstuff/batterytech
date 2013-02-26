@@ -24,7 +24,7 @@ X64_LIB_DIR=x86_64
 
 RELEASE_FLAGS=-O2 -DCHROME -DBATTERYTECH_INCLUDE_ASSIMP -DBATTERYTECH_INCLUDE_BOX2D -I$(SOURCE_DIR) -I$(APP_SOURCE_DIR) -I$(SOURCE_DIR)/bt-assimp/contrib
 DEBUG_FLAGS=-g -O0 -DCHROME -DBATTERYTECH_INCLUDE_ASSIMP -DBATTERYTECH_INCLUDE_BOX2D -I$(SOURCE_DIR) -I$(APP_SOURCE_DIR) -I$(SOURCE_DIR)/bt-assimp/contrib
-LINKED_LIBS=-lppapi_gles2 -lppapi -lpthread -lbatterytech -lassimp -lbox2d -llua -lnosys 
+LINKED_LIBS=-lppapi_gles2 -lppapi -lpthread -lbatterytech -lassimp -lbox2d -llua -lz -lnosys 
 
 ifeq (${DEBUG},true)
 	BUILD_FLAGS=$(DEBUG_FLAGS)
@@ -321,13 +321,36 @@ BOX2D_OBJDIRS=$(BUILD_DIR)/bt-box2d/Collision \
 BOX2D_LIB_x32=$(BUILD_DIR)/$(X32_LIB_DIR)/libbox2d.a
 BOX2D_LIB_x64=$(BUILD_DIR)/$(X64_LIB_DIR)/libbox2d.a
 
+ZLIB_SOURCES=\
+	zlib/adler32.c \
+	zlib/compress.c \
+	zlib/crc32.c \
+	zlib/deflate.c \
+	zlib/gzclose.c \
+	zlib/gzlib.c \
+	zlib/gzread.c \
+	zlib/gzwrite.c \
+	zlib/infback.c \
+	zlib/inffast.c \
+	zlib/inflate.c \
+	zlib/inftrees.c \
+	zlib/trees.c \
+	zlib/uncompr.c \
+	zlib/zutil.c
 
+ZLIB_x32_0=$(patsubst %,$(BUILD_DIR)/%.x86_32_o,$(ZLIB_SOURCES))
+ZLIB_x64_0=$(patsubst %,$(BUILD_DIR)/%.x86_64_o,$(ZLIB_SOURCES))
+ZLIB_DEPS=$(ZLIB_x32_0:.x86_32_o=.d)
+ZLIB_OBJDIRS=$(BUILD_DIR)/zlib
+ZLIB_LIB_x32=$(BUILD_DIR)/$(X32_LIB_DIR)/libz.a
+ZLIB_LIB_x64=$(BUILD_DIR)/$(X64_LIB_DIR)/libz.a
 
 # Include header dependency files.
 -include $(BT_DEPS)
 -include $(LUA_DEPS)
 -include $(ASSIMP_DEPS)
 -include $(BOX2D_DEPS)
+-include $(ZLIB_DEPS)
 
 
 APP_SOURCES=\
@@ -419,6 +442,27 @@ $(LUA_x64_0): | $(LUA_OBJDIRS)
 
 $(LUA_OBJDIRS):
 	$(MKDIR) $(LUA_OBJDIRS)
+
+
+# ZLib
+zlib: $(ZLIB_LIB_x32) $(ZLIB_LIB_x64)
+
+$(ZLIB_LIB_x32): $(ZLIB_x32_0)
+	$(LIB) $(LIBFLAGS) $@ $(ZLIB_x32_0)
+$(ZLIB_LIB_x64): $(ZLIB_x64_0)
+	$(LIB) $(LIBFLAGS) $@ $(ZLIB_x64_0)
+
+$(ZLIB_x32_0): $(BUILD_DIR)/%.x86_32_o: $(SOURCE_DIR)/%
+	$(CC) -o $@ $< $(BUILD_FLAGS) -m32 $(CCFLAGS) $(MY_CXXFLAGS)
+$(ZLIB_x64_0): $(BUILD_DIR)/%.x86_64_o: $(SOURCE_DIR)/%
+	$(CC) -o $@ $< $(BUILD_FLAGS) -m64 $(CCFLAGS) $(MY_CXXFLAGS)
+
+$(ZLIB_x32_0): | $(ZLIB_OBJDIRS)
+$(ZLIB_x64_0): | $(ZLIB_OBJDIRS)
+
+$(ZLIB_OBJDIRS):
+	$(MKDIR) $(ZLIB_OBJDIRS)
+	
 	
 # Open Asset Importer Library
 assimp: $(ASSIMP_LIB_x32) $(ASSIMP_LIB_x64)
@@ -474,7 +518,7 @@ $(APP_x32_0): $(BUILD_DIR)/%.x86_32_o : $(APP_SOURCE_DIR)/%
 
 # link 32 bit exe
 
-$(OUTPUT_DIR)/batterytech_app_x86_32.nexe : $(ASSIMP_LIB_x32) $(LUA_LIB_x32) $(BOX2D_LIB_x32) $(BT_LIB_x32) $(APP_x32_0)
+$(OUTPUT_DIR)/batterytech_app_x86_32.nexe : $(ASSIMP_LIB_x32) $(LUA_LIB_x32) $(BOX2D_LIB_x32) $(ZLIB_LIB_x32) $(BT_LIB_x32) $(APP_x32_0) 
 	$(LINK) -o $@ $^ -g -m32 $(LDFLAGS) $(HELLO_WORLD_GLES_LDFLAGS) -L$(NACL_SDK_ROOT)/lib/$(OSNAME)_x86_32_$(BUILD_DIR) -L$(BUILD_DIR)/$(X32_LIB_DIR) $(LINKED_LIBS)
 
 # build 64 bit debug objects
@@ -484,7 +528,7 @@ $(APP_x64_0): $(BUILD_DIR)/%.x86_64_o : $(APP_SOURCE_DIR)/%
 
 # link 64 bit exe
 
-$(OUTPUT_DIR)/batterytech_app_x86_64.nexe : $(ASSIMP_LIB_x64) $(LUA_LIB_x64) $(BOX2D_LIB_x64) $(BT_LIB_x64) $(APP_x64_0)
+$(OUTPUT_DIR)/batterytech_app_x86_64.nexe : $(ASSIMP_LIB_x64) $(LUA_LIB_x64) $(BOX2D_LIB_x64) $(ZLIB_LIB_x64) $(BT_LIB_x64) $(APP_x64_0)
 	$(LINK) -o $@ $^ -g -m64 $(LDFLAGS) $(HELLO_WORLD_GLES_LDFLAGS) -L$(NACL_SDK_ROOT)/lib/$(OSNAME)_x86_64_$(BUILD_DIR) -L$(BUILD_DIR)/$(X64_LIB_DIR) $(LINKED_LIBS)
 
 # build debug manifest
