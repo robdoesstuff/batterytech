@@ -146,6 +146,10 @@ var common = (function () {
     }
   }
 
+  function startDownload() {
+  	updateStatus('Starting Download');
+  }
+  
   /**
    * Called when the DOM content has loaded; i.e. the page's document is fully
    * parsed. At this point, we can safely query any elements in the document via
@@ -162,6 +166,7 @@ var common = (function () {
     // status message indicating that the module is still loading.  Otherwise,
     // do not change the status message.
     updateStatus('Page loaded.');
+    /*
     if (common.naclModule == null) {
       updateStatus('Creating embed: ' + tool)
 
@@ -178,6 +183,8 @@ var common = (function () {
       // display the current message.
       updateStatus('Waiting.');
     }
+    */
+    startDownload();
   }
 
   /** Saved text to display in the element with id 'statusField'. */
