@@ -40,9 +40,14 @@ bool BAIFileImporter::CanRead(const std::string& pFile, IOSystem* pIOHandler,
 	}
 }
 
-static bai_u32 readFromData(void *target, bai_u32 offset, const unsigned char *src, size_t size) {
-	memcpy(target, src+offset, size);
-	return offset+size;
+static bai_u32 readFromData(void *target, bai_u32 offset, const unsigned char *src, size_t readBytes) {
+	memcpy(target, src+offset, readBytes);
+	return offset+readBytes;
+}
+
+static bai_u32 readFromData(void *target, size_t writeBytes, bai_u32 offset, const unsigned char *src, size_t readBytes) {
+	memcpy(target, src+offset, writeBytes);
+	return offset+readBytes;
 }
 
 static bai_u32 readNode(aiNode *node, bai_u32 offset, unsigned char *src) {
@@ -204,13 +209,13 @@ static void importBAI(unsigned char *data, size_t dataLength, aiScene *scene) {
 			channel->mRotationKeys = new aiQuatKey[chanHeader.numRotationKeys];
 			channel->mScalingKeys = new aiVectorKey[chanHeader.numScalingKeys];
  			for (bai_u32 k = 0; k < channel->mNumPositionKeys; k++) {
-				offset=readFromData(&channel->mPositionKeys[k], offset, data, AIVECTORKEYSIZE);
+				offset=readFromData(&channel->mPositionKeys[k], sizeof(aiVectorKey), offset, data, AIVECTORKEYSIZE);
 			}
 			for (bai_u32 k = 0; k < channel->mNumRotationKeys; k++) {
-				offset=readFromData(&channel->mRotationKeys[k], offset, data, AIQUATKEYSIZE);
+				offset=readFromData(&channel->mRotationKeys[k], sizeof(aiQuatKey), offset, data, AIQUATKEYSIZE);
 			}
 			for (bai_u32 k = 0; k < channel->mNumScalingKeys; k++) {
-				offset=readFromData(&channel->mScalingKeys[k], offset, data, AIVECTORKEYSIZE);
+				offset=readFromData(&channel->mScalingKeys[k], sizeof(aiVectorKey), offset, data, AIVECTORKEYSIZE);
 			}
 			offset=readFromData(channel->mNodeName.data, offset, data, chanHeader.nodeNameLength);
 			channel->mNodeName.length = chanHeader.nodeNameLength;
@@ -227,7 +232,7 @@ static void importBAI(unsigned char *data, size_t dataLength, aiScene *scene) {
 			meshAnim->mName.data[meshChanHeader.nameLength] = '\0';
 			meshAnim->mKeys = new aiMeshKey[meshAnim->mNumKeys];
 			for (bai_u32 k = 0; k < meshAnim->mNumKeys; k++) {
-				offset=readFromData(&meshAnim->mKeys[k], offset, data, AIMESHKEYSIZE);
+				offset=readFromData(&meshAnim->mKeys[k], sizeof(aiMeshKey), offset, data, AIMESHKEYSIZE);
 			}
 		}
 	}
