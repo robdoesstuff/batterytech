@@ -27,7 +27,7 @@ CPPFLAGS=-c -Wall -I$(SOURCE_DIR) -I$(APP_SOURCE_DIR) -I$(SOURCE_DIR)/bt-assimp/
 CFLAGS=-c -Wall 
 LDFLAGS=-static-libgcc -static-libstdc++
 # important - order matters to GCC when one static lib is dep on another, so always do -lbatterytech first!
-LINKED_LIBS=-L$(BUILD_DIR) -lbatterytech -lassimp -lbox2d -llua -lX11 -lGL -lGLU
+LINKED_LIBS=-L$(BUILD_DIR) -lbatterytech -lassimp -lbox2d -llua -lX11 -lGL -lGLU -lasound
 ARFLAGS=-r -c -s
 
 
@@ -69,6 +69,7 @@ BT_SOURCES=\
 	batterytech/render/AtlasMappedTexture.cpp \
 	batterytech/platform/linux/linuxgeneral.cpp \
 	batterytech/platform/linux/linuxboot.cpp \
+	batterytech/platform/linux/LinuxAudioGW.cpp \
 	batterytech/platform/glew.c \
 	batterytech/platform/opengles.cpp \
 	batterytech/platform/platformgeneral.cpp \
