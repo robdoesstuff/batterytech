@@ -33,7 +33,7 @@
 #include "../GameUtil.h"
 #include "../Game.h"
 #include "../GameContext.h"
-#include <Math.h>
+#include <math.h>
 #include <time.h>
 
 using namespace BatteryTech;
