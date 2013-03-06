@@ -167,6 +167,10 @@ typedef U32 BOOL32;
 #include "platform/blackberry/blackberrytypes.h"
 #endif
 
+#if defined(linux) and not defined(ANDROID_NDK)
+	#include "platform/linux/linuxtypes.h"
+#endif
+
 #if CHROME
 	#include "platform/chrome/chrometypes.h"
 #endif

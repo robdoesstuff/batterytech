@@ -54,6 +54,20 @@
 	#define glFrustumf(xmin, xmax, ymin, ymax, zNear, zFar) glFrustum(xmin, xmax, ymin, ymax, zNear, zFar)
 #endif /* OSX */
 
+#if defined(linux) and not defined(ANDROID_NDK)
+#define GLEW_STATIC
+	#include "glew.h"
+	#define GL_GLEXT_PROTOTYPES
+	#include <GL/gl.h>
+	#include <GL/glext.h>
+	#include <GL/glu.h>
+	#include <GL/glx.h>
+	// needed to map GLES to GL
+	#define glOrthof(left,right,bottom,top,near,far) glOrtho(left,right,bottom,top,near,far)
+	#define glFrustumf(xmin, xmax, ymin, ymax, zNear, zFar) glFrustum(xmin, xmax, ymin, ymax, zNear, zFar)
+#endif
+
+
 #if defined(__QNXNTO__)
 #include <GLES/gl.h>
 #include <GLES/glext.h>

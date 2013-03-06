@@ -49,6 +49,10 @@
 	#include "blackberry/blackberrygeneral.h"
 #endif
 
+#if defined(linux) and not defined(ANDROID_NDK)
+	#include "linux/linuxgeneral.h"
+#endif
+
 #ifdef CHROME
 	#include "chrome/chromegeneral.h"
 #endif

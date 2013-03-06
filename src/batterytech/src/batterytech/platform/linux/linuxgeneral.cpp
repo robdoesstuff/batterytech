@@ -152,6 +152,12 @@ void _platform_stop_sound() {
 }
 
 void _platform_get_external_storage_dir_name(char* buf, S32 buflen) {
+	// TODO - user home .dir
+	getcwd(buf, buflen);
+}
+
+void _platform_get_application_storage_dir_name(char* buf, S32 buflen) {
+	// TODO - user home .dir
 	getcwd(buf, buflen);
 }
 
