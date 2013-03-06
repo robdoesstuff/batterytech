@@ -35,11 +35,13 @@
 #include <sys/ioctl.h>
 #include <string.h>
 #include <iostream>
+#include "LinuxAudioGW.h"
 
 using namespace BatteryTech;
 using namespace std;
 
-AudioManager *_andSndMgr;
+LinuxAudioGW *audioGW;
+
 
 void _convert_filename(char *filename);
 
@@ -146,9 +148,14 @@ void _convert_filename(char *filename) {
 }
 
 void _platform_init_sound(AudioManager *audioManager) {
+	audioGW = new LinuxAudioGW(audioManager);
+	audioGW->init();
 }
 
 void _platform_stop_sound() {
+	audioGW->release();
+	delete audioGW;
+	audioGW = NULL;
 }
 
 void _platform_get_external_storage_dir_name(char* buf, S32 buflen) {

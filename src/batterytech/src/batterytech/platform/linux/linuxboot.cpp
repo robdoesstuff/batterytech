@@ -29,6 +29,7 @@
 #include <X11/Xlib.h>
 #include <sys/time.h>
 #include "../../Context.h"
+#include "LinuxAudioGW.h"
 
 // this is because CLOCK_MONOTONIC is in linux/time.h but the correct file to include is sys
 // only the indexer cares here.
@@ -40,7 +41,6 @@ using namespace std;
 using namespace BatteryTech;
 
 // TODO - add icon
-// TODO - swap buffer / run main loop while window moving
 
 Display *dpy;
 Window root;
