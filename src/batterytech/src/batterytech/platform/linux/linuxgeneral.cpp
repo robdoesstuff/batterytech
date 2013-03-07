@@ -20,13 +20,15 @@
 
 #if defined(linux)
 
-#include "../platformgeneral.h"
 #include "linuxgeneral.h"
+#include "../platformgeneral.h"
+#include "../../primitives.h"
+#include "../../batterytech.h"
+#include "../../Context.h"
 #include <sys/stat.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include "../../primitives.h"
 #include "../../audio/AudioManager.h"
 #include <errno.h>
 #include <net/if.h>
@@ -36,6 +38,9 @@
 #include <string.h>
 #include <iostream>
 #include "LinuxAudioGW.h"
+#include <sys/types.h>
+#include <pwd.h>
+#include <string.h>
 
 using namespace BatteryTech;
 using namespace std;
@@ -159,13 +164,33 @@ void _platform_stop_sound() {
 }
 
 void _platform_get_external_storage_dir_name(char* buf, S32 buflen) {
-	// TODO - user home .dir
-	getcwd(buf, buflen);
+	// home/.dir/storage
+	struct passwd *pw = getpwuid(getuid());
+	const char *homedir = pw->pw_dir;
+	const char *storageDir = btGetContext()->appProperties->get("storage_dir")->getValue();
+	char tmp[1024];
+	strcpy(tmp, storageDir);
+	char *loc = strchr(tmp, ' ');
+	while (loc) {
+		*loc = '_';
+		loc = strchr(loc, ' ');
+	}
+	snprintf(buf, buflen, "%s/.%s/storage", homedir, tmp);
 }
 
 void _platform_get_application_storage_dir_name(char* buf, S32 buflen) {
-	// TODO - user home .dir
-	getcwd(buf, buflen);
+	// home/.dir/data
+	struct passwd *pw = getpwuid(getuid());
+	const char *homedir = pw->pw_dir;
+	const char *storageDir = btGetContext()->appProperties->get("storage_dir")->getValue();
+	char tmp[1024];
+	strcpy(tmp, storageDir);
+	char *loc = strchr(tmp, ' ');
+	while (loc) {
+		*loc = '_';
+		loc = strchr(loc, ' ');
+	}
+	snprintf(buf, buflen, "%s/.%s/data", homedir, tmp);
 }
 
 const char* _platform_get_path_separator() {
