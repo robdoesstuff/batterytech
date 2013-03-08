@@ -79,7 +79,7 @@ int main(int argc, char *argv[]) {
 	cmap = XCreateColormap(dpy, root, vi->visual, AllocNone);
 
 	swa.colormap = cmap;
-	swa.event_mask = ExposureMask | KeyPressMask | ButtonPressMask | ButtonReleaseMask | PointerMotionMask;
+	swa.event_mask = ExposureMask | KeyPressMask | KeyReleaseMask | ButtonPressMask | ButtonReleaseMask | PointerMotionMask;
 
 	int height = 800;
 	int width = 1280;
@@ -224,7 +224,10 @@ int main(int argc, char *argv[]) {
 					}
 				}
 			} else if (xev.type == KeyPress) {
+				btKeyDown(xev.xkey.keycode, SKEY_NULL);
 				btKeyPressed(xev.xkey.keycode, SKEY_NULL);
+			} else if (xev.type == KeyRelease) {
+				btKeyUp(xev.xkey.keycode, SKEY_NULL);
 			} else if (xev.type == MotionNotify) {
 				if (isLeftPointerDown) {
 					btSetPointerState(0, TRUE, xev.xmotion.x, xev.xmotion.y);
