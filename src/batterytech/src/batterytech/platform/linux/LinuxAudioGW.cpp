@@ -61,7 +61,9 @@ void LinuxAudioGW::fillBuffer() {
 	audioManager->fillBuffer(audioBuf, AUDIO_BUFFER_SIZE);
 	int written = snd_pcm_writei(playback_handle, audioBuf, AUDIO_BUFFER_SIZE/4);
 	if (written < 0) {
-		logmsg("Playback error");
+		char buf[1024];
+		sprintf(buf, "Playback error: %s\n", snd_strerror(written));
+		logmsg(buf);
 		//run = false;
 	} else if (written < AUDIO_BUFFER_SIZE/4) {
 		logmsg("Underrun");
