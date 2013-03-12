@@ -61,9 +61,14 @@ void LinuxAudioGW::fillBuffer() {
 	audioManager->fillBuffer(audioBuf, AUDIO_BUFFER_SIZE);
 	int written = snd_pcm_writei(playback_handle, audioBuf, AUDIO_BUFFER_SIZE/4);
 	if (written < 0) {
-		char buf[1024];
-		sprintf(buf, "Playback error: %s\n", snd_strerror(written));
-		logmsg(buf);
+		if (written == -EPIPE) {
+			// prepare for playback again
+			snd_pcm_prepare(playback_handle);
+		} else {
+			char buf[1024];
+			sprintf(buf, "Playback error: %s\n", snd_strerror(written));
+			logmsg(buf);
+		}
 		//run = false;
 	} else if (written < AUDIO_BUFFER_SIZE/4) {
 		logmsg("Underrun");
@@ -82,8 +87,8 @@ void LinuxAudioGW::init() {
 	snd_pcm_hw_params_t *hw_params;
 	unsigned int playbackRate = 44100;
 	int channels = 2;
-	snd_pcm_uframes_t periodSize = 32;
-	snd_pcm_uframes_t bufferSize = 1000;
+	snd_pcm_uframes_t periodSize = 512;
+	snd_pcm_uframes_t bufferSize = 2048;
 	int dir;
 
 	if ((err = snd_pcm_open (&playback_handle, "default", SND_PCM_STREAM_PLAYBACK, 0)) < 0) {
