@@ -562,7 +562,8 @@ void WorldRenderer::render2D() {
                     posX = item->pos.x - width;
 				}
                 if (isMultiline) {
-                    curTextRenderer->renderMultiline(item->attr1, posX, posY, 0, 0, scale);
+                	// scale y and scale z are the max width and height
+                    curTextRenderer->renderMultiline(item->attr1, posX, posY, posX+item->scale.y, posY+item->scale.z, scale);
                 } else {
                     curTextRenderer->render(item->attr1, posX, posY, scale);
                 }

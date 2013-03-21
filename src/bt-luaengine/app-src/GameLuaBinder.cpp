@@ -1522,6 +1522,12 @@ static int setRenderItemParam_lightperpixel(lua_State *L, RenderItem *item) {
     return 0;
 }
 
+static int setRenderItemParam_maxtextsize(lua_State *L, RenderItem *item) {
+	item->scale.y = lua_tonumber(L, 4);
+	item->scale.z = lua_tonumber(L, 5);
+	return 0;
+}
+
 #define RENDERITEMFUNC int(*)(lua_State*, RenderItem*)
 
 static StrHashTable<RENDERITEMFUNC> *renderItemFuncs = new StrHashTable<RENDERITEMFUNC>();
@@ -1548,6 +1554,7 @@ void initRenderItemFunctions() {
     renderItemFuncs->put("multiline", setRenderItemParam_multiline);
     renderItemFuncs->put("isOpaque", setRenderItemParam_isOpaque);
     renderItemFuncs->put("lightperpixel", setRenderItemParam_lightperpixel);
+    renderItemFuncs->put("maxtextsize", setRenderItemParam_maxtextsize);
 }
 
 // game, renderItemIdx, paramName, values...
