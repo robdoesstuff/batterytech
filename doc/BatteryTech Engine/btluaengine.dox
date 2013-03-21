@@ -473,6 +473,10 @@ debug_sounds=false
  * \c \b lightperpixel Specified per-pixel lighting (false is per-vertex, default)
  * \arg \c true or \c false
  *
+ * \c \b maxtextsize Specifies the maximum width and height bounds for multiline text
+ * \arg \c width in screen pixels
+ * \arg \c height in screen pixels
+ *
  * \sa Graphics2D
  * \sa Graphics3D
  * \sa Fonts
