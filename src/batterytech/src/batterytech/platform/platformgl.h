@@ -20,6 +20,7 @@
 
 #ifdef ANDROID_NDK
 	#include "android/importgl.h"
+    #define OPENGL_ES
 #endif /* ANDROID_NDK */
 
 #ifdef _WIN32
@@ -30,6 +31,7 @@
 	// needed to map GLES to GL
 	#define glOrthof(left,right,bottom,top,near,far) glOrtho(left,right,bottom,top,near,far)
 	#define glFrustumf(xmin, xmax, ymin, ymax, zNear, zFar) glFrustum(xmin, xmax, ymin, ymax, zNear, zFar)
+    #define OPENGL
 
 #endif /* _WIN32 */
 
@@ -42,6 +44,7 @@
 	#import <OpenGLES/ES1/glext.h>
 	#import <OpenGLES/ES2/gl.h>
 	#import <OpenGLES/ES2/glext.h>
+    #define OPENGL_ES
 #endif /* IOS */
 
 #if TARGET_OS_MAC && !TARGET_OS_IPHONE
@@ -52,6 +55,7 @@
 	// needed to map GLES to GL
 	#define glOrthof(left,right,bottom,top,near,far) glOrtho(left,right,bottom,top,near,far)
 	#define glFrustumf(xmin, xmax, ymin, ymax, zNear, zFar) glFrustum(xmin, xmax, ymin, ymax, zNear, zFar)
+    #define OPENGL
 #endif /* OSX */
 
 #if defined(linux) and not defined(ANDROID_NDK)
@@ -65,6 +69,7 @@
 	// needed to map GLES to GL
 	#define glOrthof(left,right,bottom,top,near,far) glOrtho(left,right,bottom,top,near,far)
 	#define glFrustumf(xmin, xmax, ymin, ymax, zNear, zFar) glFrustum(xmin, xmax, ymin, ymax, zNear, zFar)
+    #define OPENGL
 #endif
 
 
@@ -72,6 +77,7 @@
 #include <GLES/gl.h>
 #include <GLES/glext.h>
 #include <GLES2/gl2.h>
+#define OPENGL_ES
 #endif
 
 #if CHROME
@@ -82,6 +88,7 @@
 #endif
 #define GL_APIENTRY
 #include "chrome/gles1.h"
+#define OPENGL_ES
 #endif
 
 #include "opengles.h"
