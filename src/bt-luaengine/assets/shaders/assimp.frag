@@ -113,7 +113,7 @@ varying vec4 vColor;
 	varying vec4 shadowCoord; // projected coordinates to shadow map
 	float getShadowFactor(vec4 lightZ) {
 	#ifdef SHADOWMAP_FLOAT_TEXTURE
-		float shadow = texture2D(shadowTexture, lightZ.xy);
+		float shadow = texture2D(shadowTexture, lightZ.xy).x;
 	#else
 		vec4 packedZValue = texture2D(shadowTexture, lightZ.xy);
 		// unpack the value stored to get the depth. 
