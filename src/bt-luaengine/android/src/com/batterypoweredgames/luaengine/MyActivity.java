@@ -10,7 +10,7 @@ public class MyActivity extends BatteryTechActivity {
 		// we need to use only GLES 2.0 for this application
 		return new GLSettings() {
 			@Override
-			public boolean supportGLES2() {
+			public boolean supportGLES2() { 
 				return true;
 			}
 		};

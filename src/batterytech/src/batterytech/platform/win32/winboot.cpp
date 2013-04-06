@@ -214,6 +214,14 @@ DWORD WINAPI StartThread(LPVOID iValue) {
 		logmsg("FBOs not supported");
 		btGetContext()->gConfig->supportsFBOs = FALSE;
 	}
+	if (GLEW_VERSION_3_0 || GLEW_ARB_texture_float) {
+		logmsg("Float textures supported");
+		btGetContext()->gConfig->supportsFloatTextures = TRUE;
+	}
+	if (GLEW_VERSION_1_4 || GLEW_ARB_depth_texture) {
+		logmsg("Depth textures supported");
+		btGetContext()->gConfig->supportsDepthTextures = TRUE;
+	}
 	BOOL32 useShaders = btGetContext()->appProperties->get("use_shaders")->getBoolValue();
 	if (useShaders && !shadersSupported) {
 		MessageBox(NULL, "This BatteryTech application requires a minimum of OpenGL 2.0", NULL, 0);

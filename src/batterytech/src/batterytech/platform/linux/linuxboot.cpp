@@ -186,6 +186,14 @@ int main(int argc, char *argv[]) {
 	if (glGenFramebuffers) {
 		gConfig->supportsFBOs = TRUE;
 	}
+	if (GLEW_VERSION_3_0 || GLEW_ARB_texture_float) {
+		logmsg("Float textures supported");
+		gConfig->supportsFloatTextures = TRUE;
+	}
+	if (GLEW_VERSION_1_4 || GLEW_ARB_depth_texture) {
+		logmsg("Depth textures supported");
+		gConfig->supportsDepthTextures = TRUE;
+	}
 	BOOL32 initialized = FALSE;
 	timespec ts;
 	clock_gettime(CLOCK_MONOTONIC, &ts);

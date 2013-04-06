@@ -108,19 +108,23 @@ varying vec4 vColor;
 #endif
 
 #ifdef SHADOWMAP
-uniform sampler2D shadowTexture; // depth texture generated from light source perspective
-uniform vec4 shadowColorEpsilon; // xyz are color, w is epsilon
-varying vec4 shadowCoord; // projected coordinates to shadow map
-float getShadowFactor(vec4 lightZ) {
-	vec4 packedZValue = texture2D(shadowTexture, lightZ.xy);
-	// unpack the value stored to get the depth. 
-	const vec4 bitShifts = vec4(1.0,
-						1.0 / 32.0,
-						1.0 / (64.0 * 32.0),
-						0.0);
-	float shadow = dot(packedZValue, bitShifts);
-	return float(shadow + shadowColorEpsilon.w > lightZ.z);
-}
+	uniform sampler2D shadowTexture; // depth texture generated from light source perspective
+	uniform vec4 shadowColorEpsilon; // xyz are color, w is epsilon
+	varying vec4 shadowCoord; // projected coordinates to shadow map
+	float getShadowFactor(vec4 lightZ) {
+	#ifdef SHADOWMAP_FLOAT_TEXTURE
+		float shadow = texture2D(shadowTexture, lightZ.xy);
+	#else
+		vec4 packedZValue = texture2D(shadowTexture, lightZ.xy);
+		// unpack the value stored to get the depth. 
+		const vec4 bitShifts = vec4(1.0,
+							1.0 / 32.0,
+							1.0 / (64.0 * 32.0),
+							0.0);
+		float shadow = dot(packedZValue, bitShifts);
+	#endif	
+		return float(shadow + shadowColorEpsilon.w > lightZ.z);
+	}
 #endif
 
 void main() {

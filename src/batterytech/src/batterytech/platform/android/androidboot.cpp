@@ -194,6 +194,14 @@ void determineGPUCapabilities() {
 		__android_log_print(ANDROID_LOG_DEBUG, "BatteryTech", "HW MipMap Gen Supported");
 		gConfig->supportsHWmipmapgen = TRUE;
 	}
+	if (gles_checkExtension(GLES_EXT_TEXTURE_FLOAT)) {
+		__android_log_print(ANDROID_LOG_DEBUG, "BatteryTech", "Float textures supported");
+		gConfig->supportsFloatTextures = TRUE;
+	}
+	if (gles_checkExtension(GLES_EXT_DEPTH_TEXTURE)) {
+		__android_log_print(ANDROID_LOG_DEBUG, "BatteryTech", "Depth textures supported");
+		gConfig->supportsDepthTextures = TRUE;
+	}
 	if ((ver > 0) || gles_checkExtension(GLES_EXT_VERTEX_BUFFER_OBJECT)) {
 		__android_log_print(ANDROID_LOG_DEBUG, "BatteryTech", "VBOs Supported");
 		gConfig->supportsVBOs = TRUE;

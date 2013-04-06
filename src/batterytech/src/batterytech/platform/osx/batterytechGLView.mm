@@ -110,6 +110,15 @@ double getCurrentTime() {
     if (glGenFramebuffers) {
         gConfig->supportsFBOs = TRUE;
     }
+	if (GLEW_VERSION_3_0 || GLEW_ARB_texture_float) {
+		NSLog(@"Float textures supported");
+		gConfig->supportsFloatTextures = TRUE;
+	}
+	if (GLEW_VERSION_1_4 || GLEW_ARB_depth_texture) {
+		NSLog(@"Depth textures supported");
+		gConfig->supportsDepthTextures = TRUE;
+	}
+
 	btInit(gConfig, frameWidth, frameHeight);
     BatteryTech::Context *btContext = btGetContext();
     StrHashTable<Property*> *props = btContext->appProperties;

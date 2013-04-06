@@ -126,6 +126,14 @@ namespace BatteryTech {
 		 * Does GPU support framebuffer objects?
 		 */
 		BOOL32 supportsFBOs;
+		/**
+		 * Does GPU support floating point textures?
+		 */
+		BOOL32 supportsFloatTextures;
+		/**
+		 * Does GPU support depth-only textures?
+		 */
+		BOOL32 supportsDepthTextures;
 	};
 
 }

@@ -36,6 +36,8 @@ namespace BatteryTech {
 		supportsUVTransform = FALSE;
 		supportsShaders = FALSE;
 		supportsFBOs = FALSE;
+		supportsFloatTextures = FALSE;
+		supportsDepthTextures = FALSE;
 		shadowType = SHADOWTYPE_NONE;
 	}
 

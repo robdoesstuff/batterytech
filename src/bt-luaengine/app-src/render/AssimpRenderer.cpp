@@ -418,6 +418,9 @@ void AssimpRenderer::renderNodeShadow(RenderNode *node, GLAssimpBinding *binding
             ShaderProgram *shaderProgram = context->glResourceManager->getShaderProgram(ssTag);
             if (!shaderProgram) {
             	shaderProgram = createShadowShaderProgram(TRUE, ASSIMP_GPU_ACCELERATED_RENDER && meshBinding->hasBones);
+            	if (context->gConfig->supportsFloatTextures) {
+            		shaderProgram->addDefine("SHADOWMAP_FLOAT_TEXTURE", "1");
+            	}
             	// do it now!
             	shaderProgram->load(TRUE);
             	context->glResourceManager->addShaderProgram(ssTag, shaderProgram);
@@ -589,6 +592,9 @@ ShaderProgram* AssimpRenderer::addShaderProgram(const char *tag, AssimpShaderCon
 	}
 	if (config.vertexLighting) {
 		shader->addDefine("VERTEX_LIGHTING", "1");
+	}
+	if (context->gConfig->supportsFloatTextures) {
+		shader->addDefine("SHADOWMAP_FLOAT_TEXTURE", "1");
 	}
 	shader->load(TRUE);
 	context->glResourceManager->addShaderProgram(tag, shader);

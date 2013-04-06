@@ -122,7 +122,8 @@ void ShadowMap::generateShadowFBO() {
 	glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );
 	glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );
 	// We'll use an RGBA texture to store the depths in the shadow map
-//	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, shadowMapWidth, shadowMapHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+//	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, shadowWidth, shadowHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+	// we're just going to use 16 bit precision.
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, shadowWidth, shadowHeight, 0, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, NULL);
 	// clear bound texture
 	// glBindTexture(GL_TEXTURE_2D, 0);

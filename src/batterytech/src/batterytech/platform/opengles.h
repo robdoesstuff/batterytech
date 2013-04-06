@@ -29,6 +29,8 @@
 #define GLES_PROFILE_COMMON_LITE "CL"
 #define GLES_EXT_GENERATE_MIPMAP "generate_mipmap"
 #define GLES_EXT_VERTEX_BUFFER_OBJECT "vertex_buffer_object"
+#define GLES_EXT_TEXTURE_FLOAT "texture_float"
+#define GLES_EXT_DEPTH_TEXTURE "depth_texture"
 #define ANDROID_RENDERER_PIXELFLINGER "PixelFlinger"
 
 using namespace BatteryTech;

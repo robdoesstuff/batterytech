@@ -27,6 +27,7 @@
 #include <batterytech/batterytech.h>
 #include <batterytech/render/GraphicsConfiguration.h>
 #include <batterytech/Logger.h>
+#include <batterytech/platform/opengles.h>
 
 using namespace BatteryTech;
 
@@ -84,6 +85,16 @@ double getCurrentTime() {
 		NSLog(@"Initialized GLES 2.0 Context");
 		gConfig->supportsShaders = TRUE;
 		gConfig->supportsFBOs = TRUE;
+		if (gles_checkExtension(GLES_EXT_TEXTURE_FLOAT)) {
+			NSLog(@"BatteryTech", "Float textures supported");
+			gConfig->supportsFloatTextures = TRUE;
+		}
+	if (gles_checkExtension(GLES_EXT_DEPTH_TEXTURE)) {
+		NSLog(@"BatteryTech", "Depth textures supported");
+		gConfig->supportsDepthTextures = TRUE;
+	}
+	}
+		
 	}
     
     if (!aContext) {
