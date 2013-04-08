@@ -125,7 +125,9 @@ void ShadowMap::generateShadowFBO() {
 	// create a framebuffer object
 	glGenFramebuffers(1, &shadowFrameBuffer);
 	glBindFramebuffer(GL_FRAMEBUFFER, shadowFrameBuffer);
-    
+    context->gConfig->supportsDepthTextures = false;
+    //TODO - loop, check FBO status, repeat with next level down fallback if fail, mark type for shader config
+    //TODO - crazy idea, what about an 8-bit shadowmap using just single channel alpha texture?
     if (context->gConfig->supportsDepthTextures) {
 #ifdef OPENGL
         //desktop GL requires this for a depth texture, ES does not
@@ -136,11 +138,19 @@ void ShadowMap::generateShadowFBO() {
 		// attach the texture to FBO depth attachment point
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, shadowTexture, 0);
     } else {
-        // We'll use an RGBA texture to store the depths in the shadow map
-        //	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, shadowWidth, shadowHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
-        // we're just going to use 16 bit precision.
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, shadowWidth, shadowHeight, 0, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, NULL);
-        // clear bound texture  
+        // This would be the 32 bit version
+        // glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, shadowWidth, shadowHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+        if (context->gConfig->supportsFloatTextures) {
+#ifdef OPENGL
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, shadowWidth, shadowHeight, 0, GL_RGB, GL_HALF_FLOAT, NULL);
+#else
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, shadowWidth, shadowHeight, 0, GL_RGB, GL_HALF_FLOAT_OES, NULL);
+#endif
+        } else {
+            // we're just going to use 16 bit precision.
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, shadowWidth, shadowHeight, 0, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, NULL);
+        }
+        // clear bound texture
         // glBindTexture(GL_TEXTURE_2D, 0);
         Texture::lastTextureId = shadowTexture;
         Renderer::checkGLError("ShadowMap create shadow texture");
