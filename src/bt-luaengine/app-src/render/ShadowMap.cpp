@@ -47,6 +47,7 @@ ShadowMap::ShadowMap(GameContext *context) {
    	renderBuffer = 0;
     shadowTexture = 0;
     hasDepthTexture = FALSE;
+	shadowTextureType = SHADOWTEXTURE_NONE;
 }
 
 ShadowMap::~ShadowMap() {
@@ -64,6 +65,12 @@ void ShadowMap::init(BOOL32 newContext) {
 
 void ShadowMap::generateShadowFBO() {
 	Renderer::checkGLError("ShadowMap start generateShadowFBO()");
+	ShadowMap::ShadowTextureType *textureType = (ShadowMap::ShadowTextureType*) context->renderContext->userValues->get("shadowmap_texture_type");
+	if (!textureType) {
+		textureType = new ShadowMap::ShadowTextureType;
+		*textureType = SHADOWTEXTURE_NONE;
+		context->renderContext->userValues->put("shadowmap_texture_type", textureType);
+	}
 	if (context->gConfig->shadowType == GraphicsConfiguration::SHADOWTYPE_SHADOWMAP) {
 		shadowWidth = SHADOWMAP_WIDTH;
 		shadowHeight = SHADOWMAP_HEIGHT;
@@ -125,10 +132,11 @@ void ShadowMap::generateShadowFBO() {
 	// create a framebuffer object
 	glGenFramebuffers(1, &shadowFrameBuffer);
 	glBindFramebuffer(GL_FRAMEBUFFER, shadowFrameBuffer);
-    context->gConfig->supportsDepthTextures = false;
+
     //TODO - loop, check FBO status, repeat with next level down fallback if fail, mark type for shader config
-    //TODO - crazy idea, what about an 8-bit shadowmap using just single channel alpha texture?
     if (context->gConfig->supportsDepthTextures) {
+    	logmsg("Shadowmap: using depth texture");
+    	*textureType = SHADOWTEXTURE_DEPTH;
 #ifdef OPENGL
         //desktop GL requires this for a depth texture, ES does not
 		glDrawBuffer(GL_NONE);
@@ -138,18 +146,11 @@ void ShadowMap::generateShadowFBO() {
 		// attach the texture to FBO depth attachment point
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, shadowTexture, 0);
     } else {
-        // This would be the 32 bit version
-        // glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, shadowWidth, shadowHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
-        if (context->gConfig->supportsFloatTextures) {
-#ifdef OPENGL
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, shadowWidth, shadowHeight, 0, GL_RGB, GL_HALF_FLOAT, NULL);
-#else
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, shadowWidth, shadowHeight, 0, GL_RGB, GL_HALF_FLOAT_OES, NULL);
-#endif
-        } else {
-            // we're just going to use 16 bit precision.
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, shadowWidth, shadowHeight, 0, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, NULL);
-        }
+    	logmsg("Shadowmap: using rgb texture");
+    	*textureType = SHADOWTEXTURE_RGB;
+    	//*textureType = SHADOWTEXTURE_8BIT;
+        // we're just going to use 16 bit precision.
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, shadowWidth, shadowHeight, 0, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, NULL);
         // clear bound texture
         // glBindTexture(GL_TEXTURE_2D, 0);
         Texture::lastTextureId = shadowTexture;
@@ -206,19 +207,21 @@ void ShadowMap::bindForMapCreation() {
 	if (!context->gConfig->supportsFBOs) {
 		return;
 	}
+	ShadowMap::ShadowTextureType *textureType = (ShadowMap::ShadowTextureType*) context->renderContext->userValues->get("shadowmap_texture_type");
 	Renderer::checkGLError("ShadowMap start bindForMapCreation()");
 	//First step: Render from the light POV to a FBO, store depth values only
 	glBindFramebuffer(GL_FRAMEBUFFER, shadowFrameBuffer);	//Rendering offscreen
 	// Viewport is now the size of the shadowmap texture
 	glViewport(0,0,shadowWidth,shadowHeight);
-    if (context->gConfig->supportsDepthTextures) {
+    if (*textureType == SHADOWTEXTURE_DEPTH) {
         //only if using depth texture!
         glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
         glClear(GL_DEPTH_BUFFER_BIT);
    } else {
         // Clear previous frame values
         glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        // we clear depth at unbind for driver optimization
+        glClear(GL_COLOR_BUFFER_BIT);
     }
     // this is setting up a projection and mv for the light's view
 	Matrix4f proj;
@@ -289,11 +292,16 @@ void ShadowMap::unbindAfterMapCreation() {
 	// Back to default viewport
 	glViewport(0,0,context->gConfig->viewportWidth,context->gConfig->viewportHeight);
 	// Now rendering from the camera POV, using the FBO to generate shadows
+	ShadowMap::ShadowTextureType *textureType = (ShadowMap::ShadowTextureType*) context->renderContext->userValues->get("shadowmap_texture_type");
+	if (*textureType != SHADOWTEXTURE_DEPTH) {
+		// we can clear the depth buffer here but not if using a depth texture
+		glClear(GL_DEPTH_BUFFER_BIT);
+	}
 	// clear the depth buffer because we don't need it to resolve and the driver can optimize here when switching back to FB0
 	glBindFramebuffer(GL_FRAMEBUFFER,defaultFrameBuffer);
     // re-enable normal backface culling
 	glCullFace(GL_BACK);
-    if (context->gConfig->supportsDepthTextures) {
+    if (*textureType == SHADOWTEXTURE_DEPTH) {
         //only if using depth texture!
         glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
     }

@@ -21,8 +21,16 @@
 class GameContext;
 using namespace BatteryTech;
 
+
 class ShadowMap {
 public:
+	enum ShadowTextureType {
+		SHADOWTEXTURE_NONE,
+		SHADOWTEXTURE_DEPTH,
+		SHADOWTEXTURE_FLOAT,
+		SHADOWTEXTURE_RGB,
+		SHADOWTEXTURE_8BIT
+	};
 	ShadowMap(GameContext *context);
 	virtual ~ShadowMap();
 	void init(BOOL32 newContext);
@@ -41,6 +49,10 @@ private:
     GLuint shadowWidth, shadowHeight;
     GLuint defaultFrameBuffer;
     GraphicsConfiguration::ShadowType currentShadowType;
+	/**
+	 * The texture type of the shadow implemented by shadow system
+	 */
+    ShadowTextureType shadowTextureType;
 };
 
 #endif /* ShadowMap_H_ */
