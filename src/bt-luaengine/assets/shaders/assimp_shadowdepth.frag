@@ -7,6 +7,7 @@ precision mediump float;
 precision mediump float;
 #endif
 
+#ifdef SHADOWMAP_WITH_FRAGMENT
 varying vec4 position;
 
 vec4 pack (float depth) {
@@ -16,8 +17,10 @@ vec4 pack (float depth) {
     comp -= comp.yzww * bitMsk;
     return comp;
 }
+#endif
 
 void main() {
+#ifdef SHADOWMAP_WITH_FRAGMENT
 	float normalizedDistance = position.z / position.w;
 	// scale it from 0-1
 	normalizedDistance = (normalizedDistance + 1.0) / 2.0;
@@ -25,5 +28,8 @@ void main() {
 	gl_FragColor = pack(normalizedDistance);
 #else
 	gl_FragColor = vec4(normalizedDistance,0.0,0.0,0.0);
+#endif
+#else
+	gl_FragColor = vec4(0.0,0.0,0.0,0.0);
 #endif
 }

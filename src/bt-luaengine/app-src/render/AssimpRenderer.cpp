@@ -419,8 +419,13 @@ void AssimpRenderer::renderNodeShadow(RenderNode *node, GLAssimpBinding *binding
             if (!shaderProgram) {
             	shaderProgram = createShadowShaderProgram(TRUE, ASSIMP_GPU_ACCELERATED_RENDER && meshBinding->hasBones);
             	ShadowMap::ShadowTextureType *textureType = (ShadowMap::ShadowTextureType*) context->renderContext->userValues->get("shadowmap_texture_type");
-            	if (textureType && *textureType == ShadowMap::SHADOWTEXTURE_RGB) {
-            		shaderProgram->addDefine("SHADOWMAP_PACK_RGB", "1");
+            	if (textureType) {
+            		if (*textureType != ShadowMap::SHADOWTEXTURE_DEPTH) {
+                		shaderProgram->addDefine("SHADOWMAP_WITH_FRAGMENT", "1");
+            		}
+            		if (*textureType == ShadowMap::SHADOWTEXTURE_RGB) {
+                		shaderProgram->addDefine("SHADOWMAP_PACK_RGB", "1");
+            		}
             	}
             	// do it now!
             	shaderProgram->load(TRUE);

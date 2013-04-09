@@ -133,7 +133,7 @@ void ShadowMap::generateShadowFBO() {
 	glGenFramebuffers(1, &shadowFrameBuffer);
 	glBindFramebuffer(GL_FRAMEBUFFER, shadowFrameBuffer);
 
-    //TODO - loop, check FBO status, repeat with next level down fallback if fail, mark type for shader config
+    //Maybe TODO - loop, check FBO status, repeat with next level down fallback if fail?
     if (context->gConfig->supportsDepthTextures) {
     	logmsg("Shadowmap: using depth texture");
     	*textureType = SHADOWTEXTURE_DEPTH;
