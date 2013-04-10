@@ -425,6 +425,8 @@ void AssimpRenderer::renderNodeShadow(RenderNode *node, GLAssimpBinding *binding
             		}
             		if (*textureType == ShadowMap::SHADOWTEXTURE_RGB) {
                 		shaderProgram->addDefine("SHADOWMAP_PACK_RGB", "1");
+            		} else if (*textureType == ShadowMap::SHADOWTEXTURE_ALPHA) {
+            			shaderProgram->addDefine("SHADOWMAP_ALPHA_CHANNEL", "1");
             		}
             	}
             	// do it now!
@@ -602,7 +604,10 @@ ShaderProgram* AssimpRenderer::addShaderProgram(const char *tag, AssimpShaderCon
 	ShadowMap::ShadowTextureType *textureType = (ShadowMap::ShadowTextureType*) context->renderContext->userValues->get("shadowmap_texture_type");
 	if (textureType && *textureType == ShadowMap::SHADOWTEXTURE_RGB) {
 		shader->addDefine("SHADOWMAP_PACK_RGB", "1");
+	} else if (textureType && *textureType == ShadowMap::SHADOWTEXTURE_ALPHA) {
+		shader->addDefine("SHADOWMAP_ALPHA_CHANNEL", "1");
 	}
+
 	shader->load(TRUE);
 	context->glResourceManager->addShaderProgram(tag, shader);
 	return shader;

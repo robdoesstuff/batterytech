@@ -29,7 +29,7 @@ public:
 		SHADOWTEXTURE_DEPTH,
 		SHADOWTEXTURE_FLOAT,
 		SHADOWTEXTURE_RGB,
-		SHADOWTEXTURE_8BIT
+		SHADOWTEXTURE_ALPHA
 	};
 	ShadowMap(GameContext *context);
 	virtual ~ShadowMap();

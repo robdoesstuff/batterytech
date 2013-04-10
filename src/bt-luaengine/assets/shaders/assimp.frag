@@ -121,8 +121,12 @@ varying vec4 vColor;
 							0.0);
 		float shadow = dot(packedZValue, bitShifts);
 	#else
-		float shadow = texture2D(shadowTexture, lightZ.xy).r;
-	#endif	
+		#ifdef SHADOWMAP_ALPHA_CHANNEL
+			float shadow = texture2D(shadowTexture, lightZ.xy).a;
+		#else
+			float shadow = texture2D(shadowTexture, lightZ.xy).r;
+		#endif
+	#endif
 		return float(shadow + shadowColorEpsilon.w > lightZ.z);
 	}
 #endif

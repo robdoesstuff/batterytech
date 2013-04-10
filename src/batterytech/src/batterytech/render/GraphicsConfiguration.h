@@ -51,7 +51,6 @@ namespace BatteryTech {
 			SHADOWTYPE_SHADOWMAP_CUSTOM
 		};
 
-
 		/**
 		 * The scale of the UI on the current display.  1.0 = reference size.
 		 */
@@ -99,6 +98,9 @@ namespace BatteryTech {
 		 */
 		BOOL32 useShaders;
 
+		/**
+		 * The type of shadow requested by the application
+		 */
 		ShadowType shadowType;
 
 		// --------- GPU capabilities ------------

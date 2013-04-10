@@ -20,6 +20,7 @@
 #include <batterytech/render/Renderer.h>
 #include <batterytech/render/Texture.h>
 #include <stdio.h>
+#include <batterytech/util/strx.h>
 
 #define SHADOWMAP_WIDTH    512
 #define SHADOWMAP_HEIGHT   512
@@ -133,52 +134,77 @@ void ShadowMap::generateShadowFBO() {
 	glGenFramebuffers(1, &shadowFrameBuffer);
 	glBindFramebuffer(GL_FRAMEBUFFER, shadowFrameBuffer);
 
-    //Maybe TODO - loop, check FBO status, repeat with next level down fallback if fail?
-    if (context->gConfig->supportsDepthTextures) {
-    	logmsg("Shadowmap: using depth texture");
-    	*textureType = SHADOWTEXTURE_DEPTH;
-#ifdef OPENGL
-        //desktop GL requires this for a depth texture, ES does not
-		glDrawBuffer(GL_NONE);
-		glReadBuffer(GL_NONE);
-#endif
-		glTexImage2D( GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, shadowWidth, shadowHeight, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_INT, NULL);
-		// attach the texture to FBO depth attachment point
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, shadowTexture, 0);
-    } else {
-    	logmsg("Shadowmap: using rgb texture");
-    	*textureType = SHADOWTEXTURE_RGB;
-    	//*textureType = SHADOWTEXTURE_8BIT;
-        // we're just going to use 16 bit precision.
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, shadowWidth, shadowHeight, 0, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, NULL);
-        // clear bound texture
-        // glBindTexture(GL_TEXTURE_2D, 0);
-        Texture::lastTextureId = shadowTexture;
-        Renderer::checkGLError("ShadowMap create shadow texture");
-        
-        // Create a render buffer
-        glGenRenderbuffers(1, &renderBuffer);
-        glBindRenderbuffer(GL_RENDERBUFFER, renderBuffer);
-        // Allocate 16-bit depth buffer
-        glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, shadowWidth, shadowHeight);
-        // clear bound renderbuffer
-        glBindRenderbuffer(GL_RENDERBUFFER, 0);
-        Renderer::checkGLError("ShadowMap create renderbuffer");
- 
-        // Attach the render buffer as depth buffer
-        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, renderBuffer);
-        Renderer::checkGLError("ShadowMap attach depth renderbuffer to framebuffer");
-        // Attach the RGBA texture to FBO color attachment point
-        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, shadowTexture, 0);
-        Renderer::checkGLError("ShadowMap attach texture to framebuffer");
-
-    }
-
-	// check FBO status
-	GLenum FBOstatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
-	if(FBOstatus != GL_FRAMEBUFFER_COMPLETE) {
-		logmsg("ShadowMap ERROR - GL_FRAMEBUFFER_COMPLETE failed, CANNOT use FBO!!");
+	BOOL32 tryAlpha = FALSE;
+	const char *renderer = (const char*)glGetString(GL_RENDERER);
+	// little hack to use an 8 bit alpha channel shadowmap on Tegra 3 - is 25% faster and doesn't look too different
+	if (strEquals(renderer, "NVIDIA Tegra 3")) {
+		tryAlpha = TRUE;
 	}
+	BOOL32 done = FALSE;
+	while (!done) {
+	    if (context->gConfig->supportsDepthTextures) {
+	    	logmsg("Shadowmap: using depth texture");
+	    	*textureType = SHADOWTEXTURE_DEPTH;
+	#ifdef OPENGL
+	        //desktop GL requires this for a depth texture, ES does not
+			glDrawBuffer(GL_NONE);
+			glReadBuffer(GL_NONE);
+	#endif
+			glTexImage2D( GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, shadowWidth, shadowHeight, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_INT, NULL);
+			// attach the texture to FBO depth attachment point
+			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, shadowTexture, 0);
+			done = TRUE;
+	    } else {
+	    	if (tryAlpha) {
+		    	logmsg("Shadowmap: using alpha texture");
+		    	*textureType = SHADOWTEXTURE_ALPHA;
+		        glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA, shadowWidth, shadowHeight, 0, GL_ALPHA, GL_UNSIGNED_BYTE, NULL);
+	    	} else {
+		    	logmsg("Shadowmap: using rgb texture");
+		    	*textureType = SHADOWTEXTURE_RGB;
+		        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, shadowWidth, shadowHeight, 0, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, NULL);
+	    	}
+	        Texture::lastTextureId = shadowTexture;
+	        Renderer::checkGLError("ShadowMap create shadow texture");
+
+	        // Clear previous render buffer attempt
+	    	if (renderBuffer) {
+	    		glDeleteRenderbuffers(1, &renderBuffer);
+	    		renderBuffer = 0;
+	    	}
+	        // Create a render buffer
+	        glGenRenderbuffers(1, &renderBuffer);
+	        glBindRenderbuffer(GL_RENDERBUFFER, renderBuffer);
+	        // Allocate 16-bit depth buffer
+	        glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, shadowWidth, shadowHeight);
+	        // clear bound renderbuffer
+	        glBindRenderbuffer(GL_RENDERBUFFER, 0);
+	        Renderer::checkGLError("ShadowMap create renderbuffer");
+
+	        // Attach the render buffer as depth buffer
+	        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, renderBuffer);
+	        Renderer::checkGLError("ShadowMap attach depth renderbuffer to framebuffer");
+	        // Attach the texture to FBO color attachment point
+	        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, shadowTexture, 0);
+	        Renderer::checkGLError("ShadowMap attach texture to framebuffer");
+	    }
+		// check FBO status
+		GLenum FBOstatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+		if (FBOstatus != GL_FRAMEBUFFER_COMPLETE) {
+			if (done || !tryAlpha) {
+				logmsg("ShadowMap ERROR - GL_FRAMEBUFFER_COMPLETE failed, CANNOT use FBO!!");
+				done = TRUE;
+			} else {
+				logmsg("ShadowMap falling back to safe mode (RGB)");
+				if (tryAlpha) {
+					tryAlpha = FALSE;
+				}
+			}
+		} else {
+			done = TRUE;
+		}
+	}
+
     // clear bound texture
 	glBindTexture(GL_TEXTURE_2D, 0);
 	// switch back to window-system-provided framebuffer

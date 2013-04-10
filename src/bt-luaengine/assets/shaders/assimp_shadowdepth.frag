@@ -24,11 +24,15 @@ void main() {
 	float normalizedDistance = position.z / position.w;
 	// scale it from 0-1
 	normalizedDistance = (normalizedDistance + 1.0) / 2.0;
-#ifdef SHADOWMAP_PACK_RGB
-	gl_FragColor = pack(normalizedDistance);
-#else
-	gl_FragColor = vec4(normalizedDistance,0.0,0.0,0.0);
-#endif
+	#ifdef SHADOWMAP_PACK_RGB
+		gl_FragColor = pack(normalizedDistance);
+	#else
+		#ifdef SHADOWMAP_ALPHA_CHANNEL
+			gl_FragColor = vec4(0.0,0.0,0.0,normalizedDistance);
+		#else
+			gl_FragColor = vec4(normalizedDistance,0.0,0.0,0.0);
+		#endif
+	#endif
 #else
 	gl_FragColor = vec4(0.0,0.0,0.0,0.0);
 #endif

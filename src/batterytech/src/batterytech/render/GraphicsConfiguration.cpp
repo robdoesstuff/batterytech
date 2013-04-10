@@ -38,7 +38,6 @@ namespace BatteryTech {
 		supportsFBOs = FALSE;
 		supportsFloatTextures = FALSE;
 		supportsDepthTextures = FALSE;
-		shadowType = SHADOWTYPE_NONE;
 	}
 
 	GraphicsConfiguration::~GraphicsConfiguration() {
