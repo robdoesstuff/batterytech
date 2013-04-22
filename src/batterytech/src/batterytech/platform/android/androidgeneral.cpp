@@ -382,12 +382,12 @@ void _platform_hook(const char *hook, char *result, S32 resultLen) {
 	jstring jhook = jnienv->NewStringUTF(hook);
 	jstring resultStringUTF = (jstring)jnienv->CallObjectMethod(javaBoot, loadAssetMethodID, jhook);
 	// only copy the result from Java if we've got somewhere to put it
-	if (result) {
+	if (result && resultLen > 0) {
 		jboolean isCopy;
 		const char *jnibuf = jnienv->GetStringUTFChars(resultStringUTF, &isCopy);
 		if (jnibuf) {
-			strcpy(result, jnibuf);
-			result[strlen(jnibuf)] = '\0';
+			strncpy(result, jnibuf, resultLen);
+			result[resultLen-1] = '\0';
 		} else {
 			result[0] = '\0';
 		}
