@@ -20,7 +20,7 @@ varying vec4 vColor;
 #define POINT_LIGHT_COUNT 0
 #endif
 
-#define HAS_LIGHTS (defined(DIR_LIGHT) || POINT_LIGHT_COUNT > 0)
+#define HAS_LIGHTS (defined(DIR_LIGHT) || (POINT_LIGHT_COUNT) > 0)
 #define FRAGMENT_LIGHTING !defined(VERTEX_LIGHTING)
 
 #if HAS_LIGHTS && FRAGMENT_LIGHTING

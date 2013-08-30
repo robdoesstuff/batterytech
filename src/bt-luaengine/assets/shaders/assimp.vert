@@ -15,7 +15,7 @@ uniform vec4 fog_and_uv_offset;
 attribute vec3 vPosition;
 attribute vec2 vUV;
 
-#define HAS_LIGHTS (defined(DIR_LIGHT) || POINT_LIGHT_COUNT > 0)
+#define HAS_LIGHTS (defined(DIR_LIGHT) || (POINT_LIGHT_COUNT) > 0)
 #define FRAGMENT_LIGHTING !defined(VERTEX_LIGHTING)
 
 #if HAS_LIGHTS

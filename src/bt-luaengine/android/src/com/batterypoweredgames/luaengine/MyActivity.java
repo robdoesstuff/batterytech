@@ -12,7 +12,7 @@ public class MyActivity extends BatteryTechActivity {
 			@Override
 			public boolean supportGLES2() { 
 				return true;
-			}
+			} 
 		};
 	}
 
