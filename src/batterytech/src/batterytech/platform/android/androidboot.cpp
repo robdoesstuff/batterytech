@@ -173,22 +173,21 @@ void determineGPUCapabilities() {
 	const char *renderer = (const char*)glGetString(GL_RENDERER);
 	const char *version = (const char*)glGetString(GL_VERSION);
 	const char *extensions = (const char*)glGetString(GL_EXTENSIONS);
-	// 1.0 = 0, 1.1 = 1, 2.0 = 2
+	// 1.0 = 0, 1.1 = 1, 2.0/3.0 = 2
 	int ver = 0;
 	__android_log_print(ANDROID_LOG_DEBUG, "BatteryTech", "OpenGL Vendor %s", vendor);
 	__android_log_print(ANDROID_LOG_DEBUG, "BatteryTech", "OpenGL Renderer %s", renderer);
 	__android_log_print(ANDROID_LOG_DEBUG, "BatteryTech", "OpenGL Version %s", version);
-	if (strstr(version, "2.0")) {
-		__android_log_print(ANDROID_LOG_DEBUG, "BatteryTech", "OpenGL ES Version 2.0 found");
-		ver = 2;
+	if ((strstr(version, "1.0") || strstr(version, "1.1")) && !(strstr(version, "2.0") || strstr(version, "3.0"))) {
+		__android_log_print(ANDROID_LOG_DEBUG, "BatteryTech", "OpenGL ES Version 1.0/1.1 found");
+		if (!strstr(version, "1.0")) {
+			ver = 1;
+		}
+	} else {
+		__android_log_print(ANDROID_LOG_DEBUG, "BatteryTech", "OpenGL ES Version 2.0/3.0 found");
 		gConfig->supportsShaders = TRUE;
 		gConfig->supportsFBOs = TRUE;
-	} else if (strstr(version, "1.1")) {
-		__android_log_print(ANDROID_LOG_DEBUG, "BatteryTech", "OpenGL ES Version 1.1 found");
-		ver = 1;
-	}
-	if (ver == 0) {
-		__android_log_print(ANDROID_LOG_DEBUG, "BatteryTech", "OpenGL ES Version 1.0 found");
+		ver = 2;
 	}
 	if ((ver > 0) || gles_checkExtension(GLES_EXT_GENERATE_MIPMAP)) {
 		__android_log_print(ANDROID_LOG_DEBUG, "BatteryTech", "HW MipMap Gen Supported");
