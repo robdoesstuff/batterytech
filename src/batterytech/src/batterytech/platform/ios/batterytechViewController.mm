@@ -29,6 +29,8 @@
 #include <batterytech/Logger.h>
 #include <batterytech/platform/opengles.h>
 
+#define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v) ([[[UIDevice currentDevice] systemVersion] compare:(v) options:NSNumericSearch] != NSOrderedAscending)
+
 using namespace BatteryTech;
 
 static GraphicsConfiguration *gConfig;
@@ -131,25 +133,29 @@ double getCurrentTime() {
 	sprintf(buf, "OpenGL Version [%s]", version);
 	logmsg(buf);
 	
-    if ([self forceLandscape]) {
-        [self.view setTransform:CGAffineTransformMakeRotation(M_PI / 2)];
+    if (!SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
+        if ([self forceLandscape]) {
+            [self.view setTransform:CGAffineTransformMakeRotation(M_PI / 2)];
+        }
     }
 	gConfig->supportsHWmipmapgen = TRUE;
 	gConfig->supportsVBOs = TRUE;
 	gConfig->supportsUVTransform = TRUE;
 	vpHeight = [(EAGLView *)self.view getFBHeight];
 	vpWidth = [(EAGLView *)self.view getFBWidth];
-    if ([self forceLandscape]) {
-        if (vpWidth < vpHeight) {
-            // this is portrait and will be rotated to landscape - flip the values
-            int temp = vpWidth;
-            vpWidth = vpHeight;
-            vpHeight = temp;
+    if (!SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
+        if ([self forceLandscape]) {
+            if (vpWidth < vpHeight) {
+                // this is portrait and will be rotated to landscape - flip the values
+                int temp = vpWidth;
+                vpWidth = vpHeight;
+                vpHeight = temp;
+            }
         }
     }
 	btInit(gConfig, vpWidth, vpHeight);
 	currentTime = getCurrentTime();
-	//allocate the audio player∫
+	//allocate the audio player
 	player = [[RemoteIOPlayer alloc]init];
 	//initialize the audio player
 	[player initialiseAudio];
@@ -159,6 +165,7 @@ double getCurrentTime() {
 	accel.updateInterval = 1/30.0f;
 	accel.delegate = self;
     isContextInitialized = TRUE;
+    
 }
 
 - (void)dealloc
@@ -301,9 +308,10 @@ double getCurrentTime() {
         return NO;
     return YES;
 }
+
 -(NSUInteger)supportedInterfaceOrientations {
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad && [self forceLandscape]) {
-        return UIInterfaceOrientationLandscapeRight;
+        return UIInterfaceOrientationMaskLandscapeRight;
     }
     if ([self forceLandscape]) {
         return UIInterfaceOrientationMaskLandscapeRight;
@@ -311,6 +319,12 @@ double getCurrentTime() {
         return UIInterfaceOrientationMaskPortrait;
     }
 }
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
+    return UIInterfaceOrientationLandscapeRight;
+}
+
+// Deprecated
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
 {
     if (toInterfaceOrientation == UIInterfaceOrientationLandscapeRight && [self forceLandscape]) {
@@ -321,6 +335,7 @@ double getCurrentTime() {
         return FALSE;
     }
 }
+
 
 - (BOOL)canBecomeFirstResponder {
 	return TRUE;
@@ -473,6 +488,7 @@ double getCurrentTime() {
         }
     }
 }
+
 
 @end
 

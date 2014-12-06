@@ -547,6 +547,19 @@
 		3DF3D630155DF15A00B78035 /* MyBTViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyBTViewController.m; sourceTree = "<group>"; };
 		3DF3D631155DF15A00B78035 /* MyBTViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyBTViewController.xib; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* batterytech_ios-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "batterytech_ios-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+		CD9010BF19EFB15900F94CAD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CD9010C019EFB15900F94CAD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		CD9010C219EFB15900F94CAD /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		CD9010C319EFB15900F94CAD /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		CD9010C519EFB15900F94CAD /* Shader.fsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = Shader.fsh; path = Shaders/Shader.fsh; sourceTree = "<group>"; };
+		CD9010C719EFB15900F94CAD /* Shader.vsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = Shader.vsh; path = Shaders/Shader.vsh; sourceTree = "<group>"; };
+		CD9010C919EFB15900F94CAD /* GameViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameViewController.h; sourceTree = "<group>"; };
+		CD9010CA19EFB15900F94CAD /* GameViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GameViewController.m; sourceTree = "<group>"; };
+		CD9010CD19EFB15900F94CAD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		CD9010CF19EFB15900F94CAD /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		CD9010D219EFB15900F94CAD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		CD9010DD19EFB15900F94CAD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CD9010DE19EFB15900F94CAD /* bt_luaengine_ios2Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = bt_luaengine_ios2Tests.m; sourceTree = "<group>"; };
 		CD9561D615BF2D7300B4DC1A /* Game.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Game.cpp; sourceTree = "<group>"; };
 		CD9561D715BF2D7300B4DC1A /* Game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Game.h; sourceTree = "<group>"; };
 		CD9561D815BF2D7300B4DC1A /* GameConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameConstants.h; sourceTree = "<group>"; };
@@ -834,6 +847,8 @@
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				3D56BBFA1311D4D200BF7F17 /* Resources-iPad */,
+				CD9010BD19EFB15900F94CAD /* bt-luaengine-ios2 */,
+				CD9010DB19EFB15900F94CAD /* bt-luaengine-ios2Tests */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 			);
@@ -1382,6 +1397,49 @@
 			path = Rope;
 			sourceTree = "<group>";
 		};
+		CD9010BD19EFB15900F94CAD /* bt-luaengine-ios2 */ = {
+			isa = PBXGroup;
+			children = (
+				CD9010C219EFB15900F94CAD /* AppDelegate.h */,
+				CD9010C319EFB15900F94CAD /* AppDelegate.m */,
+				CD9010C519EFB15900F94CAD /* Shader.fsh */,
+				CD9010C719EFB15900F94CAD /* Shader.vsh */,
+				CD9010C919EFB15900F94CAD /* GameViewController.h */,
+				CD9010CA19EFB15900F94CAD /* GameViewController.m */,
+				CD9010CC19EFB15900F94CAD /* Main.storyboard */,
+				CD9010CF19EFB15900F94CAD /* Images.xcassets */,
+				CD9010D119EFB15900F94CAD /* LaunchScreen.xib */,
+				CD9010BE19EFB15900F94CAD /* Supporting Files */,
+			);
+			path = "bt-luaengine-ios2";
+			sourceTree = "<group>";
+		};
+		CD9010BE19EFB15900F94CAD /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				CD9010BF19EFB15900F94CAD /* Info.plist */,
+				CD9010C019EFB15900F94CAD /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		CD9010DB19EFB15900F94CAD /* bt-luaengine-ios2Tests */ = {
+			isa = PBXGroup;
+			children = (
+				CD9010DE19EFB15900F94CAD /* bt_luaengine_ios2Tests.m */,
+				CD9010DC19EFB15900F94CAD /* Supporting Files */,
+			);
+			path = "bt-luaengine-ios2Tests";
+			sourceTree = "<group>";
+		};
+		CD9010DC19EFB15900F94CAD /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				CD9010DD19EFB15900F94CAD /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		CD9561D515BF2D7300B4DC1A /* app-src */ = {
 			isa = PBXGroup;
 			children = (
@@ -1799,6 +1857,7 @@
 				Japanese,
 				French,
 				German,
+				Base,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* CustomTemplate */;
 			projectDirPath = "";
@@ -2056,12 +2115,31 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXVariantGroup section */
+		CD9010CC19EFB15900F94CAD /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CD9010CD19EFB15900F94CAD /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		CD9010D119EFB15900F94CAD /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CD9010D219EFB15900F94CAD /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
 		1D6058940D05DD3E006BFB54 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
+				ARCHS = "$(ARCHS_STANDARD)";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2071,14 +2149,16 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = batterytech_ios_Prefix.pch;
-				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
+				"GCC_THUMB_SUPPORT[arch=*]" = "";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = (
 					"../../batterytech/src/**",
 					./,
 				);
 				INFOPLIST_FILE = "batterytech_ios-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = "";
 				"OTHER_CFLAGS[arch=*]" = "-DBATTERYTECH_INCLUDE_ASSIMP";
 				OTHER_LDFLAGS = (
@@ -2096,7 +2176,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
+				ARCHS = "$(ARCHS_STANDARD)";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2104,14 +2184,16 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = batterytech_ios_Prefix.pch;
-				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
+				"GCC_THUMB_SUPPORT[arch=*]" = "";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = (
 					"../../batterytech/src/**",
 					./,
 				);
 				INFOPLIST_FILE = "batterytech_ios-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = (
 					"-DNS_BLOCK_ASSERTIONS=1",
 					"-DBATTERYTECH_INCLUDE_ASSIMP",
@@ -2131,7 +2213,7 @@
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
+				ARCHS = "$(ARCHS_STANDARD)";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = c99;
@@ -2139,31 +2221,31 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "../bt-luaengine/src/**";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				"New Setting" = "";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = "armv7 i386";
+				VALID_ARCHS = "armv7 armv7s i386 arm64";
 			};
 			name = Debug;
 		};
 		C01FCF5008A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
+				ARCHS = "$(ARCHS_STANDARD)";
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = "armv7 i386";
+				VALID_ARCHS = "armv7 armv7s i386 arm64";
 			};
 			name = Release;
 		};
