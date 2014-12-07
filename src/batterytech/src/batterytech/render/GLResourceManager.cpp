@@ -24,7 +24,7 @@
 #include "../Context.h"
 #include "GraphicsConfiguration.h"
 
-#define MAX_TEXTURES 300
+#define MAX_TEXTURES 400
 #define MAX_OBJSCENES 100
 #define MAX_ASSIMPS 100
 #define MAX_SHADERS 100

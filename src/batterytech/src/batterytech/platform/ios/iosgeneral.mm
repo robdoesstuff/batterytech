@@ -79,7 +79,10 @@ static const char* getFilePathForAsset(const char *assetName) {
 		NSString *resourceName = [NSString stringWithCString:filename encoding: NSUTF8StringEncoding];
 		NSString *extString = [NSString stringWithCString:extension encoding: NSUTF8StringEncoding];
 		NSString *pathName = [NSString stringWithCString:path encoding: NSUTF8StringEncoding];
-		NSString *filePath = [[NSBundle mainBundle] pathForResource:resourceName ofType:extString inDirectory:pathName];
+		__block NSString *filePath = [[NSBundle mainBundle] pathForResource:resourceName ofType:extString inDirectory:pathName];
+        if (! filePath) {
+            NSLog(@"Error finding asset %@", resourceName);
+        }
 		const char *filePathCString = [filePath UTF8String];
 		return filePathCString;
 	}
@@ -150,12 +153,13 @@ S32 _platform_read_asset_chunk(const char *assetName, S32 offset, unsigned char 
 		FILE *handle;
 		handle = fopen(filePathCString, "rb");
 		if (!handle) {
-			NSLog(@"No File Handle");		
+			NSLog(@"read asset chunk No File Handle");		
 		}
 		fseek(handle, offset, SEEK_SET);
 		int bytesRead = fread(buffer, sizeof(unsigned char), bufferLength, handle);
 		int error = ferror(handle);
 		if (error) {
+            NSLog(@"read asset chunk IO error %d", error);
 			//cout << "IO error " << error << endl;
 		}
 		if (feof(handle)) {
@@ -166,7 +170,9 @@ S32 _platform_read_asset_chunk(const char *assetName, S32 offset, unsigned char 
 		}
 		fclose(handle);
 		return bytesRead;
-	}
+	} else {
+        NSLog(@"read asset chunk coudln't find path for %s", assetName);
+    }
 	return 0;
 }
 
