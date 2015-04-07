@@ -1,0 +1,25 @@
+Debug\batterytech\platform\win32\boot.cpp.o: \
+ ..\batterytech\src\batterytech\platform\win32\boot.cpp \
+ ..\batterytech\src\batterytech\platform\win32\/../../Logger.h \
+ ..\batterytech\src\batterytech\platform\win32\/resources.h \
+ ..\batterytech\src\batterytech\platform\win32\/../platformgl.h \
+ ..\batterytech\src\batterytech\platform\win32\/../win32/glext.h \
+ ..\batterytech\src\batterytech\platform\win32\/../win32/wglext.h \
+ ..\batterytech\src\batterytech\platform\win32\/../opengles.h \
+ ..\batterytech\src\batterytech\platform\win32\/../../primitives.h \
+ ..\batterytech\src\batterytech\platform\win32\/../../platform/win32/win32types.h \
+ ..\batterytech\src\batterytech\platform\win32\/../../math/Vector2.h \
+ ..\batterytech\src\batterytech\platform\win32\/../../math/Vector3.h \
+ ..\batterytech\src\batterytech\platform\win32\/../../math/Vector4.h \
+ ..\batterytech\src\batterytech\platform\win32\/../../math/Vector4.h \
+ ..\batterytech\src\batterytech\platform\win32\/../../math/Matrix4.h \
+ ..\batterytech\src\batterytech\platform\win32\/../../math/Vector3.h \
+ ..\batterytech\src\batterytech\platform\win32\/../../math/Matrix3.h \
+ ..\batterytech\src\batterytech\platform\win32\/../../math/Matrix4.h \
+ ..\batterytech\src\batterytech\platform\win32\/../../math/AABB3.h \
+ ..\batterytech\src\batterytech\platform\win32\/../../batterytech.h \
+ ..\batterytech\src\batterytech\platform\win32\/../../render/GraphicsConfiguration.h \
+ ..\batterytech\src\batterytech\platform\win32\/../../render/../primitives.h \
+ ..\batterytech\src\batterytech\platform\win32\/../../primitives.h \
+ ..\batterytech\src\batterytech\platform\win32\/../../render/GraphicsConfiguration.h \
+ ..\batterytech\src\batterytech\platform\win32\/../../batterytech_globals.h

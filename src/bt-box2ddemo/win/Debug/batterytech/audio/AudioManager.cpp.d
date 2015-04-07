@@ -1,0 +1,19 @@
+Debug\batterytech\audio\AudioManager.cpp.o: \
+ ..\batterytech\src\batterytech\audio\AudioManager.cpp \
+ ..\batterytech\src\batterytech\audio\/AudioManager.h \
+ ..\batterytech\src/batterytech/primitives.h \
+ ..\batterytech\src/batterytech/platform/win32/win32types.h \
+ ..\batterytech\src\batterytech\audio\/../Logger.h \
+ ..\batterytech\src\batterytech\audio\/../platform/platformgeneral.h \
+ ..\batterytech\src\batterytech\audio\/../platform/../audio/AudioManager.h \
+ ..\batterytech\src\batterytech\audio\/../platform/../primitives.h \
+ ..\batterytech\src\batterytech\audio\/../platform/win32/win32general.h \
+ ..\batterytech\src\batterytech\audio\/PCMAudioManager.h \
+ ..\batterytech\src\batterytech\audio\/../primitives.h \
+ ..\batterytech\src\batterytech\audio\/PCMSound.h \
+ ..\batterytech\src\batterytech\audio\/PCMStream.h \
+ ..\batterytech\src\batterytech\audio\/../batterytech_globals.h \
+ ..\batterytech\src\batterytech\audio\/../primitives.h \
+ ..\batterytech\src\batterytech\audio\/../util/ManagedArray.h \
+ ..\batterytech\src\batterytech\audio\/../util/../primitives.h \
+ ..\batterytech\src\batterytech\audio\/../batterytech_globals.h

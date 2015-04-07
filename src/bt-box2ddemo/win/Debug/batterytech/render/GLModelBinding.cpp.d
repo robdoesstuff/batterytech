@@ -1,0 +1,19 @@
+Debug\batterytech\render\GLModelBinding.cpp.o: \
+ ..\batterytech\src\batterytech\render\GLModelBinding.cpp \
+ ..\batterytech\src\batterytech\render\/GLModelBinding.h \
+ ..\batterytech\src\batterytech\render\/../platform/platformgl.h \
+ ..\batterytech\src\batterytech\render\/../platform/win32/glext.h \
+ ..\batterytech\src\batterytech\render\/../platform/win32/wglext.h \
+ ..\batterytech\src\batterytech\render\/../platform/opengles.h \
+ ..\batterytech\src\batterytech\render\/../platform/../primitives.h \
+ ..\batterytech\src\batterytech\render\/../platform/../platform/win32/win32types.h \
+ ..\batterytech\src\batterytech\render\/../platform/../math/Vector2.h \
+ ..\batterytech\src\batterytech\render\/../platform/../math/Vector3.h \
+ ..\batterytech\src\batterytech\render\/../platform/../math/Vector4.h \
+ ..\batterytech\src\batterytech\render\/../platform/../math/Vector4.h \
+ ..\batterytech\src\batterytech\render\/../platform/../math/Matrix4.h \
+ ..\batterytech\src\batterytech\render\/../platform/../math/Vector3.h \
+ ..\batterytech\src\batterytech\render\/../platform/../math/Matrix3.h \
+ ..\batterytech\src\batterytech\render\/../platform/../math/Matrix4.h \
+ ..\batterytech\src\batterytech\render\/../platform/../math/AABB3.h \
+ ..\batterytech\src\batterytech\render\/../platform/platformgl.h

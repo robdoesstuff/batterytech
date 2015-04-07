@@ -1,0 +1,376 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../../../batterytech/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+    </ClCompile>
+    <Link>
+      <TargetMachine>MachineX86</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <AdditionalDependencies>gdi32.lib;ws2_32.lib;opengl32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\..\batterytech\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <TargetMachine>MachineX86</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>gdi32.lib;ws2_32.lib;opengl32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\audio\AudioManager.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\audio\PCMAudioManager.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\audio\PCMSound.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\audio\PCMStream.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\batterytech.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\batterytech_entrypoints.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\batterytech_globals.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\Context.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\decoders\stb_image.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\decoders\stb_truetype.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\decoders\stb_vorbis.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\importers\assimp\BTAssimpImporter.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\importers\assimp\BTIOSystem.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\importers\assimp\BTMemoryIOStream.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\importers\obj\ObjImporter.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\importers\obj\ObjScene.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\Logger.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\math\AABB3.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\math\Matrix3.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\math\Matrix4.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\math\Quaternion.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\math\Triangulator.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\math\Vector2.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\math\Vector3.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\math\Vector4.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\network\GameConnection.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\network\NetworkManager.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\network\NetworkMessage.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\network\NetworkMessageFactory.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\network\NetworkMessageListener.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\network\NetworkStatusListener.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\platform\android\androidgeneral.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\platform\android\androidtypes.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\platform\android\importgl.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\platform\ios\batterytechAppDelegate.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\platform\ios\batterytechKeyboardDelegate.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\platform\ios\batterytechViewController.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\platform\ios\EAGLView.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\platform\ios\iosgeneral.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\platform\ios\iostypes.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\platform\ios\RemoteIOPlayer.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\platform\linux\linuxgeneral.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\platform\linux\linuxtypes.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\platform\opengles.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\platform\glew.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\platform\wglew.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\platform\osx\batterytechGLView.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\platform\osx\batterytech_osxAppDelegate.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\platform\osx\osxgeneral.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\platform\osx\osxtypes.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\platform\osx\RemoteIOPlayer.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\platform\platformgeneral.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\platform\platformgl.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\platform\win32\glext.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\platform\win32\resources.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\platform\win32\wglext.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\platform\win32\win32general.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\platform\win32\win32types.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\platform\win32\WinSound.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\primitives.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\render\AssimpAnimator.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\render\GLAssimpBinding.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\render\GLAssimpMeshBinding.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\render\GLModelBinding.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\render\GLObjSceneBinding.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\render\GLResourceManager.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\render\GraphicsConfiguration.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\render\MenuRenderer.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\render\RenderContext.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\render\Renderer.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\render\RenderNode.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\render\ShaderProgram.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\render\TextRasterRenderer.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\render\Texture.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\ui\Button.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\ui\Checkbox.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\ui\Label.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\ui\Layout.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\ui\LayoutParameters.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\ui\LinearLayout.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\ui\Menu.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\ui\ScrollableContainer.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\ui\SlideAnimator.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\ui\TextField.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\ui\UIAnimator.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\ui\UIComponent.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\ui\UIManager.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\util\BitmapUtil.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\util\ByteUtil.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\util\esTransform.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\util\HashTable.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\util\ManagedArray.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\util\PropertiesIO.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\util\Property.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\util\strx.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\util\TextFileUtil.h" />
+    <ClInclude Include="..\..\..\batterytech\src\batterytech\VibrationManager.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Box2D.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Collision\b2BroadPhase.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Collision\b2Collision.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Collision\b2Distance.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Collision\b2DynamicTree.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Collision\b2TimeOfImpact.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Collision\Shapes\b2CircleShape.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Collision\Shapes\b2PolygonShape.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Collision\Shapes\b2Shape.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Common\b2BlockAllocator.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Common\b2Math.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Common\b2Settings.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Common\b2StackAllocator.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Dynamics\b2Body.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Dynamics\b2ContactManager.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Dynamics\b2Fixture.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Dynamics\b2Island.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Dynamics\b2TimeStep.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Dynamics\b2World.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Dynamics\b2WorldCallbacks.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Contacts\b2CircleContact.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Contacts\b2Contact.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Contacts\b2ContactSolver.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Contacts\b2PolygonAndCircleContact.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Contacts\b2PolygonContact.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Contacts\b2TOISolver.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Joints\b2DistanceJoint.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Joints\b2FrictionJoint.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Joints\b2GearJoint.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Joints\b2Joint.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Joints\b2LineJoint.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Joints\b2MouseJoint.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Joints\b2PrismaticJoint.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Joints\b2PulleyJoint.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Joints\b2RevoluteJoint.h" />
+    <ClInclude Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Joints\b2WeldJoint.h" />
+    <ClInclude Include="..\..\..\bt-box2ddemo\app-src\Game.h" />
+    <ClInclude Include="..\..\..\bt-box2ddemo\app-src\GameConstants.h" />
+    <ClInclude Include="..\..\..\bt-box2ddemo\app-src\GameContext.h" />
+    <ClInclude Include="..\..\..\bt-box2ddemo\app-src\gameobjects\Ball.h" />
+    <ClInclude Include="..\..\..\bt-box2ddemo\app-src\gameobject\GameObject.h" />
+    <ClInclude Include="..\..\..\bt-box2ddemo\app-src\gameobject\GameObjectFactory.h" />
+    <ClInclude Include="..\..\..\bt-box2ddemo\app-src\gameobject\GameObjectMeta.h" />
+    <ClInclude Include="..\..\..\bt-box2ddemo\app-src\gameobject\GameObjectProperty.h" />
+    <ClInclude Include="..\..\..\bt-box2ddemo\app-src\gameobject\GameObjectPropertyMeta.h" />
+    <ClInclude Include="..\..\..\bt-box2ddemo\app-src\GameUtil.h" />
+    <ClInclude Include="..\..\..\bt-box2ddemo\app-src\input\TouchInputProcessor.h" />
+    <ClInclude Include="..\..\..\bt-box2ddemo\app-src\level\LevelIO.h" />
+    <ClInclude Include="..\..\..\bt-box2ddemo\app-src\menus\GameOptionsMenu.h" />
+    <ClInclude Include="..\..\..\bt-box2ddemo\app-src\menus\MenuButtonMenu.h" />
+    <ClInclude Include="..\..\..\bt-box2ddemo\app-src\menus\SettingsMenu.h" />
+    <ClInclude Include="..\..\..\bt-box2ddemo\app-src\menus\SoundcheckMenu.h" />
+    <ClInclude Include="..\..\..\bt-box2ddemo\app-src\menus\TopMenu.h" />
+    <ClInclude Include="..\..\..\bt-box2ddemo\app-src\PhysicsBodyObject.h" />
+    <ClInclude Include="..\..\..\bt-box2ddemo\app-src\render\B2DebugRenderer.h" />
+    <ClInclude Include="..\..\..\bt-box2ddemo\app-src\render\BallRenderer.h" />
+    <ClInclude Include="..\..\..\bt-box2ddemo\app-src\render\BatchSpriteRenderer.h" />
+    <ClInclude Include="..\..\..\bt-box2ddemo\app-src\render\SimpleSpriteRenderer.h" />
+    <ClInclude Include="..\..\..\bt-box2ddemo\app-src\render\WorldRenderer.h" />
+    <ClInclude Include="..\..\..\bt-box2ddemo\app-src\StdQueryCallback.h" />
+    <ClInclude Include="..\..\..\bt-box2ddemo\app-src\UIConstants.h" />
+    <ClInclude Include="..\..\..\bt-box2ddemo\app-src\World.h" />
+    <ClInclude Include="resources\resources.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\audio\AudioManager.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\audio\PCMAudioManager.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\audio\PCMSound.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\audio\PCMStream.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\batterytech.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\Context.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\decoders\stb_image.c" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\decoders\stb_vorbis.c" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\importers\assimp\BTAssimpImporter.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\importers\assimp\BTIOSystem.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\importers\assimp\BTMemoryIOStream.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\importers\obj\ObjImporter.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\importers\obj\ObjScene.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\Logger.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\math\Triangulator.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\network\GameConnection.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\network\NetworkManager.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\network\NetworkMessage.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\platform\android\androidboot.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\platform\android\androidgeneral.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\platform\android\importgl.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\platform\linux\linuxboot.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\platform\linux\linuxgeneral.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\platform\opengles.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\platform\glew.c" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\platform\platformgeneral.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\platform\win32\win32general.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\platform\win32\winboot.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\platform\win32\WinSound.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\render\AssetTexture.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\render\AssimpAnimator.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\render\AtlasMappedTexture.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\render\GLAssimpBinding.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\render\GLAssimpMeshBinding.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\render\GLModelBinding.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\render\GLObjSceneBinding.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\render\GLResourceManager.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\render\GraphicsConfiguration.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\render\MenuRenderer.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\render\QuadRenderer.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\render\RenderContext.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\render\Renderer.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\render\RenderNode.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\render\ShaderProgram.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\render\TextRasterRenderer.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\render\Texture.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\ui\Button.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\ui\Checkbox.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\ui\Label.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\ui\Layout.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\ui\LinearLayout.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\ui\Menu.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\ui\ScrollableContainer.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\ui\SlideAnimator.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\ui\TextField.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\ui\UIAnimator.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\ui\UIComponent.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\ui\UIManager.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\util\BitmapUtil.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\util\ByteUtil.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\util\esTransform.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\util\PropertiesIO.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\util\Property.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\util\strx.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\util\TextFileUtil.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\VibrationManager.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\batterytech\video\VideoManager.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Collision\b2BroadPhase.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Collision\b2CollideCircle.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Collision\b2CollideEdge.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Collision\b2CollidePolygon.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Collision\b2Collision.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Collision\b2Distance.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Collision\b2DynamicTree.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Collision\b2TimeOfImpact.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Collision\Shapes\b2ChainShape.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Collision\Shapes\b2CircleShape.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Collision\Shapes\b2EdgeShape.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Collision\Shapes\b2PolygonShape.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Common\b2BlockAllocator.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Common\b2Draw.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Common\b2Math.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Common\b2Settings.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Common\b2StackAllocator.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Common\b2Timer.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\b2Body.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\b2ContactManager.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\b2Fixture.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\b2Island.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\b2World.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\b2WorldCallbacks.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Contacts\b2ChainAndCircleContact.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Contacts\b2ChainAndPolygonContact.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Contacts\b2CircleContact.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Contacts\b2Contact.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Contacts\b2ContactSolver.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Contacts\b2EdgeAndCircleContact.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Contacts\b2EdgeAndPolygonContact.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Contacts\b2PolygonAndCircleContact.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Contacts\b2PolygonContact.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Joints\b2DistanceJoint.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Joints\b2FrictionJoint.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Joints\b2GearJoint.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Joints\b2Joint.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Joints\b2MouseJoint.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Joints\b2PrismaticJoint.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Joints\b2PulleyJoint.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Joints\b2RevoluteJoint.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Joints\b2RopeJoint.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Joints\b2WeldJoint.cpp" />
+    <ClCompile Include="..\..\..\batterytech\src\bt-box2d\Dynamics\Joints\b2WheelJoint.cpp" />
+    <ClCompile Include="..\..\..\bt-box2ddemo\app-src\Game.cpp" />
+    <ClCompile Include="..\..\..\bt-box2ddemo\app-src\GameContext.cpp" />
+    <ClCompile Include="..\..\..\bt-box2ddemo\app-src\gameobjects\Ball.cpp" />
+    <ClCompile Include="..\..\..\bt-box2ddemo\app-src\gameobject\GameObject.cpp" />
+    <ClCompile Include="..\..\..\bt-box2ddemo\app-src\gameobject\GameObjectFactory.cpp" />
+    <ClCompile Include="..\..\..\bt-box2ddemo\app-src\gameobject\GameObjectMeta.cpp" />
+    <ClCompile Include="..\..\..\bt-box2ddemo\app-src\gameobject\GameObjectProperty.cpp" />
+    <ClCompile Include="..\..\..\bt-box2ddemo\app-src\gameobject\GameObjectPropertyMeta.cpp" />
+    <ClCompile Include="..\..\..\bt-box2ddemo\app-src\GameUtil.cpp" />
+    <ClCompile Include="..\..\..\bt-box2ddemo\app-src\input\TouchInputProcessor.cpp" />
+    <ClCompile Include="..\..\..\bt-box2ddemo\app-src\level\LevelIO.cpp" />
+    <ClCompile Include="..\..\..\bt-box2ddemo\app-src\menus\GameOptionsMenu.cpp" />
+    <ClCompile Include="..\..\..\bt-box2ddemo\app-src\menus\MenuButtonMenu.cpp" />
+    <ClCompile Include="..\..\..\bt-box2ddemo\app-src\menus\SettingsMenu.cpp" />
+    <ClCompile Include="..\..\..\bt-box2ddemo\app-src\menus\SoundcheckMenu.cpp" />
+    <ClCompile Include="..\..\..\bt-box2ddemo\app-src\menus\TopMenu.cpp" />
+    <ClCompile Include="..\..\..\bt-box2ddemo\app-src\render\B2DebugRenderer.cpp" />
+    <ClCompile Include="..\..\..\bt-box2ddemo\app-src\render\BallRenderer.cpp" />
+    <ClCompile Include="..\..\..\bt-box2ddemo\app-src\render\WorldRenderer.cpp" />
+    <ClCompile Include="..\..\..\bt-box2ddemo\app-src\WinHooks.cpp" />
+    <ClCompile Include="..\..\..\bt-box2ddemo\app-src\World.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\Resources\resources.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

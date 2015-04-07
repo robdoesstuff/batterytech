@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.eclipse.ui.externaltools.ProgramBuilderLaunchConfigurationType">
+<stringAttribute key="org.eclipse.debug.core.ATTR_REFRESH_SCOPE" value="${working_set:&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&#13;&#10;&lt;resources&gt;&#13;&#10;&lt;item path=&quot;/bt-box2ddemo-android&quot; type=&quot;4&quot;/&gt;&#13;&#10;&lt;/resources&gt;}"/>
+<booleanAttribute key="org.eclipse.debug.ui.ATTR_LAUNCH_IN_BACKGROUND" value="false"/>
+<booleanAttribute key="org.eclipse.ui.externaltools.ATTR_BUILDER_ENABLED" value="true"/>
+<stringAttribute key="org.eclipse.ui.externaltools.ATTR_BUILD_SCOPE" value="${working_set:&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&#13;&#10;&lt;resources&gt;&#13;&#10;&lt;item path=&quot;/bt-box2ddemo&quot; type=&quot;4&quot;/&gt;&#13;&#10;&lt;item path=&quot;/bt-box2ddemo-android/.classpath&quot; type=&quot;1&quot;/&gt;&#13;&#10;&lt;item path=&quot;/bt-box2ddemo-android/.externalToolBuilders&quot; type=&quot;2&quot;/&gt;&#13;&#10;&lt;item path=&quot;/bt-box2ddemo-android/assets&quot; type=&quot;2&quot;/&gt;&#13;&#10;&lt;item path=&quot;/bt-box2ddemo-android/batterytech-android&quot; type=&quot;2&quot;/&gt;&#13;&#10;&lt;item path=&quot;/bt-box2ddemo-android/jni&quot; type=&quot;2&quot;/&gt;&#13;&#10;&lt;item path=&quot;/bt-box2ddemo-android/res&quot; type=&quot;2&quot;/&gt;&#13;&#10;&lt;item path=&quot;/bt-box2ddemo-android/src&quot; type=&quot;2&quot;/&gt;&#13;&#10;&lt;item path=&quot;/bt-box2ddemo-win&quot; type=&quot;4&quot;/&gt;&#13;&#10;&lt;/resources&gt;}"/>
+<stringAttribute key="org.eclipse.ui.externaltools.ATTR_LOCATION" value="${NDK_Build}"/>
+<stringAttribute key="org.eclipse.ui.externaltools.ATTR_RUN_BUILD_KINDS" value="full,incremental,"/>
+<stringAttribute key="org.eclipse.ui.externaltools.ATTR_TOOL_ARGUMENTS" value="--jobs 8"/>
+<booleanAttribute key="org.eclipse.ui.externaltools.ATTR_TRIGGERS_CONFIGURED" value="true"/>
+<stringAttribute key="org.eclipse.ui.externaltools.ATTR_WORKING_DIRECTORY" value="${project_loc}"/>
+</launchConfiguration>

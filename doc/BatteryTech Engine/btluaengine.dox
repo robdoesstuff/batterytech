@@ -1,0 +1,729 @@
+// this file is only for doxygen
+
+/** \mainpage Welcome to %BatteryTech Engine
+ *
+ * \section howtoread_sec How to read this document
+ * This documentation is divided into functional sections on the <a href="modules.html">API Reference</a> page.  While the primary language is <a href="http://www.lua.org/manual/5.1/">Lua 5.1</a>, the individual function documentation uses C++ Syntax which is different in just a few ways
+ * 1. Lua uses : instead of :: to refer to a member function - so anywhere you see :: in the docs, such as Game::reset(), assume the implementation is game:reset() to reset the object names "game"
+ * 2. Lua supports multiple return values which we mark clearly with __ between names.  So if a function is documented as x__y__z getVector(), in Lua you would simply write it as x,y,z = getVector()
+ * 3. Lua uses dynamic types, so some parameters will be marked as "multiple" meaning they may be string, number or boolean, depending.
+ *
+ * Every function the engine exposes to lua has clear documentation of parameters and return values.
+ *
+ * To learn how to use this engine, please start at the top of the <a href="modules.html">API Reference</a> page and work your way through the various sections.  Example code of most of the system is provided as a playable demo.
+ *
+ * \section gettingstarted_sec Getting Started
+ *
+ * About Windows vs OSX
+ *
+ * If you are running either OS, you should have access to binary versions of the BatteryTech Engine which will allow you to start developing your game.  The primary difference between the two operating systems is that OSX bundles resource files such as the assets inside the app but Windows leaves fairly clear access to the assets directory.
+ *
+ * The "reload" button on the main menu of the demo will deallocate the current lua intepreter, start a new one and re-read all of the scripts.  This is very useful for rapid development as it means you can change your game code without restarting the engine, saving you significant development time.
+ *
+ * The first place to look for files is the "assets" directory, where you will find things like:
+ * - scripts
+ * - textures
+ * - models
+ * - sounds
+ * - shaders
+ *
+ * This Engine utilizes <a href="http://www.lua.org/manual/5.1/">Lua</a> very heavily.  If you are not yet familiar with <a href="http://www.lua.org/manual/5.1/">Lua</a>, it is an easy-to-learn, lightweight language that is quick for game development and fast enough for most applications.  Please visit <a href="http://www.lua.org/manual/5.1/">the official Lua 5.1 documentation</a> for info beyond what is provided in this manual.
+ *
+ * \section overview_sec Platform Overview
+ * BatteryTech Engine is a high-performance, <a href="http://www.khronos.org/opengles/">OpenGL|ES</a> based engine specifically engineered to run well on most mobile devices, including <a href="http://www.android.com/">Android</a>, <a href="http://www.apple.com/ios/">iOS</a> and <a href="http://en.wikipedia.org/wiki/BlackBerry_10">BlackBerry 10</a>, while facilitating desktop OS (Windows and OSX) development and testing.
+ *
+ * BatteryTech Engine has the following features:
+ * - Optimized 2D Rendering
+ * - Integrated 2D Physics using <a href="http://box2d.org/">Box2D</a>
+ * - Optimized 3D Rendering utilizing <a href="http://assimp.sourceforge.net/">Open Asset Importer</a>
+ * - Fast and easy script integration using <a href="http://www.lua.org/manual/5.1/">Lua</a>
+ * - A mature and robust shader-based rendering system using <a href="http://en.wikipedia.org/wiki/GLSL">GLSL</a>
+ * - Mature mobile platform support for Android and iOS
+ * - Animation Support with <a href="http://en.wikipedia.org/wiki/COLLADA">Collada</a>
+ * - Texture Atlas Support with <a href="http://www.codeandweb.com/texturepacker">TexturePacker</a>
+ * - Bitmap and Truetype Font Support (<a href="http://www.angelcode.com/products/bmfont/">BMFont</a> and <a href="http://en.wikipedia.org/wiki/TrueType">TTF</a>)
+ * - Per-Platform Customization Support
+ * - Many More
+ *
+ * We recommend using a Lua-aware text editor such as <a href="http://www.sublimetext.com/2">Sublime Text 2</a> to do most of your scripting.  Please also be aware of the log file generated (batterytech.log) as most warnings and errors will be placed there.
+ *
+ * \section tools_sec Tools support
+ *
+ * %BatteryTech adds support for a file format we call .BAI which stands for "Binary Asset Importer" and is effectively a light serialized format of the aiScene
+ * structure that the <a href="http://assimp.sourceforge.net/">Open Asset Importer</a> provides.  We provide a tool called BAIConvert which can take OBJ and DAE (or other formats if you link in the source
+ * from Assimp) and output a BAI which will usually be smaller, be optimized and load faster than the original file.  It is a format suitable for production use.
+ *
+ * BatteryTech natively support <a href="http://www.angelcode.com/products/bmfont/">BMFont</a>-formatted font files (.FNT).  There are many tools for creating these fonts and a variety of rich and customized fonts can be made using them.
+ *
+ * <a href="http://www.codeandweb.com/texturepacker">TexturePacker</a> 3.0 and newer support BatteryTech with a format called .BTX.  Use this format to pack graphics together into atlases and sprite sheets.
+ *
+ * There are many free and commercial tools for producing OBJ and DAE (Collada) files which are supported by BatteryTech.  <a href="http://assimp.sourceforge.net/main_viewer.html">AssimpView</a> (Windows-only) will allow you to view your models before importing them into the engine.  You may directly use DAE/OBJ or convert to BAI for optimized loading and rendering.
+ *
+ * \section license_sec License and Source Code
+ *
+ * BatteryTech Engine is free to develop with, but a one-time BatteryTech license must be purchased from http://www.batterytechsdk.com in order to customize or deploy a game or application for free or commercial use.  We offer price breaks for indie developers and most proceeds go to furthering BatteryTech development and providing new features.
+ *
+ * Source code for both BatteryTech SDK and BatteryTech Engine are available to BatteryTech licensees.  Distribution of any Java, Objective-C or C/C++ source code is prohibited by license, however the Lua code may be freely and openly traded and discussed.
+ *
+ * We highly encourage users to customize the engine to suit their projects needs so if you haven't looked at BatteryTech SDK/Engine licensing for customizing further than with what is offered via Lua, please do so.
+ *
+ * Here is a list of 3rd party product licenses that are utilized with BatteryTech Engine:
+ * - <a href="http://assimp.sourceforge.net/main_license.html">Open Asset Importer License</a>
+ * - <a href="http://box2d.org/about/">Box2D License Info</a>
+ * - <a href="http://www.lua.org/copyright.html">Lua License</a>
+ * - <a href="http://www.batterypoweredgames.com/batterytech/eula">BatteryTech SDK License</a>
+ */
+
+
+// now let's define groups
+
+/**
+ * \defgroup ScriptEntry Script Entry Points
+ * \brief How the engine starts running the Lua script files
+ *
+ * The BatteryTech Engine starts by looking for a single file in your assets/scripts directory: main.lua
+ *
+ * The job of main.lua is to run any scripts needed to immediately start the game as well as create the Lua game instance.  Only a single instance of Game is currently supported and all example and demo code uses the global variable name "game" for it.
+ *
+ * Example main.lua:
+ * \code
+ * execScript("scripts/game.lua")
+ * execScript("scripts/util.lua")
+ * execScript("scripts/resources.lua")
+ * game = allocMeta(Game.getInstance())
+ * \endcode
+ *
+ * Technically, you could put just the Game instance code in and then add the necessary lifecycle functions and run the game in a single script file.
+ *
+ * Here's an example of using a single main script could work:
+ * \code
+ * function Game:init()
+ * end
+ *
+ * function Game:update(tickDelta)
+ * end
+ *
+ * function Game:render(state)
+ * end
+ *
+ * game = allocMeta(Game.getInstance())
+ * end
+ * \endcode
+ *
+ * The last example showed the Game lifecycle functions which normally are defined in their own lua file to keep things clean.
+ *
+ * Things to keep in mind:
+ * - Everything that is run from the main.lua should be considered "loading" of the code.  None of the code in any of the functions is executed unless you call that function.
+ * - Anything global code will be executed in order of execScript() calls.
+ * - Each lua file has its own scope so the keyword local can be used to keep constants and other local definitions local to that file's code
+ *
+ * For more information on lifecycle functions and other entry points - please see \sa Callbacks
+ */
+
+/**
+ * \defgroup Configuring Configuring the Engine
+ * \brief Setting various system-level options for your game
+ *
+ * In the assets folder there is a required engine configuration file named "batterytech_config.txt".  This file controls many low level functions, behaviors and default values for both the BatteryTech SDK.
+ *
+ * Please view the notes on the file for each option as the example batterytech_config.txt has every current option set and documented.
+ *
+ * Most functions involve things like window size, default UI fonts, logging, loading screen configuration and other basics.  More options will be added over time so please check the latest example file if you are upgrading.
+ * Here is an example batterytech_config.txt:
+ * \code
+# BatteryTech Config File
+
+# Use Shaders or Fixed Function (true/false)
+use_shaders=true
+
+# Reference Width and Height are what we scale coordinates to (this is the virtual screen size for the UI library and font sizes)
+reference_width=1280
+reference_height=800
+
+# In Windows, this is the width and height of the window
+window_width=1280
+window_height=800
+# Open up a console window if possible
+console_log_enabled_when_available=true
+# The title of the window
+windowed_app_name=BatteryTech 2.0 Lua Engine
+
+# The directory name (public) that files will be written to
+storage_dir=BatteryTech Lua Engine
+
+# When rasterizing a font, this is the texture size to start searching from
+initial_font_texture_width=256
+initial_font_texture_height=256
+
+
+# For multiline UI text, how much vertical space to add
+text_vertical_spacing_multiplier=1.2
+
+# The UI font, size, stroke and color
+menu_font=ui/btdemo.fnt
+ui_font_size=50.0
+ui_menu_inner_stroke=1
+ui_menu_outer_stroke=1
+ui_menu_font_color=1.0 1.0 1.0 1.0
+
+# If we should manage audio or use platform facilities (where available) - usually you want false
+prefer_platform_audio_management=false
+
+# The loading image (multiple are supported by naming them loading_texture1, loading_texture2 and will be chosen at random)
+loading_texture=textures/loading.png
+# The loading texture can be scaled in one of 3 ways, scaleAspectX, scaleAspectY and scaleXY
+loading_scale_mode=scaleAspectY
+# Loading Height and Width are scaled based on the reference width and height and scaling mode
+loading_width=512
+loading_height=128
+
+# to support larger screen textures but keep performance good on smaller screen devices, we support "halving" textures.
+# these numbers are the thresholds where a screen with either dimension this size or smaller will have its textures resized smaller for efficiency.
+# set these to 0 if you never want the textures scaled down
+texture_half_width_threshold=640
+texture_half_height_threshold=640
+
+# background clear color
+clear_color=0.0 0.0 0.0 1.0
+
+# asset_default_find_func controls where to look for assets.
+# "internal" is default, "external" only looks in external storage and "auto" looks in external first, internal second
+asset_default_find_func=internal
+
+# enable this setting to see details about textures that are being loaded
+debug_textures=false
+# enable this setting to see details about models that are being loaded
+debug_assimp=false
+# enable this setting to see details about shaders as they are loaded
+debug_shaders=false
+# enable this setting to see details about fonts as they are loaded
+debug_fonts=false
+# enable this setting to see details about sounds as they are loaded
+debug_sounds=false
+\endcode
+ */
+
+/**
+ * \defgroup LoadingResources Loading Resources
+ * \brief How to get your assets into the engine
+ *
+ * The BatteryTech Engine has a specific loading state during which it will do the following:
+ * - Block Drawing (no screen refreshing will occur)
+ * - Display the loading screen as configured in batterytech_config.txt (see \ref Configuring)
+ * - Load any resources that have been added but not yet loaded
+ *
+ * There are 2 ways to get the engine into the loading state:
+ * - During engine initialization (automatic when engine starts)
+ * - A call to Game::loadNewResources()
+ *
+ * This means that any resources you add in Lua during the initial script execution from main.lua (see \ref ScriptEntry) will automatically be loaded at that point in time.
+ *
+ * After that initial phase, you must use Game::loadNewResources() to get into a new loading state.  It is often useful to partition resource loading into levels, worlds or before or after cut-scenes.  Currently progress bars or animations during loading are not supported.
+ *
+ * Some resources, like Textures, can be loaded on-demand.  On-demand loading marks the texture to be loaded as soon as the first draw is attempted.  While it may be tempting to want to mark all textures as on-demand, there is a significant CPU and IO cost to loading an individual texture so it should be kept to a minimum or used only in instances where only that one texture will be loading during that specific frame to avoid lag.  See addTexture() for more info on deferred loading.
+ *
+ * Sounds can be loaded instantly or with everything else in the loading phase.  See \ref addSound() for API reference on that.
+ *
+ * Models and Fonts can only be loaded during loading phase.
+ *
+ * \defgroup AssetLocations Asset Locations
+ * \brief Where assets (graphics, sounds, resource files) can be located and system features involving them
+ *
+ * The default location for file assets to exist is the assets folder in your project.  For most platforms, these assets will be packed into an internal, read-only filesystem where you as the developer will not normally have direct file read access but have to go through a platform-specific access mechanism.  BatteryTech deals with this for each platform, providing a seamless way to access your resources.
+ *
+ * Beyond internal assets, BatteryTech also provides several mechanisms for reading assets from external locations as well as overriding assets without changing code.
+ *
+ * In the batterytech_config.txt file (see \ref Configuring), you can specify a system-wide access option for files.  This is the first option assessed when an asset read function is called.
+ *
+ * \code
+ * # asset_default_find_func controls where to look for assets.
+ * # "internal" is default, "external" only looks in external storage and "auto" looks in external first, internal second
+ * asset_default_find_func=internal
+ * \endcode
+ *
+ * So where is external storage?  In the same batterytech_config.txt file, there is a definition:
+ * \code
+ * # The directory name (public) that files will be written to
+ * storage_dir=BatteryTech Lua Engine
+ * \endcode
+ *
+ * This translates to different locations for different platforms.
+ * - Windows = \<User Home\>\\Documents\\\<storage_dir\>
+ * - OSX = \<User Home\>/Documents/\<storage_dir\>
+ * - iOS = \<App Sandbox\>/Documents
+ * - Android = \<SDCard\>/\<storage_dir\>
+ *
+ * So for example, if you were to set asset_default_find_func to "external" in batterytech_config.txt, and you were running in Windows, the following would be true:\n
+ * addTexture("myTexture.png") = \<User Home\>\\Documents\\\<storage_dir\>\\assets\\myTexture.png\n
+ * But if you set asset_default_find_func to "auto" then that path would be examined first.  If no file is found there, then an attempt to load the internal asset is made.  This allows for selective overriding of files, either via download mechanism, user data, or other.
+ *
+ * Beyond the global setting, asset search locations can be specified on a per-asset bases by prepending the following strings to an asset:
+ * - file: Absolute file location (not necessarily in external storage)
+ * - auto: Automatic selection (first checking external storage then checking internal)
+ *
+ * Example:
+ * \code
+ * -- default internal read
+ * addTexture("myTexture.png")
+ * -- automatic override file read
+ * addTexture("auto:overrideableTexture.png")
+ * local extStorage = getExternalStorageDirectoryName()
+ * -- absolute path read
+ * addTexture("file:"..extStorage.."/externalTexture.png")
+ * \endcode
+ * \ingroup LoadingResources
+ */
+
+/**
+ * \defgroup Graphics Graphics and Rendering
+ * \brief How The BatteryTech Engine composites 2D, 3D and Font-based graphics
+ *
+ * The BatteryTech Engine's rendering system utilizes a "deferred render item" list to maintain the scene.  The design involves a list of universally reusable items which may be things like the following examples:
+ * - Render "Texture1.png" at 300,300 of size 55x55 rotated 10 degrees
+ * - Render Text "This is a test" at 250,400 using font tag "neu20" 
+ * - Render 3D Model "MyModel.dae" at 12,5,0 scale 20x20x20 with rotation matrix
+ * - etc...
+ *
+ * Every drawable frame, the rendering system will call the Game::render() function which is the entry point to set up the entire list of render items.  The list does not persist from one frame to the next, it must be entirely reset.
+ * This has several implications.  First, it means that switching what is drawn when is a very lightweight operation with virtually no cost.  It also means that all transforms and other information about where to render must be managed on the Lua side by the developer.
+ *
+ * Performance implications:  This system has be proven to be efficient for most purposes, however it does make very heavy use of string hashes to resolve the resource keys, so there is some (but not ultimate) benefit to keeping paths and filenames short.
+ *
+ * Each render call returns a render item index.  This index can be used to further configure the render item beyond what is available by the initial render call.  Example:
+ *
+ * \code
+ * -- Renders just a quarter of the minimap atlas texture to mmx, mmy
+ * renderIdx = game:render2D("textures/minimap_atlas.png", mmx,mmy, w,h)
+ * game:setRenderItemParam(renderIdx, "uvs", 0.0, 0.5, 0.5, 1.0)
+ * \endcode
+ *
+ * There are a number of global render settings to control lights, shadows, fog and camera in the \ref Graphics3D section
+ *
+ * Here is a basic illustration of the flow of render item calls to the processing and rendering of the items:
+ * \image html RenderSystem.png
+ *
+ * \defgroup Graphics2D 2D Graphics and Textures
+ * \brief How to render 2D Graphics and work with Textures
+ *
+ * The core 2D rendering function is Game::render2D().  This function renders a texture of a given size and rotation to any location.  This is by far the most common method of 2D rendering used in most games and can be used to provide a variety of effects and styles with proper texturing.
+ *
+ * By default all 2D graphics are drawn in actual pixels, that is, to the viewport size.  Developers have 2 primary options for scaling to screen:
+ * 1. Scale position and size using getViewportSize() for all render calls
+ * 2. Change the projection to a world/reference system using Game::start2DProjection() and Game::end2DProjection()
+ *
+ * Either technique is suitable and will produce uniform results across different screen sizes.
+ *
+ * Textures can be configured in a number of ways, including clamping, nearest, linear, bilinear and trilinear filtering using mipmaps.  Defaults, once set, will apply to all textures added until changed.  Once a texture is loaded, it can not be changed so either the defaults or the specific texture parameters need to be set before load.  See \ref LoadingResources for more info on the loading state.
+ *
+ * \sa Fonts
+ * \sa RenderOptions
+ * \ingroup Graphics
+ *
+ * \defgroup Graphics3D 3D Graphics and Models
+ * \brief How to render 3D Graphics
+ * \ingroup Graphics
+ *
+ * This engine supports the following general 3D rendering features:
+ * - Directional Light Per-Vertex and Per-Pixel
+ * - Attenuated Point Lights Per-Vertex and Per-Pixel
+ * - Multiple mesh objects with different materials
+ * - Shadow Mapping
+ * - Fog
+ * - Hardware-Accelerated Animation
+ * - Broad frustum culling
+ * - Particle Systems
+ * - Billboards
+ * - Multiple viewports
+ * - Camera
+ * - Direct model matrix control
+ *
+ * \sa RenderOptions
+ * \defgroup Animation3D 3D Model Animation
+ * \brief Using Hardware-accelerated 3D Animation
+ *
+ * Bone-Based 3D animation requires initialization of the bones and animation data before any rendering can occur.  Animator objects, which reside in GameObject, are what hold that data.  To use an animator, a GameObject is required like in the following example:
+ *
+ * \code
+ * Character = table.copy(GameObject)
+ * function Character.new()
+ *   self = allocMeta(Character.createInstance(), Character)
+ *   self:cInit()
+ *   self:anim_allocAnimations(1)
+ *   self:anim_initDynamic(0, "models/Bleep.bai", nil)
+ *   self.x = 0
+ *   self.y = 0
+ *   self.z = 0
+ *   self.rot = 0
+ *   return self
+ * end
+ * \endcode
+ * Then to update and render with the animator:
+ * \code
+ * function Character:update(tickDelta)
+ *   self:anim_interpolate(0, self.animTime)
+ * end
+ * function Character:render()
+ *   local scale = 5
+ *   local idx = game:renderAssimp(self, 0, "models/Bleep.bai", nil, nil, true, self.x,self.y,z, scale,scale,scale, 0,0,self.rot)
+ * end
+ * \endcode
+ *
+ * Troubleshooting - enable debug info in batterytech_config.txt for models to see mesh, bones and animation data on import.  See \ref Configuring for more info
+ *
+ * \ingroup Graphics3D
+ *
+ * \defgroup Fonts Fonts and Text Rendering
+ * \brief Rendering 2D Fonts
+ *
+ * Supported Font Formats
+ * - TTF (.ttf)
+ * - BMFont (.fnt)
+ *
+ * TTFs have the following features and limitations
+ * - They do not have kerning
+ * - Stroke is supported can only be black
+ * - They are antialised but not with stroke
+ * - There is some computational cost to loading them
+ *
+ * BMFonts have the following features and limitations
+ * - They do have kerning support
+ * - They can be created from a number of programs that export the angelcode format (non-xml)
+ * - They load quickly
+ * - They can be multiple pages
+ * - Do not support stroke because that should be done in the BMFont creation program
+ * - Require their page .png files to be in the same directory as the .fnt file
+ *
+ * Normally in BatteryTech, colors are ranged 0-1, but for Fonts the range is 0-255 to be more easily readable from popular image editing software that many artists are accustomed to.
+ * Font sizes are point-relative to the reference size set in batterytech_config.txt
+ *
+ * Font alignment (left, center, right) can be set using \ref RenderOptions and rendered fonts y-axis is always on the baseline, not on the top left.
+ *
+ * Each font loaded needs to be given a tag.  A default font is always required (because it is used for error messages) and the tag of the default font is "ui"
+ *
+ * Example to format a string and render it centered on screen in a screen-scaled position
+ * \code
+ * 	local timeString = string.format("Time: %2d", self.timeLeft)
+ *	local renderIdx = game:renderText2D("ui", timeString, scaleX(640), scaleY(50))
+ *	game:setRenderItemParam(renderIdx, "align", "center")
+ * \endcode
+ *
+ * Besides being point-scaled to the reference size, fonts do follow the same scaling rules as regular 2D rendering with regards to 2D Projections.
+ *
+ * \sa Configuring
+ * \sa RenderOptions
+ * \sa Graphics2D
+ *
+ * \ingroup Graphics
+ * 
+ * \defgroup RenderOptions Render Options
+ * \brief Setting options for render items
+ *
+ * Once a render item is created via any render call, such as Game::render2D() or Game::renderAssimp(), the render item can be modified with a number of options.
+ *
+ * Not all render items support all parameters.  For example, alignment is only supported for text rendering and alpha/color parameters work on all but text rendering.
+ * Parameter List:
+ *
+ * \c \b align Sets text alignment
+ * \arg \c left Left Alignment
+ * \arg \c center Centered Alignment
+ * \arg \c right Right Alignment
+ *
+ * \c \b alpha Sets the alpha color
+ * \arg The alpha value 0-1
+ *
+ * \c \b colorFilter Sets the full 4 component color
+ * \arg \c r,g,b,a The red,green,blue,alpha values 0-1
+ *
+ * \c \b nofog Disables fog (if globally enabled)
+ * \arg \c true or \c false
+ *
+ * \c \b maxPointLights Defines the maximum number of point lights that will be used simultaneously for this object
+ * \arg the maximum number (default is 3)
+ *
+ * \c \b useCameraClosestPointLights Normally the point lights closest to the object are used - this uses the ones closest to the camera
+ * \arg \c true or \c false
+ *
+ * \c \b viewport Sets an alternate viewport to use
+ * \arg \c x,y,width,height in screen coordinates
+ *
+ * \c \b nodesCullFrustum Enables frustum culling of nodes in scene
+ * \arg \c true or \c false
+ *
+ * \c \b nodirlight Disabled global/directional light if enabled
+ * \arg \c true or \c false
+ *
+ * \c \b noshadowgen Disables shadowmap generation if enabled
+ * \arg \c true or \c false
+ *
+ * \c \b noshadowrecv Disabled receiving of shadows if enabled
+ * \arg \c true or \c false
+ *
+ * \c \b drawfirst Forces drawing order for 3D render calls
+ * \arg \c true or \c false
+ *
+ * \c \b twosided Enables two-sided drawing
+ * \arg \c true or \c false
+ *
+ * \c \b multiline Enables multiline measurement and text rendering
+ * \arg \c true or \c false
+ *
+ * \c \b isOpaque Specifies if the item is to be rendered in a translucent or opaque pass
+ * \arg \c true or \c false
+ *
+ * \c \b lightperpixel Specified per-pixel lighting (false is per-vertex, default)
+ * \arg \c true or \c false
+ *
+ * \c \b maxtextsize Specifies the maximum width and height bounds for multiline text
+ * \arg \c width in screen pixels
+ * \arg \c height in screen pixels
+ *
+ * \sa Graphics2D
+ * \sa Graphics3D
+ * \sa Fonts
+ *
+ * \ingroup Graphics
+ *
+ * \defgroup Particles Particle Systems
+ * \brief Configuring 2D and 3D particle systems
+ *
+ * Particle Systems are controlled by Particle Emitters.  All particle emitters operate independently of each other.  There is no render command to draw a particle emitter, they always render when they exist.
+ *
+ * The only difference between a 2D and 3D emitter is that the 2D ignores the Z-axis and draws on top of everything else.  The 3D emitter will draw after opaque objects and before translucent.
+ *
+ * This API is likely to evolve more, adding more options and more control to the developer.
+ *
+ * Example:
+ * \code
+ * 		local emitterId = game:addParticleEmitter()
+ *		game:setParticleEmitterTextureAsset(emitterId,"textures/particle.png")
+ *		game:setParticleEmitterPosition(emitterId, 7,-20,1.0)
+ *		game:setParticleEmitterDirection(emitterId, 0,0,1)
+ *		game:setParticleEmissionRate(emitterId, 40)
+ *		game:setParticleEmitterTimeRange(emitterId,1.5,3.0)
+ *		game:setParticleEmitterConeRange(emitterId,0.1)
+ *		game:setParticleInitialScale(emitterId,2.0)
+ *		game:setParticleAlphaSpeedRange(emitterId, -0.5, -0.5)
+ *		game:startParticleEmitter(emitterId)
+ * \endcode
+ *
+ * The maximum number of emitters and particles per emitter is defined to 10 emitters and 400 particles per emitter.  These numbers can easily be changed in the source and are only limited by memory and performance considerations.  Particle Emitter rendering has its own highly optimized path which is why it doesn't currently sit with the existing render item system.
+ *
+ * \ingroup Graphics
+ * \defgroup GameObject GameObjects
+ * \brief GameObjects provide integration between per-entity C functionality and Lua functionality
+ *
+ * There are many GameObject functions beyond the few documented here.  They are grouped by functionality in the other API reference pages.  Please visit the class reference page for GameObject for a comprehensive list of all available functions.
+ */
+
+/**
+ * \defgroup Input User Input
+ * \brief Retrieving keyboard, touch, mouse and accelerometer input
+ *
+ * BatteryTech uses a polling model for all user input.  Mouse and Touch are treated as one in the same, where mouse is always pointer 0.  Because different keyboards on different operating systems have different keycodes, we provide 2 different functions for gathering keyboard input.  One has key codes, the other returns actualy characters.  In most cases, if supporting an OS with a keyboard, you will want to give the user the opportunity to bind keys and use keycodes.
+ *
+ * Accelerometer is always enabled and values are standardized across all platforms.
+ *
+ * Example:
+ * \code
+ * -- Check for click
+ * isDown, x, y = getPointerState(0)
+ * if isDown then
+ * 	logmsg("User clicked at " .. x .. " " .. y .. "!")
+ * end
+ * \endcode
+ *
+ * \defgroup Audio Sound And Music
+ * \brief Playing sounds and music
+ *
+ * There are 2 distinctly different ways to handle audio in BatteryTech.
+ * - A sound is considered to be a sound sample - that is, a relatively short piece of audio which fits uncompressed into memory of a reasonable size.  All sounds loaded with Game::addSound() are decompressed when loaded, allowing for very fast playback and low CPU overhead when playing many at once.
+ * - Streaming sounds are decoded in real-time in software (unless platform audio facilities are enabled and that platform has hardware support).  This is the most suitable way to play long music files.
+ *
+ * Please note the API differences between handling these two methods of audio playback.
+ *
+ * \defgroup FileIO File IO
+ * \brief Reading and Writing files
+ *
+ * If you have not already read the section on \ref LoadingResources, please do that.  It explains internal assets, which most platforms use.
+ *
+ * For access to other assets, there are a few options.  Every platform has an area for private application files, which are things like savegame data and settings.  The function getApplicationStorageDirectoryName() provides that path for the current system.
+ *
+ * For publicly accessible or very large files, you will want to use external storage.  Some platforms place this on a separate memory card, others into the user's documents directory.  See getExternalStorageDirectoryName() for more info on that.
+ *
+ * Example for loading and saving a savegame file using a lua-executable savegame:
+ * \code
+ * 	local savepath = getApplicationStorageDirectoryName()..getPathSeparator().."savegame.data"
+ *  -- load
+ *	if pathExists(savepath) then
+ *		logmsg("loading from: "..savepath)
+ *		execScript(savepath, true, true)
+ *	end
+ *
+ *  -- save
+ *	local save = table.toString(saveState, "saveState")
+ *	io.output(savepath)
+ *	io.write(save)
+ *	io.close()
+ * \endcode
+ *
+ * Lua provides a set of standard file io functions that can be used once you have retrieved the correct path.  Please see the Lua docs for more info.
+ *
+ * \sa LoadingResources
+ * \defgroup PlatformHooks Platform Hooks And Callbacks
+ * \brief Adding custom behavior for a specific platform using hooks and callbacks
+ *
+ * BatteryTech provides a "hook" mechanism in which any BatteryTech application can make a hook call and the platform can process it, answer or callback asynchronously.  This is a standard part of BatteryTech SDK and target platform source is required to add hooks.
+ *
+ * Some example uses of hooks:
+ * - In App Purchase Support
+ * - Ad System Integration
+ * - Leadboard System Integration
+ * - Additional Sensor Support
+ * - Camera Control
+ * - HTTP Requests
+ * - External Application Support
+ * - Social Network Integration
+ * - External UI Control
+ * - Many more
+ *
+ * From Lua, you can simply call platformHook() to call a hook and implement callback() to receive callbacks.
+ *
+ * Hooks are generic and can be used for almost anything, which makes them very powerful.  Please read the section about hooks in your BatteryTech SDK Manual for more information.
+ *
+ * \defgroup UI User Interface
+ * \brief Adding buttons and controls to your game
+ *
+ * While BatteryTech SDK provides a C++ UI library, we have found through development of several titles using the engine that it's easier to produce a high quality custom UI (desirable by many games) using pure Lua UI components.
+ *
+ * The demos provide a couple of files, touchcontrol.lua and uifactory.lua which provide some groundwork for building a UI quickly.  We've built game-specific tools to quickly layout multiple controls for more complicated screens and recommend trying to use relative locations for controls.
+ *
+ * A quick overview of how to use the TouchControl and UIButton classes:
+ *
+ * Our demo UI controls run the same lifecycle calls as anything.  They all have a constructor, an update and a render function.  For example:
+ * \code
+ * function MainMenu.new()
+ *	local self = table.copy(MainMenu)
+ *	self.buttons = {}
+ *	local button = makeButtonCentered(640, 400, 440, 100, "Physics Demo")
+ *	button.onClickUp = function()
+ *		game:setMode(MODE_PHYSICS_TESTS)
+ *	end
+ *	...
+ * end
+ * \endcode
+ *
+ * The previous example shows how to create a scaled button called "Physics Demo" at a reference position of 640x400 with reference size 440x100 centered. We then create a click handler that sets our mode to physics tests.
+ *
+ * This is a simple but powerful example.  In a few lines of code you can add a layout manager that stacks controls top to bottom or left to right.
+ *
+ * So to use these buttons, you still need to update and render them so the following would apply:
+ * \code
+ * function MainMenu:update(tickDelta)
+ *	for i,v in ipairs(self.buttons) do
+ *		v:update(tickDelta)
+ *	end
+ * end
+ * function MainMenu:render()
+ *	for i,v in ipairs(self.buttons) do
+ *		v:render()
+ *	end
+ * end
+ * \endcode
+ *
+ * And with that, you have a complete solution for managing a menu of buttons.
+ *
+ * Please have a look at the referenced files and you will find that you can do much of what you need without a lot of overhead using these foundation classes.
+ *
+ * All of the referenced functions below are deprecated and it is not recommended to use them as they won't be improved or maintained going forward, but rather a more comprehensive suite of Lua-based UI classes will likely be added to provide the vast majority of functionality most apps need.
+ *
+ * \defgroup Vibration Vibration and Haptics Feedback
+ * \brief Controlling the vibration hardware of a device
+ *
+ * BatteryTech Engine provides functions to control advanced haptics effects like Immersion Corporation's UHL Haptics Library available at http://www.immersion.com/
+ *
+ * Please see the Hook documentation in the BatteryTech SDK manual for more information on how to add advanced vibration control hooks and integrate libraries like Immersion's UHL Haptics SDK.
+ *
+ * For basic vibration, playing effect 0 will do a default short vibration on most platforms.
+ *
+ * \defgroup Video Video playback integration
+ * \brief Functions for controlling platform-integrated video playback
+ *
+ * BatteryTech Engine can run a native video playback integration, however due to the general complexity and overhead of having video layers, this functionality is not included or enabled by default, but placeholders are in place for developers needing to add it.  Please visit the support forums for more information on how to drop in layered video support.
+ */
+
+/**
+ * \defgroup Physics 2D Collisions and Physics
+ * \brief Using the integrated Box2D physics engine
+ *
+ * BatteryTech Engine includes comprehensive Box2D integration using version 2.2.1 (Sept 2011) which was the latest as of Dec 2012.
+ *
+ * The general integration simplifies many of the interfaces while preserving the basic semantics.  We included a complete demo of using Box2D with collisions, some joints and various types of single and multi fixture objects.
+ *
+ * Please read through the function list and refer back to the official Box2D manual at http://box2d.org/manual.pdf for more details on Box2D's behavior.
+ */
+
+/**
+ * \defgroup Performance Performance Considerations
+ * \brief Notes on how to keep a high framerate on many devices
+ *
+ * BatteryTech Engine does many things to optimize:
+ * - Texture halving
+ * - Atlas support
+ * - 2D batching
+ * - Shader caching
+ *
+ * However it is still up to the developer to test on a variety of target devices and gain a basic understanding of how various assets will affect rendering performance.
+ *
+ * Texture halving is a configurable option which lets you define a screen size that is the threshold of which textures are loaded in half-sizes, so a 1024x1024 would become 512x512.  This is very useful because you can supply larger-screen size graphics that load to more appropriate sizes for smaller screens all with the same assets.  Please see \ref Configuring for more info on how to set that option.
+ *
+ * Atlas support, when used properly, can be a huge optimization because you can reduce the number of texture switches required to render your scene.  Basically, every time the engine needs to draw something with a different backing texture, it has to tell the GPU to switch to that different texture and that always has a performance penalty to it.  We recommend optimizing textures using TexturePacker atlases exported to .BTX format to minimuze on texture switches.
+ *
+ * 2D render calls will be batched efficiently with one major limitation - texture switches.  Please use atlasing as previously described and if possible, render text in separate passes with the same font tags batched together.
+ *
+ * Shaders are automatically cached and binding is minimized as much as possible.
+ *
+ * If you are having performance problems, try the following:
+ * - Use smaller textures
+ * - Use fewer draw calls if possible
+ * - Reduce overdraw (the number of times the same pixel has something or alpha drawn to it)
+ * - Reduce vertex counts
+ * - Use vertex lighting when possible as it is less computationally expensive than per-pixel lighting
+ * - Use the high resolution timer getTimeMillis() function to profile your Lua code to determine if you are doing too much work per update
+ * - Use an OpenGL / OpenGL ES profiler to determine if you are pushing the target GPU past its capabilities
+ */
+
+/**
+ * \defgroup OtherFunctions Other Functions
+ * \brief Functions not documented in other modules
+ */
+
+/**
+ * \defgroup Callbacks Callback and lifecycle Functions
+ * \brief Functions that are user-defined which the engine calls into
+ *
+ * There are a number of Lua functions that the application can implement to receive various lifecycle and callback invocations. Function declarations are made like any normal function for the given scope.
+ *
+ * Global Functions:
+ * - onSuspend() - Called before the OS suspends or pauses the app, giving a chance to save any data or enter a pause state
+ * - callback(string data) - Called from the platform hook system, entirely developer-dependent - See \ref PlatformHooks for more info
+ *
+ * Game Functions:
+ * - Game::init() - Called once when the engine first initializes
+ * - Game::update(float delta) - Called once per frame tick
+ * - - Parameter delta - The amount of time since the previous frame tick (in seconds)
+ * - Game::render() - Called once per frame render
+ * - Game::reset() - Called after init when the engine is ready.  Indicates that the game should reset and begin on the next Game::update()
+ * - Game::screenControlPointerDown(string name, float x, float y) - Deprecated - event callbacks for ScreenControls
+ * - Game::screenControlPointerMove(string name, float x, float y) - Deprecated - event callbacks for ScreenControls
+ * - Game::screenControlPointerUp(string name, float x, float y) - Deprecated - event callbacks for ScreenControls
+ *
+ * GameObject Functions:
+ * - GameObject::update(float delta) - Called once per frame tick
+ * - - Parameter delta - The amount of time since the previous frame tick (in seconds)
+ * - GameObject collision callbacks / query callbacks - Please see \ref Physics section for more info
+ *
+ *
+ * please see \sa ScriptEntry for more information on application entry points
+ */
+
+

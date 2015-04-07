@@ -1,0 +1,17 @@
+use_shaders=false
+reference_width=800
+reference_height=480
+window_width=480
+window_height=800
+console_log_enabled_when_available=true
+windowed_app_name=BatteryTech 2.0 Hello World
+storage_dir=BatteryTech Hello World
+initial_font_texture_width=256
+initial_font_texture_height=256
+ui_font_size=60.0
+text_vertical_spacing_multiplier=1.2
+prefer_platform_audio_management=false
+menu_font=digital.ttf
+ui_menu_inner_stroke=1
+ui_menu_outer_stroke=1
+ui_menu_font_color=1.0 1.0 1.0 1.0

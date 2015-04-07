@@ -1,0 +1,1128 @@
+#ifdef DOXYGEN
+class Game {
+public:
+    /**
+     * \brief Deprecated - Adds a ScreenControl
+     *
+     * ScreenControls are components that display on screen for the user to touch.  Because of issues with sorting and setup and callback complexity, we have deprecated them in favor of pure Lua controls.
+ 	 * \deprecated Use Lua-based controls
+     * \ingroup UI
+     *
+     */
+    Game::addScreenControl(string name, string label, string textureAssetName, float u1,float v1,float u2,float v2, float x1,float y1,float x2,float y2, float x3,float y3,float x4,float y4, boolean isInteractive);
+    /**
+     * \brief Deprecated - Updates a ScreenControl
+     *
+     * ScreenControls are components that display on screen for the user to touch.  Because of issues with sorting and setup and callback complexity, we have deprecated them in favor of pure Lua controls.
+ 	 * \deprecated Use Lua-based controls
+     * \ingroup UI
+     *
+     */
+    Game::updateScreenControl(string name, string label, string textureAssetName, float u1,float v1,float u2,float v2, float x1,float y1,float x2,float y2, float x3,float y3,float x4,float y4, boolean isInteractive);
+    /**
+     * \brief Deprecated - Updates just the texture info for a screen control
+    *
+     * ScreenControls are components that display on screen for the user to touch.  Because of issues with sorting and setup and callback complexity, we have deprecated them in favor of pure Lua controls.
+  	 * \deprecated Use Lua-based controls
+     * \ingroup UI
+     *
+     */
+    Game::updateScreenControlTexture(string name, string textureAssetName, float u1,float v1,float u2,float v2);
+    /**
+     * \brief Deprecated - Removes a ScreenControl
+    *
+     * ScreenControls are components that display on screen for the user to touch.  Because of issues with sorting and setup and callback complexity, we have deprecated them in favor of pure Lua controls.
+ 	 * \deprecated Use Lua-based controls
+     * \ingroup UI
+     *
+     */
+    Game::removeScreenControl(string name);
+    /**
+     * \brief Deprecated - Clears the list of all screen controls for this game
+     *
+     * ScreenControls are components that display on screen for the user to touch.  Because of issues with sorting and setup and callback complexity, we have deprecated them in favor of pure Lua controls.
+ 	 * \deprecated Use Lua-based controls
+     * \ingroup UI
+     *
+     */
+    Game::clearScreenControls();
+
+/** \name The Physics World
+ * Functions related to managing the physics world
+ */
+// @{
+    /**
+     * \brief Creates a new instance of the physics simulation
+     *
+     * An existing physics world must be destroyed by calling Game::destroyPhysicsWorld before calling again
+     *
+     * \ingroup Physics
+     *
+     */
+    Game::createPhysicsWorld();
+    /**
+     * \brief Clears the current physics world
+     *
+     * Removes all bodies and joints - make sure to deactivate all GameObjects with bodies or joints or the engine may crash
+     *
+     * \ingroup Physics
+     *
+     */
+    Game::clearPhysicsWorld();
+    /**
+     * \brief Destroys the current physics world, deallocating
+     *
+     * Use this function to completely tear down the current physics world and recover memory.  make sure to deactivate all GameObjects with bodies or joints or the engine may crash
+     *
+     * \ingroup Physics
+     *
+     */
+    Game::destroyPhysicsWorld();
+    /**
+     * \brief Updates (ticks / timesteps) the current physics simulation
+     *
+     * \param delta (optional) The update delta to use
+     * \param velocityIterations (optional) The number of velocity iterations to apply
+     * \param positionIterations (optional) The number of position iterations to apply
+     * \ingroup Physics
+     *
+     */
+    Game::updatePhysics(float delta, int velocityIterations, int positionIterations);
+    /**
+     * \brief Clears the current forces being applied to physics bodies
+     *
+     * \ingroup Physics
+     *
+     */
+    Game::clearPhysicsForces(lua_State *l);
+    /**
+     * \brief Sets the gravity vector for physics
+     *
+     * \param x The x component
+     * \param y The y component
+     * \ingroup Physics
+     *
+     */
+    Game::setPhysicsGravity(float x, float y);
+    /**
+     * \brief Enables/Disables debug drawing of the physics world
+     *
+     * Allows for an optional projection to be set for drawing so the lines can match the current rendering
+     *
+     * \param enabled true to enable, false to disable
+     * \param left (optional) Left Orthographic Boundary
+     * \param right (optional) Right Orthographic Boundary
+     * \param bottom (optional) Bottom Orthographic Boundary
+     * \param top (optional) Top Orthographic Boundary
+     * \param near (optional) Near Orthographic Boundary
+     * \param far (optional) Far Orthographic Boundary
+     * \ingroup Physics
+     *
+     */
+    Game::setPhysicsDrawDebug(boolean enabled, float left, float right, float bottom, float top, float near, float far);
+    // @}
+    /** \name AABB Query
+     * Functions related to b2Contacts and collision queries
+     */
+    // @{
+    /**
+     * \brief Queries for intersecting bodies using an Axis-Aligned Bounding Box
+     *
+     * Returns a variable number of results.  The count specifies how many results there will be and results will come paired as GameObject, fixtureID for each of the result count.
+     * \param x1 boundary 1 x
+     * \param y1 boundary 1 y
+     * \param x2 boundary 2 x
+     * \param y2 boundary 2 y
+     * \return count: The number of intersection results
+     * \return GameObject1: The first gameobject
+     * \return FixtureID1: The first gameobject's fixture ID
+     * \ingroup Physics
+     *
+     */
+    count___GameObject1___FixtureID1 Game::queryPhysicsAABB(float x1, float y1, float x2, float y2);
+    // @}
+    /**
+     * \brief Resets the engine to a "ready" state, clearing the native menu stack
+     *
+     * \ingroup OtherFunctions
+     *
+     */
+    Game::quit();
+/** \name 3D Render Functions
+ * Functions that produce render items
+ */
+// @{
+    /**
+     * \brief Renders a an OBJ file (deprecated)
+     *
+     * Deprecated - use renderAssimp() instead
+     *
+     * \ingroup Graphics3D
+     *
+     */
+    renderItemId Game::renderStaticObjM(string assetName, string groupName, string textureName, boolean isOpaque, floatArray16 matrix, float scaleX,float scaleY,float scaleZ);
+    /**
+     * \brief Renders a 2D Image as a background (behind any 3D)
+     *
+     * This function works identically to Game::render2D() except it goes behind any 3D rendering
+     * \sa Game::render2D()
+     *
+     * \param assetName The asset filename to use as the texture
+     * \param x The center x coordinate
+     * \param y The center y coordinate
+     * \param width The render width
+     * \param height The render height
+     * \param rotation (optional) The rotation in radians
+     * \param alpha (optional) The alpha value in range 0-1
+     * \ingroup Graphics3D
+     *
+     */
+    renderItemId  Game::render2DBG(string assetName, float x, float y, float width, float height, float rotation, float alpha);
+    /**
+     * \brief Renders a 3D model using the Open Asset Importer Library (Assimp) - specifying basic transform
+     *
+     * BatteryTech Engine supports Collada (.dae) and Wavefront (.obj) file formats via the 3rd party library, Assimp.  While more file formats can be added, only those two formats are supported because they are fairly well supported and provide all of the essential functionality to most games.
+     *
+     * Please refer to the section on 3D Animation for more information on how to use an animator.
+     *
+     * \param animator The GameObject hosting the animator
+     * \param animatorIdx The index of the animator in the GameObject
+     * \param assetName The name of the Assimp-compatible asset file
+     * \param groupName The name of the Mesh/Group to render (nil renders the whole scene)
+     * \param textureAssetName The name of the texture asset file to use (overrides all materials) (nil uses file-specified materials)
+     * \param isOpaque Specifies if this rendering has any alpha or should be rendered entirely opaque
+     * \param x The x coordinate position
+     * \param y The y coordinate position
+     * \param z The z coordinate position
+     * \param sx The x-axis scale
+     * \param sy The y-axis scale
+     * \param sz The z-axis scale
+     * \param rx The x-axis rotation
+     * \param ry The y-axis rotation
+     * \param rz The z-axis rotation
+     * \ingroup Graphics3D
+     *
+     */
+    renderItemId Game::renderAssimp(GameObject animator, int animatorIdx, string assetName, string groupName, string textureAssetName, boolean isOpaque, float x, float y, float z, float sx, float sy, float sz, float rx, float ry, float rz);
+    /**
+     * \brief Renders a 3D model using the Open Asset Importer Library (Assimp) - specifying matrix
+     *
+     * BatteryTech Engine supports Collada (.dae) and Wavefront (.obj) file formats via the 3rd party library, Assimp.  While more file formats can be added, only those two formats are supported because they are fairly well supported and provide all of the essential functionality to most games.
+     *
+     * Please refer to the section on 3D Animation for more information on how to use an animator.
+     *
+     * \param animator The GameObject hosting the animator
+     * \param animatorIdx The index of the animator in the GameObject
+     * \param assetName The name of the Assimp-compatible asset file
+     * \param groupName The name of the Mesh/Group to render (nil renders the whole scene)
+     * \param textureAssetName The name of the texture asset file to use (overrides all materials) (nil uses file-specified materials)
+     * \param isOpaque Specifies if this rendering has any alpha or should be rendered entirely opaque
+     * \param matrix 16 values column-major (where x,y,z,1 translation are the last 4 values) all comma-separated
+     * \param sx (optional) The x-axis scale multiplier
+     * \param sy (optional) The y-axis scale multiplier
+     * \param sz (optional) The z-axis scale multiplier
+     * \param rz (optional) The z-axis rotation in degrees
+     * \ingroup Graphics3D
+     *
+     */
+    renderItemId  Game::renderAssimpM(GameObject animator, int animatorIdx, string assetName, string groupName, string textureAssetName, boolean isOpaque, floatArray16 matrix, float sx, float sy, float sz, float rz);
+    /**
+     * \brief Renders a billboarded 2D image in 3D space
+     *
+     * \param assetName The file asset name of the texture
+     * \param x The x coordinate position
+     * \param y The y coordinate position
+     * \param z The z coordinate position
+     * \param width The width in world coordinates
+     * \param height The height in world coordinates
+     * \param zRotation The Z-axis rotation relative to the image being laid X/Y - effectively the spin or angle in radians
+     * \param alpha (optional) The alpha opacity value in range 0-1
+     * \param u1 (optional) The left texture coordinate in range 0-1
+     * \param v1 (optional) The top texture coordinate in range 0-1
+     * \param u2 (optional) The right texture coordinate in range 0-1
+     * \param v2 (optional) The bottom texture coordinate in range 0-1
+     * \ingroup Graphics3D
+     *
+     */
+    renderItemId Game::renderBB(string assetName, float x, float y, float z, float width, float height, float zRotation, float alpha, float u1, float v1, float u2, float v2);
+// @}
+    /**
+     * \brief Renders Text
+     *
+     * Fonts must be preloaded using addFont(), where the tag is specified for the font loaded.  Both TTF and BMFonts are supported.
+     *
+     * Fonts are rendered from the bottom left point which allows for baseline placement.  Fonts may be aligned left, center or right using setRenderItemParam().\n
+     * The default font tag is "ui" and is what is specified in the batterytech_config.txt
+     *
+     * Example:
+     * \code
+     * -- Render some text centered at 200,200 in reference coordinates with a 2x size scale
+     * local item = game:renderText2D("ui", "This is some text", 200, 200, 2.0)
+     * game:setRenderItemParam(item, "align", "center")
+     * \endcode
+     *
+     * Supported values for "align" are "left" "center" and "right"\n
+     * Currently only the specified color at load is supported, other render item parameters to set color or alpha will have no effect.
+     *
+     * \param tag The font tag to use
+     * \param text The string to render
+     * \param x The x coordinate to render to
+     * \param y The y coordinate to render to
+     * \param scale (optional) The font scale size (1.0 is unscaled)
+     * \ingroup Fonts
+     *
+     */
+    renderItemId Game::renderText2D(string tag, string text, float x, float y, float scale);
+/** \name 2D Render Functions
+ * Functions that produce render items
+ */
+// @{
+   /**
+     * \brief Renders a 2D image
+     *
+     * 2D images are rendered as "textured quads."  Because BatteryTech is fully ES compatible, this means 2 triangles per quad.
+     *
+     * - Render Order: 2D images are rendered in the order of draw calls from back to front, so it is your responsibility as the developer to call in the order which will correctly render your scene.\n
+     * - Texture Atlasing: Multiple images can be combined onto a single texture either manually or by using the 3rd party tool "Texture Packer."  Texture Packer specifically supports BatteryTech and exports a .btx file alongside a packed .png which holds all of the texture data.  Packed textures keep the same filenames as the original and will be rendered as if they are the original size, meaning even though alpha pixels may be trimmed during packing, they will be accounted for during the render.  For example, if you put Sprite1.png and Sprite2.png into an atlas and the output was MySprites.png/MySprites.btx, you would simply call addTexture("MySprites.btx") then game:render2D("Sprite1.png", ...) as if you directly loaded that file.  Removing works the same way - removing the packed texture removes all virtualized textures.\n
+     * - Optimizing: 2D sprites will be rendered in the most optimized way that still can render the scene correctly blindly back to front.  The one major bottleneck is texture switching.  Any time a texture switch is required, the current sprite buffer will be drawn.  To optimize, specify a render order that groups draws by texture and pack multiple images into an atlas when they will be rendered all together on screen.  BatteryTech does not analyze the scene to see if quads overlap so it is up to the developer to provide a draw order that can best utilize low texture switching, resulting in larger batches of quads to be drawn.\n
+     * - Coordinate System: Alternate coordinate systems can be specified by using Game::start2DProjection() / Game::end2DProjection() which makes it easier to  manage scaling across different screen sizes.  If no projection is specified, screen coordinates are used with 0,0 in the top left.\n
+     *
+     * Example:
+     * \code
+     * -- Render an image centered at 200,200 drawn to be 400x400 in size and rotated 90 degrees
+     * local item = game:render2D("Textures/MyImage.png", 200, 200, 400, 400, math.rad(90))
+     * -- Now specify that we want to draw this at only 70% opacity - we could have also specified this in the render call
+     * game:setRenderItemParam(item, "alpha", .7)
+     * \endcode
+     *
+     * \param assetName The asset filename to use as the texture
+     * \param x The center x coordinate
+     * \param y The center y coordinate
+     * \param width The render width
+     * \param height The render height
+     * \param rotation (optional) The rotation in radians
+     * \param alpha (optional) The alpha value in range 0-1
+     * \ingroup Graphics2D
+     *
+     */
+    renderItemId Game::render2D(string assetName, float x, float y, float width, float height, float rotation, float alpha);
+
+    /**
+     * \brief Starts an alternate 2D Projection (Orthographic)
+     *
+     * From when this projection is specified until end2DProjection or a different projection is specified, all 2D render calls will use this projection.
+     *
+     * \param left The left side coordinate
+     * \param right The right side coordinate
+     * \param bottom The bottom screen coordinate
+     * \param top The top screen coordinate
+     * \param near The near-plane
+     * \param far The far-plane
+     * \ingroup Graphics2D
+     *
+     */
+    renderItemId Game::start2DProjection(float left, float right, float bottom, float top, float near, float far);
+    /**
+     * \brief Ends any alternate 2D Projection, restores default
+     *
+     * Does not pop like a stack but instead restores actual screen-pixel projection
+     *
+     * \ingroup Graphics2D
+     *
+     */
+    renderItemId Game::end2DProjection();
+// @}
+/** \name Shadows
+ * Configuring Shadows
+ */
+// @{
+    /**
+     * \brief Defines the location of the origin (source) of the "light" which casts a shadow
+     *
+     * \param x The x coordinate in world space
+     * \param y The y coordinate in world space
+     * \param z The z coordiante in world space
+     * \ingroup Graphics3D
+     *
+     */
+    Game::setShadowLightOrigin(float x, float y, float z);
+    /**
+     * \brief Defines the shadow's color and epsilon value
+     *
+     * \param r The red component in range 0-1
+     * \param g The green component in range 0-1
+     * \param b The blue component in range 0-1
+     * \param a The alpha component in range 0-1
+     * \param epsilon The shadow depth comparison epsilon value
+     * \ingroup Graphics3D
+     *
+     */
+    Game::setShadowColorAndEpsilon(float r, float g, float b, float a, float epsilon);
+    /**
+     * \brief Defines the shadow's frustum near and far planes
+     *
+     * \param near The near plane
+     * \param far The far plane
+     * \ingroup Graphics3D
+     *
+     */
+    Game::setShadowLightFrustumNearFar(float near, float far);
+    /**
+     * \brief Specifies to use an orthographic projection for the shadow
+     *
+     * \param right The right plane
+     * \param left The left plane
+     * \param bottom The bottom plane
+     * \param top The top plane
+     * \ingroup Graphics3D
+     *
+     */
+    Game::setShadowOrtho(float right, float left, float bottom, float top);
+    /**
+     * \brief Specifies to use a perspective projection for the shadow (currently very buggy - ortho is recommended)
+     *
+     * \param fov The field-of-view
+     * \ingroup Graphics3D
+     *
+     */
+    Game::setShadowPerspective(float fov);
+    /**
+     * \brief Gets the current shadow type
+     *
+     * \return type: 0 = None, 1 = low quality, 2 = high quality, 3 = custom size
+     * \ingroup Graphics3D
+     *
+     */
+    type Game::getShadowType();
+    /**
+     * \brief Sets the current shadow type
+     *
+     * \param type 0 = None, 1 = low quality, 2 = high quality, 3 = custom size
+     * \param width (required for custom size, n/a for other)
+     * \param height (required for custom size, n/a for other)
+     * \ingroup Graphics3D
+     *
+     */
+    Game::setShadowType(int type, int width, int height);
+    /**
+     * \brief Sets the shadow face-culling mode
+     *
+     * Cull Mode 0 = None\n
+     * Cull Mode 1 = Front (default)\n
+     * Cull Mode 2 = Back\n
+     *
+     * \param mode The face culling mode when generating the shadow
+     * \ingroup Graphics3D
+     *
+     */
+    Game::setShadowCullMode(int mode);
+// @}
+/** \name Global Light
+ * Functions for configuring the global (directional) light
+ */
+// @{
+	/**
+	 * \brief Enables/Disables global (directional) light
+	 *
+     * \param enabled true to enable, false to disable
+	 * \ingroup Graphics3D
+	 *
+	 */
+    Game::setGlobalLightEnabled(boolean enabled);
+    /**
+     * \brief Specifies the global light direction as a vector towards the light source from 0,0,0
+     *
+     * \param x The x vector component
+     * \param y The y vector component
+     * \param z The z vector component
+     * \ingroup Graphics3D
+     *
+     */
+    Game::setGlobalLightDir(float x, float y, float z);
+    /**
+     * \brief Sets the ambient material values for global light
+     *
+     * \param r The red color component in range 0-1
+     * \param g The green color component in range 0-1
+     * \param b The blue color component in range 0-1
+     * \param a The alpha color component in range 0-1
+     * \ingroup Graphics3D
+     *
+     */
+    Game::setGlobalLightAmbient(float r, float g, float b, float a);
+    /**
+     * \brief Sets the diffuse material values for global light
+     *
+     * \param r The red color component in range 0-1
+     * \param g The green color component in range 0-1
+     * \param b The blue color component in range 0-1
+     * \param a The alpha color component in range 0-1
+     * \ingroup Graphics3D
+     *
+     */
+    Game::setGlobalLightDiffuse(float r, float g, float b, float a);
+    /**
+     * \brief Sets the specular material values for global light
+     *
+     * \param r The red color component in range 0-1
+     * \param g The green color component in range 0-1
+     * \param b The blue color component in range 0-1
+     * \param a The alpha color component in range 0-1
+     * \ingroup Graphics3D
+     *
+     */
+    Game::setGlobalLightSpecular(float r, float g, float b, float a);
+// @}
+    /**
+     * \brief Enables/Disables Linear Fog
+     *
+     * \param enabled true if enabled, false if not
+     * \ingroup Graphics3D
+     *
+     */
+    Game::setFogEnabled(boolean enabled);
+    /**
+     * \brief Specifies linear fog parameters
+     *
+     * \param near The distance from camera fog is to start
+     * \param far The distance from camera fog is to end
+     * \param r The ending red color component in range 0-1
+     * \param g The ending green color component in range 0-1
+     * \param b The ending blue color component in range 0-1
+     * \param a The ending alpha color component in range 0-1
+     * \ingroup Graphics3D
+     *
+     */
+    Game::setFogParams(float near, float far, float r, float g, float b, float a);
+    /**
+     * \brief Sets a render item parameter
+     *
+     * \param idx The render item index
+     * \param name The name of the parameter
+     * \param value The value for the paremeter
+     * \ingroup RenderOptions
+     *
+     */
+    Game::setRenderItemParam(int idx, string name, multiple value);
+    /**
+     * \brief Flips the engine into a loading phase to load any new resources
+     *
+     * \ingroup LoadingResources
+     *
+     */
+    Game::loadNewResources();
+// @}
+/** \name Point Lights
+ * Functions for adding, removing and configuring point lights
+ */
+// @{
+    /**
+     * \brief Adds a local (point) light to the scene
+     *
+     * A few notes about local lights:
+     * - Local lights persist until cleared.
+     * - Only the closest lights will be rendered for an object, based on the object's transform position
+     * - Local lights can be disabled for objects using render parameters
+     * - The number of local lights to use for an object can be adjusted with render parameters
+     * - Local lights are much more computationally expensive than global light, especially when per-pixel lighting is enabled
+     *
+     * \param x The x origin world coordinate for the light
+     * \param y The y origin world coordinate for the light
+     * \param z The z origin world coordinate for the light
+     * \return lightIdx: The light's index in the array
+     * \ingroup Graphics3D
+     *
+     */
+    lightIdx Game::addLocalLight(float x, float y, float z);
+    /**
+     * \brief Sets parameters for a local light
+     *
+     * Supported parameters are:
+     * - position, values x,y,z in world coordinates
+     * - ambient, values r,g,b,a all in range 0-1
+     * - diffuse, values r,g,b,a all in range 0-1
+     * - specular, values r,g,b,a all in range 0-1
+     * - attenuation, values constant,linear,quadratic
+     *
+     * \param lightIdx The index of the light
+     * \param paramName The parameter name
+     * \param values The parameter's value(s)
+     * \ingroup Graphics3D
+     *
+     */
+    Game::setLocalLightParam(int lightIdx, string paramName, float values, ...);
+    /**
+     * \brief Clears the local lights
+     *
+     * \ingroup Graphics3D
+     *
+     */
+    Game::clearLocalLights();
+    /**
+     * \brief Adds a number of local lights using points found in an Assimp-supported file
+     *
+     * Sometimes you want to load a scene that has many point lights and want the closest 2 or 3 to influence a character.  All you need to do to support that is to create triangles or other small objects in your scene placed where the lights are to be centered at, then you name them something consistent like "light_01", "light_02" and call this function with "light" or "light_" as the prefix, and all the lights will be added to the internal light array.  This function returns the start and end index of the lights found so you can run through and parameterize the lights by using Game::setLocalLightParam on each of the new lights to get the materials and attenuations set correctly.
+     *
+     * \param assetName The name of the assimp-supported file
+     * \param meshPrefix The string prefix of the light points
+     * \return firstIdx: The first light's index
+     * \return lastIdx: The last light's index
+     * \ingroup Graphics3D
+     *
+     */
+    firstIdx__lastIdx Game::addLocalLightsFromAssimp(string assetName, string meshPrefix);
+// @}
+    /**
+     * \brief Retrives mesh information from an assimp-supported file
+     *
+     * This function will return information on more than one mesh if multiple meshes match the prefix.  The return data is a table of tables.  This is not a lightweight get but actually calculates information, so calling this every frame is not recommended.  Cache data locally if you need to.
+     *
+     * Return data explained:
+     * - Outer table is an indexed array of tables
+     * - - Inner table is:
+     * - - 1. Center Point X
+     * - - 2. Center Point Y
+     * - - 3. Center Point Z
+     * - - 4. Mesh Name
+     * - - 5. Vertex Count
+     * - - 6. AABB Min X
+     * - - 7. AABB Min Y
+     * - - 8. AABB Min Z
+     * - - 9. AABB Max X
+     * - - 10. AABB Max Y
+     * - - 11. AABB Max Z
+     *
+     * \param assetName The asset's file name
+     * \param meshPrefix The prefix or name of the mesh to get information about
+     * \return table: A table of tables for mesh info
+     * \ingroup Graphics3D
+     *
+     */
+    table Game::getMeshInfoFromAssimp(string assetName, string meshPrefix);
+    /**
+     * \brief Measures the size of text before rendering
+     *
+     * \param tag The font tag
+     * \param text The text to measure
+     * \param scale The scale factor to use
+     * \return width: The width
+     * \return height: The height
+     * \ingroup Fonts
+     *
+     */
+    width__height Game::measureText(string tag, string text, float scale);
+    /**
+     * \brief Resets the game engine
+     *
+     * Causes a complete reload of Lua making this function effective for testing with new code without leaving the engine
+     *
+     * \ingroup OtherFunctions
+     *
+     */
+    Game::engineReset();
+    /**
+     * \brief Adds a 3D Particle Emitter
+     *
+     * \return emitterId: The particle emitter's ID
+     *
+     * \ingroup Particles
+     *
+     */
+    emitterId Game::addParticleEmitter();
+    /**
+     * \brief Adds a 2D Particle Emitter
+     *
+     * \return emitterId: The particle emitter's ID
+     *
+     * \ingroup Particles
+     *
+     */
+    emitterId Game::add2DParticleEmitter();
+    /**
+     * \brief Sets the particle's lifetime as a range
+     *
+     * \param emitterId The ID of the particle emitter
+     * \param min The minimum amount of time in seconds the particle will live
+     * \param max The maxmimum amount of time in seconds the particle will live
+     * \ingroup Particles
+     *
+     */
+    Game::setParticleEmitterTimeRange(int emitterId, float min, float max);
+    /**
+     * \brief Sets the position of the particle emitter
+     *
+     * \param emitterId The ID of the particle emitter
+     * \param x The x position in world coordinates
+     * \param y The y position in world coordinates
+     * \param z The z position in world coordinates (no effect for 2D)
+     * \ingroup Particles
+     *
+     */
+    Game::setParticleEmitterPosition(int emitterId, float x, float y, float z);
+    /**
+     * \brief Sets the position range of emission
+     *
+     * Particles will be emitted in a box +x to -x, +y to -y and +z to -z (for 3D) for these values centered on the position
+     *
+     * \param emitterId The ID of the particle emitter
+     * \param x The x range in world coordinates
+     * \param y The y range in world coordinates
+     * \param z The z range in world coordinates (no effect for 2D)
+     * \ingroup Particles
+     *
+     */
+    Game::setParticleEmitterPositionRange(int emitterId, float x, float y, float z);
+    /**
+     * \brief Specifies the direction of emission as a vector.
+     *
+     * \param emitterId The ID of the particle emitter
+     * \param x The x vector value in world coordinates
+     * \param y The y vector value in world coordinates
+     * \param z The z vector value in world coordinates (no effect for 2D)
+    * \ingroup Particles
+     *
+     */
+    Game::setParticleEmitterDirection(int emitterId, float x, float y, float z);
+    /**
+     * \brief Sets the texture for this particle
+     *
+     * \param emitterId The ID of the particle emitter
+     * \param assetName The asset file name
+     * \ingroup Particles
+     *
+     */
+    Game::setParticleEmitterTextureAsset(int emitterId, string assetName);
+    /**
+     * \brief Removes a particle emitter
+     *
+     * \param emitterId The ID of the particle emitter
+     * \ingroup Particles
+     *
+     */
+    Game::removeParticleEmitter(int emitterId);
+    /**
+     * \brief Stops a particle emitter
+     *
+     * \param emitterId The ID of the particle emitter
+     * \ingroup Particles
+     *
+     */
+    Game::stopParticleEmitter(int emitterId);
+    /**
+     * \brief Removes all particle emitters from the world
+     *
+     * \ingroup Particles
+     *
+     */
+    Game::clearParticleEmitters();
+    /**
+     * \brief Starts a particle emitter
+     *
+     * \param emitterId The ID of the particle emitter
+     * \ingroup Particles
+     *
+     */
+    Game::startParticleEmitter(int emitterId);
+    /**
+     * \brief Sets the "cone" range of a particle emitter
+     *
+     * The cone range is the variation in direction expressed as a value in range 0 to 1.
+     * - For 2D, 1 is 360 degrees, .5 is 180 degrees, etc.
+     * - For 3D, 1 is a full 360 sphere, .5 is a 180 degree hemisphere, etc
+     *
+     * The cone is centered on the emission direction set in Game::setParticleEmitterDirection()
+     *
+     * \param emitterId The ID of the particle emitter
+     * \param range The range 0-1
+     * \ingroup Particles
+     *
+     */
+    Game::setParticleEmitterConeRange(int emitterId, float range);
+    /**
+     * \brief Sets the range of speeds for the newly emitted particles
+     *
+     * \param emitterId The ID of the particle emitter
+     * \param min The minimum speed
+     * \param max The maximum speed
+     * \ingroup Particles
+     *
+     */
+    Game::setParticleScaleSpeedRange(int emitterId, float min, float max);
+    /**
+     * \brief Sets the speed at which particles fade in or out
+     *
+     * \param emitterId The ID of the particle emitter
+     * \param min The minumum alpha speed
+     * \param max The maximum alpha speed
+     * \ingroup Particles
+     *
+     */
+    Game::setParticleAlphaSpeedRange(int emitterId, float min, float max);
+    /**
+     * \brief Sets the speed range at which new particles move
+     *
+     * \param emitterId The ID of the particle emitter
+     * \param min The minimum speed
+     * \param max The maximum speed
+     * \ingroup Particles
+     *
+     */
+    Game::setParticleMaxSpeedRange(int emitterId, float min, float max);
+    /**
+     * \brief Sets the rate at which new particles are emitted
+     *
+     * \param emitterId The ID of the particle emitter
+     * \param rate The rate in particles per second
+     * \ingroup Particles
+     *
+     */
+    Game::setParticleEmissionRate(int emitterId, float rate);
+    /**
+     * \brief Sets the initial scale of new particles
+     *
+     * \param emitterId The ID of the particle emitter
+     * \param scale The scale
+     * \ingroup Particles
+     *
+     */
+    Game::setParticleInitialScale(int emitterId, float scale);
+    /**
+     * \brief Sets the rotational speed range of new particles
+     *
+     * \param emitterId The ID of the particle emitter
+     * \param min The minimum rotational speed
+     * \param max The maximum rotational speed
+     * \ingroup Particles
+     *
+     */
+    Game::setParticleRotationSpeedRange(int emitterId, float min, float max);
+    /**
+     * \brief Sets gravity for all particles
+     *
+     * \param emitterId The ID of the particle emitter
+     * \param x The x vector component
+     * \param y The y vector component
+     * \param z The z vector component
+     * \ingroup Particles
+     *
+     */
+    Game::setParticleGravity(int emitterId, float x, float y, float z);
+    /**
+     * \brief Sets an automatic stop for this emitter
+     *
+     * Once the emitter has emitted the maximum number of particles specified here, it will stop emitting new particles until reset.
+     *
+     * \param emitterId The ID of the particle emitter
+     * \param max The maximum number of particles to emit before stopping
+     * \ingroup Particles
+     *
+     */
+    Game::setParticleAutoStopMax(int emitterId, int max);
+    /** \name Box2D Joints
+     * Functions related to b2Joints and subclasses
+     */
+    // @{
+    /**
+     * \brief Adds a distance joint
+     *
+     * \param o1 The first GameObject to connect
+     * \param idx1 The index of the body in o1 to connect
+     * \param o2 The second GameObject to connect
+     * \param idx2 The index of the body in o2 to connect
+     * \param anchorAX The world anchor point x on o1-idx1
+     * \param anchorAY The world anchor point y on o1-idx1
+     * \param anchorBX The world anchor point x on o2-idx2
+     * \param anchorBY The world anchor point y on o2-idx2
+     * \param collideConnected (optional) If the connected bodies should collide
+     * \param frequencyHz (optional) The damping frequency
+     * \param dampingRatio (optional) The damping ratio
+     * \return jointId: The new joint's ID
+     * \ingroup Physics
+     *
+     */
+    jointId Game::physics_addDistanceJoint(GameObject o1, int idx1, GameObject o2, int idx2, float anchorAX, float anchorAY, float anchorBX, float anchorBY, boolean collideConnected, float frequencyHz, float dampingRatio);
+    /**
+     * \brief Adds a revolute joint
+     *
+     * \param o1 The first GameObject to connect
+     * \param idx1 The index of the body in o1 to connect
+     * \param o2 The second GameObject to connect
+     * \param idx2 The index of the body in o2 to connect
+     * \param anchorAX The world anchor point x on o1-idx1
+     * \param anchorAY The world anchor point y on o1-idx1
+     * \return jointId: The new joint's ID
+     * \ingroup Physics
+     *
+     */
+    jointId Game::physics_addRevoluteJoint(GameObject o1, int idx1, GameObject o2, int idx2, float anchorAX, float anchorAY);
+    /**
+     * \brief Sets the limits on a revolute joint
+     *
+     * \param jointId The joint ID
+     * \param enabled If the limits are to be enabled
+     * \param low The low limit
+     * \param high The high limit
+     * \ingroup Physics
+     *
+     */
+    Game::physics_setRevoluteJointLimits(int jointId, boolean enabled, float low, float high);
+    /**
+     * \brief Sets the motor parameters of a revolute joint
+     *
+     * \param jointId The joint ID
+     * \param enabled If the motor is to be enabled
+     * \param speed The speed of the motor
+     * \param maxTorque The max torque of the motor
+     * \ingroup Physics
+     *
+     */
+    Game::physics_setRevoluteJointMotor(int jointId, boolean enabled, float speed, float maxTorque);
+    /**
+     * \brief Gets the primary values of the revolute joint
+     *
+     * \param jointId The joint ID
+     * \return angle: The angle of the revolute joint
+     * \return speed: The speed of the revolute joint
+     * \return torque: The torque of the revolute joint
+     * \ingroup Physics
+     *
+     */
+    angle__speed__torque Game::physics_getRevoluteJointValues(int jointId);
+    /**
+     * \brief Adds a mouse joint
+     *
+     * \param o1 The first GameObject to connect (can be anything that isn't the affected body - ground or other static is good)
+     * \param idx1 The index of the body in o1 to connect
+     * \param o2 The second GameObject to connect (the body to move)
+     * \param idx2 The index of the body in o2 to connect
+     * \param anchorAX The world anchor point x on o2-idx2
+     * \param anchorAY The world anchor point y on o2-idx2
+     * \param maxForce (optional) The maximum force to apply to the body
+     * \param frequencyHz (optional) The damping frequency
+     * \param dampingRatio (optional) The damping ratio
+     * \return jointId: The new joint's ID
+     * \ingroup Physics
+     *
+     */
+    jointId Game::physics_addMouseJoint(GameObject o1, int idx1, GameObject o2, int idx2, float anchorAX, float anchorAY, float maxForce, float frequencyHz, float dampingRatio);
+    /**
+     * \brief Sets the position of a mouse joint
+     *
+     * \param jointId The joint ID
+     * \param x The new x position
+     * \param y The new y position
+     * \ingroup Physics
+     *
+     */
+    Game::physics_setMouseJointPosition(int jointId, float x, float y);
+    /**
+     * \brief Adds a prismatic joint
+     *
+     * \param o1 The first GameObject to connect
+     * \param idx1 The index of the body in o1 to connect
+     * \param o2 The second GameObject to connect
+     * \param idx2 The index of the body in o2 to connect
+     * \param anchorX The world anchor point x on o1-idx1
+     * \param anchorY The world anchor point y on o1-idx1
+     * \param axisX The movement vector X component
+     * \param axisY The movement vector Y component
+     * \param collideConnected (optional) If the connected bodies should collide
+     * \return jointId: The new joint's ID
+     * \ingroup Physics
+     *
+     */
+    jointId Game::physics_addPrismaticJoint(GameObject o1, int idx1, GameObject o2, int idx2, float anchorX, float anchorY, float axisX, float axisY, boolean collideConnected);
+    /**
+     * \brief Sets limits for a prismatic joint
+     *
+     * \param jointId The joint ID
+     * \param enabled If the limits are enabled
+     * \param low The low limit
+     * \param high The high limit
+     * \ingroup Physics
+     *
+     */
+    Game::physics_setPrismaticJointLimits(int jointId, boolean enabled, float low, float high);
+    /**
+     * \brief Sets motor parameters for a prismatic joint
+     *
+     * \param jointId The joint ID
+     * \param enabled If the motor is enabled
+     * \param speed The motor speed
+     * \param maxForce The motor max force
+     * \ingroup Physics
+     *
+     */
+    Game::physics_setPrismaticJointMotor(int jointId, boolean enabled, float speed, float maxForce);
+    /**
+     * \brief Gets primary prismatic joint values
+     *
+     * \param jointId The joint ID
+     * \return translation: The joint's translation
+     * \return speed: The joint's speed
+     * \return force: The joint's force
+     * \ingroup ingroup Physics
+     *
+     */
+    translation__speed__force Game::physics_getPrismaticJointValues(int jointId);
+    /**
+     * \brief Adds a rope joint
+     *
+     * \param o1 The first GameObject to connect
+     * \param idx1 The index of the body in o1 to connect
+     * \param o2 The second GameObject to connect
+     * \param idx2 The index of the body in o2 to connect
+     * \param anchorAX The world anchor point x on o1-idx1
+     * \param anchorAY The world anchor point y on o1-idx1
+     * \param anchorBX The world anchor point x on o2-idx2
+     * \param anchorBY The world anchor point y on o2-idx2
+     * \param maxLength The maximum rope length
+     * \param collideConnected (optional) If the connected bodies should collide
+     * \return jointId: The joint ID
+     * \ingroup Physics
+     *
+     */
+    jointId Game::physics_addRopeJoint(GameObject o1, int idx1, GameObject o2, int idx2, float anchorAX, float anchorAY, float anchorBX, float anchorBY, float maxLength, boolean collideConnected);
+    /**
+     * \brief Adds a pulley joint
+     *
+     * \param o1 The first GameObject to connect
+     * \param idx1 The index of the body in o1 to connect
+     * \param o2 The second GameObject to connect
+     * \param idx2 The index of the body in o2 to connect
+     * \param groundAnchorAX The ground anchor point x for o1-idx1
+     * \param groundAnchorAY The ground anchor point y for o1-idx1
+     * \param groundAnchorBX The ground anchor point x for o2-idx2
+     * \param groundAnchorBY The ground anchor point y for o2-idx2
+     * \param anchorAX The world anchor point x on o1-idx1
+     * \param anchorAY The world anchor point y on o1-idx1
+     * \param anchorBX The world anchor point x on o2-idx2
+     * \param anchorBY The world anchor point y on o2-idx2
+     * \param ratio The pulley ratio
+     * \return jointId: The joint ID
+     * \ingroup Physics
+     *
+     */
+    jointId Game::physics_addPulleyJoint(GameObject o1, int idx1, GameObject o2, int idx2, float groundAnchorAX, float groundAnchorAY, float groundAnchorBX, float groundAnchorBY, float anchorAX, float anchorAY, float anchorBX, float anchorBY, float ratio);
+    /**
+     * \brief Gets primary values for a pulley joint
+     *
+     * \param jointId The joint ID
+     * \return lengthA: The length of side A
+     * \return lengthB: The length of side B
+     * \ingroup Physics
+     *
+     */
+    lengthA__lengthB Game::physics_getPulleyJointValues(int jointId);
+    /**
+     * \brief Adds a gear joint
+     *
+     * \param o1 The first GameObject to connect
+     * \param idx1 The index of the body in o1 to connect
+     * \param o2 The second GameObject to connect
+     * \param idx2 The index of the body in o2 to connect
+     * \param jointIdA The ID of the first joint
+     * \param jointIdB The ID of the second joint
+     * \param ratio The revolution ratio between joints
+     * \return jointId The joint ID
+     * \ingroup Physics
+     *
+     */
+    jointId Game::physics_addGearJoint(GameObject o1, int idx1, GameObject o2, int idx2, int jointIdA, int jointIdB, float ratio);
+    /**
+     * \brief Adds a wheel joint
+     *
+     * \param o1 The first GameObject to connect
+     * \param idx1 The index of the body in o1 to connect
+     * \param o2 The second GameObject to connect
+     * \param idx2 The index of the body in o2 to connect
+     * \param anchorAX The world anchor point x on o1-idx1
+     * \param anchorAY The world anchor point y on o1-idx1
+     * \param axisX The movement vector X component
+     * \param axisY The movement vector Y component
+     * \param collideConnected (optional) If the connected bodies should collide
+     * \param frequencyHz (optional) The damping frequency
+     * \param dampingRatio (optional) The damping ratio
+     * \return jointId: The new joint's ID
+     * \ingroup Physics
+     *
+     */
+    jointId Game::physics_addWheelJoint(GameObject o1, int idx1, GameObject o2, int idx2, float anchorAX, float anchorAY, float axisX, float axisY, boolean collideConnected, float frequencyHz, float dampingRatio);
+    /**
+     * \brief Sets motor parameters for a wheel joint
+     *
+     * \param jointId The joint ID
+     * \param enabled If the motor is enabled
+     * \param speed The motor speed
+     * \param maxTorque The motor max torque
+     * \ingroup Physics
+     *
+     */
+    Game::physics_setWheelJointMotor(int jointId, boolean enabled, float speed, float maxTorque);
+    /**
+     * \brief Gets primary values for a wheel joint
+     *
+     * \param jointId The joint ID
+     * \return translation: The wheel's translation
+     * \return speed: The wheel's speed
+     * \return torque: The wheel's torque
+     * \ingroup Physics
+     *
+     */
+    translation__speed__torque Game::physics_getWheelJointValues(int jointId);
+    /**
+     * \brief Adds a weld joint
+     *
+     * \param o1 The first GameObject to connect
+     * \param idx1 The index of the body in o1 to connect
+     * \param o2 The second GameObject to connect
+     * \param idx2 The index of the body in o2 to connect
+     * \param anchorAX The world anchor point x on o1-idx1
+     * \param anchorAY The world anchor point y on o1-idx1
+     * \param collideConnected (optional) If the connected bodies should collide
+     * \param frequencyHz (optional) The damping frequency
+     * \param dampingRatio (optional) The damping ratio
+     * \return jointId: The new joint's ID
+     * \ingroup Physics
+     *
+     */
+    jointId Game::physics_addWeldJoint(GameObject o1, int idx1, GameObject o2, int idx2, float anchorAX, float anchorAY, boolean collideConnected, float frequencyHz, float dampingRatio);
+    /**
+     * \brief Adds a friction joint
+     *
+     * \param o1 The first GameObject to connect
+     * \param idx1 The index of the body in o1 to connect
+     * \param o2 The second GameObject to connect
+     * \param idx2 The index of the body in o2 to connect
+     * \param anchorAX The world anchor point x on o1-idx1
+     * \param anchorAY The world anchor point y on o1-idx1
+     * \param maxForce The maximum force
+     * \param maxTorque The maximum torque
+     * \return jointId: The new joint's ID
+     * \ingroup Physics
+     *
+     */
+    jointId Game::physics_addFrictionJoint(GameObject o1, int idx1, GameObject o2, int idx2, float anchorAX, float anchorAY, float maxForce, float maxTorque);
+    /**
+     * \brief Removes a joint
+     *
+     * \param jointId The joint ID
+     * \ingroup Physics
+     *
+     */
+    Game::physics_removeJoint(int jointId);
+    /**
+     * \brief Gets joint anchor points
+     *
+     * \param jointId The joint ID
+     * \return x1: The first anchor x
+     * \return y1: The first anchor y
+     * \return x2: The second anchor x
+     * \return y2: The second anchor y
+     * \ingroup Physics
+     *
+     */
+    x1__y1__x2__y2 Game::physics_getJointAnchorPoints(int jointId);
+     // @}
+}
+#endif

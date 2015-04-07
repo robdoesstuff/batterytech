@@ -1,0 +1,593 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		3DCC1EAE1669633B009F4712 /* Assimp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DCC1E261669633B009F4712 /* Assimp.cpp */; };
+		3DCC1EAF1669633B009F4712 /* AssimpPCH.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DCC1E271669633B009F4712 /* AssimpPCH.cpp */; };
+		3DCC1EB01669633B009F4712 /* BAIFileImporter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DCC1E291669633B009F4712 /* BAIFileImporter.cpp */; };
+		3DCC1EB11669633B009F4712 /* BaseImporter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DCC1E2B1669633B009F4712 /* BaseImporter.cpp */; };
+		3DCC1EB21669633B009F4712 /* BaseProcess.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DCC1E2D1669633B009F4712 /* BaseProcess.cpp */; };
+		3DCC1EB31669633B009F4712 /* ColladaLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DCC1E311669633B009F4712 /* ColladaLoader.cpp */; };
+		3DCC1EB41669633B009F4712 /* ColladaParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DCC1E331669633B009F4712 /* ColladaParser.cpp */; };
+		3DCC1EB51669633B009F4712 /* DefaultIOStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DCC1E351669633B009F4712 /* DefaultIOStream.cpp */; };
+		3DCC1EB61669633B009F4712 /* DefaultIOSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DCC1E371669633B009F4712 /* DefaultIOSystem.cpp */; };
+		3DCC1EB71669633B009F4712 /* DefaultLogger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DCC1E391669633B009F4712 /* DefaultLogger.cpp */; };
+		3DCC1EB81669633B009F4712 /* Importer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DCC1E411669633B009F4712 /* Importer.cpp */; };
+		3DCC1EB91669633B009F4712 /* JoinVerticesProcess.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DCC1E431669633B009F4712 /* JoinVerticesProcess.cpp */; };
+		3DCC1EBA1669633B009F4712 /* LimitBoneWeightsProcess.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DCC1E451669633B009F4712 /* LimitBoneWeightsProcess.cpp */; };
+		3DCC1EBB1669633B009F4712 /* MaterialSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DCC1E471669633B009F4712 /* MaterialSystem.cpp */; };
+		3DCC1EBC1669633B009F4712 /* ObjFileImporter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DCC1E4B1669633B009F4712 /* ObjFileImporter.cpp */; };
+		3DCC1EBD1669633B009F4712 /* ObjFileMtlImporter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DCC1E4D1669633B009F4712 /* ObjFileMtlImporter.cpp */; };
+		3DCC1EBE1669633B009F4712 /* ObjFileParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DCC1E4F1669633B009F4712 /* ObjFileParser.cpp */; };
+		3DCC1EBF1669633B009F4712 /* OptimizeMeshes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DCC1E521669633B009F4712 /* OptimizeMeshes.cpp */; };
+		3DCC1EC01669633B009F4712 /* SceneCombiner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DCC1E581669633B009F4712 /* SceneCombiner.cpp */; };
+		3DCC1EC11669633B009F4712 /* ScenePreprocessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DCC1E5A1669633B009F4712 /* ScenePreprocessor.cpp */; };
+		3DCC1EC21669633B009F4712 /* SkeletonMeshBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DCC1E5C1669633B009F4712 /* SkeletonMeshBuilder.cpp */; };
+		3DCC1EC31669633B009F4712 /* SpatialSort.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DCC1E5E1669633B009F4712 /* SpatialSort.cpp */; };
+		3DCC1EC41669633B009F4712 /* SplitLargeMeshes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DCC1E601669633B009F4712 /* SplitLargeMeshes.cpp */; };
+		3DCC1EC51669633B009F4712 /* TriangulateProcess.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DCC1E661669633B009F4712 /* TriangulateProcess.cpp */; };
+		3DCC1EC61669633B009F4712 /* ConvertUTF.c in Sources */ = {isa = PBXBuildFile; fileRef = 3DCC1E7C1669633B009F4712 /* ConvertUTF.c */; };
+		3DCC1EC71669633B009F4712 /* irrXML.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DCC1E841669633B009F4712 /* irrXML.cpp */; };
+		3DCC1EC81669633B009F4712 /* BAIConvert.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DCC1EAD1669633B009F4712 /* BAIConvert.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		3DCC1E10166961D0009F4712 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		3DCC1E12166961D0009F4712 /* BAIConvert */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = BAIConvert; sourceTree = BUILT_PRODUCTS_DIR; };
+		3DCC1E261669633B009F4712 /* Assimp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Assimp.cpp; sourceTree = "<group>"; };
+		3DCC1E271669633B009F4712 /* AssimpPCH.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AssimpPCH.cpp; sourceTree = "<group>"; };
+		3DCC1E281669633B009F4712 /* AssimpPCH.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AssimpPCH.h; sourceTree = "<group>"; };
+		3DCC1E291669633B009F4712 /* BAIFileImporter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BAIFileImporter.cpp; sourceTree = "<group>"; };
+		3DCC1E2A1669633B009F4712 /* BAIFileImporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BAIFileImporter.h; sourceTree = "<group>"; };
+		3DCC1E2B1669633B009F4712 /* BaseImporter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BaseImporter.cpp; sourceTree = "<group>"; };
+		3DCC1E2C1669633B009F4712 /* BaseImporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseImporter.h; sourceTree = "<group>"; };
+		3DCC1E2D1669633B009F4712 /* BaseProcess.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BaseProcess.cpp; sourceTree = "<group>"; };
+		3DCC1E2E1669633B009F4712 /* BaseProcess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseProcess.h; sourceTree = "<group>"; };
+		3DCC1E2F1669633B009F4712 /* ByteSwap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ByteSwap.h; sourceTree = "<group>"; };
+		3DCC1E301669633B009F4712 /* ColladaHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColladaHelper.h; sourceTree = "<group>"; };
+		3DCC1E311669633B009F4712 /* ColladaLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ColladaLoader.cpp; sourceTree = "<group>"; };
+		3DCC1E321669633B009F4712 /* ColladaLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColladaLoader.h; sourceTree = "<group>"; };
+		3DCC1E331669633B009F4712 /* ColladaParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ColladaParser.cpp; sourceTree = "<group>"; };
+		3DCC1E341669633B009F4712 /* ColladaParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColladaParser.h; sourceTree = "<group>"; };
+		3DCC1E351669633B009F4712 /* DefaultIOStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DefaultIOStream.cpp; sourceTree = "<group>"; };
+		3DCC1E361669633B009F4712 /* DefaultIOStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DefaultIOStream.h; sourceTree = "<group>"; };
+		3DCC1E371669633B009F4712 /* DefaultIOSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DefaultIOSystem.cpp; sourceTree = "<group>"; };
+		3DCC1E381669633B009F4712 /* DefaultIOSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DefaultIOSystem.h; sourceTree = "<group>"; };
+		3DCC1E391669633B009F4712 /* DefaultLogger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DefaultLogger.cpp; sourceTree = "<group>"; };
+		3DCC1E3A1669633B009F4712 /* DefaultProgressHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DefaultProgressHandler.h; sourceTree = "<group>"; };
+		3DCC1E3B1669633B009F4712 /* Exceptional.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Exceptional.h; sourceTree = "<group>"; };
+		3DCC1E3C1669633B009F4712 /* fast_atof.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fast_atof.h; sourceTree = "<group>"; };
+		3DCC1E3D1669633B009F4712 /* FileLogStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileLogStream.h; sourceTree = "<group>"; };
+		3DCC1E3E1669633B009F4712 /* FileSystemFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileSystemFilter.h; sourceTree = "<group>"; };
+		3DCC1E3F1669633B009F4712 /* GenericProperty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenericProperty.h; sourceTree = "<group>"; };
+		3DCC1E401669633B009F4712 /* Hash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Hash.h; sourceTree = "<group>"; };
+		3DCC1E411669633B009F4712 /* Importer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Importer.cpp; sourceTree = "<group>"; };
+		3DCC1E421669633B009F4712 /* irrXMLWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = irrXMLWrapper.h; sourceTree = "<group>"; };
+		3DCC1E431669633B009F4712 /* JoinVerticesProcess.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JoinVerticesProcess.cpp; sourceTree = "<group>"; };
+		3DCC1E441669633B009F4712 /* JoinVerticesProcess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JoinVerticesProcess.h; sourceTree = "<group>"; };
+		3DCC1E451669633B009F4712 /* LimitBoneWeightsProcess.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LimitBoneWeightsProcess.cpp; sourceTree = "<group>"; };
+		3DCC1E461669633B009F4712 /* LimitBoneWeightsProcess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LimitBoneWeightsProcess.h; sourceTree = "<group>"; };
+		3DCC1E471669633B009F4712 /* MaterialSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MaterialSystem.cpp; sourceTree = "<group>"; };
+		3DCC1E481669633B009F4712 /* MaterialSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MaterialSystem.h; sourceTree = "<group>"; };
+		3DCC1E491669633B009F4712 /* MemoryIOWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MemoryIOWrapper.h; sourceTree = "<group>"; };
+		3DCC1E4A1669633B009F4712 /* ObjFileData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjFileData.h; sourceTree = "<group>"; };
+		3DCC1E4B1669633B009F4712 /* ObjFileImporter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ObjFileImporter.cpp; sourceTree = "<group>"; };
+		3DCC1E4C1669633B009F4712 /* ObjFileImporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjFileImporter.h; sourceTree = "<group>"; };
+		3DCC1E4D1669633B009F4712 /* ObjFileMtlImporter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ObjFileMtlImporter.cpp; sourceTree = "<group>"; };
+		3DCC1E4E1669633B009F4712 /* ObjFileMtlImporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjFileMtlImporter.h; sourceTree = "<group>"; };
+		3DCC1E4F1669633B009F4712 /* ObjFileParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ObjFileParser.cpp; sourceTree = "<group>"; };
+		3DCC1E501669633B009F4712 /* ObjFileParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjFileParser.h; sourceTree = "<group>"; };
+		3DCC1E511669633B009F4712 /* ObjTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjTools.h; sourceTree = "<group>"; };
+		3DCC1E521669633B009F4712 /* OptimizeMeshes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OptimizeMeshes.cpp; sourceTree = "<group>"; };
+		3DCC1E531669633B009F4712 /* OptimizeMeshes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OptimizeMeshes.h; sourceTree = "<group>"; };
+		3DCC1E541669633B009F4712 /* ParsingUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParsingUtils.h; sourceTree = "<group>"; };
+		3DCC1E551669633B009F4712 /* ProcessHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProcessHelper.h; sourceTree = "<group>"; };
+		3DCC1E561669633B009F4712 /* Profiler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Profiler.h; sourceTree = "<group>"; };
+		3DCC1E571669633B009F4712 /* qnan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = qnan.h; sourceTree = "<group>"; };
+		3DCC1E581669633B009F4712 /* SceneCombiner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SceneCombiner.cpp; sourceTree = "<group>"; };
+		3DCC1E591669633B009F4712 /* SceneCombiner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneCombiner.h; sourceTree = "<group>"; };
+		3DCC1E5A1669633B009F4712 /* ScenePreprocessor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ScenePreprocessor.cpp; sourceTree = "<group>"; };
+		3DCC1E5B1669633B009F4712 /* ScenePreprocessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScenePreprocessor.h; sourceTree = "<group>"; };
+		3DCC1E5C1669633B009F4712 /* SkeletonMeshBuilder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SkeletonMeshBuilder.cpp; sourceTree = "<group>"; };
+		3DCC1E5D1669633B009F4712 /* SkeletonMeshBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkeletonMeshBuilder.h; sourceTree = "<group>"; };
+		3DCC1E5E1669633B009F4712 /* SpatialSort.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SpatialSort.cpp; sourceTree = "<group>"; };
+		3DCC1E5F1669633B009F4712 /* SpatialSort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpatialSort.h; sourceTree = "<group>"; };
+		3DCC1E601669633B009F4712 /* SplitLargeMeshes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SplitLargeMeshes.cpp; sourceTree = "<group>"; };
+		3DCC1E611669633B009F4712 /* SplitLargeMeshes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SplitLargeMeshes.h; sourceTree = "<group>"; };
+		3DCC1E621669633B009F4712 /* StdOStreamLogStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StdOStreamLogStream.h; sourceTree = "<group>"; };
+		3DCC1E631669633B009F4712 /* StreamReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StreamReader.h; sourceTree = "<group>"; };
+		3DCC1E641669633B009F4712 /* StringComparison.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringComparison.h; sourceTree = "<group>"; };
+		3DCC1E651669633B009F4712 /* TinyFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TinyFormatter.h; sourceTree = "<group>"; };
+		3DCC1E661669633B009F4712 /* TriangulateProcess.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TriangulateProcess.cpp; sourceTree = "<group>"; };
+		3DCC1E671669633B009F4712 /* TriangulateProcess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TriangulateProcess.h; sourceTree = "<group>"; };
+		3DCC1E681669633B009F4712 /* Vertex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vertex.h; sourceTree = "<group>"; };
+		3DCC1E691669633B009F4712 /* Win32DebugLogStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Win32DebugLogStream.h; sourceTree = "<group>"; };
+		3DCC1E6C1669633B009F4712 /* foreach.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = foreach.hpp; sourceTree = "<group>"; };
+		3DCC1E6D1669633B009F4712 /* format.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = format.hpp; sourceTree = "<group>"; };
+		3DCC1E6E1669633B009F4712 /* lexical_cast.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = lexical_cast.hpp; sourceTree = "<group>"; };
+		3DCC1E6F1669633B009F4712 /* LICENSE_1_0.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE_1_0.txt; sourceTree = "<group>"; };
+		3DCC1E711669633B009F4712 /* common_factor_rt.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = common_factor_rt.hpp; sourceTree = "<group>"; };
+		3DCC1E721669633B009F4712 /* pointer_cast.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = pointer_cast.hpp; sourceTree = "<group>"; };
+		3DCC1E731669633B009F4712 /* scoped_array.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = scoped_array.hpp; sourceTree = "<group>"; };
+		3DCC1E741669633B009F4712 /* scoped_ptr.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = scoped_ptr.hpp; sourceTree = "<group>"; };
+		3DCC1E751669633B009F4712 /* shared_array.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = shared_array.hpp; sourceTree = "<group>"; };
+		3DCC1E761669633B009F4712 /* shared_ptr.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = shared_ptr.hpp; sourceTree = "<group>"; };
+		3DCC1E771669633B009F4712 /* static_assert.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = static_assert.hpp; sourceTree = "<group>"; };
+		3DCC1E781669633B009F4712 /* timer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = timer.hpp; sourceTree = "<group>"; };
+		3DCC1E7A1669633B009F4712 /* tuple.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = tuple.hpp; sourceTree = "<group>"; };
+		3DCC1E7C1669633B009F4712 /* ConvertUTF.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ConvertUTF.c; sourceTree = "<group>"; };
+		3DCC1E7D1669633B009F4712 /* ConvertUTF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConvertUTF.h; sourceTree = "<group>"; };
+		3DCC1E7F1669633B009F4712 /* CXMLReaderImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CXMLReaderImpl.h; sourceTree = "<group>"; };
+		3DCC1E801669633B009F4712 /* heapsort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = heapsort.h; sourceTree = "<group>"; };
+		3DCC1E811669633B009F4712 /* irrArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = irrArray.h; sourceTree = "<group>"; };
+		3DCC1E821669633B009F4712 /* irrString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = irrString.h; sourceTree = "<group>"; };
+		3DCC1E831669633B009F4712 /* irrTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = irrTypes.h; sourceTree = "<group>"; };
+		3DCC1E841669633B009F4712 /* irrXML.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = irrXML.cpp; sourceTree = "<group>"; };
+		3DCC1E851669633B009F4712 /* irrXML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = irrXML.h; sourceTree = "<group>"; };
+		3DCC1E871669633B009F4712 /* aiAnim.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aiAnim.h; sourceTree = "<group>"; };
+		3DCC1E881669633B009F4712 /* aiAssert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aiAssert.h; sourceTree = "<group>"; };
+		3DCC1E891669633B009F4712 /* aiCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aiCamera.h; sourceTree = "<group>"; };
+		3DCC1E8A1669633B009F4712 /* aiColor4D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aiColor4D.h; sourceTree = "<group>"; };
+		3DCC1E8B1669633B009F4712 /* aiColor4D.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = aiColor4D.inl; sourceTree = "<group>"; };
+		3DCC1E8C1669633B009F4712 /* aiConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aiConfig.h; sourceTree = "<group>"; };
+		3DCC1E8D1669633B009F4712 /* aiDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aiDefines.h; sourceTree = "<group>"; };
+		3DCC1E8E1669633B009F4712 /* aiFileIO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aiFileIO.h; sourceTree = "<group>"; };
+		3DCC1E8F1669633B009F4712 /* aiLight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aiLight.h; sourceTree = "<group>"; };
+		3DCC1E901669633B009F4712 /* aiMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aiMaterial.h; sourceTree = "<group>"; };
+		3DCC1E911669633B009F4712 /* aiMaterial.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = aiMaterial.inl; sourceTree = "<group>"; };
+		3DCC1E921669633B009F4712 /* aiMatrix3x3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aiMatrix3x3.h; sourceTree = "<group>"; };
+		3DCC1E931669633B009F4712 /* aiMatrix3x3.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = aiMatrix3x3.inl; sourceTree = "<group>"; };
+		3DCC1E941669633B009F4712 /* aiMatrix4x4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aiMatrix4x4.h; sourceTree = "<group>"; };
+		3DCC1E951669633B009F4712 /* aiMatrix4x4.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = aiMatrix4x4.inl; sourceTree = "<group>"; };
+		3DCC1E961669633B009F4712 /* aiMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aiMesh.h; sourceTree = "<group>"; };
+		3DCC1E971669633B009F4712 /* aiPostProcess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aiPostProcess.h; sourceTree = "<group>"; };
+		3DCC1E981669633B009F4712 /* aiQuaternion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aiQuaternion.h; sourceTree = "<group>"; };
+		3DCC1E991669633B009F4712 /* aiScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aiScene.h; sourceTree = "<group>"; };
+		3DCC1E9A1669633B009F4712 /* aiTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aiTexture.h; sourceTree = "<group>"; };
+		3DCC1E9B1669633B009F4712 /* aiTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aiTypes.h; sourceTree = "<group>"; };
+		3DCC1E9C1669633B009F4712 /* aiVector2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aiVector2D.h; sourceTree = "<group>"; };
+		3DCC1E9D1669633B009F4712 /* aiVector3D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aiVector3D.h; sourceTree = "<group>"; };
+		3DCC1E9E1669633B009F4712 /* aiVector3D.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = aiVector3D.inl; sourceTree = "<group>"; };
+		3DCC1E9F1669633B009F4712 /* aiVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aiVersion.h; sourceTree = "<group>"; };
+		3DCC1EA01669633B009F4712 /* assimp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = assimp.h; sourceTree = "<group>"; };
+		3DCC1EA11669633B009F4712 /* assimp.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = assimp.hpp; sourceTree = "<group>"; };
+		3DCC1EA31669633B009F4712 /* poppack1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = poppack1.h; sourceTree = "<group>"; };
+		3DCC1EA41669633B009F4712 /* pushpack1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pushpack1.h; sourceTree = "<group>"; };
+		3DCC1EA51669633B009F4712 /* DefaultLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DefaultLogger.h; sourceTree = "<group>"; };
+		3DCC1EA61669633B009F4712 /* IOStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOStream.h; sourceTree = "<group>"; };
+		3DCC1EA71669633B009F4712 /* IOSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOSystem.h; sourceTree = "<group>"; };
+		3DCC1EA81669633B009F4712 /* Logger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Logger.h; sourceTree = "<group>"; };
+		3DCC1EA91669633B009F4712 /* LogStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogStream.h; sourceTree = "<group>"; };
+		3DCC1EAA1669633B009F4712 /* NullLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NullLogger.h; sourceTree = "<group>"; };
+		3DCC1EAB1669633B009F4712 /* ProgressHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgressHandler.h; sourceTree = "<group>"; };
+		3DCC1EAC1669633B009F4712 /* revision.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = revision.h; sourceTree = "<group>"; };
+		3DCC1EAD1669633B009F4712 /* BAIConvert.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BAIConvert.cpp; path = ../src/BAIConvert.cpp; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		3DCC1E0F166961D0009F4712 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		3DCC1E07166961D0009F4712 = {
+			isa = PBXGroup;
+			children = (
+				3DCC1E13166961D0009F4712 /* Products */,
+				3DCC1E241669633B009F4712 /* assimp */,
+				3DCC1EAD1669633B009F4712 /* BAIConvert.cpp */,
+			);
+			sourceTree = "<group>";
+		};
+		3DCC1E13166961D0009F4712 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3DCC1E12166961D0009F4712 /* BAIConvert */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		3DCC1E241669633B009F4712 /* assimp */ = {
+			isa = PBXGroup;
+			children = (
+				3DCC1E251669633B009F4712 /* code */,
+				3DCC1E6A1669633B009F4712 /* contrib */,
+				3DCC1E861669633B009F4712 /* include */,
+				3DCC1EAC1669633B009F4712 /* revision.h */,
+			);
+			name = assimp;
+			path = ../src/assimp;
+			sourceTree = "<group>";
+		};
+		3DCC1E251669633B009F4712 /* code */ = {
+			isa = PBXGroup;
+			children = (
+				3DCC1E261669633B009F4712 /* Assimp.cpp */,
+				3DCC1E271669633B009F4712 /* AssimpPCH.cpp */,
+				3DCC1E281669633B009F4712 /* AssimpPCH.h */,
+				3DCC1E291669633B009F4712 /* BAIFileImporter.cpp */,
+				3DCC1E2A1669633B009F4712 /* BAIFileImporter.h */,
+				3DCC1E2B1669633B009F4712 /* BaseImporter.cpp */,
+				3DCC1E2C1669633B009F4712 /* BaseImporter.h */,
+				3DCC1E2D1669633B009F4712 /* BaseProcess.cpp */,
+				3DCC1E2E1669633B009F4712 /* BaseProcess.h */,
+				3DCC1E2F1669633B009F4712 /* ByteSwap.h */,
+				3DCC1E301669633B009F4712 /* ColladaHelper.h */,
+				3DCC1E311669633B009F4712 /* ColladaLoader.cpp */,
+				3DCC1E321669633B009F4712 /* ColladaLoader.h */,
+				3DCC1E331669633B009F4712 /* ColladaParser.cpp */,
+				3DCC1E341669633B009F4712 /* ColladaParser.h */,
+				3DCC1E351669633B009F4712 /* DefaultIOStream.cpp */,
+				3DCC1E361669633B009F4712 /* DefaultIOStream.h */,
+				3DCC1E371669633B009F4712 /* DefaultIOSystem.cpp */,
+				3DCC1E381669633B009F4712 /* DefaultIOSystem.h */,
+				3DCC1E391669633B009F4712 /* DefaultLogger.cpp */,
+				3DCC1E3A1669633B009F4712 /* DefaultProgressHandler.h */,
+				3DCC1E3B1669633B009F4712 /* Exceptional.h */,
+				3DCC1E3C1669633B009F4712 /* fast_atof.h */,
+				3DCC1E3D1669633B009F4712 /* FileLogStream.h */,
+				3DCC1E3E1669633B009F4712 /* FileSystemFilter.h */,
+				3DCC1E3F1669633B009F4712 /* GenericProperty.h */,
+				3DCC1E401669633B009F4712 /* Hash.h */,
+				3DCC1E411669633B009F4712 /* Importer.cpp */,
+				3DCC1E421669633B009F4712 /* irrXMLWrapper.h */,
+				3DCC1E431669633B009F4712 /* JoinVerticesProcess.cpp */,
+				3DCC1E441669633B009F4712 /* JoinVerticesProcess.h */,
+				3DCC1E451669633B009F4712 /* LimitBoneWeightsProcess.cpp */,
+				3DCC1E461669633B009F4712 /* LimitBoneWeightsProcess.h */,
+				3DCC1E471669633B009F4712 /* MaterialSystem.cpp */,
+				3DCC1E481669633B009F4712 /* MaterialSystem.h */,
+				3DCC1E491669633B009F4712 /* MemoryIOWrapper.h */,
+				3DCC1E4A1669633B009F4712 /* ObjFileData.h */,
+				3DCC1E4B1669633B009F4712 /* ObjFileImporter.cpp */,
+				3DCC1E4C1669633B009F4712 /* ObjFileImporter.h */,
+				3DCC1E4D1669633B009F4712 /* ObjFileMtlImporter.cpp */,
+				3DCC1E4E1669633B009F4712 /* ObjFileMtlImporter.h */,
+				3DCC1E4F1669633B009F4712 /* ObjFileParser.cpp */,
+				3DCC1E501669633B009F4712 /* ObjFileParser.h */,
+				3DCC1E511669633B009F4712 /* ObjTools.h */,
+				3DCC1E521669633B009F4712 /* OptimizeMeshes.cpp */,
+				3DCC1E531669633B009F4712 /* OptimizeMeshes.h */,
+				3DCC1E541669633B009F4712 /* ParsingUtils.h */,
+				3DCC1E551669633B009F4712 /* ProcessHelper.h */,
+				3DCC1E561669633B009F4712 /* Profiler.h */,
+				3DCC1E571669633B009F4712 /* qnan.h */,
+				3DCC1E581669633B009F4712 /* SceneCombiner.cpp */,
+				3DCC1E591669633B009F4712 /* SceneCombiner.h */,
+				3DCC1E5A1669633B009F4712 /* ScenePreprocessor.cpp */,
+				3DCC1E5B1669633B009F4712 /* ScenePreprocessor.h */,
+				3DCC1E5C1669633B009F4712 /* SkeletonMeshBuilder.cpp */,
+				3DCC1E5D1669633B009F4712 /* SkeletonMeshBuilder.h */,
+				3DCC1E5E1669633B009F4712 /* SpatialSort.cpp */,
+				3DCC1E5F1669633B009F4712 /* SpatialSort.h */,
+				3DCC1E601669633B009F4712 /* SplitLargeMeshes.cpp */,
+				3DCC1E611669633B009F4712 /* SplitLargeMeshes.h */,
+				3DCC1E621669633B009F4712 /* StdOStreamLogStream.h */,
+				3DCC1E631669633B009F4712 /* StreamReader.h */,
+				3DCC1E641669633B009F4712 /* StringComparison.h */,
+				3DCC1E651669633B009F4712 /* TinyFormatter.h */,
+				3DCC1E661669633B009F4712 /* TriangulateProcess.cpp */,
+				3DCC1E671669633B009F4712 /* TriangulateProcess.h */,
+				3DCC1E681669633B009F4712 /* Vertex.h */,
+				3DCC1E691669633B009F4712 /* Win32DebugLogStream.h */,
+			);
+			path = code;
+			sourceTree = "<group>";
+		};
+		3DCC1E6A1669633B009F4712 /* contrib */ = {
+			isa = PBXGroup;
+			children = (
+				3DCC1E6B1669633B009F4712 /* boost */,
+				3DCC1E7B1669633B009F4712 /* ConvertUTF */,
+				3DCC1E7E1669633B009F4712 /* irrXML */,
+			);
+			path = contrib;
+			sourceTree = "<group>";
+		};
+		3DCC1E6B1669633B009F4712 /* boost */ = {
+			isa = PBXGroup;
+			children = (
+				3DCC1E6C1669633B009F4712 /* foreach.hpp */,
+				3DCC1E6D1669633B009F4712 /* format.hpp */,
+				3DCC1E6E1669633B009F4712 /* lexical_cast.hpp */,
+				3DCC1E6F1669633B009F4712 /* LICENSE_1_0.txt */,
+				3DCC1E701669633B009F4712 /* math */,
+				3DCC1E721669633B009F4712 /* pointer_cast.hpp */,
+				3DCC1E731669633B009F4712 /* scoped_array.hpp */,
+				3DCC1E741669633B009F4712 /* scoped_ptr.hpp */,
+				3DCC1E751669633B009F4712 /* shared_array.hpp */,
+				3DCC1E761669633B009F4712 /* shared_ptr.hpp */,
+				3DCC1E771669633B009F4712 /* static_assert.hpp */,
+				3DCC1E781669633B009F4712 /* timer.hpp */,
+				3DCC1E791669633B009F4712 /* tuple */,
+			);
+			path = boost;
+			sourceTree = "<group>";
+		};
+		3DCC1E701669633B009F4712 /* math */ = {
+			isa = PBXGroup;
+			children = (
+				3DCC1E711669633B009F4712 /* common_factor_rt.hpp */,
+			);
+			path = math;
+			sourceTree = "<group>";
+		};
+		3DCC1E791669633B009F4712 /* tuple */ = {
+			isa = PBXGroup;
+			children = (
+				3DCC1E7A1669633B009F4712 /* tuple.hpp */,
+			);
+			path = tuple;
+			sourceTree = "<group>";
+		};
+		3DCC1E7B1669633B009F4712 /* ConvertUTF */ = {
+			isa = PBXGroup;
+			children = (
+				3DCC1E7C1669633B009F4712 /* ConvertUTF.c */,
+				3DCC1E7D1669633B009F4712 /* ConvertUTF.h */,
+			);
+			path = ConvertUTF;
+			sourceTree = "<group>";
+		};
+		3DCC1E7E1669633B009F4712 /* irrXML */ = {
+			isa = PBXGroup;
+			children = (
+				3DCC1E7F1669633B009F4712 /* CXMLReaderImpl.h */,
+				3DCC1E801669633B009F4712 /* heapsort.h */,
+				3DCC1E811669633B009F4712 /* irrArray.h */,
+				3DCC1E821669633B009F4712 /* irrString.h */,
+				3DCC1E831669633B009F4712 /* irrTypes.h */,
+				3DCC1E841669633B009F4712 /* irrXML.cpp */,
+				3DCC1E851669633B009F4712 /* irrXML.h */,
+			);
+			path = irrXML;
+			sourceTree = "<group>";
+		};
+		3DCC1E861669633B009F4712 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				3DCC1E871669633B009F4712 /* aiAnim.h */,
+				3DCC1E881669633B009F4712 /* aiAssert.h */,
+				3DCC1E891669633B009F4712 /* aiCamera.h */,
+				3DCC1E8A1669633B009F4712 /* aiColor4D.h */,
+				3DCC1E8B1669633B009F4712 /* aiColor4D.inl */,
+				3DCC1E8C1669633B009F4712 /* aiConfig.h */,
+				3DCC1E8D1669633B009F4712 /* aiDefines.h */,
+				3DCC1E8E1669633B009F4712 /* aiFileIO.h */,
+				3DCC1E8F1669633B009F4712 /* aiLight.h */,
+				3DCC1E901669633B009F4712 /* aiMaterial.h */,
+				3DCC1E911669633B009F4712 /* aiMaterial.inl */,
+				3DCC1E921669633B009F4712 /* aiMatrix3x3.h */,
+				3DCC1E931669633B009F4712 /* aiMatrix3x3.inl */,
+				3DCC1E941669633B009F4712 /* aiMatrix4x4.h */,
+				3DCC1E951669633B009F4712 /* aiMatrix4x4.inl */,
+				3DCC1E961669633B009F4712 /* aiMesh.h */,
+				3DCC1E971669633B009F4712 /* aiPostProcess.h */,
+				3DCC1E981669633B009F4712 /* aiQuaternion.h */,
+				3DCC1E991669633B009F4712 /* aiScene.h */,
+				3DCC1E9A1669633B009F4712 /* aiTexture.h */,
+				3DCC1E9B1669633B009F4712 /* aiTypes.h */,
+				3DCC1E9C1669633B009F4712 /* aiVector2D.h */,
+				3DCC1E9D1669633B009F4712 /* aiVector3D.h */,
+				3DCC1E9E1669633B009F4712 /* aiVector3D.inl */,
+				3DCC1E9F1669633B009F4712 /* aiVersion.h */,
+				3DCC1EA01669633B009F4712 /* assimp.h */,
+				3DCC1EA11669633B009F4712 /* assimp.hpp */,
+				3DCC1EA21669633B009F4712 /* Compiler */,
+				3DCC1EA51669633B009F4712 /* DefaultLogger.h */,
+				3DCC1EA61669633B009F4712 /* IOStream.h */,
+				3DCC1EA71669633B009F4712 /* IOSystem.h */,
+				3DCC1EA81669633B009F4712 /* Logger.h */,
+				3DCC1EA91669633B009F4712 /* LogStream.h */,
+				3DCC1EAA1669633B009F4712 /* NullLogger.h */,
+				3DCC1EAB1669633B009F4712 /* ProgressHandler.h */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		3DCC1EA21669633B009F4712 /* Compiler */ = {
+			isa = PBXGroup;
+			children = (
+				3DCC1EA31669633B009F4712 /* poppack1.h */,
+				3DCC1EA41669633B009F4712 /* pushpack1.h */,
+			);
+			path = Compiler;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		3DCC1E11166961D0009F4712 /* BAIConvert */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3DCC1E1C166961D0009F4712 /* Build configuration list for PBXNativeTarget "BAIConvert" */;
+			buildPhases = (
+				3DCC1E0E166961D0009F4712 /* Sources */,
+				3DCC1E0F166961D0009F4712 /* Frameworks */,
+				3DCC1E10166961D0009F4712 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BAIConvert;
+			productName = BAIConvert;
+			productReference = 3DCC1E12166961D0009F4712 /* BAIConvert */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		3DCC1E09166961D0009F4712 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0450;
+				ORGANIZATIONNAME = "Battery Powered Games LLC";
+			};
+			buildConfigurationList = 3DCC1E0C166961D0009F4712 /* Build configuration list for PBXProject "BAIConvert" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 3DCC1E07166961D0009F4712;
+			productRefGroup = 3DCC1E13166961D0009F4712 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				3DCC1E11166961D0009F4712 /* BAIConvert */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		3DCC1E0E166961D0009F4712 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3DCC1EAE1669633B009F4712 /* Assimp.cpp in Sources */,
+				3DCC1EAF1669633B009F4712 /* AssimpPCH.cpp in Sources */,
+				3DCC1EB01669633B009F4712 /* BAIFileImporter.cpp in Sources */,
+				3DCC1EB11669633B009F4712 /* BaseImporter.cpp in Sources */,
+				3DCC1EB21669633B009F4712 /* BaseProcess.cpp in Sources */,
+				3DCC1EB31669633B009F4712 /* ColladaLoader.cpp in Sources */,
+				3DCC1EB41669633B009F4712 /* ColladaParser.cpp in Sources */,
+				3DCC1EB51669633B009F4712 /* DefaultIOStream.cpp in Sources */,
+				3DCC1EB61669633B009F4712 /* DefaultIOSystem.cpp in Sources */,
+				3DCC1EB71669633B009F4712 /* DefaultLogger.cpp in Sources */,
+				3DCC1EB81669633B009F4712 /* Importer.cpp in Sources */,
+				3DCC1EB91669633B009F4712 /* JoinVerticesProcess.cpp in Sources */,
+				3DCC1EBA1669633B009F4712 /* LimitBoneWeightsProcess.cpp in Sources */,
+				3DCC1EBB1669633B009F4712 /* MaterialSystem.cpp in Sources */,
+				3DCC1EBC1669633B009F4712 /* ObjFileImporter.cpp in Sources */,
+				3DCC1EBD1669633B009F4712 /* ObjFileMtlImporter.cpp in Sources */,
+				3DCC1EBE1669633B009F4712 /* ObjFileParser.cpp in Sources */,
+				3DCC1EBF1669633B009F4712 /* OptimizeMeshes.cpp in Sources */,
+				3DCC1EC01669633B009F4712 /* SceneCombiner.cpp in Sources */,
+				3DCC1EC11669633B009F4712 /* ScenePreprocessor.cpp in Sources */,
+				3DCC1EC21669633B009F4712 /* SkeletonMeshBuilder.cpp in Sources */,
+				3DCC1EC31669633B009F4712 /* SpatialSort.cpp in Sources */,
+				3DCC1EC41669633B009F4712 /* SplitLargeMeshes.cpp in Sources */,
+				3DCC1EC51669633B009F4712 /* TriangulateProcess.cpp in Sources */,
+				3DCC1EC61669633B009F4712 /* ConvertUTF.c in Sources */,
+				3DCC1EC71669633B009F4712 /* irrXML.cpp in Sources */,
+				3DCC1EC81669633B009F4712 /* BAIConvert.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		3DCC1E1A166961D0009F4712 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		3DCC1E1B166961D0009F4712 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		3DCC1E1D166961D0009F4712 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				HEADER_SEARCH_PATHS = "../src/assimp/**";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		3DCC1E1E166961D0009F4712 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				HEADER_SEARCH_PATHS = "../src/assimp/**";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3DCC1E0C166961D0009F4712 /* Build configuration list for PBXProject "BAIConvert" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3DCC1E1A166961D0009F4712 /* Debug */,
+				3DCC1E1B166961D0009F4712 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3DCC1E1C166961D0009F4712 /* Build configuration list for PBXNativeTarget "BAIConvert" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3DCC1E1D166961D0009F4712 /* Debug */,
+				3DCC1E1E166961D0009F4712 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 3DCC1E09166961D0009F4712 /* Project object */;
+}

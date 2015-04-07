@@ -1,0 +1,22 @@
+Debug\batterytech\render\RenderContext.cpp.o: \
+ ..\batterytech\src\batterytech\render\RenderContext.cpp \
+ ..\batterytech\src\batterytech\render\/RenderContext.h \
+ ..\batterytech\src\batterytech\render\/../primitives.h \
+ ..\batterytech\src\batterytech\render\/../platform/win32/win32types.h \
+ ..\batterytech\src\batterytech\render\/../util/esTransform.h \
+ ..\batterytech\src\batterytech\render\/../util/../platform/platformgl.h \
+ ..\batterytech\src\batterytech\render\/../util/../platform/win32/glext.h \
+ ..\batterytech\src\batterytech\render\/../util/../platform/win32/wglext.h \
+ ..\batterytech\src\batterytech\render\/../util/../platform/opengles.h \
+ ..\batterytech\src\batterytech\render\/../util/../platform/../primitives.h \
+ ..\batterytech\src\batterytech\render\/../util/../platform/../math/Vector2.h \
+ ..\batterytech\src\batterytech\render\/../util/../platform/../math/Vector3.h \
+ ..\batterytech\src\batterytech\render\/../util/../platform/../math/Vector4.h \
+ ..\batterytech\src\batterytech\render\/../util/../platform/../math/Vector4.h \
+ ..\batterytech\src\batterytech\render\/../util/../platform/../math/Matrix4.h \
+ ..\batterytech\src\batterytech\render\/../util/../platform/../math/Vector3.h \
+ ..\batterytech\src\batterytech\render\/../util/../platform/../math/Matrix3.h \
+ ..\batterytech\src\batterytech\render\/../util/../platform/../math/Matrix4.h \
+ ..\batterytech\src\batterytech\render\/../util/../platform/../math/AABB3.h \
+ ..\batterytech\src\batterytech\render\/../math/Vector4.h \
+ ..\batterytech\src\batterytech\render\/../math/Matrix4.h

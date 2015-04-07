@@ -1,0 +1,69 @@
+# BatteryTech Config File
+
+# Use Shaders or Fixed Function (true/false)
+use_shaders=true
+
+# Reference Width and Height are what we scale coordinates to (this is the virtual screen size for the UI library and font sizes)
+reference_width=1280
+reference_height=800
+
+# In Windows, this is the width and height of the window
+window_width=1280
+window_height=800
+# Open up a console window if possible
+console_log_enabled_when_available=true
+# The title of the window
+windowed_app_name=BatteryTech 2.0 Lua Engine
+
+# The directory name (public) that files will be written to
+storage_dir=BatteryTech Lua Engine
+
+# When rasterizing a font, this is the texture size to start searching from
+initial_font_texture_width=256
+initial_font_texture_height=256
+
+
+# For multiline UI text, how much vertical space to add
+text_vertical_spacing_multiplier=1.2
+
+# The UI font, size, stroke and color
+menu_font=ui/btdemo.fnt
+ui_font_size=50.0
+ui_menu_inner_stroke=1
+ui_menu_outer_stroke=1
+ui_menu_font_color=1.0 1.0 1.0 1.0
+
+# If we should manage audio or use platform facilities (where available) - usually you want false
+prefer_platform_audio_management=false
+
+# The loading image (multiple are supported by naming them loading_texture1, loading_texture2 and will be chosen at random)
+loading_texture=textures/loading.png
+# The loading texture can be scaled in one of 3 ways, scaleAspectX, scaleAspectY and scaleXY
+loading_scale_mode=scaleAspectY
+# Loading Height and Width are scaled based on the reference width and height and scaling mode
+loading_width=512
+loading_height=128
+
+# to support larger screen textures but keep performance good on smaller screen devices, we support "halving" textures.
+# these numbers are the thresholds where a screen with either dimension this size or smaller will have its textures resized smaller for efficiency.
+# set these to 0 if you never want the textures scaled down
+texture_half_width_threshold=640
+texture_half_height_threshold=640
+
+# background clear color
+clear_color=0.0 0.0 0.0 1.0
+
+# asset_default_find_func controls where to look for assets.  
+# "internal" is default, "external" only looks in external storage and "auto" looks in external first, internal second
+asset_default_find_func=internal
+
+# enable this setting to see details about textures that are being loaded
+debug_textures=false
+# enable this setting to see details about models that are being loaded
+debug_assimp=false
+# enable this setting to see details about shaders as they are loaded
+debug_shaders=false
+# enable this setting to see details about fonts as they are loaded
+debug_fonts=false
+# enable this setting to see details about sounds as they are loaded
+debug_sounds=false

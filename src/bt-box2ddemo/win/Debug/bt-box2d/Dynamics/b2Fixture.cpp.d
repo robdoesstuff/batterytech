@@ -1,0 +1,28 @@
+Debug\bt-box2d\Dynamics\b2Fixture.cpp.o: \
+ ..\batterytech\src\bt-box2d\Dynamics\b2Fixture.cpp \
+ ..\batterytech\src\bt-box2d\Dynamics\/b2Fixture.h \
+ ..\batterytech\src\bt-box2d\Dynamics\/b2Body.h \
+ ..\batterytech\src\bt-box2d\Dynamics\/../Common/b2Math.h \
+ ..\batterytech\src\bt-box2d\Dynamics\/../Common/b2Settings.h \
+ ..\batterytech\src\bt-box2d\Dynamics\/../Collision/Shapes/b2Shape.h \
+ ..\batterytech\src\bt-box2d\Dynamics\/../Collision/Shapes/../../Common/b2BlockAllocator.h \
+ ..\batterytech\src\bt-box2d\Dynamics\/../Collision/Shapes/../../Common/b2Settings.h \
+ ..\batterytech\src\bt-box2d\Dynamics\/../Collision/Shapes/../../Common/b2Math.h \
+ ..\batterytech\src\bt-box2d\Dynamics\/../Collision/Shapes/../b2Collision.h \
+ ..\batterytech\src\bt-box2d\Dynamics\/../Collision/Shapes/../../Common/b2Math.h \
+ ..\batterytech\src\bt-box2d\Dynamics\/../Collision/b2Collision.h \
+ ..\batterytech\src\bt-box2d\Dynamics\/Contacts/b2Contact.h \
+ ..\batterytech\src\bt-box2d\Dynamics\/Contacts/../../Common/b2Math.h \
+ ..\batterytech\src\bt-box2d\Dynamics\/Contacts/../../Collision/b2Collision.h \
+ ..\batterytech\src\bt-box2d\Dynamics\/Contacts/../../Collision/Shapes/b2Shape.h \
+ ..\batterytech\src\bt-box2d\Dynamics\/Contacts/b2Contact.h \
+ ..\batterytech\src\bt-box2d\Dynamics\/Contacts/../b2Fixture.h \
+ ..\batterytech\src\bt-box2d\Dynamics\/../Collision/Shapes/b2CircleShape.h \
+ ..\batterytech\src\bt-box2d\Dynamics\/../Collision/Shapes/b2Shape.h \
+ ..\batterytech\src\bt-box2d\Dynamics\/../Collision/Shapes/b2PolygonShape.h \
+ ..\batterytech\src\bt-box2d\Dynamics\/../Collision/b2BroadPhase.h \
+ ..\batterytech\src\bt-box2d\Dynamics\/../Collision/../Common/b2Settings.h \
+ ..\batterytech\src\bt-box2d\Dynamics\/../Collision/b2Collision.h \
+ ..\batterytech\src\bt-box2d\Dynamics\/../Collision/b2DynamicTree.h \
+ ..\batterytech\src\bt-box2d\Dynamics\/../Collision/b2Collision.h \
+ ..\batterytech\src\bt-box2d\Dynamics\/../Common/b2BlockAllocator.h

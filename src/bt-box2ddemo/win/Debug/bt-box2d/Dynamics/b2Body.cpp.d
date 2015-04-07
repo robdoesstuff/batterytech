@@ -1,0 +1,32 @@
+Debug\bt-box2d\Dynamics\b2Body.cpp.o: \
+ ..\batterytech\src\bt-box2d\Dynamics\b2Body.cpp \
+ ..\batterytech\src\bt-box2d\Dynamics\/b2Body.h \
+ ..\batterytech\src\bt-box2d\Dynamics\/../Common/b2Math.h \
+ ..\batterytech\src\bt-box2d\Dynamics\/../Common/b2Settings.h \
+ ..\batterytech\src\bt-box2d\Dynamics\/../Collision/Shapes/b2Shape.h \
+ ..\batterytech\src\bt-box2d\Dynamics\/../Collision/Shapes/../../Common/b2BlockAllocator.h \
+ ..\batterytech\src\bt-box2d\Dynamics\/../Collision/Shapes/../../Common/b2Settings.h \
+ ..\batterytech\src\bt-box2d\Dynamics\/../Collision/Shapes/../../Common/b2Math.h \
+ ..\batterytech\src\bt-box2d\Dynamics\/../Collision/Shapes/../b2Collision.h \
+ ..\batterytech\src\bt-box2d\Dynamics\/../Collision/Shapes/../../Common/b2Math.h \
+ ..\batterytech\src\bt-box2d\Dynamics\/b2Fixture.h \
+ ..\batterytech\src\bt-box2d\Dynamics\/b2Body.h \
+ ..\batterytech\src\bt-box2d\Dynamics\/../Collision/b2Collision.h \
+ ..\batterytech\src\bt-box2d\Dynamics\/b2World.h \
+ ..\batterytech\src\bt-box2d\Dynamics\/../Common/b2BlockAllocator.h \
+ ..\batterytech\src\bt-box2d\Dynamics\/../Common/b2StackAllocator.h \
+ ..\batterytech\src\bt-box2d\Dynamics\/b2ContactManager.h \
+ ..\batterytech\src\bt-box2d\Dynamics\/../Collision/b2BroadPhase.h \
+ ..\batterytech\src\bt-box2d\Dynamics\/../Collision/../Common/b2Settings.h \
+ ..\batterytech\src\bt-box2d\Dynamics\/../Collision/b2Collision.h \
+ ..\batterytech\src\bt-box2d\Dynamics\/../Collision/b2DynamicTree.h \
+ ..\batterytech\src\bt-box2d\Dynamics\/b2WorldCallbacks.h \
+ ..\batterytech\src\bt-box2d\Dynamics\/../Common/b2Settings.h \
+ ..\batterytech\src\bt-box2d\Dynamics\/Contacts/b2Contact.h \
+ ..\batterytech\src\bt-box2d\Dynamics\/Contacts/../../Common/b2Math.h \
+ ..\batterytech\src\bt-box2d\Dynamics\/Contacts/../../Collision/b2Collision.h \
+ ..\batterytech\src\bt-box2d\Dynamics\/Contacts/../../Collision/Shapes/b2Shape.h \
+ ..\batterytech\src\bt-box2d\Dynamics\/Contacts/b2Contact.h \
+ ..\batterytech\src\bt-box2d\Dynamics\/Contacts/../b2Fixture.h \
+ ..\batterytech\src\bt-box2d\Dynamics\/Joints/b2Joint.h \
+ ..\batterytech\src\bt-box2d\Dynamics\/Joints/../../Common/b2Math.h

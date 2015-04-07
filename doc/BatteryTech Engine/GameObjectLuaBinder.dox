@@ -1,0 +1,471 @@
+#ifdef DOXYGEN
+class GameObject {
+public:
+/**
+ * \brief Initializes the GameObject's native components
+ *
+ * This is a required call for a GameObject's lifecycle.
+ *
+ * \ingroup GameObject
+ */
+GameObject::cInit();
+/**
+ * \brief Marks this GameObject to be released from native memory and removed from all references
+ *
+ * This function is the other essential GameObject lifecycle function.
+ * Important Notes:
+ * - Neglecting to call this function will result in problems such as memory leaks, running out of GameObjects natively and other errors.\n
+ * - Do not attempt to use any part of a GameObject after this function has been called - it is the last function you may call on it.\n
+ * - Further calls to this GameObject may result in an engine crash.
+ *
+ * \ingroup GameObject
+ */
+GameObject::cDeactivate();
+
+// 3D Animation functions
+/**
+ * \brief Allocates space to load 3D bone-based animations
+ *
+ * All animation allocations will be automatically cleaned up when GameObject::cDeactivate() is called
+ *
+ * \param count The number of animation files to allocate for
+ * \ingroup Animation3D
+ */
+GameObject::anim_allocAnimations(int count);
+/**
+ * \brief Initializes an animation for a bone-animated model
+ *
+ * This function loads the bone data from a file and prepares to animate and render.
+ *
+ * \param idx The animation index (0 is first)
+ * \param assetName The animation asset's file name
+ * \param meshName (optional) The mesh name of the animation
+ * \ingroup Animation3D
+ */
+GameObject::anim_initDynamic(int idx, string assetName, string meshName);
+/**
+ * \brief Interpolates the animation skeleton's bones
+ *
+ * This will interpolate the bone transforms between frames to provide a smooth transform for the given time. The time given will need to take the animation's framerate into account.  For example, if an animation is done at 24FPS, and and frame 12 is desired, the time would be 0.5
+ *
+ * Animations must be allocated with GameObject::anim_allocAnimations() and then initialized with GameObject::anim_initDynamic() before this function can be called.  
+ * \param idx The animation index (0 is first)
+ * \param time The time to interpolate to in seconds
+ * \ingroup Animation3D
+ */
+GameObject::anim_interpolate(int idx, float time); // interpolates animation n at time x
+
+// b2Body
+/** \name Box2D Bodies 
+ * Functions related to creating, removing or modifying b2Body objects
+ */
+// @{
+/**
+ * \brief Creates a Box2D Body for this GameObject
+ *
+ * A GameObject can have a maximum of 10 bodies attached and each body can have a maximum of 100 fixtures.  These values can be increased by changing the constants in C++ if needed.  Bodies are stored in an internal array and the index into that array is returned.  If a body is removed via GameObject::removeBody(), that array index will become available again and the index returned for the next body created.  Once a body has been removed, referencing the index will result in an error.
+ *
+ * Please read the Box2D documentation at http://www.box2d.org for more information on how Bodies, Fixtures, Shapes and Joints work.
+ *
+ * \param bodyType The dynamics type of the body (0=static, 1=kinematic, 2=dynamic)
+ * \param x The world-space x coordinate to center the body at
+ * \param y The world-space y coordinate to center the body at
+ * \return bodyIdx The body's index in this GameObject
+ * \ingroup Physics
+ */
+bodyIdx GameObject::physics_createBody(int bodyType, float x, float y);
+/**
+ * \brief Removes a Box2D Body from this GameObject
+ *
+ * \param bodyIdx The index of the body
+ * \ingroup Physics
+ */
+GameObject::physics_removeBody(int bodyIdx);
+/**
+ * \brief Sets the current transform (location and angle) of a body
+ *
+ * \param bodyIdx The index of the body
+ * \param x The world-space x coordinate to center the body at
+ * \param y The world-space y coordinate to center the body at
+ * \param angle The angle of the body in radians
+ * \ingroup Physics
+ */
+GameObject::physics_setBodyTransform(int bodyIdx, float x, float y, float angle);
+/**
+ * \brief Sets the angular velocity of a body
+ *
+ * \param bodyIdx The index of the body
+ * \param velocity The angular velocity
+ * \ingroup Physics
+ */
+GameObject::physics_setBodyAngularVelocity(int bodyIdx, float velocity);
+/**
+ * \brief Sets the linear velocity of a body
+ *
+ * \param bodyIdx The index of the body
+ * \param linearX The linear velocity X value
+ * \param linearY The linear velocity Y value
+ * \ingroup Physics
+ */
+GameObject::physics_setBodyLinearVelocity(int bodyIdx, float linearX, float linearY);
+/**
+ * \brief Sets the angular damping of a body
+ *
+ * \param bodyIdx The index of the body
+ * \param damping The damping value
+ * \ingroup Physics
+ */
+GameObject::physics_setBodyAngularDamping(int bodyIdx, float damping);
+/**
+ * \brief Sets the linear damping of a body
+ *
+ * \param bodyIdx The index of the body
+ * \param damping The damping value
+ * \ingroup Physics
+ */
+GameObject::physics_setBodyLinearDamping(int bodyIdx, float damping);
+/**
+ * \brief Sets whether a body will allow sleep
+ *
+ * \param bodyIdx The index of the body
+ * \param allow true to allow, false to not allow
+ * \ingroup Physics
+ */
+GameObject::physics_setBodyAllowSleep(int bodyIdx, boolean allow);
+/**
+ * \brief Sets if a body is awake
+ *
+ * \param bodyIdx The index of the body
+ * \param awake true to be awake, false to be asleep
+ * \ingroup Physics
+ */
+GameObject::physics_setBodyAwake(int bodyIdx, boolean awake);
+/**
+ * \brief Sets if a body has fixed rotation
+ *
+ * \param bodyIdx The index of the body
+ * \param fixed true if the body has fixed rotation, false if not
+ * \ingroup Physics
+ */
+GameObject::physics_setBodyFixedRotation(int bodyIdx, boolean fixed);
+/**
+ * \brief Sets if a body uses bullet collision tests
+ *
+ * \param bodyIdx The index of the body
+ * \param bullet If the body is to use bullet collision tests
+ * \ingroup Physics
+ */
+GameObject::physics_setBodyBullet(int bodyIdx, boolean bullet);
+/**
+ * \brief Sets if a body is active
+ *
+ * \param bodyIdx The index of the body
+ * \param active true if the body is active, false if not
+ * \ingroup Physics
+ */
+GameObject::physics_setBodyActive(int bodyIdx, boolean active);
+/**
+ * \brief Sets a body's dynamics type
+ *
+ * \param bodyIdx The index of the body
+ * \param type The dynamics type of the body (0=static, 1=kinematic, 2=dynamic)
+ * \ingroup Physics
+ */
+GameObject::physics_setBodyType(int bodyIdx, int type);
+/**
+ * \brief Sets the gravity scale of a body
+ *
+ * \param bodyIdx The index of the body
+ * \param scale The gravity scale
+ * \ingroup Physics
+ */
+GameObject::physics_setBodyGravityScale(int bodyIdx, float scale);
+/**
+ * \brief Gets the transform for a body
+ *
+ * \param bodyIdx The index of the body
+ * \return x: The body's x position coordinate
+ * \return y: The body's y position coordinate
+ * \return angle: The body's angle
+ * \ingroup Physics
+ */
+x__y__angle GameObject::physics_getBodyTransform(int bodyIdx);
+/**
+ * \brief Gets a body's angular velocity
+ *
+ * \param bodyIdx The index of the body
+ * \return velocity: The body's velocity
+ * \ingroup Physics
+ */
+velocity GameObject::physics_getBodyAngularVelocity(int bodyIdx);
+/**
+ * \brief Gets a body's linear velocity
+ *
+ * \param bodyIdx The index of the body
+ * \ingroup Physics
+ */
+vx__vy GameObject::physics_getBodyLinearVelocity(int bodyIdx);
+/**
+ * \brief Gets the world coordinates for a local point on a body
+ *
+ * \param bodyIdx The index of the body
+ * \param localX The local x coordinate on the body
+ * \param localY The local y coordinate on the body
+ * \return wx The world x coordinate
+ * \return wy The world y coordinate
+ * \ingroup Physics
+ */
+wx__wy GameObject::physics_getBodyWorldPoint(int bodyIdx, float localX, float localY);
+/**
+ * \brief Gets a variable number of world coordinates for local points on a body
+ *
+ * This function works just like GameObject::physics_getBodyWorldPoint except that multiple points can be processed in a single call
+ *
+ * \param bodyIdx The index of the body
+ * \param count The number of coordinates to process (1 for each xy pair)
+ * \param x0 The first local x coordinate
+ * \param y0 The first local y coordinate
+ * \return wx0:The first world x coordinate
+ * \return wy0: The first world y coordinate
+ * \ingroup Physics
+ */
+wx0__wy0__ GameObject::physics_getBodyWorldPoints(int bodyIdx, int count, float x0, float y0, ...);
+/**
+ * \brief Gets a local point on a body given a world point
+ *
+ * \param bodyIdx The index of the body
+ * \param wx The world x coordinate
+ * \param wy The world y coordinate
+ * \return lx: The local x coordinate
+ * \return ly: The local y coordinate
+ * \ingroup Physics
+ */
+lx__ly GameObject::physics_getBodyLocalPoint(int bodyIdx, float wx, float wy);
+/**
+ * \brief Gets the local center of a body
+ *
+ * \param bodyIdx The index of the body
+ * \return x: The local center x
+ * \return y: The local center y
+ * \ingroup Physics
+ */
+x__y GameObject::physics_getBodyLocalCenter(int bodyIdx);
+/**
+ * \brief Applies a force to a body
+ *
+ * \param bodyIdx The index of the body
+ * \param forceX The force x component
+ * \param forceY The force y component
+ * \param pointX The "about" local point x
+ * \param pointY The "about" local point y
+ * \ingroup Physics
+ */
+GameObject::physics_applyForce(int bodyIdx, float forceX, float forceY, float pointX, float pointY);
+/**
+ * \brief Applies torque to a body
+ *
+ * \param bodyIdx The index of the body
+ * \param torque The torque to apply
+ * \ingroup Physics
+ */
+GameObject::physics_applyTorque(int bodyIdx, float torque);
+/**
+ * \brief Applies a linear impulse to a body
+ *
+ * \param bodyIdx The index of the body
+ * \param impulseX The impulse x component
+ * \param impulseY The impulse y component
+ * \param pointX The "about" local point x
+ * \param pointY The "about" local point y
+ * \ingroup Physics
+ */
+GameObject::physics_applyLinearImpulse(int bodyIdx, float impulseX, float impulseY, float pointX, float pointY);
+/**
+ * \brief Applies an angular impulse to a body
+ *
+ * \param bodyIdx The index of the body
+ * \param impulse The impulse to apply
+ * \ingroup Physics
+ */
+GameObject::physics_applyAngularImpulse(int bodyIdx, float impulse);
+// @}
+// b2Shape and b2Fixture
+/** \name Box2D Shapes and Fixtures
+ * Functions related to creating, removing or modifying b2Shape and b2Fixture objects - which are combined into single function calls to create
+ */
+// @{
+/**
+ * \brief Creates a polygon-shaped fixture and attaches to a body
+ *
+ * Up to 12 points may be provided to create a convex closed polygon. Self intersection is not supported. If the polygon is not centered on 0,0, it will be attached offset to the body's center.
+ *
+ * \param bodyIdx The index of the body
+ * \param x0 The first local x point
+ * \param y0 The first local y point
+ * \param x1 The second local x point
+ * \param y1 The second local y point
+ * \return fixtureId: The ID of the new fixture
+ * \ingroup Physics
+ */
+fixtureId GameObject::physics_createPolygonFixture(int bodyIdx, float x0, float y0, float x1, float y1, ...);
+/**
+ * \brief Creates a circle-shaped fixture and attaches to a body
+ *
+ * \param bodyIdx The index of the body
+ * \param radius The radius of the circle
+ * \param offsetX The positional x-offset of the attachment
+ * \param offsetY The positional y-offset of the attachment
+ * \return fixtureId: The ID of the new fixture
+ * \ingroup Physics
+ */
+fixtureId GameObject::physics_createCircleFixture(int bodyIdx, float radius, float offsetX, float offsetY);
+/**
+ * \brief Creates a chain-shaped fixture and attaches to a body
+ *
+ * Up to 1024 points per fixture are supported.  Self-intersection is not supported.
+ *
+ * \param bodyIdx The index of the body
+ * \param loop If this is a looped chain
+ * \param x0 The first local x point
+ * \param y0 The first local y point
+ * \param x1 The second local x point
+ * \param y1 The second local y point
+ * \return fixtureId: The ID of the new fixture
+ * \ingroup Physics
+ */
+fixtureId GameObject::physics_createChainFixture(int bodyIdx, boolean loop, float x0, float y0, float x1, float y1, ...);
+/**
+ * \brief Removes a fixture
+ *
+ * \param fixtureId The ID of the fixture
+ * \ingroup Physics
+ */
+GameObject::physics_removeFixture(int fixtureId);
+/**
+ * \brief Sets the density of a fixture
+ *
+ * \param fixtureId The ID of the fixture
+ * \param density The density
+ * \ingroup Physics
+ */
+GameObject::physics_setFixtureDensity(int fixtureId, float density);
+/**
+ * \brief Sets the friction of a fixture
+ *
+ * \param fixtureId The ID of the fixture
+ * \param friction The friction
+ * \ingroup Physics
+ */
+GameObject::physics_setFixtureFriction(int fixtureId, float friction);
+/**
+ * \brief Sets the restitution of a fixture
+ *
+ * \param fixtureId The ID of the fixture
+ * \param restitution The restitution
+ * \ingroup Physics
+ */
+GameObject::physics_setFixtureRestitution(int fixtureId, float restitution);
+/**
+ * \brief Sets if a fixture is a sensor
+ *
+ * \param fixtureId The ID of the fixture
+ * \param isSensor true to be a sensor, false to be a normal fixture
+ * \ingroup Physics
+ */
+GameObject::physics_setFixtureIsSensor(int fixtureId, boolean isSensor);
+/**
+ * \brief Sets the collision filter for a fixture
+ *
+ * \param fixtureId The ID of the fixture
+ * \param categoryBits The category bits
+ * \param maskBits The mask bits
+ * \param groupIndex The group index
+ * \ingroup Physics
+ */
+GameObject::physics_setFixtureFilter(int fixtureId, int categoryBits, int maskBits, int groupIndex);
+/**
+ * \brief Tests a point to determine fixture collision
+ *
+ * \param fixtureId The ID of the fixture
+ * \param x The world point x
+ * \param y The world point y
+ * \return isInFixture: true if the point is in the fixture, false if not
+ * \ingroup Physics
+ */
+isInFixture GameObject::physics_fixtureTestPoint(int fixtureId, float x, float y);
+/**
+ * \brief Gets the body ID for a fixture ID
+ *
+ * \param fixtureId The ID of the fixture
+ * \return bodyIdx: The body's ID (index)
+ * \ingroup Physics
+ */
+bodyIdx GameObject::physics_getFixtureBodyId(int fixtureId);
+// @}
+/** \name Contacts and Collisions
+ * Functions related to b2Contacts and collision queries
+ */
+// @{
+// collision query
+/**
+ * \brief Queries the current contacts for a body
+ *
+ * A Global function must be defined for the functionName parameter with the following signature: functionName(GameObject otherObj, int otherFixtureId, int pointCount, float x1, float y1, float x2, float y2)
+ * - Parameter otherObj = The other GameObject contacting
+ * - Parameter otherFixtureId = The other fixtureId
+ * - Parameter pointCount = The number of points
+ * - Parameter x1,y1 = The first contact point
+ * - Parameter x2,y2 = The second contact point
+ *
+ * Each contact will call back to the provided function name with the parameters
+ *
+ * \param bodyIdx The index of the body
+ * \param functionName The name of the callback function
+ * \return count: The number contacts called back
+ * \ingroup Physics
+ */
+count GameObject::queryPhysicsContacts(int bodyIdx, string functionName);
+// collision callbacks
+/**
+ * \brief Sets the callback detail level for this GameObject
+ *
+ * Broad callbacks will result in calls to the following functions:
+ * - GameObject::onCollisionStarted(GameObject other, float force, float approachVelocity)
+ * - GameObject::onCollisionEnded(GameObject other)
+ *
+ * Narrow callbacks will use the same callbacks as broad but also add calls to:
+ * - GameObject::onCollisionUpdated(GameObject other, float force, float approachVelocity)
+ *
+ * Narrow callbacks can result in significant numbers of calls being made in complex physics worlds so use with caution
+ *
+ * \param detail (0 = None, 1 = Broad, 2 = Narrow)
+ * \ingroup Physics
+ */
+GameObject::setPhysicsCallbackDetail(int detail);
+/**
+ * \brief Counts the number of contacts for all bodies of this GameObject
+ *
+ * \return count: The number of contacts
+ * \ingroup Physics
+ */
+count GameObject::countPhysicsContacts();
+/**
+ * \brief Gets contact data for a contact
+ *
+ * \param contactIdx The contact index
+ * \return GameObject: The GameObject
+ * \return count: The number of points
+ * \return lx0: The first point local x
+ * \return ly0: The first point local y
+ * \return lx1: The second point local x
+ * \return ly1: The second point local y
+ * \return isTouching: If the contact currently is touching
+ * \return isActive: If the contact currently is active
+ * \return fixtureId: The fixture ID of the contact
+ * \ingroup Physics
+ */
+GameObject__count__lx0__ly0__lx1__ly1__isTouching__isActive__fixtureId GameObject::getPhysicsContact(int contactIdx);
+}
+// @}
+
+#endif

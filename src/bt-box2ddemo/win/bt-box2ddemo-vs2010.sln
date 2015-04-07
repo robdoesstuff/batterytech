@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual C++ Express 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bt-box2ddemo-vs2010", "bt-box2ddemo-vs2010\bt-box2ddemo-vs2010.vcxproj", "{E6DD5833-BB15-4588-701D-C1DA9328AA82}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E6DD5833-BB15-4588-701D-C1DA9328AA82}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E6DD5833-BB15-4588-701D-C1DA9328AA82}.Debug|Win32.Build.0 = Debug|Win32
+		{E6DD5833-BB15-4588-701D-C1DA9328AA82}.Release|Win32.ActiveCfg = Release|Win32
+		{E6DD5833-BB15-4588-701D-C1DA9328AA82}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

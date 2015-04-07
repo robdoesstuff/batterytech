@@ -1,0 +1,856 @@
+// this file is only for doxygen
+
+namespace BatteryTech {
+
+/** \mainpage Welcome to %BatteryTech SDK
+ *
+ * \section gettingstarted_sec Getting Started
+ *
+ * First-time users will need to ensure that they have a working development environment to compile and run the included projects.  Please visit \ref ProjectSetup
+ * for detailed instructions on setting up your environment for development using %BatteryTech SDK.
+ *
+ * \section overview_sec Platform Overview
+ *
+ * Included in the archive you downloaded you will find several directories of source.  These directories are divided on the top level into libraries and projects.\n
+ * * batterytech
+ * * * src/batterytech = %BatteryTech core library
+ * * * src/batterytech-android = %BatteryTech Android/Java classes
+ * * * src/bt-assimp = Modified Assimp Library
+ * * * src/bt-box2d = Modified Box2D Library
+ * * * src/bt-bullet = Modified Bullet Physics Library
+ * * * src/bt-lua = Modified Lua Library
+ * * bt-helloworld = Hello World Project
+ * * bt-box2ddemo = Box2D Demo all in C++
+ * * bt-luaengine = The %BatteryTech Lua Game Engine
+ *
+ * The components of the core library are covered in the Modules section of this documentation.  Please review the list of topics in that section for details.
+ *
+ * \section project_sec Anatomy of a BatteryTech project
+ *
+ * Taking a look at the contents of bt-helloworld, you will find several directories:
+ * * android = The Android Eclipse project
+ * * app-src = The Project's source files
+ * * assets = The Project's assets (images, sounds, fonts, configuration, etc)
+ * * ios = The iOS XCode project
+ * * osx = The OSX XCode project
+ * * win = Eclipse/CDT and Visual Studio 2010 projects
+ *
+ * Please visit \ref ProjectSetup for information on opening the various projects in their respective IDEs.  Once you have your projects running, please examine how source
+ * and assets are linked across projects.  The common approach is to link common source from any of the %BatteryTech libraries along with application-specific source to
+ * create the final executable.
+ *
+ * \section tools_sec Tools support
+ *
+ * %BatteryTech adds support for a file format we call .BAI which stands for "Binary Asset Importer" and is effectively a light serialized format of the aiScene
+ * structure that the Open Asset Importer provides.  We provide a tool called BAIConvert which can take OBJ and DAE (or other formats if you link in the source
+ * from Assimp) and output a BAI which will usually be smaller, be optimized and load faster than the original file.  It is a format suitable for production use.
+ *
+ *
+ */
+
+
+// now let's define groups
+
+/** \defgroup ProjectSetup Projects and Environments
+ * \brief Getting the various projects, IDEs and development environments set up
+ *
+ * \defgroup GeneralSetup Getting Started
+ * \brief Overview of environments and general information on getting started
+ * \ingroup ProjectSetup
+ *
+ * \defgroup EclipseSetup Eclipse Setup
+ * \brief Getting set up for Android or Windows development in Eclipse
+ * \ingroup ProjectSetup
+ *
+ * \defgroup AndroidSetup Android Project Setup
+ * \brief Setting up the demo projects for Android
+ * \ingroup ProjectSetup
+ *
+ * \defgroup MinGWSetup Windows in Eclipse Project Setup
+ * \brief Setting up the demo projects for Windows using Eclipse and MinGW
+ * \ingroup ProjectSetup
+ *
+ * \defgroup VSProjectSetup Windows in Visual Studio 2010 Setup
+ * \brief Setting up the demo projects for Windows using Visual Studio 2010
+ * \ingroup ProjectSetup
+ *
+ * \defgroup XCodeSetup iOS and OSX Project Setup using XCode 4
+ * \brief Setting up the demo projects for iOS or OSX using XCode 4
+ * \ingroup ProjectSetup
+ *
+ * \addtogroup GeneralSetup
+ *
+ * %BatteryTech ships with 3 projects:\n
+ * * Hello World
+ * * Box2D Demo
+ * * Game Engine w/Lua
+ *
+ * While the 3 projects internally are quite different, they all share a common environment and if you set up and get one running, you can
+ * set up either of the other two.  We highly recommend that you get the desired example project working to ensure your environment
+ * is set up correctly before moving forward.  Instructions for your specific platform and IDE are provided in the \ref ProjectSetup docs.
+ *
+ * Once you have one or more of the projects working and if you intent to make significant changes, we then recommend that you copy the
+ * project, rename it to the desired product name and work from there to make your changes and develop your code base.
+ *
+ * Each project will be referred to as the root project.  For instance, bt-helloworld is the root of all of the different IDE's hello world
+ * projects.  bt-helloworld/android holds the Android project and bt-helloworld/win holds the Windows projects.  These projects depend on that
+ * directory structure for their relative paths throughout all projects, so it's highly recommended that you preserve the following root directories
+ * in any environment you use:
+ *
+ * batterytech (which has src/batterytech, src/bt-* libs)\n
+ * bt-box2ddemo (which has win, ios, android, etc)\n
+ * bt-helloworld (which has win, ios, android, etc)\n
+ * bt-luaengine (which has win, ios, android, etc)\n
+ *
+ * The first directory is the %BatteryTech core and 3rd party libraries.  It should always be present in every IDE as each project needs to link
+ * to that source code to compile.  The other top level directories are root project directories and you only need the specific projects you intend to
+ * build.  %BatteryTech itself is not a standalone application and can not be built separately from a project.  If you are looking for the %BatteryTech Game Engine,
+ * build bt-luaengine.
+ *
+ * Please refer to specific documentation under \ref ProjectSetup for your platform or IDE to get set up.
+ *
+ *
+ *
+ * \addtogroup EclipseSetup
+ *
+ * \section eclipse_dl_sec Downloading and Installing Eclipse
+ *
+ * Download and install the latest Eclipse Classic or Eclipse IDE for Java Developers from http://www.eclipse.org/downloads
+ *
+ * If you do not have Java on your system, you will need to download and install Java 5 or newer before you can use Eclipse - http://java.com/en/download/index.jsp
+ *
+ * \section eclipse_import Importing Root Projects into Eclipse
+ *
+ * After you run Eclipse and specify your workspace, you will need to import the root batterytech project and any example project roots you want to compile and run.
+ *
+ * 1) File->Import->General->Existing Projects Into Workspace\n
+ * 2) Select Root Directory (wherever you unzipped %BatteryTech into)/src/batterytech\n
+ * 3) Check "Copy projects into workspace" - This will make a copy of all the core batterytech source and libraries in your workspace.
+ *
+ * \image html eclipse_import_existing_projects.JPG
+ *
+ * Now for each project that you want to import, repeat the steps:\n
+ * 1) File->Import->General->Existing Projects Into Workspace\n
+ * 2) Select Root Directory (wherever you unzipped %BatteryTech into)/bt-helloworld - or other bt-project
+ * 3) Check "Copy projects into workspace" - This will make a copy of the project root in your workspace
+ *
+ * After you have completed this, you should only see the following in your project explorer (assuming you have no other existing projects)
+ * * batterytech
+ * * bt-helloworld
+ * * bt-otherprojects...
+ *
+ * Now you should see these root projects (Assuming you want to build all 3 demos)
+ * \image html eclipse_root_projects.JPG
+ * Expanding the batterytech folder should look like this:
+ * \image html eclipse_root_projects_bt_expanded.JPG
+ * Expanding a project like helloworld should look like this:
+ * \image html eclipse_root_projects_hw_expanded.JPG
+ *
+ * While each of the bt projects has sub-projects for specific platforms, Eclipse does not support sub projects so a specific step is needed
+ * to enable.
+ *
+ * \section eclipse_next_step_sec Next Steps:
+ *
+ * Windows/MinGW - Setup Environment and import the Windows/MinGW projects - \ref MinGWSetup\n
+ * Android - Setup Environment and import the Android projects - \ref AndroidSetup
+ *
+ *
+ *
+ * \addtogroup AndroidSetup
+ *
+ * \section android_dl_sec Downloading and Installing Android SDK, NDK and ADT
+ *
+ * The Android SDK is the basic toolset to compile and build Java-based Android applications.  Download and install the appropriate distribution from here - http://developer.android.com/sdk/index.html\n
+ * The Android NDK is the toolchain for compiling and building C-based Android applications.  Download and install the appropriate distribution from here - http://developer.android.com/sdk/ndk/index.html\n
+ * The Android ADT is the eclipse plugin that integrates SDK with Eclipse.  Follow the directions here to install - http://developer.android.com/sdk/eclipse-adt.html#installing\n
+ *
+ * The SDK and NDK may come as only an archive file.  We typically unzip these files into an easy to access directory like C:\\Android_NDK and C:\\Android_SDK.  Please note the locations that you install to.
+ *
+ * You may need to perform additional steps for Android in order to have proper USB and Android version 2.2 support.  All of our Android projects use Android API Level 8.  You can install support for that
+ * API level via Eclipse, by going to Window->Android SDK Manager and checking the appropriate package and installing.
+ *
+ * \section android_ndk_build_var_sec Setting the NDK_Build variable
+ * We need to tell our project builders where our NDK build script is.  This is a file that ships with the Android NDK.  On Windows, it is called ndk-build.cmd.  On other systems, it is just named ndk-build
+ *
+ * In Eclipse, go to Window->Preferences->Run/Debug->String Substitions and add the following:\n
+ * Variable = NDK_Build\n
+ * Value = c:\\Android_NDK\\ndk-build.cmd <-- This is if you are in Windows and have unzipped the NDK into that path.  Please use the correct path where you unzipped NDK and only use the .cmd file for Windows.
+ * \image html eclipse_ndk_build_string.JPG
+ *
+ * \section android_projects Importing Android Projects
+ *
+ * For each %BatteryTech application project you want to import, you must have already imported the root project.  If you haven't done that,
+ * please see the instructions in \ref EclipseSetup
+ *
+ * Because Eclipse can't have sub-projects, we will need to tell it where the Android project lies.  To do that, you just:\n
+ * 1) File->Import...\n
+ * 2) General->Existing Projects Into Workspace\n
+ * 3) Navigate to your workspace where you copied the project in then to the android directory\n
+ * 4) Select the android directory\n
+ * 5) Select the project which should be named like bt-helloworld-android and Import.
+ *
+ * \image html eclipse_import_android_project.JPG
+ *
+ * You should now be able to compile and run the project.  Repeat this process for any other projects you want to import for Android.
+ *
+ * It is normal to sometimes see an environment error on first import.  Project->clean should resolve the issues.  If it does not, double check your environment to make sure everything
+ * is downloaded and installed properly, make sure you set the NDK builder string and make sure you have support for the matching Android API version of the projects (8).
+ *
+ *
+ *
+ * \addtogroup MinGWSetup
+ *
+ * MinGW (Minimal GNU Windows) provides a set of libraries and a toolchain for building Windows binaries without Visual Studio.\n
+ * CDT is an Eclipse plugin that allows for C/C++ development.  Together you can compile and debug native windows binaries from Eclipse.
+ *
+ * \section mingw_dl_sec Downloading and Installing MinGW and Eclipse CDT
+ *
+ *
+ * Download MinGW from their site and install - http://www.mingw.org/
+ *
+ * * It is required that you add the MinGW bin directory to your system path so that "mingw32-make.exe" and the rest of the mingw executables are accessible without specifying the path.
+ * To add to your path, Click on Start, Right click on Computer->Properties, Advanced System Settings, Environment Variables and edit the Path in System Variables.  Make sure to put the
+ * "bin" directory, so for example if you install to C:\\MinGW, put C:\\MinGW\\bin into the path with a semicolon to separate from other path entries.
+ *
+ * CDT Installation instructions are at - http://eclipse.org/cdt/downloads.php but in short, you can do the following from Eclipse:
+ * 1) Help->Install New Software\n
+ * 2) Click Add... on right to add a new repository\n
+ * 3) Enter CDT as name and http://download.eclipse.org/tools/cdt/releases/indigo as URL\n
+ * 4) Select appropriate packages and install\n
+ * OR\n
+ * 1) Help->Install New Software\n
+ * 2) Select "Helios" or "Indigo" or newest Eclipse version update site from dropdown\n
+ * 3) Navigate through Programming Languages - C++ Development Tools\n
+ * 4) Select appropriate packages and install\n
+ *
+ * \section win_projects Importing Windows Projects
+ *
+ * For each %BatteryTech application project you want to import, you must have already imported the root project.  If you haven't done that,
+ * please see the instructions in \ref EclipseSetup
+ *
+ * Because Eclipse can't have sub-projects, we will need to tell it where the CDT/Windows project lies.  To do that, you just:\n
+ * 1) File->Import...\n
+ * 2) General->Existing Projects Into Workspace\n
+ * 3) Navigate to your workspace where you copied the project in then to the win directory\n
+ * 4) Select the win directory\n
+ * 5) Select the project which should be named like bt-helloworld-win and Import.
+ *
+ * \image html eclipse_import_win_project.JPG
+ *
+ * You should now be able to compile and run the project.  Repeat this process for any other projects you want to import for Windows.
+ *
+ * Here is what a complete Windows/MinGW workspace looks like after all projects are imported.
+ *
+ * \image html eclipse_all_projects.JPG
+ *
+ *
+ *
+ * \addtogroup VSProjectSetup
+ *
+ * Visual Studio 2010 setup is very easy.  While you will still need Eclipse for Android builds, you can do the vast majority of development in VS with native Windows binaries.
+ * VS is not required for Windows builds as the Eclipse/MinGW option exists and developers more experienced with Eclipse may prefer that option, though initial setup is more
+ * complex. Please refer to \ref MinGWSetup for installation instructions for that route.
+ *
+ * To use VS2010, assuming you have downloaded, installed and registered the software from Microsoft, you just need to open the solution files of the demo projects.  While the compile
+ * may report a number of warnings, the builds should work out-of-the-box for both Release and Debug.
+ *
+ *
+ * \addtogroup XCodeSetup
+ *
+ * Building your OSX or iOS projects with XCode is easy.  Just open the existing XCode project files that ship with %BatteryTech in the ios or osx directories, build and run.
+ *
+ * The source and assets for these projects is located in the parent folder, like bt-helloworld, so you can't just copy the ios or osx folder out without relinking.  All projects
+ * depend on the root batterytech folder being available in the same directory as the project, so make sure to preserve that directory structure or relink files after moving.
+ *
+ */
+
+
+/**
+ * \defgroup Entry Application Entry Points
+ * \brief How your application comes to life
+ *
+ * A state-driven application such as a game generally has 2 phases:  Updating (calculating positions, object states, processing, triggering, etc) and Rendering to screen.
+ *
+ * Almost every game or high-performance application can be efficiently driven off of this paradigm, so %BatteryTech requires that the following classes are extended:
+ *
+ * \ref BTApplicationUpdater which is used to update the application state\n
+ * \ref BTApplicationRenderer which is used to render the application with OpenGL ES\n
+ * BT gains access to your implementations of these two classes via an extended context which a BT app must provide via a global implementation of the following:\n
+ * \ref btAppCreateContext
+ *
+ * Here is a basic example:
+ * \code
+ *  // AppContext.h
+ * class AppContext : public Context {
+ * public:
+ *     AppContext(GraphicsConfiguration *gConfig);
+ *     virtual ~AppContext();
+ *     HelloWorldApp *app;
+ * };
+ *  //
+ *  // AppContext.cpp
+ * AppContext::AppContext(GraphicsConfiguration *gConfig) : Context(gConfig) {
+ *     app = new HelloWorldApp(this);
+ *     appUpdater = app;
+ *     appRenderer = app;
+ * }
+ * //
+ * AppContext::~AppContext() {
+ *     delete app;
+ *     app = NULL;
+ * }
+ * //
+ *  // App.h
+ * class App : public BTApplicationUpdater, public BTApplicationRenderer {
+ * public:
+ *     HelloWorldApp(AppContext *context);
+ *     virtual ~HelloWorldApp();
+ *     virtual void update();
+ *     virtual void render();
+ * }
+ * //
+ *  // App.cpp
+ * Context* btAppCreateContext(GraphicsConfiguration *graphicsConfig) {
+ *     return new GameContext(graphicsConfig);
+ * }
+ * \endcode
+ *
+ * So you can have a single class extend both BTApplicationUpdater and BTApplicationRenderer, or you also have the option of having different classes extend
+ * each of those classes respectively.  However you want to set up your entry, you have complete control of that by extending Context with your application's context.
+ */
+ 
+/**
+ * \defgroup FileIO File Asset Reading and Writing
+ * \brief File Assets, File IO, Directories and Paths
+ *
+ * Reading may happen from an Android APK, iOS/OSX Bundle or a plain old Windows, Linux or other file system.  Many of the supported input systems
+ * can not be written to so it is recommended that an application developer always plan on writing to external or application storage (whichever is more
+ * appropriate) instead of ever assuming that the input files may ever be written to.
+ *
+ * Loading and freeing an asset example:
+ * \code
+ * S32 size;
+ * unsigned char* data = _platform_load_asset("myasset.dat", &size);
+ * if (data) {
+ *     // process data of size
+ * }
+ * _platform_free_asset(data);
+ * \endcode
+ */
+ 
+ /**
+ * \defgroup UserInput User Input
+ * \brief Getting User Input
+ * \defgroup Touch Touch Input
+ * \brief Touch and Pointer Input Support
+ * \ingroup UserInput
+ * \defgroup Keyboard Keyboard
+ * \brief Keyboard Support
+ * \ingroup UserInput
+ * \defgroup Accelerometer Accelerometer
+ * \brief Accelerometer Support
+ * \ingroup UserInput
+ * \addtogroup UserInput
+ *
+ * User Input comes in many forms.  The standard ways that %BatteryTech supports it are in the following forms:
+ * Touch and Pointer Input, Keyboard Input and Accelerometer Input
+ */
+ 
+ /**
+  * \addtogroup Touch
+  *
+  * BT uses platform-independent touch remapping and a simple polling model to make it extremely easy for you to access multitouch data for up to
+  * 10 touch points.  On desktop platforms, mouse input is mapped to the first available touch point so the same code will work for everything.
+  *
+  * Example for reading a single touch point
+  * \code
+  * PointerState state = context->pointerState[0];
+  * if (state.isDown) {
+  *   // touch is down at state.x, state.y
+  * }
+  * \endcode
+  *
+  * And handling multi touch isn't really any harder.  Here's an example to allow for multiple touches on multiple objects:
+  * \code
+  * for (S32 i = 0; i < MAX_POINTERS; i++) {
+  *   PointerState state = context->pointerState[i];
+  *   if (state.isDown) {
+  *     checkObjectTouchIntersection(state.x, state.y);
+  *   }
+  * }
+  * \endcode
+  */
+
+ /**
+ * \addtogroup Keyboard
+ *
+ * Most mobile platforms have virtual keyboards that we can use in place of real keyboards.  Different platforms have different special keys that
+ * we can check for the existance of.
+ *
+ * Reading keyboard input can be done in one of two ways:
+ *
+ * Some example code:
+ * \code
+ * U8 key = context->keyPressed;
+ * if (key) {
+ *     // key is the most recent key pressed
+ * }
+ * if (context->specialKeyPressed) {
+ *     if (context->specialKeyPressed == SKEY_BACK) {
+ *         // go back
+ *     }
+ * }
+ * \endcode
+ *
+ * And for multikey checks:
+ * \code
+ * for (S32 i = 0; i < MAX_KEYSTATES; i++) {
+ *     KeyState ks = context->keyState[i];
+ *     if (ks.isDown) {
+ *         // ks.keyCode is the key that's down right now
+ *     }
+ * }
+ * \endcode
+ *
+ */
+
+/**
+ * \addtogroup Accelerometer
+ *
+ * Most mobile platforms come standard with accelerometers and for those, we have them enabled and feeding data into your %BatteryTech app by default.
+ *
+ * The most recent data is always available in Context::accelerometerState.  The data is normalized across all platforms so no special handling code
+ * is needed to use it consistently.
+ *
+ * Example:
+ * \code
+ * AccelerometerState accel = context->accelerometerState;
+ *   // accel.x, accel.y and accel.z are all you need!
+ * \endcode
+ */
+
+/**
+ * \defgroup UI User Interface Library
+ * \brief OpenGL-based User Interface Library
+ * 
+ * User Interface libraries can be very large and cumbersome to meet the demands of every application.  BT's UI library (BTUI) takes the opposite approach.  
+ * It is designed primarily to provide menus for mobile games using GLES.  It is very lightweight, has very few components and can do this job very well.
+ * 
+ * 
+ * * Base Components
+ * 
+ * A \ref UIComponent is a piece of text, button, panel, layout or any other thing that you will find on a UI.  Every BTUI component like Button, Checkbox, etc,
+ * extends \ref UIComponent.
+ * 
+ * 
+ * * Menus
+ * 
+ * BTUI is menu-centric.  A \ref Menu is the controller and holds the top level \ref UIComponent.  Menus receive the user input for all components that they hold.
+ * Menus instantiate components into a layout.  Each menu in an app must be instantiated and added to the \ref UIManager.
+ * 
+ * 
+ * * Menu Management
+ * 
+ * \ref UIManager is used to show and hide menus.  It does a little more than that, though.  It also has a menu stack that it manages.  Every time you show a
+ * menu, it pushes that menu onto a stack.  This means you can drill-down in menus and not worry about what menu the last one came from.  Let's examine 
+ * the methods quickly:
+ * 
+ * \code
+ * S32 addMenu(Menu *menu);
+ * void showMenu(const char *name);
+ * void showMenu(const char *name, void *data);
+ * void popMenu();
+ * void clearMenuStack();
+ * \endcode
+ * 
+ * The first method, addMenu() is what you call from your game to put an instance of a menu in the pool.  Each menu will only have one instance of it which 
+ * is held throughout the application.  The advantage of this is that the menu will hold its state until the application is closed.  Typical usage:
+ * 
+ * \code
+ * context->uiManager->addMenu(new TopMenu());
+ * \endcode
+ * 
+ * The UIManager will free your menus for you when it is freed, so you don't need to hang on to references to them unless you need them for a different reason.  
+ * Just know that it will free for you.
+ * 
+ * After a menu has been added, showing it is as simple as:
+ * 
+ * \code
+ * context->uiManager->showMenu(TOP_MENU_NAME); // TOP_MENU_NAME would be declared either in constants or in the TopMenu header itself.
+ * \endcode
+ * 
+ * Now the menu will be showing and it will also be on top the menu stack in UIManager.  The menu itself can have a click handler that can remove it from the 
+ * stack, like so:
+ * \code
+ * context->uiManager->popMenu();
+ * \endcode
+ * If the stack was empty before showing that menu, nothing will be shown, but if it had any items, the top most item is now the menu displayed in front.
+ * 
+ * showMenu() can also take a second argument, data.  Being a void pointer, you can send a pointer to anything using this function.  What happens when you use 
+ * it is that the menu being shown will get a call to void setData(void *data) and being that menus are single-instance, it can store that data or process it 
+ * in any way which will prepare it for being displayed or having a state set.
+ * 
+ * 
+ * * Layouts
+ * 
+ * The most important thing to understand about BTUI is the \ref LinearLayout.  This \ref UIComponent is the do-all layout and it can be nested, which makes for limitless
+ * layout possibilities.  A LinearLayout can be either vertical or horizontal.  Vertical layout stacks the items one on top of another, or bottom up, centered 
+ * or any combination of the 3.  Horizontal layout does the same, but using left-to-right placement.
+ * 
+ * \code
+ * mainLayout = new LinearLayout(LinearLayout::VERTICAL);
+ * \endcode
+ * 
+ * is a typical way of creating a \ref LinearLayout.  This one will be in the vertical orientation.  Specify HORIZONTAL for horizontal.  Each object added will have
+ * its own positioning in the layout and that is specified by the LayoutParameters set to that specific object.  
+ * 
+ * \code
+ * backButton->setLayoutParameters(new LayoutParameters(LayoutParameters::HORIZONTAL_CENTER, LayoutParameters::TOP));
+ * \endcode
+ * 
+ * will set the back button to be centered horizontally and added to the top.  See LayoutParameters.h for all possible options.
+ * 
+ * Each \ref UIComponent will also specify Size, Margins and Padding.  All units are in what we call "Reference units."
+ * 
+ * 
+ * * Reference Units
+ * 
+ * Very similar to density-independent pixels, reference units are units of relative size to the screen size of the device or window, keeping everything 
+ * proportionate.  The reference size is specified in batterytech_config.txt as "reference_width" and "reference_height"
+ * 
+ * These dimensions are your reference units.  For example, if you use these settings and specify 480x800 as your screen size, then no matter what the actual 
+ * screen size is, it will appear as 480x800 to your UI for measurement purposes.  It means that if you make a button 480 units wide, that it will ALWAYS 
+ * be screen-width no matter what the resolution of your target device is!  This delivers very predictable results and makes it very easy to design a user 
+ * interface that you know will work almost everywhere.
+ * 
+ * If you change your reference size, you will inevitably have to change all of the numbers you've used for your component sizes and layouts.
+ * 
+ * 
+ * * Sizes, Margins and Padding
+ * 
+ * Every UIComponent can have a Size, Margins and Padding.  These are specified in Reference Units as described above.  Size can have 2 special macros:  
+ * FILL and WRAP.  FILL tries to consume all available space while WRAP tries to only use as much as the contents of the UIComponent require.
+ * 
+ * 
+ * * Rendering
+ * 
+ * Rendering for standard BTUI components is handled by MenuRenderer.cpp.  Rendering will be done in either Fixed-Function GL or Shader-based, depending on 
+ * settings and capabilities.  Resources used for rendering each UIComponent must be specified before the Renderer is initialized.  Specifying resources is 
+ * very easy.  Here is a complete example of a button being added to a menu with corresponding background images set.
+ * 
+ * 
+ * * Working example
+ * \code
+ * S32 buttonBgId = context->menuRenderer->addTextureAsset(UI_BUTTON_1);
+ * S32 buttonPressedBgId = context->menuRenderer->addTextureAsset(UI_BUTTON_1_PRESSED);
+ * backButton = new Button("Back");
+ * backButton->userId = -2;
+ * backButton->setLayoutParameters(new LayoutParameters(LayoutParameters::HORIZONTAL_CENTER, LayoutParameters::TOP));
+ * backButton->setSize(FILL, 60);
+ * backButton->setMargins(5);
+ * backButton->setBackgroundMenuResource(buttonBgId);
+ * backButton->setPressedBackgroundMenuResource(buttonPressedBgId);
+ * backButton->setClickDownSoundAsset(UI_CLICK_DOWN_ASSETNAME);
+ * \endcode
+ * This button uses the texture defined as UI_BUTTON_1 for unclicked state and UI_BUTTON_1_PRESSED for clicked state.  It will display the text "Back" and 
+ * will be top centered horizontally.  It will fill up all horizontal area and be 60 units tall.  It will be 5 units in from its container and will play the 
+ * sound UI_CLICK_DOWN_ASSETNAME when clicked.
+ * 
+ * 
+ * * Animation
+ * 
+ * A simple animation framework is provided that allows you to write your own animators using OpenGL, which is particularly powerful when paired with Shaders.  
+ * There is one stock animator (SlideAnimator) that slides components in and out of the menu.  It is used in the demo app and should be a good place to look to 
+ * learn how to use it.  For custom animators, you will need to extend UIAnimator and implement the following functions:
+ * 
+ * \code
+ * virtual void update(F32 delta){};
+ * virtual void drawPreComponent(Context *context){};
+ * virtual void drawPostComponent(Context *context){};
+ * \endcode
+ * 
+ * update is called every engine tick with delta being the time difference from the last tick.
+ * drawPreComponent is called before the normal drawing routing of UIComponent.
+ * drawPostComponent is called right after normal drawing.  The two methods, used in conjunction, allow for setting up transformations or setting and resetting 
+ * GL states or anything else.
+ * 
+ * Each component specifies the animator it will use and for what part of its display the animator will be applied to:
+ * 
+ * \code
+ * virtual void setEnterAnimator(UIAnimator *animator);
+ * virtual void setMainAnimator(UIAnimator *animator);
+ * virtual void setExitAnimator(UIAnimator *animator);
+ * \endcode
+ * 
+ * The "Enter" animator is run when the menu is being shown.
+ * The "Main" animator is run constantly while the component is being shown.
+ * The "Exit" animator is run when the menu is exiting.
+ * 
+ * 
+ * * Scrollable Container
+ * 
+ * The \ref ScrollableContainer class is a layout that can only have one UIComponent.  To make a block of text scrollable, simple create a ScrollableContainer, add
+ * the text to it and set the layouts appropriately to allow for multiline text wrapping.  You may add a LinearLayout to the ScrollableContainer instead of a 
+ * normal UIComponent allowing for multiple components to be scrolled together, which can include labels, buttons, checkboxes or any other component.  Rendering 
+ * is achieved through the use of glScissor.  Please keep in mind that as of %BatteryTech 1.0c, all components in a ScrollableContainer are always rendered in the
+ * clipped space, which may be a performance problem depending on your content.  Future optimizations may determine which objects or lines of text are occluded 
+ * and forego rendering on them.
+ */
+ 
+/**
+ * \defgroup Audio Audio playback and management
+ * \brief Audio Sample and (local) Streaming playback
+ *
+ * BT implements audio in 2 different ways.  It provides its own OGG decoding, pcm mixing and playback services and it also supports calling platform-specific 
+ * functions when supported.  In environments like Win32, there are no one-stop shops for playing OGGs in a way that would be good for games, but in Android, 
+ * there are services like the SoundPool and MediaPlayer classes.  BT supports both of those if you choose to use them.
+ *
+ * The setting "prefer_platform_audio_management" in batterytech_config.txt defines the behavior.  If set to true, then sound playing calls will use platform 
+ * facilities such as Android's SoundPool when available.  If set to false, BT's PCM audio services will be used instead.  As of BT 2.0, only Android has 
+ * platform audio management support.  It will likely be added for iOS and OSX at some point in the form of OpenAL.
+ *
+ * Formats: %BatteryTech supports OGG-Vorbis exclusively.
+ *
+ * _platform audio functions are available primarily to serve the \ref BatteryTech::AudioManager.
+ * For most applications, \ref BatteryTech::AudioManager is the desired interface to use and can
+ * be accessed through the application's \ref BatteryTech::Context.
+ *
+ * Example:
+ * \code
+ * context->audioManager->loadSound("sounds/mysound.ogg");
+ * context->audioManager->playSound("sounds/mysound.ogg", 0, 1.0, 1.0, 1.0);
+ * context->audioManager->unloadSound("sounds/mysound.ogg");
+ * \endcode
+ */
+ 
+ /**
+ * \defgroup Networking Networking
+ * \brief POSIX Socket-based network support
+ *
+ * Most platforms natively support standard BSD or POSIX sockets but for those that don't, simply including \ref platformgeneral.h will include, define or redefine
+ * macros to support POSIX.  Applications can count on standard functions such as socket, bind, setsockopt, send, recv, inet_pton, inet_ntop, getaddrinfo and getnameinfo
+ *
+ * A few specific functions that are not defined as part of the POSIX sockets specification are implemented as _platform functions and documented here.
+ *
+ * For more information on using Berkeley/POSIX sockets, please visit the wikipedia link in the see also section.
+ *
+ * %BatteryTech includes a default implementation of message-based client/host game networking in the following classes:
+ * \ref BatteryTech::NetworkManager, \ref BatteryTech::GameConnection, \ref BatteryTech::NetworkMessage
+ *
+ * \see http://en.wikipedia.org/wiki/Berkeley_socket
+ */
+ 
+ /**
+ * \defgroup Vibration Vibration Control
+ * \brief Support for vibration effect playback
+ *
+ * Most systems do not have robust vibration control, but specifically on Android, there are systems such as Immersion Technology's Motiv or UHL
+ * which can play a variety of effects at various intensities.  Such systems will need to be integrated on the Android platform side.  Stock Android
+ * vibration support can also be integrated instead.  Please follow the instructions in the section on Integrating platform-specific systems for
+ * additional information.
+ */
+ 
+/*! \defgroup Primitives Primitive Types
+ *
+ * \brief %BatteryTech defines primitive types for cross-platform compatibility.
+ *
+ * Common typedefs include:\n
+ * \ref S8, \ref S16 and \ref S32 = Signed 8, 16 and 32 bit integers respectively\n
+ * \ref U8, \ref U16 and \ref U32 = Unsigned 8, 16 and 32 bit integers respectively\n
+ * \ref BOOL32 for booleans with \ref TRUE and \ref FALSE as values\n
+ * \ref F32 and \ref F64 = 32 bit and 64 bit floating point number\n
+ *
+ * Example:
+ * \code
+ * BOOL32 found = FALSE;
+ * for (S32 i = 0; i < numObjects; i++) {
+ *     if (matches(objects[i])) {
+ *         found = TRUE;
+ *         break;
+ *     }
+ * }
+ * \endcode
+ * \see \ref primitives.h for detailed information
+ */
+ 
+ /**
+ * \defgroup Hooks Platform Hooks
+ * \brief Customizing per-platform and integrating with 3rd party systems
+ *
+ * \defgroup AndroidHooks Customizing Android
+ * \brief Customizing Android with platform hooks
+ *
+ * Customizing your Android build is as simple as extending BatteryTechActivity and adding your customizations or overriding the hook methods.
+ *
+ * Example:
+ * \code{.java}
+ * class MyActivity extends BatteryTechActivity {
+ *
+ * 	@Override
+ *	public GLSettings createGLSettings() {
+ * 		// we need to use only GLES 2.0 for this application
+ * 		return new GLSettings() {
+ * 			@Override
+ * 			public boolean supportGLES2() {
+ * 				return true;
+ * 			}
+ * 		};
+ * 	}
+ *
+ * 	public void showAd() {
+ * 		// integrate with your ad provider
+ * 	}
+ *
+ * 	public void hideAd() {
+ * 		// integrate with your ad provider
+ * 	}
+ *
+ * 	public String hook(String hook) {
+ * 		// easily handle custom behavior here
+ * 		if (hook.startsWith("showCameraPreview")) {
+ * 			// insert our camera preview under the batterytech view
+ * 		} else if (hook.startsWith("hideCameraPreview")) {
+ * 			// if shown, remove our camera preview
+ * 		}
+ * 	}
+ * }
+ * \endcode
+ *
+ * In addition to the extension capabilities, you have a standard Android project of which you can use out-of-the-box solutions for a number of 3rd party providers.
+ * Please review the standard Android developer documentation for details about customizing the manifest or selecting deployment options.
+ *
+ * \ingroup Hooks
+ *
+ * \defgroup iosHooks Customizing iOS
+ * \brief Customizing iOS with platform hooks
+ *
+ * Your iOS build comes in the form of a standard XCode project of which there is a single view controller, batterytechViewController.  Extending batterytechViewController
+ * gives you the flexibility to add other views over or under your EAGLView (the primary view BT uses) or integrate with 3rd party products.
+ *
+ * Example:
+ * \code
+ *  // MyBTViewController.h
+ * #import "batterytechViewController.h"
+ *
+ * @interface MyBTViewController : batterytechViewController
+ * @end
+ *  //
+ *  //
+ *  // MyBTViewController.m
+ *
+ *  #import "MyBTViewController.h"
+ *
+ *  @interface MyBTViewController ()
+ *  @end
+ *
+ *  @implementation MyBTViewController
+ *  - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+ *  {
+ *      self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+ *      if (self) {
+ *          // Custom initialization
+ *      }
+ *      return self;
+ *  }
+ *
+ *  - (void)viewDidLoad
+ *  {
+ *      [super viewDidLoad];
+ *      // Do any additional setup after loading the view from its nib.
+ *  }
+ *
+ *  - (void)viewDidUnload
+ *  {
+ *      [super viewDidUnload];
+ *      // Release any retained subviews of the main view.
+ *      // e.g. self.myOutlet = nil;
+ *  }
+ *
+ *  // BatteryTech overrides (the reason we created this subclass)
+ *
+ *  - (void)showAd {
+ *  }
+ *
+ *  - (void)hideAd {
+ *  }
+ *
+ *  - (void)hook:(const char*)hookData withResult:(char*) result withResultLen:(int) resultLen {
+ *  	if (strStartsWith(hookData, "showCameraPreview")) {
+ *  		// fire up the camera preview and insert the view into the chain
+ *  	} else if (strStartsWith(hookData, "hideCameraPreview")) {
+ *  		// if we're showing the camera, hide it now
+ *  	}
+ *  }
+ *
+ *  - (bool) useGLES2 {
+ *      return TRUE;
+ *  }
+ *
+ *  - (bool) forceLandscape {
+ *      return TRUE;
+ *  }
+ *
+ *  @end
+ * \endcode
+ *
+ * Because a standard XCode project is used, virtually any library or third party application can be integrated with your BT App using standard techniques.  Please consult
+ * Apple's developer documentation for additional details about developing for iOS.
+ *
+ * \ingroup Hooks
+ *
+ * \defgroup winHooks Customizing Windows
+ * \brief Customizing Windows with platform hooks
+ *
+ * Every BatteryTech application includes a file called WinHooks.cpp which defines the hook functionality for the Windows platform.
+ *
+ * Here is a quick example of a loopback to give a positive purchase result:
+ *
+ * \code
+ * void winHook(const char *hook, char *result, S32 resultLen) {
+ * 	// Handle custom hooks here
+ * 	if (strStartsWith(hook, "requestPurchase")) {
+ * 		// call back with success
+ * 		char hookData[512];
+ * 		strcpy(hookData, hook);
+ * 		strtok(hookData, " ");
+ * 		char *productId = strtok(NULL, " ");
+ * 		char callback[512];
+ * 		sprintf(callback, "purchaseSucceeded %s", productId);
+ * 		btCallback(callback);
+ * 		cout << callback << endl;
+ * 	}
+ * }
+ * \endcode
+ *
+ * \ingroup Hooks
+ *
+ * \defgroup OSXHooks Customizing OSX
+ * \brief Customizing OSX with platform hooks
+ *
+ * OSX Projects have a file called "osxhooks.mm" which allows a developer to implement hook functionality for OSX specifically for an application.
+ *
+ * \code
+ * void _platform_show_ad() {
+ * 	// Call out to your ios ad integration piece here
+ * }
+ *
+ * void _platform_hide_ad() {
+ * 	// Call out to your ios ad integration piece here
+ * }
+ *
+ * void _platform_hook(const char *hook, char *result, S32 resultLen) {
+ * 	// Handle custom hooks here
+ * }
+ * \endcode
+ *
+ * \ingroup Hooks
+ */
+ 
+ /**
+ * \defgroup OtherPlatform Other Platform Functions
+ * \brief Various functions that aren't covered in other modules
+ *
+ */
+ 
+}
+
